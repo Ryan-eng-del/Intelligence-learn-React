@@ -1,13 +1,59 @@
+/* theme color */
+:root {
+  --dark-navy: #020c1b;
+  --navy: #0a192f;
+  --light-navy: #112240;
+  --lightest-navy: #233554;
+  --navy-shadow: rgba(2, 12, 27, 0.7);
+  --dark-slate: #495670;
+  --slate: #8892b0;
+  --light-slate: #a8b2d1;
+  --lightest-slate: #ccd6f6;
+  --white: #e6f1ff;
+  --green: #64ffda;
+  --green-tint: rgba(100, 255, 218, 0.1);
+  --pink: #f57dff;
+  --blue: #57cbff;
+  --easing: cubic-bezier(0.645, 0.045, 0.355, 1);
+}
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--navy) !important;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* font-family */
+@font-face {
+  font-family: 'en-title-light';
+  src: url('assets/fonts/Calibre/Calibre-Light.ttf');
+}
+@font-face {
+  font-family: 'en-title-medium';
+  src: url('assets/fonts/Calibre/Calibre-Medium.ttf');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'en-text-medium';
+  src: url('assets/fonts/SFMono/SFMono-Medium.ttf');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'en-text-regular';
+  src: url('assets/fonts/SFMono/SFMono-Regular.ttf');
+}
+@font-face {
+  font-family: 'zh-light';
+  src: url('assets/fonts/SiYuan/GenShinGothic-Monospace-Light-2.ttf');
+  font-weight: 550;
+}
+@font-face {
+  font-family: 'zh-medium';
+  src: url('assets/fonts/SiYuan/GenShinGothic-Monospace-Medium-2.ttf');
+  font-weight: 400;
 }
