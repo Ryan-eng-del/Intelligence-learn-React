@@ -7,7 +7,9 @@ import {
   CompassOutlined
 } from '@ant-design/icons'
 import { LoginFormWrapper, LoginTitle, ButtonWrapper } from './LoginFormStyle'
+import { useNavigate } from 'react-router-dom'
 export const LoginForm = () => {
+  const navigate = useNavigate()
   return (
     <LoginFormWrapper>
       <LoginTitle>
@@ -28,7 +30,9 @@ export const LoginForm = () => {
       />
       <div className="forget-password">忘记密码</div>
       <ButtonWrapper>
-        <Button type="primary">登录</Button>
+        <Button type="primary" onClick={() => navigate('/home')}>
+          登录
+        </Button>
         <Button type="primary">注册</Button>
       </ButtonWrapper>
     </LoginFormWrapper>

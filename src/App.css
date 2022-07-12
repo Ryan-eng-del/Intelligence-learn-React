@@ -3,32 +3,3 @@
   padding-left: 50px;
   padding-right: 50px;
 }
-
-@media (min-width: 768px) {
-  .App {
-    padding-top: 100px;
-    padding-left: 70px;
-    padding-right: 70px;
-  }
-}
-@media (min-width: 1024px) {
-  .App {
-    padding-top: 130px;
-    padding-left: 130px;
-    padding-right: 120px;
-  }
-}
-@media (min-width: 1280px) {
-  .App {
-    padding-top: 160px;
-    padding-left: 160px;
-    padding-right: 120px;
-  }
-}
-@media (min-width: 1520px) {
-  .App {
-    padding-top: 180px;
-    padding-left: 180px;
-    padding-right: auto;
-  }
-}

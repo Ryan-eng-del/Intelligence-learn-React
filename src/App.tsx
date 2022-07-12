@@ -1,19 +1,23 @@
 import React from 'react'
+import {
+  Routes,
+  Route,
+  BrowserRouter as Router,
+  useNavigate
+} from 'react-router-dom'
 import './App.css'
-import { AvatarWrapper, Footer } from './AppStyle'
-import { Avatar } from 'antd'
-import { LoginPage } from 'pages/LoginPages/LoginPage'
+import { Footer } from './AppStyle'
+import { LoginPage, HomePage } from 'pages'
+import { useMount } from 'hook/useMount'
 function App() {
+  const navigate = useNavigate()
+  useMount(() => navigate('login'))
   return (
     <div className="App">
-      <AvatarWrapper>
-        <Avatar
-          size="large"
-          src={require('assets/img/1657465165516.png')}
-          style={{ backgroundColor: 'rgb(100,255,218)', borderRadius: '12px' }}
-        />
-      </AvatarWrapper>
-      <LoginPage />
+      <Routes>
+        <Route path="login" element={<LoginPage />}></Route>
+        <Route path="home" element={<HomePage />}></Route>
+      </Routes>
       <Footer>2022@Intelligence-Learining</Footer>
     </div>
   )

@@ -1,25 +1,7 @@
-import styled, { keyframes } from 'styled-components'
-const faderight = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-    transition: opacity 300ms var(--easing), transform 300ms var(--easing);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 300ms var(--easing), transform 300ms var(--easing);
-  }
-`
-export const AvatarWrapper = styled.div`
-  position: absolute;
-  top: 18px;
-  left: 27px;
-  animation: 0.5s ${faderight} linear;
-`
+import styled from 'styled-components'
 
 export const Footer = styled.footer`
-  height: 300px;
+  height: 200px;
   clear: both;
   display: flex;
   justify-content: center;
