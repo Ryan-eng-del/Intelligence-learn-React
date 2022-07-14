@@ -57,3 +57,39 @@ code {
   src: url('assets/fonts/SiYuan/GenShinGothic-Monospace-Medium-2.ttf');
   font-weight: 400;
 }
+@keyframes fadedown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 300ms var(--easing), transform 300ms var(--easing);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 300ms var(--easing), transform 300ms var(--easing);
+  }
+}
+@keyframes fadeup {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 300ms var(--easing), transform 300ms var(--easing);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 300ms var(--easing), transform 300ms var(--easing);
+  }
+}
+@keyframes fadeleft {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 300ms var(--easing), transform 300ms var(--easing);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 300ms var(--easing), transform 300ms var(--easing);
+  }
+}

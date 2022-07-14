@@ -6,6 +6,9 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals'
 import 'antd/dist/antd.variable.min.css'
 import { ConfigProvider } from 'antd'
+import { Route, Routes } from 'react-router-dom'
+import { HomePage, LoginPage } from 'pages'
+import { LearnPage, TeachPage } from 'pages/HomePage/cpn-page'
 ConfigProvider.config({
   theme: {
     primaryColor: '#64ffda'
@@ -15,7 +18,17 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
     <Router>
-      <App />
+      <Routes>
+        <Route path="/" element={<App />}>
+          <Route path="login" element={<LoginPage />}></Route>
+          <Route path="home" element={<HomePage />}>
+            <Route path="class">
+              <Route path="teach" element={<TeachPage />} />
+              <Route path="learn" element={<LearnPage />} />
+            </Route>
+          </Route>
+        </Route>
+      </Routes>
     </Router>
   </React.StrictMode>
 )

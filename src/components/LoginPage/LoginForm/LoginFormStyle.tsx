@@ -1,21 +1,10 @@
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 /* LoginFormWrapper */
-const fadeleft = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-    transition: opacity 300ms var(--easing), transform 300ms var(--easing);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 300ms var(--easing), transform 300ms var(--easing);
-  }
-`
+
 export const LoginFormWrapper = styled.div`
   margin: 0 auto;
   margin-top: 120px;
-  animation: 0.7s ${fadeleft} ease forwards;
+  animation: 0.7s fadeleft ease forwards;
   .ant-input-affix-wrapper {
     height: 45px;
   }
