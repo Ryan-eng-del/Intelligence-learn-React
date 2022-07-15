@@ -60,18 +60,7 @@ export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: space-around;
   font-size: 16px;
-  .ant-btn-primary {
-    width: 120px;
-    height: 40px;
-    color: var(--green);
-    font-family: 'zh-text';
-    border-color: var(--green);
-    background-color: transparent;
-    border-radius: 4px;
-    &:hover {
-      background-color: var(--green-tint);
-    }
-  }
+
   @media (min-width: 1024px) {
     .ant-btn-primary {
       font-size: 16px;

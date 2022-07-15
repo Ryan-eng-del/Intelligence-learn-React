@@ -93,3 +93,42 @@ code {
     transition: opacity 300ms var(--easing), transform 300ms var(--easing);
   }
 }
+.ant-btn-primary {
+  width: 120px;
+  height: 40px;
+  color: var(--green);
+  font-family: 'zh-text';
+  border-color: var(--green);
+  background-color: transparent;
+  border-radius: 4px;
+}
+
+.ant-btn-primary:focus,
+.ant-btn-primary:hover {
+  color: var(--green);
+  background: transparent;
+}
+.ant-btn-primary:hover {
+  background-color: var(--green-tint);
+}
+.ant-input {
+  height: 37px;
+}
+.ant-modal-content {
+  background-color: var(--navy);
+}
+.ant-modal-header {
+  background-color: var(--navy);
+}
+.ant-modal-title {
+  color: var(--green);
+  font-size: 17px;
+}
+.anticon {
+  color: var(--green);
+}
+button.ant-btn.ant-btn-default {
+  border: none;
+  color: var(--green);
+  background: transparent;
+}
