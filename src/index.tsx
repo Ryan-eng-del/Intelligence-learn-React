@@ -7,7 +7,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals'
 import { ConfigProvider } from 'antd'
 import { Route, Routes } from 'react-router-dom'
-import { HomePage, LoginPage } from 'pages'
+import { ClassInfoPage, HomePage, LoginPage } from 'pages'
 import { LearnPage, TeachPage } from 'pages/HomePage/cpn-page'
 ConfigProvider.config({
   theme: {
@@ -27,6 +27,7 @@ root.render(
               <Route path="learn" element={<LearnPage />} />
             </Route>
           </Route>
+          <Route path="classinfo" element={<ClassInfoPage />}></Route>
         </Route>
       </Routes>
     </Router>

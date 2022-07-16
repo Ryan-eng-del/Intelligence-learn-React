@@ -7,7 +7,8 @@ export const initialState: TeachPageState = {
     {
       iurl: '',
       cname: '',
-      tname: ''
+      tname: '',
+      id: ''
     }
   ],
   modalVisible: false,

@@ -2,6 +2,7 @@ export interface ClassList {
   iurl: string
   cname: string
   tname: string
+  id: string
 }
 export interface TeachPageState {
   imgUrl: string

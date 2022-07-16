@@ -5,16 +5,17 @@ import {
   TeachHeaderWrapper,
   TeachRoutePageWrapper,
   TeachTitleWrapper,
-  ModalContextWrapper
+  ModalContextWrapper,
+  UploadImageWrapper
 } from './TeachPageStyle'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { Avatar, Upload } from 'antd'
+import { Col, Row, Upload } from 'antd'
 import type { UploadChangeParam } from 'antd/es/upload'
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
 import { Button, Modal, Input } from 'antd'
 import { getBase64, beforeUpload } from './config/util'
 import { TeachRoutePageReducer, initialState } from './config/reducer'
-import { Link } from 'react-router-dom'
+import { ClassCard } from 'publicComponents/TeachRotePage'
 
 export const TeachPage = () => {
   const [state, dispatch] = useReducer(TeachRoutePageReducer, initialState)
@@ -55,9 +56,19 @@ export const TeachPage = () => {
   const handleOk = () => {
     dispatch({
       type: 'setClasList',
-      payload: { iurl: imgUrl, cname: className, tname: classTeacher }
+      payload: {
+        iurl: imgUrl,
+        cname: className,
+        tname: classTeacher,
+        id: classList.length + ''
+      }
     })
     dispatch({ type: 'setModalVisible', payload: false })
+    dispatch({ type: 'setClassName', payload: '' })
+    dispatch({ type: 'setClassTeacher', payload: '' })
+    dispatch({ type: 'setImgUrl', payload: '' })
+
+    console.log(classList)
   }
 
   const handleCancel = () => {
@@ -81,39 +92,43 @@ export const TeachPage = () => {
             <Input
               placeholder="课程名称"
               id="classname"
+              value={className}
               style={{ margin: '3px 0 12px 0' }}
-              onChange={(e) =>
+              onChange={(e) => {
                 dispatch({ type: 'setClassName', payload: e.target.value })
-              }
+              }}
             />
             <label className="classname-label">请输入授课教师</label>
             <Input
               placeholder="课程老师"
               id="classname"
+              value={classTeacher}
               style={{ margin: '3px 0 12px 0' }}
-              onChange={(e) =>
+              onChange={(e) => {
                 dispatch({ type: 'setClassTeacher', payload: e.target.value })
-              }
+              }}
             />
             <div className="classname-label" style={{ marginBottom: '3px' }}>
               请上传课程图片
             </div>
-            <Avatar></Avatar>
-            <Upload
-              name="avatar"
-              listType="picture-card"
-              className="avatar-uploader"
-              showUploadList={false}
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-              beforeUpload={beforeUpload}
-              onChange={handleChange}
-            >
-              {imgUrl ? (
-                <img src={imgUrl} alt="avatar" style={{ width: '100%' }} />
-              ) : (
-                uploadButton
-              )}
-            </Upload>
+            <UploadImageWrapper>
+              <img src={require('assets/img/class.jpg')} alt="默认课程图片" />
+              <Upload
+                name="avatar"
+                listType="picture-card"
+                className="avatar-uploader"
+                showUploadList={false}
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                beforeUpload={beforeUpload}
+                onChange={handleChange}
+              >
+                {imgUrl ? (
+                  <img src={imgUrl} alt="avatar" style={{ width: '100%' }} />
+                ) : (
+                  uploadButton
+                )}
+              </Upload>
+            </UploadImageWrapper>
           </ModalContextWrapper>
         </Modal>
       </>
@@ -127,18 +142,23 @@ export const TeachPage = () => {
           </TeachTitleWrapper>
         </TeachHeaderWrapper>
         <TeachClassWrapper>
-          <div>课程</div>
-          {classList
-            .filter((i, index) => index !== 0)
-            .map((item, index) => {
-              return (
-                <Link key={index} to="/home/class/info">
-                  <div>{item.iurl}</div>
-                  <div>{item.cname}</div>
-                  <div>{item.tname}</div>
-                </Link>
-              )
-            })}
+          <Row>
+            {classList
+              .filter((i, index) => index !== 0)
+              .map((item) => {
+                console.log(item, 'item')
+                return (
+                  <Col span={6} key={item.id}>
+                    <ClassCard
+                      id={item.id}
+                      cname={item.cname}
+                      tname={item.tname}
+                      iurl={item.iurl}
+                    ></ClassCard>
+                  </Col>
+                )
+              })}
+          </Row>
         </TeachClassWrapper>
       </TeachPageWrapper>
     </TeachRoutePageWrapper>

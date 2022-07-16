@@ -28,7 +28,12 @@ export const ModalContextWrapper = styled.div`
     letter-spacing: 2px;
     font-size: 13px;
   }
-  div.classname-label {
-    margin-bottom: 12px;
+`
+export const UploadImageWrapper = styled.div`
+  display: flex;
+  margin-top: 12px;
+  img {
+    width: 102px;
+    height: 102px;
   }
 `
