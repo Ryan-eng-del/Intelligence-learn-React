@@ -10,6 +10,7 @@ import { Route, Routes } from 'react-router-dom'
 import { ClassInfoPage, HomePage, LoginPage } from 'pages'
 import { LearnPage, TeachPage } from 'pages/HomePage/cpn-page'
 import { ChapterPage, ResourcePage } from 'pages/ClassInfoPage/cpn-page'
+import { ChapterInfo } from 'pages/ChapterInfo'
 
 ConfigProvider.config({
   theme: {
@@ -33,6 +34,7 @@ root.render(
             <Route path="chapter" element={<ChapterPage />} />
             <Route path="resource" element={<ResourcePage />} />
           </Route>
+          <Route path='chapterinfo' element={<ChapterInfo />}></Route>
         </Route>
       </Routes>
     </Router>

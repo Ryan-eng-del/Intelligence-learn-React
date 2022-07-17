@@ -1,11 +1,10 @@
 import React from 'react'
-import { Tree, Button } from 'antd';
+import {ChapterInfoMenuWrapper, ChapterInfoNavWrapper, ChapterInfoWrapper} from './ChapterInfoNavStyle';
+import { Avatar, Tree } from "antd";
 import type { DataNode, DirectoryTreeProps } from 'antd/es/tree';
-import { ChapterPageWrapper } from './ChapterPageStyle';
-import { useNavigate } from 'react-router-dom'
 
-export const ChapterPage: React.FC = () => {
-  const navigate = useNavigate()
+
+export const ChapterInfoNav:React.FC = () => {
   const { DirectoryTree } = Tree;
 
   const treeData: DataNode[] = [
@@ -34,17 +33,20 @@ export const ChapterPage: React.FC = () => {
     console.log('Trigger Expand', keys, info);
   };
   return (
-    <>
-      <ChapterPageWrapper>
-        <Button onClick={()=>navigate("/chapterinfo")}>Click Here To Test Chapter Info Page</Button>
+    <ChapterInfoNavWrapper>
+      <ChapterInfoWrapper>
+        <Avatar src={require('assets/img/class.jpg')} size={120}></Avatar>
+        <div className="username">离散数学</div>
+      </ChapterInfoWrapper>
+      <ChapterInfoMenuWrapper>
         <DirectoryTree
-          multiple
-          defaultExpandAll
-          onSelect={onSelect}
-          onExpand={onExpand}
-          treeData={treeData}
-          />
-      </ChapterPageWrapper>
-    </>
+            multiple
+            defaultExpandAll
+            onSelect={onSelect}
+            onExpand={onExpand}
+            treeData={treeData}
+            />
+      </ChapterInfoMenuWrapper>
+    </ChapterInfoNavWrapper>
   )
 }

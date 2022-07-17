@@ -11,7 +11,7 @@ export const HomePage = () => {
   return (
     <HomePageWrapper>
       <Row gutter={100}>
-        <Col span={5} style={{ paddingLeft: '133px' }}>
+        <Col span={5} style={{ paddingLeft: '50px' }}>
           <HomeNav />
         </Col>
         <Col span={19}>
