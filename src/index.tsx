@@ -34,7 +34,7 @@ root.render(
             <Route path="chapter" element={<ChapterPage />} />
             <Route path="resource" element={<ResourcePage />} />
           </Route>
-          <Route path='chapterinfo' element={<ChapterInfo />}></Route>
+          <Route path="chapterinfo" element={<ChapterInfo />}></Route>
         </Route>
       </Routes>
     </Router>

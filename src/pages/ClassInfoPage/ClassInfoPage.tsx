@@ -4,7 +4,6 @@ import { ClassInfoPageWrapper } from './ClassInfoPageStyle'
 
 import { ClassInfoNav, ClassInfoRoutePage } from 'components/ClassInfoPage'
 
-
 export const ClassInfoPage = () => {
   return (
     <>
