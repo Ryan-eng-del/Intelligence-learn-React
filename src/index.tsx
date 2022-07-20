@@ -12,6 +12,7 @@ import { LearnPage, TeachPage } from 'pages/HomePage/cpn-page'
 import { ChapterPage, ResourcePage } from 'pages/ClassInfoPage/cpn-page'
 import { ChapterInfo } from 'pages/ChapterInfo'
 
+
 ConfigProvider.config({
   theme: {
     primaryColor: '#64ffda'

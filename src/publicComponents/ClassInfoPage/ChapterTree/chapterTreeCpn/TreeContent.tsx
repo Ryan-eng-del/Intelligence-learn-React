@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react'
 import { Button } from 'antd'
 import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 export const TreeContent = forwardRef(
   (
     {
@@ -31,6 +32,7 @@ export const TreeContent = forwardRef(
       setCurTitle(title)
       showEditModal()
     }
+    const navigate = useNavigate();
     return (
       <TreeContentWrapper>
         <div ref={ref} className="chapter-title">
@@ -41,7 +43,7 @@ export const TreeContent = forwardRef(
             + 添加课时
           </Button>
           <Button type={'primary'}>编辑课时</Button>
-          <Button type={'primary'}>进入课时</Button>
+          <Button type={'primary'} onClick={() => navigate('/chapterinfo')}>进入课时</Button>
           <Button
             type={'ghost'}
             danger
