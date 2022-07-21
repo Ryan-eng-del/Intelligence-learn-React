@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const ResourcePage = () => {
+export const ResourcePage: React.FC = () => {
   return (
     <h1>ResourcePage</h1>
   )
