@@ -27,9 +27,17 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem(<Link to={'chapter'}>课程章节</Link>, 'Chapter', <FundProjectionScreenOutlined />,),
+  getItem(
+    <Link to={'chapter'}>课程章节</Link>,
+    'Chapter',
+    <FundProjectionScreenOutlined />
+  ),
   getItem('作业考试', 'Homework', <BellOutlined />),
-  getItem(<Link to={'resource'}>课程资料</Link>, 'Resource', <FolderOutlined />),
+  getItem(
+    <Link to={'resource'}>课程资料</Link>,
+    'Resource',
+    <FolderOutlined />
+  ),
   getItem('讨论区域', 'Discuss', <NotificationOutlined />)
 ]
 export default items

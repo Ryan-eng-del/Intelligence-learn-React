@@ -7,7 +7,6 @@ function App() {
   // useMount(() => navigate('login'))
   return (
     <div className="App">
-      
       <Outlet />
       <Footer>2022@Intelligence-Learining</Footer>
     </div>
