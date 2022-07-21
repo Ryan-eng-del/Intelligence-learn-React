@@ -1,10 +1,11 @@
 import React from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import './App.css'
 import { Footer } from './AppStyle'
+import { useMount } from 'hook/useMount'
 function App() {
-  // const navigate = useNavigate()
-  // useMount(() => navigate('login'))
+  const navigate = useNavigate()
+  useMount(() => navigate('login'))
   return (
     <div className="App">
       

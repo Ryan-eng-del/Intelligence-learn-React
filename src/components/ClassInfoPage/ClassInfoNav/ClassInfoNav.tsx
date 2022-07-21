@@ -7,24 +7,27 @@ import {
 import items from './config/index'
 import { Menu, Avatar } from 'antd'
 
-
-export const ClassInfoNav = () => {
+export const ClassInfoNav: React.FC = () => {
   return (
-  <ClassInfoNavWrapper>
-    <ClassInfoWrapper>
-      <Avatar src={require('assets/img/class.jpg')} size={120}></Avatar>
-      <div className="username">离散数学</div>
-    </ClassInfoWrapper>
-    <ClassInfoMenuWrapper>
-      <Menu
-        defaultSelectedKeys={['Chapter']}
-        defaultOpenKeys={['Chapter']}
-        mode="inline"
-        theme="dark"
-        inlineCollapsed={false}
-        items={items}
-      />
-    </ClassInfoMenuWrapper>
-  </ClassInfoNavWrapper>
+    <ClassInfoNavWrapper>
+      <ClassInfoWrapper>
+        <Avatar src={require('assets/img/class.jpg')} size={120}></Avatar>
+        <div className="class-info-nav-intro">
+          <div>
+            课程名称
+          </div>
+        </div>
+      </ClassInfoWrapper>
+      <ClassInfoMenuWrapper>
+        <Menu
+          defaultSelectedKeys={['Chapter']}
+          defaultOpenKeys={['Chapter']}
+          mode="inline"
+          theme="dark"
+          inlineCollapsed={false}
+          items={items}
+        />
+      </ClassInfoMenuWrapper>
+    </ClassInfoNavWrapper>
   )
 }

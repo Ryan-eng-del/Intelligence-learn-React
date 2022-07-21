@@ -9,8 +9,9 @@ import { ConfigProvider } from 'antd'
 import { Route, Routes } from 'react-router-dom'
 import { ClassInfoPage, HomePage, LoginPage } from 'pages'
 import { LearnPage, TeachPage } from 'pages/HomePage/cpn-page'
-import { ChapterPage, ResourcePage } from 'pages/ClassInfoPage/cpn-page'
+import { ChapterPage, ResourcePage, ExamPage, DiscussPage, KnowledgePage } from 'pages/ClassInfoPage/cpn-page'
 import { ChapterInfo } from 'pages/ChapterInfo'
+
 
 ConfigProvider.config({
   theme: {
@@ -32,9 +33,14 @@ root.render(
           </Route>
           <Route path="classinfo" element={<ClassInfoPage />}>
             <Route path="chapter" element={<ChapterPage />} />
+            <Route path="exam" element={<ExamPage />} />
             <Route path="resource" element={<ResourcePage />} />
+            <Route path="discuss" element={<DiscussPage />} />
+            <Route path="knowledge" element={<KnowledgePage />} />
           </Route>
-          <Route path='chapterinfo' element={<ChapterInfo />}></Route>
+          <Route path="chapterinfo" element={<ChapterInfo />}>
+            {/* ChapterID */}
+          </Route>
         </Route>
       </Routes>
     </Router>

@@ -54,7 +54,7 @@ const suffix = (
 const onSearch = (value: string) => console.log(value);
 const { Search } = Input;
 
-export const ResourcePage = () => {
+export const ResourcePage: React.FC = () => {
   return (
     <div style={{
       backgroundColor: 'white'

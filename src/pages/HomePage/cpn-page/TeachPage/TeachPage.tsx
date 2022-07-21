@@ -146,7 +146,6 @@ export const TeachPage = () => {
             {classList
               .filter((i, index) => index !== 0)
               .map((item) => {
-                console.log(item, 'item')
                 return (
                   <Col span={6} key={item.id}>
                     <ClassCard

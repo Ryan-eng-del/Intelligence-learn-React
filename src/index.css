@@ -132,3 +132,62 @@ button.ant-btn.ant-btn-default {
   color: var(--green);
   background: transparent;
 }
+.ant-tree .ant-tree-node-content-wrapper:hover {
+  background-color: transparent;
+}
+.ant-tree .ant-tree-treenode {
+  background-color: #112240;
+}
+.ant-tree .ant-tree-treenode:hover {
+  background-color: #233554;
+}
+::-webkit-scrollbar {
+  display: none; /* Chrome Safari */
+}
+span.ant-tree-title {
+  display: inline-block;
+  height: 100%;
+}
+.ant-tree.ant-tree-block-node
+  .ant-tree-list-holder-inner
+  .ant-tree-node-content-wrapper {
+  height: 40px;
+  position: relative;
+  line-height: 40px;
+}
+.ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
+  background-color: none;
+}
+.ant-tree .ant-tree-node-content-wrapper .ant-tree-iconEle {
+  line-height: 40px;
+}
+.ant-tree-switcher .ant-select-tree-switcher-icon,
+.ant-tree-switcher .ant-tree-switcher-icon {
+  line-height: 40px;
+}
+.ant-tree-draggable-icon {
+  line-height: 40px;
+}
+
+.ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
+  background-color: transparent;
+}
+
+.ant-tree.ant-tree-block-node
+  .ant-tree-list-holder-inner
+  .ant-tree-node-content-wrapper:hover
+  div.tree-node-tool {
+  opacity: 1;
+}
+/* Modal 树形控件Modal样式覆盖*/
+.ant-modal-body .tip-delete {
+  color: #ff4d4f;
+}
+.ant-modal-body .tip-rename {
+  color: white;
+  margin-bottom: 10px;
+}
+.ant-modal-body .add-children-node {
+  color: white;
+  margin-bottom: 12px;
+}
