@@ -7,6 +7,9 @@ export const LoginFormWrapper = styled.div`
   animation: 0.7s fadeleft ease forwards;
   .ant-input-affix-wrapper {
     height: 45px;
+    .anticon svg {
+      color: black;
+    }
   }
   .ant-input-affix-wrapper > input.ant-input {
     padding-left: 12px;

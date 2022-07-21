@@ -9,9 +9,15 @@ import { ConfigProvider } from 'antd'
 import { Route, Routes } from 'react-router-dom'
 import { ClassInfoPage, HomePage, LoginPage } from 'pages'
 import { LearnPage, TeachPage } from 'pages/HomePage/cpn-page'
-import { ChapterPage, ResourcePage } from 'pages/ClassInfoPage/cpn-page'
+import {
+  ChapterPage,
+  ResourcePage,
+  ExamPage,
+  DiscussPage,
+  KnowledgePage
+} from 'pages/ClassInfoPage/cpn-page'
 import { ChapterInfo } from 'pages/ChapterInfo'
-
+import zhCN from 'antd/es/locale/zh_CN'
 ConfigProvider.config({
   theme: {
     primaryColor: '#64ffda'
@@ -20,24 +26,31 @@ ConfigProvider.config({
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <Router>
-      <Routes>
-        <Route path="/" element={<App />}>
-          <Route path="login" element={<LoginPage />}></Route>
-          <Route path="home" element={<HomePage />}>
-            <Route path="class">
-              <Route path="teach" element={<TeachPage />} />
-              <Route path="learn" element={<LearnPage />} />
+    <ConfigProvider locale={zhCN}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<App />}>
+            <Route path="login" element={<LoginPage />}></Route>
+            <Route path="home" element={<HomePage />}>
+              <Route path="class">
+                <Route path="teach" element={<TeachPage />} />
+                <Route path="learn" element={<LearnPage />} />
+              </Route>
+            </Route>
+            <Route path="classinfo" element={<ClassInfoPage />}>
+              <Route path="chapter" element={<ChapterPage />} />
+              <Route path="exam" element={<ExamPage />} />
+              <Route path="resource" element={<ResourcePage />} />
+              <Route path="discuss" element={<DiscussPage />} />
+              <Route path="knowledge" element={<KnowledgePage />} />
+            </Route>
+            <Route path="chapterinfo" element={<ChapterInfo />}>
+              {/* ChapterID */}
             </Route>
           </Route>
-          <Route path="classinfo" element={<ClassInfoPage />}>
-            <Route path="chapter" element={<ChapterPage />} />
-            <Route path="resource" element={<ResourcePage />} />
-          </Route>
-          <Route path="chapterinfo" element={<ChapterInfo />}></Route>
-        </Route>
-      </Routes>
-    </Router>
+        </Routes>
+      </Router>
+    </ConfigProvider>
   </React.StrictMode>
 )
 

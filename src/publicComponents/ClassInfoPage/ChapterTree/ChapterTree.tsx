@@ -264,6 +264,7 @@ export const ChapterTree = () => {
         添加根章节目录
       </Button>
       <Tree
+        defaultExpandAll
         showIcon
         className="draggable-tree"
         draggable

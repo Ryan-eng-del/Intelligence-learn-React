@@ -6,8 +6,10 @@ import {
 } from './ChapterInfoNavStyle'
 import { Avatar, Tree } from 'antd'
 import type { DataNode, DirectoryTreeProps } from 'antd/es/tree'
+// import { useNavigate } from 'react-router-dom'
 
 export const ChapterInfoNav: React.FC = () => {
+  // const navigate = useNavigate();
   const { DirectoryTree } = Tree
 
   const treeData: DataNode[] = [
@@ -44,6 +46,7 @@ export const ChapterInfoNav: React.FC = () => {
       <ChapterInfoMenuWrapper>
         <DirectoryTree
           multiple
+          // onClick={() => navigate(`chapterinfo/${1+1}`)}
           defaultExpandAll
           onSelect={onSelect}
           onExpand={onExpand}

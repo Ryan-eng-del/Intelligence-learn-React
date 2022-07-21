@@ -3,7 +3,8 @@ import {
   FolderOutlined,
   FundProjectionScreenOutlined,
   BellOutlined,
-  NotificationOutlined
+  NotificationOutlined,
+  GoldOutlined
 } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
 import { Link } from 'react-router-dom'
@@ -32,12 +33,17 @@ const items: MenuItem[] = [
     'Chapter',
     <FundProjectionScreenOutlined />
   ),
-  getItem('作业考试', 'Homework', <BellOutlined />),
+  getItem(<Link to={'exam'}>作业考试</Link>, 'Homework', <BellOutlined />),
   getItem(
     <Link to={'resource'}>课程资料</Link>,
     'Resource',
     <FolderOutlined />
   ),
-  getItem('讨论区域', 'Discuss', <NotificationOutlined />)
+  getItem(
+    <Link to={'discuss'}>讨论区域</Link>,
+    'Discuss',
+    <NotificationOutlined />
+  ),
+  getItem(<Link to={'knowledge'}>知识点</Link>, 'Knowledge', <GoldOutlined />)
 ]
 export default items

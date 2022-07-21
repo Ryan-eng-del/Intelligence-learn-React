@@ -191,3 +191,53 @@ span.ant-tree-title {
   color: white;
   margin-bottom: 12px;
 }
+
+.ant-tabs-tab-btn,
+.ant-tabs-tab-remove {
+  color: white;
+}
+
+.ant-transfer-list {
+  width: 400px;
+  height: 500px;
+  background: #0a192f;
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  color: white;
+}
+.ant-transfer-list-header {
+  background: var(--navy);
+  border-bottom: 3px solid var(--lightest-navy);
+  color: white;
+}
+
+.ant-transfer-list-header-dropdown {
+  padding: 0 5px;
+}
+.ant-transfer-list-content-item:not(.ant-transfer-list-content-item-disabled):hover {
+  background: var(--light-navy);
+}
+.ant-transfer-list-content-item-checked {
+  background: var(--light-navy);
+}
+.ant-transfer-list-content-item:not(.ant-transfer-list-content-item-disabled).ant-transfer-list-content-item-checked:hover {
+  background: var(--light-navy);
+}
+.ant-transfer {
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.ant-transfer-operation .ant-btn:first-child {
+  margin-bottom: 4px;
+  width: 96px;
+  height: 39px;
+  border: 1px solid var(--green);
+}
+.ant-transfer-operation .ant-btn:disabled {
+  background-color: transparent;
+}
+.ant-transfer-operation .ant-btn span {
+  color: var(--green);
+}

@@ -1,2 +1,5 @@
 export { ChapterPage } from './ChapterPage/ChapterPage'
 export { ResourcePage } from './ResourcePage/ResourcePage'
+export { DiscussPage } from './DiscussPage/DiscussPage'
+export { ExamPage } from './ExamPage/ExamPage'
+export { KnowledgePage } from './KnowledgePage/KnowledgePage'
