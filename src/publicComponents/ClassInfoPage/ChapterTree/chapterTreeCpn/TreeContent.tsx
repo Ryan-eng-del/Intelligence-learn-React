@@ -40,9 +40,10 @@ export const TreeContent = forwardRef(
         </div>
         <TreeContentTool className="tree-node-tool">
           <Button type={'primary'} onClick={() => handleAddContent()}>
-            + 添加课时
+            关联知识点
           </Button>
-          <Button type={'primary'}>编辑课时</Button>
+          <Button type={'primary'}>添加资料</Button>
+          <Button type={'primary'}>添加测验</Button>
           <Button type={'primary'} onClick={() => navigate('/chapterinfo')}>
             进入课时
           </Button>
@@ -58,6 +59,7 @@ export const TreeContent = forwardRef(
             重命名
           </Button>
         </TreeContentTool>
+        <TreeContentSource></TreeContentSource>
       </TreeContentWrapper>
     )
   }
@@ -65,7 +67,7 @@ export const TreeContent = forwardRef(
 export const TreeContentWrapper = styled.div`
   height: 100%;
   div.chapter-title {
-    color: white;
+    color: var(--navy);
     line-height: 100%;
     height: 100%;
     line-height: 40px;
@@ -87,6 +89,9 @@ export const TreeContentTool = styled.div`
   transition: opacity 300ms;
   height: 100%;
   width: 100%;
+  button.ant-btn {
+    margin: 0 20px;
+  }
   button.ant-btn-primary.ant-btn {
     border: none;
     height: 30px;
@@ -95,3 +100,4 @@ export const TreeContentTool = styled.div`
     }
   }
 `
+export const TreeContentSource = styled.div``

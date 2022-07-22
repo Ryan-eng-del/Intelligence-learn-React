@@ -1,4 +1,5 @@
 /* theme color */
+@import 'antd/dist/antd.css';
 :root {
   --dark-navy: #020c1b;
   --navy: #0a192f;
@@ -13,14 +14,18 @@
   --green: #64ffda;
   --green-tint: rgba(100, 255, 218, 0.1);
   --pink: #f57dff;
-  --blue: #57cbff;
+  --blue: #1890ff;
+  --background: #d3dedc;
+  --border: #3ab4f2;
   --easing: cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--navy) !important;
+  background-color: #d3dedc;
+  color: var(--blue);
+  /* background-color: rgba(255, 255, 255, 0.1) !important; */
 }
 
 code {
@@ -93,57 +98,11 @@ code {
     transition: opacity 300ms var(--easing), transform 300ms var(--easing);
   }
 }
-.ant-btn-primary {
-  width: 120px;
-  height: 40px;
-  color: var(--green);
-  font-family: 'zh-text';
-  border-color: var(--green);
-  background-color: transparent;
-  border-radius: 4px;
-}
 
-.ant-btn-primary:focus,
-.ant-btn-primary:hover {
-  color: var(--green);
-  background: transparent;
-}
-.ant-btn-primary:hover {
-  background-color: var(--green-tint);
-}
 .ant-input {
   height: 37px;
 }
-.ant-modal-content {
-  background-color: var(--navy);
-}
-.ant-modal-header {
-  background-color: var(--navy);
-}
-.ant-modal-title {
-  color: var(--green);
-  font-size: 17px;
-}
-.anticon {
-  color: var(--green);
-}
-button.ant-btn.ant-btn-default {
-  border: none;
-  color: var(--green);
-  background: transparent;
-}
-.ant-tree .ant-tree-node-content-wrapper:hover {
-  background-color: transparent;
-}
-.ant-tree .ant-tree-treenode {
-  background-color: #112240;
-}
-.ant-tree .ant-tree-treenode:hover {
-  background-color: #233554;
-}
-::-webkit-scrollbar {
-  display: none; /* Chrome Safari */
-}
+
 span.ant-tree-title {
   display: inline-block;
   height: 100%;
@@ -180,6 +139,10 @@ span.ant-tree-title {
   opacity: 1;
 }
 /* Modal 树形控件Modal样式覆盖*/
+.ant-tree.ant-tree-block-node .ant-tree-list-holder-inner {
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+    rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+}
 .ant-modal-body .tip-delete {
   color: #ff4d4f;
 }
@@ -187,9 +150,17 @@ span.ant-tree-title {
   color: white;
   margin-bottom: 10px;
 }
-.ant-modal-body .add-children-node {
-  color: white;
-  margin-bottom: 12px;
+.ant-modal-body label {
+  color: var(--navy);
+  font-size: 14px;
+  color: black;
+  font-weight: 500;
+  font-family: 'zh-text';
+  border-left: 4px solid var(--border);
+  padding: 0 0 0 10px;
+}
+.ant-modal-body input {
+  margin: 8px 0 15px 0;
 }
 
 .ant-tabs-tab-btn,
@@ -200,30 +171,16 @@ span.ant-tree-title {
 .ant-transfer-list {
   width: 400px;
   height: 500px;
-  background: #0a192f;
   border: none;
   border-radius: 8px;
   overflow: hidden;
-  color: white;
-}
-.ant-transfer-list-header {
-  background: var(--navy);
-  border-bottom: 3px solid var(--lightest-navy);
   color: white;
 }
 
 .ant-transfer-list-header-dropdown {
   padding: 0 5px;
 }
-.ant-transfer-list-content-item:not(.ant-transfer-list-content-item-disabled):hover {
-  background: var(--light-navy);
-}
-.ant-transfer-list-content-item-checked {
-  background: var(--light-navy);
-}
-.ant-transfer-list-content-item:not(.ant-transfer-list-content-item-disabled).ant-transfer-list-content-item-checked:hover {
-  background: var(--light-navy);
-}
+
 .ant-transfer {
   justify-content: center;
   margin-top: 50px;
@@ -233,11 +190,4 @@ span.ant-tree-title {
   margin-bottom: 4px;
   width: 96px;
   height: 39px;
-  border: 1px solid var(--green);
-}
-.ant-transfer-operation .ant-btn:disabled {
-  background-color: transparent;
-}
-.ant-transfer-operation .ant-btn span {
-  color: var(--green);
 }

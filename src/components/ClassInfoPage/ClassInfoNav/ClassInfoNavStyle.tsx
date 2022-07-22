@@ -8,7 +8,7 @@ import {
 export const ClassInfoNavWrapper = styled(LeftSideWrapper)`
   .class-info-nav-intro {
     padding-top: 12px;
-    color: white;
+    color: var(--navy);
     font-size: 15px;
     text-align: center;
   }

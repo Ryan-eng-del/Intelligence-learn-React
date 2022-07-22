@@ -20,12 +20,12 @@ export const LoginPageIntro = styled.div`
 `
 
 export const IntroLineOne = styled.div`
-  color: var(--lightest-slate);
+  color: var(--navy);
   margin-bottom: 8px;
 
   div.small-intro {
     font-size: 14px;
-    color: var(--green);
+    color: #1890ff;
     font-family: 'en-text-medium';
     opacity: 0;
     animation: 0.7s ${fadeup} var(--easing) forwards;
@@ -79,7 +79,7 @@ export const IntroLineTwo = styled.div`
     letter-spacing: 12px;
     font-family: 'zh-medium';
     transition: opacity 300ms var(--easing), transform 300ms var(--easing);
-    color: var(--lightest-slate);
+    color: var(--lightest-navy);
     opacity: 0;
     animation: 0.7s ${fadeup} var(--easing) forwards;
   }
@@ -87,7 +87,7 @@ export const IntroLineTwo = styled.div`
     font-family: 'zh-light';
     font-size: 15px;
     letter-spacing: 4px;
-    color: var(--green);
+    color: #1890ff;
     opacity: 0;
     transition: opacity 300ms var(--easing), transform 300ms var(--easing);
     animation: 0.7s ${fadeup} var(--easing) forwards;

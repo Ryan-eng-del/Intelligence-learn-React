@@ -261,7 +261,7 @@ export const ChapterTree = () => {
         onClick={() => handleChildren()}
         style={{ marginBottom: '24px' }}
       >
-        添加根章节目录
+        添加章节
       </Button>
       <Tree
         defaultExpandAll
@@ -273,21 +273,21 @@ export const ChapterTree = () => {
         treeData={gData}
       />
       <Modal
-        title="添加子目录"
+        title={addState === 'addRootTreeNode' ? '添加章节' : '添加课时'}
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
         okText="确认"
         cancelText="取消"
       >
-        <div className={'add-children-node'}>
+        <label className={'add-children-node'} htmlFor={'chapter'}>
           您正在
           {addState === 'addRootTreeNode' ? (
-            '添加根目录'
+            '添加章节'
           ) : addState === 'addChildrenContent' ? (
             <span>
               向
-              <strong style={{ color: '#64ffda', padding: '0 5px' }}>
+              <strong style={{ color: 'black', padding: '0 5px' }}>
                 {curTitle}
               </strong>
               当中添加课时
@@ -295,16 +295,18 @@ export const ChapterTree = () => {
           ) : (
             <span>
               向
-              <strong style={{ color: '#64ffda', padding: '0 5px' }}>
+              <strong style={{ color: 'black', padding: '0 5px' }}>
                 {curTitle}
               </strong>
               当中添加子目录
             </span>
           )}
-        </div>
+        </label>
         <Input
+          id="chapter"
           value={addTreeNodeData}
           onChange={(e) => setTreeNodeData(e.target.value)}
+          placeholder={'请输入章节名'}
         ></Input>
       </Modal>
       <Modal

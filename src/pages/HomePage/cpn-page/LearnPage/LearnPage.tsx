@@ -56,7 +56,6 @@ export const LearnPage: React.FC = () => {
           onOk={handleOk}
           onCancel={handleCancel}
           okText="确认"
-          style={{ top: '180px', backgroundColor: '#0a192f' }}
           cancelText="取消"
         >
           <ModalContextWrapper>

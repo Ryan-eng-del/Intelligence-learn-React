@@ -6,14 +6,16 @@ import {
 } from './ClassInfoNavStyle'
 import items from './config/index'
 import { Menu, Avatar } from 'antd'
+import { useLocation } from 'react-router-dom'
 
 export const ClassInfoNav: React.FC = () => {
+  const location: any = useLocation()
   return (
     <ClassInfoNavWrapper>
       <ClassInfoWrapper>
         <Avatar src={require('assets/img/class.jpg')} size={120}></Avatar>
         <div className="class-info-nav-intro">
-          <div>课程名称</div>
+          <div>{location?.state?.cname}</div>
         </div>
       </ClassInfoWrapper>
       <ClassInfoMenuWrapper>
@@ -21,7 +23,6 @@ export const ClassInfoNav: React.FC = () => {
           defaultSelectedKeys={['Chapter']}
           defaultOpenKeys={['Chapter']}
           mode="inline"
-          theme="dark"
           inlineCollapsed={false}
           items={items}
         />

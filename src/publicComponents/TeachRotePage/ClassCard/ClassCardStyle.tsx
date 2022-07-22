@@ -1,10 +1,11 @@
 import styled from 'styled-components'
 export const CardWrapper = styled.div`
-  background-color: var(--navy);
+  /* background-color: var(--navy); */
   width: 200px;
-  color: white;
+  color: var(--navy);
   height: 250px;
-  box-shadow: var(--light-navy) 0px 10px 15px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   transition: transform 300ms;
   &:hover {
     transform: translateY(-6px);
@@ -34,13 +35,9 @@ export const CardBodyWrapper = styled.div`
   .ant-btn-primary {
     height: 30px;
     border-color: transparent;
-    background-color: var(--green-tint);
-  }
-  .cname {
-    font-size: 17px;
   }
   .tname {
+    font-size: 17px;
     margin-bottom: 5px;
-    font-size: 13px;
   }
 `

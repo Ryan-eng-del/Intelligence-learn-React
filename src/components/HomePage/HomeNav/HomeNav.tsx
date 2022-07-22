@@ -19,7 +19,6 @@ export const HomeNav = () => {
           defaultSelectedKeys={['1']}
           defaultOpenKeys={['sub1']}
           mode="inline"
-          theme="dark"
           inlineCollapsed={false}
           items={items}
         />

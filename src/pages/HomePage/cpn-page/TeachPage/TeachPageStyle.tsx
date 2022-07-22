@@ -12,8 +12,9 @@ export const TeachHeaderWrapper = styled.div`
 export const TeachTitleWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  color: var(--blue);
   div.teach-page-title {
-    border-left: 5px solid var(--green);
+    border-left: 5px solid var(--blue);
     line-height: 40px;
     padding-left: 10px;
   }
@@ -22,13 +23,7 @@ export const TeachTitleWrapper = styled.div`
 export const TeachClassWrapper = styled.div`
   padding: 10px 20px;
 `
-export const ModalContextWrapper = styled.div`
-  .classname-label {
-    color: #cfd2cf;
-    letter-spacing: 2px;
-    font-size: 13px;
-  }
-`
+export const ModalContextWrapper = styled.div``
 export const UploadImageWrapper = styled.div`
   display: flex;
   margin-top: 12px;

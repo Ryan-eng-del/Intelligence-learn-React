@@ -84,33 +84,21 @@ export const TeachPage = () => {
           onOk={handleOk}
           onCancel={handleCancel}
           okText="确认"
-          style={{ top: '180px', backgroundColor: '#0a192f' }}
           cancelText="取消"
         >
           <ModalContextWrapper>
-            <label className="classname-label">请输入课程名称</label>
+            <label className="classname-label" htmlFor="classname">
+              请输入课程名称
+            </label>
             <Input
               placeholder="课程名称"
               id="classname"
               value={className}
-              style={{ margin: '3px 0 12px 0' }}
               onChange={(e) => {
                 dispatch({ type: 'setClassName', payload: e.target.value })
               }}
             />
-            <label className="classname-label">请输入授课教师</label>
-            <Input
-              placeholder="课程老师"
-              id="classname"
-              value={classTeacher}
-              style={{ margin: '3px 0 12px 0' }}
-              onChange={(e) => {
-                dispatch({ type: 'setClassTeacher', payload: e.target.value })
-              }}
-            />
-            <div className="classname-label" style={{ marginBottom: '3px' }}>
-              请上传课程图片
-            </div>
+            <div className="classname-label">请上传课程图片</div>
             <UploadImageWrapper>
               <img src={require('assets/img/class.jpg')} alt="默认课程图片" />
               <Upload

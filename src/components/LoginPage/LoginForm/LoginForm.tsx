@@ -13,7 +13,9 @@ export const LoginForm = () => {
   return (
     <LoginFormWrapper>
       <LoginTitle>
-        <p>Login In</p>
+        <p className="title-login">
+          Login In <div className="border-login"></div>
+        </p>
       </LoginTitle>
       <Input
         size="large"

@@ -3,8 +3,6 @@ import { Outlet } from 'react-router-dom'
 import './App.css'
 import { Footer } from './AppStyle'
 function App() {
-  // const navigate = useNavigate()
-  // useMount(() => navigate('login'))
   return (
     <div className="App">
       <Outlet />

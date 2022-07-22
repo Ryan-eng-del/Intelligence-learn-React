@@ -36,7 +36,6 @@ const faderight = keyframes`
   }
 `
 export const AvatarWrapper = styled.div`
-  position: absolute;
   top: 18px;
   left: 27px;
   animation: 0.5s ${faderight} linear;

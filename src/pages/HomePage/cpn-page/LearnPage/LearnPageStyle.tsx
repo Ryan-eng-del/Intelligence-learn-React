@@ -12,8 +12,9 @@ export const LearnHeaderWrapper = styled.div`
 export const LearnTitleWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  color: var(--blue);
   div.Learn-page-title {
-    border-left: 5px solid var(--green);
+    border-left: 5px solid var(--blue);
     line-height: 40px;
     padding-left: 10px;
   }

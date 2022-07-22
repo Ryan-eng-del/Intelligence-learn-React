@@ -7,9 +7,6 @@ export const LoginFormWrapper = styled.div`
   animation: 0.7s fadeleft ease forwards;
   .ant-input-affix-wrapper {
     height: 45px;
-    .anticon svg {
-      color: black;
-    }
   }
   .ant-input-affix-wrapper > input.ant-input {
     padding-left: 12px;
@@ -24,7 +21,7 @@ export const LoginFormWrapper = styled.div`
   div.forget-password {
     margin: 10px 0 15px 0;
     cursor: pointer;
-    color: var(--lightest-slate);
+    color: var(--blue);
     text-decoration: underline;
     font-family: 'zh-text';
   }
@@ -45,12 +42,22 @@ export const LoginFormWrapper = styled.div`
   }
 `
 export const LoginTitle = styled.div`
-  color: var(--lightest-slate);
+  color: var(--blue);
   font-size: 35px;
   text-align: center;
   font-family: 'en-title-medium';
-  p {
-    border-bottom: 2px solid var(--green);
+  p.title-login {
+    position: relative;
+  }
+  div.border-login {
+    position: absolute;
+    left: 50%;
+    top: 65px;
+    transform: translateX(-20px);
+    width: 50px;
+    height: 9px;
+    border-radius: 12px;
+    background-color: var(--blue);
   }
   @media (min-width: 1024px) {
     font-size: 42px;

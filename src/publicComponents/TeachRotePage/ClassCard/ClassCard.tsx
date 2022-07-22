@@ -9,7 +9,7 @@ interface ClassCard {
   iurl: string
 }
 export const ClassCard: React.FC<ClassCard> = (props) => {
-  const { id, tname, cname, iurl } = props
+  const { id, cname, iurl } = props
   const navigate = useNavigate()
   return (
     <>
@@ -18,13 +18,12 @@ export const ClassCard: React.FC<ClassCard> = (props) => {
           <img src={iurl || require('assets/img/class.jpg')} alt="课程图片" />
         </CardHeadWrapper>
         <CardBodyWrapper>
-          <div className="cname">{cname}</div>
-          <div className="tname">{tname}</div>
+          <div className="tname">{cname}</div>
           <Button
             type={'primary'}
             onClick={() =>
               navigate('/classinfo/chapter', {
-                state: { tname, cname, iurl, id }
+                state: { cname, iurl, id }
               })
             }
           >

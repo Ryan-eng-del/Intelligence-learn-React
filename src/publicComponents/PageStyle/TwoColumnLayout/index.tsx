@@ -6,7 +6,6 @@ export const EntireWrapper = styled.div`
   padding: 10px, 30px, 0px 10px;
   min-width: 1520px;
   font-size: 16px;
-  font-family: 'zh-light';
   letter-spacing: 2px;
   .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal)
     .ant-menu-item-selected {
@@ -16,7 +15,13 @@ export const EntireWrapper = styled.div`
 
 // 此为左侧整体
 export const LeftSideWrapper = styled.div`
-  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  border-top: 3px solid var(--border);
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  min-height: 460px;
+  overflow: hidden;
 `
 
 // 此为左侧上半部分
@@ -27,10 +32,9 @@ export const LeftInfoWrapper = styled.div`
   justify-content: space-around;
   align-items: center;
   margin-bottom: 20px;
-  border-bottom: 5px solid var(--lightest-navy);
-  border-radius: 10px;
+
   .username {
-    color: white;
+    color: black;
     padding-top: 8px;
   }
   animation: 0.7s fadedown ease forwards;
@@ -44,8 +48,11 @@ export const LeftMenuWrapper = styled.div`
 
 //此为右侧部分
 export const RightSideWrapper = styled.div`
-  background-color: rgb(0, 21, 41);
   animation: 0.7s fadeleft ease forwards;
-  height: 700px;
-  box-shadow: var(--lightest-navy) 0px 0px 30px 4px;
+  min-height: 460px;
+  border-top: 3px solid var(--border);
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 `
