@@ -13,6 +13,7 @@ import {
   ResourcePage,
   ExamPage,
   DiscussPage,
+  ClassManaPage,
   KnowledgePage
 } from 'pages/ClassInfoPage/cpn-page'
 import { ChapterInfo } from 'pages/ChapterInfo'
@@ -36,7 +37,8 @@ root.render(
               <Route path="exam" element={<ExamPage />} />
               <Route path="resource" element={<ResourcePage />} />
               <Route path="discuss" element={<DiscussPage />} />
-              <Route path="knowledge" element={<KnowledgePage />} />
+              <Route path="classmana" element={<ClassManaPage />}></Route>
+              <Route path="knowledge" element={<KnowledgePage />}></Route>
             </Route>
             <Route path="chapterinfo" element={<ChapterInfo />}>
               {/* ChapterID */}
