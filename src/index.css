@@ -132,3 +132,112 @@ button.ant-btn.ant-btn-default {
   color: var(--green);
   background: transparent;
 }
+.ant-tree .ant-tree-node-content-wrapper:hover {
+  background-color: transparent;
+}
+.ant-tree .ant-tree-treenode {
+  background-color: #112240;
+}
+.ant-tree .ant-tree-treenode:hover {
+  background-color: #233554;
+}
+::-webkit-scrollbar {
+  display: none; /* Chrome Safari */
+}
+span.ant-tree-title {
+  display: inline-block;
+  height: 100%;
+}
+.ant-tree.ant-tree-block-node
+  .ant-tree-list-holder-inner
+  .ant-tree-node-content-wrapper {
+  height: 40px;
+  position: relative;
+  line-height: 40px;
+}
+.ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
+  background-color: none;
+}
+.ant-tree .ant-tree-node-content-wrapper .ant-tree-iconEle {
+  line-height: 40px;
+}
+.ant-tree-switcher .ant-select-tree-switcher-icon,
+.ant-tree-switcher .ant-tree-switcher-icon {
+  line-height: 40px;
+}
+.ant-tree-draggable-icon {
+  line-height: 40px;
+}
+
+.ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
+  background-color: transparent;
+}
+
+.ant-tree.ant-tree-block-node
+  .ant-tree-list-holder-inner
+  .ant-tree-node-content-wrapper:hover
+  div.tree-node-tool {
+  opacity: 1;
+}
+/* Modal 树形控件Modal样式覆盖*/
+.ant-modal-body .tip-delete {
+  color: #ff4d4f;
+}
+.ant-modal-body .tip-rename {
+  color: white;
+  margin-bottom: 10px;
+}
+.ant-modal-body .add-children-node {
+  color: white;
+  margin-bottom: 12px;
+}
+
+.ant-tabs-tab-btn,
+.ant-tabs-tab-remove {
+  color: white;
+}
+
+.ant-transfer-list {
+  width: 400px;
+  height: 500px;
+  background: #0a192f;
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  color: white;
+}
+.ant-transfer-list-header {
+  background: var(--navy);
+  border-bottom: 3px solid var(--lightest-navy);
+  color: white;
+}
+
+.ant-transfer-list-header-dropdown {
+  padding: 0 5px;
+}
+.ant-transfer-list-content-item:not(.ant-transfer-list-content-item-disabled):hover {
+  background: var(--light-navy);
+}
+.ant-transfer-list-content-item-checked {
+  background: var(--light-navy);
+}
+.ant-transfer-list-content-item:not(.ant-transfer-list-content-item-disabled).ant-transfer-list-content-item-checked:hover {
+  background: var(--light-navy);
+}
+.ant-transfer {
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.ant-transfer-operation .ant-btn:first-child {
+  margin-bottom: 4px;
+  width: 96px;
+  height: 39px;
+  border: 1px solid var(--green);
+}
+.ant-transfer-operation .ant-btn:disabled {
+  background-color: transparent;
+}
+.ant-transfer-operation .ant-btn span {
+  color: var(--green);
+}

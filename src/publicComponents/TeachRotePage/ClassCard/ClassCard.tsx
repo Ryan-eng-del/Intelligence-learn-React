@@ -23,7 +23,9 @@ export const ClassCard: React.FC<ClassCard> = (props) => {
           <Button
             type={'primary'}
             onClick={() =>
-              navigate('/classinfo', { state: { tname, cname, iurl, id } })
+              navigate('/classinfo/chapter', {
+                state: { tname, cname, iurl, id }
+              })
             }
           >
             进入课程

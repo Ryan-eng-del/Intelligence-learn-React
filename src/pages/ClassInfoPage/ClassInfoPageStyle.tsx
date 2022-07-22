@@ -1,2 +1,4 @@
 import styled from 'styled-components'
-export const ClassInfoPageWrapper = styled.div``
+import { EntireWrapper } from 'publicComponents/PageStyle/TwoColumnLayout'
+
+export const ClassInfoPageWrapper = styled(EntireWrapper)``
