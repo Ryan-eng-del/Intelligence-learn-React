@@ -8,6 +8,7 @@ import reportWebVitals from './reportWebVitals'
 import { ConfigProvider } from 'antd'
 import { Route, Routes } from 'react-router-dom'
 import { ClassInfoPage, HomePage, LoginPage } from 'pages'
+import { ClassManaPage, KnowledgePage } from 'pages/ClassInfoPage'
 import { LearnPage, TeachPage } from 'pages/HomePage/cpn-page'
 ConfigProvider.config({
   theme: {
@@ -27,7 +28,11 @@ root.render(
               <Route path="learn" element={<LearnPage />} />
             </Route>
           </Route>
-          <Route path="classinfo" element={<ClassInfoPage />}></Route>
+          <Route path="classinfo" element={<ClassInfoPage />}>
+            {/* 班级管理 */}
+            <Route path="classmana" element={<ClassManaPage />}></Route>
+            <Route path="knowledge" element={<KnowledgePage />}></Route>
+          </Route>
         </Route>
       </Routes>
     </Router>
