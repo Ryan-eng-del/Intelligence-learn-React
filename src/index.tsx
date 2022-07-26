@@ -17,6 +17,7 @@ import {
   KnowledgePage
 } from 'pages/ClassInfoPage/cpn-page'
 import { ChapterInfo } from 'pages/ChapterInfo'
+import { ChapterPreviewFile } from './pages/ChapterInfo'
 import zhCN from 'antd/es/locale/zh_CN'
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
@@ -43,6 +44,7 @@ root.render(
             <Route path="chapterinfo" element={<ChapterInfo />}>
               {/* ChapterID */}
             </Route>
+            <Route path="study" element={<ChapterPreviewFile />}></Route>
           </Route>
         </Routes>
       </Router>

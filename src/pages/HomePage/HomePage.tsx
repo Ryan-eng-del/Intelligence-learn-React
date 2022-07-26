@@ -11,10 +11,10 @@ export const HomePage = () => {
   return (
     <HomePageWrapper>
       <Row gutter={100}>
-        <Col span={5} style={{ paddingLeft: '50px' }}>
+        <Col span={7} style={{ paddingLeft: '52px' }}>
           <HomeNav />
         </Col>
-        <Col span={19}>
+        <Col span={17}>
           <HomeRoutePage />
         </Col>
       </Row>

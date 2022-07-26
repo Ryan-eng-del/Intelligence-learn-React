@@ -11,10 +11,10 @@ export const ChapterInfo: React.FC = () => {
     <>
       <ChapterInfoWrapper>
         <Row gutter={100}>
-          <Col span={5} style={{ paddingLeft: '133px' }}>
+          <Col span={5} style={{ paddingLeft: '52px' }}>
             <ChapterInfoNav /> {/* 左边导航 */}
           </Col>
-          <Col span={19}>
+          <Col span={13}>
             <ChapterInfoSwitchMode /> {/* 右边视窗 */}
           </Col>
         </Row>

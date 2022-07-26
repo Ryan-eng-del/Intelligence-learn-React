@@ -61,7 +61,7 @@ export const LearnPage: React.FC = () => {
           <ModalContextWrapper>
             <label className="classname-label">输入邀请码</label>
             <Input
-              placeholder="课程名称"
+              placeholder="课程邀请码"
               id="classname"
               value={className}
               style={{ margin: '3px 0 12px 0' }}

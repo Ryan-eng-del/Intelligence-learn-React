@@ -9,7 +9,7 @@ export const ClassInfoPage = () => {
     <>
       <ClassInfoPageWrapper>
         <Row gutter={100}>
-          <Col span={5} style={{ paddingLeft: '133px' }}>
+          <Col span={5} style={{ paddingLeft: '52px' }}>
             <ClassInfoNav /> {/* 左边导航 */}
           </Col>
           <Col span={19}>
