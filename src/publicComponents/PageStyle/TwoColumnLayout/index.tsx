@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 //整体布局
 export const EntireWrapper = styled.div`
-  padding: 10px, 30px, 0px 10px;
+  padding: 10px 30px 0px 10px;
   min-width: 1080px;
   font-size: 16px;
   letter-spacing: 2px;

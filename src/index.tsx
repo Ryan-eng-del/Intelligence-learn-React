@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals'
 import { ConfigProvider } from 'antd'
 import { Route, Routes } from 'react-router-dom'
 import { ClassInfoPage, HomePage, LoginPage } from 'pages'
-import { LearnPage, TeachPage } from 'pages/HomePage/cpn-page'
+import { LearnPage, TeachPage, InboxPage } from 'pages/HomePage/cpn-page'
 import {
   ChapterPage,
   ResourcePage,
@@ -31,6 +31,7 @@ root.render(
               <Route path="class">
                 <Route path="teach" element={<TeachPage />} />
                 <Route path="learn" element={<LearnPage />} />
+                <Route path="inbox" element={<InboxPage />} />
               </Route>
             </Route>
             <Route path="classinfo" element={<ClassInfoPage />}>
