@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react'
+import React, { useReducer } from 'react'
 import {
   KnowledgeListWrapper,
   KnowledgeHeaderWrapper
@@ -9,6 +9,8 @@ import type { TreeProps } from 'antd/es/tree'
 export const KnowledgePage: React.FC = () => {
   const [state, dispatch] = useReducer(KnowledgePageReducer, initialState)
   const { modalVisible, childNodeList } = state
+  // ↓仅用于消除提交警告，如有跟新请删除
+  console.log(dispatch, modalVisible)
 
   const onSelect: TreeProps['onSelect'] = (selectedKeys, info) => {
     console.log('selected', selectedKeys, info)

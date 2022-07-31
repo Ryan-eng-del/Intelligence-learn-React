@@ -1,12 +1,12 @@
 import React from 'react'
 import { ChapterPageWrapper } from './ChapterPageStyle'
-import { ChapterTree } from 'publicComponents/ClassInfoPage'
+import { ChapterList } from 'publicComponents/ClassInfoPage'
 
 export const ChapterPage: React.FC = () => {
   return (
     <>
       <ChapterPageWrapper>
-        <ChapterTree />
+        <ChapterList />
       </ChapterPageWrapper>
     </>
   )

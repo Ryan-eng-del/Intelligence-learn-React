@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals'
 import { ConfigProvider } from 'antd'
 import { Route, Routes } from 'react-router-dom'
 import { ClassInfoPage, HomePage, LoginPage } from 'pages'
-import { LearnPage, TeachPage } from 'pages/HomePage/cpn-page'
+import { LearnPage, TeachPage, InboxPage } from 'pages/HomePage/cpn-page'
 import {
   ChapterPage,
   ResourcePage,
@@ -17,6 +17,7 @@ import {
   KnowledgePage
 } from 'pages/ClassInfoPage/cpn-page'
 import { ChapterInfo } from 'pages/ChapterInfo'
+import { ChapterPreviewFile } from './pages/ChapterInfo'
 import zhCN from 'antd/es/locale/zh_CN'
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
@@ -30,6 +31,7 @@ root.render(
               <Route path="class">
                 <Route path="teach" element={<TeachPage />} />
                 <Route path="learn" element={<LearnPage />} />
+                <Route path="inbox" element={<InboxPage />} />
               </Route>
             </Route>
             <Route path="classinfo" element={<ClassInfoPage />}>
@@ -43,6 +45,7 @@ root.render(
             <Route path="chapterinfo" element={<ChapterInfo />}>
               {/* ChapterID */}
             </Route>
+            <Route path="study" element={<ChapterPreviewFile />}></Route>
           </Route>
         </Routes>
       </Router>
