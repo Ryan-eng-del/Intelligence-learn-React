@@ -1,7 +1,6 @@
 import React from 'react'
 import { ChapterPreviewFileWrapper } from './ChapterPreviewFileStyle'
-import { Button } from 'antd'
-import { ArrowLeftOutlined } from '@ant-design/icons'
+import { PageHeader } from 'antd'
 import { useNavigate } from 'react-router-dom'
 
 export const ChapterPreviewFile: React.FC = () => {
@@ -9,13 +8,11 @@ export const ChapterPreviewFile: React.FC = () => {
   return (
     <>
       <ChapterPreviewFileWrapper>
-        <Button
-          type="text"
-          shape="round"
-          icon={<ArrowLeftOutlined />}
-          onClick={() => navigator(-1)}
-        />
-        <h1 style={{ display: 'inline' }}>Introduction to Graph Theory</h1>
+      <PageHeader
+        onBack={() => navigator(-1)}
+        title="Introduction to Graph Theory"
+        subTitle="This is a subtitle"
+      />
         <embed
           type="application/pdf"
           title="Embedded PDF"
