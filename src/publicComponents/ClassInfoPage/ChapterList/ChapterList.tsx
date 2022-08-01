@@ -95,8 +95,8 @@ export const ChapterList: React.FC = () => {
       return
     }
     // 更新数据
-    console.log("添加Node");
-    (uploadFrom.target as any).sub?.push({
+    console.log('添加Node')
+    ;(uploadFrom.target as any).sub?.push({
       tag: uploadFrom.seletedType,
       id: RandomInt(),
       title: uploadFrom.name

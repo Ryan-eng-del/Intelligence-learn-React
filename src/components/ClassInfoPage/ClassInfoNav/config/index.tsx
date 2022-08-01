@@ -4,7 +4,8 @@ import {
   FundProjectionScreenOutlined,
   BellOutlined,
   NotificationOutlined,
-  GoldOutlined
+  GoldOutlined,
+  ProfileOutlined
 } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
 import { Link } from 'react-router-dom'
@@ -28,6 +29,7 @@ function getItem(
 }
 
 const items: MenuItem[] = [
+  getItem(<Link to={'class'}>课程班级</Link>, 'class', <ProfileOutlined />),
   getItem(
     <Link to={'chapter'}>课程章节</Link>,
     'Chapter',

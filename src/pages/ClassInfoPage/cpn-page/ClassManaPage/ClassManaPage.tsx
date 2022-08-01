@@ -12,8 +12,8 @@ export const ClassManaPage: React.FC = () => {
     modalVisible,
     classManaList,
     newClassName,
-    inputClassName,
-    searchKeyword
+    inputClassName
+    // searchKeyword
   } = state
 
   //重命名功能
@@ -66,14 +66,14 @@ export const ClassManaPage: React.FC = () => {
   }
 
   //搜索功能
-  const searchClassList = (keyword: string) => {
-    //没做完，后端筛选返回较好
-    if (keyword.trim()) {
-      dispatch({ type: 'searchClassList', payload: keyword })
-    } else {
-      dispatch({ type: 'setSearchKeyword', payload: '' })
-    }
-  }
+  // const searchClassList = (keyword: string) => {
+  //   //没做完，后端筛选返回较好
+  //   if (keyword.trim()) {
+  //     dispatch({ type: 'searchClassList', payload: keyword })
+  //   } else {
+  //     dispatch({ type: 'setSearchKeyword', payload: '' })
+  //   }
+  // }
 
   return (
     <>
@@ -99,7 +99,7 @@ export const ClassManaPage: React.FC = () => {
           <Button type="primary" onClick={showModal}>
             +添加班级
           </Button>
-          <Input.Search
+          {/* <Input.Search
             id="setsearchkeyword"
             placeholder="请输入您要查询的班级"
             defaultValue={searchKeyword}
@@ -120,7 +120,7 @@ export const ClassManaPage: React.FC = () => {
               })
             }}
             allowClear
-          />
+          /> */}
         </ClassManaHeaderWrapper>
 
         <ClassListFont>班级列表</ClassListFont>
