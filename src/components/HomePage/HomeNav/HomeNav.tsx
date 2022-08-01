@@ -16,7 +16,7 @@ export const HomeNav = () => {
       </HomeInfoWrapper>
       <HomeMenuWrapper>
         <Menu
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={['2']}
           defaultOpenKeys={['sub1']}
           mode="inline"
           inlineCollapsed={false}

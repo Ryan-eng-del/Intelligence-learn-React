@@ -3,8 +3,9 @@ import styled from 'styled-components'
 
 //整体布局
 export const EntireWrapper = styled.div`
-  padding: 10px, 30px, 0px 10px;
-  min-width: 1520px;
+  width: 100%;
+  height: 100%;
+  padding: 10px 30px 0px 10px;
   font-size: 16px;
   letter-spacing: 2px;
   .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal)
@@ -20,7 +21,6 @@ export const LeftSideWrapper = styled.div`
   border-top: 3px solid var(--border);
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
-  min-height: 460px;
   overflow: hidden;
 `
 
@@ -32,7 +32,6 @@ export const LeftInfoWrapper = styled.div`
   justify-content: space-around;
   align-items: center;
   margin-bottom: 20px;
-
   .username {
     color: black;
     padding-top: 8px;

@@ -62,7 +62,6 @@ export const ClassManaPageReducer = (
       } else {
         console.log('班级名称不能为空')
       }
-      console.log(newState)
       return { ...newState }
     case 'setNewClassName':
       return { ...newState, newClassName: action.payload }

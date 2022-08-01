@@ -1,0 +1,50 @@
+import React from 'react'
+import { Modal, Input } from 'antd'
+export const BaseModal: React.FC<{
+  title: string
+  setModalValue?: any
+  dispatch: any
+  modalVisible: any
+  confirmModal: any
+  inputInfo?: {
+    inputId: string
+    placeHolder: string
+    inputValue: string
+  }
+  children: any
+  action: string
+}> = ({
+  title,
+  setModalValue,
+  inputInfo,
+  confirmModal,
+  modalVisible,
+  dispatch,
+  children,
+  action
+}) => {
+  const inputArea =
+    action === 'delete' ? null : (
+      <Input
+        id={inputInfo?.inputId}
+        value={inputInfo?.inputValue}
+        onChange={(e) => setModalValue(e.target.value)}
+        placeholder={inputInfo?.placeHolder}
+      ></Input>
+    )
+  return (
+    <>
+      <Modal
+        title={title}
+        okText="确认"
+        visible={modalVisible}
+        onOk={confirmModal}
+        onCancel={() => dispatch({ type: 'showAddModal', payload: false })}
+        cancelText="取消"
+      >
+        <label htmlFor={inputInfo?.inputId}>{children}</label>
+        {inputArea}
+      </Modal>
+    </>
+  )
+}
