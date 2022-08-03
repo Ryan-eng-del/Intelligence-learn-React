@@ -29,6 +29,7 @@ export const Footer = (props: FooterType) => {
   }
   return (
     <>
+      <hr />
       <Form.Item label="解析">
         <TextArea
           style={{ height: '300px', overflowY: 'hidden' }}

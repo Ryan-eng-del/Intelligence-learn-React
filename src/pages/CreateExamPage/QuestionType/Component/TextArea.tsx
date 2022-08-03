@@ -63,7 +63,7 @@ export const TextArea: React.FC<any> = (
             editor={editor}
             defaultConfig={toolbarConfig}
             mode="default"
-            style={{ borderBottom: '1px solid #ccc' }}
+            style={{zIndex:1, borderBottom: '1px solid #ccc' }}
           /> : <></>
         }
         <Editor
