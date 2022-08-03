@@ -25,7 +25,7 @@ import {
   KnowledgePage
 } from 'pages/ClassInfoPage'
 import { ChapterInfo, ChapterPreviewFile } from 'pages/ChapterInfo'
-import { SingleChoice, MultipleChoice, FillBlank, ShortAnswer, Programming } from 'pages/CreateExamPage'
+import { SingleChoice, MultipleChoice, FillBlank, ShortAnswer, Programming, Judge } from 'pages/CreateExamPage'
 
 // util
 import { RequireAuth } from 'util/requireAuth'
@@ -75,6 +75,7 @@ root.render(
               <Route path="fillBlank" element={<FillBlank />} />
               <Route path="shortanswer" element={<ShortAnswer />} />
               <Route path="programming" element={<Programming />} />
+              <Route path="judge" element={<Judge />} />
             </Route>
           </Route>
         </Routes>

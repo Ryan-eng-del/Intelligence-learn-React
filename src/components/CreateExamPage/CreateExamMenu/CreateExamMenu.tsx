@@ -5,9 +5,12 @@ import { Button } from 'antd'
 import { QuestionList, QuestionType } from 'pages/CreateExamPage/config/type'
 export const CreateExamMenu: React.FC<any> = (props) => {
   const { questionList, dispatch } = props
-  console.log(questionList);
   const addQuestionItem = (listType: QuestionType) => {
+    console.log("addQuestionItem",listType);
+
     questionList.map((item: QuestionList) => {
+      console.log(item.type);
+
       if (item.type == listType) {
         if (item.isExists === false) {
           dispatch({ type: 'changeIsExists', isExists: true, listType })
@@ -29,6 +32,7 @@ export const CreateExamMenu: React.FC<any> = (props) => {
     {title:"填空题",type:QuestionType.fillBlank},
     {title:"简答题",type:QuestionType.shortAnswer},
     {title:"编程题",type:QuestionType.programming},
+    {title:"判断题",type:QuestionType.judge},
   ]
   return (
     <>

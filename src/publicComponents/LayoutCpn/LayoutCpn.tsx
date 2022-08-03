@@ -1,6 +1,6 @@
 import React from 'react'
 import { Col, Row } from 'antd'
-export const LayoutCpn: React.FC<{ layoutLeft: any; layoutRight: any }> = (
+export const LayoutCpn: React.FC<{ layoutLeft: React.FC; layoutRight: React.FC }> = (
   props
 ) => {
   return (

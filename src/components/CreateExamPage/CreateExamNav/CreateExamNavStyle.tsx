@@ -4,10 +4,11 @@ export const CreateExamNavWrapper = styled.div`
   margin-top: 10px;
   width: 21%;
   overflow: auto;
-  height: 500px;
+  height: 99vh;
   border: 2px solid gery;
   border-radius: 5px;
   overflow-y: overlay;
+  margin-bottom: 50px;
 `
 export const QuestionItemWrapper = styled.div`
   &:hover {

@@ -17,7 +17,8 @@ export enum QuestionType {
   "multiple"="multiple",
   "fillBlank"="fillBlank",
   "shortAnswer"="shortAnswer",
-  "programming"="programming"
+  "programming"="programming",
+  "judge"="judge"
 }
 
 export interface CreateExamState {

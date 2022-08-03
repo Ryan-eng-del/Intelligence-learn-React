@@ -37,6 +37,13 @@ export const initialState: CreateExamState = {
       amount: 0,
       isExists: false,
       children: []
+    },
+    {
+      id: 'a6',
+      type: QuestionType.judge,
+      amount: 0,
+      isExists: false,
+      children: []
     }
   ]
 }

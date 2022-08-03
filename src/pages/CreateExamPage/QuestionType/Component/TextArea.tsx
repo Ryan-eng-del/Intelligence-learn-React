@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Editor, Toolbar } from '@wangeditor/editor-for-react'
 import { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor'
 
-export const TextArea: React.FC<any> = (props) => {
+type EditorProps = {
+  html: string,
+  setHtml: (html:string) => void
+}
+
+export const TextArea: React.FC<any> = (props:EditorProps) => {
 // editor 实例
 const [editor, setEditor] = useState<IDomEditor | null>(null)
 const [foucs, setFouce] = useState(false)

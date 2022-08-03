@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { Form, Button, message,  Radio } from 'antd'
-import { TextArea } from '../TextArea'
-import { Options } from '../Options'
-
+import { Form, Button,  Radio } from 'antd'
+import { TextArea } from '../Component/TextArea'
+import { Options } from '../Component/Options'
+import { Footer } from '../Component/Footer'
 
 export const SingleChoice: React.FC = () => {
   const [question,setQuestion] = useState({
@@ -22,15 +22,15 @@ export const SingleChoice: React.FC = () => {
 
   return (
     <>
-        <h1>SingleChoice</h1>
+        <h1>单选题</h1>
         <Button onClick={()=>{console.log(question)}}>控制台输出题目详情</Button>
         <Form>
 
-          <Form.Item label="题目">
+          <Form.Item label="题目" required>
             <TextArea html={question.content} setHtml={(content:string)=>handleEdit(question,content)}></TextArea>
           </Form.Item>
 
-          <Radio.Group name="option" onChange={(e)=>console.log(e.target.value)}>
+          <Radio.Group buttonStyle="solid" name="option" onChange={(e)=>console.log(e.target.value)}>
             {
               question.Options.map((item,index)=>(
                 <React.Fragment key={index+1}>
@@ -44,11 +44,7 @@ export const SingleChoice: React.FC = () => {
               ))
             }
           </Radio.Group>
-          <Form.Item>
-            <Button onClick={() => message.success("Success Save!")} htmlType="submit">
-              Save
-            </Button>
-          </Form.Item>
+          <Footer></Footer>
         </Form>
     </>
   )
