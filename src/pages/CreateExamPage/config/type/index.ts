@@ -6,10 +6,18 @@ export interface QuestionItem {
 
 export interface QuestionList {
   id: string
-  type: string //题目类型
+  type: QuestionType //题目类型
   amount: number //题目总数
   isExists: boolean //表示该类型题目是否已经存在
   children: Array<QuestionItem> | []
+}
+
+export enum QuestionType {
+  "single"="single",
+  "multiple"="multiple",
+  "fillBlank"="fillBlank",
+  "shortAnswer"="shortAnswer",
+  "programming"="programming"
 }
 
 export interface CreateExamState {
@@ -19,8 +27,8 @@ export interface CreateExamState {
 }
 
 export type CreateExamPageAction =
-  | { type: 'changeIsExists'; isExists: boolean; listType: string }
-  | { type: 'addQuestionItem'; listType: string; questionItem: QuestionItem }
-  | { type: 'removeQuestionItem'; listType: string; key: number; id: string }
-  | { type: 'removeQuestionList'; listType: string }
+  | { type: 'changeIsExists'; isExists: boolean; listType: QuestionType }
+  | { type: 'addQuestionItem'; listType: QuestionType; questionItem: QuestionItem }
+  | { type: 'removeQuestionItem'; listType: QuestionType; key: number; id: string }
+  | { type: 'removeQuestionList'; listType: QuestionType }
   | { type: 'rearrangeItem' }

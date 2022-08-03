@@ -1,18 +1,20 @@
 import React, { useRef } from 'react'
 import { CreateExamNavWrapper, QuestionItemWrapper } from './CreateExamNavStyle'
-import { Collapse, Button, Modal } from 'antd'
+import { Collapse, Button, Popconfirm } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
 import { QuestionItem, QuestionList } from 'pages/CreateExamPage/config/type'
 import items from 'components/HomePage/HomeNav/config'
+import { useNavigate } from 'react-router-dom'
 const { Panel } = Collapse
 export const CreateExamNav: React.FC<any> = (props) => {
-  const { questionList, dispatch } = props
+  const navigate = useNavigate();
+  const { questionList, dispatch } = props;
   const genExtra = (listType: string) => (
     <DeleteOutlined
       style={{ color: 'grey', fontSize: '13px' }}
       onClick={() => {
-        dispatch({ type: 'removeQuestionList', listType })
-        dispatch({ type: 'changeIsExists', isExists: false, listType })
+        dispatch({ type: 'removeQuestionList', listType });
+        dispatch({ type: 'changeIsExists', isExists: false, listType });
       }}
     />
   )
@@ -22,21 +24,18 @@ export const CreateExamNav: React.FC<any> = (props) => {
         type: 'changeIsExists',
         isExists: false,
         listType: curList.type
-      })
+      });
     }
     dispatch({
       type: 'removeQuestionItem',
       listType: curList.type,
       key: curItem.item_key,
       id: curItem.id
-    })
-    dispatch({ type: 'rearrangeItem' })
+    });
+    dispatch({ type: 'rearrangeItem' });
   }
   return (
     <>
-      {/* <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-        您确定要
-      </Modal> */}
       <CreateExamNavWrapper>
         <Collapse
           bordered={false}
@@ -58,22 +57,20 @@ export const CreateExamNav: React.FC<any> = (props) => {
                   extra={genExtra(item_one.type)}
                 >
                   {item_one.children.map((item_two: any) => (
-                    <QuestionItemWrapper key={item_two.id}>
-                      <Button type="link" style={{ color: 'black' }}>
+                    <QuestionItemWrapper key={item_two.id} onClick={()=>navigate(item_one.type)}>
+                      <Button type="link" style={{ color: 'black' }} >
                         {item_two.item_key}
                       </Button>
                       {/* 删除按钮 */}
-                      <Button
-                        type="link"
-                        style={{ float: 'right' }}
-                        onClick={() => {
-                          removeQuesItem(item_two, item_one)
-                        }}
+                      <Popconfirm title="确认要删除吗"
+                        onConfirm={()=>removeQuesItem(item_two, item_one)}
+                        okText="是"
+                        cancelText="否"
                       >
-                        <DeleteOutlined
-                          style={{ color: 'grey', fontSize: '12px' }}
-                        />
-                      </Button>
+                          <DeleteOutlined
+                            style={{ color: 'grey', fontSize: '18px',float: 'right' }}
+                          />
+                      </Popconfirm>
                     </QuestionItemWrapper>
                   ))}
                 </Panel>
