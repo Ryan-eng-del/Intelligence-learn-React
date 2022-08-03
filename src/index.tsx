@@ -16,18 +16,32 @@ import {
   ClassManaPage,
   KnowledgePage
 } from 'pages/ClassInfoPage/cpn-page'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ChapterInfo } from 'pages/ChapterInfo'
 import { ChapterPreviewFile } from './pages/ChapterInfo'
 import zhCN from 'antd/es/locale/zh_CN'
+import { RequireAuth } from 'util/requireAuth'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
+const queryClient = new QueryClient()
+
 root.render(
-  <React.StrictMode>
+  <QueryClientProvider client={queryClient}>
     <ConfigProvider locale={zhCN}>
+      <ReactQueryDevtools initialIsOpen />
       <Router>
         <Routes>
+          <Route path="login" element={<LoginPage />}></Route>
           <Route path="/" element={<App />}>
-            <Route path="login" element={<LoginPage />}></Route>
-            <Route path="home" element={<HomePage />}>
+            <Route
+              path="home"
+              element={
+                <RequireAuth>
+                  <HomePage />
+                </RequireAuth>
+              }
+            >
               <Route path="class">
                 <Route path="teach" element={<TeachPage />} />
                 <Route path="learn" element={<LearnPage />} />
@@ -39,7 +53,7 @@ root.render(
               <Route path="exam" element={<ExamPage />} />
               <Route path="resource" element={<ResourcePage />} />
               <Route path="discuss" element={<DiscussPage />} />
-              <Route path="classmana" element={<ClassManaPage />}></Route>
+              <Route path="class" element={<ClassManaPage />}></Route>
               <Route path="knowledge" element={<KnowledgePage />}></Route>
             </Route>
             <Route path="chapterinfo" element={<ChapterInfo />}>
@@ -50,10 +64,7 @@ root.render(
         </Routes>
       </Router>
     </ConfigProvider>
-  </React.StrictMode>
+  </QueryClientProvider>
 )
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals()
