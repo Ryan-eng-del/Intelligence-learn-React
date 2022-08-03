@@ -12,7 +12,7 @@ export const Programming: React.FC = () => {
           <TextArea></TextArea>
         </Form.Item>
 
-        <Footer></Footer>
+        {/* <Footer></Footer> */}
       </Form>
     </>
   )

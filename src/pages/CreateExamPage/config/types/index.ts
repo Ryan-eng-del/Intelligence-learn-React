@@ -33,3 +33,9 @@ export type CreateExamPageAction =
   | { type: 'removeQuestionItem'; listType: QuestionType; key: number; id: string }
   | { type: 'removeQuestionList'; listType: QuestionType }
   | { type: 'rearrangeItem' }
+
+
+export type DataAndSetter<T> = {
+  content: T,
+  setContent: (content: T) => void
+}

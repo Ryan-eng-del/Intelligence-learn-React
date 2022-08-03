@@ -2,15 +2,21 @@ import React from 'react'
 // !!!!
 import { CreateExamMenuWrapper } from './CreateExamMenuStyle'
 import { Button } from 'antd'
-import { QuestionList, QuestionType } from 'pages/CreateExamPage/config/type'
+import { QuestionList, QuestionType } from 'pages/CreateExamPage/config/types'
+import {
+  CheckOutlined,
+  CheckCircleOutlined,
+  CheckSquareOutlined,
+
+  EditOutlined,
+  FormOutlined,
+  CodeOutlined
+} from '@ant-design/icons'
+
 export const CreateExamMenu: React.FC<any> = (props) => {
   const { questionList, dispatch } = props
   const addQuestionItem = (listType: QuestionType) => {
-    console.log("addQuestionItem",listType);
-
     questionList.map((item: QuestionList) => {
-      console.log(item.type);
-
       if (item.type == listType) {
         if (item.isExists === false) {
           dispatch({ type: 'changeIsExists', isExists: true, listType })
@@ -27,12 +33,12 @@ export const CreateExamMenu: React.FC<any> = (props) => {
     })
   }
   const QuestionItemList = [
-    {title:"单选题",type:QuestionType.single},
-    {title:"多选题",type:QuestionType.multiple},
-    {title:"填空题",type:QuestionType.fillBlank},
-    {title:"简答题",type:QuestionType.shortAnswer},
-    {title:"编程题",type:QuestionType.programming},
-    {title:"判断题",type:QuestionType.judge},
+    {title:"单选题",icon:<CheckCircleOutlined />,type:QuestionType.single},
+    {title:"多选题",icon:<CheckSquareOutlined />,type:QuestionType.multiple},
+    {title:"填空题",icon:<EditOutlined />,type:QuestionType.fillBlank},
+    {title:"简答题",icon:<FormOutlined />,type:QuestionType.shortAnswer},
+    {title:"编程题",icon:<CodeOutlined />,type:QuestionType.programming},
+    {title:"判断题",icon:<CheckOutlined />,type:QuestionType.judge},
   ]
   return (
     <>
@@ -40,6 +46,7 @@ export const CreateExamMenu: React.FC<any> = (props) => {
         {
           QuestionItemList.map((item, index)=>(
             <Button key={index}
+              icon={item.icon}
               type="primary"
               style={{ marginLeft: '10px' }}
               onClick={() => {

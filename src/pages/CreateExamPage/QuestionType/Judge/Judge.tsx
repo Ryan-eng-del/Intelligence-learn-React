@@ -1,7 +1,6 @@
 import React from 'react'
-import { Form, Button,  Radio, Switch } from 'antd'
+import { Form, Switch } from 'antd'
 import { TextArea } from '../Component/TextArea'
-import { Options } from '../Component/Options'
 import { Footer } from '../Component/Footer'
 
 export const Judge: React.FC = () => {
@@ -11,12 +10,14 @@ export const Judge: React.FC = () => {
         <Form>
 
           <Form.Item label="题目" required>
-            <TextArea></TextArea>
+            <TextArea
+              style={{ height: '300px', overflowY: 'hidden' }}
+            />
           </Form.Item>
           <Form.Item label="TrueOrFalse" required>
             <Switch checkedChildren="正确" unCheckedChildren="错误"/>
           </Form.Item>
-          <Footer></Footer>
+          {/* <Footer></Footer> */}
         </Form>
     </>
   )

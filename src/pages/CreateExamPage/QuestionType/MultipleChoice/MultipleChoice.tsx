@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Form, Button,  Radio } from 'antd'
 import { TextArea } from '../Component/TextArea'
-import { Options } from '../Component/Options'
 import { Footer } from '../Component/Footer'
 
 export const MultipleChoice: React.FC = () => {
@@ -38,13 +37,13 @@ export const MultipleChoice: React.FC = () => {
                     <Radio.Button value={index} style={{borderRadius: "10%", height:"30px", width:"30px"}}>{index}</Radio.Button>
                   </Form.Item>
                   <Form.Item label={`选项${index}`}>
-                    <Options html={item.content} setHtml={(content:string)=>handleEdit(item,content)} />
+                    <TextArea html={item.content} setHtml={(content:string)=>handleEdit(item,content)} />
                   </Form.Item>
                 </React.Fragment>
               ))
             }
           </Radio.Group>
-          <Footer></Footer>
+          {/* <Footer></Footer> */}
         </Form>
     </>
   )

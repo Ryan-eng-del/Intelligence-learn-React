@@ -18,7 +18,7 @@ export const FillBlank: React.FC = () => {
         <Form.Item label="自动打分">
         <Input placeholder="答案" disabled={objective} />
         </Form.Item>
-        <Footer></Footer>
+        {/* <Footer></Footer> */}
       </Form>
     </>
   )

@@ -1,52 +1,27 @@
-import { CreateExamState, CreateExamPageAction, QuestionType } from '../type'
+import { CreateExamState, CreateExamPageAction, QuestionType } from '../types'
+
+//用于生成初始题目容器
+const qlist = [
+  QuestionType.single,
+  QuestionType.multiple,
+  QuestionType.fillBlank,
+  QuestionType.shortAnswer,
+  QuestionType.programming,
+  QuestionType.judge
+]
+
 export const initialState: CreateExamState = {
   id: '',
   List_key: 0,
-  questionList: [
-    {
-      id: 'a1',
-      type: QuestionType.single,
+  questionList: qlist.map((i,index)=>({
+      id:index.toString(),
+      type:i,
       amount: 0,
       isExists: false,
       children: []
-    },
-    {
-      id: 'a2',
-      type: QuestionType.multiple,
-      amount: 0,
-      isExists: false,
-      children: []
-    },
-    {
-      id: 'a3',
-      type: QuestionType.fillBlank,
-      amount: 0,
-      isExists: false,
-      children: []
-    },
-    {
-      id: 'a4',
-      type: QuestionType.shortAnswer,
-      amount: 0,
-      isExists: false,
-      children: []
-    },
-    {
-      id: 'a5',
-      type: QuestionType.programming,
-      amount: 0,
-      isExists: false,
-      children: []
-    },
-    {
-      id: 'a6',
-      type: QuestionType.judge,
-      amount: 0,
-      isExists: false,
-      children: []
-    }
-  ]
+    }))
 }
+
 export const CreateExamPageReducer = (
   state: CreateExamState,
   action: CreateExamPageAction
