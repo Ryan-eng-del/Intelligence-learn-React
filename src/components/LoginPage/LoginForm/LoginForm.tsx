@@ -13,7 +13,7 @@ export const LoginForm: React.FC<{ mutate: any }> = ({ mutate }) => {
     <LoginFormWrapper>
       <LoginTitle>
         <p className="title-login">
-          Login In <div className="border-login"></div>
+          Login In
         </p>
       </LoginTitle>
       <Input

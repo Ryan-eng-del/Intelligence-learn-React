@@ -1,39 +1,39 @@
-import type { CreateExamState, CreateExamPageAction } from '../type'
+import { CreateExamState, CreateExamPageAction, QuestionType } from '../type'
 export const initialState: CreateExamState = {
   id: '',
   List_key: 0,
   questionList: [
     {
       id: 'a1',
-      type: '单选题',
+      type: QuestionType.single,
       amount: 0,
       isExists: false,
       children: []
     },
     {
       id: 'a2',
-      type: '多选题',
+      type: QuestionType.multiple,
       amount: 0,
       isExists: false,
       children: []
     },
     {
       id: 'a3',
-      type: '填空题',
+      type: QuestionType.fillBlank,
       amount: 0,
       isExists: false,
       children: []
     },
     {
       id: 'a4',
-      type: '简答题',
+      type: QuestionType.shortAnswer,
       amount: 0,
       isExists: false,
       children: []
     },
     {
       id: 'a5',
-      type: '编程题',
+      type: QuestionType.programming,
       amount: 0,
       isExists: false,
       children: []
