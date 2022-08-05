@@ -1,10 +1,10 @@
 import React from 'react'
 import { CreateExamHeaderWrapper } from './CreateExamHeaderStyle'
 import { Button, Form, Input, Checkbox } from 'antd'
-import { useNavigate } from 'react-router-dom'
-export const CreateExamHeader: React.FC<any> = (props) => {
-  const { state, dispatch } = props
-  const navigate = useNavigate()
+// import { useNavigate } from 'react-router-dom'
+export const CreateExamHeader: React.FC<any> = (/*props*/) => {
+  // const { state, dispatch } = props
+  // const navigate = useNavigate()
   return (
     <CreateExamHeaderWrapper>
         <Form

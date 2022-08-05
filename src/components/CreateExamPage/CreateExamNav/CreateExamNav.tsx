@@ -1,9 +1,8 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { CreateExamNavWrapper, QuestionItemWrapper } from './CreateExamNavStyle'
 import { Collapse, Button, Popconfirm } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
 import { QuestionItem, QuestionList } from 'pages/CreateExamPage/config/types'
-import items from 'components/HomePage/HomeNav/config'
 import { useNavigate } from 'react-router-dom'
 const { Panel } = Collapse
 export const CreateExamNav: React.FC<any> = (props) => {

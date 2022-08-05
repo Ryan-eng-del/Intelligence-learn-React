@@ -4,11 +4,13 @@ import {
   EyeInvisibleOutlined,
   EyeTwoTone,
   UserOutlined,
-  CompassOutlined
+  CompassOutlined,
+  CheckOutlined,
+  ArrowRightOutlined
 } from '@ant-design/icons'
 import { LoginFormWrapper, LoginTitle, ButtonWrapper } from './LoginFormStyle'
 
-export const LoginForm: React.FC<{ mutate: any }> = ({ mutate }) => {
+export const LoginForm: React.FC<{ mutate: any, routeToRegister: ()=>void }> = ({ mutate, routeToRegister }) => {
   return (
     <LoginFormWrapper>
       <LoginTitle>
@@ -36,10 +38,15 @@ export const LoginForm: React.FC<{ mutate: any }> = ({ mutate }) => {
           onClick={() => {
             mutate({ name: 'jk', password: 'jjk' })
           }}
+          icon={<CheckOutlined />}
         >
           登录
         </Button>
-        <Button type="primary">注册</Button>
+        <Button
+          type="primary"
+          onClick={routeToRegister}
+          icon={<ArrowRightOutlined />}
+        >前往注册</Button>
       </ButtonWrapper>
     </LoginFormWrapper>
   )

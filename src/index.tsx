@@ -29,7 +29,6 @@ import { SingleChoice, MultipleChoice, FillBlank, ShortAnswer, Programming, Judg
 
 // util
 import { RequireAuth } from 'util/requireAuth'
-import { QuestionType } from 'pages/CreateExamPage/config/types'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient()

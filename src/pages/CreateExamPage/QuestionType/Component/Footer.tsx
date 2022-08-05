@@ -1,6 +1,6 @@
 import React from 'react'
-import { Form, Rate, Button, message, Tag} from 'antd'
-import { TextArea } from './TextArea';
+import { Form, Rate, Button, message, Tag } from 'antd'
+import { TextArea } from '../Component/TextArea'
 
 type FooterType = {
   data: {
@@ -15,7 +15,7 @@ type FooterType = {
   })=>void
 }
 
-export const Footer = (props: FooterType) => {
+export const Footer: React.FC<FooterType> = (props: FooterType) => {
   const { data, setter } = props
 
   const RandomInt = () => Math.floor(Math.random() * 1e9)
