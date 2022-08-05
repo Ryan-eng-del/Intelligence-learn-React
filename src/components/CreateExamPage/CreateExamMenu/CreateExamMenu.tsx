@@ -1,5 +1,4 @@
 import React from 'react'
-// !!!!
 import { CreateExamMenuWrapper } from './CreateExamMenuStyle'
 import { Button } from 'antd'
 import { QuestionList } from 'pages/CreateExamPage/config/type'
