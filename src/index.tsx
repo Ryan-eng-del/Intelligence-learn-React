@@ -25,12 +25,16 @@ import {
   KnowledgePage
 } from 'pages/ClassInfoPage'
 import { ChapterInfo, ChapterPreviewFile } from 'pages/ChapterInfo'
-import { SingleChoice, MultipleChoice, FillBlank, ShortAnswer, Programming } from 'pages/CreateExamPage'
+import {
+  SingleChoice,
+  MultipleChoice,
+  FillBlank,
+  ShortAnswer,
+  Programming
+} from 'pages/CreateExamPage'
 
 // util
 import { RequireAuth } from 'util/requireAuth'
-
-
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient()
@@ -69,7 +73,7 @@ root.render(
               {/* ChapterID */}
             </Route>
             <Route path="study" element={<ChapterPreviewFile />} />
-            <Route path="createexam" element={<CreateExamPage />} >
+            <Route path="createexam" element={<CreateExamPage />}>
               <Route path="single" element={<SingleChoice />} />
               <Route path="multiple" element={<MultipleChoice />} />
               <Route path="fillBlank" element={<FillBlank />} />

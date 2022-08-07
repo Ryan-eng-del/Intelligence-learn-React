@@ -1,5 +1,4 @@
-import items from 'components/HomePage/HomeNav/config'
-import React, { useState } from 'react'
+import React from 'react'
 import { ResourceListItem } from './ResourceListItem'
 
 type selfProps = {
