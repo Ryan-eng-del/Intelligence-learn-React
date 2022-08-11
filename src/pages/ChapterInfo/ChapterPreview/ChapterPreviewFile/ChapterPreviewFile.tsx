@@ -8,11 +8,11 @@ export const ChapterPreviewFile: React.FC = () => {
   return (
     <>
       <ChapterPreviewFileWrapper>
-      <PageHeader
-        onBack={() => navigator(-1)}
-        title="Introduction to Graph Theory"
-        subTitle="This is a subtitle"
-      />
+        <PageHeader
+          onBack={() => navigator(-1)}
+          title="Introduction to Graph Theory"
+          subTitle="This is a subtitle"
+        />
         <embed
           type="application/pdf"
           title="Embedded PDF"
