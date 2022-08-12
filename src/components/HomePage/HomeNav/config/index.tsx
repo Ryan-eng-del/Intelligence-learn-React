@@ -34,6 +34,6 @@ const items: MenuItem[] = [
   ]),
   getItem(<Link to={'class/inbox'}>消息中心</Link>, '3', <BellOutlined />),
   getItem('我的考试', '4', <ContainerOutlined />),
-  getItem('个人中心', '5', <UserOutlined />)
+  getItem(<Link to={'class/profile'}>个人中心</Link>, '5', <UserOutlined />)
 ]
 export default items

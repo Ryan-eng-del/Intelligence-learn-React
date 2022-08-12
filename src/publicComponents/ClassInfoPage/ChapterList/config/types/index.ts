@@ -14,3 +14,21 @@ export type ListItem = {
 // type DivLine = {
 //   tag: string
 // }
+
+
+
+// ChapterFolder
+export type ChapterFolderType = {
+  chapterId: string,
+  name: string,
+  chapterOrder?: number,
+  courseId?: string,  //可能弃用
+  childChapters: ChapterFolderType[]  // 子文件夹
+  courTimes?: ChapterCourTimesType[]
+}
+
+export type ChapterCourTimesType = {
+    taskId: string,
+    name: string,
+    tag: string
+  }

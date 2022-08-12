@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
-import { Input, Button, message } from 'antd'
+import { Input, Button, message, AutoComplete } from 'antd'
 import {
   EyeInvisibleOutlined,
   EyeTwoTone,
   UserOutlined,
-  AuditOutlined,
+  LockOutlined,
   VerifiedOutlined,
   MailOutlined,
   BarcodeOutlined,
   ArrowLeftOutlined,
   CheckCircleOutlined,
-  LoadingOutlined
+  LoadingOutlined,
+  BankOutlined
 } from '@ant-design/icons'
 import { RegisterFormWrapper, RegisterTitle, ButtonWrapper } from './RegisterFormStyle'
 import { InputStatus } from 'antd/lib/_util/statusUtils'
@@ -29,6 +30,14 @@ export const RegisterForm: React.FC<{ routeToLoginIn: ()=>void }> =
     email:"",
     verification:""
   }
+  const options = [   //高频获取数据
+    { value: '广东技术师范大学', alias:["GPNU","厂技师"] },
+    { value: '广东医科大学' },
+    { value: '清华大学' },
+    { value: '广东轻工业技术学院', alias:["小清华"] },
+    { value: '广东工业大学' },
+  ];
+  const [school,setSchool] = useState("") //输入的学校名字
   const [comfirmIcon,setComfirmIcon] = useState(<CheckCircleOutlined />)
   const [inputStatus,setInputStatus] =
     useState<SetObjectTypeTo<typeof init,InputStatus>>({
@@ -42,21 +51,23 @@ export const RegisterForm: React.FC<{ routeToLoginIn: ()=>void }> =
   const [inputValue,setInputValue] = useState(init)
 
   const vertify = (): void => {
+    options.filter((item)=>item.value == school).length === 0
+    ? message.error("未认证的企业") : message.success("企业认证成功")
     const newStatus = {...inputStatus};
     if(inputValue.userName.length < 2 || inputStatus.userName.length > 10) {
-      message.error("用户名长度必须在2-10之间");
+      message.error("用户名长度必须在2-10之间");  // 前端校验 后端校验
       newStatus.userName = "error"
     } else if(inputValue.password.length < 8 || inputStatus.password.length > 16) {
-      message.error("密码长度必须在8-16之间");
+      message.error("密码长度必须在8-16之间");  // 前端校验 后端校验
       newStatus.password = "error"
     } else if(inputValue.password != inputValue.confirmPW) {
-      message.error("两次密码不一致");
+      message.error("两次密码不一致");  // 前端校验 后端校验
       newStatus.confirmPW = "error"
     } else if(!EmailRegex.test(inputValue.email)) {
-      message.error("非法邮箱格式");
+      message.error("非法邮箱格式");  // 前端校验
       newStatus.email = "error"
     } else if(inputValue.verification != "") {
-      message.error("验证码错误");
+      message.error("验证码错误");  //       后端校验
       newStatus.verification = "error"
     } else {
       setComfirmIcon(<LoadingOutlined />)
@@ -69,6 +80,21 @@ export const RegisterForm: React.FC<{ routeToLoginIn: ()=>void }> =
       message.warning("还没做好呢");
     },2000)
   }
+
+  const filterOption = (inputValue: string, option: {value:string,alias?:Array<string>} | undefined) => {
+    if(option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1) {// 忽略大小写
+      return true;
+    } else {  // 匹配别名
+      let match = false
+      option!.alias?.forEach((i)=>{
+        i.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1 ? match = true : 0
+      })
+      return match;
+    }
+
+
+  }
+
   return (
     <RegisterFormWrapper>
       <RegisterTitle>
@@ -76,6 +102,21 @@ export const RegisterForm: React.FC<{ routeToLoginIn: ()=>void }> =
           Register
         </p>
       </RegisterTitle>
+      <AutoComplete
+        defaultActiveFirstOption
+        options={options}
+        filterOption={filterOption}
+        onChange={(value)=>setSchool(value)}
+      >
+        <Input
+          value={school}
+          onChange={({target})=>setSchool(target.value)}
+          size="large"
+          placeholder="学校或企业"
+          prefix={<BankOutlined />}
+          style={{ width: "444px" }}
+        />
+      </AutoComplete>
       <Input
         status={inputStatus.userName}
         value={inputValue.userName}
@@ -83,14 +124,14 @@ export const RegisterForm: React.FC<{ routeToLoginIn: ()=>void }> =
         size="large"
         placeholder="用户名"
         prefix={<UserOutlined />}
-        style={{ marginBottom: '20px' }}
+        style={{ marginBottom: '20px', marginTop: '20px' }}
       />
       <Input.Password
         status={inputStatus.password}
         value={inputValue.password}
         onChange={({target})=>setInputValue({...inputValue,password:target.value})}
         placeholder="请您输入密码"
-        prefix={<AuditOutlined />}
+        prefix={<LockOutlined />}
         iconRender={(visible) =>
           visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
         }
