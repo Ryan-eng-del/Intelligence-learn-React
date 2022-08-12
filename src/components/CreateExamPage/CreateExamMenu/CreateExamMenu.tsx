@@ -33,11 +33,12 @@ export const CreateExamMenu: React.FC<any> = (props) => {
     })
   }
   const QuestionItemList = [
-    { title: '单选题', type: QuestionType.single },
-    { title: '多选题', type: QuestionType.multiple },
-    { title: '填空题', type: QuestionType.fillBlank },
-    { title: '简答题', type: QuestionType.shortAnswer },
-    { title: '编程题', type: QuestionType.programming }
+    {title:"单选题",icon:<CheckCircleOutlined />,type:QuestionType.single},
+    {title:"多选题",icon:<CheckSquareOutlined />,type:QuestionType.multiple},
+    {title:"填空题",icon:<EditOutlined />,type:QuestionType.fillBlank},
+    {title:"简答题",icon:<FormOutlined />,type:QuestionType.shortAnswer},
+    {title:"编程题",icon:<CodeOutlined />,type:QuestionType.programming},
+    {title:"判断题",icon:<CheckOutlined />,type:QuestionType.judge},
   ]
   return (
     <>

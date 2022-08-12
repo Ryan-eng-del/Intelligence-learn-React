@@ -9,6 +9,7 @@ import { ChapterFolderWrapper } from './ChapterFolderStyle'
 export const ChapterFolder = (props: { data: ChapterFolderType[] }) => {
   const { data } = props
   const [hover, setHover] = useState(false)
+  console.log("flod",data);
 
   return (
     <ChapterFolderWrapper>
