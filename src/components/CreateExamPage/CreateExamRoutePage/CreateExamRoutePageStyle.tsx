@@ -3,7 +3,10 @@ import { RightSideWrapper } from 'publicComponents/PageStyle/TwoColumnLayout/ind
 export const CreateExamRoutePageWrapper = styled(RightSideWrapper)`
   background-color: white;
   margin-left: 10px;
-  height: 440px;
+  height: 90vh;
   padding: 40px;
   border-radius: 5px;
+  overflow-y: overlay;
+  overflow: auto;
+  margin-bottom: 50px;
 `

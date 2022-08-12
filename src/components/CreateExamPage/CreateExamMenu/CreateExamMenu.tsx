@@ -2,10 +2,19 @@ import React from 'react'
 // !!!!
 import { CreateExamMenuWrapper } from './CreateExamMenuStyle'
 import { Button } from 'antd'
-import { QuestionList, QuestionType } from 'pages/CreateExamPage/config/type'
+import { QuestionList, QuestionType } from 'pages/CreateExamPage/config/types'
+import {
+  CheckOutlined,
+  CheckCircleOutlined,
+  CheckSquareOutlined,
+  EditOutlined,
+  FormOutlined,
+  CodeOutlined
+} from '@ant-design/icons'
+
 export const CreateExamMenu: React.FC<any> = (props) => {
   const { questionList, dispatch } = props
-  console.log(questionList)
+  console.log(questionList);
   const addQuestionItem = (listType: QuestionType) => {
     questionList.map((item: QuestionList) => {
       if (item.type == listType) {
@@ -36,6 +45,7 @@ export const CreateExamMenu: React.FC<any> = (props) => {
         {QuestionItemList.map((item, index) => (
           <Button
             key={index}
+            icon={item.icon}
             type="primary"
             style={{ marginLeft: '10px' }}
             onClick={() => {

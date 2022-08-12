@@ -17,7 +17,8 @@ export enum QuestionType {
   'multiple' = 'multiple',
   'fillBlank' = 'fillBlank',
   'shortAnswer' = 'shortAnswer',
-  'programming' = 'programming'
+  'programming' = 'programming',
+  'judge' = 'judge'
 }
 
 export interface CreateExamState {
@@ -41,3 +42,8 @@ export type CreateExamPageAction =
     }
   | { type: 'removeQuestionList'; listType: QuestionType }
   | { type: 'rearrangeItem' }
+
+export type DataAndSetter<T> = {
+  content: T
+  setContent: (content: T) => void
+}

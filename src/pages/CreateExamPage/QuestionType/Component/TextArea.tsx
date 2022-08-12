@@ -2,21 +2,45 @@ import React, { useState, useEffect } from 'react'
 import { Editor, Toolbar } from '@wangeditor/editor-for-react'
 import { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor'
 
-export const Options: React.FC<any> = (props) => {
-  const { html, setHtml } = props
+export const TextArea: React.FC<any> = (props: {
+  content: string
+  setContent: (content: string) => void
+  style?: object
+}) => {
   // editor 实例
   const [editor, setEditor] = useState<IDomEditor | null>(null)
-  // 编辑器内容
   const [foucs, setFouce] = useState(false)
+  const { content, setContent, style } = props
 
   // 工具栏配置
   const toolbarConfig: Partial<IToolbarConfig> = {
-    excludeKeys: ['']
+    insertKeys: {
+      index: 0,
+      keys: [
+        'insertFormula' // “插入公式”菜单
+      ]
+    },
+    excludeKeys: [
+      //禁用工具
+      'blockquote', //引用
+      'color', //字体颜色
+      'bgColor', //字体背景要是
+      'fontFamily', //字体
+      'lineHeight', //行距
+      'bulletedList', //有序列表
+      'numberedList', //无序列表
+      'todo', //代表列表
+      'emotion' //emoji
+    ]
   }
 
   // 编辑器配置
   const editorConfig: Partial<IEditorConfig> = {
-    placeholder: '请输入内容...'
+    hoverbarKeys: {
+      formula: {
+        menuKeys: ['editFormula'] // “编辑公式”菜单
+      }
+    }
   }
 
   // 及时销毁 editor ，重要！
@@ -27,6 +51,7 @@ export const Options: React.FC<any> = (props) => {
       setEditor(null)
     }
   }, [editor])
+
   return (
     <>
       <div
@@ -39,18 +64,18 @@ export const Options: React.FC<any> = (props) => {
             editor={editor}
             defaultConfig={toolbarConfig}
             mode="default"
-            style={{ borderBottom: '1px solid #ccc' }}
+            style={{ zIndex: 1, borderBottom: '1px solid #ccc' }}
           />
         ) : (
           <></>
         )}
         <Editor
           defaultConfig={editorConfig}
-          value={html}
+          value={content}
           onCreated={setEditor}
-          onChange={(editor) => setHtml(editor.getHtml())}
+          onChange={(editor) => setContent(editor.getHtml())}
           mode="default"
-          style={{ height: '50px', overflowY: 'hidden', minWidth: '1100px' }}
+          style={style}
         />
       </div>
       {/* 预览效果 */}
@@ -59,4 +84,9 @@ export const Options: React.FC<any> = (props) => {
       </div> */}
     </>
   )
+}
+
+//  调试行： 调整工具栏时将此行复制到页面内查看工具名称
+{
+  /* <Button onClick={()=>console.log(DomEditor.getToolbar(editor as IDomEditor)?.getConfig())}>2333</Button> */
 }

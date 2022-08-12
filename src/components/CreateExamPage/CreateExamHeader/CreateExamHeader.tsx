@@ -54,12 +54,6 @@ export const CreateExamHeader: React.FC<any> = (props) => {
           </Button>
         </Form.Item>
       </Form>
-      <Button
-        style={{ float: 'right' }}
-        onClick={() => navigate('/classinfo/exam', { state })}
-      >
-        保存
-      </Button>
     </CreateExamHeaderWrapper>
   )
 }

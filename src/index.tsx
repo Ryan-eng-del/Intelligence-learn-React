@@ -15,7 +15,12 @@ import zhCN from 'antd/es/locale/zh_CN'
 
 // pages
 import { ClassInfoPage, HomePage, LoginPage, CreateExamPage } from 'pages'
-import { LearnPage, TeachPage, InboxPage } from 'pages/HomePage/cpn-page'
+import {
+  LearnPage,
+  TeachPage,
+  InboxPage,
+  ProfilePage
+} from 'pages/HomePage/cpn-page'
 import {
   ChapterPage,
   ResourcePage,
@@ -30,7 +35,8 @@ import {
   MultipleChoice,
   FillBlank,
   ShortAnswer,
-  Programming
+  Programming,
+  Judge
 } from 'pages/CreateExamPage'
 
 // util
@@ -59,6 +65,7 @@ root.render(
                 <Route path="teach" element={<TeachPage />} />
                 <Route path="learn" element={<LearnPage />} />
                 <Route path="inbox" element={<InboxPage />} />
+                <Route path="profile" element={<ProfilePage />} />
               </Route>
             </Route>
             <Route path="classinfo" element={<ClassInfoPage />}>
@@ -79,6 +86,7 @@ root.render(
               <Route path="fillBlank" element={<FillBlank />} />
               <Route path="shortanswer" element={<ShortAnswer />} />
               <Route path="programming" element={<Programming />} />
+              <Route path="judge" element={<Judge />} />
             </Route>
           </Route>
         </Routes>
