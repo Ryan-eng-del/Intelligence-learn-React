@@ -7,7 +7,6 @@ import {
   CheckOutlined,
   CheckCircleOutlined,
   CheckSquareOutlined,
-
   EditOutlined,
   FormOutlined,
   CodeOutlined
@@ -33,30 +32,37 @@ export const CreateExamMenu: React.FC<any> = (props) => {
     })
   }
   const QuestionItemList = [
-    {title:"单选题",icon:<CheckCircleOutlined />,type:QuestionType.single},
-    {title:"多选题",icon:<CheckSquareOutlined />,type:QuestionType.multiple},
-    {title:"填空题",icon:<EditOutlined />,type:QuestionType.fillBlank},
-    {title:"简答题",icon:<FormOutlined />,type:QuestionType.shortAnswer},
-    {title:"编程题",icon:<CodeOutlined />,type:QuestionType.programming},
-    {title:"判断题",icon:<CheckOutlined />,type:QuestionType.judge},
+    {
+      title: '单选题',
+      icon: <CheckCircleOutlined />,
+      type: QuestionType.single
+    },
+    {
+      title: '多选题',
+      icon: <CheckSquareOutlined />,
+      type: QuestionType.multiple
+    },
+    { title: '填空题', icon: <EditOutlined />, type: QuestionType.fillBlank },
+    { title: '简答题', icon: <FormOutlined />, type: QuestionType.shortAnswer },
+    { title: '编程题', icon: <CodeOutlined />, type: QuestionType.programming },
+    { title: '判断题', icon: <CheckOutlined />, type: QuestionType.judge }
   ]
   return (
     <>
       <CreateExamMenuWrapper>
-        {
-          QuestionItemList.map((item, index)=>(
-            <Button key={index}
-              icon={item.icon}
-              type="primary"
-              style={{ marginLeft: '10px' }}
-              onClick={() => {
-                addQuestionItem(item.type)
-              }}
-            >
-              {item.title}
-            </Button>
-          ))
-        }
+        {QuestionItemList.map((item, index) => (
+          <Button
+            key={index}
+            icon={item.icon}
+            type="primary"
+            style={{ marginLeft: '10px' }}
+            onClick={() => {
+              addQuestionItem(item.type)
+            }}
+          >
+            {item.title}
+          </Button>
+        ))}
       </CreateExamMenuWrapper>
     </>
   )

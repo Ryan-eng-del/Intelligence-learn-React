@@ -15,7 +15,12 @@ import zhCN from 'antd/es/locale/zh_CN'
 
 // pages
 import { ClassInfoPage, HomePage, LoginPage, CreateExamPage } from 'pages'
-import { LearnPage, TeachPage, InboxPage, ProfilePage } from 'pages/HomePage/cpn-page'
+import {
+  LearnPage,
+  TeachPage,
+  InboxPage,
+  ProfilePage
+} from 'pages/HomePage/cpn-page'
 import {
   ChapterPage,
   ResourcePage,
@@ -25,7 +30,14 @@ import {
   KnowledgePage
 } from 'pages/ClassInfoPage'
 import { ChapterInfo, ChapterPreviewFile } from 'pages/ChapterInfo'
-import { SingleChoice, MultipleChoice, FillBlank, ShortAnswer, Programming, Judge } from 'pages/CreateExamPage'
+import {
+  SingleChoice,
+  MultipleChoice,
+  FillBlank,
+  ShortAnswer,
+  Programming,
+  Judge
+} from 'pages/CreateExamPage'
 
 // util
 import { RequireAuth } from 'util/requireAuth'
@@ -68,7 +80,7 @@ root.render(
               {/* ChapterID */}
             </Route>
             <Route path="study" element={<ChapterPreviewFile />} />
-            <Route path="createexam" element={<CreateExamPage />} >
+            <Route path="createexam" element={<CreateExamPage />}>
               <Route path="single" element={<SingleChoice />} />
               <Route path="multiple" element={<MultipleChoice />} />
               <Route path="fillBlank" element={<FillBlank />} />

@@ -7,16 +7,23 @@ export const CreateExamHeader: React.FC<any> = (/*props*/) => {
   // const navigate = useNavigate()
   return (
     <CreateExamHeaderWrapper>
-        <Form
+      <Form
         name="basic"
         labelCol={{ span: 2 }}
         wrapperCol={{ span: 4 }}
-        initialValues={{/* 初始值 */}}
-        onFinish={()=>{console.log()}}
-        onFinishFailed={()=>{console.log()}}
+        initialValues={
+          {
+            /* 初始值 */
+          }
+        }
+        onFinish={() => {
+          console.log()
+        }}
+        onFinishFailed={() => {
+          console.log()
+        }}
         autoComplete="off"
       >
-
         <Form.Item
           label="试卷名字"
           name="examname"
@@ -25,11 +32,19 @@ export const CreateExamHeader: React.FC<any> = (/*props*/) => {
           <Input />
         </Form.Item>
 
-        <Form.Item name="displayScore" valuePropName="checked" wrapperCol={{ offset: 2, span: 16 }}>
+        <Form.Item
+          name="displayScore"
+          valuePropName="checked"
+          wrapperCol={{ offset: 2, span: 16 }}
+        >
           <Checkbox>完成后允许查看分数</Checkbox>
         </Form.Item>
 
-        <Form.Item name="shuffle" valuePropName="checked" wrapperCol={{ offset: 2, span: 16 }}>
+        <Form.Item
+          name="shuffle"
+          valuePropName="checked"
+          wrapperCol={{ offset: 2, span: 16 }}
+        >
           <Checkbox>打乱选项顺序</Checkbox>
         </Form.Item>
 

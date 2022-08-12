@@ -4,15 +4,15 @@ import { TextArea } from '../Component/TextArea'
 
 type FooterType = {
   data: {
-    explanation: string,
-    rate: number,
+    explanation: string
+    rate: number
     knowledge: Array<string>
-  },
-  setter:(obj:{
-    explanation: string,
-    rate: number,
+  }
+  setter: (obj: {
+    explanation: string
+    rate: number
     knowledge: Array<string>
-  })=>void
+  }) => void
 }
 
 export const Footer: React.FC<FooterType> = (props: FooterType) => {
@@ -20,12 +20,12 @@ export const Footer: React.FC<FooterType> = (props: FooterType) => {
 
   const RandomInt = () => Math.floor(Math.random() * 1e9)
   const handleRelate = () => {
-    message.error("假装弹出了Modal")
-    const newNode = [`知识${RandomInt()}`];
-    setter({...data,knowledge:[...data.knowledge,...newNode]})
+    message.error('假装弹出了Modal')
+    const newNode = [`知识${RandomInt()}`]
+    setter({ ...data, knowledge: [...data.knowledge, ...newNode] })
   }
-  const closeTag = (item:any) => {
-    setter({...data,knowledge:[...data.knowledge.filter(i=>i!=item)]})
+  const closeTag = (item: any) => {
+    setter({ ...data, knowledge: [...data.knowledge.filter((i) => i != item)] })
   }
   return (
     <>
@@ -34,31 +34,34 @@ export const Footer: React.FC<FooterType> = (props: FooterType) => {
         <TextArea
           style={{ height: '300px', overflowY: 'hidden' }}
           content={data.explanation}
-          setContent={(c:string) => setter({...data,explanation:c})
-          } />
+          setContent={(c: string) => setter({ ...data, explanation: c })}
+        />
       </Form.Item>
       <Form.Item label="难易度">
-        <Rate value={data.rate} onChange={r => setter({...data,rate:r})}/>
+        <Rate
+          value={data.rate}
+          onChange={(r) => setter({ ...data, rate: r })}
+        />
       </Form.Item>
       <Form.Item label="知识点">
-        <Button onClick={handleRelate} >
-          关联知识点
-        </Button>
+        <Button onClick={handleRelate}>关联知识点</Button>
       </Form.Item>
-      {
-        data.knowledge.map((item)=>(
-          <Tag closable key={RandomInt()} onClose={()=>closeTag(item)}>{item}</Tag>
-        ))
-      }
+      {data.knowledge.map((item) => (
+        <Tag closable key={RandomInt()} onClose={() => closeTag(item)}>
+          {item}
+        </Tag>
+      ))}
       <Form.Item>
-        <Button onClick={() => message.success("Success Save!")} size="large"
-          htmlType="submit" style={{float:"right"}} type="primary">
+        <Button
+          onClick={() => message.success('Success Save!')}
+          size="large"
+          htmlType="submit"
+          style={{ float: 'right' }}
+          type="primary"
+        >
           Save
         </Button>
       </Form.Item>
-
     </>
   )
 }
-
-

@@ -7,7 +7,7 @@ import { BaseSpin } from 'baseUI/BaseSpin/BaseSpin'
 
 export const LoginPage: React.FC = () => {
   const { mutate, isLoading } = useToken('jk', 'Jk')
-  const [loginIn,setLoginIn] = useState(true);
+  const [loginIn, setLoginIn] = useState(true)
 
   if (isLoading) return <BaseSpin title="正在登录中……"></BaseSpin>
 
@@ -21,11 +21,11 @@ export const LoginPage: React.FC = () => {
         />
       </AvatarWrapper>
       <LoginIntro />
-      {
-        loginIn
-        ? <LoginForm mutate={mutate} routeToRegister={()=>setLoginIn(false)}/>
-        : <RegisterForm routeToLoginIn={()=>setLoginIn(true)}></RegisterForm>
-      }
+      {loginIn ? (
+        <LoginForm mutate={mutate} routeToRegister={() => setLoginIn(false)} />
+      ) : (
+        <RegisterForm routeToLoginIn={() => setLoginIn(true)}></RegisterForm>
+      )}
     </LoginPageWrapper>
   )
 }

@@ -13,12 +13,12 @@ export interface QuestionList {
 }
 
 export enum QuestionType {
-  "single"="single",
-  "multiple"="multiple",
-  "fillBlank"="fillBlank",
-  "shortAnswer"="shortAnswer",
-  "programming"="programming",
-  "judge"="judge"
+  'single' = 'single',
+  'multiple' = 'multiple',
+  'fillBlank' = 'fillBlank',
+  'shortAnswer' = 'shortAnswer',
+  'programming' = 'programming',
+  'judge' = 'judge'
 }
 
 export interface CreateExamState {
@@ -29,13 +29,21 @@ export interface CreateExamState {
 
 export type CreateExamPageAction =
   | { type: 'changeIsExists'; isExists: boolean; listType: QuestionType }
-  | { type: 'addQuestionItem'; listType: QuestionType; questionItem: QuestionItem }
-  | { type: 'removeQuestionItem'; listType: QuestionType; key: number; id: string }
+  | {
+      type: 'addQuestionItem'
+      listType: QuestionType
+      questionItem: QuestionItem
+    }
+  | {
+      type: 'removeQuestionItem'
+      listType: QuestionType
+      key: number
+      id: string
+    }
   | { type: 'removeQuestionList'; listType: QuestionType }
   | { type: 'rearrangeItem' }
 
-
 export type DataAndSetter<T> = {
-  content: T,
+  content: T
   setContent: (content: T) => void
 }

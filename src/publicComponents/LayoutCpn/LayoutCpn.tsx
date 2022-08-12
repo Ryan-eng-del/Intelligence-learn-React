@@ -1,8 +1,9 @@
 import React from 'react'
 import { Col, Row } from 'antd'
-export const LayoutCpn: React.FC<{ layoutLeft: React.FC; layoutRight: React.FC }> = (
-  props
-) => {
+export const LayoutCpn: React.FC<{
+  layoutLeft: React.FC
+  layoutRight: React.FC
+}> = (props) => {
   return (
     <Row gutter={100} style={{ width: '100%', margin: 0 }}>
       <Col span={5}>

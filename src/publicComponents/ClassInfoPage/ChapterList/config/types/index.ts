@@ -15,20 +15,18 @@ export type ListItem = {
 //   tag: string
 // }
 
-
-
 // ChapterFolder
 export type ChapterFolderType = {
-  chapterId: string,
-  name: string,
-  chapterOrder?: number,
-  courseId?: string,  //可能弃用
-  childChapters: ChapterFolderType[]  // 子文件夹
+  chapterId: string
+  name: string
+  chapterOrder?: number
+  courseId?: string //可能弃用
+  childChapters: ChapterFolderType[] // 子文件夹
   courTimes?: ChapterCourTimesType[]
 }
 
 export type ChapterCourTimesType = {
-    taskId: string,
-    name: string,
-    tag: string
-  }
+  taskId: string
+  name: string
+  tag: string
+}

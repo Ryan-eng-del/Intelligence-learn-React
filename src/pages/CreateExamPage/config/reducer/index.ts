@@ -13,13 +13,13 @@ const qlist = [
 export const initialState: CreateExamState = {
   id: '',
   List_key: 0,
-  questionList: qlist.map((i,index)=>({
-      id:index.toString(),
-      type:i,
-      amount: 0,
-      isExists: false,
-      children: []
-    }))
+  questionList: qlist.map((i, index) => ({
+    id: index.toString(),
+    type: i,
+    amount: 0,
+    isExists: false,
+    children: []
+  }))
 }
 
 export const CreateExamPageReducer = (

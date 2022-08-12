@@ -10,13 +10,14 @@ import {
 } from '@ant-design/icons'
 import { LoginFormWrapper, LoginTitle, ButtonWrapper } from './LoginFormStyle'
 
-export const LoginForm: React.FC<{ mutate: any, routeToRegister: ()=>void }> = ({ mutate, routeToRegister }) => {
+export const LoginForm: React.FC<{
+  mutate: any
+  routeToRegister: () => void
+}> = ({ mutate, routeToRegister }) => {
   return (
     <LoginFormWrapper>
       <LoginTitle>
-        <p className="title-login">
-          Login In
-        </p>
+        <p className="title-login">Login In</p>
       </LoginTitle>
       <Input
         size="large"
@@ -46,7 +47,9 @@ export const LoginForm: React.FC<{ mutate: any, routeToRegister: ()=>void }> = (
           type="primary"
           onClick={routeToRegister}
           icon={<ArrowRightOutlined />}
-        >前往注册</Button>
+        >
+          前往注册
+        </Button>
       </ButtonWrapper>
     </LoginFormWrapper>
   )
