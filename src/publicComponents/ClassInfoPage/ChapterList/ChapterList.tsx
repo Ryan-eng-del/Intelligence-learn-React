@@ -13,12 +13,29 @@ import { Button } from 'antd'
 
 export const ChapterList: React.FC = () => {
   const location: any = useLocation()
-  const [modalVisable,setModalVisable] = useState(false)
+  const [modalVisable, setModalVisable] = useState(false)
   // TODO: 👇此处存在问题，只有从课程页面点进来才带参数，从其他菜单切入会获取不到
   // 应该传入到classinfo然后作为props传到这个组件
-  const courseId = location.state?.id || "2333";
+  const courseId = location.state?.id || '2333'
   const { data, isLoading } = useChapterList(courseId)
-  console.log("ChapterList",data);
+  console.log('ChapterList', data)
+
+  // 根目录的添加控制
+  let ChildAddFolder: () => void
+  const HandleChildFn = (fun: () => void) => {
+    ChildAddFolder = fun
+  }
+  const InvokeChildAddFolder = () => {
+    ChildAddFolder()
+  }
+
+  // modal控制
+  const openModal = (loc: ChapterFolderType) => {
+    setModalVisable(true)
+    setFolder(loc)
+    console.log(loc)
+  }
+  const [folder, setFolder] = useState<ChapterFolderType>()
 
   return (
     <BaseLoadingProvider loading={isLoading}>
@@ -27,8 +44,8 @@ export const ChapterList: React.FC = () => {
         <ChapterListTitleWrapper>
           <div className="ChapterList-page-title">章节</div>
           <Button
-            type='primary'
-            onClick={()=>setModalVisable(true)}
+            type="primary"
+            onClick={InvokeChildAddFolder}
             style={{ marginBottom: '24px' }}
           >
             添加章节
@@ -36,9 +53,17 @@ export const ChapterList: React.FC = () => {
         </ChapterListTitleWrapper>
       </ChapterListHeaderWrapper>
       {/* 添加任务 */}
-      <AddTaskModal display={modalVisable} close={()=>setModalVisable(false)} />
+      <AddTaskModal
+        display={modalVisable}
+        close={() => setModalVisable(false)}
+        loc={folder}
+      />
       {/* 主体内容 */}
-      <ChapterFolder parentHandleAddFolder={()=>()=>console.log(2333)} data={data as unknown as ChapterFolderType[]} />
+      <ChapterFolder
+        parentHandleAddFolder={HandleChildFn}
+        data={data as unknown as ChapterFolderType[]}
+        openModal={openModal}
+      />
     </BaseLoadingProvider>
   )
 }

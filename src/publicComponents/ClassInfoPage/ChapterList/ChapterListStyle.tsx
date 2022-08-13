@@ -23,10 +23,3 @@ export const ChapterListTitleWrapper = styled.div`
 export const ChapterListClassWrapper = styled.div`
   padding: 10px 20px;
 `
-export const ModalContextWrapper = styled.div`
-  .classname-label {
-    color: #cfd2cf;
-    letter-spacing: 2px;
-    font-size: 13px;
-  }
-`

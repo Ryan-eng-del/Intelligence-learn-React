@@ -13,44 +13,32 @@ export const useChapterList = (courseId: string) => {
   })
 }
 
-export const useCreateFolder = (
-  courseId: string
-) => {
-  return useMutation(
-    async () => {
-      await delayFetch()
-      return client.post({
-        url: '18855562',
-        data: { courseId }
-      })
-    },
-  )
+export const useCreateFolder = (courseId: string) => {
+  return useMutation(async () => {
+    await delayFetch()
+    return client.post({
+      url: '18855562',
+      data: { courseId }
+    })
+  })
 }
 
-export const useCreateFolderAtRoot = (
-  courseId: string
-) => {
-  return useMutation(
-    async () => {
-      await delayFetch()
-      return client.post({
-        url: '18855549',
-        data: { courseId }
-      })
-    },
-  )
+export const useCreateFolderAtRoot = (courseId: string) => {
+  return useMutation(async () => {
+    await delayFetch()
+    return client.post({
+      url: '18855549',
+      data: { courseId }
+    })
+  })
 }
 
-export const useDeleteFolder = (
-  id: string
-) => {
-  return useMutation(
-    async () => {
-      await delayFetch()
-      return client.delete({
-        url: '19680940',
-        data: { id }
-      })
-    },
-  )
+export const useDeleteFolder = (id: string) => {
+  return useMutation(async () => {
+    await delayFetch()
+    return client.delete({
+      url: '19680940',
+      data: { id }
+    })
+  })
 }
