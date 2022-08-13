@@ -14,28 +14,28 @@ export const useChapterList = (courseId: string) => {
 }
 
 export const useCreateFolder = (
-  id: string
+  courseId: string
 ) => {
   return useMutation(
     async () => {
       await delayFetch()
       return client.post({
         url: '18855562',
-        data: { id }
+        data: { courseId }
       })
     },
   )
 }
 
 export const useCreateFolderAtRoot = (
-  id: string
+  courseId: string
 ) => {
   return useMutation(
     async () => {
       await delayFetch()
       return client.post({
         url: '18855549',
-        data: { id }
+        data: { courseId }
       })
     },
   )

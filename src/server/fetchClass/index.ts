@@ -29,7 +29,6 @@ export const useCreateClass = ({
         data: { course_cover, course_name }
       })
     },
-
     {
       onMutate: () => {
         const previousClass = queryClient.getQueryData(['class'])

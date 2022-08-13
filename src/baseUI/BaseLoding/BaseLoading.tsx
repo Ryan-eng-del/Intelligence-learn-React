@@ -25,6 +25,23 @@ export const BaseLoading: React.FC<{ style: React.CSSProperties }> = ({
     </BaseLodingWrapper>
   )
 }
+
+// 组件式加载动画
+// PlutoCRown: 未必安全,有能力请改
+export const BaseLoadingProvider = (props:{
+  loading:boolean,children:React.ReactElement[]
+}) => {
+  return (
+    props.loading
+    ? <BaseLoading style={{
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: '24px'
+    }}></BaseLoading>
+    :  props.children.map((item:React.ReactElement)=>item) as unknown as React.ReactElement<any,any>
+  )
+}
+
 const BaseLodingWrapper = styled.div`
   .loader {
     --path: #2f3545;

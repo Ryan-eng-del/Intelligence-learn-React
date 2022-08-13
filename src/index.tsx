@@ -43,7 +43,14 @@ import {
 import { RequireAuth } from 'util/requireAuth'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnMount: true,
+      refetchOnWindowFocus: false
+    }
+  }
+})
 
 root.render(
   <QueryClientProvider client={queryClient}>

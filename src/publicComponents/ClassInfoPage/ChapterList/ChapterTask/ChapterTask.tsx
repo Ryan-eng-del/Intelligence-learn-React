@@ -18,8 +18,8 @@ export const ChapterTask = (props: any) => {
         <span>{item.name}</span>
         {hover ? (
           <div style={{ float: 'right' }}>
-            <Button type="primary" icon={<EditOutlined />}></Button>&nbsp;&nbsp;
-            <Button type="primary" danger icon={<CloseOutlined />}></Button>
+            <Button type="primary" icon={<EditOutlined />}>编辑</Button>&nbsp;&nbsp;
+            <Button type="primary" danger icon={<CloseOutlined />}>删除</Button>
           </div>
         ) : (
           <></>
