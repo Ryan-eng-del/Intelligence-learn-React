@@ -16,17 +16,17 @@ import { Button, Modal, Input } from 'antd'
 import { getBase64, beforeUpload } from './config/util'
 import { TeachRoutePageReducer, initialState } from './config/reducer'
 import { ClassCard } from 'publicComponents/TeachRotePage'
+import { useCreateClass, useShowCreateClass } from 'server/fetchClass'
+import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 
 export const TeachPage = () => {
   const [state, dispatch] = useReducer(TeachRoutePageReducer, initialState)
-  const {
-    uploadLoading,
-    modalVisible,
-    imgUrl,
-    className,
-    classTeacher,
-    classList
-  } = state
+  const { data, isLoading } = useShowCreateClass()
+  const { uploadLoading, modalVisible, imgUrl, className } = state
+  const { mutate: createClass } = useCreateClass({
+    course_cover: imgUrl,
+    course_name: className
+  })
   const handleChange: UploadProps['onChange'] = (
     info: UploadChangeParam<UploadFile>
   ) => {
@@ -52,22 +52,13 @@ export const TeachPage = () => {
   const showModal = () => {
     dispatch({ type: 'setModalVisible', payload: true })
   }
+
   const handleOk = () => {
-    dispatch({
-      type: 'setClasList',
-      payload: {
-        iurl: imgUrl,
-        cname: className,
-        tname: classTeacher,
-        id: classList.length + ''
-      }
-    })
+    createClass()
     dispatch({ type: 'setModalVisible', payload: false })
     dispatch({ type: 'setClassName', payload: '' })
     dispatch({ type: 'setClassTeacher', payload: '' })
     dispatch({ type: 'setImgUrl', payload: '' })
-
-    console.log(classList)
   }
 
   const handleCancel = () => {
@@ -129,22 +120,50 @@ export const TeachPage = () => {
           </TeachTitleWrapper>
         </TeachHeaderWrapper>
         <TeachClassWrapper>
-          <Row>
-            {classList
-              .filter((i, index) => index !== 0)
-              .map((item) => {
+          {isLoading ? (
+            <BaseLoading
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                marginTop: '24px'
+              }}
+            />
+          ) : (
+            <>
+              {Array.from({ length: (data?.length % 4) + 1 }).map((v, i) => {
                 return (
-                  <Col span={6} key={item.id}>
-                    <ClassCard
-                      id={item.id}
-                      cname={item.cname}
-                      tname={item.tname}
-                      iurl={item.iurl}
-                    ></ClassCard>
-                  </Col>
+                  <Row key={i} style={{ marginBottom: '30px' }}>
+                    {data?.map((item: any, index: any) => {
+                      return (
+                        index >= i * 4 &&
+                        index < (i + 1) * 4 &&
+                        (item.optimistic ? (
+                          <Col span={6} key={item.course_id}>
+                            <ClassCard
+                              id={item.course_id}
+                              cname={item.course_name}
+                              tname={item.course_name}
+                              iurl={item.courses_cover}
+                              optimistic={item.optimistic}
+                            ></ClassCard>
+                          </Col>
+                        ) : (
+                          <Col span={6} key={item.course_id}>
+                            <ClassCard
+                              id={item.course_id}
+                              cname={item.course_name}
+                              tname={item.course_name}
+                              iurl={item.courses_cover}
+                            ></ClassCard>
+                          </Col>
+                        ))
+                      )
+                    })}
+                  </Row>
                 )
               })}
-          </Row>
+            </>
+          )}
         </TeachClassWrapper>
       </TeachPageWrapper>
     </TeachRoutePageWrapper>

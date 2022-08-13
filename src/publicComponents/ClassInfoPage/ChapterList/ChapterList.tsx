@@ -32,6 +32,11 @@ export const ChapterList: React.FC = () => {
     name: '',
     seletedType: '未选择'
   }) //新增Chapter的信息
+  // const {
+  //   data: chapterData,
+  //   isLoading,
+  //   isError
+  // } = useShowCreateChatper({ course_id: 1 })
   const [renamingNode, setRenamingNode] = useState({ title: '', id: 0 }) // 重命名中的Collapse节点
   const data: ChapterListType = [
     {

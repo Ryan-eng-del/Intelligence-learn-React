@@ -1,7 +1,5 @@
 import React from 'react'
 
 export const ShortAnswer: React.FC = () => {
-  return (
-    <div>ShortAnswer</div>
-  )
+  return <div>ShortAnswer</div>
 }

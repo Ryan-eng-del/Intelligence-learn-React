@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react'
+import React, { useReducer } from 'react'
 import {
   CreateExamNav,
   CreateExamRoutePage,
@@ -16,7 +16,7 @@ export const CreateExamPage: React.FC = () => {
         <CreateExamHeader state={state} dispatch={dispatch} />
         <div style={{ display: 'flex', height: '500px' }}>
           <CreateExamNav questionList={questionList} dispatch={dispatch} />
-          <div style={{ width: '100%' }}>
+          <div style={{ width: '79%' }}>
             <CreateExamMenu
               questionList={questionList}
               dispatch={dispatch}

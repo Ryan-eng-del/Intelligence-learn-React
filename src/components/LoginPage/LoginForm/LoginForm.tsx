@@ -12,9 +12,7 @@ export const LoginForm: React.FC<{ mutate: any }> = ({ mutate }) => {
   return (
     <LoginFormWrapper>
       <LoginTitle>
-        <p className="title-login">
-          Login In
-        </p>
+        <p className="title-login">Login In</p>
       </LoginTitle>
       <Input
         size="large"

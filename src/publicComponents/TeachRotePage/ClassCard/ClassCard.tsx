@@ -6,10 +6,11 @@ interface ClassCard {
   id: string
   tname: string
   cname: string
-  iurl: string
+  iurl: string | null
+  optimistic?: boolean
 }
 export const ClassCard: React.FC<ClassCard> = (props) => {
-  const { id, cname, iurl } = props
+  const { id, cname, iurl, optimistic } = props
   const navigate = useNavigate()
   return (
     <>
@@ -19,16 +20,22 @@ export const ClassCard: React.FC<ClassCard> = (props) => {
         </CardHeadWrapper>
         <CardBodyWrapper>
           <div className="tname">{cname}</div>
-          <Button
-            type={'primary'}
-            onClick={() =>
-              navigate('/classinfo/chapter', {
-                state: { cname, iurl, id }
-              })
-            }
-          >
-            进入课程
-          </Button>
+          {optimistic ? (
+            <Button type="primary" loading>
+              Loading
+            </Button>
+          ) : (
+            <Button
+              type={'primary'}
+              onClick={() =>
+                navigate('/classinfo/chapter', {
+                  state: { cname, iurl, id }
+                })
+              }
+            >
+              进入课程
+            </Button>
+          )}
         </CardBodyWrapper>
       </CardWrapper>
     </>

@@ -21,6 +21,7 @@ export const TeachTitleWrapper = styled.div`
   padding-bottom: 10px;
 `
 export const TeachClassWrapper = styled.div`
+  position: relative;
   padding: 10px 20px;
 `
 export const ModalContextWrapper = styled.div``
