@@ -34,22 +34,23 @@ export const ChapterFolder: React.FC<{
     // 请求失败还可以
     // item.name = oldName
     setRenamingNode('')
-    setData(data)
+    setData([...data])
   }
   const renameTask = (item: ChapterCourTimesType, name: string) => {
     item.name = name
     console.log('发送请求：', item.taskId, item.name)
-    setData(data)
+    setData([...data])
   }
 
   const deleteFolder = async (item: ChapterFolderType) => {
     // 请求于此 发送请求
-    setData(dataList.filter((i) => i != item))
+    data.splice(data.findIndex((i) => i == item),1)
+    setData([...data])
   }
 
   const deleteTask = (item: ChapterFolderType, task: ChapterCourTimesType) => {
     item.courTimes = item.courTimes?.filter((i) => i != task)
-    setData([...dataList])
+    setData([...data])
   }
 
   // 此函数是为当前同级创建目录！，因此应该由父级调用
@@ -62,8 +63,8 @@ export const ChapterFolder: React.FC<{
       childChapters: [],
       courTimes: []
     }
-    dataList.push(newItem)
-    setData([...dataList])
+    data.push(newItem)
+    setData([...data])
     setProcessing(newItem.chapterId) // 加载动画
     setTimeout(() => setProcessing(''), 1000) // 重置动画
     setRenamingNode(newItem.chapterId) // 重命名状态
@@ -71,12 +72,15 @@ export const ChapterFolder: React.FC<{
 
   // 挂载时将此函数传与父组件
   useMount(() => {
+    console.log(data[0]?.name,"挂载！");
+
     parentHandleAddFolder(addFolder)
   })
 
   let ChildAddFolder: () => void //直至子组件挂载之前此处都是 undefined
   const HandleChildFn = (fun: () => void) => {
     ChildAddFolder = fun
+
   }
   // 为什么创建这一级？直接把ChildAddFolder交给按钮，会保存到子组件挂载之前的undefined
   const InvokeChildAddFolder = (id: string) => {
