@@ -1,19 +1,33 @@
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from 'antd'
-import { ExamPageWrapper } from './ExamPageStyle'
+import { ExamPageWrapper, ExamHeaderWrapper, ExamTitleWrapper} from './ExamPageStyle'
+import { ExamList } from 'publicComponents/ExamPage'
+
+
 export const ExamPage: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
   console.log(location.state)
 
   return (
-    <div>
+    <>
       <ExamPageWrapper>
-        <Button type={'primary'} onClick={() => navigate('/createexam')}>
-          +添加作业
-        </Button>
+        <ExamHeaderWrapper>
+          <ExamTitleWrapper>
+            <div className="Exam-page-title">考试作业</div>
+            <Button
+              type="primary"
+              onClick={() => navigate('/createexam')}
+              style={{ marginBottom: '24px' }}
+            >
+              +新建作业
+            </Button>
+          </ExamTitleWrapper>
+        </ExamHeaderWrapper>
+        {/* 主体内容 */}
+        <ExamList></ExamList>
       </ExamPageWrapper>
-    </div>
+    </>
   )
 }
