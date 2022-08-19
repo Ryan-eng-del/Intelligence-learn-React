@@ -5,7 +5,7 @@ import './App.css'
 
 function App() {
   const navigate = useNavigate()
-  useMount(() => navigate('/home/class/teach'))
+  // useMount(() => navigate('/home/class/teach'))
   return (
     <div className="App">
       <Outlet />

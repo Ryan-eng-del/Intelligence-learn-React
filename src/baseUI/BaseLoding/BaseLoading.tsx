@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-export const BaseLoading: React.FC<{ style: React.CSSProperties }> = ({
+
+export const BaseLoading: React.FC<{ style?: React.CSSProperties }> = ({
   style
 }) => {
   return (
