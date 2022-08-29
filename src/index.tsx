@@ -19,7 +19,8 @@ import {
   LearnPage,
   TeachPage,
   InboxPage,
-  ProfilePage
+  ProfilePage,
+  ExamSummary
 } from 'pages/HomePage/cpn-page'
 import {
   ChapterPage,
@@ -73,6 +74,7 @@ root.render(
                 <Route path="learn" element={<LearnPage />} />
                 <Route path="inbox" element={<InboxPage />} />
                 <Route path="profile" element={<ProfilePage />} />
+                <Route path="exam" element={<ExamSummary />} />
               </Route>
             </Route>
             <Route path="classinfo" element={<ClassInfoPage />}>

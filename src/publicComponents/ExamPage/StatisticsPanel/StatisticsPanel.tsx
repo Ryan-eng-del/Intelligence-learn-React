@@ -58,6 +58,7 @@ export const StatisticsPanel: React.FC<{
         </Button>,
         <Button key="link" onClick={handleOk} icon={<CloseOutlined/>}>关闭</Button>,
       ]}
+      onCancel={handleOk}
     >
       <Space align='center'>
         <Segmented

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   FolderOutlined,
   FolderOpenOutlined,
@@ -71,7 +71,7 @@ export const ChapterFolder: React.FC<{
   }
 
   // 挂载时将此函数传与父组件
-  useMount(() => {
+  useEffect(() => {
     console.log(data[0]?.name,"挂载！");
 
     parentHandleAddFolder(addFolder)

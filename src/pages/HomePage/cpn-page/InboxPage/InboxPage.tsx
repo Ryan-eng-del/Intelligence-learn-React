@@ -71,6 +71,7 @@ export const InboxPage: React.FC = () => {
 
   return (
     <>
+      <InboxWrapper>
       <Tabs
         activeKey={chosen}
         onChange={(key: string) => {
@@ -107,15 +108,14 @@ export const InboxPage: React.FC = () => {
         ></TabPane>
         <TabPane
           tab={
-            <span>
+            <Badge dot={false}>
               <HeartOutlined />
               收藏待办
-            </span>
+            </Badge>
           }
           key="Favority"
         ></TabPane>
       </Tabs>
-      <InboxWrapper>
         <List
           itemLayout="horizontal"
           dataSource={msgList.filter((item) => {

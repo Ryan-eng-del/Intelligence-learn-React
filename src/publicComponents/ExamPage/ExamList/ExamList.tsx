@@ -21,7 +21,6 @@ export const ExamList: React.FC = () => {
       title: '试卷名字',
       dataIndex: 'name',
       key: 'name',
-      // render: text => <a>{text}</a>,
     },
     {
       title: '完成状态',
@@ -31,19 +30,13 @@ export const ExamList: React.FC = () => {
     {
       title: '操作',
       key: 'action',
-      render: (_,record) => (
+      render: () => (
         <>
-          {/* <div
-            onMouseEnter={()=>setHover(record)}
-            onMouseLeave={()=>setHover(record)}
-            style={{ display:hover?.key == record.key ? "inline" : "none"}}
-          > */}
             <Space size="middle">
               <Button icon={<AreaChartOutlined />} onClick={()=>setStatistics(true)}>统计</Button>
               <Button icon={<DeliveredProcedureOutlined />} onClick={()=>setPublish(true)}>发布</Button>
               <Button icon={<ArrowRightOutlined />} onClick={() => navigate('/createexam')}>编辑</Button>
             </Space>
-          {/* </div> */}
         </>
       ),
     },
