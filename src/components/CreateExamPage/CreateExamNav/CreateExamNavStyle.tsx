@@ -2,7 +2,7 @@ import styled from 'styled-components'
 export const CreateExamNavWrapper = styled.div`
   background-color: white;
   margin-top: 10px;
-  width: 21%;
+  width: 20%;
   overflow: auto;
   height: 500px;
   border: 2px solid gery;

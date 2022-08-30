@@ -16,7 +16,7 @@ export const CreateExamPage: React.FC = () => {
         <CreateExamHeader state={state} dispatch={dispatch} />
         <div style={{ display: 'flex', height: '500px' }}>
           <CreateExamNav questionList={questionList} dispatch={dispatch} />
-          <div style={{ width: '79%' }}>
+          <div style={{ width: '80%' }}>
             <CreateExamMenu
               questionList={questionList}
               dispatch={dispatch}

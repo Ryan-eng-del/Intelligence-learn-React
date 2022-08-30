@@ -2,18 +2,17 @@ import React, { useState, useEffect } from 'react'
 import { Editor, Toolbar } from '@wangeditor/editor-for-react'
 import { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor'
 
-export const Options: React.FC<any> = (props) => {
-  // const { html, setHtml } = props
+export const Explain: React.FC<any> = (props) => {
   const [html, setHtml] = useState('')
-  const { handleEdit, optionName } = props
+  const { handleEdit } = props
+
   // editor 实例
   const [editor, setEditor] = useState<IDomEditor | null>(null)
-  // 编辑器内容
   const [foucs, setFouce] = useState(false)
 
   // 工具栏配置
   const toolbarConfig: Partial<IToolbarConfig> = {
-    excludeKeys: ['']
+    excludeKeys: []
   }
 
   // 编辑器配置
@@ -29,6 +28,7 @@ export const Options: React.FC<any> = (props) => {
       setEditor(null)
     }
   }, [editor])
+
   return (
     <>
       <div
@@ -36,7 +36,6 @@ export const Options: React.FC<any> = (props) => {
         onFocus={() => setFouce(true)}
         onBlur={() => setFouce(false)}
       >
-        {/* 富文本编辑器 */}
         {foucs ? (
           <Toolbar
             editor={editor}
@@ -55,14 +54,14 @@ export const Options: React.FC<any> = (props) => {
           onChange={(editor) => {
             //用Html的形式记录，而不是纯文本
             setHtml(editor.getHtml())
-            handleEdit(editor.getHtml(), optionName)
+            handleEdit(editor.getHtml())
           }}
           mode="default"
-          style={{ height: '50px', overflowY: 'hidden', width: '817px' }}
+          style={{ height: '50px', overflowY: 'hidden', width: '824px' }}
         />
       </div>
       {/* 预览效果 */}
-      {/* <div style={{ marginTop: '15px' }}>{html}</div> */}
+      {/* <div style={{ marginTop: '15px' }}>{'s' + html}</div> */}
     </>
   )
 }

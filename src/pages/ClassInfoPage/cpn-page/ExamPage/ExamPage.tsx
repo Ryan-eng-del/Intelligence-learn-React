@@ -5,7 +5,7 @@ import { ExamPageWrapper } from './ExamPageStyle'
 export const ExamPage: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  console.log(location.state)
+  console.log('exam', location.state)
 
   return (
     <div>
