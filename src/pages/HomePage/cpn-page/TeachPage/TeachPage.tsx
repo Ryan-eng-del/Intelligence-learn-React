@@ -140,6 +140,7 @@ export const TeachPage = () => {
                       cname={item.cname}
                       tname={item.tname}
                       iurl={item.iurl}
+                      user={'teacher'}
                     ></ClassCard>
                   </Col>
                 )

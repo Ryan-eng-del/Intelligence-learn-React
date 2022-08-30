@@ -2,7 +2,7 @@ import React from 'react'
 import { 测试树 } from './测试树'
 import { 测试树2 } from './测试树2'
 
-export const DiscussPage: React.FC = () => {
+export const StudentDiscussPage: React.FC = () => {
   const data = {
     name: '第一级',
     child: [

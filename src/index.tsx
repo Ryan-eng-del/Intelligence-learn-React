@@ -14,7 +14,13 @@ import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 
 // pages
-import { ClassInfoPage, HomePage, LoginPage, CreateExamPage } from 'pages'
+import {
+  ClassInfoPage,
+  HomePage,
+  LoginPage,
+  CreateExamPage,
+  StudentClassInfoPage
+} from 'pages'
 import {
   LearnPage,
   TeachPage,
@@ -30,6 +36,14 @@ import {
   ClassManaPage,
   KnowledgePage
 } from 'pages/ClassInfoPage'
+import {
+  StudentChapterPage,
+  StudentResourcePage,
+  StudentExamPage,
+  StudentDiscussPage,
+  StudentClassManaPage,
+  StudentKnowledgePage
+} from 'pages/StudentClassInfoPage'
 import { ChapterInfo, ChapterPreviewFile } from 'pages/ChapterInfo'
 import {
   SingleChoice,
@@ -84,6 +98,17 @@ root.render(
               <Route path="discuss" element={<DiscussPage />} />
               <Route path="class" element={<ClassManaPage />} />
               <Route path="knowledge" element={<KnowledgePage />} />
+            </Route>
+            <Route path="studentclassinfo" element={<StudentClassInfoPage />}>
+              <Route path="studentchapter" element={<StudentChapterPage />} />
+              <Route path="studentexam" element={<StudentExamPage />} />
+              <Route path="studentresource" element={<StudentResourcePage />} />
+              <Route path="studentdiscuss" element={<StudentDiscussPage />} />
+              <Route path="studentclass" element={<StudentClassManaPage />} />
+              <Route
+                path="studentknowledge"
+                element={<StudentKnowledgePage />}
+              />
             </Route>
             <Route path="chapterinfo" element={<ChapterInfo />}>
               {/* ChapterID */}

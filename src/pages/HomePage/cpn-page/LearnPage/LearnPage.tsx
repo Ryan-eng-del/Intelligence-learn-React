@@ -93,6 +93,7 @@ export const LearnPage: React.FC = () => {
                       cname={item.cname}
                       tname={item.tname}
                       iurl={item.iurl}
+                      user={'student'}
                     ></ClassCard>
                   </Col>
                 )

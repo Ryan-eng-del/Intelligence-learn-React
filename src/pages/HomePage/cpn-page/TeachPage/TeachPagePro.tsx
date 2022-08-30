@@ -145,6 +145,7 @@ export const TeachPage = () => {
                               tname={item.course_name}
                               iurl={item.courses_cover}
                               optimistic={item.optimistic}
+                              user={'teacher'}
                             ></ClassCard>
                           </Col>
                         ) : (
@@ -154,6 +155,7 @@ export const TeachPage = () => {
                               cname={item.course_name}
                               tname={item.course_name}
                               iurl={item.courses_cover}
+                              user={'teacher'}
                             ></ClassCard>
                           </Col>
                         ))

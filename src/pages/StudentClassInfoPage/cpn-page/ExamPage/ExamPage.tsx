@@ -8,7 +8,7 @@ import {
 } from './ExamPageStyle'
 import { ExamList } from 'publicComponents/ExamPage'
 
-export const ExamPage: React.FC = () => {
+export const StudentExamPage: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
   console.log(location.state)

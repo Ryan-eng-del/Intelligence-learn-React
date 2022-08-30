@@ -44,7 +44,10 @@ export const ChapterFolder: React.FC<{
 
   const deleteFolder = async (item: ChapterFolderType) => {
     // 请求于此 发送请求
-    data.splice(data.findIndex((i) => i == item),1)
+    data.splice(
+      data.findIndex((i) => i == item),
+      1
+    )
     setData([...data])
   }
 
@@ -72,7 +75,7 @@ export const ChapterFolder: React.FC<{
 
   // 挂载时将此函数传与父组件
   useEffect(() => {
-    console.log(data[0]?.name,"挂载！");
+    console.log(data[0]?.name, '挂载！')
 
     parentHandleAddFolder(addFolder)
   })
@@ -80,7 +83,6 @@ export const ChapterFolder: React.FC<{
   let ChildAddFolder: () => void //直至子组件挂载之前此处都是 undefined
   const HandleChildFn = (fun: () => void) => {
     ChildAddFolder = fun
-
   }
   // 为什么创建这一级？直接把ChildAddFolder交给按钮，会保存到子组件挂载之前的undefined
   const InvokeChildAddFolder = (id: string) => {
