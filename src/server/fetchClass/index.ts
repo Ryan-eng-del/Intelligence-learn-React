@@ -7,7 +7,7 @@ export const useShowCreateClass = () => {
   return useQuery(['class'], async () => {
     await delayFetch()
     return client.get<any>({
-      url: '29076212'
+      url: 'course/show-create'
     })
   })
 }

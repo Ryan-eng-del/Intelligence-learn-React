@@ -2,7 +2,9 @@ import React from 'react'
 import { Button, Tree } from 'antd'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { ChapterTreeModal } from './cpn/ChapterTreeModal'
-import { useChapterUI } from '../../../../../hook/useChapterStudy/useChapterUI'
+import { useChapterUI } from 'hook/useChapterStudy/useChapterUI'
+import { useMount } from 'hook/useMount'
+import { expandOnMount } from 'util/chapterStudyTree'
 
 export const ChapterStudyTree = () => {
   /*UI驱动层*/
@@ -18,9 +20,13 @@ export const ChapterStudyTree = () => {
     resourceTitle,
     setResourceTitle,
     uploadType,
+    setExpandKeys,
+    data,
     setUploadType
   } = useChapterUI()
-
+  useMount(() => {
+    setExpandKeys(expandOnMount(data))
+  })
   return (
     <div>
       <ChapterTreeModal
@@ -42,7 +48,11 @@ export const ChapterStudyTree = () => {
       {isLoading ? (
         <BaseLoading />
       ) : (
-        <Tree expandedKeys={expandKeys} onExpand={handleOnExpand}>
+        <Tree
+          expandedKeys={expandKeys}
+          onExpand={handleOnExpand}
+          onSelect={handleOnExpand}
+        >
           {treeData && treeData}
         </Tree>
       )}

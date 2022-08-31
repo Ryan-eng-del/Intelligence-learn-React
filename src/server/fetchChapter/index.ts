@@ -8,7 +8,7 @@ export const useShowCreateChapter = (setExpandKeys: any) => {
   return useQuery(['chapterTree'], async () => {
     await delayFetch()
     const data = await client.get({
-      url: '18796758'
+      url: 'chapter/getChapterContents'
     })
     setExpandKeys(generateExpandKeys(data))
     return data
@@ -27,9 +27,6 @@ export const useDeleteChapter = ({ data }: { data: any }) => {
         const previousClass = queryClient.getQueryData(['chapterTree'])
         return { previousClass }
       },
-      onSettled: () => {
-        message.success('删除成功')
-      },
       onError: (error, variables, context) => {
         if (context?.previousClass) {
           queryClient.setQueryData(['class'], context.previousClass)
@@ -38,27 +35,27 @@ export const useDeleteChapter = ({ data }: { data: any }) => {
     }
   )
 }
-/*添加章节树根节点*/
-export const useAddChapter = () => {
-  return useMutation(async () => {
-    return client.post({ url: '19680940' })
-  })
-}
+
 /*确认添加章节树根节点*/
-export const useConfirmAddChapter = ({
-  chapterName,
-  chapterId
-}: {
-  chapterId: string
-  chapterName: string
-}) => {
+export const useConfirmAddChapter = (setCurNode: any) => {
   return useMutation(
-    async () => {
-      return client.post({ url: '19680940', data: { chapterName, chapterId } })
+    async ({
+      name,
+      course_id,
+      chapter_pid
+    }: {
+      name: string
+      course_id: string
+      chapter_pid: string
+    }) => {
+      return client.post({
+        url: 'chapter/addFirstLevelChapter',
+        data: { name }
+      })
     },
     {
-      onSettled: () => {
-        message.success('添加成功')
+      onSettled: (data: any) => {
+        /*通过data取到id，通过setCurNode来修改*/
       }
     }
   )

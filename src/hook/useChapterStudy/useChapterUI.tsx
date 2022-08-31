@@ -36,7 +36,8 @@ export const useChapterUI = () => {
     setResourceTitle,
     uploadType,
     setUploadType,
-    handleDeleteResource
+    handleDeleteResource,
+    setExpandKeys
   } = useChapterControl()
   /*表单focus状态UI*/
   const focusStateUI = (
@@ -193,6 +194,8 @@ export const useChapterUI = () => {
     resourceTitle,
     setResourceTitle,
     uploadType,
-    setUploadType
+    setUploadType,
+    data,
+    setExpandKeys
   }
 }

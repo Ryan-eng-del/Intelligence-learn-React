@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 
 export const useChapterClient = () => {
   const [expandKeys, setExpandKeys] = useState<string[]>([])
@@ -8,7 +8,6 @@ export const useChapterClient = () => {
   const [curNode, setCurNode] = useState<any>({})
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [resourceTitle, setResourceTitle] = useState()
-  const count = useRef(1)
   const [uploadType, setUploadType] = useState('视频')
   const [curAddId, setCurAddId] = useState('')
   return {
@@ -22,7 +21,6 @@ export const useChapterClient = () => {
     setCurRenameNode,
     curNode,
     setCurNode,
-    count,
     isModalVisible,
     setIsModalVisible,
     resourceTitle,
