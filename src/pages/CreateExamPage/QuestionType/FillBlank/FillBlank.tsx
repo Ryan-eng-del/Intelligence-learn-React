@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Form, Switch, Input, Button } from 'antd'
 import { Footer } from '../Component/Footer'
 import { TextArea } from '../Component/TextArea'
-import { RandomInt } from 'publicComponents/ClassInfoPage/ChapterList/config/util'
+// import { RandomInt } from 'publicComponents/ClassInfoPage/ChapterList/config/util'
 
 export const FillBlank: React.FC = () => {
   const [question, setQuestion] = useState({
@@ -24,7 +24,7 @@ export const FillBlank: React.FC = () => {
     setQuestion({ ...question, footer: obj })
   }
   const addBlank = () => {
-    question.blank.push({ id: RandomInt(), content: '' })
+    question.blank.push({ id: Math.random(), content: '' })
     setQuestion({ ...question })
   }
 

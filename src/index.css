@@ -1,5 +1,6 @@
 /* theme color */
 @import 'antd/dist/antd.css';
+
 :root {
   --dark-navy: #020c1b;
   --navy: #0a192f;
@@ -19,6 +20,7 @@
   --border: #3ab4f2;
   --easing: cubic-bezier(0.645, 0.045, 0.355, 1);
 }
+
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
@@ -39,30 +41,36 @@ code {
   font-family: 'en-title-light';
   src: url('assets/fonts/Calibre/Calibre-Light.ttf');
 }
+
 @font-face {
   font-family: 'en-title-medium';
   src: url('assets/fonts/Calibre/Calibre-Medium.ttf');
   font-weight: 400;
 }
+
 @font-face {
   font-family: 'en-text-medium';
   src: url('assets/fonts/SFMono/SFMono-Medium.ttf');
   font-weight: 400;
 }
+
 @font-face {
   font-family: 'en-text-regular';
   src: url('assets/fonts/SFMono/SFMono-Regular.ttf');
 }
+
 @font-face {
   font-family: 'zh-light';
   src: url('assets/fonts/SiYuan/GenShinGothic-Monospace-Light-2.ttf');
   font-weight: 550;
 }
+
 @font-face {
   font-family: 'zh-medium';
   src: url('assets/fonts/SiYuan/GenShinGothic-Monospace-Medium-2.ttf');
   font-weight: 400;
 }
+
 @keyframes fadedown {
   from {
     opacity: 0;
@@ -75,6 +83,7 @@ code {
     transition: opacity 300ms var(--easing), transform 300ms var(--easing);
   }
 }
+
 @keyframes fadeup {
   from {
     opacity: 0;
@@ -87,6 +96,7 @@ code {
     transition: opacity 300ms var(--easing), transform 300ms var(--easing);
   }
 }
+
 @keyframes fadeleft {
   from {
     opacity: 0;
@@ -108,6 +118,7 @@ span.ant-tree-title {
   display: inline-block;
   height: 100%;
 }
+
 .ant-tree.ant-tree-block-node
   .ant-tree-list-holder-inner
   .ant-tree-node-content-wrapper {
@@ -115,16 +126,20 @@ span.ant-tree-title {
   position: relative;
   line-height: 40px;
 }
+
 .ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
   background-color: none;
 }
+
 .ant-tree .ant-tree-node-content-wrapper .ant-tree-iconEle {
   line-height: 40px;
 }
+
 .ant-tree-switcher .ant-select-tree-switcher-icon,
 .ant-tree-switcher .ant-tree-switcher-icon {
   line-height: 40px;
 }
+
 .ant-tree-draggable-icon {
   line-height: 40px;
 }
@@ -139,18 +154,22 @@ span.ant-tree-title {
   div.tree-node-tool {
   opacity: 1;
 }
+
 /* Modal 树形控件Modal样式覆盖*/
 .ant-tree.ant-tree-block-node .ant-tree-list-holder-inner {
   box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
     rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
 }
+
 .ant-modal-body .tip-delete {
   color: #ff4d4f;
 }
+
 .ant-modal-body .tip-rename {
   color: white;
   margin-bottom: 10px;
 }
+
 .ant-modal-body label {
   color: var(--navy);
   font-size: 14px;
@@ -160,6 +179,7 @@ span.ant-tree-title {
   border-left: 4px solid var(--border);
   padding: 0 0 0 10px;
 }
+
 .ant-modal-body input {
   margin: 8px 0 15px 0;
 }
@@ -211,4 +231,23 @@ span.ant-tree-title {
 ::-webkit-scrollbar-track {
   background-color: #ebf1f6;
   border-radius: 32px;
+}
+
+.ant-tree .ant-tree-treenode {
+  align-items: center;
+}
+
+.ant-tree-list-holder-inner {
+  position: relative;
+}
+
+.ant-tree-node-content-wrapper
+  .ant-tree-node-content-wrapper-open
+  .ant-tree-node-selected {
+  height: 40px;
+  background-color: cyan;
+}
+
+.ant-tree .ant-tree-node-content-wrapper {
+  min-height: 32px;
 }
