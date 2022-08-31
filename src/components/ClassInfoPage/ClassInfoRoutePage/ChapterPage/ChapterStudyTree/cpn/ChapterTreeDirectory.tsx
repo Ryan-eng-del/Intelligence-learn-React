@@ -20,7 +20,10 @@ export const ChapterTreeDirectory: React.FC<{
   return (
     <ChapterTreeDirectoryWrapper style={{ display: 'flex' }}>
       <div>{nodeName}</div>
-      <EditToolWrapper className={'edit-tool-wrapper'}>
+      <EditToolWrapper
+        className={'edit-tool-wrapper'}
+        onClick={(e) => e.stopPropagation()}
+      >
         <Button
           type={'primary'}
           onClick={() => handleClickAddChildChapter(nodeId)}

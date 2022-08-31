@@ -41,12 +41,13 @@ import {
 
 // util
 import { RequireAuth } from 'util/requireAuth'
+import { KnowledgeGraph } from './pages/K-graphPage/KnowledgeGraph'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnMount: true,
+      refetchOnMount: false,
       refetchOnWindowFocus: false
     }
   }
@@ -83,6 +84,8 @@ root.render(
               <Route path="class" element={<ClassManaPage />} />
               <Route path="knowledge" element={<KnowledgePage />} />
             </Route>
+            <Route path={'k-graph'} element={<KnowledgeGraph />} />
+
             <Route path="chapterinfo" element={<ChapterInfo />}>
               {/* ChapterID */}
             </Route>
