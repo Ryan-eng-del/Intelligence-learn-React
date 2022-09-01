@@ -13,8 +13,8 @@ export const useToken = (name: string, password: string) => {
     async () => {
       await delayFetch()
       return client.post<{ token: string }>({
-        url: '18795596?apifoxResponseId=68831913',
-        data: { name, password }
+        url: 'user/login',
+        data: {}
       })
     },
     {

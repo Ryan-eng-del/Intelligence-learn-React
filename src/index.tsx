@@ -54,15 +54,15 @@ root.render(
       <Router>
         <Routes>
           <Route path="login" element={<LoginPage />} />
-          <Route path="/" element={<App />}>
-            <Route
-              path="home"
-              element={
-                <RequireAuth>
-                  <HomePage />
-                </RequireAuth>
-              }
-            >
+          <Route
+            path="/"
+            element={
+              <RequireAuth>
+                <App />
+              </RequireAuth>
+            }
+          >
+            <Route path="home" element={<HomePage />}>
               <Route path="class">
                 <Route path="teach" element={<TeachPage />} />
                 <Route path="learn" element={<LearnPage />} />
