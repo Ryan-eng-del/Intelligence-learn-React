@@ -15,7 +15,11 @@ export const ChapterNodeFocusStatus: React.FC<{
         style={{ marginRight: '12px' }}
         onClick={(e) => e.stopPropagation()}
       />
-      <Button type={'primary'} onClick={(e) => stopPropagation(e, confirmAdd)}>
+      <Button
+        type={'primary'}
+        onClick={(e) => stopPropagation(e, confirmAdd)}
+        style={{ marginRight: '15px' }}
+      >
         √
       </Button>
       <Button
