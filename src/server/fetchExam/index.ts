@@ -6,12 +6,11 @@ import { message } from 'antd'
 
 //添加试题
 export const useCreateQuestion = (QuestionItem: QuestionData) => {
-  // const queryClient = useQueryClient()
   return useMutation(
     async () => {
       await delayFetch()
       return client.post({
-        url: 'question/add-question', //url有问题，后面再改
+        url: 'question/add-question',
         data: {
           ...QuestionItem
         }
@@ -33,7 +32,7 @@ export const useShowCreateQuestion = () => {
   return useQuery(['exam'], async () => {
     await delayFetch()
     return client.get<any>({
-      url: '18825710' //url有问题，后面再改
+      url: 'question/list-question/1'
     })
   })
 }
