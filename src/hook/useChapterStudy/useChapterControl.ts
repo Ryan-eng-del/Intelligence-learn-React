@@ -24,7 +24,6 @@ export const useChapterControl = () => {
     curRenameNode,
     focusStatus,
     expandKeys,
-    count,
     isModalVisible,
     setIsModalVisible,
     resourceTitle,
@@ -35,18 +34,22 @@ export const useChapterControl = () => {
     setCurAddId
   } = useChapterClient()
   /*Server状态层*/
-  const { data, addChildChapterData, addChapterData, queryClient, isLoading } =
-    useChapterServer(setExpandKeys)
+  const {
+    data,
+    addChildChapterData,
+    addChapterData,
+    queryClient,
+    isLoading,
+    addChapterMutate
+  } = useChapterServer(setExpandKeys, setCurNode)
   /*处理树节点一点击就触发*/
   const handleOnExpand = (id: any, info: any) => {
-    if (count.current % 2) {
-      const key = info.node.key
-      setExpandKeys((pre) => pre.filter((v) => v != key))
-      count.current++
-    } else {
+    if (!info.node.expanded) {
       const key = info.node.key
       setExpandKeys((pre) => pre.concat(key))
-      count.current--
+    } else {
+      const key = info.node.key
+      setExpandKeys((pre) => pre.filter((v) => v != key))
     }
   }
   /*删除资源*/
@@ -87,9 +90,7 @@ export const useChapterControl = () => {
       (queryTreeData: any) => queryTreeData.concat(node),
       queryClient
     )
-    /*这里添加网络请求网络请求拿到id*/
-    // await addChapterMutate()
-    node.chapterId = addChapterData?.id || Math.random() * 10000 + ''
+    node.chapterId = Math.random() * 10000 + ''
     setCurNode(node)
   }
   /*添加子目录*/
@@ -148,11 +149,21 @@ export const useChapterControl = () => {
   }
   /*确认添加*/
   const confirmAdd = async () => {
-    setFocusStatus(false)
-    /*发送创建节点的请求*/
-    setCurNode((pre: any) => (pre.name = curAddInputValue))
-    setCurNode({})
-    setAddInputValue('')
+    /*添加根节点网络请求*/
+    try {
+      /*网络请求*/
+      // await addChapterMutate({ course_id: '1', name: '2', chapter_pid: '3' })
+      console.log('未抛出异常')
+      setFocusStatus(false)
+      /*发送创建节点的请求*/
+      setCurNode((pre: any) => (pre.name = curAddInputValue))
+      setCurNode({})
+      setAddInputValue('')
+    } catch (err: any) {
+      console.log('抛出异常')
+      cancelAdd()
+      console.log(err)
+    }
   }
   /*取消添加*/
   const cancelAdd = () => {
@@ -221,6 +232,7 @@ export const useChapterControl = () => {
     setResourceTitle,
     uploadType,
     setUploadType,
-    handleDeleteResource
+    handleDeleteResource,
+    setExpandKeys
   }
 }

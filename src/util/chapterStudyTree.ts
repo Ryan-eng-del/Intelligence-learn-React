@@ -215,3 +215,18 @@ export const formatResource = (resource: any) => {
   })
   return result
 }
+/*挂载前展开所有视频*/
+export const expandOnMount = (data: any) => {
+  const result: any = []
+  const recursion = (data: any) => {
+    if (!data) return
+    data.map((d: any) => {
+      if (d.childChapters.length) {
+        recursion(d.childChapters)
+      }
+      result.push(d.chapterId)
+    })
+  }
+  recursion(data)
+  return result
+}
