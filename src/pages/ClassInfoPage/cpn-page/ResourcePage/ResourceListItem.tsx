@@ -1,134 +1,110 @@
 import React, { useState } from 'react'
-import { FolderTwoTone, FileTwoTone, EditTwoTone } from '@ant-design/icons'
+import {
+  FileUnknownOutlined,
+  FileImageOutlined,
+  PlaySquareOutlined,
+  FileExcelOutlined,
+  FilePptOutlined,
+  FilePdfOutlined,
+  FileWordOutlined,
+  EyeOutlined,
+  DownloadOutlined,
+  EditOutlined
+} from '@ant-design/icons'
+import { last } from 'lodash'
+import { Button, Space, Modal, Input, Popconfirm, message } from 'antd'
 
-type selfProps = {
-  key: string
-  id: string
-  name: string
-  size: string
-  time: string
-  isFolder: boolean
-  deleteItem: (id: string) => void
-  reName: (id: string, newName: string) => void
-}
-
-export const ResourceListItem: React.FC<selfProps> = (props) => {
-  const { id, name, size, time, isFolder, deleteItem, reName } = props
-
-  const [isHide, setIsHide] = useState(true)
-  const [isReName, setIsReName] = useState(false)
-
-  const handleMouseEnter = (e: any) => {
-    e.target.style.background = '#F2F4F7'
-    setIsHide(false)
+export const ResourceListItem: React.FC<{
+  item: {
+    id: string
+    name: string
+    time: string
   }
+}> = ({item}) => {
 
-  const handleMouseLeave = (e: any) => {
-    e.target.style.background = 'white'
-    setIsHide(true)
-  }
+  const [hover,setHover] = useState(false);
 
-  const handleRename = () => {
-    setIsReName(true)
-  }
+  const fileType = last(item.name.split('.'));
+  const icon = fileType === undefined
+  ? <FileUnknownOutlined />
+  : ['png','jpg'].includes(fileType)
+  ? <FileImageOutlined />
+  : ['mp4'].includes(fileType)
+  ? <PlaySquareOutlined />
+  : ['xla','xlsx'].includes(fileType)
+  ? <FileExcelOutlined />
+  : ['ppt','pptx'].includes(fileType)
+  ? <FilePptOutlined />
+  : ['pdf'].includes(fileType)
+  ? <FilePdfOutlined />
+  : ['doc','docx'].includes(fileType)
+  ? <FileWordOutlined />
+  : <FileUnknownOutlined />
 
-  const handleRenameDone = (e: any) => {
-    if (e.code == 'Enter') {
-      reName(id, e.target.value)
-      setIsReName(false)
-    }
-  }
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+  const confirm = (e: React.MouseEvent<HTMLElement>) => {
+    console.log(e);
+    message.success('Click on Yes');
+  };
+
+  const cancel = (e: React.MouseEvent<HTMLElement>) => {
+    console.log(e);
+    message.error('Click on No');
+  };
 
   return (
-    <div
-      style={{
-        color: 'black',
-        padding: 10,
-        background: 'white',
-        border: '1p',
-        display: 'flex'
-      }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <>
+      <Modal title={`修改文件信息-${item.name}`} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+        <label>修改文件名</label>
+        <Input defaultValue={item.name}>
+        </Input>
+        <Popconfirm
+          title="Are you sure to delete this task?"
+          // onConfirm={}={confirm}
+          // onCancel={cancel}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button type='primary' danger>删除这个文件</Button>
+        </Popconfirm>
+        <Button type='primary' >修改关联的知识点</Button>
+      </Modal>
       <div
-        style={{
-          width: 40
-        }}
+        className='flex'
+        onMouseEnter={()=>setHover(true)}
+        onMouseLeave={()=>setHover(false)}
       >
-        {isFolder ? <FolderTwoTone /> : <FileTwoTone />}
+        <Space style={{width:"20vw"}}>
+          <div style={{fontSize:"30px"}}>
+            {icon}
+          </div>
+          <div>{item.name}</div>
+        </Space>
+        <div>{item.time}</div>
+        <Space size='middle' style={{visibility: hover ? "visible" : "hidden"}}>
+          <Button type='primary' icon={<EyeOutlined />}>
+            预览
+          </Button>
+          <Button type='primary' icon={<DownloadOutlined />}>
+            下载
+          </Button>
+          <Button type='primary' icon={<EditOutlined />} onClick={showModal}>
+            编辑
+          </Button>
+        </Space>
       </div>
-      <div
-        style={{
-          width: 400,
-          position: 'absolute',
-          marginLeft: 40
-        }}
-      >
-        {isReName ? (
-          <input defaultValue={name} onKeyUp={handleRenameDone} />
-        ) : (
-          <span>
-            {name}
-            <EditTwoTone hidden={isHide} onClick={handleRename} />
-          </span>
-        )}
-      </div>
-      <div
-        style={{
-          width: 50,
-          position: 'absolute',
-          marginLeft: 450,
-          font: 'small-caption',
-          color: '#1890ff'
-        }}
-        hidden={isHide}
-      >
-        预览
-      </div>
-      <div
-        style={{
-          width: 50,
-          position: 'absolute',
-          marginLeft: 500,
-          font: 'small-caption',
-          color: '#1890ff'
-        }}
-        hidden={isHide}
-      >
-        下载
-      </div>
-      <div
-        style={{
-          width: 50,
-          position: 'absolute',
-          marginLeft: 550,
-          font: 'small-caption',
-          color: 'red'
-        }}
-        hidden={isHide}
-        onClick={() => deleteItem(id)}
-      >
-        删除
-      </div>
-      <div
-        style={{
-          width: 50,
-          position: 'absolute',
-          marginLeft: 700
-        }}
-      >
-        {size}
-      </div>
-      <div
-        style={{
-          width: 150,
-          position: 'absolute',
-          marginLeft: 900
-        }}
-      >
-        {time}
-      </div>
-    </div>
+    </>
   )
 }
