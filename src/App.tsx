@@ -1,16 +1,19 @@
 import React from 'react'
 import { useMount } from 'hook/useMount'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import './App.css'
 import cache from './util/cache'
 
 function App() {
   const navigate = useNavigate()
+  const location = useLocation()
+
   useMount(() => {
-    if (cache.getCache('token')) {
-      console.log('token exist')
-      navigate('home/class/teach')
-    }
+    !cache.getCache('token')
+      ? navigate('/login')
+      : location.pathname === '/'
+      ? navigate('/home/teach')
+      : navigate(location.pathname)
   })
   return (
     <div className="App">

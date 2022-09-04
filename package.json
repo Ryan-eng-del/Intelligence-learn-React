@@ -17,6 +17,7 @@
     "@wangeditor/editor-for-react": "^1.0.4",
     "@wangeditor/plugin-formula": "^1.0.10",
     "axios": "^0.27.2",
+    "dplayer": "^1.27.0",
     "echarts": "^5.3.3",
     "katex": "^0.15.6",
     "lodash": "^4.17.21",
@@ -61,6 +62,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
+    "@types/dplayer": "^1.25.2",
     "@types/lodash": "^4.14.182",
     "@types/styled-components": "^5.1.25",
     "@typescript-eslint/eslint-plugin": "^5.30.5",

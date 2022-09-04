@@ -36,6 +36,8 @@ import {
 // util
 import { RequireAuth } from 'util/requireAuth'
 import { KnowledgeGraph } from './pages/K-graphPage/KnowledgeGraph'
+import { TeacherSourcePreviewPage } from './pages/TeacherSourcePreviewPage/TeacherSourcePreviewPage'
+import { SourcePreviewPage } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/SourcePreviewPage'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
@@ -63,11 +65,9 @@ root.render(
             }
           >
             <Route path="home" element={<HomePage />}>
-              <Route path="class">
-                <Route path="teach" element={<TeachPage />} />
-                <Route path="learn" element={<LearnPage />} />
-                <Route path="inbox" element={<InboxPage />} />
-              </Route>
+              <Route path="teach" element={<TeachPage />} />
+              <Route path="learn" element={<LearnPage />} />
+              <Route path="inbox" element={<InboxPage />} />
             </Route>
             <Route path="classinfo" element={<ClassInfoPage />}>
               <Route path="chapter" element={<ChapterPage />} />
@@ -89,6 +89,12 @@ root.render(
               <Route path="fillBlank" element={<FillBlank />} />
               <Route path="shortanswer" element={<ShortAnswer />} />
               <Route path="programming" element={<Programming />} />
+            </Route>
+            <Route
+              path="teacher-preview"
+              element={<TeacherSourcePreviewPage />}
+            >
+              <Route path=":id" element={<SourcePreviewPage />} />
             </Route>
           </Route>
         </Routes>

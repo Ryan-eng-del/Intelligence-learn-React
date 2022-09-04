@@ -1,10 +1,10 @@
 import React from 'react'
-import {Button, Tree} from 'antd'
-import {BaseLoading} from 'baseUI/BaseLoding/BaseLoading'
-import {ChapterTreeModal} from './cpn/ChapterTreeModal'
-import {useChapterUI} from 'hook/useChapterStudy/useChapterUI'
-import {useMount} from 'hook/useMount'
-import {expandOnMount} from 'util/chapterStudyTree'
+import { Tree } from 'antd'
+import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
+import { ChapterTreeModal } from './cpn/ChapterTreeModal'
+import { useChapterUI } from 'hook/useChapterStudy/useChapterUI'
+import { useMount } from 'hook/useMount'
+import { expandOnMount } from 'util/chapterStudyTree'
 import styled from 'styled-components'
 
 export const ChapterStudyTree = () => {
@@ -25,6 +25,8 @@ export const ChapterStudyTree = () => {
     data,
     setUploadType
   } = useChapterUI()
+
+  // 每次挂载后全部展开
   useMount(() => {
     setExpandKeys(expandOnMount(data))
   })
@@ -43,12 +45,12 @@ export const ChapterStudyTree = () => {
         type={'primary'}
         className={'add-chapter'}
         onClick={handleClickAddChapter}
-        style={{marginBottom: '35px'}}
+        style={{ marginBottom: '35px' }}
       >
         添加章节
       </a>
       {isLoading ? (
-        <BaseLoading/>
+        <BaseLoading />
       ) : (
         <Tree
           expandedKeys={expandKeys}
@@ -77,6 +79,5 @@ const ChapterStudyTreeWrapper = styled.div`
     &:hover {
       background: linear-gradient(140deg, #89d9ff 0%, #6c4aff 100%);
     }
-
   }
 `

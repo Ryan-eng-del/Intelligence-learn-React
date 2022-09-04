@@ -20,8 +20,8 @@ export const deleteTreeNode = (data: any, id: any, queryClient: any) => {
 export const deleteResource = (data: any, id: any, queryClient: any) => {
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: any) => {
-    if (!data) return
     data.map((d: any) => {
+      if (!data) return
       if (d.courTimes && d.courTimes.length) {
         d.courTimes.forEach((courTime: any) => {
           if (courTime.resource && courTime.resource.length) {
