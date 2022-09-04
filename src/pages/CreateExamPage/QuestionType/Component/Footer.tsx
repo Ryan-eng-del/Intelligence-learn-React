@@ -43,8 +43,7 @@ export const Footer: React.FC<FooterType> = (props: FooterType) => {
       setter({ ...data, explanation: '暂无' })
     }
     //网络请求
-    // createQuestion()
-    message.success('Success Save!')
+    createQuestion()
   }
 
   const handleSave = () => {
