@@ -24,7 +24,7 @@
 
 import React from 'react'
 import { KnowledgeListWrapper } from './KnowledgePageStyle'
-import { KnowledgeTree } from 'publicComponents/ClassInfoPage'
+import { KnowledgeTree } from 'components/ClassInfoPage/ClassInfoRoutePage/KnowledgePage/KnowledgeTree/KnowledgeTree'
 export const StudentKnowledgePage: React.FC = () => {
   return (
     <>
