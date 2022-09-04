@@ -6,6 +6,9 @@ import {
 } from 'publicComponents/PageStyle/TwoColumnLayout'
 
 export const ClassInfoNavWrapper = styled(LeftSideWrapper)`
+  .class-img {
+
+  }
   .class-info-nav-intro {
     padding-top: 12px;
     color: var(--navy);

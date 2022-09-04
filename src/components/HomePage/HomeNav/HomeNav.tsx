@@ -11,7 +11,7 @@ export const HomeNav = () => {
   return (
     <HomeNavWrapper>
       <HomeInfoWrapper>
-        <Avatar src={require('assets/img/pyy.png')} size={120}></Avatar>
+        <Avatar className="avater" src={require('assets/img/pyy.png')} size={120}></Avatar>
         <div className="username">彭于晏</div>
       </HomeInfoWrapper>
       <HomeMenuWrapper>

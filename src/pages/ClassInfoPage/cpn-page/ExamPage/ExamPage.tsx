@@ -1,12 +1,9 @@
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from 'antd'
-import {
-  ExamPageWrapper,
-  ExamHeaderWrapper,
-  ExamTitleWrapper
-} from './ExamPageStyle'
+import { ExamPageWrapper, ExamHeaderWrapper, ExamTitleWrapper} from './ExamPageStyle'
 import { ExamList } from 'publicComponents/ExamPage'
+
 
 export const ExamPage: React.FC = () => {
   const navigate = useNavigate()

@@ -6,18 +6,17 @@ import {
   CreateExamMenu
 } from 'components/CreateExamPage'
 import { CreateExamPageReducer, initialState } from './config/reducer'
-import { CreateExamPageWapper } from './CreateExamPageStyle'
-
+import { CreateExamPageWrapper } from './CreateExamPageStyle'
 export const CreateExamPage: React.FC = () => {
   const [state, dispatch] = useReducer(CreateExamPageReducer, initialState)
   const { questionList } = state
   return (
     <>
-      <CreateExamPageWapper>
+      <CreateExamPageWrapper>
         <CreateExamHeader state={state} dispatch={dispatch} />
         <div style={{ display: 'flex', height: '500px' }}>
           <CreateExamNav questionList={questionList} dispatch={dispatch} />
-          <div style={{ width: '100%' }}>
+          <div style={{ width: '80%' }}>
             <CreateExamMenu
               questionList={questionList}
               dispatch={dispatch}
@@ -25,7 +24,7 @@ export const CreateExamPage: React.FC = () => {
             <CreateExamRoutePage></CreateExamRoutePage>
           </div>
         </div>
-      </CreateExamPageWapper>
+      </CreateExamPageWrapper>
     </>
   )
 }

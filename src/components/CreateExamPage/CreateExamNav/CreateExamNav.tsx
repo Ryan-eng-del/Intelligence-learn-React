@@ -10,7 +10,7 @@ export const CreateExamNav: React.FC<any> = (props) => {
   const { questionList, dispatch } = props
   const genExtra = (listType: string) => (
     <DeleteOutlined
-      style={{ color: 'grey', fontSize: '13px' }}
+      style={{ color: 'grey', fontSize: '15px' }}
       onClick={() => {
         dispatch({ type: 'removeQuestionList', listType })
         dispatch({ type: 'changeIsExists', isExists: false, listType })
