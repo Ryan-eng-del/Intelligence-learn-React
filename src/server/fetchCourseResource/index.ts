@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
-// 显示课程
+// 显示资源列表
 export const useShowResourceList = () => {
   return useQuery(['resources'], async () => {
     await delayFetch()
