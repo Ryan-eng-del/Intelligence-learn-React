@@ -7,7 +7,7 @@ class LocalCache {
     const value = window.localStorage.getItem(key)
     console.log(value)
     if (value) {
-      return JSON.parse(value)
+      return value
     }
   }
 

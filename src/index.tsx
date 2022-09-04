@@ -8,11 +8,9 @@ import reportWebVitals from './reportWebVitals'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Route, Routes } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-
 // antd
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
-
 // pages
 import { ClassInfoPage, HomePage, LoginPage, CreateExamPage } from 'pages'
 import {
