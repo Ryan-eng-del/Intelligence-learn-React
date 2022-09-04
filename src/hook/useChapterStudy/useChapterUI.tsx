@@ -4,8 +4,8 @@ import React from 'react'
 import { useChapterControl } from './useChapterControl'
 import { ChapterNodeRenameStatus } from 'components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeRenameStatus'
 import { ChapterNodeFocusStatus } from 'components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeFocusStatus'
-import { ChapterTreeDirectory } from 'components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeDirectory'
-import { ChapterTreeContent } from '../../components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeContent'
+import ChapterTreeDirectory from 'components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeDirectory'
+import ChapterTreeContent from '../../components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeContent'
 
 export const useChapterUI = () => {
   /*业务逻辑层*/

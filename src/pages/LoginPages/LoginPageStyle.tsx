@@ -1,27 +1,11 @@
 import styled, { keyframes } from 'styled-components'
+
 export const LoginPageWrapper = styled.div`
-  @media (min-width: 768px) {
-    padding-top: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  @media (min-width: 1024px) {
-    padding-top: 50px;
-    padding-left: 50px;
-    padding-right: 50px;
-  }
-  @media (min-width: 1280px) {
-    padding-top: 80px;
-    padding-left: 80px;
-    padding-right: 80px;
-  }
-  @media (min-width: 1520px) {
-    margin: 0 auto;
-    width: 1261px;
-    padding-top: 110px;
-    padding-left: 0;
-    padding-right: 0;
-  }
+  margin: 0 auto;
+  width: 1261px;
+  min-width: 1261px;
+  padding-top: 110px;
+  height: 100vh;
 `
 const faderight = keyframes`
   from {
