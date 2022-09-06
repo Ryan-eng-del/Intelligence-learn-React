@@ -10,6 +10,7 @@ import {
   updateKnowledgeTreeQueryCache
 } from '../../util/knowledgeTree'
 import { useKnowledgeClient } from './useKnowledgeClient'
+import { KnowledgeNodeType, KnowledgeNodeType_init } from 'server/fetchKnowledge/types'
 
 export const useKnowledgeControl = () => {
   /*Client状态层*/
@@ -56,16 +57,16 @@ export const useKnowledgeControl = () => {
   }
   /*确认添加知识点*/
   const confirmAdd = () => {
-    setCurNode((pre: any) => (pre.pointName = curAddInputValue))
+    setCurNode((pre: KnowledgeNodeType) => (pre.pointName = curAddInputValue,{...pre}))
     setFocusStatus(false)
     /*发送创建节点的请求*/
-    setCurNode({})
+    setCurNode(KnowledgeNodeType_init)
     setAddInputValue('')
   }
   /*取消删除节点*/
   const cancelAdd = () => {
     deleteKnowledgePoint(curNode.pointId)
-    setCurNode({})
+    setCurNode(KnowledgeNodeType_init)
     setFocusStatus(false)
   }
   /*删除知识点*/
@@ -102,13 +103,13 @@ export const useKnowledgeControl = () => {
   /*确认重命名*/
   const confirmRename = () => {
     setFocusStatus(false)
-    setCurRenameNode((pre: any) => (pre.pointName = curAddInputValue))
-    setCurRenameNode({})
+    setCurRenameNode((pre: KnowledgeNodeType) => (pre.pointName = curAddInputValue,{...pre}))
+    setCurRenameNode(KnowledgeNodeType_init)
     setAddInputValue('')
   }
   /*取消重命名*/
   const cancelRename = () => {
-    setCurRenameNode({})
+    setCurRenameNode(KnowledgeNodeType_init)
   }
   /*点击展开触发*/
   const handleExpand = (id: any, info: any) => {

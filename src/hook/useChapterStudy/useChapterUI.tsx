@@ -6,6 +6,7 @@ import { ChapterNodeRenameStatus } from 'components/ClassInfoPage/ClassInfoRoute
 import { ChapterNodeFocusStatus } from 'components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeFocusStatus'
 import ChapterTreeDirectory from 'components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeDirectory'
 import ChapterTreeContent from '../../components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeContent'
+import { ChapterNodeType, ChapterResourceType, CourTimeType } from 'server/fetchChapter/types'
 
 export const useChapterUI = () => {
   /*业务逻辑层*/
@@ -48,7 +49,7 @@ export const useChapterUI = () => {
     />
   )
   /*重命名状态的UI*/
-  const renameStatusUI = (name: any) => {
+  const renameStatusUI = (name: string) => {
     return (
       <ChapterNodeRenameStatus
         setAddInputValue={setAddInputValue}
@@ -59,7 +60,7 @@ export const useChapterUI = () => {
     )
   }
   /*目录节点UI*/
-  const generateTreeNodeUI = (chapterId: any, name: any) => {
+  const generateTreeNodeUI = (chapterId: string, name: string) => {
     return (
       <ChapterTreeDirectory
         nodeId={chapterId}
@@ -72,7 +73,7 @@ export const useChapterUI = () => {
     )
   }
   /*课时节点UI*/
-  const generateTreeContentUI = (id: any, name: any, resource: any) => {
+  const generateTreeContentUI = (id: string, name: string, resource: ChapterResourceType) => {
     if (!resource) return
     return (
       <Tree.TreeNode
@@ -96,13 +97,14 @@ export const useChapterUI = () => {
   }
 
   /*根据后台数据来递归构造树节点*/
-  const generateTreeNode = (data: any) => {
+  const generateTreeNode = (data?: ChapterNodeType[]) => {
     if (!data) return
-    const recursion = (data: any) => {
+    const recursion = (data: ChapterNodeType[]) => {
       return data.map((d: any) => {
-        // eslint-disable-next-line no-prototype-builtins
-        if (d.hasOwnProperty('resource')) {
+        if ('resource' in d) {
+
           if (d == curNode) {
+            console.log("haha is real",d);
             return (
               <Tree.TreeNode
                 key={d.id}

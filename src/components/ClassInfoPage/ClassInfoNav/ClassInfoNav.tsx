@@ -5,15 +5,19 @@ import {
   ClassInfoNavWrapper
 } from './ClassInfoNavStyle'
 import items from './config/index'
-import { Menu, Avatar } from 'antd'
-import { useLocation } from 'react-router-dom'
+import { Menu } from 'antd'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export const ClassInfoNav: React.FC = () => {
   const location: any = useLocation()
+  const navigate = useNavigate()
   return (
     <ClassInfoNavWrapper>
       <ClassInfoWrapper>
-        <Avatar src={require('assets/img/class.jpg')} size={120}></Avatar>
+        <div onClick={()=>navigate('/home/class/teach')} className="class-img-wapper">
+          <img className="class-img" src={require('assets/img/class.jpg')} ></img>
+        </div>
+        <div className="backButton">👈切换课程</div>
         <div className="class-info-nav-intro">
           <div>{location?.state?.cname}</div>
         </div>

@@ -1,134 +1,123 @@
 import React, { useState } from 'react'
-import { FolderTwoTone, FileTwoTone, EditTwoTone } from '@ant-design/icons'
+import {
+  FileUnknownOutlined,
+  FileImageOutlined,
+  PlaySquareOutlined,
+  FileExcelOutlined,
+  FilePptOutlined,
+  FilePdfOutlined,
+  FileWordOutlined,
+  EyeOutlined,
+  DownloadOutlined,
+  EditOutlined
+} from '@ant-design/icons'
+import { last } from 'lodash'
+import { Button, Space, Modal, Input, Popconfirm, message } from 'antd'
+import { ResourceType } from 'server/fetchCourseResource/types'
 
-type selfProps = {
-  key: string
-  id: string
-  name: string
-  size: string
-  time: string
-  isFolder: boolean
-  deleteItem: (id: string) => void
-  reName: (id: string, newName: string) => void
-}
+export const ResourceListItem: React.FC<{
+  item: ResourceType,
+  rename:(newName:string)=>void,
+  deleteFile:()=>void
+}> = ({ item, rename, deleteFile }) => {
 
-export const ResourceListItem: React.FC<selfProps> = (props) => {
-  const { id, name, size, time, isFolder, deleteItem, reName } = props
+  const [hover,setHover] = useState(false);
+  const [newName,setNewName] = useState(item.resourceName);
 
-  const [isHide, setIsHide] = useState(true)
-  const [isReName, setIsReName] = useState(false)
+  const fileType = last(item.resourceName?.split('.'));
+  const icon = fileType === undefined
+  ? <FileUnknownOutlined />
+  : ['png','jpg'].includes(fileType)
+  ? <FileImageOutlined />
+  : ['mp4'].includes(fileType)
+  ? <PlaySquareOutlined />
+  : ['xla','xlsx'].includes(fileType)
+  ? <FileExcelOutlined />
+  : ['ppt','pptx'].includes(fileType)
+  ? <FilePptOutlined />
+  : ['pdf'].includes(fileType)
+  ? <FilePdfOutlined />
+  : ['doc','docx'].includes(fileType)
+  ? <FileWordOutlined />
+  : <FileUnknownOutlined />
 
-  const handleMouseEnter = (e: any) => {
-    e.target.style.background = '#F2F4F7'
-    setIsHide(false)
-  }
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const handleMouseLeave = (e: any) => {
-    e.target.style.background = 'white'
-    setIsHide(true)
-  }
 
-  const handleRename = () => {
-    setIsReName(true)
-  }
+  const handleOk = () => {
+    // 发送修改信息的请求
+    rename(newName)
+    setIsModalVisible(false);
+  };
 
-  const handleRenameDone = (e: any) => {
-    if (e.code == 'Enter') {
-      reName(id, e.target.value)
-      setIsReName(false)
-    }
-  }
+  const handleDelete = () => {
+    setIsModalVisible(false);
+    deleteFile();
+  };
+
+
 
   return (
-    <div
-      style={{
-        color: 'black',
-        padding: 10,
-        background: 'white',
-        border: '1p',
-        display: 'flex'
-      }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <div
-        style={{
-          width: 40
-        }}
+    <>
+    {/* 编辑弹窗 */}
+      <Modal
+        title={`修改文件信息-${item.resourceName}`}
+        visible={isModalVisible}
+        onCancel={()=>setIsModalVisible(false)}
+        footer={[
+          <Popconfirm
+            key="delete"
+            title="你确定要删除这个文件吗"
+            onConfirm={handleDelete}
+            okText="是"
+            cancelText="否"
+          >
+            <Button type='primary' danger>删除这个文件</Button>
+          </Popconfirm>,
+          <Button
+            key="save"
+            type="primary"
+            onClick={handleOk}
+          >保存
+          </Button>,
+        ]}
       >
-        {isFolder ? <FolderTwoTone /> : <FileTwoTone />}
-      </div>
+        <label>修改文件名</label>
+        <Input onChange={({target})=>setNewName(target.value)} value={newName}>
+        </Input>
+
+        <Button type='primary' >修改关联的知识点</Button>
+      </Modal>
+
       <div
-        style={{
-          width: 400,
-          position: 'absolute',
-          marginLeft: 40
-        }}
+        className='flex'
+        onMouseEnter={()=>setHover(true)}
+        onMouseLeave={()=>setHover(false)}
       >
-        {isReName ? (
-          <input defaultValue={name} onKeyUp={handleRenameDone} />
-        ) : (
-          <span>
-            {name}
-            <EditTwoTone hidden={isHide} onClick={handleRename} />
-          </span>
-        )}
+        {/* 文件名及图标 */}
+        <Space style={{width:"20vw"}}>
+          <div style={{fontSize:"30px"}}>
+            {icon}
+          </div>
+          <div>{item.resourceName}</div>
+        </Space>
+
+        {/* 创建时间 */}
+        <div>{item.createTime}</div>
+
+        {/* 操作区域 */}
+        <Space size='middle' style={{visibility: hover ? "visible" : "hidden"}}>
+          <Button type='primary' icon={<EyeOutlined />}>
+            预览
+          </Button>
+          <Button type='primary' icon={<DownloadOutlined />}>
+            下载
+          </Button>
+          <Button type='primary' icon={<EditOutlined />} onClick={()=>setIsModalVisible(true)}>
+            编辑
+          </Button>
+        </Space>
       </div>
-      <div
-        style={{
-          width: 50,
-          position: 'absolute',
-          marginLeft: 450,
-          font: 'small-caption',
-          color: '#1890ff'
-        }}
-        hidden={isHide}
-      >
-        预览
-      </div>
-      <div
-        style={{
-          width: 50,
-          position: 'absolute',
-          marginLeft: 500,
-          font: 'small-caption',
-          color: '#1890ff'
-        }}
-        hidden={isHide}
-      >
-        下载
-      </div>
-      <div
-        style={{
-          width: 50,
-          position: 'absolute',
-          marginLeft: 550,
-          font: 'small-caption',
-          color: 'red'
-        }}
-        hidden={isHide}
-        onClick={() => deleteItem(id)}
-      >
-        删除
-      </div>
-      <div
-        style={{
-          width: 50,
-          position: 'absolute',
-          marginLeft: 700
-        }}
-      >
-        {size}
-      </div>
-      <div
-        style={{
-          width: 150,
-          position: 'absolute',
-          marginLeft: 900
-        }}
-      >
-        {time}
-      </div>
-    </div>
+    </>
   )
 }

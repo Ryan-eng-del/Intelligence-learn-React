@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, Button, message, Tag, Radio, InputNumber } from 'antd'
 import { TextArea } from '../Component/TextArea'
 import { useCreateQuestion } from 'server/fetchExam'
-import { QuestionData } from 'server/fetchExam/type/index'
+import { QuestionData } from 'server/fetchExam/types/index'
 
 type FooterType = {
   networkData: QuestionData
