@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
-import { QuestionData } from './type'
+import { QuestionData } from './types'
 import { message } from 'antd'
 
 //添加试题

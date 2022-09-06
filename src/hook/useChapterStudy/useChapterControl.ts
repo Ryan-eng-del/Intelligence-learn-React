@@ -10,6 +10,8 @@ import {
   reNameTreeNode,
   updateChapterTreeQueryCache
 } from '../../util/chapterStudyTree'
+import { ChapterNodeType, ChapterNodeType_init, ChapterResourceType } from 'server/fetchChapter/types'
+import { Key } from 'react'
 
 export const useChapterControl = () => {
   /*Client状态层*/
@@ -43,7 +45,7 @@ export const useChapterControl = () => {
     addChapterMutate
   } = useChapterServer(setExpandKeys, setCurNode)
   /*处理树节点一点击就触发*/
-  const handleOnExpand = (id: any, info: any) => {
+  const handleOnExpand = (id: Key[], info: any) => {
     if (!info.node.expanded) {
       const key = info.node.key
       setExpandKeys((pre) => pre.concat(key))
@@ -53,16 +55,16 @@ export const useChapterControl = () => {
     }
   }
   /*删除资源*/
-  const handleDeleteResource = (id: any) => {
+  const handleDeleteResource = (id: string) => {
     deleteResource(data, id, queryClient)
   }
   /*添加资源显示弹窗*/
-  const handleClickAddResource = (id: any) => {
+  const handleClickAddResource = (id: string) => {
     setIsModalVisible(true)
     setCurAddId(id)
   }
   /*关联知识点*/
-  const handleClickRelatePoints = (id: any) => {
+  const handleClickRelatePoints = (id: string) => {
     console.log(id)
   }
   /*处理弹窗okay添加资源*/
@@ -156,10 +158,10 @@ export const useChapterControl = () => {
       console.log('未抛出异常')
       setFocusStatus(false)
       /*发送创建节点的请求*/
-      setCurNode((pre: any) => (pre.name = curAddInputValue))
-      setCurNode({})
+      setCurNode((pre: ChapterNodeType | ChapterResourceType) => (pre.name = curAddInputValue,{...pre}))
+      setCurNode(ChapterNodeType_init)
       setAddInputValue('')
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.log('抛出异常')
       cancelAdd()
       console.log(err)
@@ -168,15 +170,16 @@ export const useChapterControl = () => {
   /*取消添加*/
   const cancelAdd = () => {
     handleDeleteTreeNode(
-      curNode.chapterId ? curNode.chapterId : curNode.id,
-      curNode.chapterId ? 'chapterNode' : 'courTimes'
+      // 可能是 章节树节点 也有可能是 章节资源节点
+      "chapterId" in curNode ? curNode.chapterId : curNode.id,
+      "chapterId" in curNode ? 'chapterNode' : 'courTimes'
     ).then(() => {
-      setCurNode({})
+      setCurNode(ChapterNodeType_init)
       setFocusStatus(false)
     })
   }
   /*删除节点*/
-  const handleDeleteTreeNode = async (id: any, type: string) => {
+  const handleDeleteTreeNode = async (id: string, type: string) => {
     switch (type) {
       case 'courTimes':
         deleteTreeContent(data, id, queryClient)
@@ -187,12 +190,14 @@ export const useChapterControl = () => {
   }
   /*确认重命名*/
   const confirmRename = () => {
-    setCurRenameNode((pre: any) => (pre.name = curAddInputValue))
-    setCurRenameNode({})
+    setCurRenameNode((pre: ChapterNodeType) => (pre.name = curAddInputValue,{...pre}))
+    setCurRenameNode(ChapterNodeType_init)
+
+
     setAddInputValue('')
   }
   const cancelRename = () => {
-    setCurRenameNode({})
+    setCurRenameNode(ChapterNodeType_init)
   }
   /*重命名节点*/
   const handleReNameTreeNode = (chapterId: any) => {

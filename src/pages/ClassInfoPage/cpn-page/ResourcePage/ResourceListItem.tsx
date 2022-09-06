@@ -13,13 +13,10 @@ import {
 } from '@ant-design/icons'
 import { last } from 'lodash'
 import { Button, Space, Modal, Input, Popconfirm, message } from 'antd'
+import { ResourceType } from 'server/fetchCourseResource/types'
 
 export const ResourceListItem: React.FC<{
-  item: {
-    resourceId: string
-    resourceName: string
-    createTime: string
-  },
+  item: ResourceType,
   rename:(newName:string)=>void,
   deleteFile:()=>void
 }> = ({ item, rename, deleteFile }) => {

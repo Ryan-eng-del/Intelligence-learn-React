@@ -3,7 +3,7 @@ import { Form, Switch, Input, Button } from 'antd'
 import { Footer } from '../Component/Footer'
 import { TextArea } from '../Component/TextArea'
 // import { RandomInt } from 'publicComponents/ClassInfoPage/ChapterList/config/util'
-import { QuestionData } from 'server/fetchExam/type/index'
+import { QuestionData } from 'server/fetchExam/types/index'
 
 export const FillBlank: React.FC = () => {
   const [question, setQuestion] = useState({

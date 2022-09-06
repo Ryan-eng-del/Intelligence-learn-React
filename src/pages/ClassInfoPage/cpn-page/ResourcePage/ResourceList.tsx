@@ -1,14 +1,11 @@
 import { List, Space } from 'antd'
 import React, { useState } from 'react'
+import { ResourceType } from 'server/fetchCourseResource/types'
 import { ResourceListItem } from './ResourceListItem'
 
 
 export const ResourceList: React.FC<{
-  resourceItems: {
-    resourceId: string
-    resourceName: string
-    createTime: string
-  }[]
+  resourceItems: ResourceType[]
 
 }> = ({resourceItems}) => {
 

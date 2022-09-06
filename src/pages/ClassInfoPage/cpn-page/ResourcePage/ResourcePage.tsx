@@ -17,7 +17,7 @@ export const ResourcePage: React.FC = () => {
         <Header reflush={()=>console.log("更新文件列表")}/>
         {
           isLoading ? <BaseLoading /> :
-          <ResourceList resourceItems={data} />
+          <ResourceList resourceItems={data!} />
         }
       </ResourcePageWrapper>
     </>

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { ResourceHeaderWrapper, ResourceTitleWrapper} from './ResourcePageStyle'
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons'
 import { Modal, Button, Upload, message } from 'antd'
+import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
 
 export const Header: React.FC<{
   reflush: ()=>void
@@ -46,6 +47,7 @@ export const Header: React.FC<{
   return (
     <>
       <Modal title="上传资源" visible={upLoadModalVisible} onOk={UploadModalOK} onCancel={UploadModalCancel}>
+        {/* 上传文件部分 */}
         <Upload.Dragger {...props}>
           <p className="ant-upload-drag-icon">
             <InboxOutlined />
@@ -55,7 +57,10 @@ export const Header: React.FC<{
             记得关联知识点
           </p>
         </Upload.Dragger>
+        {/* 知识点选择部分 */}
+        <KnowledgeSeletor></KnowledgeSeletor>
       </Modal>
+
       <ResourceHeaderWrapper>
         <ResourceTitleWrapper>
           <div className="Resource-page-title">课程资源</div>

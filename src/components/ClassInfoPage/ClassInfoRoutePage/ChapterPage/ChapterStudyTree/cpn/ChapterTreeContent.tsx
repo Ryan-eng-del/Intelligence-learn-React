@@ -8,13 +8,14 @@ import {
 } from '@ant-design/icons'
 import { formatResource } from 'util/chapterStudyTree'
 import styled from 'styled-components'
+import { ChapterResourceType } from 'server/fetchChapter/types'
 
 export const ChapterTreeContent: React.FC<{
   contentName: string
   handleDeleteTreeContent: any
   contentId: string
   handleReNameTreeNode: any
-  resource: any
+  resource: ChapterResourceType
   handleClickAddResource: any
   handleClickRelatePoints: any
   handleDeleteResource: any
@@ -63,7 +64,7 @@ export const ChapterTreeContent: React.FC<{
         </div>
 
         <ResourcePageWrapper>
-          {formatResource(resource).map((item: any) => {
+          {formatResource(resource).map((item: ChapterResourceType) => {
             return (
               <ul key={item.id}>
                 <li
