@@ -7,7 +7,7 @@ import { findIdResource } from '../../util/TeacherSourcePreviewPage'
 import { StateSetter } from 'types'
 import { ChapterNodeType } from './types'
 /*展示章节学习树*/
-export const useShowCreateChapter = (setExpandKeys?: StateSetter<string[]>) => {
+export const useShowCreateChapter = (setExpandKeys: StateSetter<string[]>) => {
   return useQuery(['chapterTree'], async () => {
     await delayFetch()
     const data:ChapterNodeType[] = await client.get({

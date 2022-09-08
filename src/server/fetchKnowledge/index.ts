@@ -4,21 +4,20 @@ import { StateSetter } from 'types'
 import { delayFetch } from 'util/delayFetch'
 import { generateKnowledgeKeys } from 'util/knowledgeTree'
 import { KnowledgeNodeType } from './types'
-import { QueryHookFn } from 'types'
 /*展示章节学习树*/
-export const useShowKnowledgeTree: QueryHookFn
-= ( setExpandKeys: StateSetter<string[]> ) => {
+export const useShowKnowledgeTree
+= ( setExpandKeys?: StateSetter<string[]> ) => {
   return useQuery(
     ['knowledgeTree'],
     async () => {
       await delayFetch()
-      return client.get<KnowledgeNodeType>({
+      return client.get({
         url: 'points/show'
       })
     },
     {
-      onSuccess: (data: any) => {
-        setExpandKeys(generateKnowledgeKeys(data))
+      onSuccess: (data: KnowledgeNodeType[]) => {
+        setExpandKeys ? setExpandKeys(generateKnowledgeKeys(data)) : 0;
       }
     }
   )

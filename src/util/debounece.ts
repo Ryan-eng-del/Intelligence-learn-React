@@ -1,8 +1,10 @@
+import { AnyFn } from "types"
+
 export function debounce(
-  fn: any,
+  fn: AnyFn,
   delay: number,
   immediate = false,
-  resultCallback?: any
+  resultCallback?: AnyFn
 ) {
   // 1.定义一个定时器, 保存上一次的定时器
   let timer: any = null

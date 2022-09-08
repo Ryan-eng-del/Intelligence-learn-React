@@ -6,11 +6,11 @@ import {
   useDeleteChapter,
   useShowCreateChapter
 } from '../../server/fetchChapter'
-import { ChapterNodeType, ChapterResourceType } from 'server/fetchChapter/types'
+import { ChapterNodeType, CourTimeType } from 'server/fetchChapter/types'
 
 export const useChapterServer = (
   setExpandKeys: StateSetter<string[]>,
-   setCurNode: StateSetter<ChapterNodeType | ChapterResourceType>
+   setCurNode: StateSetter<ChapterNodeType | CourTimeType>
 ) => {
   const { mutate: addChapterMutate, data: addChapterData } =
     useConfirmAddChapter(setCurNode)

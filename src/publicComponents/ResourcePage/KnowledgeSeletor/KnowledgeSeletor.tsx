@@ -1,18 +1,29 @@
 import { TreeSelect } from 'antd';
 import React, { useState } from 'react';
 import { useShowKnowledgeTree } from 'server/fetchKnowledge';
+import { KnowledgeNodeType } from 'server/fetchKnowledge/types';
 
 const { TreeNode } = TreeSelect;
 
 export const KnowledgeSeletor: React.FC<{
   related?: string[],
   callback?: (knowledgeList:string[]) => void
-}> = () => {
-  // const { data } = useShowKnowledgeTree()
-  const [value, setValue] = useState<string[]>();
+}> = ({ related, callback }) => {
+  const { data } = useShowKnowledgeTree()
+  const [value, setValue] = useState<string[]>(related!);
   const onChange = (newValue: string[]) => {
+    callback ? callback(newValue) : 0;
     setValue(newValue);
   };
+
+  const generator = (data?:KnowledgeNodeType[]) => {
+    if(!data) return
+    return data.map((p)=>(
+      <TreeNode key={p.pointId} value={p.pointId} title={p.pointName}>
+        { generator(p.children) }
+      </TreeNode>
+    ))
+  }
 
   return (
     <TreeSelect
@@ -26,15 +37,7 @@ export const KnowledgeSeletor: React.FC<{
       treeDefaultExpandAll
       onChange={onChange}
     >
-      <TreeNode value="parent 1" title="parent 1">
-        <TreeNode value="parent 1-0" title="parent 1-0">
-          <TreeNode value="leaf1" title="my leaf" />
-          <TreeNode value="leaf2" title="your leaf" />
-        </TreeNode>
-        <TreeNode value="parent 1-1" title="parent 1-1">
-          <TreeNode value="sss" title={<b style={{ color: '#08c' }}>sss</b>} />
-        </TreeNode>
-      </TreeNode>
+      { generator(data) }
     </TreeSelect>
   );
 };

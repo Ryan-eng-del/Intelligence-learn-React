@@ -9,7 +9,7 @@ export type KnowledgeNodeType = {
 }
 
 /** 同样是知识点节点，不过作为外键只需要保留的信息 */
-type RelateNodeType = {
+export type RelateNodeType = {
   pointId: string
   pointName: string
 }

@@ -1,10 +1,13 @@
+import { QueryClient } from '@tanstack/react-query'
 import { cloneDeepWith } from 'lodash'
+import { ChapterNodeType, ChapterResourceType, CourTimeType } from 'server/fetchChapter/types'
+import { StateSetter } from 'types'
 /*寻找要刪除的树的章节目录节点*/
-export const deleteTreeNode = (data: any, id: any, queryClient: any) => {
+export const deleteTreeNode = (data: ChapterNodeType[], id: string | void, queryClient: QueryClient) => {
   const deepCloneData = cloneDeepWith(data)
-  const recursion = (data: any) => {
+  const recursion = (data: ChapterNodeType[]) => {
     if (!data) return
-    data.map((d: any, index: number) => {
+    data.map((d, index) => {
       if (d.childChapters.length) {
         recursion(d.childChapters)
       }
@@ -17,15 +20,15 @@ export const deleteTreeNode = (data: any, id: any, queryClient: any) => {
   recursion(deepCloneData)
 }
 /*删除资源*/
-export const deleteResource = (data: any, id: any, queryClient: any) => {
+export const deleteResource = (data: ChapterNodeType[], id: string, queryClient: QueryClient) => {
   const deepCloneData = cloneDeepWith(data)
-  const recursion = (data: any) => {
-    data.map((d: any) => {
+  const recursion = (data: ChapterNodeType[]) => {
+    data.map((d) => {
       if (!data) return
       if (d.courTimes && d.courTimes.length) {
-        d.courTimes.forEach((courTime: any) => {
+        d.courTimes.forEach((courTime) => {
           if (courTime.resource && courTime.resource.length) {
-            courTime.resource.forEach((resource: any, i: any) => {
+            courTime.resource.forEach((resource, i) => {
               if (resource.id === id) {
                 courTime.resource.splice(i, 1)
                 queryClient.setQueryData(['chapterTree'], deepCloneData)
@@ -42,19 +45,17 @@ export const deleteResource = (data: any, id: any, queryClient: any) => {
   recursion(deepCloneData)
 }
 /*删除课时*/
-export const deleteTreeContent = (data: any, id: any, queryClient: any) => {
+export const deleteTreeContent = (data: ChapterNodeType[], id: string, queryClient: QueryClient) => {
   const deepCloneData = cloneDeepWith(data)
-  const recursion = (data: any) => {
+  const recursion = (data: ChapterNodeType[]) => {
     if (!data) return
-    data.map((d: any) => {
-      if (d.courTimes && d.courTimes.length) {
-        d.courTimes.forEach((da: any, index: any) => {
+    data.map((d) => {
+        d.courTimes?.forEach((da, index) => {
           if (da.id === id) {
-            d.courTimes.splice(index, 1)
+            d.courTimes?.splice(index, 1)
             queryClient.setQueryData(['chapterTree'], deepCloneData)
           }
         })
-      }
       if (d.childChapters.length) {
         recursion(d.childChapters)
       }
@@ -63,15 +64,15 @@ export const deleteTreeContent = (data: any, id: any, queryClient: any) => {
   recursion(deepCloneData)
 }
 export const addChildChapterNode = (
-  data: any,
-  id: any,
-  queryClient: any,
-  node: any
+  data: ChapterNodeType[],
+  id: string,
+  queryClient: QueryClient,
+  node: ChapterNodeType
 ) => {
   const deepCloneData = cloneDeepWith(data)
-  const recursion = (data: any) => {
+  const recursion = (data: ChapterNodeType[]) => {
     if (!data) return
-    data.map((d: any) => {
+    data.map((d) => {
       if (d.childChapters.length) {
         recursion(d.childChapters)
       }
@@ -85,24 +86,24 @@ export const addChildChapterNode = (
 }
 /*传入参数一更新函数来更新queryData,从而使得UI更新*/
 export const updateChapterTreeQueryCache = (
-  updaterFun: any,
-  queryClient: any
+  updaterFun: (Treedata:ChapterNodeType[])=>ChapterNodeType[],
+  queryClient: QueryClient
 ) => {
-  const queryTreeData: any = queryClient.getQueryData(['chapterTree'])
-  const newQueryTreeData = updaterFun(queryTreeData)
+  const queryTreeData: ChapterNodeType[] | undefined = queryClient.getQueryData(['chapterTree'])
+  const newQueryTreeData = queryTreeData ? updaterFun(queryTreeData!) : 0;
   queryClient.setQueryData(['chapterTree'], newQueryTreeData)
 }
 /*添加课时*/
 export const addChildContentNode = (
-  data: any,
-  id: any,
-  queryClient: any,
-  node: any
+  data: ChapterNodeType[],
+  id: string,
+  queryClient: QueryClient,
+  node: CourTimeType | CourTimeType[]
 ) => {
   const deepCloneData = cloneDeepWith(data)
-  const recursion = (data: any) => {
+  const recursion = (data: ChapterNodeType[]) => {
     if (!data) return
-    data.map((d: any) => {
+    data.map((d) => {
       if (d.childChapters.length) {
         recursion(d.childChapters)
       }
@@ -117,18 +118,18 @@ export const addChildContentNode = (
 }
 /*添加资源*/
 export const addResource = (
-  data: any,
-  id: any,
-  queryClient: any,
-  node: any
+  data: ChapterNodeType[],
+  id: string,
+  queryClient: QueryClient,
+  node: ChapterResourceType | ChapterResourceType[]
 ) => {
   console.log(id)
   const deepCloneData = cloneDeepWith(data)
-  const recursion = (data: any) => {
+  const recursion = (data: ChapterNodeType[]) => {
     if (!data) return
-    data.map((d: any) => {
+    data.map((d) => {
       if (d.courTimes && d.courTimes.length) {
-        d.courTimes.forEach((courTime: any) => {
+        d.courTimes.forEach((courTime) => {
           if (courTime.id === id) {
             courTime.resource = courTime.resource || []
             courTime.resource = courTime.resource.concat(node)
@@ -146,18 +147,18 @@ export const addResource = (
 }
 /*重命名节点*/
 export const reNameTreeNode = (
-  data: any,
-  id: any,
-  setCurRenameNode: any,
-  setFocusState: any,
-  setExpandKeys: any,
-  setAddInputValue: any
+  data: ChapterNodeType[],
+  id: string,
+  setCurRenameNode: StateSetter<ChapterNodeType | CourTimeType> ,
+  setFocusState: StateSetter<boolean>,
+  setExpandKeys: StateSetter<string[]>,
+  setAddInputValue: StateSetter<string>
 ) => {
-  const recursion = (data: any) => {
+  const recursion = (data: ChapterNodeType[]) => {
     if (!data) return
-    data.map((d: any) => {
+    data.map((d) => {
       if (d.courTimes && d.courTimes.length) {
-        d.courTimes.forEach((courTime: any) => {
+        d.courTimes.forEach((courTime) => {
           if (courTime.id === id) {
             setCurRenameNode(courTime)
             setAddInputValue(courTime.name)
@@ -172,18 +173,18 @@ export const reNameTreeNode = (
         setCurRenameNode(d)
         setAddInputValue(d.name)
         setFocusState(true)
-        setExpandKeys((pre: any) => pre.concat(d.chapterId))
+        setExpandKeys((pre) => pre.concat(d.chapterId))
       }
     })
   }
   recursion(data)
 }
 /*受控keys，全部展开*/
-export const generateExpandKeys = (data: any) => {
-  if (!data) return
-  const result: any = []
-  const recursion = (data: any) => {
-    data.forEach((d: any) => {
+export const generateExpandKeys = (data: ChapterNodeType[]) => {
+  if (!data) return []
+  const result: string[] = []
+  const recursion = (data: ChapterNodeType[]) => {
+    data.forEach((d) => {
       if (d.childChapters.length) {
         recursion(d.childChapters)
         result.push(d.chapterId)
@@ -196,19 +197,19 @@ export const generateExpandKeys = (data: any) => {
   return result
 }
 /**/
-export const formatResource = (resource: any) => {
-  const result: any = []
-  resource.forEach((r: any) => {
+export const formatResource = (resource: ChapterResourceType[]) => {
+  const result: ChapterResourceType[] = []
+  resource.forEach((r) => {
     if (r.type === '视频') {
       result.push(r)
     }
   })
-  resource.forEach((r: any) => {
+  resource.forEach((r) => {
     if (r.type === '课件') {
       result.push(r)
     }
   })
-  resource.forEach((r: any) => {
+  resource.forEach((r) => {
     if (r.type === '作业') {
       result.push(r)
     }
@@ -216,11 +217,11 @@ export const formatResource = (resource: any) => {
   return result
 }
 /*挂载前展开所有视频*/
-export const expandOnMount = (data: any) => {
-  const result: any = []
-  const recursion = (data: any) => {
+export const expandOnMount = (data: ChapterNodeType[]) => {
+  const result: string[] = []
+  const recursion = (data: ChapterNodeType[]) => {
     if (!data) return
-    data.map((d: any) => {
+    data.map((d: ChapterNodeType) => {
       if (d.childChapters.length) {
         recursion(d.childChapters)
       }

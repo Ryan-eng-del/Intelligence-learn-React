@@ -14,6 +14,7 @@ import {
 import { last } from 'lodash'
 import { Button, Space, Modal, Input, Popconfirm, message } from 'antd'
 import { ResourceType } from 'server/fetchCourseResource/types'
+import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
 
 export const ResourceListItem: React.FC<{
   item: ResourceType,
@@ -85,8 +86,8 @@ export const ResourceListItem: React.FC<{
         <label>修改文件名</label>
         <Input onChange={({target})=>setNewName(target.value)} value={newName}>
         </Input>
-
-        <Button type='primary' >修改关联的知识点</Button>
+        <label>修改关联的知识点</label>
+        <KnowledgeSeletor></KnowledgeSeletor>
       </Modal>
 
       <div
