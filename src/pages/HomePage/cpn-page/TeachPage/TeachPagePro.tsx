@@ -19,6 +19,7 @@ import { ClassCard } from 'publicComponents/TeachRotePage'
 import { useCreateClass, useShowCreateClass } from 'server/fetchClass'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 
+
 export const TeachPage = () => {
   const [state, dispatch] = useReducer(TeachRoutePageReducer, initialState)
   const { data, isLoading } = useShowCreateClass()
@@ -145,7 +146,6 @@ export const TeachPage = () => {
                               tname={item.course_name}
                               iurl={item.courses_cover}
                               optimistic={item.optimistic}
-                              user={'teacher'}
                             ></ClassCard>
                           </Col>
                         ) : (
@@ -155,7 +155,6 @@ export const TeachPage = () => {
                               cname={item.course_name}
                               tname={item.course_name}
                               iurl={item.courses_cover}
-                              user={'teacher'}
                             ></ClassCard>
                           </Col>
                         ))

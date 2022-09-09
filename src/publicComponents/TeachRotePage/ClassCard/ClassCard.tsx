@@ -7,11 +7,10 @@ interface ClassCard {
   tname: string
   cname: string
   iurl: string | null
-  user: string
   optimistic?: boolean
 }
 export const ClassCard: React.FC<ClassCard> = (props) => {
-  const { id, cname, iurl, optimistic, user } = props
+  const { id, cname, iurl, optimistic,  } = props
   const navigate = useNavigate()
   return (
     <>
@@ -29,12 +28,7 @@ export const ClassCard: React.FC<ClassCard> = (props) => {
             <Button
               type={'primary'}
               onClick={() => {
-                if (user == 'teacher')
                   navigate('/classinfo/chapter', {
-                    state: { cname, iurl, id }
-                  })
-                else if (user == 'student')
-                  navigate('/studentclassinfo/studentchapter', {
                     state: { cname, iurl, id }
                   })
               }}
