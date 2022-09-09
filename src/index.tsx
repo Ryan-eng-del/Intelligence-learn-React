@@ -84,13 +84,13 @@ root.render(
             }
           >
             <Route path="home" element={<HomePage />}>
-              <Route path="class">
+              {/* <Route path="class"> */}
                 <Route path="teach" element={<TeachPage />} />
                 <Route path="learn" element={<LearnPage />} />
                 <Route path="inbox" element={<InboxPage />} />
                 <Route path="profile" element={<ProfilePage />} />
                 <Route path="exam" element={<ExamSummary />} />
-              </Route>
+              {/* </Route> */}
             </Route>
             <Route path="classinfo" element={<ClassInfoPage />}>
               <Route path="chapter" element={<ChapterPage />} />
