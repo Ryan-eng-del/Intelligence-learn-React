@@ -25,15 +25,15 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #d3dedc;
-  color: var(--blue);
+  /*background-color: #d3dedc;*/
+  /*color: var(--blue);*/
   min-width: 1500px;
   /* background-color: rgba(255, 255, 255, 0.1) !important; */
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  monospace;
 }
 
 /* font-family */
@@ -120,8 +120,8 @@ span.ant-tree-title {
 }
 
 .ant-tree.ant-tree-block-node
-  .ant-tree-list-holder-inner
-  .ant-tree-node-content-wrapper {
+.ant-tree-list-holder-inner
+.ant-tree-node-content-wrapper {
   height: 40px;
   position: relative;
   line-height: 40px;
@@ -149,16 +149,16 @@ span.ant-tree-title {
 }
 
 .ant-tree.ant-tree-block-node
-  .ant-tree-list-holder-inner
-  .ant-tree-node-content-wrapper:hover
-  div.tree-node-tool {
+.ant-tree-list-holder-inner
+.ant-tree-node-content-wrapper:hover
+div.tree-node-tool {
   opacity: 1;
 }
 
 /* Modal 树形控件Modal样式覆盖*/
 .ant-tree.ant-tree-block-node .ant-tree-list-holder-inner {
   box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
-    rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+  rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
 }
 
 .ant-modal-body .tip-delete {
@@ -242,8 +242,8 @@ span.ant-tree-title {
 }
 
 .ant-tree-node-content-wrapper
-  .ant-tree-node-content-wrapper-open
-  .ant-tree-node-selected {
+.ant-tree-node-content-wrapper-open
+.ant-tree-node-selected {
   height: 40px;
   background-color: cyan;
 }

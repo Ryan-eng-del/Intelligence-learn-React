@@ -8,13 +8,15 @@ import {
 } from '@ant-design/icons'
 import { formatResource } from 'util/chapterStudyTree'
 import styled from 'styled-components'
+import { ChapterResourceType } from 'server/fetchChapter/types'
+import { Link } from 'react-router-dom'
 
-export const ChapterTreeContent: React.FC<{
+const ChapterTreeContent: React.FC<{
   contentName: string
   handleDeleteTreeContent: any
   contentId: string
   handleReNameTreeNode: any
-  resource: any
+  resource: ChapterResourceType[]
   handleClickAddResource: any
   handleClickRelatePoints: any
   handleDeleteResource: any
@@ -28,6 +30,7 @@ export const ChapterTreeContent: React.FC<{
   handleClickRelatePoints,
   handleDeleteResource
 }) => {
+  console.log('Content - 课时节点')
   return (
     <>
       <ChapterTreeContentWrapper>
@@ -63,7 +66,7 @@ export const ChapterTreeContent: React.FC<{
         </div>
 
         <ResourcePageWrapper>
-          {formatResource(resource).map((item: any) => {
+          {formatResource(resource).map((item: ChapterResourceType) => {
             return (
               <ul key={item.id}>
                 <li
@@ -84,6 +87,7 @@ export const ChapterTreeContent: React.FC<{
                     </Tag>
                   )}
                   <div style={{ display: 'inline-block' }}>{item.name}</div>
+                  <Link to={'/teacher-preview/' + item.id}>进入资源</Link>
                   <DeleteIconWrapper>
                     <DeleteOutlined
                       onClick={() => handleDeleteResource(item.id)}
@@ -104,6 +108,7 @@ export const ChapterTreeContent: React.FC<{
     </>
   )
 }
+/*样式*/
 const EditToolWrapperContent = styled.div`
   opacity: 0;
   position: absolute;
@@ -129,3 +134,5 @@ const DeleteIconWrapper = styled.div`
     color: black;
   }
 `
+/*memo性能优化*/
+export default React.memo(ChapterTreeContent)

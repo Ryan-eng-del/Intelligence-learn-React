@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, Button, message, Tag, Radio, InputNumber } from 'antd'
 import { TextArea } from '../Component/TextArea'
 import { useCreateQuestion } from 'server/fetchExam'
-import { QuestionData } from 'server/fetchExam/type/index'
+import { QuestionData } from 'server/fetchExam/types/index'
 
 type FooterType = {
   networkData: QuestionData
@@ -43,8 +43,7 @@ export const Footer: React.FC<FooterType> = (props: FooterType) => {
       setter({ ...data, explanation: '暂无' })
     }
     //网络请求
-    // createQuestion()
-    message.success('Success Save!')
+    createQuestion()
   }
 
   const handleSave = () => {

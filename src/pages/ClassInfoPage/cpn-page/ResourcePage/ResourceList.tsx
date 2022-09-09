@@ -1,16 +1,15 @@
 import { List, Space } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
+import { ResourceType } from 'server/fetchCourseResource/types'
 import { ResourceListItem } from './ResourceListItem'
 
 
 export const ResourceList: React.FC<{
-  resourceItems: {
-    id: string
-    name: string
-    time: string
-  }[]
+  resourceItems: ResourceType[]
 
 }> = ({resourceItems}) => {
+
+  const [data,setData] = useState(resourceItems);
 
   return (
     <>
@@ -24,8 +23,15 @@ export const ResourceList: React.FC<{
           </Space>
         }
         bordered
-        dataSource={resourceItems}
-        renderItem={i => <List.Item><ResourceListItem item={i}/></List.Item>}
+        dataSource={data}
+        renderItem={i => <List.Item><ResourceListItem
+          item={i}
+          rename={(name)=>{
+            i.resourceName = name;
+            setData([...data]);
+          }}
+          deleteFile={()=>setData(data.filter((item)=>i !== item))}
+        /></List.Item>}
       />
     </>
   )

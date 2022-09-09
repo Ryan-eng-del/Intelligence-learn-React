@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Input } from 'antd'
 import { stopPropagation } from 'util/stopPropagation'
+import { debounce } from 'util/debounece'
 
 export const ChapterNodeRenameStatus: React.FC<{
   setAddInputValue: any
@@ -8,11 +9,15 @@ export const ChapterNodeRenameStatus: React.FC<{
   cancelRename: any
   value: any
 }> = ({ setAddInputValue, confirmRename, cancelRename, value }) => {
+  // debounce用来阻止，多次type造成setUpdaterFunction连续调用，导致组件多次渲染更新
+  const debounceChange = debounce((e: any) => {
+    setAddInputValue(e.target.value)
+  }, 300)
   return (
     <div style={{ display: 'flex' }}>
       <Input
         autoFocus
-        onChange={(e) => setAddInputValue(e.target.value)}
+        onChange={(e) => debounceChange(e)}
         style={{ marginRight: '12px' }}
         defaultValue={value}
         onClick={(e) => e.stopPropagation()}

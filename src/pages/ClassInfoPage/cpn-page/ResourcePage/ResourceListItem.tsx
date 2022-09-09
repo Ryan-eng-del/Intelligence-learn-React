@@ -13,18 +13,19 @@ import {
 } from '@ant-design/icons'
 import { last } from 'lodash'
 import { Button, Space, Modal, Input, Popconfirm, message } from 'antd'
+import { ResourceType } from 'server/fetchCourseResource/types'
+import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
 
 export const ResourceListItem: React.FC<{
-  item: {
-    id: string
-    name: string
-    time: string
-  }
-}> = ({item}) => {
+  item: ResourceType,
+  rename:(newName:string)=>void,
+  deleteFile:()=>void
+}> = ({ item, rename, deleteFile }) => {
 
   const [hover,setHover] = useState(false);
+  const [newName,setNewName] = useState(item.resourceName);
 
-  const fileType = last(item.name.split('.'));
+  const fileType = last(item.resourceName?.split('.'));
   const icon = fileType === undefined
   ? <FileUnknownOutlined />
   : ['png','jpg'].includes(fileType)
@@ -43,56 +44,69 @@ export const ResourceListItem: React.FC<{
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
 
   const handleOk = () => {
+    // 发送修改信息的请求
+    rename(newName)
     setIsModalVisible(false);
   };
 
-  const handleCancel = () => {
+  const handleDelete = () => {
     setIsModalVisible(false);
-  };
-  const confirm = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
-    message.success('Click on Yes');
+    deleteFile();
   };
 
-  const cancel = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
-    message.error('Click on No');
-  };
+
 
   return (
     <>
-      <Modal title={`修改文件信息-${item.name}`} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+    {/* 编辑弹窗 */}
+      <Modal
+        title={`修改文件信息-${item.resourceName}`}
+        visible={isModalVisible}
+        onCancel={()=>setIsModalVisible(false)}
+        footer={[
+          <Popconfirm
+            key="delete"
+            title="你确定要删除这个文件吗"
+            onConfirm={handleDelete}
+            okText="是"
+            cancelText="否"
+          >
+            <Button type='primary' danger>删除这个文件</Button>
+          </Popconfirm>,
+          <Button
+            key="save"
+            type="primary"
+            onClick={handleOk}
+          >保存
+          </Button>,
+        ]}
+      >
         <label>修改文件名</label>
-        <Input defaultValue={item.name}>
+        <Input onChange={({target})=>setNewName(target.value)} value={newName}>
         </Input>
-        <Popconfirm
-          title="Are you sure to delete this task?"
-          // onConfirm={}={confirm}
-          // onCancel={cancel}
-          okText="Yes"
-          cancelText="No"
-        >
-          <Button type='primary' danger>删除这个文件</Button>
-        </Popconfirm>
-        <Button type='primary' >修改关联的知识点</Button>
+        <label>修改关联的知识点</label>
+        <KnowledgeSeletor></KnowledgeSeletor>
       </Modal>
+
       <div
         className='flex'
         onMouseEnter={()=>setHover(true)}
         onMouseLeave={()=>setHover(false)}
       >
+        {/* 文件名及图标 */}
         <Space style={{width:"20vw"}}>
           <div style={{fontSize:"30px"}}>
             {icon}
           </div>
-          <div>{item.name}</div>
+          <div>{item.resourceName}</div>
         </Space>
-        <div>{item.time}</div>
+
+        {/* 创建时间 */}
+        <div>{item.createTime}</div>
+
+        {/* 操作区域 */}
         <Space size='middle' style={{visibility: hover ? "visible" : "hidden"}}>
           <Button type='primary' icon={<EyeOutlined />}>
             预览
@@ -100,7 +114,7 @@ export const ResourceListItem: React.FC<{
           <Button type='primary' icon={<DownloadOutlined />}>
             下载
           </Button>
-          <Button type='primary' icon={<EditOutlined />} onClick={showModal}>
+          <Button type='primary' icon={<EditOutlined />} onClick={()=>setIsModalVisible(true)}>
             编辑
           </Button>
         </Space>

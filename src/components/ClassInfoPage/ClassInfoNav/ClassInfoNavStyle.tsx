@@ -15,6 +15,28 @@ export const ClassInfoNavWrapper = styled(LeftSideWrapper)`
     font-size: 15px;
     text-align: center;
   }
+
+  .class-img-wapper {
+    display:flex;
+    font-size: 24px;
+    width: 100%;
+    justify-content:center;
+    transition: transform 300ms;
+    transform: translateY(48px);
+    &:hover {
+      transform: translateY(0px);
+    }
+  }
+  .backButton {
+    color: white;
+    background-color: var(--blue);
+    padding: 5px;
+    width: 100%;
+    font-size: 24px;
+    z-index: -10;
+    display: flex;
+    justify-content:center;
+  }
 `
 export const ClassInfoWrapper = styled(LeftInfoWrapper)``
 export const ClassInfoMenuWrapper = styled(LeftMenuWrapper)``

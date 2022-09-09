@@ -29,8 +29,8 @@ function getItem(
 
 const items: MenuItem[] = [
   getItem('课程中心', 'sub1', <BarChartOutlined />, [
-    getItem(<Link to={'class/learn'}>我学习的课程</Link>, '1', <TagOutlined />),
-    getItem(<Link to={'class/teach'}>我教授的课程</Link>, '2', <TagsOutlined />)
+    getItem(<Link to={'learn'}>我学习的课程</Link>, '1', <TagOutlined />),
+    getItem(<Link to={'teach'}>我教授的课程</Link>, '2', <TagsOutlined />)
   ]),
   getItem(<Link to={'class/inbox'}>消息中心</Link>, '3', <BellOutlined />),
   getItem(<Link to={'class/exam'}>我的考试</Link>, '4', <ContainerOutlined />),

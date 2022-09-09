@@ -55,6 +55,8 @@ import {
 // util
 import { RequireAuth } from 'util/requireAuth'
 import { KnowledgeGraph } from './pages/K-graphPage/KnowledgeGraph'
+import { TeacherSourcePreviewPage } from './pages/TeacherSourcePreviewPage/TeacherSourcePreviewPage'
+import { SourcePreviewPage } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/SourcePreviewPage'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
@@ -110,6 +112,10 @@ root.render(
               />
             </Route>
             <Route path={'k-graph'} element={<KnowledgeGraph />} />
+
+            <Route path="chapterinfo" element={<ChapterInfo />}>
+              {/* ChapterID */}
+            </Route>
             <Route path="study" element={<ChapterPreviewFile />} />
             <Route path="createexam" element={<CreateExamPage />}>
               <Route path="single" element={<SingleChoice />} />
@@ -117,6 +123,12 @@ root.render(
               <Route path="fillBlank" element={<FillBlank />} />
               <Route path="shortanswer" element={<ShortAnswer />} />
               <Route path="programming" element={<Programming />} />
+            </Route>
+            <Route
+              path="teacher-preview"
+              element={<TeacherSourcePreviewPage />}
+            >
+              <Route path=":id" element={<SourcePreviewPage />} />
               <Route path="judge" element={<Judge />} />
             </Route>
           </Route>

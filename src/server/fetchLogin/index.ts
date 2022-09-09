@@ -22,7 +22,7 @@ export const useToken = (name: string, password: string) => {
         console.log(data)
         queryClient.setQueryData(['token'], data)
         cache.setCache('token', data)
-        navigate('/home/class/teach')
+        navigate('/home/teach')
         message.success('登录成功，欢迎回来')
       }
     }

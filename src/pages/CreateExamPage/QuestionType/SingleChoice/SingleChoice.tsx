@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Form, Button, Radio } from 'antd'
 import { TextArea } from '../Component/TextArea'
 import { Footer } from '../Component/Footer'
-import { QuestionData } from 'server/fetchExam/type/index'
+import { QuestionData } from 'server/fetchExam/types/index'
 
 export const SingleChoice: React.FC = () => {
   const [question, setQuestion] = useState({

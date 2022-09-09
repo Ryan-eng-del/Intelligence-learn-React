@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from 'antd'
 import styled from 'styled-components'
 
-export const ChapterTreeDirectory: React.FC<{
+const ChapterTreeDirectory: React.FC<{
   nodeName: string
   nodeId: string
   handleDeleteTreeNode: any
@@ -50,6 +50,7 @@ export const ChapterTreeDirectory: React.FC<{
     </ChapterTreeDirectoryWrapper>
   )
 }
+/*样式*/
 const EditToolWrapper = styled.div`
   opacity: 0;
   transition: 0.3s opacity;
@@ -68,3 +69,5 @@ const ChapterTreeDirectoryWrapper = styled.div`
     opacity: 1;
   }
 `
+/*memo优化*/
+export default React.memo(ChapterTreeDirectory)

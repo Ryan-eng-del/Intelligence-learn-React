@@ -4,9 +4,10 @@ import React from 'react'
 import { useChapterControl } from './useChapterControl'
 import { ChapterNodeRenameStatus } from 'components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeRenameStatus'
 import { ChapterNodeFocusStatus } from 'components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeFocusStatus'
-import { ChapterTreeDirectory } from 'components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeDirectory'
-import { ChapterTreeContent } from '../../components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeContent'
-
+import ChapterTreeDirectory from 'components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeDirectory'
+import ChapterTreeContent from '../../components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeContent'
+import { ChapterNodeType, ChapterResourceType, CourTimeType } from 'server/fetchChapter/types'
+const { TreeNode } = Tree
 export const useChapterUI = () => {
   /*业务逻辑层*/
   const {
@@ -48,7 +49,7 @@ export const useChapterUI = () => {
     />
   )
   /*重命名状态的UI*/
-  const renameStatusUI = (name: any) => {
+  const renameStatusUI = (name: string) => {
     return (
       <ChapterNodeRenameStatus
         setAddInputValue={setAddInputValue}
@@ -59,7 +60,7 @@ export const useChapterUI = () => {
     )
   }
   /*目录节点UI*/
-  const generateTreeNodeUI = (chapterId: any, name: any) => {
+  const generateTreeNodeUI = (chapterId: string, name: string) => {
     return (
       <ChapterTreeDirectory
         nodeId={chapterId}
@@ -72,10 +73,10 @@ export const useChapterUI = () => {
     )
   }
   /*课时节点UI*/
-  const generateTreeContentUI = (id: any, name: any, resource: any) => {
+  const generateTreeContentUI = (id: string, name: string, resource: ChapterResourceType[]) => {
     if (!resource) return
     return (
-      <Tree.TreeNode
+      <TreeNode
         switcherIcon={<EditOutlined />}
         icon={<EditOutlined />}
         key={id}
@@ -91,20 +92,19 @@ export const useChapterUI = () => {
             handleDeleteResource={handleDeleteResource}
           />
         }
-      ></Tree.TreeNode>
+      ></TreeNode>
     )
   }
 
   /*根据后台数据来递归构造树节点*/
-  const generateTreeNode = (data: any) => {
+  const generateTreeNode = (data: ChapterNodeType[]) => {
     if (!data) return
-    const recursion = (data: any) => {
-      return data.map((d: any) => {
-        // eslint-disable-next-line no-prototype-builtins
-        if (d.hasOwnProperty('resource')) {
+    const recursion = (data: ChapterNodeType[] | CourTimeType[]) => {
+      return data.map((d: ChapterNodeType | CourTimeType) => {
+        if ('resource' in d) {    // 断言为 CourTimeType
           if (d == curNode) {
             return (
-              <Tree.TreeNode
+              <TreeNode
                 key={d.id}
                 title={
                   focusStatus
@@ -115,7 +115,7 @@ export const useChapterUI = () => {
             )
           } else if (d == curRenameNode) {
             return (
-              <Tree.TreeNode
+              <TreeNode
                 key={d.id}
                 title={
                   focusStatus
@@ -128,52 +128,45 @@ export const useChapterUI = () => {
             return generateTreeContentUI(d.id, d.name, d.resource)
           }
         }
-        if (
-          (d.childChapters && d.childChapters.length) ||
-          (d.courTimes && d.courTimes.length)
-        ) {
+        // CourTimeType 在上方必定return
+            d;
+        // 👆即使不断言也类型收窄到  CourTimeType
+        if ('courTimes' in d) {   // 断言为 ChapterNodeType
           if (d === curRenameNode)
             return (
-              <Tree.TreeNode
-                key={d.chapterId}
-                title={
-                  focusStatus
-                    ? renameStatusUI(d.name)
-                    : generateTreeContentUI(d.id, d.name, d.resource)
-                }
-              >
-                {d.childChapters.length && recursion(d.childChapters)}
-                {d.courTimes && d.courTimes.length && recursion(d.courTimes)}
-              </Tree.TreeNode>
+              <TreeNode key={d.chapterId} title={renameStatusUI(d.name)}>
+                {recursion(d.childChapters)}
+                {d.courTimes && recursion(d.courTimes)}
+              </TreeNode>
             )
           else {
             return (
-              <Tree.TreeNode
+              <TreeNode
                 key={d.chapterId}
                 title={generateTreeNodeUI(d.chapterId, d.name)}
               >
                 {d.childChapters.length && recursion(d.childChapters)}
                 {d.courTimes && d.courTimes.length && recursion(d.courTimes)}
-              </Tree.TreeNode>
+              </TreeNode>
             )
           }
         }
+        // courTimes 是可选项， 运行到这里都是没有courTimes的ChapterNodeType
         if (d == curNode) {
           return (
-            <Tree.TreeNode
+            <TreeNode
               key={d.chapterId}
               title={
                 focusStatus
                   ? focusStateUI
                   : generateTreeNodeUI(d.chapterId, d.name)
               }
-            ></Tree.TreeNode>
+            ></TreeNode>
           )
         } else if (d == curRenameNode) {
-          return <Tree.TreeNode key={d.id} title={renameStatusUI(d.name)} />
-        } else
-          return (
-            <Tree.TreeNode
+          return <TreeNode key={d.chapterId} title={renameStatusUI(d.name)} />
+        } else return (
+            <TreeNode
               key={d.chapterId}
               title={generateTreeNodeUI(d.chapterId, d.name)}
             />
@@ -183,7 +176,7 @@ export const useChapterUI = () => {
     return recursion(data)
   }
   return {
-    treeData: generateTreeNode(data),
+    treeData: generateTreeNode(data!),
     isLoading,
     handleClickAddChapter,
     expandKeys,

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { KnowledgeNodeType, KnowledgeNodeType_init } from 'server/fetchKnowledge/types'
 import { useChapterClient } from '../useChapterStudy/useChapterStudyClient'
 
 export const useKnowledgeClient = () => {
@@ -7,10 +8,6 @@ export const useKnowledgeClient = () => {
     curAddInputValue,
     setAddInputValue,
     setFocusStatus,
-    setCurRenameNode,
-    curNode,
-    setCurNode,
-    curRenameNode,
     focusStatus,
     expandKeys,
     isModalVisible,
@@ -26,6 +23,8 @@ export const useKnowledgeClient = () => {
   const [curId, setCurId] = useState('')
   const [curCheckId, setCurCheckId] = useState([])
   const [relateKeys, setRelateKeys] = useState([])
+  const [curNode, setCurNode] = useState<KnowledgeNodeType>(KnowledgeNodeType_init)
+  const [curRenameNode, setCurRenameNode] = useState<KnowledgeNodeType>(KnowledgeNodeType_init)
   return {
     curId,
     setCurId,

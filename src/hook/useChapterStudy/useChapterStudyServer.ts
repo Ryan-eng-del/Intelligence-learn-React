@@ -1,12 +1,17 @@
 import { useQueryClient } from '@tanstack/react-query'
+import { StateSetter } from 'types'
 import {
   useAddChildChapter,
   useConfirmAddChapter,
   useDeleteChapter,
   useShowCreateChapter
 } from '../../server/fetchChapter'
+import { ChapterNodeType, CourTimeType } from 'server/fetchChapter/types'
 
-export const useChapterServer = (setExpandKeys: any, setCurNode: any) => {
+export const useChapterServer = (
+  setExpandKeys: StateSetter<string[]>,
+   setCurNode: StateSetter<ChapterNodeType | CourTimeType>
+) => {
   const { mutate: addChapterMutate, data: addChapterData } =
     useConfirmAddChapter(setCurNode)
   const queryClient = useQueryClient()
