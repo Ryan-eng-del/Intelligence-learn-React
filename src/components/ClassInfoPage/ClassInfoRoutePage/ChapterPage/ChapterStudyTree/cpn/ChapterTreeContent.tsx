@@ -16,7 +16,7 @@ const ChapterTreeContent: React.FC<{
   handleDeleteTreeContent: any
   contentId: string
   handleReNameTreeNode: any
-  resource: ChapterResourceType
+  resource: ChapterResourceType[]
   handleClickAddResource: any
   handleClickRelatePoints: any
   handleDeleteResource: any

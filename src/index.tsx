@@ -19,13 +19,15 @@ import {
   CreateExamPage,
   QuestionBankPage,
   CreateQuestionPage,
-  QuestionPreviewPage
+  QuestionPreviewPage,
+  StudentClassInfoPage
 } from 'pages'
 import {
   LearnPage,
   TeachPage,
   InboxPage,
-  ProfilePage
+  ProfilePage,
+  ExamSummary
 } from 'pages/HomePage/cpn-page'
 import {
   ChapterPage,
@@ -35,6 +37,14 @@ import {
   ClassManaPage,
   KnowledgePage
 } from 'pages/ClassInfoPage'
+import {
+  StudentChapterPage,
+  StudentResourcePage,
+  StudentExamPage,
+  StudentDiscussPage,
+  StudentClassManaPage,
+  StudentKnowledgePage
+} from 'pages/StudentClassInfoPage'
 import { ChapterInfo, ChapterPreviewFile } from 'pages/ChapterInfo'
 import {
   SingleChoice,
@@ -78,9 +88,13 @@ root.render(
             }
           >
             <Route path="home" element={<HomePage />}>
+              {/* <Route path="class"> */}
               <Route path="teach" element={<TeachPage />} />
               <Route path="learn" element={<LearnPage />} />
               <Route path="inbox" element={<InboxPage />} />
+              <Route path="profile" element={<ProfilePage />} />
+              <Route path="exam" element={<ExamSummary />} />
+              {/* </Route> */}
             </Route>
             <Route path="classinfo" element={<ClassInfoPage />}>
               <Route path="chapter" element={<ChapterPage />} />
@@ -89,6 +103,17 @@ root.render(
               <Route path="discuss" element={<DiscussPage />} />
               <Route path="class" element={<ClassManaPage />} />
               <Route path="knowledge" element={<KnowledgePage />} />
+            </Route>
+            <Route path="studentclassinfo" element={<StudentClassInfoPage />}>
+              <Route path="studentchapter" element={<StudentChapterPage />} />
+              <Route path="studentexam" element={<StudentExamPage />} />
+              <Route path="studentresource" element={<StudentResourcePage />} />
+              <Route path="studentdiscuss" element={<StudentDiscussPage />} />
+              <Route path="studentclass" element={<StudentClassManaPage />} />
+              <Route
+                path="studentknowledge"
+                element={<StudentKnowledgePage />}
+              />
             </Route>
             <Route path={'k-graph'} element={<KnowledgeGraph />} />
 

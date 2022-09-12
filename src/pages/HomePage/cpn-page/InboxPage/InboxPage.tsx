@@ -71,51 +71,51 @@ export const InboxPage: React.FC = () => {
 
   return (
     <>
-      <Tabs
-        activeKey={chosen}
-        onChange={(key: string) => {
-          setChosen(key)
-        }}
-        centered
-      >
-        <TabPane
-          tab={
-            <Badge dot={showBadge('')}>
-              <MailOutlined />
-              全部消息
-            </Badge>
-          }
-          key="All"
-        ></TabPane>
-        <TabPane
-          tab={
-            <Badge dot={showBadge('Notice')}>
-              <CommentOutlined />
-              课程通知
-            </Badge>
-          }
-          key="Notice"
-        ></TabPane>
-        <TabPane
-          tab={
-            <Badge dot={showBadge('Broadcast')}>
-              <ContainerOutlined />
-              推广信息
-            </Badge>
-          }
-          key="Broadcast"
-        ></TabPane>
-        <TabPane
-          tab={
-            <span>
-              <HeartOutlined />
-              收藏待办
-            </span>
-          }
-          key="Favority"
-        ></TabPane>
-      </Tabs>
       <InboxWrapper>
+        <Tabs
+          activeKey={chosen}
+          onChange={(key: string) => {
+            setChosen(key)
+          }}
+          centered
+        >
+          <TabPane
+            tab={
+              <Badge dot={showBadge('')}>
+                <MailOutlined />
+                全部消息
+              </Badge>
+            }
+            key="All"
+          ></TabPane>
+          <TabPane
+            tab={
+              <Badge dot={showBadge('Notice')}>
+                <CommentOutlined />
+                课程通知
+              </Badge>
+            }
+            key="Notice"
+          ></TabPane>
+          <TabPane
+            tab={
+              <Badge dot={showBadge('Broadcast')}>
+                <ContainerOutlined />
+                推广信息
+              </Badge>
+            }
+            key="Broadcast"
+          ></TabPane>
+          <TabPane
+            tab={
+              <Badge dot={false}>
+                <HeartOutlined />
+                收藏待办
+              </Badge>
+            }
+            key="Favority"
+          ></TabPane>
+        </Tabs>
         <List
           itemLayout="horizontal"
           dataSource={msgList.filter((item) => {

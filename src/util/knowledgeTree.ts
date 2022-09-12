@@ -1,10 +1,13 @@
+import { QueryClient } from '@tanstack/react-query'
 import { cloneDeepWith } from 'lodash'
+import { KnowledgeNodeType, RelateNodeType } from 'server/fetchKnowledge/types'
+import { AnyFn } from 'types'
 
 export const updateKnowledgeTreeQueryCache = (
-  updaterFun: any,
-  queryClient: any
+  updaterFun: AnyFn<KnowledgeNodeType[]>,
+  queryClient: QueryClient
 ) => {
-  const queryTreeData: any = queryClient.getQueryData(['knowledgeTree'])
+  const queryTreeData: KnowledgeNodeType[] | undefined = queryClient.getQueryData(['knowledgeTree'])
   const newQueryTreeData = updaterFun(queryTreeData)
   queryClient.setQueryData(['knowledgeTree'], newQueryTreeData)
 }
@@ -71,11 +74,11 @@ export const renameKnowledgePoint = (
   }
   recursion(data)
 }
-export const generateKnowledgeKeys = (data: any) => {
+export const generateKnowledgeKeys = (data: KnowledgeNodeType[]) => {
   if (!data) return
   const result: any = []
-  const recursion = (data: any) => {
-    data.forEach((d: any) => {
+  const recursion = (data: KnowledgeNodeType[]) => {
+    data.forEach((d) => {
       if (d.children) {
         recursion(d.children)
       }
@@ -110,7 +113,7 @@ export const relateAllPoints = (
 }
 export const generateRelatePointsObj = (data: any, checked: any) => {
   if (!data) return
-  const result: any = []
+  const result: RelateNodeType[] = []
   const recursion = (data: any) => {
     data.forEach((d: any) => {
       if (d.children) {

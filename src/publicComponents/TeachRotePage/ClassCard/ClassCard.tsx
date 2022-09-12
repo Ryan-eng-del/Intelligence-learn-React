@@ -11,7 +11,7 @@ interface ClassCard {
   optimistic?: boolean
 }
 export const ClassCard: React.FC<ClassCard> = (props) => {
-  const { id, cname, iurl, optimistic } = props
+  const { id, cname, iurl, optimistic,  } = props
   const navigate = useNavigate()
   return (
     <>

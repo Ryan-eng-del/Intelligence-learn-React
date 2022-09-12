@@ -7,72 +7,63 @@ import {
   MessageOutlined,
   BgColorsOutlined
 } from '@ant-design/icons'
+import { AccountSecurity } from './AccountSecurity/AccountSecurity'
+import { BasicInformation } from './BasicInformation/BasicInformation'
+import { Notification } from './Notification/Notification'
+import { Personalization } from './Personalization/Personalization'
+import { ProfileWapper } from './ProfilePageStyle'
 
 export const ProfilePage: React.FC = () => {
   return (
     <>
-      <Tabs tabPosition="left" centered>
-        <TabPane
-          tab={
-            <span>
-              <UserOutlined />
-              基本信息
-            </span>
-          }
-          key="1"
-        >
-          头像
-          <br />
-          名字
-          <br />
-          性别
-          <br />
-          学校
-          <br />
-          部门
-          <br />
-        </TabPane>
-        <TabPane
-          tab={
-            <span>
-              <LockOutlined />
-              账号安全
-            </span>
-          }
-          key="2"
-        >
-          密码
-          <br />
-          绑定手机
-          <br />
-          绑定邮箱
-          <br />
-        </TabPane>
-        <TabPane
-          tab={
-            <span>
-              <MessageOutlined />
-              通知管理
-            </span>
-          }
-          key="3"
-        >
-          不提示推广消息
-          <br />
-        </TabPane>
-        <TabPane
-          tab={
-            <span>
-              <BgColorsOutlined />
-              个性设置
-            </span>
-          }
-          key="4"
-        >
-          主题色
-          <br />
-        </TabPane>
-      </Tabs>
+      <ProfileWapper>
+        <Tabs tabPosition="left" centered>
+          <TabPane
+            tab={
+              <span className="tab-list">
+                <UserOutlined />
+                基本信息
+              </span>
+            }
+            key="1"
+          >
+            <BasicInformation></BasicInformation>
+          </TabPane>
+          <TabPane
+            tab={
+              <span className="tab-list">
+                <LockOutlined />
+                账号安全
+              </span>
+            }
+            key="2"
+          >
+            <AccountSecurity></AccountSecurity>
+          </TabPane>
+          <TabPane
+            tab={
+              <span className="tab-list">
+                <MessageOutlined />
+                通知管理
+              </span>
+            }
+            key="3"
+          >
+            <Notification></Notification>
+          </TabPane>
+          <TabPane
+            tab={
+              <span className="tab-list">
+                <BgColorsOutlined />
+                个性设置
+              </span>
+            }
+            key="4"
+          >
+            <Personalization></Personalization>
+          </TabPane>
+        </Tabs>
+      </ProfileWapper>
     </>
   )
 }

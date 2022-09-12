@@ -11,6 +11,7 @@ import {
 } from '../../util/knowledgeTree'
 import { useKnowledgeClient } from './useKnowledgeClient'
 import { KnowledgeNodeType, KnowledgeNodeType_init } from 'server/fetchKnowledge/types'
+import { Key } from 'react'
 
 export const useKnowledgeControl = () => {
   /*Client状态层*/
@@ -49,7 +50,7 @@ export const useKnowledgeControl = () => {
     /*这里node保持引用，之后可以修改根据引用来创建name*/
     setFocusStatus(true)
     updateKnowledgeTreeQueryCache(
-      (queryTreeData: any) => queryTreeData.concat(node),
+      (queryTreeData) => queryTreeData.concat(node),
       queryClient
     )
     node.pointId = Math.random() * 10000 + ''
@@ -70,11 +71,11 @@ export const useKnowledgeControl = () => {
     setFocusStatus(false)
   }
   /*删除知识点*/
-  const deleteKnowledgePoint = (id: any) => {
+  const deleteKnowledgePoint = (id: string) => {
     deleteKnowledgeNode(data, id, queryClient)
   }
   /*添加子知识点*/
-  const addKnowledgeChildrenPoint = (id: any) => {
+  const addKnowledgeChildrenPoint = (id: string) => {
     const node: any = new Object({
       pointId: '',
       pointName: '新建节点',
@@ -90,7 +91,7 @@ export const useKnowledgeControl = () => {
     setCurNode(node)
   }
   /*重命名节点*/
-  const renameKnowledgeNode = (id: any) => {
+  const renameKnowledgeNode = (id: string) => {
     renameKnowledgePoint(
       data,
       id,
@@ -112,7 +113,7 @@ export const useKnowledgeControl = () => {
     setCurRenameNode(KnowledgeNodeType_init)
   }
   /*点击展开触发*/
-  const handleExpand = (id: any, info: any) => {
+  const handleExpand = (id: Key[], info: any) => {
     if (!info.node.expanded) {
       const key = info.node.key
       setExpandKeys((pre) => pre.concat(key))
@@ -121,7 +122,7 @@ export const useKnowledgeControl = () => {
       setExpandKeys((pre) => pre.filter((v) => v != key))
     }
   }
-  const handleRelateExpand = (id: any, info: any) => {
+  const handleRelateExpand = (id: Key[], info: any) => {
     if (!info.node.expanded) {
       const key = info.node.key
       setRelateKeys((pre) => pre.concat(key))
@@ -155,7 +156,7 @@ export const useKnowledgeControl = () => {
   const handleCancel = () => {
     setIsModalVisible(false)
   }
-  const relatePoints = (mark: any, nodeId: any) => {
+  const relatePoints = (mark: string, nodeId: any) => {
     setRelateKeys(generateKnowledgeKeys(data))
     const curId = findCurRelatePoints(data, nodeId, mark)
     setCurCheckId(curId)

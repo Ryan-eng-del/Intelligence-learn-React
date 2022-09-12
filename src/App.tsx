@@ -7,6 +7,8 @@ import { registerFormulaModule } from 'util/registerEditor'
 
 function App() {
   const navigate = useNavigate()
+  useMount(registerFormulaModule) // 注册富文本编辑器的公式插件
+
   const location = useLocation()
 
   useMount(() => {
@@ -20,7 +22,8 @@ function App() {
     <div className="App">
       <Outlet />
     </div>
-  )
+
+ )
 }
 
 export default App

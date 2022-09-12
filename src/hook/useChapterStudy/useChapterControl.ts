@@ -11,7 +11,7 @@ import {
   updateChapterTreeQueryCache
 } from '../../util/chapterStudyTree'
 import { useCallback } from 'react'
-import { ChapterNodeType, ChapterNodeType_init, ChapterResourceType } from 'server/fetchChapter/types'
+import { ChapterNodeType, ChapterNodeType_init, ChapterResourceType, CourTimeType } from 'server/fetchChapter/types'
 import { Key } from 'react'
 
 export const useChapterControl = () => {
@@ -45,6 +45,16 @@ export const useChapterControl = () => {
     isLoading,
     addChapterMutate
   } = useChapterServer(setExpandKeys, setCurNode)
+
+  const newNode_init : ChapterNodeType = {
+    chapterId: '',
+    name: '新建节点',
+    chapterOrder: 1,
+    courseId: '1547211420256386',
+    courTimes: [],
+    childChapters: []
+  }
+
   /*处理树节点一点击就触发*/
   const handleOnExpand = useCallback((id: Key[], info: any) => {
     if (!info.node.expanded) {
@@ -58,7 +68,7 @@ export const useChapterControl = () => {
   /*删除资源*/
   const handleDeleteResource = useCallback(
     (id: string) => {
-      deleteResource(data, id, queryClient)
+      deleteResource(data!, id, queryClient)
     },
     [data]
   )
@@ -79,27 +89,20 @@ export const useChapterControl = () => {
   )
   /*处理弹窗okay添加资源*/
   const handleModalOk = () => {
-    const resource = { type: uploadType, name: resourceTitle, id: '' }
+    const resource: ChapterResourceType = { type: "uploadType", name: "resourceTitle", id: '' }
     /*网络请求拿到id*/
     resource.id = Math.random() * 1000 + ''
-    addResource(data, curAddId, queryClient, resource)
+    addResource(data!, curAddId, queryClient, resource)
     setIsModalVisible(false)
   }
   /*添加根章节*/
   const handleClickAddChapter = useCallback(async () => {
     /*先出现交互inputNode*/
-    const node: any = new Object({
-      chapterId: '',
-      name: '新建节点',
-      chapterOrder: 1,
-      courseId: '1547211420256386',
-      courTimes: [],
-      childChapters: []
-    })
+    const node = {...newNode_init}
     /*这里node保持引用，之后可以修改根据引用来创建name*/
     await setFocusStatus(true)
     updateChapterTreeQueryCache(
-      (queryTreeData: any) => queryTreeData.concat(node),
+      (queryTreeData: ChapterNodeType[]) => queryTreeData.concat(node),
       queryClient
     )
     node.chapterId = Math.random() * 10000 + ''
@@ -107,7 +110,7 @@ export const useChapterControl = () => {
   }, [data])
   /*添加子目录*/
   const handleClickAddChildChapter = useCallback(
-    async (chapterId: any) => {
+    async (chapterId: string) => {
       setExpandKeys((prevState) => {
         if (prevState.includes(chapterId)) {
           return prevState
@@ -117,14 +120,7 @@ export const useChapterControl = () => {
       })
       setFocusStatus(true)
       /*先出现交互inputNode*/
-      const node: any = new Object({
-        chapterId: '',
-        name: '新建节点',
-        chapterOrder: 1,
-        courseId: '1547211420256386',
-        courTimes: [],
-        childChapters: []
-      })
+      const node: any = {...newNode_init}
       setCurNode(node)
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -147,17 +143,14 @@ export const useChapterControl = () => {
         }
       })
       /*先出现交互inputNode*/
-      const node: any = new Object({
+      const node: CourTimeType = {
         id: '',
         name: '新建节点',
-        courseId: '1547211420256386',
         resource: []
-      })
+      }
       setCurNode(node)
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       setFocusStatus(true)
-      addChildContentNode(data, chapterId, queryClient, node)
+      addChildContentNode(data!, chapterId, queryClient, node)
       // await addChildChapterMutate({ chapterId, node })
       node.id = addChildChapterData?.id || Math.random() + ''
       /*这里node保持引用，之后可以修改根据引用来创建name*/
@@ -174,7 +167,7 @@ export const useChapterControl = () => {
       console.log('未抛出异常')
       setFocusStatus(false)
       /*发送创建节点的请求*/
-      setCurNode((pre: ChapterNodeType | ChapterResourceType) => (pre.name = curAddInputValue,{...pre}))
+      setCurNode((pre) => (pre.name = curAddInputValue,{...pre}))
       setCurNode(ChapterNodeType_init)
       setAddInputValue('')
     } catch (err: unknown) {
@@ -199,17 +192,17 @@ export const useChapterControl = () => {
     async (id: string, type: string) => {
       switch (type) {
         case 'courTimes':
-          deleteTreeContent(data, id, queryClient)
+          deleteTreeContent(data!, id, queryClient)
           break
         case 'chapterNode':
-          deleteTreeNode(data, id, queryClient)
+          deleteTreeNode(data!, id, queryClient)
       }
     },
     [data]
   )
   /*确认重命名*/
   const confirmRename = () => {
-    setCurRenameNode((pre: ChapterNodeType) => (pre.name = curAddInputValue,{...pre}))
+    setCurRenameNode((pre) => (pre.name = curAddInputValue,{...pre}))
     setCurRenameNode(ChapterNodeType_init)
 
 
@@ -222,7 +215,7 @@ export const useChapterControl = () => {
   const handleReNameTreeNode = useCallback(
     (chapterId: any) => {
       reNameTreeNode(
-        data,
+        data!,
         chapterId,
         setCurRenameNode,
         setFocusStatus,

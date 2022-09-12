@@ -3,6 +3,7 @@ export const initialState: LearnPageState = {
   imgUrl: '',
   className: '',
   classLearner: '',
+  invitedcode: '',
   classList: [
     {
       iurl: '',
@@ -33,6 +34,8 @@ export const LearnRoutePageReducer = (
       return { ...state, modalVisible: action.payload }
     case 'setUploadLoading':
       return { ...state, uploadLoading: action.payload }
+    case 'setInvitedCode':
+      return { ...state, invitedcode: action.payload }
     default:
       throw new Error()
   }
