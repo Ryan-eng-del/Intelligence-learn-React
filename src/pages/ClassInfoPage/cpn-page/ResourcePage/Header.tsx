@@ -1,71 +1,78 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { ResourceHeaderWrapper, ResourceTitleWrapper} from './ResourcePageStyle'
+import { UploadOutlined, InboxOutlined } from '@ant-design/icons'
+import { Modal, Button, Upload, message } from 'antd'
+import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
 
-import { VerticalAlignTopOutlined } from '@ant-design/icons'
-import { Input, Space } from 'antd'
+export const Header: React.FC<{
+  reflush: ()=>void
 
-const onSearch = (value: string) => console.log(value)
-const { Search } = Input
+}> = ({
+  reflush
+}) => {
+  const [upLoadModalVisible, setUpLoadModalVisible] = useState(false);
 
-type selfProps = {
-  addDataFoder: () => void
-}
+  const showUpLoadModal = () => {
+    setUpLoadModalVisible(true);
+  };
 
-export const Header: React.FC<selfProps> = (props) => {
-  const { addDataFoder } = props
+  const UploadModalOK = () => {
+    setUpLoadModalVisible(false);
+    reflush();
+  };
+
+  const UploadModalCancel = () => {
+    setUpLoadModalVisible(false);
+  };
+
+  const props = {
+    name: 'file',
+    multiple: true,
+    action: ' ',
+    onChange(info:any) {
+      const { status } = info.file;
+      if (status !== 'uploading') {
+        console.log(info.file, info.fileList);
+      }
+      if (status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully.`);
+      } else if (status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+    onDrop(e:any) {
+      console.log('Dropped files', e.dataTransfer.files);
+    },
+  };
   return (
-    <div
-      style={{
-        backgroundColor: 'white'
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          marginBottom: 5
-        }}
-      >
-        <button
-          style={{
-            marginLeft: 10,
-            marginTop: 15,
-            backgroundColor: '#1890ff',
-            color: 'white',
-            borderRadius: '75px',
-            border: 1
-          }}
-        >
-          <span>
-            <VerticalAlignTopOutlined />
+    <>
+      <Modal title="上传资源" visible={upLoadModalVisible} onOk={UploadModalOK} onCancel={UploadModalCancel}>
+        {/* 上传文件部分 */}
+        <Upload.Dragger {...props}>
+          <p className="ant-upload-drag-icon">
+            <InboxOutlined />
+          </p>
+          <p className="ant-upload-text">点击或拖拽到此上传文件</p>
+          <p className="ant-upload-hint">
+            记得关联知识点
+          </p>
+        </Upload.Dragger>
+        {/* 知识点选择部分 */}
+        <KnowledgeSeletor></KnowledgeSeletor>
+      </Modal>
+
+      <ResourceHeaderWrapper>
+        <ResourceTitleWrapper>
+          <div className="Resource-page-title">课程资源</div>
+          <Button
+            type="primary"
+            icon={<UploadOutlined />}
+            onClick={showUpLoadModal}
+          >
             上传文件
-          </span>
-        </button>
-        <button
-          style={{
-            marginLeft: 5,
-            marginTop: 15,
-            backgroundColor: 'white',
-            color: '#1890ff',
-            borderWidth: '1px',
-            borderStyle: 'solid',
-            borderRadius: '75px',
-            borderColor: '#1890ff'
-          }}
-          onClick={addDataFoder}
-        >
-          新建文件夹
-        </button>
-        <Space direction="vertical">
-          <Search
-            placeholder="input search text"
-            onSearch={onSearch}
-            style={{
-              // width: 200,
-              marginTop: 10,
-              marginLeft: '300%'
-            }}
-          />
-        </Space>
-      </div>
-    </div>
+          </Button>
+        </ResourceTitleWrapper>
+      </ResourceHeaderWrapper>
+    </>
   )
 }

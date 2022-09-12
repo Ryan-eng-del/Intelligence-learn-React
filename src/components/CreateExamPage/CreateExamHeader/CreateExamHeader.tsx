@@ -2,9 +2,8 @@ import React from 'react'
 import { CreateExamHeaderWrapper } from './CreateExamHeaderStyle'
 import { Button, Form, Input, Checkbox } from 'antd'
 import { useNavigate } from 'react-router-dom'
+
 export const CreateExamHeader: React.FC<any> = (props) => {
-  const { state } = props
-  const navigate = useNavigate()
   return (
     <CreateExamHeaderWrapper>
       <Form
@@ -49,17 +48,18 @@ export const CreateExamHeader: React.FC<any> = (props) => {
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 2, span: 16 }}>
-          <Button type="primary" htmlType="submit">
+          <Button
+            type="primary"
+            htmlType="submit"
+            onClick={() => {
+              // return navigate('/classinfo/exam', { state })
+              console.log(1)
+            }}
+          >
             保存
           </Button>
         </Form.Item>
       </Form>
-      <Button
-        style={{ float: 'right' }}
-        onClick={() => navigate('/classinfo/exam', { state })}
-      >
-        保存
-      </Button>
     </CreateExamHeaderWrapper>
   )
 }

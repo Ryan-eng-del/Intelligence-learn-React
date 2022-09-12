@@ -28,7 +28,7 @@ export const ChapterStudyTree = () => {
 
   // 每次挂载后全部展开
   useMount(() => {
-    setExpandKeys(expandOnMount(data))
+    setExpandKeys(expandOnMount(data!))
   })
   return (
     <ChapterStudyTreeWrapper>

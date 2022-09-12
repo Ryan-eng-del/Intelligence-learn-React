@@ -5,7 +5,8 @@ import {
   BellOutlined,
   NotificationOutlined,
   GoldOutlined,
-  ProfileOutlined
+  ProfileOutlined,
+  CopyOutlined
 } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
 import { Link } from 'react-router-dom'
@@ -45,6 +46,11 @@ const items: MenuItem[] = [
     <Link to={'discuss'}>讨论区域</Link>,
     'Discuss',
     <NotificationOutlined />
+  ),
+  getItem(
+    <Link to={'/questionbank'}>题库</Link>,
+    'QuestionBank',
+    <CopyOutlined />
   ),
   getItem(<Link to={'knowledge'}>知识点</Link>, 'Knowledge', <GoldOutlined />)
 ]

@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query'
 import { Button } from 'antd'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -10,7 +11,7 @@ interface ClassCard {
   optimistic?: boolean
 }
 export const ClassCard: React.FC<ClassCard> = (props) => {
-  const { id, cname, iurl, optimistic } = props
+  const { id, cname, iurl, optimistic,  } = props
   const navigate = useNavigate()
   return (
     <>
@@ -27,11 +28,16 @@ export const ClassCard: React.FC<ClassCard> = (props) => {
           ) : (
             <Button
               type={'primary'}
-              onClick={() =>
+              onClick={() =>{
                 navigate('/classinfo/chapter', {
                   state: { cname, iurl, id }
-                })
-              }
+                });
+                // useQuery(['CurrentCourse'],()=>({ //保存到Query好过保存到路由参数
+                //   CourseName: cname,
+                //   CourseBanner: iurl,
+                //   CourseID: id
+                // }))
+              }}
             >
               进入课程
             </Button>

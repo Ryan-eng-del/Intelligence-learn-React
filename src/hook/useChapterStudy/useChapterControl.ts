@@ -94,11 +94,7 @@ export const useChapterControl = () => {
   )
   /*处理弹窗okay添加资源*/
   const handleModalOk = () => {
-    const resource: ChapterResourceType = {
-      type: 'uploadType',
-      name: 'resourceTitle',
-      id: ''
-    }
+    const resource: ChapterResourceType = { type: "uploadType", name: "resourceTitle", id: '' }
     /*网络请求拿到id*/
     resource.id = Math.random() * 1000 + ''
     addResource(data!, curAddId, queryClient, resource)
@@ -176,7 +172,7 @@ export const useChapterControl = () => {
       console.log('未抛出异常')
       setFocusStatus(false)
       /*发送创建节点的请求*/
-      setCurNode((pre: any) => ((pre.name = curAddInputValue), { ...pre }))
+      setCurNode((pre:any) => (pre.name = curAddInputValue,{...pre}))
       setCurNode(ChapterNodeType_init)
       setAddInputValue('')
     } catch (err: unknown) {
@@ -211,8 +207,9 @@ export const useChapterControl = () => {
   )
   /*确认重命名*/
   const confirmRename = () => {
-    setCurRenameNode((pre: any) => ((pre.name = curAddInputValue), { ...pre }))
+    setCurRenameNode((pre:any) => (pre.name = curAddInputValue,{...pre}))
     setCurRenameNode(ChapterNodeType_init)
+
 
     setAddInputValue('')
   }

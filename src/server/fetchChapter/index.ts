@@ -4,11 +4,13 @@ import { delayFetch } from 'util/delayFetch'
 import { deleteTreeNode, generateExpandKeys } from '../../util/chapterStudyTree'
 import { message } from 'antd'
 import { findIdResource } from '../../util/TeacherSourcePreviewPage'
+import { StateSetter } from 'types'
+import { ChapterNodeType } from './types'
 /*展示章节学习树*/
-export const useShowCreateChapter = (setExpandKeys?: any) => {
+export const useShowCreateChapter = (setExpandKeys: StateSetter<string[]>) => {
   return useQuery(['chapterTree'], async () => {
     await delayFetch()
-    const data = await client.get({
+    const data:ChapterNodeType[] = await client.get({
       url: 'chapter/getChapterContents'
     })
     if (setExpandKeys) setExpandKeys(generateExpandKeys(data))

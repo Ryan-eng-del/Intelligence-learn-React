@@ -2,7 +2,7 @@ import React from 'react'
 import { CreateExamNavWrapper, QuestionItemWrapper } from './CreateExamNavStyle'
 import { Collapse, Button, Popconfirm } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
-import { QuestionItem, QuestionList } from 'pages/CreateExamPage/config/type'
+import { QuestionItem, QuestionList } from 'pages/CreateExamPage/config/types'
 import { useNavigate } from 'react-router-dom'
 const { Panel } = Collapse
 export const CreateExamNav: React.FC<any> = (props) => {
@@ -10,7 +10,7 @@ export const CreateExamNav: React.FC<any> = (props) => {
   const { questionList, dispatch } = props
   const genExtra = (listType: string) => (
     <DeleteOutlined
-      style={{ color: 'grey', fontSize: '13px' }}
+      style={{ color: 'grey', fontSize: '15px' }}
       onClick={() => {
         dispatch({ type: 'removeQuestionList', listType })
         dispatch({ type: 'changeIsExists', isExists: false, listType })
@@ -58,7 +58,9 @@ export const CreateExamNav: React.FC<any> = (props) => {
                   {item_one.children.map((item_two: any) => (
                     <QuestionItemWrapper
                       key={item_two.id}
-                      onClick={() => navigate(item_one.type)}
+                      onClick={() => {
+                        navigate(item_one.type)
+                      }}
                     >
                       <Button type="link" style={{ color: 'black' }}>
                         {item_two.item_key}

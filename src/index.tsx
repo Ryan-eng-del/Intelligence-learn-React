@@ -8,14 +8,27 @@ import reportWebVitals from './reportWebVitals'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Route, Routes } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-
 // antd
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
-
 // pages
-import { ClassInfoPage, HomePage, LoginPage, CreateExamPage } from 'pages'
-import { LearnPage, TeachPage, InboxPage } from 'pages/HomePage/cpn-page'
+import {
+  ClassInfoPage,
+  HomePage,
+  LoginPage,
+  CreateExamPage,
+  QuestionBankPage,
+  CreateQuestionPage,
+  QuestionPreviewPage,
+  StudentClassInfoPage
+} from 'pages'
+import {
+  LearnPage,
+  TeachPage,
+  InboxPage,
+  ProfilePage,
+  ExamSummary
+} from 'pages/HomePage/cpn-page'
 import {
   ChapterPage,
   ResourcePage,
@@ -24,14 +37,24 @@ import {
   ClassManaPage,
   KnowledgePage
 } from 'pages/ClassInfoPage'
+import {
+  StudentChapterPage,
+  StudentResourcePage,
+  StudentExamPage,
+  StudentDiscussPage,
+  StudentClassManaPage,
+  StudentKnowledgePage
+} from 'pages/StudentClassInfoPage'
 import { ChapterInfo, ChapterPreviewFile } from 'pages/ChapterInfo'
 import {
   SingleChoice,
   MultipleChoice,
   FillBlank,
   ShortAnswer,
-  Programming
-} from 'pages/CreateExamPage'
+  Programming,
+  Judge
+} from 'publicComponents/CreateQuestionPage/CreateQuestionRoutePage'
+import { QuestionPreview } from 'publicComponents/CreateQuestionPage'
 
 // util
 import { RequireAuth } from 'util/requireAuth'
@@ -65,9 +88,13 @@ root.render(
             }
           >
             <Route path="home" element={<HomePage />}>
+              {/* <Route path="class"> */}
               <Route path="teach" element={<TeachPage />} />
               <Route path="learn" element={<LearnPage />} />
               <Route path="inbox" element={<InboxPage />} />
+              <Route path="profile" element={<ProfilePage />} />
+              <Route path="exam" element={<ExamSummary />} />
+              {/* </Route> */}
             </Route>
             <Route path="classinfo" element={<ClassInfoPage />}>
               <Route path="chapter" element={<ChapterPage />} />
@@ -76,6 +103,17 @@ root.render(
               <Route path="discuss" element={<DiscussPage />} />
               <Route path="class" element={<ClassManaPage />} />
               <Route path="knowledge" element={<KnowledgePage />} />
+            </Route>
+            <Route path="studentclassinfo" element={<StudentClassInfoPage />}>
+              <Route path="studentchapter" element={<StudentChapterPage />} />
+              <Route path="studentexam" element={<StudentExamPage />} />
+              <Route path="studentresource" element={<StudentResourcePage />} />
+              <Route path="studentdiscuss" element={<StudentDiscussPage />} />
+              <Route path="studentclass" element={<StudentClassManaPage />} />
+              <Route
+                path="studentknowledge"
+                element={<StudentKnowledgePage />}
+              />
             </Route>
             <Route path={'k-graph'} element={<KnowledgeGraph />} />
 
@@ -89,6 +127,7 @@ root.render(
               <Route path="fillBlank" element={<FillBlank />} />
               <Route path="shortanswer" element={<ShortAnswer />} />
               <Route path="programming" element={<Programming />} />
+              <Route path="judge" element={<Judge />} />
             </Route>
             <Route
               path="teacher-preview"
@@ -96,6 +135,17 @@ root.render(
             >
               <Route path=":id" element={<SourcePreviewPage />} />
             </Route>
+            <Route path="questionbank" element={<QuestionBankPage />} />
+            <Route path="createquestion" element={<CreateQuestionPage />}>
+              <Route path="single" element={<SingleChoice />} />
+              <Route path="multiple" element={<MultipleChoice />} />
+              <Route path="fillBlank" element={<FillBlank />} />
+              <Route path="shortanswer" element={<ShortAnswer />} />
+              <Route path="programming" element={<Programming />} />
+              <Route path="judge" element={<Judge />} />
+              <Route path="preview" element={<QuestionPreview />}></Route>
+            </Route>
+            <Route path="preview" element={<QuestionPreviewPage />}></Route>
           </Route>
         </Routes>
       </Router>
