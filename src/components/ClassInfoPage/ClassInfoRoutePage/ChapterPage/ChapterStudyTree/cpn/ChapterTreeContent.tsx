@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons'
 import { formatResource } from 'util/chapterStudyTree'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { CustomLink } from '../../../../../../util/CustomLink'
 
 const ChapterTreeContent: React.FC<{
   contentName: string
@@ -19,7 +19,9 @@ const ChapterTreeContent: React.FC<{
   handleClickAddResource: any
   handleClickRelatePoints: any
   handleDeleteResource: any
+  type?: 'show'
 }> = ({
+  type,
   contentName,
   handleDeleteTreeContent,
   contentId,
@@ -35,33 +37,35 @@ const ChapterTreeContent: React.FC<{
       <ChapterTreeContentWrapper>
         <div style={{ display: 'flex' }}>
           <div>{contentName}</div>
-          <EditToolWrapperContent className={'edit-content-tool-wrapper'}>
-            <Button
-              type={'primary'}
-              onClick={() => handleClickAddResource(contentId)}
-            >
-              添加资源
-            </Button>
-            <Button
-              type={'primary'}
-              onClick={() => handleClickRelatePoints(contentId)}
-            >
-              关联知识点
-            </Button>
-            <Button
-              type={'primary'}
-              danger
-              onClick={() => handleDeleteTreeContent(contentId, 'courTimes')}
-            >
-              删除
-            </Button>
-            <Button
-              type={'primary'}
-              onClick={() => handleReNameTreeNode(contentId)}
-            >
-              重命名
-            </Button>
-          </EditToolWrapperContent>
+          {!type && (
+            <EditToolWrapperContent className={'edit-content-tool-wrapper'}>
+              <Button
+                type={'primary'}
+                onClick={() => handleClickAddResource(contentId)}
+              >
+                添加资源
+              </Button>
+              <Button
+                type={'primary'}
+                onClick={() => handleClickRelatePoints(contentId)}
+              >
+                关联知识点
+              </Button>
+              <Button
+                type={'primary'}
+                danger
+                onClick={() => handleDeleteTreeContent(contentId, 'courTimes')}
+              >
+                删除
+              </Button>
+              <Button
+                type={'primary'}
+                onClick={() => handleReNameTreeNode(contentId)}
+              >
+                重命名
+              </Button>
+            </EditToolWrapperContent>
+          )}
         </div>
 
         <ResourcePageWrapper>
@@ -72,32 +76,36 @@ const ChapterTreeContent: React.FC<{
                   className={'resource'}
                   style={{ listStyle: 'none', position: 'relative' }}
                 >
-                  {item.type === '视频' ? (
-                    <Tag color="#cd201f" icon={<YoutubeOutlined />}>
-                      视频
-                    </Tag>
-                  ) : item.type === '课件' ? (
-                    <Tag color="#55acee" icon={<FilePptOutlined />}>
-                      课件
-                    </Tag>
-                  ) : (
-                    <Tag color="#3b5999" icon={<FileDoneOutlined />}>
-                      作业
-                    </Tag>
+                  <CustomLink to={'/teacher-preview/' + item.id}>
+                    {' '}
+                    {item.type === '视频' ? (
+                      <Tag color="#cd201f" icon={<YoutubeOutlined />}>
+                        视频
+                      </Tag>
+                    ) : item.type === '课件' ? (
+                      <Tag color="#55acee" icon={<FilePptOutlined />}>
+                        课件
+                      </Tag>
+                    ) : (
+                      <Tag color="#3b5999" icon={<FileDoneOutlined />}>
+                        作业
+                      </Tag>
+                    )}
+                    <div style={{ display: 'inline-block' }}>{item.name}</div>
+                  </CustomLink>
+                  {!type && (
+                    <DeleteIconWrapper>
+                      <DeleteOutlined
+                        onClick={() => handleDeleteResource(item.id)}
+                        style={{
+                          marginLeft: '20px',
+                          color: 'red',
+                          position: 'absolute',
+                          right: '100px'
+                        }}
+                      />
+                    </DeleteIconWrapper>
                   )}
-                  <div style={{ display: 'inline-block' }}>{item.name}</div>
-                  <Link to={'/teacher-preview/' + item.id}>进入资源</Link>
-                  <DeleteIconWrapper>
-                    <DeleteOutlined
-                      onClick={() => handleDeleteResource(item.id)}
-                      style={{
-                        marginLeft: '20px',
-                        color: 'red',
-                        position: 'absolute',
-                        right: '100px'
-                      }}
-                    />
-                  </DeleteIconWrapper>
                 </li>
               </ul>
             )

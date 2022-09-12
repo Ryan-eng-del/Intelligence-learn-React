@@ -7,7 +7,7 @@ import { ChapterNodeFocusStatus } from 'components/ClassInfoPage/ClassInfoRouteP
 import ChapterTreeDirectory from 'components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeDirectory'
 import ChapterTreeContent from '../../components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeContent'
 
-export const useChapterUI = () => {
+export const useChapterUI = (type?: 'show') => {
   /*业务逻辑层*/
   const {
     confirmAdd,
@@ -60,7 +60,7 @@ export const useChapterUI = () => {
   }
   /*目录节点UI*/
   const generateTreeNodeUI = (chapterId: any, name: any) => {
-    return (
+    return !type ? (
       <ChapterTreeDirectory
         nodeId={chapterId}
         nodeName={name}
@@ -69,6 +69,8 @@ export const useChapterUI = () => {
         handleClickAddChildCourseTime={handleClickAddChildCourseTime}
         handleReNameTreeNode={handleReNameTreeNode}
       />
+    ) : (
+      name
     )
   }
   /*课时节点UI*/
@@ -81,6 +83,7 @@ export const useChapterUI = () => {
         key={id}
         title={
           <ChapterTreeContent
+            type={type}
             contentId={id}
             contentName={name}
             handleDeleteTreeContent={handleDeleteTreeNode}

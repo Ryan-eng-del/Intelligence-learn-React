@@ -10,9 +10,13 @@ export const ChapterNodeRenameStatus: React.FC<{
   value: any
 }> = ({ setAddInputValue, confirmRename, cancelRename, value }) => {
   // debounce用来阻止，多次type造成setUpdaterFunction连续调用，导致组件多次渲染更新
-  const debounceChange = debounce((e: any) => {
-    setAddInputValue(e.target.value)
-  }, 300)
+  const debounceChange = debounce(
+    (e: any) => {
+      setAddInputValue(e.target.value)
+    },
+    300,
+    true
+  )
   return (
     <div style={{ display: 'flex' }}>
       <Input

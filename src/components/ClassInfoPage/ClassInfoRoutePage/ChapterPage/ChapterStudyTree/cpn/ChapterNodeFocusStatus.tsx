@@ -9,9 +9,13 @@ export const ChapterNodeFocusStatus: React.FC<{
   cancelAdd: any
 }> = ({ setAddInputValue, confirmAdd, cancelAdd }) => {
   // debounce用来阻止，多次点击造成setUpdaterFunction，导致组件多次渲染
-  const debounceChange = debounce((e: any) => {
-    setAddInputValue(e.target.value)
-  }, 300)
+  const debounceChange = debounce(
+    (e: any) => {
+      setAddInputValue(e.target.value)
+    },
+    300,
+    true
+  )
   return (
     <div style={{ display: 'flex' }}>
       <Input

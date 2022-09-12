@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useMount } from '../../../../hook/useMount'
 import DPlayer from 'dplayer'
@@ -8,23 +8,20 @@ import { useQueryClient } from '@tanstack/react-query'
 
 export const SourcePreviewPage = () => {
   const location = useLocation()
-  console.log(location, 'pathName')
   const resourceId = location.pathname.split('/')[2]
   const [resource, setSource] = useState<any>(null)
   const queryClient = useQueryClient()
-
-  useMount(() => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+  useEffect(() => {
     findIdResource(
       queryClient.getQueryData(['chapterTree']),
       resourceId,
       setSource
     )
+  }, [resourceId])
+  useMount(() => {
     new DPlayer({
       container: document.getElementById('dplayer'),
       autoplay: false,
-      theme: '#FADFA3',
       loop: true,
       lang: 'zh-cn',
       screenshot: true,
@@ -35,7 +32,7 @@ export const SourcePreviewPage = () => {
       mutex: true,
       video: {
         url: 'http://static.smartisanos.cn/common/video/t1-ui.mp4',
-        pic: 'dplayer.png',
+        pic: 'https://images.pexels.com/photos/3617500/pexels-photo-3617500.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
         thumbnails: 'thumbnails.jpg',
         type: 'auto'
       }
