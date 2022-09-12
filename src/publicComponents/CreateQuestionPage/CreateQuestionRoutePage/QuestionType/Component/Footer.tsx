@@ -3,6 +3,7 @@ import { Form, Button, message, Tag, Radio, InputNumber } from 'antd'
 import { TextArea } from '../Component/TextArea'
 import { useCreateQuestion } from 'server/fetchExam'
 import { QuestionData } from 'server/fetchExam/types/index'
+import { useNavigate } from 'react-router-dom'
 
 type FooterType = {
   networkData: QuestionData
@@ -22,7 +23,7 @@ type FooterType = {
 
 export const Footer: React.FC<FooterType> = (props: FooterType) => {
   const { data, setter, networkData } = props
-
+  const navigate = useNavigate()
   //网络请求
   const { mutate: createQuestion } = useCreateQuestion({
     ...networkData
@@ -44,6 +45,9 @@ export const Footer: React.FC<FooterType> = (props: FooterType) => {
     }
     //网络请求
     createQuestion()
+    //跳转到预览界面
+    // navigate('preview')
+    //添加到题库中
   }
 
   const handleSave = () => {

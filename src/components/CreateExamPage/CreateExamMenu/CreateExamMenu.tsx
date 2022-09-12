@@ -1,7 +1,9 @@
 import React from 'react'
 import { CreateExamMenuWrapper } from './CreateExamMenuStyle'
 import { Button } from 'antd'
-import { QuestionList, QuestionType } from 'pages/CreateExamPage/config/types'
+import { QuestionList } from 'pages/CreateExamPage/config/types'
+import { QuestionType } from 'publicComponents/CreateQuestionPage/config/type'
+
 import {
   CheckOutlined,
   CheckCircleOutlined,

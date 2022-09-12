@@ -12,7 +12,15 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 // pages
-import { ClassInfoPage, HomePage, LoginPage, CreateExamPage } from 'pages'
+import {
+  ClassInfoPage,
+  HomePage,
+  LoginPage,
+  CreateExamPage,
+  QuestionBankPage,
+  CreateQuestionPage,
+  QuestionPreviewPage
+} from 'pages'
 import {
   LearnPage,
   TeachPage,
@@ -35,7 +43,8 @@ import {
   ShortAnswer,
   Programming,
   Judge
-} from 'pages/CreateExamPage'
+} from 'publicComponents/CreateQuestionPage/CreateQuestionRoutePage'
+import { QuestionPreview } from 'publicComponents/CreateQuestionPage'
 
 // util
 import { RequireAuth } from 'util/requireAuth'
@@ -93,14 +102,25 @@ root.render(
               <Route path="fillBlank" element={<FillBlank />} />
               <Route path="shortanswer" element={<ShortAnswer />} />
               <Route path="programming" element={<Programming />} />
+              <Route path="judge" element={<Judge />} />
             </Route>
             <Route
               path="teacher-preview"
               element={<TeacherSourcePreviewPage />}
             >
               <Route path=":id" element={<SourcePreviewPage />} />
-              <Route path="judge" element={<Judge />} />
             </Route>
+            <Route path="questionbank" element={<QuestionBankPage />} />
+            <Route path="createquestion" element={<CreateQuestionPage />}>
+              <Route path="single" element={<SingleChoice />} />
+              <Route path="multiple" element={<MultipleChoice />} />
+              <Route path="fillBlank" element={<FillBlank />} />
+              <Route path="shortanswer" element={<ShortAnswer />} />
+              <Route path="programming" element={<Programming />} />
+              <Route path="judge" element={<Judge />} />
+              <Route path="preview" element={<QuestionPreview />}></Route>
+            </Route>
+            <Route path="preview" element={<QuestionPreviewPage />}></Route>
           </Route>
         </Routes>
       </Router>

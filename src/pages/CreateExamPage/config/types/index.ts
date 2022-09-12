@@ -1,4 +1,4 @@
-/// !!!
+import { QuestionType } from 'publicComponents/CreateQuestionPage/config/type'
 export interface QuestionItem {
   id: string
   item_key: number //题目序号
@@ -10,15 +10,6 @@ export interface QuestionList {
   amount: number //题目总数
   isExists: boolean //表示该类型题目是否已经存在
   children: Array<QuestionItem> | []
-}
-
-export enum QuestionType {
-  'single' = 'single',
-  'multiple' = 'multiple',
-  'fillBlank' = 'fillBlank',
-  'shortAnswer' = 'shortAnswer',
-  'programming' = 'programming',
-  'judge' = 'judge'
 }
 
 export interface CreateExamState {

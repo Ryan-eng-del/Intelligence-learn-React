@@ -58,7 +58,9 @@ export const CreateExamNav: React.FC<any> = (props) => {
                   {item_one.children.map((item_two: any) => (
                     <QuestionItemWrapper
                       key={item_two.id}
-                      onClick={() => navigate(item_one.type)}
+                      onClick={() => {
+                        navigate(item_one.type)
+                      }}
                     >
                       <Button type="link" style={{ color: 'black' }}>
                         {item_two.item_key}

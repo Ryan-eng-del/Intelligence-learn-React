@@ -1,4 +1,5 @@
-import { CreateExamState, CreateExamPageAction, QuestionType } from '../types'
+import { CreateExamState, CreateExamPageAction } from '../types'
+import { QuestionType } from 'publicComponents/CreateQuestionPage/config/type'
 
 //用于生成初始题目容器
 const qlist = [

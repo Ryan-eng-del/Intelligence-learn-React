@@ -29,10 +29,20 @@ export const useCreateQuestion = (QuestionItem: QuestionData) => {
 
 //展示题目
 export const useShowCreateQuestion = () => {
-  return useQuery(['exam'], async () => {
+  return useQuery(['questionbank'], async () => {
     await delayFetch()
     return client.get<any>({
       url: 'question/list-question/1'
+    })
+  })
+}
+
+//展示题目详细信息
+export const useShowQuestionDetails = () => {
+  return useQuery(['preview'], async () => {
+    await delayFetch()
+    return client.get<any>({
+      url: '/question/show-question/1'
     })
   })
 }
