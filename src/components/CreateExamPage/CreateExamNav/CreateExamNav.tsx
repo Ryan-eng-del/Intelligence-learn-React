@@ -4,19 +4,15 @@ import { Collapse, Button, Popconfirm } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
 import { QuestionItem, QuestionList } from 'pages/CreateExamPage/config/types'
 import { useNavigate } from 'react-router-dom'
+import { AnyFn } from 'types'
 const { Panel } = Collapse
-export const CreateExamNav: React.FC<any> = (props) => {
-  const navigate = useNavigate()
+
+export const CreateExamNav: React.FC<{
+  questionList: QuestionList[]
+  dispatch: AnyFn
+}> = (props) => {
+
   const { questionList, dispatch } = props
-  const genExtra = (listType: string) => (
-    <DeleteOutlined
-      style={{ color: 'grey', fontSize: '15px' }}
-      onClick={() => {
-        dispatch({ type: 'removeQuestionList', listType })
-        dispatch({ type: 'changeIsExists', isExists: false, listType })
-      }}
-    />
-  )
   const removeQuesItem = (curItem: QuestionItem, curList: QuestionList) => {
     if (curList.amount === 0) {
       dispatch({
@@ -33,61 +29,82 @@ export const CreateExamNav: React.FC<any> = (props) => {
     })
     dispatch({ type: 'rearrangeItem' })
   }
+
   return (
     <>
       <CreateExamNavWrapper>
+        <Button
+          onClick={()=> dispatch({type:'AddNewQuestion'})}
+        >神奇按钮</Button>
         <Collapse
           bordered={false}
           expandIconPosition="end"
-          style={{
-            backgroundColor: 'white',
-            borderBottom: '1px solied rgb(238, 237, 237)',
-            width: '85%',
-            margin: '10px auto'
-          }}
-          defaultActiveKey={questionList.map((item: QuestionItem) => item.id)}
-        >
-          {questionList.map((item_one: any) => {
-            if (item_one.isExists) {
-              return (
-                <Panel
-                  header={item_one.type}
-                  key={item_one.id}
-                  extra={genExtra(item_one.type)}
-                >
-                  {item_one.children.map((item_two: any) => (
-                    <QuestionItemWrapper
-                      key={item_two.id}
-                      onClick={() => {
-                        navigate(item_one.type)
-                      }}
-                    >
-                      <Button type="link" style={{ color: 'black' }}>
-                        {item_two.item_key}
-                      </Button>
-                      {/* 删除按钮 */}
-                      <Popconfirm
-                        title="确认要删除吗"
-                        onConfirm={() => removeQuesItem(item_two, item_one)}
-                        okText="是"
-                        cancelText="否"
-                      >
-                        <DeleteOutlined
-                          style={{
-                            color: 'grey',
-                            fontSize: '18px',
-                            float: 'right'
-                          }}
-                        />
-                      </Popconfirm>
-                    </QuestionItemWrapper>
-                  ))}
-                </Panel>
-              )
-            }
-          })}
+          className='collapse'
+          defaultActiveKey={questionList.map((item) => item.id)}
+          >
+          {questionList.map(QuestionPanel => QuestionPanel.isExists
+            ? <Panel
+            header={QuestionPanel.type}
+            key={QuestionPanel.id}
+            extra={
+              <DeleteButton
+              title={`确认移除整个组吗，这将移除里面全部${QuestionPanel.type}`}
+              confirm={( (listType: string): AnyFn => () => {
+                dispatch({ type: 'removeQuestionList', listType })
+                dispatch({ type: 'changeIsExists', isExists: false, listType })
+                })(QuestionPanel.type)}
+                />
+              }
+              >
+            {QuestionPanel.questiton.map((questionItem) => (
+              <QuestionItemWrapper key={questionItem.id}>
+                <Button
+                  type="link"
+                  style={{ color: 'black', width: "50%"}}
+                  onClick={() => {
+                  dispatch({ type: '更新当前编辑的题目', questionItem })
+                }}>
+                  {questionItem.item_key}
+                </Button>
+                <span>{`分`}</span>
+                {/* 删除按钮 */}
+                <DeleteButton
+                  confirm={() => removeQuesItem(questionItem, QuestionPanel)}
+                  title="从试卷中移除这道题目？如果题目来源于题库，这并不会删除题目"
+                />
+              </QuestionItemWrapper>
+            ))}
+            </Panel> : <div key={QuestionPanel.id}></div>
+          )}
         </Collapse>
       </CreateExamNavWrapper>
     </>
+  )
+}
+
+
+
+const DeleteButton: React.FC<{
+  confirm: AnyFn
+  title: string
+}> = ({confirm, title}) => {
+  return (
+    <Popconfirm
+      title={title}
+      onConfirm={(e)=>{
+        e?.stopPropagation()
+        confirm()
+      }}
+      okText="是"
+      cancelText="否"
+    >
+      <DeleteOutlined
+        style={{
+          color: 'grey',
+          fontSize: '24px',
+          float: 'right',
+        }}
+      />
+    </Popconfirm>
   )
 }

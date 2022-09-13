@@ -2,7 +2,7 @@ import React from 'react'
 import { CreateExamMenuWrapper } from './CreateExamMenuStyle'
 import { Button } from 'antd'
 import { QuestionList } from 'pages/CreateExamPage/config/types'
-import { QuestionType } from 'publicComponents/CreateQuestionPage/config/type'
+import { QuestionType } from 'server/fetchExam/types'
 
 import {
   CheckOutlined,
@@ -25,8 +25,8 @@ export const CreateExamMenu: React.FC<any> = (props) => {
         dispatch({
           type: 'addQuestionItem',
           questionItem: {
-            id: item.children.length + 1, //id向后台请求
-            item_key: item.children.length + 1
+            id: item.questiton.length + 1, //id向后台请求
+            item_key: item.questiton.length + 1
           },
           listType
         })

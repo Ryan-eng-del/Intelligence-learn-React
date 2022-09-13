@@ -9,26 +9,24 @@ import {
 } from '@ant-design/icons'
 import { StatisticsPanel } from '../StatisticsPanel/StatisticsPanel'
 import { PublishPanel } from '../PublishPanel/PublishPanel'
-interface DataType {
-  key: string
-  name: string
-  status: string
-}
+import { useShowExamList } from 'server/fetchExam'
+import { ExamListItem } from 'server/fetchExam/types'
+import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
+
 
 export const ExamList: React.FC = () => {
   const navigate = useNavigate()
-  // const [hover,setHover] = useState<DataType>()
   const [statistics, setStatistics] = useState(false)
   const [publish, setPublish] = useState(false)
-  const columns: ColumnsType<DataType> = [
+  const columns: ColumnsType<ExamListItem> = [
     {
       title: '试卷名字',
-      dataIndex: 'name',
-      key: 'name'
+      dataIndex: 'paperName',
+      key: 'paperName'
     },
     {
       title: '完成状态',
-      dataIndex: 'status',
+      dataIndex: 'isRelease',
       key: 'status'
     },
     {
@@ -51,7 +49,7 @@ export const ExamList: React.FC = () => {
             </Button>
             <Button
               icon={<ArrowRightOutlined />}
-              onClick={() => navigate('/createexam')}
+              onClick={() => navigate('/editpaper')}
             >
               编辑
             </Button>
@@ -61,26 +59,11 @@ export const ExamList: React.FC = () => {
     }
   ]
 
-  const data: DataType[] = [
-    {
-      key: '1',
-      name: '作业1',
-      status: '未发布'
-    },
-    {
-      key: '2',
-      name: '作业2',
-      status: '30/50'
-    },
-    {
-      key: '3',
-      name: '作业3',
-      status: '已定时'
-    }
-  ]
+
+  const { data, isLoading } = useShowExamList("这个应该是课程ID")
   return (
-    <>
-      <Table columns={columns} dataSource={data} />
+    isLoading ? <BaseLoading /> : <>
+      <Table columns={columns} dataSource={data!} rowKey='paperId'/>
       <StatisticsPanel
         visible={statistics}
         close={() => setStatistics(false)}

@@ -1,10 +1,10 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
-import { QuestionData } from './types'
+import { ExamListItem, QuestionData } from './types'
 import { message } from 'antd'
 
-//添加试题
+/** 添加试题 */
 export const useCreateQuestion = (QuestionItem: QuestionData) => {
   return useMutation(
     async () => {
@@ -27,7 +27,7 @@ export const useCreateQuestion = (QuestionItem: QuestionData) => {
   )
 }
 
-//展示题目
+/** 展示题目 */
 export const useShowCreateQuestion = () => {
   return useQuery(['questionbank'], async () => {
     await delayFetch()
@@ -37,12 +37,25 @@ export const useShowCreateQuestion = () => {
   })
 }
 
-//展示题目详细信息
-export const useShowQuestionDetails = () => {
+/** 展示题目详细信息 */
+export const useShowQuestionDetails = (id?:string) => {
   return useQuery(['preview'], async () => {
     await delayFetch()
     return client.get<any>({
-      url: '/question/show-question/1'
+      url: `/question/show-question/${id || 1}`
+    })
+  })
+}
+
+/** 获取此课程的全部试题 */
+export const useShowExamList = (courseID: string) => {
+  return useQuery([`ExamList-${courseID}`], async () => {
+    await delayFetch()
+    return client.get<ExamListItem[]>({
+      url: `/paper/show-all`,
+      params: {
+        courseId:courseID
+      }
     })
   })
 }

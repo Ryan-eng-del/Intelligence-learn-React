@@ -3,13 +3,20 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from 'antd'
 import { ExamPageWrapper, ExamHeaderWrapper, ExamTitleWrapper} from './ExamPageStyle'
 import { ExamList } from 'publicComponents/ExamPage'
+import { useAddTestPaper } from 'server/fetchExam/TestPaper'
 
 
 export const ExamPage: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  console.log(location.state)
+  const { mutate } = useAddTestPaper('课程id')
+  console.log("examPaper: locationState: ",location.state)
 
+  const handleAddTestPaper = () => {
+    const PaperID = mutate()
+    console.log("Hei ! ",PaperID);
+    navigate('/editpaper')
+  }
   return (
     <>
       <ExamPageWrapper>
@@ -18,7 +25,7 @@ export const ExamPage: React.FC = () => {
             <div className="Exam-page-title">考试作业</div>
             <Button
               type="primary"
-              onClick={() => navigate('/createexam')}
+              onClick={handleAddTestPaper}
               style={{ marginBottom: '24px' }}
             >
               +新建作业

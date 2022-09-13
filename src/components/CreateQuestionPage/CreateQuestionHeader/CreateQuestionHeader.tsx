@@ -7,7 +7,7 @@ import {
   FormOutlined
 } from '@ant-design/icons'
 import { Button } from 'antd'
-import { QuestionType } from 'publicComponents/CreateQuestionPage/config/type'
+import { QuestionType } from 'server/fetchExam/types'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CreateQuestionHeaderWrapper } from './CreateQuestionHeaderStyle'

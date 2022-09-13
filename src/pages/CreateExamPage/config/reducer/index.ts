@@ -1,5 +1,5 @@
 import { CreateExamState, CreateExamPageAction } from '../types'
-import { QuestionType } from 'publicComponents/CreateQuestionPage/config/type'
+import { QuestionType } from 'server/fetchExam/types'
 
 //用于生成初始题目容器
 const qlist = [
@@ -19,9 +19,28 @@ export const initialState: CreateExamState = {
     type: i,
     amount: 0,
     isExists: false,
-    children: []
-  }))
+    questiton: [],
+    questitonScore: []
+  })),
+  curEdit: {
+    questionId: "9",
+    questionDescription: "in",
+    questionAnswer: "et",
+    questionDifficulty: 57,
+    questionType: QuestionType.single,
+    questionAnswerNum: 74,
+    rightAnswer: "est",
+    questionAnswerDescription: "nulla aliquip",
+    createTime: "2022-08-03 09:38:25",
+    points: [
+        "ea deserunt fugiat est",
+        "commodo",
+        "anim",
+        "consectetur nostrud dolor"
+    ]
+  }
 }
+
 
 export const CreateExamPageReducer = (
   state: CreateExamState,
@@ -41,26 +60,27 @@ export const CreateExamPageReducer = (
     case 'addQuestionItem': //添加题目
       newquestionList.map((item) => {
         if (item.type === action.listType) {
-          item.children = [...item.children].concat(action.questionItem)
+          item.questiton = [...item.questiton].concat(action.questionItem)
           item.amount += 1
         }
       })
       newquestionList[0].amount += 1
       return { ...newState }
     case 'removeQuestionItem': //删除题目
-      newState.questionList.map((item_one) => {
-        if (item_one.type === action.listType) {
-          item_one.children = item_one.children.filter((item_two) => {
+      newState.questionList.map((questionPanel) => {
+        if (questionPanel.type === action.listType) {
+          questionPanel.questiton = questionPanel.questiton.filter((item_two) => {
             return item_two.id != action.id
           })
-          item_one.amount -= 1
+          questionPanel.amount -= 1
+          questionPanel.isExists = questionPanel.amount === 0
         }
       })
       return { ...newState }
     case 'rearrangeItem': //重新排序
       newState.questionList.map((item_one) => {
         let key = 1
-        item_one.children.map((item_two) => {
+        item_one.questiton.map((item_two) => {
           item_two.item_key = key
           key++
         })
@@ -69,7 +89,7 @@ export const CreateExamPageReducer = (
     case 'removeQuestionList':
       newState.questionList.map((item) => {
         if (item.type === action.listType) {
-          item.children = []
+          item.questiton = []
         }
       })
       return { ...newState }

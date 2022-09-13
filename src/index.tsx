@@ -121,13 +121,8 @@ root.render(
               {/* ChapterID */}
             </Route>
             <Route path="study" element={<ChapterPreviewFile />} />
-            <Route path="createexam" element={<CreateExamPage />}>
-              <Route path="single" element={<SingleChoice />} />
-              <Route path="multiple" element={<MultipleChoice />} />
-              <Route path="fillBlank" element={<FillBlank />} />
-              <Route path="shortanswer" element={<ShortAnswer />} />
-              <Route path="programming" element={<Programming />} />
-              <Route path="judge" element={<Judge />} />
+            <Route path="editpaper" element={<CreateExamPage />}>
+              {/* <Route path=":paperid" element={<CreateExamPage />} /> */}
             </Route>
             <Route
               path="teacher-preview"

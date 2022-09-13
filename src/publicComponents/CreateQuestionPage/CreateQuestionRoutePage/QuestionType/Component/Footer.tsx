@@ -4,6 +4,7 @@ import { TextArea } from '../Component/TextArea'
 import { useCreateQuestion } from 'server/fetchExam'
 import { QuestionData } from 'server/fetchExam/types/index'
 import { useNavigate } from 'react-router-dom'
+import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
 
 type FooterType = {
   networkData: QuestionData
@@ -29,14 +30,14 @@ export const Footer: React.FC<FooterType> = (props: FooterType) => {
     ...networkData
   })
   const RandomInt = () => Math.floor(Math.random() * 1e9)
-  const handleRelate = () => {
-    message.error('假装弹出了Modal')
-    const newNode = [`知识${RandomInt()}`]
-    setter({ ...data, knowledge: [...data.knowledge, ...newNode] })
-  }
-  const closeTag = (item: any) => {
-    setter({ ...data, knowledge: [...data.knowledge.filter((i) => i != item)] })
-  }
+  // const handleRelate = () => {
+  //   message.error('假装弹出了Modal')
+  //   const newNode = [`知识${RandomInt()}`]
+  //   setter({ ...data, knowledge: [...data.knowledge, ...newNode] })
+  // }
+  // const closeTag = (item: any) => {
+  //   setter({ ...data, knowledge: [...data.knowledge.filter((i) => i != item)] })
+  // }
 
   //保存按钮
   const SuccessSave = () => {
@@ -109,13 +110,11 @@ export const Footer: React.FC<FooterType> = (props: FooterType) => {
         </Radio.Group>
       </Form.Item>
       <Form.Item label="知识点">
-        <Button onClick={handleRelate}>关联知识点</Button>
+        <KnowledgeSeletor
+          related={data.knowledge}
+          callback={(newList) => setter({ ...data, knowledge: newList})}
+        />
       </Form.Item>
-      {data.knowledge.map((item) => (
-        <Tag closable key={RandomInt()} onClose={() => closeTag(item)}>
-          {item}
-        </Tag>
-      ))}
       <Form.Item>
         <Button
           onClick={handleSave}
