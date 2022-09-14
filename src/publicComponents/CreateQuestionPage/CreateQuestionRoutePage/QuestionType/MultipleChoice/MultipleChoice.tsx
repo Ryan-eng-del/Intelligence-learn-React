@@ -36,27 +36,19 @@ export const MultipleChoice: React.FC = () => {
 
   const RandomInt = () => Math.floor(Math.random() * 1e9)
   const networkData: QuestionData = {
-    course_id: RandomInt.toString(), //要改
-    point_ids: question.footer.knowledge,
-    question_answer: '11',
-    question_answer_description: question.footer.explanation,
-    question_answer_num: 1,
-    question_description: question.content,
-    question_difficulty: question.footer.rate,
-    question_type: 0,
-    right_answer: ''
+    courseId: RandomInt.toString(), //要改
+    pointIds: question.footer.knowledge,
+    questionAnswerDescription: question.footer.explanation,
+    questionAnswerNum: 1,
+    questionDescription: question.content,
+    questionDifficulty: question.footer.rate,
+    questionType: 0,
+    rightAnswer: question.Options.map(i=>i.isTrue).toString()
   }
 
   return (
     <>
       <h1>多选题</h1>
-      <Button
-        onClick={() => {
-          console.log(question)
-        }}
-      >
-        控制台输出题目详情
-      </Button>
       <Form>
         <Form.Item label="题目" required>
           <TextArea

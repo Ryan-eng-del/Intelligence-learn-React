@@ -32,7 +32,7 @@ export const ExamList: React.FC = () => {
     {
       title: '操作',
       key: 'action',
-      render: () => (
+      render: (_,record) => (
         <>
           <Space size="middle">
             <Button
@@ -49,7 +49,7 @@ export const ExamList: React.FC = () => {
             </Button>
             <Button
               icon={<ArrowRightOutlined />}
-              onClick={() => navigate('/editpaper')}
+              onClick={() => navigate(`/editpaper/${record.paperId}`)}
             >
               编辑
             </Button>

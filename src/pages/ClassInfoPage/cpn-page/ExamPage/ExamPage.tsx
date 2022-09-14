@@ -1,22 +1,12 @@
-import React from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react'
 import { Button } from 'antd'
 import { ExamPageWrapper, ExamHeaderWrapper, ExamTitleWrapper} from './ExamPageStyle'
 import { ExamList } from 'publicComponents/ExamPage'
 import { useAddTestPaper } from 'server/fetchExam/TestPaper'
 
-
 export const ExamPage: React.FC = () => {
-  const navigate = useNavigate()
-  const location = useLocation()
   const { mutate } = useAddTestPaper('课程id')
-  console.log("examPaper: locationState: ",location.state)
-
-  const handleAddTestPaper = () => {
-    const PaperID = mutate()
-    console.log("Hei ! ",PaperID);
-    navigate('/editpaper')
-  }
+  const [loading,setLoading] = useState(false)
   return (
     <>
       <ExamPageWrapper>
@@ -25,10 +15,11 @@ export const ExamPage: React.FC = () => {
             <div className="Exam-page-title">考试作业</div>
             <Button
               type="primary"
-              onClick={handleAddTestPaper}
+              onClick={()=>(setLoading(true),mutate())}
               style={{ marginBottom: '24px' }}
+              loading={loading}
             >
-              +新建作业
+              新建作业
             </Button>
           </ExamTitleWrapper>
         </ExamHeaderWrapper>

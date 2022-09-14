@@ -1,72 +1,81 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CreateExamNavWrapper, QuestionItemWrapper } from './CreateExamNavStyle'
-import { Collapse, Button, Popconfirm } from 'antd'
+import { Collapse, Button, Popconfirm, Tooltip } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
-import { QuestionItem, QuestionList } from 'pages/CreateExamPage/config/types'
-import { useNavigate } from 'react-router-dom'
+import { QuestionItem, QuestionList } from 'server/fetchExam/types'
 import { AnyFn } from 'types'
+import { WholeQuestion } from 'server/fetchExam/types'
+import { QuestionICON } from '../CreateExamMenu/CreateExamMenu'
+
 const { Panel } = Collapse
 
 export const CreateExamNav: React.FC<{
   questionList: QuestionList[]
-  dispatch: AnyFn
-}> = (props) => {
+  focus: (item:  QuestionItem) =>void
+}> = ({questionList, focus}) => {
 
-  const { questionList, dispatch } = props
+  const [data,setData] = useState(questionList)
   const removeQuesItem = (curItem: QuestionItem, curList: QuestionList) => {
     if (curList.amount === 0) {
-      dispatch({
-        type: 'changeIsExists',
-        isExists: false,
-        listType: curList.type
-      })
+      // dispatch({
+      //   type: 'changeIsExists',
+      //   isExists: false,
+      //   listType: curList.type
+      // })
     }
-    dispatch({
-      type: 'removeQuestionItem',
-      listType: curList.type,
-      key: curItem.item_key,
-      id: curItem.id
-    })
-    dispatch({ type: 'rearrangeItem' })
+    // dispatch({
+    //   type: 'removeQuestionItem',
+    //   listType: curList.type,
+    //   key: curItem.item_key,
+    //   id: curItem.id
+    // })
+    // dispatch({ type: 'rearrangeItem' })
   }
-
+  const aaa = (item: QuestionItem, n : number) => {
+    item.score += n
+    if(item.score <= 0) item.score = 1;
+    setData([...data])
+  }
   return (
     <>
       <CreateExamNavWrapper>
-        <Button
-          onClick={()=> dispatch({type:'AddNewQuestion'})}
-        >神奇按钮</Button>
+      <Button onClick={e=>console.log(e)}>aaa</Button>
         <Collapse
           bordered={false}
           expandIconPosition="end"
           className='collapse'
-          defaultActiveKey={questionList.map((item) => item.id)}
+          defaultActiveKey={data.map((item) => item.type)}
           >
-          {questionList.map(QuestionPanel => QuestionPanel.isExists
+          {data.map(QuestionPanel => QuestionPanel.isExists
             ? <Panel
-            header={QuestionPanel.type}
-            key={QuestionPanel.id}
+            header={QuestionICON[QuestionPanel.type].title}
+            key={QuestionPanel.type}
             extra={
               <DeleteButton
               title={`确认移除整个组吗，这将移除里面全部${QuestionPanel.type}`}
-              confirm={( (listType: string): AnyFn => () => {
-                dispatch({ type: 'removeQuestionList', listType })
-                dispatch({ type: 'changeIsExists', isExists: false, listType })
+                confirm={( (listType: number): AnyFn => () => {
+                  // dispatch({ type: 'removeQuestionList', listType })
+                  // dispatch({ type: 'changeIsExists', isExists: false, listType })
                 })(QuestionPanel.type)}
-                />
+              />
               }
               >
             {QuestionPanel.questiton.map((questionItem) => (
-              <QuestionItemWrapper key={questionItem.id}>
+              <QuestionItemWrapper key={questionItem.item_key}>
                 <Button
                   type="link"
-                  style={{ color: 'black', width: "50%"}}
-                  onClick={() => {
-                  dispatch({ type: '更新当前编辑的题目', questionItem })
-                }}>
-                  {questionItem.item_key}
+                  // 创建的题目并不一定已经保存，暂时用一个字段记录
+                  style={{ color: questionItem.uploaded ? 'black' : 'red', width: "50%"}}
+                  onClick={() => focus(questionItem)}>
+                  {questionItem.item_preview? questionItem.item_preview : questionItem.item_key}
                 </Button>
-                <span>{`分`}</span>
+                {/* 分数控制 */}
+                <Tooltip title="点击+1，按住ALT点击-1">
+                  <span
+                    style={{ userSelect: 'none' }}
+                    onClick={(e)=>e.altKey ? aaa(questionItem,-1) : aaa(questionItem,1)}
+                  >{`${questionItem.score}分`}</span>
+                </Tooltip>
                 {/* 删除按钮 */}
                 <DeleteButton
                   confirm={() => removeQuesItem(questionItem, QuestionPanel)}
@@ -74,7 +83,7 @@ export const CreateExamNav: React.FC<{
                 />
               </QuestionItemWrapper>
             ))}
-            </Panel> : <div key={QuestionPanel.id}></div>
+            </Panel> : <div key={QuestionPanel.type}></div>
           )}
         </Collapse>
       </CreateExamNavWrapper>

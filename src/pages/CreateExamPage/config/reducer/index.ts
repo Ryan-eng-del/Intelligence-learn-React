@@ -70,7 +70,7 @@ export const CreateExamPageReducer = (
       newState.questionList.map((questionPanel) => {
         if (questionPanel.type === action.listType) {
           questionPanel.questiton = questionPanel.questiton.filter((item_two) => {
-            return item_two.id != action.id
+            return item_two.item_key != action.id
           })
           questionPanel.amount -= 1
           questionPanel.isExists = questionPanel.amount === 0
@@ -81,7 +81,7 @@ export const CreateExamPageReducer = (
       newState.questionList.map((item_one) => {
         let key = 1
         item_one.questiton.map((item_two) => {
-          item_two.item_key = key
+          item_two.item_key = key.toString()
           key++
         })
       })

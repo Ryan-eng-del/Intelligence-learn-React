@@ -4,7 +4,10 @@ import { Button, Form, Input, Checkbox, Space } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 
-export const CreateExamHeader: React.FC<any> = (props) => {
+export const CreateExamHeader: React.FC<{
+  name?: string,
+  id?: string
+}> = ({name, id}) => {
   const navigate = useNavigate()
   return (
     <CreateExamHeaderWrapper>
@@ -16,8 +19,9 @@ export const CreateExamHeader: React.FC<any> = (props) => {
           icon={<ArrowLeftOutlined/>}
         />
         <label>试卷名字：</label>
-        <Input></Input>
+        <Input defaultValue={name}></Input>
         <Button  type='primary' >保存试卷</Button>
+        <span>ID:{id}</span>
       </Space>
     </CreateExamHeaderWrapper>
   )

@@ -42,7 +42,7 @@ export const CreateQuestionHeader: React.FC = () => {
             }}
             size="large"
             onClick={() => {
-              navigate(item.type, { replace: true })
+              // navigate(item.type, { replace: true })
             }}
           >
             {item.title}

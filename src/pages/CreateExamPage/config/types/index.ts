@@ -1,23 +1,6 @@
-import { QuestionType, WholeQuestion } from 'server/fetchExam/types'
-
-/** 题目在试卷中的类型 */
-export interface QuestionItem {
-  id: string
-  item_key: number //题目序号
-  item_data?: WholeQuestion
-}
+import { QuestionType, QuestionList, QuestionItem } from 'server/fetchExam/types'
 
 
-
-/** 试卷编辑导航一种题型的折叠面板 */
-export interface QuestionList {
-  id: string
-  type: QuestionType //题目类型
-  amount: number //题目总数
-  isExists: boolean //表示该类型题目是否已经存在
-  questiton: QuestionItem[]
-  questitonScore: number[]
-}
 
 export interface CreateExamState {
   id: string

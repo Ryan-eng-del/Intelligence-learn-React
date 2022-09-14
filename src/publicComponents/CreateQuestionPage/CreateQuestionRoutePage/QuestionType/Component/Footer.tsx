@@ -52,10 +52,10 @@ export const Footer: React.FC<FooterType> = (props: FooterType) => {
   }
 
   const handleSave = () => {
-    if (networkData.question_description === '') {
+    if (networkData.questionAnswerDescription === '') {
       message.error('请输入题目信息')
     } else if ('question_answer' in networkData) {
-      if (networkData.question_answer === '') {
+      if (networkData.questionAnswerDescription === '') {
         message.error('请输入选项信息')
       } else {
         SuccessSave()

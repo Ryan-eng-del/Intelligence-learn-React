@@ -15,7 +15,6 @@ import { useShowLearnClass, useJoinClass } from 'server/fetchClass'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { uniqueId } from 'lodash'
 import { courseType } from './config/type/index'
-import { width } from 'dom7'
 
 
 export const LearnPage: React.FC = () => {

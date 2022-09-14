@@ -8,7 +8,7 @@ import {
   Programming,
   Judge
 } from 'publicComponents/CreateQuestionPage/CreateQuestionRoutePage'
-import { QuestionType } from 'server/fetchExam/types'
+import { QuestionItem, QuestionType } from 'server/fetchExam/types'
 const mapper = {
   [QuestionType.single]: <SingleChoice></SingleChoice>,
   [QuestionType.multiple]: <MultipleChoice></MultipleChoice>,
@@ -25,10 +25,13 @@ export const CreateExamRoutePage: React.FC<{
   return (
     <CreateExamRoutePageWrapper>
       <Consumer>
-        {(context: any) => (<>
+        {(context: QuestionItem) => (<>
           <div>{JSON.stringify(context)}</div>
           <hr></hr>
-          {((t:keyof typeof mapper) => mapper[t])(context.questionType as any)}
+          {/* 查找对应组件 */}
+          { context === undefined ? <h1>请选择一道题</h1> :
+            ((t:keyof typeof mapper) => mapper[t])(context.item_data.questionType)
+          }
         </>)}
       </Consumer>
     </CreateExamRoutePageWrapper>

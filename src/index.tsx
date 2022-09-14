@@ -61,6 +61,7 @@ import { RequireAuth } from 'util/requireAuth'
 import { KnowledgeGraph } from './pages/K-graphPage/KnowledgeGraph'
 import { TeacherSourcePreviewPage } from './pages/TeacherSourcePreviewPage/TeacherSourcePreviewPage'
 import { SourcePreviewPage } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/SourcePreviewPage'
+import { RouterOutlet } from 'baseUI/RouterOutlet/RouterOutlet'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
@@ -121,9 +122,7 @@ root.render(
               {/* ChapterID */}
             </Route>
             <Route path="study" element={<ChapterPreviewFile />} />
-            <Route path="editpaper" element={<CreateExamPage />}>
-              {/* <Route path=":paperid" element={<CreateExamPage />} /> */}
-            </Route>
+            <Route path="editpaper/:paperid" element={<CreateExamPage />} />
             <Route
               path="teacher-preview"
               element={<TeacherSourcePreviewPage />}
