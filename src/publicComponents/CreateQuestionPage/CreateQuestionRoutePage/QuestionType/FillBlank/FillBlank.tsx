@@ -3,21 +3,25 @@ import { Form, Switch, Input, Button } from 'antd'
 import { Footer } from '../Component/Footer'
 import { TextArea } from '../Component/TextArea'
 // import { RandomInt } from 'publicComponents/ClassInfoPage/ChapterList/config/util'
-import { QuestionData } from 'server/fetchExam/types/index'
+import { QuestionData, QuestionDataWithID, QuestionItem } from 'server/fetchExam/types/index'
 
-export const FillBlank: React.FC = () => {
+export const FillBlank: React.FC<{
+  content: QuestionDataWithID
+}> = ({content}) => {
+
+  //序列化为题目数据
   const [question, setQuestion] = useState({
-    //本页面的全部数据
+    id: content.questionId,
     content: '',
-    objective: true,
-    blank: [{ id: 1, content: '' }],
+    TrueOption: 'true',   //设置主客观性
+    Options: [{ id: Math.random(), content: '' }],  //挖空
     footer: {
       explanation: '',
       rate: 1,
       knowledge: ['离散数学', '图论'],
-      score: 0
     }
   })
+
   const handleEdit = (content: string) => {
     question.content = content
     setQuestion({ ...question })
@@ -26,12 +30,12 @@ export const FillBlank: React.FC = () => {
     setQuestion({ ...question, footer: obj })
   }
   const addBlank = () => {
-    question.blank.push({ id: Math.random(), content: '' })
+    question.Options.push({ id: Math.random(), content: '' })
     setQuestion({ ...question })
   }
 
   const delBlank = () => {
-    question.blank.length -= 1
+    question.Options.length -= 1
     setQuestion({ ...question })
   }
 
@@ -41,18 +45,6 @@ export const FillBlank: React.FC = () => {
       setQuestion({ ...question })
     }
 
-  const RandomInt = () => Math.floor(Math.random() * 1e9)
-
-  const networkData: QuestionData = {
-    courseId: RandomInt.toString(),
-    pointIds: question.footer.knowledge,
-    questionAnswerDescription: question.footer.explanation,
-    questionAnswerNum: 1,
-    questionDescription: question.content,
-    questionDifficulty: question.footer.rate,
-    questionType: 0,
-    rightAnswer: ''
-  }
   return (
     <>
       <h1>填空题</h1>
@@ -67,15 +59,15 @@ export const FillBlank: React.FC = () => {
         <Switch
           checkedChildren="客观"
           unCheckedChildren="主观"
-          checked={question.objective}
-          onChange={(e) => setQuestion({ ...question, objective: e })}
+          checked={question.TrueOption == 'true'}
+          onChange={(e) => setQuestion({ ...question, TrueOption: e.toString() })}
         />
         {/* <Form.Item label="自动打分"> */}
-        {question.blank.map((item, index) => (
+        {question.Options.map((item, index) => (
           <Form.Item key={item.id} label={`第${index + 1}空`}>
             <Input
-              placeholder={question.objective ? '答案' : '考试后评定'}
-              disabled={!question.objective}
+              placeholder={question.TrueOption == 'true' ? '答案' : '考试后评定'}
+              disabled={question.TrueOption != 'true'}
               value={item.content}
               onChange={(value) => changeAnswer(item)(value.target.value)}
             />
@@ -90,11 +82,7 @@ export const FillBlank: React.FC = () => {
           删除空位
         </Button>
         &nbsp;&nbsp;&nbsp; *请确保空位与题干中的数量匹配
-        <Footer
-          networkData={networkData}
-          data={question.footer}
-          setter={handleChangeFooter}
-        ></Footer>
+        <Footer data={question} setter={handleChangeFooter}/>
       </Form>
     </>
   )

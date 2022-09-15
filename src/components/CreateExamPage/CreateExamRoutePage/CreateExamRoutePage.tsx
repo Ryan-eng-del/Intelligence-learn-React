@@ -8,29 +8,28 @@ import {
   Programming,
   Judge
 } from 'publicComponents/CreateQuestionPage/CreateQuestionRoutePage'
-import { QuestionItem, QuestionType } from 'server/fetchExam/types'
-const mapper = {
-  [QuestionType.single]: <SingleChoice></SingleChoice>,
-  [QuestionType.multiple]: <MultipleChoice></MultipleChoice>,
-  [QuestionType.fillBlank]: <FillBlank></FillBlank>,
-  [QuestionType.shortAnswer]: <ShortAnswer></ShortAnswer>,
-  [QuestionType.programming]: <Programming></Programming>,
-  [QuestionType.judge]: <Judge></Judge>
-}
+import { QuestionData, QuestionDataWithID, QuestionItem, QuestionType } from 'server/fetchExam/types'
 
 export const CreateExamRoutePage: React.FC<{
-  Consumer: React.Consumer<any>
+  Consumer: React.Consumer<QuestionDataWithID | undefined>
+  dispatch?: any
 }> = ({Consumer}) => {
 
   return (
     <CreateExamRoutePageWrapper>
       <Consumer>
-        {(context: QuestionItem) => (<>
+        {(context) => (<>
           <div>{JSON.stringify(context)}</div>
           <hr></hr>
           {/* 查找对应组件 */}
-          { context === undefined ? <h1>请选择一道题</h1> :
-            ((t:keyof typeof mapper) => mapper[t])(context.item_data.questionType)
+          {
+            context === undefined ? <h1>请选择一道题</h1> :
+            context.questionType === QuestionType.single ? <SingleChoice content={context}/> :
+            context.questionType === QuestionType.multiple ? <MultipleChoice content={context}/> :
+            context.questionType === QuestionType.fillBlank ? <FillBlank content={context}/> :
+            context.questionType === QuestionType.shortAnswer ? <ShortAnswer content={context}/> :
+            context.questionType === QuestionType.programming ? <Programming content={context}/> :
+            context.questionType === QuestionType.judge ? <Judge content={context}/> : 0
           }
         </>)}
       </Consumer>

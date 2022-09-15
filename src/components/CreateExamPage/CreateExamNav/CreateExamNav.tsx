@@ -11,10 +11,12 @@ const { Panel } = Collapse
 
 export const CreateExamNav: React.FC<{
   questionList: QuestionList[]
+  changeScore: AnyFn<void>
   focus: (item:  QuestionItem) =>void
-}> = ({questionList, focus}) => {
+}> = ({questionList, focus,changeScore}) => {
 
   const [data,setData] = useState(questionList)
+  const [Fouce,setFocus] = useState<QuestionItem>()
   const removeQuesItem = (curItem: QuestionItem, curList: QuestionList) => {
     if (curList.amount === 0) {
       // dispatch({
@@ -31,15 +33,10 @@ export const CreateExamNav: React.FC<{
     // })
     // dispatch({ type: 'rearrangeItem' })
   }
-  const aaa = (item: QuestionItem, n : number) => {
-    item.score += n
-    if(item.score <= 0) item.score = 1;
-    setData([...data])
-  }
+
   return (
     <>
       <CreateExamNavWrapper>
-      <Button onClick={e=>console.log(e)}>aaa</Button>
         <Collapse
           bordered={false}
           expandIconPosition="end"
@@ -53,27 +50,27 @@ export const CreateExamNav: React.FC<{
             extra={
               <DeleteButton
               title={`确认移除整个组吗，这将移除里面全部${QuestionPanel.type}`}
-                confirm={( (listType: number): AnyFn => () => {
-                  // dispatch({ type: 'removeQuestionList', listType })
-                  // dispatch({ type: 'changeIsExists', isExists: false, listType })
-                })(QuestionPanel.type)}
+                confirm={()=>console.log("删除了整个组！")}
               />
               }
               >
             {QuestionPanel.questiton.map((questionItem) => (
-              <QuestionItemWrapper key={questionItem.item_key}>
+              <QuestionItemWrapper
+                key={questionItem.item_data.questionId}
+                style={{ backgroundColor: Fouce === questionItem ? "#ebd3ff" : "#fff" }}
+              >
                 <Button
                   type="link"
                   // 创建的题目并不一定已经保存，暂时用一个字段记录
-                  style={{ color: questionItem.uploaded ? 'black' : 'red', width: "50%"}}
-                  onClick={() => focus(questionItem)}>
-                  {questionItem.item_preview? questionItem.item_preview : questionItem.item_key}
+                  style={{ color: 'red', width: "50%"}}
+                  onClick={() => (setFocus(questionItem),focus(questionItem))}>
+                  {questionItem.item_data.questionId}
                 </Button>
                 {/* 分数控制 */}
                 <Tooltip title="点击+1，按住ALT点击-1">
                   <span
                     style={{ userSelect: 'none' }}
-                    onClick={(e)=>e.altKey ? aaa(questionItem,-1) : aaa(questionItem,1)}
+                    onClick={(e)=>e.altKey ? changeScore(questionItem,-1) : changeScore(questionItem,1)}
                   >{`${questionItem.score}分`}</span>
                 </Tooltip>
                 {/* 删除按钮 */}

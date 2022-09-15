@@ -2,17 +2,21 @@ import React, { useState } from 'react'
 import { Form } from 'antd'
 import { Footer } from '../Component/Footer'
 import { TextArea } from '../Component/TextArea'
-import { QuestionData } from 'server/fetchExam/types/index'
+import { QuestionData, QuestionDataWithID, QuestionItem } from 'server/fetchExam/types/index'
 
-export const Programming: React.FC = () => {
+export const Programming: React.FC<{
+  content: QuestionDataWithID
+}> = ({content}) => {
+  //序列化为题目数据
   const [question, setQuestion] = useState({
-    //本页面的全部数据
+    id: content.questionId,
     content: '',
+    TrueOption: '', //无用
+    Options: [],//无用
     footer: {
       explanation: '',
       rate: 1,
       knowledge: ['离散数学', '图论'],
-      score: 0
     }
   })
   const handleEdit = (content: string) => {
@@ -21,17 +25,6 @@ export const Programming: React.FC = () => {
   }
   const handleChangeFooter = (obj: any) => {
     setQuestion({ ...question, footer: obj })
-  }
-  const RandomInt = () => Math.floor(Math.random() * 1e9)
-  const networkData: QuestionData = {
-    courseId: RandomInt.toString(),
-    pointIds: question.footer.knowledge,
-    questionAnswerDescription: question.footer.explanation,
-    questionAnswerNum: 1,
-    questionDescription: question.content,
-    questionDifficulty: question.footer.rate,
-    questionType: 0,
-    rightAnswer: ''
   }
 
   return (
@@ -45,11 +38,8 @@ export const Programming: React.FC = () => {
             setContent={(content: string) => handleEdit(content)}
           />
         </Form.Item>
-        <Footer
-          networkData={networkData}
-          data={question.footer}
-          setter={handleChangeFooter}
-        ></Footer>
+        <Footer data={question} setter={handleChangeFooter}/>
+
       </Form>
     </>
   )

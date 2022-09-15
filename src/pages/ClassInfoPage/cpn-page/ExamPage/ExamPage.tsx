@@ -3,10 +3,19 @@ import { Button } from 'antd'
 import { ExamPageWrapper, ExamHeaderWrapper, ExamTitleWrapper} from './ExamPageStyle'
 import { ExamList } from 'publicComponents/ExamPage'
 import { useAddTestPaper } from 'server/fetchExam/TestPaper'
+import { useNavigate } from 'react-router-dom'
 
 export const ExamPage: React.FC = () => {
-  const { mutate } = useAddTestPaper('课程id')
+  const { mutate, data } = useAddTestPaper(()=>{
+    navigate(`/editpaper/${data}`)
+  })
   const [loading,setLoading] = useState(false)
+  const navigate = useNavigate()
+  const wait = () => {
+    setLoading(true)
+    mutate('课程id')
+
+  }
   return (
     <>
       <ExamPageWrapper>
@@ -15,7 +24,7 @@ export const ExamPage: React.FC = () => {
             <div className="Exam-page-title">考试作业</div>
             <Button
               type="primary"
-              onClick={()=>(setLoading(true),mutate())}
+              onClick={wait}
               style={{ marginBottom: '24px' }}
               loading={loading}
             >

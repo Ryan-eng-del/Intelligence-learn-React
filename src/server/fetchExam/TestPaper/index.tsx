@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom'
 import { message } from 'antd'
 import { delayFetch } from 'util/delayFetch'
 import { TestPaper, PostTestPaper } from '../types'
+import { AnyFn } from 'types'
 
 /** 创建一张试卷 */
-export const useAddTestPaper = (courseId: string) => {
+export const useAddTestPaper = (callback:AnyFn) => {
   const navigate = useNavigate()
-  return useMutation(async () => {
+  return useMutation(async (courseId: string) => {
     await delayFetch()
     return client.post({
       url: 'paper/add-paper',
@@ -22,9 +23,9 @@ export const useAddTestPaper = (courseId: string) => {
     })
   },
   {
-    onSuccess: (PaperID,a,b) => {
-      console.log("先跳转？",PaperID,a,b);
-      navigate(`/editpaper/${PaperID}`)
+    onSuccess: () => {
+      callback()
+      message.success('添加成功')
     },
     onError: () => {
       message.error('添加失败')
@@ -47,8 +48,8 @@ export const useShowTestPaper = (paperId?: string) => useQuery(
 )
 
 /** 保存这张试卷 */
-export const useSaveTestPaper = (paper: PostTestPaper) => {
-  return useMutation(async () => {
+export const useSaveTestPaper = () => {
+  return useMutation(async (paper: PostTestPaper) => {
     await delayFetch()
     return client.post({
       url: '/paper/update-paper',

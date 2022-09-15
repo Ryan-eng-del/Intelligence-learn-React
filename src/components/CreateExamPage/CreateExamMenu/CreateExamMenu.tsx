@@ -9,8 +9,11 @@ import {
   CheckSquareOutlined,
   EditOutlined,
   FormOutlined,
-  CodeOutlined
+  CodeOutlined,
+  ArrowLeftOutlined,
+  HddOutlined
 } from '@ant-design/icons'
+import { useNavigate } from 'react-router-dom'
 
 export const QuestionICON = {
   [QuestionType.single]:{title:'单选题',icon: <CheckCircleOutlined />},
@@ -22,13 +25,30 @@ export const QuestionICON = {
 }
 
 export const CreateExamMenu: React.FC<{
-  dispatch: (type: QuestionType)=> void
-}> = ({ dispatch }) => {
-
+  allowBank?: boolean
+  AddQuestion: (type: QuestionType)=> void
+}> = ({ AddQuestion, allowBank }) => {
+  const navigate = useNavigate()
 
   return (
     <>
       <CreateExamMenuWrapper>
+        {
+          allowBank ?
+          <Button
+            type="primary"
+            icon={<HddOutlined />}
+            style={{ marginLeft: '10px' }}
+          >从题库中选择</Button>
+          :
+          <Button
+            danger
+            icon={<ArrowLeftOutlined />}
+            type="primary"
+            style={{ marginLeft: '10px' }}
+            onClick={() => navigate('/questionbank')}
+          >返回</Button>
+        }
         {
           Object.keys(QuestionICON).map((item, index) => (
             <Button
@@ -36,9 +56,7 @@ export const CreateExamMenu: React.FC<{
               icon={QuestionICON[parseInt(item) as QuestionType].icon}
               type="primary"
               style={{ marginLeft: '10px' }}
-              onClick={() => {
-                dispatch(parseInt(item) as QuestionType)
-              }}
+              onClick={() => {AddQuestion(parseInt(item) as QuestionType)}}
             >
               {QuestionICON[parseInt(item) as QuestionType].title}
             </Button>

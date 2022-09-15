@@ -2,18 +2,21 @@ import React, { useState } from 'react'
 import { Form, Switch } from 'antd'
 import { TextArea } from '../Component/TextArea'
 import { Footer } from '../Component/Footer'
-import { QuestionData } from 'server/fetchExam/types/index'
+import { QuestionData, QuestionDataWithID, QuestionItem } from 'server/fetchExam/types/index'
 
-export const Judge: React.FC = () => {
+export const Judge: React.FC<{
+  content: QuestionDataWithID
+}> = ({content}) => {
+  //序列化为题目数据
   const [question, setQuestion] = useState({
-    //本页面的全部数据
+    id: content.questionId,
     content: '',
-    isTrue: true,
+    TrueOption: 'true',
+    Options: [],//无用
     footer: {
       explanation: '',
       rate: 1,
       knowledge: ['离散数学', '图论'],
-      score: 0
     }
   })
   const handleEdit = (content: string) => {
@@ -24,18 +27,6 @@ export const Judge: React.FC = () => {
     setQuestion({ ...question, footer: obj })
   }
 
-  const RandomInt = () => Math.floor(Math.random() * 1e9)
-
-  const networkData: QuestionData = {
-    courseId: RandomInt.toString(), //要改
-    pointIds: question.footer.knowledge,
-    questionAnswerDescription: question.footer.explanation,
-    questionAnswerNum: 1,
-    questionDescription: question.content,
-    questionDifficulty: question.footer.rate,
-    questionType: 0,
-    rightAnswer: question.isTrue.toString()
-  }
   return (
     <>
       <h1>判断题</h1>
@@ -51,15 +42,11 @@ export const Judge: React.FC = () => {
           <Switch
             checkedChildren="对"
             unCheckedChildren="错"
-            checked={question.isTrue}
-            onChange={(e) => setQuestion({ ...question, isTrue: e })}
+            checked={question.TrueOption == 'true'}
+            onChange={(e) => setQuestion({ ...question, TrueOption: e.toString() })}
           />
         </Form.Item>
-        <Footer
-          networkData={networkData}
-          data={question.footer}
-          setter={handleChangeFooter}
-        ></Footer>
+        <Footer data={question} setter={handleChangeFooter}/>
       </Form>
     </>
   )

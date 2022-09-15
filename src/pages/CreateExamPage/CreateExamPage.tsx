@@ -5,12 +5,13 @@ import {
   CreateExamHeader,
   CreateExamMenu
 } from 'components/CreateExamPage'
-import { CreateExamPageReducer, initialState } from './config/reducer'
 import { CreateExamPageWrapper } from './CreateExamPageStyle'
 import { useShowTestPaper } from 'server/fetchExam/TestPaper'
 import { useParams } from 'react-router-dom'
-import { QuestionItem, QuestionList, QuestionType } from 'server/fetchExam/types'
+import { QuestionData, QuestionDataWithID, QuestionItem, QuestionList, QuestionType } from 'server/fetchExam/types'
+import { useCreateEmptyQuestion, useCreateQuestion } from 'server/fetchExam'
 
+const RandomInt = () => Math.floor(Math.random() * 1e9)
 
 export const CreateExamPage: React.FC = () => {
   const { paperid } = useParams()
@@ -24,16 +25,16 @@ export const CreateExamPage: React.FC = () => {
     //     {
     //       score:1,
     //       item_key:i.questionId,
-    //       item_preview:i.questionAnswerDescription,
     //       item_data: {
-    //         questionDescription: i.questionAnswerDescription,
-    //         pointIds: i.points,
-    //         courseId: "1",
-    //         questionAnswerDescription: i.questionAnswerDescription,
-    //         questionAnswerNum: 1,
-    //         questionDifficulty: 1,
-    //         questionType: 1,
-    //         rightAnswer: "string"
+    //         questionDescription: i.questionDescription,
+    //         questionOption: i.questionOption,
+    //         questionDifficulty: i.questionDifficulty,
+    //         questionType: i.questionType,
+    //         questionAnswerNum: i.questionAnswerNum,
+    //         rightAnswer: i.rightAnswer,
+    //         questionAnswerExplain: i.questionAnswerExplain,
+    //         courseId: "nuknowed",
+    //         pointIds: i.points
     //       }
     //     }
     //   ))
@@ -47,49 +48,63 @@ export const CreateExamPage: React.FC = () => {
   ]
   //
   const [dataList,setData] = useState(NavList)
+
+
+  const { mutate, data:newQ } = useCreateEmptyQuestion()
   const AddQuestion = (type: QuestionType) => {
+    mutate(type)
     const ChangePanel = dataList.find(i=>i.type === type)
     ChangePanel!.isExists = true
     ChangePanel!.questiton = ChangePanel!.questiton.concat(
       {
-      uploaded: false,
-      score: 1, //题目在此试卷的分数
-      item_key: "123123213123", //题目id
-      item_preview: "未编辑", //题目在侧边栏的预览文字
-      item_data: {
-        questionDescription: "",
-        courseId: "",
-        pointIds: [],
-        questionAnswerDescription: "",
-        questionAnswerNum: 1,
-        questionDifficulty: 1,
-        questionType: type,
-        rightAnswer: "A",
-      }
+        score: 1, //题目在此试卷的分数
+        item_data: {
+          questionId:RandomInt().toString(),
+          questionDescription: "",
+          courseId: "",
+          pointIds: [],
+          questionOption: "dsadas<>fr<>ads<>dsads",
+          questionAnswerExplain: "",
+          questionAnswerNum: 1,
+          questionDifficulty: 1,
+          questionType: type,
+          rightAnswer: "A",
+        }
       }
     )
     setData([...dataList]);
   }
 
   // 当前编辑
-  const [curEdit,setCurEdit] = useState<QuestionItem>()
+  const [curEdit,setCurEdit] = useState<QuestionDataWithID>()
   const CurrentQuestionData = React.createContext(curEdit)
   const { Consumer, Provider } = CurrentQuestionData
   const FocusQuestion =  (item: QuestionItem) => {
-    setCurEdit(item)
+    setCurEdit(item.item_data)
   }
+
+  const ChangleEdit = () => {
+    setData([...dataList]);
+  }
+
+  const changeScore = (item: QuestionItem, n : number) => {
+    item.score += n
+    if(item.score <= 0) item.score = 1;
+    setData([...dataList])
+  }
+
   return (
     <>
       <CreateExamPageWrapper>
         <CreateExamHeader name={data?.paperName} id={paperid} />
         <div style={{ display: 'flex', height: '500px' }}>
-          <CreateExamNav questionList={dataList} focus={FocusQuestion}/>
+          <CreateExamNav questionList={dataList} focus={FocusQuestion} changeScore={changeScore}/>
           <div style={{ width: '80%' }}>
             {/* 添加按钮 */}
-              <CreateExamMenu dispatch={AddQuestion}/>
+              <CreateExamMenu AddQuestion={AddQuestion} allowBank/>
             {/* 提供当前编辑的题目数据 */}
             <Provider value={curEdit}>
-              <CreateExamRoutePage Consumer={Consumer} ></CreateExamRoutePage>
+              <CreateExamRoutePage Consumer={Consumer} dispatch={ChangleEdit}></CreateExamRoutePage>
             </Provider>
           </div>
         </div>

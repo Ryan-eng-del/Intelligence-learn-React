@@ -1,13 +1,14 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, UseQueryResult } from '@tanstack/react-query'
 import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
-import { ExamListItem, QuestionData } from './types'
+import { ExamListItem, QuestionData, QuestionDataWithID, QuestionType } from './types'
 import { message } from 'antd'
+import { AnyFn } from 'types'
 
 /** 添加试题 */
-export const useCreateQuestion = (QuestionItem: QuestionData) => {
+export const useCreateQuestion = () => {
   return useMutation(
-    async () => {
+    async (QuestionItem: QuestionData) => {
       await delayFetch()
       return client.post({
         url: 'question/add-question',
@@ -58,4 +59,61 @@ export const useShowExamList = (courseID: string) => {
       }
     })
   })
+}
+
+
+/** 添加空试题 */
+export const useCreateEmptyQuestion = () => {
+  return useMutation(
+    async (type: QuestionType) => {
+      await delayFetch()
+      const defData = {
+        questionDescription: "",
+        courseId: "",
+        pointIds: [],
+        questionOption: "dsadas<>fr<>ads<>dsads",
+        questionAnswerExplain: "",
+        questionAnswerNum: 1,
+        questionDifficulty: 1,
+        questionType: type,
+        rightAnswer: "A",
+      }
+      const qID = client.post<string>({
+        url: 'question/add-question',
+        data: defData
+      })
+      return {...defData,questionId:qID as unknown as string }
+    },
+    {
+      onSuccess: () => {
+        message.success('添加成功')
+      },
+      onError: () => {
+        message.error('添加失败')
+      }
+    }
+  )
+}
+
+/** 更新题目 */
+export const useUpadateQuestion = () => {
+  return useMutation(
+    async (QuestionItem: QuestionDataWithID) => {
+      await delayFetch()
+      return client.post({
+        url: '/question/update-question',
+        data: {
+          ...QuestionItem
+        }
+      })
+    },
+    {
+      onSuccess: () => {
+        message.success('添加成功')
+      },
+      onError: () => {
+        message.error('添加失败')
+      }
+    }
+  )
 }

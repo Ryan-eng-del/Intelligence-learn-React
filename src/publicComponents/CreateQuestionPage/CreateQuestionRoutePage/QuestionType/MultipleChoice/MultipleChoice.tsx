@@ -2,11 +2,15 @@ import React, { useState } from 'react'
 import { Form, Button } from 'antd'
 import { TextArea } from '../Component/TextArea'
 import { Footer } from '../Component/Footer'
-import { QuestionData } from 'server/fetchExam/types/index'
+import { QuestionData, QuestionDataWithID, QuestionItem } from 'server/fetchExam/types/index'
 
-export const MultipleChoice: React.FC = () => {
+export const MultipleChoice: React.FC<{
+  content: QuestionDataWithID
+}> = ({content}) => {
   const [question, setQuestion] = useState({
     content: '',
+    id: content.questionId,
+    TrueOption:'',  //无用
     Options: [
       { isTrue: true, content: '' },
       { isTrue: false, content: '' },
@@ -17,7 +21,6 @@ export const MultipleChoice: React.FC = () => {
       explanation: '',
       rate: 1,
       knowledge: ['离散数学', '图论'],
-      score: 0
     }
   })
 
@@ -34,17 +37,6 @@ export const MultipleChoice: React.FC = () => {
     setQuestion({ ...question })
   }
 
-  const RandomInt = () => Math.floor(Math.random() * 1e9)
-  const networkData: QuestionData = {
-    courseId: RandomInt.toString(), //要改
-    pointIds: question.footer.knowledge,
-    questionAnswerDescription: question.footer.explanation,
-    questionAnswerNum: 1,
-    questionDescription: question.content,
-    questionDifficulty: question.footer.rate,
-    questionType: 0,
-    rightAnswer: question.Options.map(i=>i.isTrue).toString()
-  }
 
   return (
     <>
@@ -99,11 +91,7 @@ export const MultipleChoice: React.FC = () => {
             </Form.Item>
           </React.Fragment>
         ))}
-        <Footer
-          networkData={networkData}
-          data={question.footer}
-          setter={handleChangeFooter}
-        ></Footer>
+        <Footer data={question} setter={handleChangeFooter}/>
       </Form>
     </>
   )

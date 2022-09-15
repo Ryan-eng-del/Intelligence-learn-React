@@ -46,22 +46,12 @@ import {
   StudentKnowledgePage
 } from 'pages/StudentClassInfoPage'
 import { ChapterInfo, ChapterPreviewFile } from 'pages/ChapterInfo'
-import {
-  SingleChoice,
-  MultipleChoice,
-  FillBlank,
-  ShortAnswer,
-  Programming,
-  Judge
-} from 'publicComponents/CreateQuestionPage/CreateQuestionRoutePage'
-import { QuestionPreview } from 'publicComponents/CreateQuestionPage'
 
 // util
 import { RequireAuth } from 'util/requireAuth'
 import { KnowledgeGraph } from './pages/K-graphPage/KnowledgeGraph'
 import { TeacherSourcePreviewPage } from './pages/TeacherSourcePreviewPage/TeacherSourcePreviewPage'
 import { SourcePreviewPage } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/SourcePreviewPage'
-import { RouterOutlet } from 'baseUI/RouterOutlet/RouterOutlet'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
@@ -82,11 +72,7 @@ root.render(
           <Route path="login" element={<LoginPage />} />
           <Route
             path="/"
-            element={
-              <RequireAuth>
-                <App />
-              </RequireAuth>
-            }
+            element={<RequireAuth><App /></RequireAuth>}
           >
             <Route path="home" element={<HomePage />}>
               {/* <Route path="class"> */}
@@ -117,7 +103,6 @@ root.render(
               />
             </Route>
             <Route path={'k-graph'} element={<KnowledgeGraph />} />
-
             <Route path="chapterinfo" element={<ChapterInfo />}>
               {/* ChapterID */}
             </Route>
@@ -130,16 +115,8 @@ root.render(
               <Route path=":id" element={<SourcePreviewPage />} />
             </Route>
             <Route path="questionbank" element={<QuestionBankPage />} />
-            <Route path="createquestion" element={<CreateQuestionPage />}>
-              <Route path="single" element={<SingleChoice />} />
-              <Route path="multiple" element={<MultipleChoice />} />
-              <Route path="fillBlank" element={<FillBlank />} />
-              <Route path="shortanswer" element={<ShortAnswer />} />
-              <Route path="programming" element={<Programming />} />
-              <Route path="judge" element={<Judge />} />
-              <Route path="preview" element={<QuestionPreview />}></Route>
-            </Route>
-            <Route path="preview" element={<QuestionPreviewPage />}></Route>
+            <Route path="createquestion" element={<CreateQuestionPage />} />
+            <Route path="preview" element={<QuestionPreviewPage />}/>
           </Route>
         </Routes>
       </Router>
