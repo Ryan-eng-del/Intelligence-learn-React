@@ -1,3 +1,4 @@
+//基本没用，可以考虑删了
 import type { LearnPageAction, LearnPageState } from '../type'
 export const initialState: LearnPageState = {
   imgUrl: '',

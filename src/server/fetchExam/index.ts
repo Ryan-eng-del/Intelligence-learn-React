@@ -19,6 +19,7 @@ export const useCreateQuestion = (QuestionItem: QuestionData) => {
     {
       onSuccess: () => {
         message.success('添加成功')
+
       },
       onError: () => {
         message.error('添加失败')

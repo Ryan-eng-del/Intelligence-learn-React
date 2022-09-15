@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useState } from 'react'
 import {
   LearnPageWrapper,
   LearnClassWrapper,
@@ -7,44 +7,72 @@ import {
   LearnTitleWrapper,
   ModalContextWrapper
 } from './LearnPageStyle'
-import { Col, Row } from 'antd'
-import { Button, Modal, Input } from 'antd'
-import { LearnRoutePageReducer, initialState } from './config/reducer'
+import { Button, Modal, Input, Col, Row } from 'antd'
 import { ClassCard } from 'publicComponents/TeachRotePage'
-import { useShowLearnClass, useJoinClass } from 'server/fetchClass'
+import { useShowLearnClass, useJoinClass, useShowInvitedCourseInfo, useJoinInvitedCourse } from 'server/fetchClass'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { uniqueId } from 'lodash'
-import { courseType } from './config/type/index'
 import { width } from 'dom7'
+import { CourseInfo } from 'server/fetchClass/types'
 
 
 export const LearnPage: React.FC = () => {
-  const [state, dispatch] = useReducer(LearnRoutePageReducer, initialState)
-  const { modalVisible, imgUrl, invitedcode, className, classLearner, classList } = state
+  const [invitedcode, setInvitedCode] = useState('')
+  const [newCourse, setNewCourse] = useState({} as CourseInfo)
+  ////////////////////////////////////////////////////
+  // 窗口一
+  const [modalVisible, setModalVisible] = useState(false)
+  const [confirmLoading, setComfirmLoading] = useState(false)
+
+
 
   const showModal = () => {
-    dispatch({ type: 'setModalVisible', payload: true })
+    setModalVisible(true)
   }
-  const { data, isLoading } = useShowLearnClass()
-  const { mutate: joinClass } = useJoinClass(invitedcode)
   const handleOk = () => {
-    joinClass()
-    // dispatch({
-    //   type: 'setClasList',
-    //   payload: {
-    //     iurl: imgUrl,
-    //     cname: className,
-    //     tname: classLearner,
-    //     id: classList.length + ''
-    //   }
-    // })
-    dispatch({ type: 'setModalVisible', payload: false })
-    dispatch({ type: 'setInvitedCode', payload: '' })
+    setComfirmLoading(true)//展示loading
+
+    DemoCourse.refetch()//重新拉取query查找课程
+
+    setNewCourse({ ...DemoCourse.data, course_cover: '' } as CourseInfo)
+    //将设置的课程设置为状态方便加入
+
+    setTimeout(() => {//模拟请求,想起可以用async但懒得改了
+      setComfirmLoading(false)//关闭loading
+      setModalVisible2(true)//设置窗口2 展示
+    }, 1000)
+  }
+  const handleCancel = () => {
+    setModalVisible(false)
+  }
+  ////////////////////////////////////////////////////
+  //窗口二
+  const [modal2Visible, setModalVisible2] = useState(false);
+  const [confirmLoading2, setComfirmLoading2] = useState(false)
+
+  const handleOk2 = () => {
+    setComfirmLoading2(true)//打开loading
+    joinClass()//使用mutate发送网络请求加入课程
+
+    setComfirmLoading2(false)
+    setModalVisible2(false)
+    setModalVisible(false)
+    setInvitedCode('')
+  }
+  const handleCancel2 = () => {
+    setModalVisible2(false)
   }
 
-  const handleCancel = () => {
-    dispatch({ type: 'setModalVisible', payload: false })
-  }
+
+
+
+  const { data, isLoading } = useShowLearnClass()
+  const { mutate: joinClass } = useJoinInvitedCourse(invitedcode,newCourse)
+  const DemoCourse = useShowInvitedCourseInfo(invitedcode)
+  // const {mutate:joinClass}=useJoinClass(courseinfo)
+
+
+
 
   return (
     <LearnRoutePageWrapper>
@@ -54,8 +82,9 @@ export const LearnPage: React.FC = () => {
           visible={modalVisible}
           onOk={handleOk}
           onCancel={handleCancel}
-          okText="确认"
+          okText="查询"
           cancelText="取消"
+          confirmLoading={confirmLoading}
         >
           <ModalContextWrapper>
             <label className="classname-label">输入邀请码</label>
@@ -65,10 +94,30 @@ export const LearnPage: React.FC = () => {
               value={invitedcode}
               style={{ margin: '3px 0 12px 0' }}
               onChange={(e) => {
-                dispatch({ type: 'setInvitedCode', payload: e.target.value })
+                // dispatch({ type: 'setInvitedCode', payload: e.target.value })
+                setInvitedCode(e.target.value)
               }}
             />
           </ModalContextWrapper>
+        </Modal>
+      </>
+      <>
+        <Modal
+          title="正在加入这门课"
+          visible={modal2Visible}
+          onOk={handleOk2}
+          onCancel={handleCancel2}
+          okText="确认"
+          cancelText="取消"
+          confirmLoading={confirmLoading2}
+          width={300}
+        >
+          <ModalContextWrapper >
+            <img src={newCourse.course_cover || require('assets/img/class.jpg')} alt="课程图片" />
+            <h1>{newCourse.course_name}</h1>
+            <h3>{newCourse.teacher_name}</h3>
+          </ModalContextWrapper>
+
         </Modal>
       </>
       <LearnPageWrapper>
@@ -92,20 +141,20 @@ export const LearnPage: React.FC = () => {
               />
             ) : (
               <>
-                {Array.from({ length: (data?.length / 4) + 1 }).map((v, i) => {
+                {Array.from({ length: ((data as CourseInfo[]).length / 4) + 1 }).map((v, i) => {
                   return (
                     <Row key={uniqueId()} style={{ marginBottom: '30px', width: 1100 }}  >
-                      {data?.map((item: courseType, index: number) => {
+                      {(data as CourseInfo[]).map((item: CourseInfo, index: number) => {
                         // if (item.optimistic == undefined) item.optimistic = true
                         if (index >= i * 4 &&
                           index < (i + 1) * 4)
                           return (
-                            <Col span={6} key={item.course_id} >
+                            <Col span={6} key={item.class_id} >
                               <ClassCard
-                                id={item.course_id}
+                                id={item.class_id}
                                 cname={item.course_name}
                                 tname={item.course_name}
-                                iurl={item.courses_cover}
+                                iurl={item.course_cover || null}
                                 optimistic={item.optimistic}
                               ></ClassCard>
                             </Col>

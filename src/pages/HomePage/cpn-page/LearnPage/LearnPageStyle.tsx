@@ -29,4 +29,5 @@ export const ModalContextWrapper = styled.div`
     letter-spacing: 2px;
     font-size: 13px;
   }
+
 `

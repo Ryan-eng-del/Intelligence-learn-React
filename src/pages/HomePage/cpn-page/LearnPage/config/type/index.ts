@@ -1,5 +1,3 @@
-import exp from "constants"
-
 export interface ClassList {
   iurl: string
   cname: string

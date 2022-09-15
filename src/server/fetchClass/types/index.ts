@@ -1,6 +1,8 @@
-export interface ClassData {
-  course_describe: null
-  course_id: string
+export interface CourseInfo {
+  class_id: string
   course_name: string
-  courses_cover: null
+  course_cover?: string
+  course_describe?: string
+  teacher_name?:string
+  optimistic?:boolean
 }
