@@ -1,8 +1,7 @@
 import React from 'react'
 import { CreateExamMenuWrapper } from './CreateExamMenuStyle'
 import { Button } from 'antd'
-import { QuestionList } from 'pages/CreateExamPage/config/types'
-import { QuestionType } from 'publicComponents/CreateQuestionPage/config/type'
+import { QuestionList, QuestionType } from 'server/fetchExam/types'
 
 import {
   CheckOutlined,
@@ -10,61 +9,59 @@ import {
   CheckSquareOutlined,
   EditOutlined,
   FormOutlined,
-  CodeOutlined
+  CodeOutlined,
+  ArrowLeftOutlined,
+  HddOutlined
 } from '@ant-design/icons'
+import { useNavigate } from 'react-router-dom'
 
-export const CreateExamMenu: React.FC<any> = (props) => {
-  const { questionList, dispatch } = props
-  console.log(questionList)
-  const addQuestionItem = (listType: QuestionType) => {
-    questionList.map((item: QuestionList) => {
-      if (item.type == listType) {
-        if (item.isExists === false) {
-          dispatch({ type: 'changeIsExists', isExists: true, listType })
-        }
-        dispatch({
-          type: 'addQuestionItem',
-          questionItem: {
-            id: item.children.length + 1, //id向后台请求
-            item_key: item.children.length + 1
-          },
-          listType
-        })
-      }
-    })
-  }
-  const QuestionItemList = [
-    {
-      title: '单选题',
-      icon: <CheckCircleOutlined />,
-      type: QuestionType.single
-    },
-    {
-      title: '多选题',
-      icon: <CheckSquareOutlined />,
-      type: QuestionType.multiple
-    },
-    { title: '填空题', icon: <EditOutlined />, type: QuestionType.fillBlank },
-    { title: '简答题', icon: <FormOutlined />, type: QuestionType.shortAnswer },
-    { title: '编程题', icon: <CodeOutlined />, type: QuestionType.programming },
-    { title: '判断题', icon: <CheckOutlined />, type: QuestionType.judge }
-  ]
+export const QuestionICON = {
+  [QuestionType.single]:{title:'单选题',icon: <CheckCircleOutlined />},
+  [QuestionType.multiple]:{title:'多选题',icon: <CheckSquareOutlined />},
+  [QuestionType.fillBlank]:{title:'填空题',icon: <EditOutlined />},
+  [QuestionType.shortAnswer]:{title:'简答题',icon: <FormOutlined />},
+  [QuestionType.programming]:{title:'编程题',icon: <CodeOutlined />},
+  [QuestionType.judge]:{title:'判断题',icon: <CheckOutlined />},
+}
+
+export const CreateExamMenu: React.FC<{
+  allowBank?: boolean
+  AddQuestion: (type: QuestionType)=> void
+}> = ({ AddQuestion, allowBank }) => {
+  const navigate = useNavigate()
+
   return (
     <>
       <CreateExamMenuWrapper>
-        {QuestionItemList.map((item, index) => (
+        {
+          allowBank ?
           <Button
-            key={index}
-            icon={item.icon}
+            type="primary"
+            icon={<HddOutlined />}
+            style={{ marginLeft: '10px' }}
+          >从题库中选择</Button>
+          :
+          <Button
+            danger
+            icon={<ArrowLeftOutlined />}
             type="primary"
             style={{ marginLeft: '10px' }}
-            onClick={() => {
-              addQuestionItem(item.type)
-            }}
-          >
-            {item.title}
-          </Button>
-        ))}
+            onClick={() => navigate('/questionbank')}
+          >返回</Button>
+        }
+        {
+          Object.keys(QuestionICON).map((item, index) => (
+            <Button
+              key={index}
+              icon={QuestionICON[parseInt(item) as QuestionType].icon}
+              type="primary"
+              style={{ marginLeft: '10px' }}
+              onClick={() => {AddQuestion(parseInt(item) as QuestionType)}}
+            >
+              {QuestionICON[parseInt(item) as QuestionType].title}
+            </Button>
+          ))
+        }
       </CreateExamMenuWrapper>
     </>
   )

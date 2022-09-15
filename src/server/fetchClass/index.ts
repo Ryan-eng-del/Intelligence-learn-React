@@ -92,9 +92,9 @@ export const useCreateClass = ({
   course_name: string
   course_cover: string | null
 }) => {
+
   const queryClient = useQueryClient()
   return useMutation(
-
     async () => {
       await delayFetch()
       return client.post({

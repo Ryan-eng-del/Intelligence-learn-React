@@ -4,10 +4,11 @@ import {
   CheckSquareOutlined,
   CodeOutlined,
   EditOutlined,
-  FormOutlined
+  FormOutlined,
+  ArrowLeftOutlined
 } from '@ant-design/icons'
 import { Button } from 'antd'
-import { QuestionType } from 'publicComponents/CreateQuestionPage/config/type'
+import { QuestionType } from 'server/fetchExam/types'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CreateQuestionHeaderWrapper } from './CreateQuestionHeaderStyle'
@@ -32,30 +33,26 @@ export const CreateQuestionHeader: React.FC = () => {
   return (
     <>
       <CreateQuestionHeaderWrapper>
+        <Button
+          icon={<ArrowLeftOutlined />}
+          type="primary"
+          style={{marginLeft: '30px'}}
+          size="large"
+          danger
+          onClick={() => navigate('/questionbank')}
+        >返回</Button>
         {QuestionItemList.map((item, index) => (
           <Button
             key={index}
             icon={item.icon}
             type="primary"
-            style={{
-              marginLeft: '30px'
-            }}
+            style={{marginLeft: '30px'}}
             size="large"
             onClick={() => {
-              navigate(item.type, { replace: true })
+              // navigate(item.type, { replace: true })
             }}
-          >
-            {item.title}
-          </Button>
+          >{item.title}</Button>
         ))}
-        <button
-          style={{ float: 'right' }}
-          onClick={() => {
-            navigate('/questionbank')
-          }}
-        >
-          返回
-        </button>
       </CreateQuestionHeaderWrapper>
     </>
   )
