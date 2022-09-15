@@ -1,15 +1,21 @@
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from 'antd'
-import { ExamPageWrapper, ExamHeaderWrapper, ExamTitleWrapper} from './ExamPageStyle'
+import {
+  ExamPageWrapper,
+  ExamHeaderWrapper,
+  ExamTitleWrapper
+} from './ExamPageStyle'
 import { ExamList } from 'publicComponents/ExamPage'
-
+import { useMount } from '../../../../hook/useMount'
 
 export const ExamPage: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
   console.log(location.state)
-
+  useMount(() => {
+    console.log('作业考试 onMount')
+  })
   return (
     <>
       <ExamPageWrapper>

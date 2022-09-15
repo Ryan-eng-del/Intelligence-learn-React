@@ -60,7 +60,8 @@ import { QuestionPreview } from 'publicComponents/CreateQuestionPage'
 import { RequireAuth } from 'util/requireAuth'
 import { KnowledgeGraph } from './pages/K-graphPage/KnowledgeGraph'
 import { TeacherSourcePreviewPage } from './pages/TeacherSourcePreviewPage/TeacherSourcePreviewPage'
-import { SourcePreviewPage } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/SourcePreviewPage'
+import { SourceVideoPreview } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/SourceVideoPreview'
+import { SourcePdfPreview } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/SourcePdfPreview'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
@@ -133,7 +134,12 @@ root.render(
               path="teacher-preview"
               element={<TeacherSourcePreviewPage />}
             >
-              <Route path=":id" element={<SourcePreviewPage />} />
+              <Route path={'video'}>
+                <Route path=":id" element={<SourceVideoPreview />} />
+              </Route>
+              <Route path={'pdf'}>
+                <Route path=":id" element={<SourcePdfPreview />} />
+              </Route>
             </Route>
             <Route path="questionbank" element={<QuestionBankPage />} />
             <Route path="createquestion" element={<CreateQuestionPage />}>

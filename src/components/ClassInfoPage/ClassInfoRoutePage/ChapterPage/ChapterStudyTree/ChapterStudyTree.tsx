@@ -50,7 +50,13 @@ export const ChapterStudyTree = () => {
         添加章节
       </a>
       {isLoading ? (
-        <BaseLoading />
+        <BaseLoading
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '24px'
+          }}
+        />
       ) : (
         <Tree
           expandedKeys={expandKeys}

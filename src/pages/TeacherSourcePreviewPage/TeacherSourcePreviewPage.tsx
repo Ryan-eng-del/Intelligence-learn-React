@@ -9,18 +9,11 @@ import { expandOnMount } from '../../util/chapterStudyTree'
 import { Button } from 'antd'
 
 export const TeacherSourcePreviewPage = () => {
-  const location = useLocation()
-  const resourceId = location.pathname.split('/')[2]
-  const setParams = useSearchParams()[1]
   const { treeData, setExpandKeys, data, expandKeys, handleOnExpand } =
     useChapterUI('show')
-  useEffect(() => {
-    setParams({ source_id: resourceId }, { replace: true })
-  }, [resourceId])
+
   useMount(() => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    setExpandKeys(expandOnMount(data))
+    setExpandKeys(expandOnMount(data!))
   })
 
   return (

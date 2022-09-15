@@ -1,8 +1,12 @@
 import React from 'react'
 import { 测试树 } from './测试树'
 import { 测试树2 } from './测试树2'
+import { useMount } from '../../../../hook/useMount'
 
 export const DiscussPage: React.FC = () => {
+  useMount(() => {
+    console.log('作业考试 onMount')
+  })
   const data = {
     name: '第一级',
     child: [

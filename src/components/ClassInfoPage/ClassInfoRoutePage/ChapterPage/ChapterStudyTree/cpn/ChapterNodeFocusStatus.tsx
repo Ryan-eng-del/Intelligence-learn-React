@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Button, Input } from 'antd'
 import { stopPropagation } from 'util/stopPropagation'
 import { debounce } from 'util/debounece'
 
-export const ChapterNodeFocusStatus: React.FC<{
+const ChapterNodeFocusStatus: React.FC<{
   setAddInputValue: any
   confirmAdd: any
   cancelAdd: any
@@ -41,3 +41,4 @@ export const ChapterNodeFocusStatus: React.FC<{
     </div>
   )
 }
+export default memo(ChapterNodeFocusStatus)

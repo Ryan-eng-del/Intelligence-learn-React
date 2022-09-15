@@ -64,7 +64,13 @@ export const KnowledgeTree = () => {
       </Modal>
 
       {isLoading ? (
-        <BaseLoading />
+        <BaseLoading
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '24px'
+          }}
+        />
       ) : (
         <Tree
           expandedKeys={expandKeys}

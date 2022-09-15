@@ -10,8 +10,8 @@ import { ChapterNodeType } from './types'
 export const useShowCreateChapter = (setExpandKeys: StateSetter<string[]>) => {
   return useQuery(['chapterTree'], async () => {
     await delayFetch()
-    const data:ChapterNodeType[] = await client.get({
-      url: 'chapter/getChapterContents'
+    const data: ChapterNodeType[] = await client.get({
+      url: 'chapter/getChapter'
     })
     if (setExpandKeys) setExpandKeys(generateExpandKeys(data))
     return data

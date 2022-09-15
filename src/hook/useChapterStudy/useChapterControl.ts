@@ -42,23 +42,8 @@ export const useChapterControl = () => {
     setCurAddId
   } = useChapterClient()
   /*Server状态层*/
-  const {
-    data,
-    addChildChapterData,
-    addChapterData,
-    queryClient,
-    isLoading,
-    addChapterMutate
-  } = useChapterServer(setExpandKeys, setCurNode)
-
-  const newNode_init: ChapterNodeType = {
-    chapterId: '',
-    name: '新建节点',
-    chapterOrder: 1,
-    courseId: '1547211420256386',
-    courTimes: [],
-    childChapters: []
-  }
+  const { data, addChildChapterData, queryClient, isLoading } =
+    useChapterServer(setExpandKeys, setCurNode)
 
   /*处理树节点一点击就触发*/
   const handleOnExpand = useCallback((id: Key[], info: any) => {
@@ -94,24 +79,37 @@ export const useChapterControl = () => {
   )
   /*处理弹窗okay添加资源*/
   const handleModalOk = () => {
-    const resource: ChapterResourceType = { type: "uploadType", name: "resourceTitle", id: '' }
+    // const resource: ChapterResourceType = {
+    //   type: uploadType,
+    //   name: resourceTitle,
+    //   id: ''
+    // }
     /*网络请求拿到id*/
-    resource.id = Math.random() * 1000 + ''
-    addResource(data!, curAddId, queryClient, resource)
+    // resource.id = Math.random() * 1000 + ''
+    // addResource(data!, curAddId, queryClient, resource)
     setIsModalVisible(false)
   }
   /*添加根章节*/
   const handleClickAddChapter = useCallback(async () => {
     /*先出现交互inputNode*/
-    const node = { ...newNode_init }
+
+    const node: any = new Object({
+      id: '',
+      name: '新建节点',
+      chapterOrder: 1,
+      courseId: '1547211420256386',
+      courTimes: [],
+      childChapters: []
+    })
     /*这里node保持引用，之后可以修改根据引用来创建name*/
+    setCurNode(node)
     await setFocusStatus(true)
     updateChapterTreeQueryCache(
       (queryTreeData: ChapterNodeType[]) => queryTreeData.concat(node),
       queryClient
     )
-    node.chapterId = Math.random() * 10000 + ''
-    setCurNode(node)
+    node.id = Math.random() * 10000 + ''
+    // setCurNode(node)
   }, [data])
   /*添加子目录*/
   const handleClickAddChildChapter = useCallback(
@@ -125,15 +123,22 @@ export const useChapterControl = () => {
       })
       setFocusStatus(true)
       /*先出现交互inputNode*/
-      const node: any = { ...newNode_init }
+      const node: any = new Object({
+        id: '',
+        name: '新建节点',
+        chapterOrder: 1,
+        courseId: '1547211420256386',
+        courTimes: [],
+        childChapters: []
+      })
       setCurNode(node)
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
+      node.id = String(Math.random() * 1000)
       addChildChapterNode(data, chapterId, queryClient, node)
       // await addChildChapterMutate({ chapterId, node })
-      node.chapterId = addChildChapterData?.id || String(Math.random())
-      /*这里node保持引用，之后可以修改根据引用来创建name*/
-      setCurNode(node)
+      /*这里node保持引用Z之后可以修改根据引用来创建name*/
+      // setCurNode(node)
     },
     [data]
   )
@@ -148,18 +153,18 @@ export const useChapterControl = () => {
         }
       })
       /*先出现交互inputNode*/
-      const node: CourTimeType = {
-        id: '',
+      const node: any = {
+        classTimeId: '',
         name: '新建节点',
         resource: []
       }
       setCurNode(node)
       setFocusStatus(true)
+      node.classTimeId = Math.random() * 10000 + ''
       addChildContentNode(data!, chapterId, queryClient, node)
       // await addChildChapterMutate({ chapterId, node })
-      node.id = addChildChapterData?.id || Math.random() + ''
       /*这里node保持引用，之后可以修改根据引用来创建name*/
-      setCurNode(node)
+      // setCurNode(node)
     },
     [data]
   )
@@ -172,8 +177,8 @@ export const useChapterControl = () => {
       console.log('未抛出异常')
       setFocusStatus(false)
       /*发送创建节点的请求*/
-      setCurNode((pre:any) => (pre.name = curAddInputValue,{...pre}))
-      setCurNode(ChapterNodeType_init)
+      setCurNode((pre: any) => (pre.name = curAddInputValue))
+      setCurNode({})
       setAddInputValue('')
     } catch (err: unknown) {
       console.log('抛出异常')
@@ -207,14 +212,12 @@ export const useChapterControl = () => {
   )
   /*确认重命名*/
   const confirmRename = () => {
-    setCurRenameNode((pre:any) => (pre.name = curAddInputValue,{...pre}))
-    setCurRenameNode(ChapterNodeType_init)
-
-
+    setCurRenameNode((pre: any) => ((pre.name = curAddInputValue), { ...pre }))
+    setCurRenameNode({})
     setAddInputValue('')
   }
   const cancelRename = () => {
-    setCurRenameNode(ChapterNodeType_init)
+    setCurRenameNode({})
   }
   /*重命名节点*/
   const handleReNameTreeNode = useCallback(

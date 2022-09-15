@@ -9,6 +9,7 @@ import {
 import { formatResource } from 'util/chapterStudyTree'
 import styled from 'styled-components'
 import { CustomLink } from '../../../../../../util/CustomLink'
+import { ChapterResourceType } from '../../../../../../server/fetchChapter/types'
 
 const ChapterTreeContent: React.FC<{
   contentName: string
@@ -31,7 +32,7 @@ const ChapterTreeContent: React.FC<{
   handleClickRelatePoints,
   handleDeleteResource
 }) => {
-  console.log('Content - 课时节点')
+  console.log('content')
   return (
     <>
       <ChapterTreeContentWrapper>
@@ -71,32 +72,38 @@ const ChapterTreeContent: React.FC<{
         <ResourcePageWrapper>
           {formatResource(resource).map((item: ChapterResourceType) => {
             return (
-              <ul key={item.id}>
+              <ul key={item.resourceId}>
                 <li
                   className={'resource'}
                   style={{ listStyle: 'none', position: 'relative' }}
                 >
-                  <CustomLink to={'/teacher-preview/' + item.id}>
-                    {' '}
-                    {item.type === '视频' ? (
+                  {item.type == '10' && (
+                    <CustomLink
+                      to={'/teacher-preview/video/' + item.resourceId}
+                    >
                       <Tag color="#cd201f" icon={<YoutubeOutlined />}>
                         视频
                       </Tag>
-                    ) : item.type === '课件' ? (
+                      <div style={{ display: 'inline-block' }}>
+                        {item.resourceName}
+                      </div>
+                    </CustomLink>
+                  )}
+                  {item.type == '20' && (
+                    <CustomLink to={'/teacher-preview/pdf/' + item.resourceId}>
                       <Tag color="#55acee" icon={<FilePptOutlined />}>
                         课件
                       </Tag>
-                    ) : (
-                      <Tag color="#3b5999" icon={<FileDoneOutlined />}>
-                        作业
-                      </Tag>
-                    )}
-                    <div style={{ display: 'inline-block' }}>{item.name}</div>
-                  </CustomLink>
+                      <div style={{ display: 'inline-block' }}>
+                        {item.resourceName}
+                      </div>
+                    </CustomLink>
+                  )}
+
                   {!type && (
                     <DeleteIconWrapper>
                       <DeleteOutlined
-                        onClick={() => handleDeleteResource(item.id)}
+                        onClick={() => handleDeleteResource(item.resourceId)}
                         style={{
                           marginLeft: '20px',
                           color: 'red',
