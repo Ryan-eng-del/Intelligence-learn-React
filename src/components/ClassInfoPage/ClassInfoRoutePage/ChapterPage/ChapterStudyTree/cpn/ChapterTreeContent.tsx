@@ -32,7 +32,6 @@ const ChapterTreeContent: React.FC<{
   handleClickRelatePoints,
   handleDeleteResource
 }) => {
-  console.log('content')
   return (
     <>
       <ChapterTreeContentWrapper>
@@ -40,18 +39,7 @@ const ChapterTreeContent: React.FC<{
           <div>{contentName}</div>
           {!type && (
             <EditToolWrapperContent className={'edit-content-tool-wrapper'}>
-              <Button
-                type={'primary'}
-                onClick={() => handleClickAddResource(contentId)}
-              >
-                添加资源
-              </Button>
-              <Button
-                type={'primary'}
-                onClick={() => handleClickRelatePoints(contentId)}
-              >
-                关联知识点
-              </Button>
+              <Button type={'primary'}>编辑</Button>
               <Button
                 type={'primary'}
                 danger

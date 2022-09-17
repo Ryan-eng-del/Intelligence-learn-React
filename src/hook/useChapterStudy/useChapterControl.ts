@@ -38,8 +38,14 @@ export const useChapterControl = () => {
     setResourceTitle,
     uploadType,
     setUploadType,
-    curAddId,
-    setCurAddId
+    curChapterId,
+    setCurChapterId,
+    setAddContentNodeModdal,
+    addContentNodeModdal,
+    resourceObj,
+    setResourceObj,
+    curContentNode,
+    setCurContentNode
   } = useChapterClient()
   /*Server状态层*/
   const { data, addChildChapterData, queryClient, isLoading } =
@@ -66,7 +72,6 @@ export const useChapterControl = () => {
   const handleClickAddResource = useCallback(
     (id: string) => {
       setIsModalVisible(true)
-      setCurAddId(id)
     },
     [data]
   )
@@ -79,20 +84,15 @@ export const useChapterControl = () => {
   )
   /*处理弹窗okay添加资源*/
   const handleModalOk = () => {
-    // const resource: ChapterResourceType = {
-    //   type: uploadType,
-    //   name: resourceTitle,
-    //   id: ''
-    // }
-    /*网络请求拿到id*/
-    // resource.id = Math.random() * 1000 + ''
-    // addResource(data!, curAddId, queryClient, resource)
     setIsModalVisible(false)
+    curContentNode.name = resourceTitle
+    curContentNode.resource = resourceObj
+    addChildContentNode(data!, curChapterId, queryClient, curContentNode)
+    setResourceObj([])
   }
   /*添加根章节*/
   const handleClickAddChapter = useCallback(async () => {
     /*先出现交互inputNode*/
-
     const node: any = new Object({
       id: '',
       name: '新建节点',
@@ -152,19 +152,16 @@ export const useChapterControl = () => {
           return prevState.concat(chapterId)
         }
       })
+      setIsModalVisible(true)
       /*先出现交互inputNode*/
       const node: any = {
         classTimeId: '',
         name: '新建节点',
         resource: []
       }
-      setCurNode(node)
-      setFocusStatus(true)
+      setCurContentNode(node)
+      setCurChapterId(chapterId)
       node.classTimeId = Math.random() * 10000 + ''
-      addChildContentNode(data!, chapterId, queryClient, node)
-      // await addChildChapterMutate({ chapterId, node })
-      /*这里node保持引用，之后可以修改根据引用来创建name*/
-      // setCurNode(node)
     },
     [data]
   )
@@ -261,6 +258,10 @@ export const useChapterControl = () => {
     uploadType,
     setUploadType,
     handleDeleteResource,
-    setExpandKeys
+    setExpandKeys,
+    setAddContentNodeModdal,
+    addContentNodeModdal,
+    resourceObj,
+    setResourceObj
   }
 }

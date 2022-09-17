@@ -130,8 +130,9 @@ export const addChildContentNode = (
       if (id == d.id) {
         console.log('find')
         d.courTimes = d.courTimes.concat(node)
-        console.log(d.id, node, 'now')
+        console.log(d.id, node, 'now', d.courTimes)
         queryClient.setQueryData(['chapterTree'], deepCloneData)
+        console.log(queryClient.getQueryData(['chapterTree']))
       }
     })
   }

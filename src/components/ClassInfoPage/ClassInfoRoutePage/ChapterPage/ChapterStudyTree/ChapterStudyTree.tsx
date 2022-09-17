@@ -23,7 +23,9 @@ export const ChapterStudyTree = () => {
     uploadType,
     setExpandKeys,
     data,
-    setUploadType
+    setUploadType,
+    resourceObj,
+    setResourceObj
   } = useChapterUI()
 
   // 每次挂载后全部展开
@@ -40,6 +42,7 @@ export const ChapterStudyTree = () => {
         setResourceTitle={setResourceTitle}
         uploadType={uploadType}
         setUploadType={setUploadType}
+        setResourceObj={setResourceObj}
       />
       <a
         type={'primary'}

@@ -17,8 +17,15 @@ export const useChapterClient = () => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [resourceTitle, setResourceTitle] = useState('')
   const [uploadType, setUploadType] = useState('视频')
-  const [curAddId, setCurAddId] = useState('')
+  const [curChapterId, setCurChapterId] = useState('')
+  const [addContentNodeModdal, setAddContentNodeModdal] = useState(false)
+  const [resourceObj, setResourceObj] = useState([])
+  const [curContentNode, setCurContentNode] = useState<any>({})
   return {
+    curContentNode,
+    setCurContentNode,
+    addContentNodeModdal,
+    setAddContentNodeModdal,
     expandKeys,
     setExpandKeys,
     curAddInputValue,
@@ -35,7 +42,9 @@ export const useChapterClient = () => {
     setResourceTitle,
     uploadType,
     setUploadType,
-    curAddId,
-    setCurAddId
+    curChapterId,
+    setCurChapterId,
+    resourceObj,
+    setResourceObj
   }
 }

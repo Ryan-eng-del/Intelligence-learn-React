@@ -43,7 +43,11 @@ export const useChapterUI = (type?: 'show') => {
     uploadType,
     setUploadType,
     handleDeleteResource,
-    setExpandKeys
+    setExpandKeys,
+    setAddContentNodeModdal,
+    addContentNodeModdal,
+    resourceObj,
+    setResourceObj
   } = useChapterControl()
   /*表单focus状态UI*/
   const focusStateUI = (
@@ -192,6 +196,10 @@ export const useChapterUI = (type?: 'show') => {
     uploadType,
     setUploadType,
     data,
-    setExpandKeys
+    setExpandKeys,
+    setAddContentNodeModdal,
+    addContentNodeModdal,
+    resourceObj,
+    setResourceObj
   }
 }
