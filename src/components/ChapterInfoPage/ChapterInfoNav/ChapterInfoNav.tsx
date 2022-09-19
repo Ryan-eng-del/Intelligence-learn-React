@@ -31,11 +31,11 @@ export const ChapterInfoNav: React.FC = () => {
     }
   ]
   const onSelect: DirectoryTreeProps['onSelect'] = (keys, info) => {
-    console.log('Trigger Select', keys, info)
+    console.log(keys, info)
   }
 
   const onExpand: DirectoryTreeProps['onExpand'] = (keys, info) => {
-    console.log('Trigger Expand', keys, info)
+    console.log(keys, info)
   }
   return (
     <ChapterInfoNavWrapper>

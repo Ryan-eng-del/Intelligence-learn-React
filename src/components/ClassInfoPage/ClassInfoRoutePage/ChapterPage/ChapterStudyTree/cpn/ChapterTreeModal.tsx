@@ -50,7 +50,14 @@ export const ChapterTreeModal: React.FC<{
         //   resourceLink: ''
         // }
         // console.log(obj)
-
+        const obj = {
+          resourceId: Math.random() * 10000,
+          type: '10',
+          resourceName: info.file.name,
+          resourceLink: ''
+        }
+        console.log('fileObj', obj)
+        setResourceObj((pre: any) => pre.concat(obj))
         message.success(`${info.file.name} file uploaded successfully.`)
       } else if (status === 'error') {
         const obj = {

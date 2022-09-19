@@ -17,10 +17,16 @@ import { uniqueId } from 'lodash'
 import { courseType } from './config/type/index'
 import { width } from 'dom7'
 
-
 export const LearnPage: React.FC = () => {
   const [state, dispatch] = useReducer(LearnRoutePageReducer, initialState)
-  const { modalVisible, imgUrl, invitedcode, className, classLearner, classList } = state
+  const {
+    modalVisible,
+    imgUrl,
+    invitedcode,
+    className,
+    classLearner,
+    classList
+  } = state
 
   const showModal = () => {
     dispatch({ type: 'setModalVisible', payload: true })
@@ -92,15 +98,17 @@ export const LearnPage: React.FC = () => {
               />
             ) : (
               <>
-                {Array.from({ length: (data?.length / 4) + 1 }).map((v, i) => {
+                {Array.from({ length: data?.length / 4 + 1 }).map((v, i) => {
                   return (
-                    <Row key={uniqueId()} style={{ marginBottom: '30px', width: 1100 }}  >
+                    <Row
+                      key={uniqueId()}
+                      style={{ marginBottom: '30px', width: 1100 }}
+                    >
                       {data?.map((item: courseType, index: number) => {
                         // if (item.optimistic == undefined) item.optimistic = true
-                        if (index >= i * 4 &&
-                          index < (i + 1) * 4)
+                        if (index >= i * 4 && index < (i + 1) * 4)
                           return (
-                            <Col span={6} key={item.course_id} >
+                            <Col span={6} key={item.course_id}>
                               <ClassCard
                                 id={item.course_id}
                                 cname={item.course_name}

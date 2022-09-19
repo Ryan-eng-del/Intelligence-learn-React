@@ -2,7 +2,7 @@
 export type KnowledgeNodeType = {
   pointId: string
   pointName: string
-  pointPid?: string  //仅后端有用，可以考虑删除
+  pointPid?: string //仅后端有用，可以考虑删除
   children: KnowledgeNodeType[]
   prePoints: RelateNodeType[]
   afterPoints: RelateNodeType[]
@@ -14,11 +14,10 @@ export type RelateNodeType = {
   pointName: string
 }
 
-
 /** KnowledgeNodeType类型的初始化数据，这样就不会出现undefined */
 export const KnowledgeNodeType_init: KnowledgeNodeType = {
-  pointId: "",
-  pointName: "",
+  pointId: '',
+  pointName: '',
   children: [],
   prePoints: [],
   afterPoints: []

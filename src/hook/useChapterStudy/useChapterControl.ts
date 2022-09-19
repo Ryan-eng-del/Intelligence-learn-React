@@ -3,7 +3,6 @@ import { useChapterServer } from './useChapterStudyServer'
 import {
   addChildChapterNode,
   addChildContentNode,
-  addResource,
   deleteResource,
   deleteTreeContent,
   deleteTreeNode,
@@ -11,45 +10,49 @@ import {
   updateChapterTreeQueryCache
 } from '../../util/chapterStudyTree'
 import { useCallback } from 'react'
-import {
-  ChapterNodeType,
-  ChapterNodeType_init,
-  ChapterResourceType,
-  CourTimeType
-} from 'server/fetchChapter/types'
 import { Key } from 'react'
+import { ChildChapter } from 'types/server/fetchChapter'
 
 export const useChapterControl = () => {
   /*Client状态层*/
   const {
-    setExpandKeys,
+    curAddType,
     curAddInputValue,
-    setAddInputValue,
-    setFocusStatus,
-    setCurRenameNode,
-    curNode,
-    setCurNode,
     curRenameNode,
     focusStatus,
     expandKeys,
     isModalVisible,
-    setIsModalVisible,
-    resourceTitle,
-    setResourceTitle,
-    uploadType,
-    setUploadType,
-    curChapterId,
-    setCurChapterId,
-    setAddContentNodeModdal,
-    addContentNodeModdal,
+    addContentNodeModal,
     resourceObj,
-    setResourceObj,
+    resourceTitle,
+    uploadType,
+    curChapterId,
     curContentNode,
+    curNode,
+    setCurAddType,
+    setExpandKeys,
+    setAddInputValue,
+    setFocusStatus,
+    setCurRenameNode,
+    setCurNode,
+    setIsModalVisible,
+    setResourceTitle,
+    setUploadType,
+    setCurChapterId,
+    setAddContentNodeModal,
+    setResourceObj,
     setCurContentNode
   } = useChapterClient()
   /*Server状态层*/
-  const { data, addChildChapterData, queryClient, isLoading } =
-    useChapterServer(setExpandKeys, setCurNode)
+  const {
+    data,
+    addChapterMutate,
+    addChildChapterMutate,
+    queryClient,
+    isLoading,
+    editChapterMutate,
+    deleteChapterMutate
+  } = useChapterServer(setExpandKeys, setCurNode)
 
   /*处理树节点一点击就触发*/
   const handleOnExpand = useCallback((id: Key[], info: any) => {
@@ -63,8 +66,14 @@ export const useChapterControl = () => {
   }, [])
   /*删除资源*/
   const handleDeleteResource = useCallback(
-    (id: string) => {
-      deleteResource(data!, id, queryClient)
+    async (id: string) => {
+      try {
+        await deleteChapterMutate(id)
+        deleteResource(data!, id, queryClient)
+      } catch (err) {
+        //! 等待封装错误处理
+        console.log(err)
+      }
     },
     [data]
   )
@@ -91,29 +100,28 @@ export const useChapterControl = () => {
     setResourceObj([])
   }
   /*添加根章节*/
-  const handleClickAddChapter = useCallback(async () => {
+  const handleClickAddChapter = useCallback(() => {
     /*先出现交互inputNode*/
-    const node: any = new Object({
-      id: '',
+    const node: ChildChapter = {
+      id: Math.random() * 10000 + '',
       name: '新建节点',
       chapterOrder: 1,
-      courseId: '1547211420256386',
       courTimes: [],
-      childChapters: []
-    })
+      childChapters: [],
+      pid: ''
+    }
     /*这里node保持引用，之后可以修改根据引用来创建name*/
     setCurNode(node)
-    await setFocusStatus(true)
+    setFocusStatus(true)
+    /*将curNode加入根章节，修改UI*/
     updateChapterTreeQueryCache(
-      (queryTreeData: ChapterNodeType[]) => queryTreeData.concat(node),
+      (queryTreeData: any) => queryTreeData.concat(node),
       queryClient
     )
-    node.id = Math.random() * 10000 + ''
-    // setCurNode(node)
   }, [data])
   /*添加子目录*/
   const handleClickAddChildChapter = useCallback(
-    async (chapterId: string) => {
+    (chapterId: string) => {
       setExpandKeys((prevState) => {
         if (prevState.includes(chapterId)) {
           return prevState
@@ -123,28 +131,22 @@ export const useChapterControl = () => {
       })
       setFocusStatus(true)
       /*先出现交互inputNode*/
-      const node: any = new Object({
-        id: '',
+      const node: any = {
+        id: Math.random() * 1000 + '',
         name: '新建节点',
         chapterOrder: 1,
-        courseId: '1547211420256386',
+        pid: '',
         courTimes: [],
         childChapters: []
-      })
+      }
       setCurNode(node)
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      node.id = String(Math.random() * 1000)
       addChildChapterNode(data, chapterId, queryClient, node)
-      // await addChildChapterMutate({ chapterId, node })
-      /*这里node保持引用Z之后可以修改根据引用来创建name*/
-      // setCurNode(node)
     },
     [data]
   )
   /*添加课时*/
   const handleClickAddChildCourseTime = useCallback(
-    async (chapterId: any) => {
+    (chapterId: any) => {
       setExpandKeys((prevState) => {
         if (prevState.includes(chapterId)) {
           return prevState
@@ -155,44 +157,47 @@ export const useChapterControl = () => {
       setIsModalVisible(true)
       /*先出现交互inputNode*/
       const node: any = {
-        classTimeId: '',
+        classTimeId: Math.random() * 10000 + '',
         name: '新建节点',
         resource: []
       }
       setCurContentNode(node)
       setCurChapterId(chapterId)
-      node.classTimeId = Math.random() * 10000 + ''
     },
     [data]
   )
   /*确认添加*/
   const confirmAdd = async () => {
+    const arg = {
+      course_id: '',
+      name: curAddInputValue,
+      pid: curChapterId
+    }
+    setFocusStatus(false)
+    setCurNode((pre: any) => {
+      pre.name = curAddInputValue
+      return pre
+    })
     /*添加根节点网络请求*/
     try {
       /*网络请求*/
-      // await addChapterMutate({ course_id: '1', name: '2', chapter_pid: '3' })
-      console.log('未抛出异常')
-      setFocusStatus(false)
-      /*发送创建节点的请求*/
-      setCurNode((pre: any) => (pre.name = curAddInputValue))
+      if (curAddType == 'gen') await addChapterMutate(arg)
+      else await addChildChapterMutate(arg)
+      /*成功之后才会改节点的名字*/
+    } catch (err: unknown) {
+      console.log('抛出异常', err)
+      /*删除节点*/
+      deleteTreeNode(data!, curNode.id, queryClient)
+      throw err
+    } finally {
       setCurNode({})
       setAddInputValue('')
-    } catch (err: unknown) {
-      console.log('抛出异常')
-      cancelAdd()
-      console.log(err)
+      setCurAddType('')
     }
   }
   /*取消添加*/
   const cancelAdd = () => {
-    handleDeleteTreeNode(
-      // 可能是 章节树节点 也有可能是 章节资源节点
-      'chapterId' in curNode ? curNode.chapterId : curNode.id,
-      'chapterId' in curNode ? 'chapterNode' : 'courTimes'
-    ).then(() => {
-      setCurNode(ChapterNodeType_init)
-      setFocusStatus(false)
-    })
+    deleteTreeNode(data!, curNode.id, queryClient)
   }
   /*删除节点*/
   const handleDeleteTreeNode = useCallback(
@@ -208,13 +213,27 @@ export const useChapterControl = () => {
     [data]
   )
   /*确认重命名*/
-  const confirmRename = () => {
-    setCurRenameNode((pre: any) => ((pre.name = curAddInputValue), { ...pre }))
-    setCurRenameNode({})
-    setAddInputValue('')
+  const confirmRename = async () => {
+    try {
+      await editChapterMutate({
+        chapter_id: curRenameNode.id,
+        new_name: curAddInputValue
+      })
+      setCurRenameNode((pre: any) => {
+        console.log('设置name成功')
+        pre.name = curAddInputValue
+        return pre
+      })
+    } catch (err) {
+      console.log(err)
+    } finally {
+      setCurRenameNode({})
+      setAddInputValue('')
+    }
   }
   const cancelRename = () => {
     setCurRenameNode({})
+    setFocusStatus(false)
   }
   /*重命名节点*/
   const handleReNameTreeNode = useCallback(
@@ -234,34 +253,36 @@ export const useChapterControl = () => {
     confirmAdd,
     cancelAdd,
     cancelRename,
+    confirmRename,
+    setAddInputValue,
+    setIsModalVisible,
+    handleModalOk,
+    setResourceTitle,
+    setUploadType,
+    setExpandKeys,
+    setAddContentNodeModal,
+    setResourceObj,
+    setCurAddType,
     handleReNameTreeNode,
     handleClickAddChapter,
     handleClickAddChildChapter,
-    confirmRename,
     handleClickAddChildCourseTime,
     handleDeleteTreeNode,
     curNode,
     data,
-    setAddInputValue,
     curRenameNode,
     focusStatus,
     isLoading,
     expandKeys,
     isModalVisible,
-    setIsModalVisible,
     handleOnExpand,
     handleClickAddResource,
     handleClickRelatePoints,
-    handleModalOk,
     resourceTitle,
-    setResourceTitle,
     uploadType,
-    setUploadType,
     handleDeleteResource,
-    setExpandKeys,
-    setAddContentNodeModdal,
-    addContentNodeModdal,
+    addContentNodeModal,
     resourceObj,
-    setResourceObj
+    curAddType
   }
 }

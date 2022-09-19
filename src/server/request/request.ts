@@ -66,7 +66,9 @@ class Request {
   delete<T = any>(config: RequestConfig): Promise<T> {
     return this.request({ ...config, method: 'DELETE' })
   }
-
+  put<T = any>(config: RequestConfig): Promise<T> {
+    return this.request({ ...config, method: 'PUT' })
+  }
   patch<T = any>(config: RequestConfig): Promise<T> {
     return this.request({ ...config, method: 'PATCH' })
   }

@@ -1,13 +1,17 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
-import { deleteTreeNode, generateExpandKeys } from '../../util/chapterStudyTree'
-import { message } from 'antd'
-import { findIdResource } from '../../util/TeacherSourcePreviewPage'
+import { generateExpandKeys } from '../../util/chapterStudyTree'
 import { StateSetter } from 'types'
 import { ChapterNodeType } from './types'
-/*展示章节学习树*/
-export const useShowCreateChapter = (setExpandKeys: StateSetter<string[]>) => {
+import {
+  AddChapterParam,
+  addClassTimeParam,
+  EditChapterParam
+} from '../../types/server/fetchChapter'
+//? ts的类型约束在网络请求方面起到了什么样的约束？
+/*获取章节学习树信息*/
+export const useShowChapter = (setExpandKeys: StateSetter<string[]>) => {
   return useQuery(['chapterTree'], async () => {
     await delayFetch()
     const data: ChapterNodeType[] = await client.get({
@@ -18,81 +22,94 @@ export const useShowCreateChapter = (setExpandKeys: StateSetter<string[]>) => {
   })
 }
 /*删除章节树节点*/
-export const useDeleteChapter = ({ data }: { data: any }) => {
-  const queryClient = useQueryClient()
-  return useMutation(
-    async (id) => {
-      return client.post({ url: '19680940', data: { id } })
-    },
-    {
-      onMutate: (id) => {
-        deleteTreeNode(data, id, queryClient)
-        const previousClass = queryClient.getQueryData(['chapterTree'])
-        return { previousClass }
-      },
-      onError: (error, variables, context) => {
-        if (context?.previousClass) {
-          queryClient.setQueryData(['class'], context.previousClass)
-        }
-      }
-    }
-  )
+export const useDeleteChapter = () => {
+  return useMutation(async (id: string) => {
+    return client.delete({ url: `/chapter/deleteChapter/${id}` })
+  })
 }
-
 /*确认添加章节树根节点*/
-export const useConfirmAddChapter = (setCurNode: any) => {
+export const useAddChapter = (setCurNode: any) => {
   return useMutation(
-    async ({
-      name,
-      course_id,
-      chapter_pid
-    }: {
-      name: string
-      course_id: string
-      chapter_pid: string
-    }) => {
+    async ({ name, course_id }: AddChapterParam) => {
       return client.post({
-        url: 'chapter/addFirstLevelChapter',
-        data: { name }
+        url: '/chapter/addChapter',
+        data: { name, course_id, pid: '-1' }
       })
     },
     {
-      onSettled: (data: any) => {
+      onSuccess: (data: any) => {
         /*通过data取到id，通过setCurNode来修改*/
+        setCurNode((pre: any) => {
+          console.log('设置id')
+          console.log(data, 'data')
+          pre.id = data
+          return pre
+        })
       }
     }
   )
 }
 /*添加章节学习树的子目录*/
-export const useAddChildChapter = (data: any) => {
-  const queryClient = useQueryClient()
+export const useAddChildChapter = (setCurNode: any) => {
   return useMutation(
-    async (object: { chapterId: any; node: any }) => {
+    async ({ course_id, name, pid }: AddChapterParam) => {
       return client.post({
-        url: '19680940'
+        url: '/chapter/addChapter',
+        data: { course_id, name, pid }
       })
-    }
-    // },
-    // {
-    //   onMutate: (object: { chapterId: any; node: any }) => {}
-    // }
-  )
-}
-/*添加确认添加章节学习树的子目录*/
-export const useConfirmAddChildChapter = ({
-  chapterName,
-  chapterId
-}: {
-  chapterId: string
-  chapterName: string
-}) => {
-  return useMutation(
-    async () => {
-      return client.post({ url: '19680940', data: { chapterName, chapterId } })
     },
     {
-      onSettled: () => {
-        message.success('添加成功')
+      onSuccess: (data: any) => {
+        /*通过data取到id，通过setCurNode来修改*/
+        setCurNode((pre: any) => {
+          console.log(pre, 'pre', data, 'data')
+          pre.id = data
+          return pre
+        })
+      }
+    }
+  )
+}
+/*更改章节名称*/
+export const useEditChapter = () => {
+  return useMutation(
+    async ({ chapter_id, new_name }: EditChapterParam) => {
+      return client.put({
+        url: '/chapter/updateChapterName',
+        data: { chapter_id, new_name }
+      })
+    },
+    {
+      onSuccess: () => {
+        console.log('success')
+      }
+    }
+  )
+}
+/*添加章节课时*/
+export const useAddClassTime = () => {
+  return useMutation(
+    async ({
+      chapter_id,
+      name,
+      paper_name,
+      paper_id,
+      resource_ids
+    }: addClassTimeParam) => {
+      return client.post({
+        url: '/ctime/addClassTime',
+        data: {
+          chapter_id,
+          name,
+          paper_name,
+          paper_id,
+          resource_ids
+        }
+      })
+    },
+    {
+      onSuccess: (data: any) => {
+        console.log(data)
       }
     }
   )

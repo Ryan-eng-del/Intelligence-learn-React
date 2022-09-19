@@ -14,8 +14,14 @@ export const ClassInfoNav: React.FC = () => {
   return (
     <ClassInfoNavWrapper>
       <ClassInfoWrapper>
-        <div onClick={()=>navigate('/home/class/teach')} className="class-img-wapper">
-          <img className="class-img" src={require('assets/img/class.jpg')} ></img>
+        <div
+          onClick={() => navigate('/home/class/teach')}
+          className="class-img-wapper"
+        >
+          <img
+            className="class-img"
+            src={require('assets/img/class.jpg')}
+          ></img>
         </div>
         <div className="backButton">👈切换课程</div>
         <div className="class-info-nav-intro">

@@ -6,6 +6,7 @@ import {
   CourTimeType
 } from 'server/fetchChapter/types'
 import { StateSetter } from 'types'
+import { ChapterData } from '../types/server/fetchChapter'
 /*寻找要刪除的树的章节目录节点*/
 export const deleteTreeNode = (
   data: ChapterNodeType[],
@@ -103,12 +104,12 @@ export const addChildChapterNode = (
 }
 /*传入参数一更新函数来更新queryData,从而使得UI更新*/
 export const updateChapterTreeQueryCache = (
-  updaterFun: (Treedata: ChapterNodeType[]) => ChapterNodeType[],
+  updaterFun: (Treedata: ChapterData[]) => ChapterData[],
   queryClient: QueryClient
 ) => {
-  const queryTreeData: ChapterNodeType[] | undefined = queryClient.getQueryData(
-    ['chapterTree']
-  )
+  const queryTreeData: ChapterData[] | undefined = queryClient.getQueryData([
+    'chapterTree'
+  ])
   const newQueryTreeData = queryTreeData ? updaterFun(queryTreeData!) : 0
   queryClient.setQueryData(['chapterTree'], newQueryTreeData)
 }
@@ -190,7 +191,6 @@ export const reNameTreeNode = (
         recursion(d.childChapters)
       }
       if (id == d.id) {
-        console.log('rename', 'find', d)
         setCurRenameNode(d)
         setAddInputValue(d.name)
         setFocusState(true)

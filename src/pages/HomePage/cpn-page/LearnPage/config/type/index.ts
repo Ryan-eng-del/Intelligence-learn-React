@@ -1,4 +1,4 @@
-import exp from "constants"
+import exp from 'constants'
 
 export interface ClassList {
   iurl: string
@@ -16,12 +16,11 @@ export interface LearnPageState {
   invitedcode: string
 }
 
-export interface courseType
-{
+export interface courseType {
   course_id: string
   course_name: string
-  courses_cover:string|null
-  course_describe:string|null
+  courses_cover: string | null
+  course_describe: string | null
   optimistic: boolean
 }
 

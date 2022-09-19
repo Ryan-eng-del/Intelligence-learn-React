@@ -31,7 +31,6 @@ export const useCreateClass = ({
 }) => {
   const queryClient = useQueryClient()
   return useMutation(
-
     async () => {
       await delayFetch()
       return client.post({
@@ -65,7 +64,6 @@ export const useCreateClass = ({
         queryClient.invalidateQueries(['class'])
       }
     }
-
   )
 }
 //加入课程
@@ -75,23 +73,25 @@ export const useJoinClass = (invitedcode: string) => {
   return useMutation(
     async () => {
       await delayFetch()
-      return client.post({
-        url: '/course/join-class',
-        data: { "invitedcode": invitedcode }
-      }).then(res => {
-        newLearnClass = res;
-      })
+      return client
+        .post({
+          url: '/course/join-class',
+          data: { invitedcode: invitedcode }
+        })
+        .then((res) => {
+          newLearnClass = res
+        })
     },
     {
       onMutate: () => {
         const previousLearnClass = queryClient.getQueryData(['learnclass'])
         queryClient.setQueryData(['learnclass'], (old: any) => {
           const newState = [...old].concat({
-            "course_id": "1547211425930256386",
-            "course_name": "loading",
-            "courses_cover": null,
-            "course_describe": null,
-            "optimistic": true
+            course_id: '1547211425930256386',
+            course_name: 'loading',
+            courses_cover: null,
+            course_describe: null,
+            optimistic: true
           })
           return newState
         })
@@ -112,9 +112,5 @@ export const useJoinClass = (invitedcode: string) => {
         })
       }
     }
-
-
   )
-
-
 }

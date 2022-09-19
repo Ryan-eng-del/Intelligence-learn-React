@@ -25,7 +25,8 @@ export const ChapterStudyTree = () => {
     data,
     setUploadType,
     resourceObj,
-    setResourceObj
+    setResourceObj,
+    setCurAddType
   } = useChapterUI()
 
   // 每次挂载后全部展开
@@ -47,7 +48,10 @@ export const ChapterStudyTree = () => {
       <a
         type={'primary'}
         className={'add-chapter'}
-        onClick={handleClickAddChapter}
+        onClick={() => {
+          handleClickAddChapter()
+          setCurAddType('gen')
+        }}
         style={{ marginBottom: '35px' }}
       >
         添加章节
@@ -84,7 +88,6 @@ const ChapterStudyTreeWrapper = styled.div`
     font-size: 14px;
     line-height: 36px;
     background: linear-gradient(140deg, #6cc7ff 0%, #5a33ff 100%);
-
     &:hover {
       background: linear-gradient(140deg, #89d9ff 0%, #6c4aff 100%);
     }

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Link, Outlet, useLocation, useSearchParams } from 'react-router-dom'
+import React from 'react'
+import { Link, Outlet } from 'react-router-dom'
 import { useMount } from '../../hook/useMount'
 
 import styled from 'styled-components'

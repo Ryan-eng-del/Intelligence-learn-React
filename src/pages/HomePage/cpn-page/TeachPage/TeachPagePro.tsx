@@ -19,7 +19,6 @@ import { ClassCard } from 'publicComponents/TeachRotePage'
 import { useCreateClass, useShowCreateClass } from 'server/fetchClass'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 
-
 export const TeachPage = () => {
   const [state, dispatch] = useReducer(TeachRoutePageReducer, initialState)
   const { data, isLoading } = useShowCreateClass()
