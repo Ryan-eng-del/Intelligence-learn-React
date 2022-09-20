@@ -86,31 +86,3 @@ export const useEditChapter = () => {
     }
   )
 }
-/*添加章节课时*/
-export const useAddClassTime = () => {
-  return useMutation(
-    async ({
-      chapter_id,
-      name,
-      paper_name,
-      paper_id,
-      resource_ids
-    }: addClassTimeParam) => {
-      return client.post({
-        url: '/ctime/addClassTime',
-        data: {
-          chapter_id,
-          name,
-          paper_name,
-          paper_id,
-          resource_ids
-        }
-      })
-    },
-    {
-      onSuccess: (data: any) => {
-        console.log(data)
-      }
-    }
-  )
-}

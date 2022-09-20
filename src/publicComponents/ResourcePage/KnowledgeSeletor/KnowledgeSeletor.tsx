@@ -1,4 +1,4 @@
-import { TreeSelect } from 'antd'
+import { Button, Tree, TreeSelect } from 'antd'
 import React, { useState } from 'react'
 import { useShowKnowledgeTree } from 'server/fetchKnowledge'
 import { KnowledgeNodeType } from 'server/fetchKnowledge/types'
@@ -26,18 +26,21 @@ export const KnowledgeSeletor: React.FC<{
   }
 
   return (
-    <TreeSelect
-      showSearch
-      style={{ width: '100%' }}
-      value={value}
-      dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-      placeholder="点击选择知识点"
-      allowClear
-      multiple
-      treeDefaultExpandAll
-      onChange={onChange}
-    >
-      {generator(data)}
-    </TreeSelect>
+    <>
+      <TreeSelect
+        showSearch
+        style={{ width: '100%' }}
+        value={value}
+        dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+        placeholder="点击选择知识点"
+        allowClear
+        multiple
+        treeDefaultExpandAll
+        onChange={onChange}
+        placement={'topLeft'}
+      >
+        {generator(data)}
+      </TreeSelect>
+    </>
   )
 }

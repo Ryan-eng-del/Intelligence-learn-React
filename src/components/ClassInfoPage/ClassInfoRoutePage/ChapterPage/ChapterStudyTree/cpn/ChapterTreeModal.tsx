@@ -1,9 +1,20 @@
-import React, { useState } from 'react'
-import { Button, Input, message, Modal, Select, Upload } from 'antd'
-import { InboxOutlined } from '@ant-design/icons'
+import React, { ReactElement, useRef, useState } from 'react'
+import {
+  Button,
+  Drawer,
+  Input,
+  message,
+  Modal,
+  Select,
+  Upload,
+  UploadFile
+} from 'antd'
+import { InboxOutlined, UploadOutlined } from '@ant-design/icons'
 
 import type { UploadProps } from 'antd'
 import { KnowledgeSeletor } from '../../../../../../publicComponents/ResourcePage'
+import styled from 'styled-components'
+import { RcFile } from 'antd/lib/upload'
 
 const { Dragger } = Upload
 const { Option } = Select
@@ -26,63 +37,73 @@ export const ChapterTreeModal: React.FC<{
   setUploadType,
   setResourceObj
 }) => {
+  const ref = useRef<any>()
+  const [open, setOpen] = useState(false)
+
+  const showDrawer = () => {
+    setOpen(true)
+  }
+
+  const onClose = () => {
+    setOpen(false)
+  }
   const handleChange = (value: string) => {
     setUploadType(value)
   }
+  const [fileList, setFileList] = useState<UploadFile[]>([])
+  const [uploading, setUploading] = useState(false)
 
+  const handleUpload = () => {
+    const formData = new FormData()
+    fileList.forEach((file) => {
+      formData.append('files[]', file as RcFile)
+    })
+    setUploading(true)
+    // You can use any AJAX library you like
+    fetch('https://www.mocky.io/v2/5cc8019d300000980a055e76', {
+      method: 'POST',
+      body: formData
+    })
+      .then((res) => res.json())
+      .then(() => {
+        setFileList([])
+        message.success('upload successfully.')
+      })
+      .catch(() => {
+        message.error('upload failed.')
+      })
+      .finally(() => {
+        setUploading(false)
+      })
+  }
+
+  const props: UploadProps = {
+    multiple: true,
+    onRemove: (file) => {
+      const index = fileList.indexOf(file)
+      const newFileList = fileList.slice()
+      newFileList.splice(index, 1)
+      setFileList(newFileList)
+    },
+    beforeUpload: (file) => {
+      setFileList([...fileList, file])
+
+      return false
+    },
+
+    fileList
+  }
   const handleCancel = () => {
     setIsModalVisible(false)
   }
-  const props: UploadProps = {
-    name: 'file',
-    multiple: true,
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    onChange(info) {
-      const { status } = info.file
-      if (status !== 'uploading') {
-        console.log(info.file, info.fileList)
-      }
-      if (status === 'done') {
-        // const obj = {
-        //   resourceId: Math.random() * 10000,
-        //   type: '10',
-        //   resourceName: info.file.name,
-        //   resourceLink: ''
-        // }
-        // console.log(obj)
-        const obj = {
-          resourceId: Math.random() * 10000,
-          type: '10',
-          resourceName: info.file.name,
-          resourceLink: ''
-        }
-        console.log('fileObj', obj)
-        setResourceObj((pre: any) => pre.concat(obj))
-        message.success(`${info.file.name} file uploaded successfully.`)
-      } else if (status === 'error') {
-        const obj = {
-          resourceId: Math.random() * 10000,
-          type: '10',
-          resourceName: info.file.name,
-          resourceLink: ''
-        }
-        console.log('fileObj', obj)
-        setResourceObj((pre: any) => pre.concat(obj))
-        message.error(`${info.file.name} file upload failed.`)
-      }
-      console.log(info)
-    },
-    onDrop(e) {
-      console.log('Dropped files', e.dataTransfer.files)
-    }
-  }
   return (
-    <>
+    <ChapterTreeModalWrapper className={'modal-wrapper'}>
       <Modal
-        title="添加资源"
+        title="添加课时"
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
+        style={{ height: '400px' }}
       >
         <label htmlFor={'addResource'}>课时名称</label>
         <Input
@@ -92,23 +113,83 @@ export const ChapterTreeModal: React.FC<{
           onChange={(e) => {
             setResourceTitle(e.target.value)
           }}
+          style={{ position: 'relative', zIndex: '4' }}
         />
-        {uploadType === '视频' || uploadType === '课件' ? (
-          <Dragger {...props}>
-            <p className="ant-upload-drag-icon">
-              <InboxOutlined />
-            </p>
-            <p className="ant-upload-text">上传{uploadType}</p>
-            <p className="ant-upload-hint">点击或者拖拽到该区域进行</p>
-          </Dragger>
-        ) : (
-          <div>
-            <Button type={'primary'}>从作业库当中上传作业</Button>
-          </div>
-        )}
-        <label style={{ marginBottom: '12px' }}>资源绑定知识点</label>
-        <KnowledgeSeletor />
+        <div
+          style={{ marginTop: 16, display: 'flex', justifyContent: 'center' }}
+        >
+          <Button
+            type="primary"
+            onClick={showDrawer}
+            style={{ position: 'relative', zIndex: '4' }}
+          >
+            添加资源并且关联知识点
+          </Button>
+        </div>
+        <DrawerWrapper ref={ref}>
+          <Drawer
+            title="添加资源并且关联知识点"
+            placement="top"
+            closable={true}
+            onClose={onClose}
+            visible={open}
+            mask={false}
+            width={'520'}
+            getContainer={ref.current}
+            style={{ position: 'absolute' }}
+          >
+            <>
+              <UploadWrapper>
+                <Upload {...props} className={'upload'}>
+                  <Button icon={<UploadOutlined />}>
+                    请选择文件，支持多个文件上传
+                  </Button>
+                </Upload>
+              </UploadWrapper>
+
+              <RelatePointsWrapper>
+                <label>关联知识点</label>
+                <KnowledgeSeletor />
+              </RelatePointsWrapper>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Button
+                  type="primary"
+                  onClick={handleUpload}
+                  disabled={fileList.length === 0}
+                  loading={uploading}
+                  style={{ marginTop: 16 }}
+                >
+                  {fileList.length === 0 ? '请先上传视频' : '点击上传'}
+                </Button>
+              </div>
+            </>
+          </Drawer>
+        </DrawerWrapper>
+        <div>已经上传的资源</div>
       </Modal>
-    </>
+    </ChapterTreeModalWrapper>
   )
 }
+export const ChapterTreeModalWrapper = styled.div`
+  position: relative;
+`
+export const DrawerWrapper = styled.div`
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 520px;
+  height: 400px;
+  .drawer-test {
+    width: 520px;
+    z-index: 5;
+  }
+`
+export const UploadWrapper = styled.div`
+  margin-bottom: 13px;
+  display: flex;
+  flex-flow: column nowrap;
+`
+export const RelatePointsWrapper = styled.div`
+  margin-top: 20px;
+`
