@@ -15,6 +15,7 @@ import type { UploadProps } from 'antd'
 import { KnowledgeSeletor } from '../../../../../../publicComponents/ResourcePage'
 import styled from 'styled-components'
 import { RcFile } from 'antd/lib/upload'
+import { TreeSelected } from '../../../KnowledgePage/KnowledgeTree/cpn/TreeSelected'
 
 const { Dragger } = Upload
 const { Option } = Select
@@ -27,19 +28,29 @@ export const ChapterTreeModal: React.FC<{
   uploadType: any
   setUploadType: any
   setResourceObj: any
+  checkTreeData: any
+  curCheckId: any
+  handleRelateCheck: any
+  handleRelateExpand: any
+  relateKeys: any
 }> = ({
   isModalVisible,
   setIsModalVisible,
   handleOk,
   resourceTitle,
   setResourceTitle,
+  checkTreeData,
   uploadType,
   setUploadType,
-  setResourceObj
+  setResourceObj,
+  curCheckId,
+  handleRelateCheck,
+  handleRelateExpand,
+  relateKeys
 }) => {
   const ref = useRef<any>()
   const [open, setOpen] = useState(false)
-
+  const [curFileListName, setCurcurFileListName] = useState<string[]>([])
   const showDrawer = () => {
     setOpen(true)
   }
@@ -54,10 +65,20 @@ export const ChapterTreeModal: React.FC<{
   const [uploading, setUploading] = useState(false)
 
   const handleUpload = () => {
+    setOpen(false)
     const formData = new FormData()
-    fileList.forEach((file) => {
+
+    fileList.forEach((file: any) => {
       formData.append('files[]', file as RcFile)
+      setCurcurFileListName((pre) => {
+        if (!curFileListName.includes(file.name)) {
+          pre = pre.concat(file.name)
+        }
+        return pre
+      })
+      console.log(curFileListName, 'file-name')
     })
+
     setUploading(true)
     // You can use any AJAX library you like
     fetch('https://www.mocky.io/v2/5cc8019d300000980a055e76', {
@@ -86,11 +107,16 @@ export const ChapterTreeModal: React.FC<{
       setFileList(newFileList)
     },
     beforeUpload: (file) => {
-      setFileList([...fileList, file])
-
+      const name: string[] = []
+      fileList.forEach((f: any) => {
+        name.push(f.name)
+      })
+      console.log()
+      if (name.includes(file.name)) {
+        message.error('重复上传文件！')
+      } else setFileList([...fileList, file])
       return false
     },
-
     fileList
   }
   const handleCancel = () => {
@@ -149,7 +175,13 @@ export const ChapterTreeModal: React.FC<{
 
               <RelatePointsWrapper>
                 <label>关联知识点</label>
-                <KnowledgeSeletor />
+                <TreeSelected
+                  checkTreeData={checkTreeData}
+                  relateKeys={relateKeys}
+                  handleRelateExpand={handleRelateExpand}
+                  handleRelateCheck={handleRelateCheck}
+                  curCheckId={curCheckId}
+                />
               </RelatePointsWrapper>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <Button
@@ -165,7 +197,12 @@ export const ChapterTreeModal: React.FC<{
             </>
           </Drawer>
         </DrawerWrapper>
-        <div>已经上传的资源</div>
+        <div>
+          已经上传的资源:
+          {curFileListName.map((item: any) => (
+            <li key={item}>{item}</li>
+          ))}
+        </div>
       </Modal>
     </ChapterTreeModalWrapper>
   )

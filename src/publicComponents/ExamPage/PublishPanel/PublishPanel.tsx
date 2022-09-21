@@ -58,7 +58,6 @@ export const PublishPanel: React.FC<{
   const [value, setValue] = useState(['0-0-0'])
 
   const onChange = (newValue: string[]) => {
-    console.log('onChange ', value)
     setValue(newValue)
   }
   const tProps = {

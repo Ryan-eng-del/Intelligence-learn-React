@@ -7,6 +7,8 @@ import { useMount } from 'hook/useMount'
 import { useCheckKnowledgeTreeUI } from 'hook/useKnowledge/useCheckKnowledgeTreeUI'
 import { BaseLoading } from '../../../../../baseUI/BaseLoding/BaseLoading'
 import styled from 'styled-components'
+import { TreeSelected } from './cpn/TreeSelected'
+import { keys } from 'lodash'
 
 export const KnowledgeTree = () => {
   const {
@@ -50,17 +52,13 @@ export const KnowledgeTree = () => {
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <Tree
-          checkStrictly={true}
-          checkedKeys={curCheckId}
-          checkable={true}
-          onCheck={handleRelateCheck}
-          expandedKeys={relateKeys}
-          onExpand={handleRelateExpand}
-          onSelect={handleRelateExpand}
-        >
-          {checkTreeData && checkTreeData}
-        </Tree>
+        <TreeSelected
+          curCheckId={curCheckId}
+          checkTreeData={checkTreeData}
+          handleRelateExpand={handleRelateExpand}
+          handleRelateCheck={handleRelateCheck}
+          relateKeys={relateKeys}
+        />
       </Modal>
 
       {isLoading ? (

@@ -6,6 +6,12 @@ import { useChapterUI } from 'hook/useChapterStudy/useChapterUI'
 import { useMount } from 'hook/useMount'
 import { expandOnMount } from 'util/chapterStudyTree'
 import styled from 'styled-components'
+import { useChapterClient } from 'hook/useChapterStudy/useChapterStudyClient'
+import { useKnowledgeClient } from '../../../../../hook/useKnowledge/useKnowledgeClient'
+import { useKnowledgeControl } from '../../../../../hook/useKnowledge/useKnowledgeControl'
+import { useKnowledgeServer } from '../../../../../hook/useKnowledge/useKnowledgeServer'
+import { useKnowledgeUI } from '../../../../../hook/useKnowledge/useKnowledgeUI'
+import { useCheckKnowledgeTreeUI } from '../../../../../hook/useKnowledge/useCheckKnowledgeTreeUI'
 
 export const ChapterStudyTree = () => {
   /*UI驱动层*/
@@ -28,7 +34,14 @@ export const ChapterStudyTree = () => {
     setResourceObj,
     setCurAddType
   } = useChapterUI()
-
+  const {
+    handleRelateCheck,
+    handleRelateExpand,
+    curCheckId,
+    relateKeys,
+    data: KnowledgeData
+  } = useKnowledgeControl()
+  const { checkTreeData } = useCheckKnowledgeTreeUI(KnowledgeData)
   // 每次挂载后全部展开
   useMount(() => {
     setExpandKeys(expandOnMount(data!))
@@ -44,6 +57,11 @@ export const ChapterStudyTree = () => {
         uploadType={uploadType}
         setUploadType={setUploadType}
         setResourceObj={setResourceObj}
+        checkTreeData={checkTreeData}
+        curCheckId={curCheckId}
+        handleRelateCheck={handleRelateCheck}
+        handleRelateExpand={handleRelateExpand}
+        relateKeys={relateKeys}
       />
       <a
         type={'primary'}

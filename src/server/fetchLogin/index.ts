@@ -19,7 +19,6 @@ export const useToken = (name: string, password: string) => {
     },
     {
       onSuccess: (data) => {
-        console.log(data)
         queryClient.setQueryData(['token'], data)
         cache.setCache('token', data)
         navigate('/home/teach')

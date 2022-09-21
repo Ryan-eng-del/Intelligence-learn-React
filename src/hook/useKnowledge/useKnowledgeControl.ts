@@ -144,6 +144,7 @@ export const useKnowledgeControl = () => {
   }
   /*选择树来触发*/
   const handleRelateCheck = (checkInfo: any) => {
+    console.log(checkInfo, 'checkInfo')
     const { checked } = checkInfo
     setCurCheckId(checked)
   }

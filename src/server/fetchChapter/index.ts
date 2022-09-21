@@ -40,8 +40,6 @@ export const useAddChapter = (setCurNode: any) => {
       onSuccess: (data: any) => {
         /*通过data取到id，通过setCurNode来修改*/
         setCurNode((pre: any) => {
-          console.log('设置id')
-          console.log(data, 'data')
           pre.id = data
           return pre
         })
@@ -62,7 +60,6 @@ export const useAddChildChapter = (setCurNode: any) => {
       onSuccess: (data: any) => {
         /*通过data取到id，通过setCurNode来修改*/
         setCurNode((pre: any) => {
-          console.log(pre, 'pre', data, 'data')
           pre.id = data
           return pre
         })

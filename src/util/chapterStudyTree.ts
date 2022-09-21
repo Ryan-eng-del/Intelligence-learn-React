@@ -120,7 +120,6 @@ export const addChildContentNode = (
   queryClient: QueryClient,
   node: CourTimeType | CourTimeType[]
 ) => {
-  console.log('add')
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: ChapterNodeType[]) => {
     if (!data) return
@@ -129,11 +128,8 @@ export const addChildContentNode = (
         recursion(d.childChapters)
       }
       if (id == d.id) {
-        console.log('find')
         d.courTimes = d.courTimes.concat(node)
-        console.log(d.id, node, 'now', d.courTimes)
         queryClient.setQueryData(['chapterTree'], deepCloneData)
-        console.log(queryClient.getQueryData(['chapterTree']))
       }
     })
   }
@@ -235,7 +231,6 @@ export const formatResource = (resource: ChapterResourceType[]) => {
       result.push(r)
     }
   })
-  console.log(result)
   return result
 }
 /*挂载前展开所有视频*/

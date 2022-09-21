@@ -75,7 +75,6 @@ export const SingleChoice: React.FC = () => {
     question_type: 0,
     right_answer
   }
-  console.log('network', networkData)
 
   return (
     <>

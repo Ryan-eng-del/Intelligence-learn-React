@@ -11,7 +11,6 @@ import {
 } from './QuestionPreviewStyle'
 export const QuestionPreview: React.FC = () => {
   const { data, isLoading } = useShowQuestionDetails()
-  console.log('anw', data?.questionAnswer)
 
   return (
     <>
