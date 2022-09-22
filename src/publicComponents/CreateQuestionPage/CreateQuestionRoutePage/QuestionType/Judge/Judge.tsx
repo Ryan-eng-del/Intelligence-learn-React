@@ -2,21 +2,24 @@ import React, { useState } from 'react'
 import { Form, Switch } from 'antd'
 import { TextArea } from '../Component/TextArea'
 import { Footer } from '../Component/Footer'
-import { QuestionData, QuestionDataWithID, QuestionItem } from 'server/fetchExam/types/index'
+import {
+  QuestionData,
+  QuestionDataWithID,
+  QuestionItem
+} from 'server/fetchExam/types/index'
 
 export const Judge: React.FC<{
   content: QuestionDataWithID
-}> = ({content}) => {
+}> = ({ content }) => {
   //序列化为题目数据
   const [question, setQuestion] = useState({
     id: content.questionId,
     content: '',
     TrueOption: 'true',
-    Options: [],//无用
     footer: {
       explanation: '',
       rate: 1,
-      knowledge: ['离散数学', '图论'],
+      knowledge: ['离散数学', '图论']
     }
   })
   const handleEdit = (content: string) => {
@@ -43,10 +46,12 @@ export const Judge: React.FC<{
             checkedChildren="对"
             unCheckedChildren="错"
             checked={question.TrueOption == 'true'}
-            onChange={(e) => setQuestion({ ...question, TrueOption: e.toString() })}
+            onChange={(e) =>
+              setQuestion({ ...question, TrueOption: e.toString() })
+            }
           />
         </Form.Item>
-        <Footer data={question} setter={handleChangeFooter}/>
+        <Footer data={question} setter={handleChangeFooter} />
       </Form>
     </>
   )

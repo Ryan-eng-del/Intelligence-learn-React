@@ -2,15 +2,15 @@ import React, { useState } from 'react'
 import { Form, Button } from 'antd'
 import { TextArea } from '../Component/TextArea'
 import { Footer } from '../Component/Footer'
-import { QuestionData, QuestionDataWithID, QuestionItem } from 'server/fetchExam/types/index'
+import { QuestionDataWithID } from 'server/fetchExam/types/index'
 
 export const MultipleChoice: React.FC<{
   content: QuestionDataWithID
-}> = ({content}) => {
+}> = ({ content }) => {
   const [question, setQuestion] = useState({
     content: '',
     id: content.questionId,
-    TrueOption:'',  //无用
+    rightAnswerNum: 1,
     Options: [
       { isTrue: true, content: '' },
       { isTrue: false, content: '' },
@@ -20,16 +20,24 @@ export const MultipleChoice: React.FC<{
     footer: {
       explanation: '',
       rate: 1,
-      knowledge: ['离散数学', '图论'],
+      knowledge: ['离散数学', '图论']
     }
   })
 
   const handleChangeFooter = (obj: any) => {
     setQuestion({ ...question, footer: obj })
   }
+
   const handleChangeOption = (item: { isTrue: boolean }) => {
     item.isTrue = !item.isTrue
     setQuestion({ ...question })
+    let rightAnswerNum = 0
+    question.Options.map((quesItem) => {
+      if (quesItem.isTrue) {
+        rightAnswerNum++
+      }
+    })
+    setQuestion({ ...question, rightAnswerNum })
   }
 
   const handleEdit = (item: { content: string }, content: string) => {
@@ -37,10 +45,11 @@ export const MultipleChoice: React.FC<{
     setQuestion({ ...question })
   }
 
-
   return (
     <>
       <h1>多选题</h1>
+      {/* <div>{JSON.stringify(question)}</div> */}
+
       <Form>
         <Form.Item label="题目" required>
           <TextArea
@@ -91,7 +100,7 @@ export const MultipleChoice: React.FC<{
             </Form.Item>
           </React.Fragment>
         ))}
-        <Footer data={question} setter={handleChangeFooter}/>
+        <Footer data={question} setter={handleChangeFooter} />
       </Form>
     </>
   )

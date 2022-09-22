@@ -36,22 +36,26 @@ export const CreateQuestionHeader: React.FC = () => {
         <Button
           icon={<ArrowLeftOutlined />}
           type="primary"
-          style={{marginLeft: '30px'}}
+          style={{ marginLeft: '30px' }}
           size="large"
           danger
-          onClick={() => navigate('/questionbank')}
-        >返回</Button>
+          onClick={() => navigate('/questionbank', { replace: true })}
+        >
+          返回
+        </Button>
         {QuestionItemList.map((item, index) => (
           <Button
             key={index}
             icon={item.icon}
             type="primary"
-            style={{marginLeft: '30px'}}
+            style={{ marginLeft: '30px' }}
             size="large"
             onClick={() => {
               // navigate(item.type, { replace: true })
             }}
-          >{item.title}</Button>
+          >
+            {item.title}
+          </Button>
         ))}
       </CreateQuestionHeaderWrapper>
     </>

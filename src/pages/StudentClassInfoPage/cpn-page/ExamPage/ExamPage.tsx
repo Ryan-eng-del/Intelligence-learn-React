@@ -21,7 +21,7 @@ export const StudentExamPage: React.FC = () => {
             <div className="Exam-page-title">考试作业</div>
             <Button
               type="primary"
-              onClick={() => navigate('/createexam')}
+              onClick={() => navigate('/createexam', { replace: true })}
               style={{ marginBottom: '24px' }}
             >
               +新建作业

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useShowQuestionDetails } from 'server/fetchExam'
+import { QuestionDetails } from 'server/fetchExam/types'
 import {
   PreviewItemWrapperAnswer,
   PreviewItemWrapperKnowledge,
@@ -7,15 +7,12 @@ import {
   PreviewItemWrapperExplain,
   PreviewItemWrapperQuestion,
   PreviewItemWrapperRate,
-  QuestionPreviewWrapper
-} from './QuestionPreviewStyle'
-export const QuestionPreview: React.FC = () => {
-  const { data, isLoading } = useShowQuestionDetails()
-  console.log('anw', data?.questionAnswer)
-
+  ShowDetailsWrapper
+} from './ShowDetailsStyle'
+export const ShowDetails: React.FC<{ data: QuestionDetails }> = ({ data }) => {
   return (
     <>
-      <QuestionPreviewWrapper>
+      <ShowDetailsWrapper>
         <PreviewItemWrapperQuestion>
           题目：
           {data?.questionDescription}
@@ -23,7 +20,7 @@ export const QuestionPreview: React.FC = () => {
 
         <br />
         <PreviewItemWrapperOption>
-          选项：{data?.questionAnswer}
+          选项：{data?.questionOption}
         </PreviewItemWrapperOption>
 
         <br />
@@ -35,7 +32,7 @@ export const QuestionPreview: React.FC = () => {
         <br />
         <PreviewItemWrapperExplain>
           解析：
-          {data?.questionAnswerDescription}
+          {data?.questionAnswerExplain}
         </PreviewItemWrapperExplain>
 
         <br />
@@ -45,8 +42,11 @@ export const QuestionPreview: React.FC = () => {
         </PreviewItemWrapperRate>
 
         <br />
-        <PreviewItemWrapperKnowledge>知识点：</PreviewItemWrapperKnowledge>
-      </QuestionPreviewWrapper>
+        <PreviewItemWrapperKnowledge>
+          知识点：
+          {data?.points}
+        </PreviewItemWrapperKnowledge>
+      </ShowDetailsWrapper>
     </>
   )
 }

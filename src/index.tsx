@@ -52,6 +52,10 @@ import { RequireAuth } from 'util/requireAuth'
 import { KnowledgeGraph } from './pages/K-graphPage/KnowledgeGraph'
 import { TeacherSourcePreviewPage } from './pages/TeacherSourcePreviewPage/TeacherSourcePreviewPage'
 import { SourcePreviewPage } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/SourcePreviewPage'
+import {
+  QuestionEditPage,
+  ShowDetails
+} from 'publicComponents/CreateQuestionPage'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
@@ -72,7 +76,11 @@ root.render(
           <Route path="login" element={<LoginPage />} />
           <Route
             path="/"
-            element={<RequireAuth><App /></RequireAuth>}
+            element={
+              <RequireAuth>
+                <App />
+              </RequireAuth>
+            }
           >
             <Route path="home" element={<HomePage />}>
               {/* <Route path="class"> */}
@@ -116,7 +124,11 @@ root.render(
             </Route>
             <Route path="questionbank" element={<QuestionBankPage />} />
             <Route path="createquestion" element={<CreateQuestionPage />} />
-            <Route path="preview" element={<QuestionPreviewPage />}/>
+            <Route
+              path="preview/:questionId"
+              element={<QuestionPreviewPage />}
+            />
+            <Route path="edit/:questionId" element={<QuestionEditPage />} />
           </Route>
         </Routes>
       </Router>

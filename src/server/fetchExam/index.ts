@@ -1,7 +1,12 @@
 import { useMutation, useQuery, UseQueryResult } from '@tanstack/react-query'
 import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
-import { ExamListItem, QuestionData, QuestionDataWithID, QuestionType } from './types'
+import {
+  ExamListItem,
+  QuestionData,
+  QuestionDataWithID,
+  QuestionType
+} from './types'
 import { message } from 'antd'
 import { AnyFn } from 'types'
 
@@ -19,32 +24,31 @@ export const useCreateQuestion = () => {
     },
     {
       onSuccess: () => {
-        message.success('添加成功')
-
+        message.success('保存成功')
       },
       onError: () => {
-        message.error('添加失败')
+        message.error('保存失败')
       }
     }
   )
 }
 
-/** 展示题目 */
+/** 显示试题库 */
 export const useShowCreateQuestion = () => {
   return useQuery(['questionbank'], async () => {
     await delayFetch()
     return client.get<any>({
-      url: 'question/list-question/1'
+      url: 'question/list-question'
     })
   })
 }
 
-/** 展示题目详细信息 */
-export const useShowQuestionDetails = (id?:string) => {
+/** 展示题目详细信息 做展示试题页面 */
+export const useShowQuestionDetails = (id?: string) => {
   return useQuery(['preview'], async () => {
     await delayFetch()
     return client.get<any>({
-      url: `/question/show-question/${id || 1}`
+      url: `/question/show-question`
     })
   })
 }
@@ -56,12 +60,11 @@ export const useShowExamList = (courseID: string) => {
     return client.get<ExamListItem[]>({
       url: `/paper/show-all`,
       params: {
-        courseId:courseID
+        courseId: courseID
       }
     })
   })
 }
-
 
 /** 添加空试题 */
 export const useCreateEmptyQuestion = () => {
@@ -69,25 +72,25 @@ export const useCreateEmptyQuestion = () => {
     async (type: QuestionType) => {
       await delayFetch()
       const defData = {
-        questionDescription: "",
-        courseId: "",
+        questionDescription: '',
+        courseId: '',
         pointIds: [],
-        questionOption: "dsadas<>fr<>ads<>dsads",
-        questionAnswerExplain: "",
+        questionOption: 'dsadas<>fr<>ads<>dsads',
+        questionAnswerExplain: '',
         questionAnswerNum: 1,
         questionDifficulty: 1,
         questionType: type,
-        rightAnswer: "A",
+        rightAnswer: 'A'
       }
       const qID = client.post<string>({
         url: 'question/add-question',
         data: defData
       })
-      return {...defData,questionId:qID as unknown as string }
+      return { ...defData, questionId: qID as unknown as string }
     },
     {
       onSuccess: () => {
-        message.success('添加成功')
+        message.success('添加空试题成功')
       },
       onError: () => {
         message.error('添加失败')
@@ -110,10 +113,31 @@ export const useUpadateQuestion = () => {
     },
     {
       onSuccess: () => {
-        message.success('添加成功')
+        message.success('更新成功')
       },
       onError: () => {
-        message.error('添加失败')
+        message.error('更新失败')
+      }
+    }
+  )
+}
+
+/** 删除试题 */
+export const useDeleteQuestion = () => {
+  return useMutation(
+    async (id: string) => {
+      await delayFetch()
+      return client.post({
+        url: '/question/delete-question',
+        data: { id }
+      })
+    },
+    {
+      onSuccess: () => {
+        message.success('删除成功')
+      },
+      onError: () => {
+        message.error('删除失败')
       }
     }
   )

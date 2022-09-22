@@ -1,61 +1,68 @@
 import React from 'react'
-import { Form, Button, message, Tag, Radio, InputNumber } from 'antd'
+import { Form, Button, message, Radio } from 'antd'
 import { TextArea } from '../Component/TextArea'
 import { useCreateQuestion, useUpadateQuestion } from 'server/fetchExam'
-import { QuestionData, QuestionDataWithID, QuestionType } from 'server/fetchExam/types/index'
-import { useNavigate } from 'react-router-dom'
+import { QuestionDataWithID, QuestionType } from 'server/fetchExam/types/index'
 import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
-
+import { useNavigate } from 'react-router-dom'
 
 export const Footer: React.FC<{
-  data: {
-    id: string,
-    //本页面的全部数据
-    content: string,
-    TrueOption: string,
-    Options: any[],
-    footer: {
-      explanation: string,
-      rate: CSSNumberish,
-      knowledge: string[],
-    }
-  }
+  data: any
   setter: (obj: {
     explanation: string
     rate: number
     knowledge: Array<string>
   }) => void
-
 }> = ({ data, setter }) => {
+  const navigator = useNavigate()
+  const { id, Options, content, TrueOption, rightAnswerNum, footer } = data
+  const { explanation, rate, knowledge } = footer
 
-  const networkData: QuestionDataWithID = {
-    questionId: data.id,
-    courseId: data.id,
-    pointIds: data.footer.knowledge,
-    questionOption: JSON.stringify(data.Options),
-    questionAnswerExplain: data.footer.explanation,
-    questionAnswerNum: 1,
-    questionDescription: data.content,
-    questionDifficulty: data.footer.rate,
-    questionType: QuestionType.single,
-    rightAnswer: data.TrueOption
+  //处理Options
+  const handleOptions = () => {
+    const optionsArr: string[] = []
+    Options.map((item: { content: string }) => {
+      optionsArr.push(item.content)
+    })
+    const options = optionsArr.join('<>')
+    return options
   }
+
+  //编辑题目
+  const networkData: QuestionDataWithID = {
+    questionId: id,
+    courseId: id,
+    pointIds: knowledge,
+    questionOption: Options ? handleOptions() : '没有',
+    questionAnswerExplain: explanation,
+    questionAnswerNum: rightAnswerNum ? rightAnswerNum : 1,
+    questionDescription: content,
+    questionDifficulty: rate,
+    questionType: QuestionType.single,
+    rightAnswer: TrueOption ? TrueOption : ''
+  }
+
+  // console.log('Options', Options)
+
+  // console.log('net', networkData)
+
   //网络请求
   const { mutate } = useUpadateQuestion()
 
   //保存按钮
   const SuccessSave = () => {
-    if (data.footer.explanation === '') {
+    if (networkData.questionAnswerExplain === '') {
       setter({ ...data.footer, explanation: '暂无' })
+      networkData.questionAnswerExplain = '暂无'
     }
-    mutate({...networkData})
+    mutate({ ...networkData })
+    //跳转到预览界面
   }
 
   const handleSave = () => {
-    console.error("Footer序列化网络实体没有这么简单，需要类型判断");
     if (networkData.questionDescription === '') {
       message.error('请输入题目信息')
-    } else if (networkData.questionOption.split("<>").includes('')) {
+    } else if (networkData.questionOption.split('<>').includes('')) {
       if (networkData.questionOption === '') {
         message.error('请输入选项信息')
       } else {
@@ -102,7 +109,7 @@ export const Footer: React.FC<{
       <Form.Item label="知识点">
         <KnowledgeSeletor
           related={data.footer.knowledge}
-          callback={(newList) => setter({ ...data.footer, knowledge: newList})}
+          callback={(newList) => setter({ ...data.footer, knowledge: newList })}
         />
       </Form.Item>
       <Form.Item>

@@ -1,10 +1,11 @@
 import styled from 'styled-components'
-export const CreateExamMenuWrapper = styled.div`
-  background-color: white;
-  margin: 10px 0 10px 10px;
-  height: 60px;
-  padding: 10px;
+export const QuestionEditPageWrapper = styled.div`
+  margin: auto;
+  // background-color: rgb(243, 241, 241);
+  width: 90vw;
+  height: 1500px;
   border-radius: 5px;
+  padding: 30px;
   animation: 0.7s fadeleft ease forwards;
   border-top: 3px solid var(--border);
   border-bottom-left-radius: 12px;

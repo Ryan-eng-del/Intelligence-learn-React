@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-export const QuestionPreviewWrapper = styled.div`
+export const ShowDetailsWrapper = styled.div`
   margin: 50px;
 `
 export const PreviewItemWrapperQuestion = styled.div`
