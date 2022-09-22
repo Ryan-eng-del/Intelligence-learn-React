@@ -91,14 +91,7 @@ export const useChapterControl = () => {
     },
     [data]
   )
-  /*处理弹窗okay添加资源*/
-  const handleModalOk = () => {
-    setIsModalVisible(false)
-    curContentNode.name = resourceTitle
-    curContentNode.resource = resourceObj
-    addChildContentNode(data!, curChapterId, queryClient, curContentNode)
-    setResourceObj([])
-  }
+
   /*添加根章节*/
   const handleClickAddChapter = useCallback(() => {
     /*先出现交互inputNode*/
@@ -256,7 +249,6 @@ export const useChapterControl = () => {
     confirmRename,
     setAddInputValue,
     setIsModalVisible,
-    handleModalOk,
     setResourceTitle,
     setUploadType,
     setExpandKeys,

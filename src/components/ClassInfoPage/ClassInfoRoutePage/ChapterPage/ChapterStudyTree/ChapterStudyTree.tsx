@@ -22,15 +22,14 @@ export const ChapterStudyTree = () => {
     expandKeys,
     handleOnExpand,
     isModalVisible,
-    setIsModalVisible,
-    handleModalOk,
     resourceTitle,
-    setResourceTitle,
     uploadType,
-    setExpandKeys,
     data,
-    setUploadType,
     resourceObj,
+    setIsModalVisible,
+    setResourceTitle,
+    setExpandKeys,
+    setUploadType,
     setResourceObj,
     setCurAddType
   } = useChapterUI()
@@ -46,12 +45,12 @@ export const ChapterStudyTree = () => {
   useMount(() => {
     setExpandKeys(expandOnMount(data!))
   })
+
   return (
     <ChapterStudyTreeWrapper>
       <ChapterTreeModal
         isModalVisible={isModalVisible}
         setIsModalVisible={setIsModalVisible}
-        handleOk={handleModalOk}
         resourceTitle={resourceTitle}
         setResourceTitle={setResourceTitle}
         uploadType={uploadType}

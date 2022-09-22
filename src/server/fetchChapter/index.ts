@@ -9,6 +9,8 @@ import {
   addClassTimeParam,
   EditChapterParam
 } from '../../types/server/fetchChapter'
+import { AddContentResource } from '../../types/server/fetchClassTime'
+import { message } from 'antd'
 //? ts的类型约束在网络请求方面起到了什么样的约束？
 /*获取章节学习树信息*/
 export const useShowChapter = (setExpandKeys: StateSetter<string[]>) => {
@@ -80,6 +82,18 @@ export const useEditChapter = () => {
       onSuccess: () => {
         console.log('success')
       }
+    }
+  )
+}
+/*上传课时资源*/
+export const useAddContentResource = () => {
+  return useMutation(
+    async ({ related_points, course_id, file }: AddContentResource) => {
+      return client.post({
+        url: '/resources/upload-course',
+        params: { course_id, related_points },
+        data: { file }
+      })
     }
   )
 }

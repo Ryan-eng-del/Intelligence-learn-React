@@ -37,7 +37,6 @@ export const useChapterUI = (type?: 'show') => {
     handleClickAddResource,
     isModalVisible,
     setIsModalVisible,
-    handleModalOk,
     resourceTitle,
     setResourceTitle,
     uploadType,
@@ -191,7 +190,6 @@ export const useChapterUI = (type?: 'show') => {
     handleOnExpand,
     isModalVisible,
     setIsModalVisible,
-    handleModalOk,
     resourceTitle,
     setResourceTitle,
     uploadType,
@@ -202,6 +200,7 @@ export const useChapterUI = (type?: 'show') => {
     addContentNodeModal,
     resourceObj,
     setResourceObj,
-    setCurAddType
+    setCurAddType,
+    setAddInputValue
   }
 }

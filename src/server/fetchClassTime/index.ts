@@ -24,7 +24,9 @@ export const useAddClassTime = () => {
       })
     },
     {
-      onSuccess: (data: any) => {}
+      onSuccess: (data: any) => {
+        console.log(data)
+      }
     }
   )
 }

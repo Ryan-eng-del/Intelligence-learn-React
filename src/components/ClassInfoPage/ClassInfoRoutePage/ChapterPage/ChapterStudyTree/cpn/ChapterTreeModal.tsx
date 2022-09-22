@@ -3,6 +3,7 @@ import {
   Button,
   Drawer,
   Input,
+  List,
   message,
   Modal,
   Select,
@@ -16,13 +17,13 @@ import { KnowledgeSeletor } from '../../../../../../publicComponents/ResourcePag
 import styled from 'styled-components'
 import { RcFile } from 'antd/lib/upload'
 import { TreeSelected } from '../../../KnowledgePage/KnowledgeTree/cpn/TreeSelected'
+import { useAddContentResource } from '../../../../../../server/fetchChapter'
 
 const { Dragger } = Upload
 const { Option } = Select
 export const ChapterTreeModal: React.FC<{
   isModalVisible: any
   setIsModalVisible: any
-  handleOk: any
   resourceTitle: any
   setResourceTitle: any
   uploadType: any
@@ -36,7 +37,6 @@ export const ChapterTreeModal: React.FC<{
 }> = ({
   isModalVisible,
   setIsModalVisible,
-  handleOk,
   resourceTitle,
   setResourceTitle,
   checkTreeData,
@@ -50,11 +50,20 @@ export const ChapterTreeModal: React.FC<{
 }) => {
   const ref = useRef<any>()
   const [open, setOpen] = useState(false)
-  const [curFileListName, setCurcurFileListName] = useState<string[]>([])
+  const [curFileListName, setCurcurFileListName] = useState<
+    { title: string }[]
+  >([])
+  const { mutateAsync: addContentResource } = useAddContentResource()
   const showDrawer = () => {
     setOpen(true)
   }
-
+  const handleOk = () => {
+    console.log(resourceTitle)
+    setResourceTitle('')
+    setIsModalVisible(false)
+    setFileList([])
+    setCurcurFileListName([])
+  }
   const onClose = () => {
     setOpen(false)
   }
@@ -67,28 +76,32 @@ export const ChapterTreeModal: React.FC<{
   const handleUpload = () => {
     setOpen(false)
     const formData = new FormData()
-
     fileList.forEach((file: any) => {
       formData.append('files[]', file as RcFile)
       setCurcurFileListName((pre) => {
-        if (!curFileListName.includes(file.name)) {
-          pre = pre.concat(file.name)
-        }
+        /*标记是否已经添加过*/
+        let flag = false
+        /*标记是否是第一次上传*/
+        let first = false
+        if (pre.length == 0) {
+          pre = pre.concat({ title: file.name })
+          first = true
+        } else
+          pre.forEach((i) => {
+            if (i.title == file.name) flag = true
+          })
+        if (!flag && !first) pre = pre.concat({ title: file.name })
         return pre
       })
-      console.log(curFileListName, 'file-name')
     })
-
     setUploading(true)
-    // You can use any AJAX library you like
-    fetch('https://www.mocky.io/v2/5cc8019d300000980a055e76', {
-      method: 'POST',
-      body: formData
+    addContentResource({
+      file: formData,
+      related_points: curCheckId,
+      course_id: '1'
     })
-      .then((res) => res.json())
       .then(() => {
-        setFileList([])
-        message.success('upload successfully.')
+        message.success('文件上传成功')
       })
       .catch(() => {
         message.error('upload failed.')
@@ -108,11 +121,11 @@ export const ChapterTreeModal: React.FC<{
     },
     beforeUpload: (file) => {
       const name: string[] = []
+      //toDo 这里之后，需要用Map来优化
       fileList.forEach((f: any) => {
-        name.push(f.name)
+        name.push(f.name + f.size)
       })
-      console.log()
-      if (name.includes(file.name)) {
+      if (name.includes(file.name + file.size)) {
         message.error('重复上传文件！')
       } else setFileList([...fileList, file])
       return false
@@ -130,12 +143,13 @@ export const ChapterTreeModal: React.FC<{
         onOk={handleOk}
         onCancel={handleCancel}
         style={{ height: '400px' }}
+        className={'modal-chapter'}
       >
         <label htmlFor={'addResource'}>课时名称</label>
         <Input
           placeholder={'请输入课时名称'}
           id={'addResource'}
-          defaultValue={resourceTitle}
+          value={resourceTitle}
           onChange={(e) => {
             setResourceTitle(e.target.value)
           }}
@@ -163,6 +177,7 @@ export const ChapterTreeModal: React.FC<{
             width={'520'}
             getContainer={ref.current}
             style={{ position: 'absolute' }}
+            height={'475.6'}
           >
             <>
               <UploadWrapper>
@@ -198,10 +213,12 @@ export const ChapterTreeModal: React.FC<{
           </Drawer>
         </DrawerWrapper>
         <div>
-          已经上传的资源:
-          {curFileListName.map((item: any) => (
-            <li key={item}>{item}</li>
-          ))}
+          <label>已经上传的资源:</label>
+          <List
+            itemLayout="horizontal"
+            dataSource={curFileListName}
+            renderItem={(item: any) => <List.Item>{item.title}</List.Item>}
+          />
         </div>
       </Modal>
     </ChapterTreeModalWrapper>
@@ -216,11 +233,7 @@ export const DrawerWrapper = styled.div`
   top: 0;
   left: 0;
   width: 520px;
-  height: 400px;
-  .drawer-test {
-    width: 520px;
-    z-index: 5;
-  }
+  height: 475.6px;
 `
 export const UploadWrapper = styled.div`
   margin-bottom: 13px;
