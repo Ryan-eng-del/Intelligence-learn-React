@@ -47,7 +47,12 @@ export const useChapterUI = (type?: 'show') => {
     addContentNodeModal,
     resourceObj,
     setResourceObj,
-    setCurAddType
+    setCurAddType,
+    curFileListName,
+    setCurFileListName,
+    fileList,
+    setFileList,
+    handleOk
   } = useChapterControl()
   /*表单focus状态UI*/
   const focusStateUI = (
@@ -201,6 +206,11 @@ export const useChapterUI = (type?: 'show') => {
     resourceObj,
     setResourceObj,
     setCurAddType,
-    setAddInputValue
+    setAddInputValue,
+    curFileListName,
+    setCurFileListName,
+    fileList,
+    setFileList,
+    handleOk
   }
 }

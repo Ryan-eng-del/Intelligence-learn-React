@@ -9,7 +9,10 @@ import {
   addClassTimeParam,
   EditChapterParam
 } from '../../types/server/fetchChapter'
-import { AddContentResource } from '../../types/server/fetchClassTime'
+import {
+  AddContentResource,
+  AddContent
+} from '../../types/server/fetchClassTime'
 import { message } from 'antd'
 //? ts的类型约束在网络请求方面起到了什么样的约束？
 /*获取章节学习树信息*/
@@ -93,6 +96,29 @@ export const useAddContentResource = () => {
         url: '/resources/upload-course',
         params: { course_id, related_points },
         data: { file }
+      })
+    }
+  )
+}
+/* 添加课时 */
+export const useAddContent = () => {
+  return useMutation(
+    async ({
+      chapter_id,
+      name,
+      resource_ids,
+      paper_id,
+      paper_name
+    }: AddContent) => {
+      return client.post({
+        url: '/ctime/addClassTime',
+        data: {
+          chapter_id,
+          name,
+          resource_ids,
+          paper_id,
+          paper_name
+        }
       })
     }
   )

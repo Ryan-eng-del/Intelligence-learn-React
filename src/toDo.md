@@ -1,1 +1,3 @@
 - src/server/fetchChapter/index.ts
+- 封装表单校验，封装统一错误处理
+- 课时的增删改，章节的删除接口

@@ -1,3 +1,5 @@
+import { UploadFile } from 'antd'
+import { InternalUploadFile } from 'antd/lib/upload/interface'
 import { useState } from 'react'
 // import {
 //   ChapterNodeType,
@@ -34,7 +36,17 @@ export const useChapterClient = () => {
   const [resourceObj, setResourceObj] = useState([])
   /*:表示当前添加的课时节点*/
   const [curContentNode, setCurContentNode] = useState<any>({})
+  /* 当前添加资源的名字列表 */
+  const [curFileListName, setCurFileListName] = useState<{ title: string }[]>(
+    []
+  )
+  /* 当前上传的文件列表 */
+  const [fileList, setFileList] = useState([])
   return {
+    curFileListName,
+    setCurFileListName,
+    fileList,
+    setFileList,
     curAddType,
     setCurAddType,
     curContentNode,

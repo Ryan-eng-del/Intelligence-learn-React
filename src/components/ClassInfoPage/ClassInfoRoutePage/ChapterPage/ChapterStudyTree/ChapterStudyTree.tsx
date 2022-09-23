@@ -31,7 +31,12 @@ export const ChapterStudyTree = () => {
     setExpandKeys,
     setUploadType,
     setResourceObj,
-    setCurAddType
+    setCurAddType,
+    curFileListName,
+    setCurFileListName,
+    fileList,
+    setFileList,
+    handleOk
   } = useChapterUI()
   const {
     handleRelateCheck,
@@ -61,6 +66,11 @@ export const ChapterStudyTree = () => {
         handleRelateCheck={handleRelateCheck}
         handleRelateExpand={handleRelateExpand}
         relateKeys={relateKeys}
+        curFileListName={curFileListName}
+        setCurFileListName={setCurFileListName}
+        fileList={fileList}
+        setFileList={setFileList}
+        handleOk={handleOk}
       />
       <a
         type={'primary'}

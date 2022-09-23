@@ -5,9 +5,11 @@ import {
   useAddChapter,
   useDeleteChapter,
   useShowChapter,
-  useEditChapter
+  useEditChapter,
+  useAddContentResource
 } from '../../server/fetchChapter'
 import { ChapterNodeType, CourTimeType } from 'server/fetchChapter/types'
+import { useAddContent } from '../../server/fetchChapter/index'
 
 export const useChapterServer = (
   setExpandKeys: StateSetter<string[]>,
@@ -24,13 +26,22 @@ export const useChapterServer = (
   const { mutateAsync: addChapterMutate } = useAddChapter(setCurNode)
   /*编辑章节*/
   const { mutateAsync: editChapterMutate } = useEditChapter()
+  /* 添加课时*/
+  const { mutateAsync: addContentMutate } = useAddContent()
+  /* 上传课时资源并且关联知识点
+   */
+  const { mutateAsync: addContentResource, data: resourceData } =
+    useAddContentResource()
   return {
+    addContentResource,
     data,
+    resourceData,
     isLoading,
     queryClient,
     deleteChapterMutate,
     addChildChapterMutate,
     addChapterMutate,
-    editChapterMutate
+    editChapterMutate,
+    addContentMutate
   }
 }

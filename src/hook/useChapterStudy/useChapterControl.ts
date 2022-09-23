@@ -41,7 +41,11 @@ export const useChapterControl = () => {
     setCurChapterId,
     setAddContentNodeModal,
     setResourceObj,
-    setCurContentNode
+    setCurContentNode,
+    curFileListName,
+    setCurFileListName,
+    fileList,
+    setFileList
   } = useChapterClient()
   /*Server状态层*/
   const {
@@ -51,7 +55,9 @@ export const useChapterControl = () => {
     queryClient,
     isLoading,
     editChapterMutate,
-    deleteChapterMutate
+    deleteChapterMutate,
+    addContentMutate,
+    resourceData
   } = useChapterServer(setExpandKeys, setCurNode)
 
   /*处理树节点一点击就触发*/
@@ -78,12 +84,9 @@ export const useChapterControl = () => {
     [data]
   )
   /*添加资源显示弹窗*/
-  const handleClickAddResource = useCallback(
-    (id: string) => {
-      setIsModalVisible(true)
-    },
-    [data]
-  )
+  const handleClickAddResource = useCallback(() => {
+    setIsModalVisible(true)
+  }, [])
   /*关联知识点*/
   const handleClickRelatePoints = useCallback(
     (id: string) => {
@@ -138,27 +141,47 @@ export const useChapterControl = () => {
     [data]
   )
   /*添加课时*/
-  const handleClickAddChildCourseTime = useCallback(
-    (chapterId: any) => {
-      setExpandKeys((prevState) => {
-        if (prevState.includes(chapterId)) {
-          return prevState
-        } else {
-          return prevState.concat(chapterId)
-        }
+  const handleClickAddChildCourseTime = useCallback((chapterId: any) => {
+    setIsModalVisible(true)
+    /*先出现交互inputNode*/
+    const node: any = {
+      classTimeId: Math.random() * 10000 + '',
+      name: '新建课时',
+      resource: []
+    }
+    setCurChapterId(chapterId)
+    setExpandKeys((prevState) => {
+      if (!prevState.includes(chapterId))
+        prevState = prevState.concat(chapterId)
+      return prevState
+    })
+    setCurContentNode(node)
+  }, [])
+  const handleOk = useCallback(async () => {
+    setIsModalVisible(false)
+    setResourceObj(resourceData)
+    try {
+      await addContentMutate({
+        chapter_id: curChapterId,
+        name: resourceTitle,
+        paper_id: '',
+        paper_name: '',
+        resource_ids: []
       })
-      setIsModalVisible(true)
-      /*先出现交互inputNode*/
-      const node: any = {
-        classTimeId: Math.random() * 10000 + '',
-        name: '新建节点',
-        resource: []
-      }
-      setCurContentNode(node)
-      setCurChapterId(chapterId)
-    },
-    [data]
-  )
+      setCurContentNode((pre: any) => {
+        pre.name = resourceTitle
+        return pre
+      })
+      /* 添加课时 */
+      addChildContentNode(data!, curChapterId, queryClient, curContentNode)
+    } catch (err) {
+      //toDo 封装错误处理
+    } finally {
+      setResourceTitle('')
+      setFileList([])
+      setCurFileListName([])
+    }
+  }, [data, curChapterId, curContentNode, resourceData, resourceTitle])
   /*确认添加*/
   const confirmAdd = async () => {
     const arg = {
@@ -213,7 +236,6 @@ export const useChapterControl = () => {
         new_name: curAddInputValue
       })
       setCurRenameNode((pre: any) => {
-        console.log('设置name成功')
         pre.name = curAddInputValue
         return pre
       })
@@ -275,6 +297,11 @@ export const useChapterControl = () => {
     handleDeleteResource,
     addContentNodeModal,
     resourceObj,
-    curAddType
+    curAddType,
+    curFileListName,
+    setCurFileListName,
+    fileList,
+    setFileList,
+    handleOk
   }
 }

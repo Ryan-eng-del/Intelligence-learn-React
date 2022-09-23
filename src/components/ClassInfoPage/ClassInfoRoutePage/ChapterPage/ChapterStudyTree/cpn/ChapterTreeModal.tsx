@@ -1,26 +1,13 @@
-import React, { ReactElement, useRef, useState } from 'react'
-import {
-  Button,
-  Drawer,
-  Input,
-  List,
-  message,
-  Modal,
-  Select,
-  Upload,
-  UploadFile
-} from 'antd'
-import { InboxOutlined, UploadOutlined } from '@ant-design/icons'
+import React, { useRef, useState } from 'react'
+import { Button, Drawer, Input, List, message, Modal, Upload } from 'antd'
+import { UploadOutlined } from '@ant-design/icons'
 
 import type { UploadProps } from 'antd'
-import { KnowledgeSeletor } from '../../../../../../publicComponents/ResourcePage'
 import styled from 'styled-components'
 import { RcFile } from 'antd/lib/upload'
 import { TreeSelected } from '../../../KnowledgePage/KnowledgeTree/cpn/TreeSelected'
 import { useAddContentResource } from '../../../../../../server/fetchChapter'
 
-const { Dragger } = Upload
-const { Option } = Select
 export const ChapterTreeModal: React.FC<{
   isModalVisible: any
   setIsModalVisible: any
@@ -34,51 +21,40 @@ export const ChapterTreeModal: React.FC<{
   handleRelateCheck: any
   handleRelateExpand: any
   relateKeys: any
+  curFileListName: any
+  setCurFileListName: any
+  fileList: any
+  setFileList: any
+  handleOk: any
 }> = ({
   isModalVisible,
   setIsModalVisible,
   resourceTitle,
   setResourceTitle,
   checkTreeData,
-  uploadType,
-  setUploadType,
-  setResourceObj,
   curCheckId,
   handleRelateCheck,
   handleRelateExpand,
-  relateKeys
+  relateKeys,
+  curFileListName,
+  setCurFileListName,
+  fileList,
+  setFileList,
+  handleOk
 }) => {
   const ref = useRef<any>()
   const [open, setOpen] = useState(false)
-  const [curFileListName, setCurcurFileListName] = useState<
-    { title: string }[]
-  >([])
-  const { mutateAsync: addContentResource } = useAddContentResource()
-  const showDrawer = () => {
-    setOpen(true)
-  }
-  const handleOk = () => {
-    console.log(resourceTitle)
-    setResourceTitle('')
-    setIsModalVisible(false)
-    setFileList([])
-    setCurcurFileListName([])
-  }
-  const onClose = () => {
-    setOpen(false)
-  }
-  const handleChange = (value: string) => {
-    setUploadType(value)
-  }
-  const [fileList, setFileList] = useState<UploadFile[]>([])
   const [uploading, setUploading] = useState(false)
+  const { mutateAsync: addContentResource } = useAddContentResource()
 
+  /* 处理上传 */
   const handleUpload = () => {
+    //toDo 这里要注意，不能重复上传同一文件，如果上传了同一个，记得提醒用户。
     setOpen(false)
     const formData = new FormData()
     fileList.forEach((file: any) => {
       formData.append('files[]', file as RcFile)
-      setCurcurFileListName((pre) => {
+      setCurFileListName((pre: any) => {
         /*标记是否已经添加过*/
         let flag = false
         /*标记是否是第一次上传*/
@@ -87,7 +63,7 @@ export const ChapterTreeModal: React.FC<{
           pre = pre.concat({ title: file.name })
           first = true
         } else
-          pre.forEach((i) => {
+          pre.forEach((i: any) => {
             if (i.title == file.name) flag = true
           })
         if (!flag && !first) pre = pre.concat({ title: file.name })
@@ -132,16 +108,14 @@ export const ChapterTreeModal: React.FC<{
     },
     fileList
   }
-  const handleCancel = () => {
-    setIsModalVisible(false)
-  }
+
   return (
     <ChapterTreeModalWrapper className={'modal-wrapper'}>
       <Modal
         title="添加课时"
         visible={isModalVisible}
         onOk={handleOk}
-        onCancel={handleCancel}
+        onCancel={() => setIsModalVisible(false)}
         style={{ height: '400px' }}
         className={'modal-chapter'}
       >
@@ -150,9 +124,7 @@ export const ChapterTreeModal: React.FC<{
           placeholder={'请输入课时名称'}
           id={'addResource'}
           value={resourceTitle}
-          onChange={(e) => {
-            setResourceTitle(e.target.value)
-          }}
+          onChange={(e) => setResourceTitle(e.target.value)}
           style={{ position: 'relative', zIndex: '4' }}
         />
         <div
@@ -160,7 +132,7 @@ export const ChapterTreeModal: React.FC<{
         >
           <Button
             type="primary"
-            onClick={showDrawer}
+            onClick={() => setOpen(true)}
             style={{ position: 'relative', zIndex: '4' }}
           >
             添加资源并且关联知识点
@@ -171,7 +143,7 @@ export const ChapterTreeModal: React.FC<{
             title="添加资源并且关联知识点"
             placement="top"
             closable={true}
-            onClose={onClose}
+            onClose={() => setOpen(false)}
             visible={open}
             mask={false}
             width={'520'}

@@ -120,6 +120,7 @@ export const addChildContentNode = (
   queryClient: QueryClient,
   node: CourTimeType | CourTimeType[]
 ) => {
+  console.log(id, node, 'id', 'node')
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: ChapterNodeType[]) => {
     if (!data) return
@@ -128,6 +129,7 @@ export const addChildContentNode = (
         recursion(d.childChapters)
       }
       if (id == d.id) {
+        console.log('find', node)
         d.courTimes = d.courTimes.concat(node)
         queryClient.setQueryData(['chapterTree'], deepCloneData)
       }
@@ -135,33 +137,7 @@ export const addChildContentNode = (
   }
   recursion(deepCloneData)
 }
-/*添加资源*/
-export const addResource = (
-  data: ChapterNodeType[],
-  id: string,
-  queryClient: QueryClient,
-  node: ChapterResourceType | ChapterResourceType[]
-) => {
-  const deepCloneData = cloneDeepWith(data)
-  const recursion = (data: ChapterNodeType[]) => {
-    if (!data) return
-    data.map((d) => {
-      if (d.courTimes && d.courTimes.length) {
-        d.courTimes.forEach((courTime) => {
-          if (courTime.id === id) {
-            courTime.resource = courTime.resource || []
-            courTime.resource = courTime.resource.concat(node)
-            queryClient.setQueryData(['chapterTree'], deepCloneData)
-          }
-        })
-      }
-      if (d.childChapters.length) {
-        recursion(d.childChapters)
-      }
-    })
-  }
-  recursion(deepCloneData)
-}
+
 /*重命名节点*/
 export const reNameTreeNode = (
   data: ChapterNodeType[],

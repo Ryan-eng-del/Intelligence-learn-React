@@ -8,3 +8,10 @@ export interface AddContentResource {
   course_id: string
   file: FormData
 }
+export interface AddContent {
+  chapter_id: string
+  name: string
+  paper_id?: string
+  paper_name?: string
+  resource_ids?: string[]
+}
