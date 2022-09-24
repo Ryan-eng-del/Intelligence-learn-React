@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-import { ResourceHeaderWrapper, ResourceTitleWrapper} from './ResourcePageStyle'
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons'
 import { Modal, Button, Upload, message } from 'antd'
 import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
-
+import {
+  HeaderWrapper,
+  TitleWrapper
+} from 'publicComponents/PageStyle/PageHeaderWapper'
 export const Header: React.FC<{
   reflush: ()=>void
 
@@ -61,9 +63,9 @@ export const Header: React.FC<{
         <KnowledgeSeletor></KnowledgeSeletor>
       </Modal>
 
-      <ResourceHeaderWrapper>
-        <ResourceTitleWrapper>
-          <div className="Resource-page-title">课程资源</div>
+      <HeaderWrapper>
+        <TitleWrapper>
+          <div className="page-title">课程资源</div>
           <Button
             type="primary"
             icon={<UploadOutlined />}
@@ -71,8 +73,8 @@ export const Header: React.FC<{
           >
             上传文件
           </Button>
-        </ResourceTitleWrapper>
-      </ResourceHeaderWrapper>
+        </TitleWrapper>
+      </HeaderWrapper>
     </>
   )
 }

@@ -1,9 +1,10 @@
 import React, { useReducer } from 'react'
 import {
-  ClassListWrapper,
-  ClassListFont,
-  ClassManaHeaderWrapper
-} from './ClassManaPageStyle'
+  PageWrapper,
+  ContentWrapper,
+  HeaderWrapper,
+  TitleWrapper
+} from 'publicComponents/PageStyle/PageHeaderWapper'
 import { List, Button, Input, Modal } from 'antd'
 import { ClassManaPageReducer, initialState } from './config/reducer'
 export const ClassManaPage: React.FC = () => {
@@ -65,16 +66,6 @@ export const ClassManaPage: React.FC = () => {
     dispatch({ type: 'setClassName', payload: '' })
   }
 
-  //搜索功能
-  // const searchClassList = (keyword: string) => {
-  //   //没做完，后端筛选返回较好
-  //   if (keyword.trim()) {
-  //     dispatch({ type: 'searchClassList', payload: keyword })
-  //   } else {
-  //     dispatch({ type: 'setSearchKeyword', payload: '' })
-  //   }
-  // }
-
   return (
     <>
       {/* 新建班级的模态框 */}
@@ -94,129 +85,107 @@ export const ClassManaPage: React.FC = () => {
           }}
         />
       </Modal>
-      <ClassListWrapper>
-        <ClassManaHeaderWrapper>
-          <Button type="primary" onClick={showModal}>
-            +添加班级
-          </Button>
-          {/* <Input.Search
-            id="setsearchkeyword"
-            placeholder="请输入您要查询的班级"
-            defaultValue={searchKeyword}
-            onSearch={(e) => {
-              if (e.trim()) {
-                searchClassList(e)
-              }
-            }}
-            style={{
-              width: 300,
-              marginLeft: 'auto',
-              marginRight: '30px'
-            }}
-            onChange={(e) => {
-              dispatch({
-                type: 'setSearchKeyword',
-                payload: e.target.value
-              })
-            }}
-            allowClear
-          /> */}
-        </ClassManaHeaderWrapper>
-
-        <ClassListFont>班级列表</ClassListFont>
-        <List
-          itemLayout="horizontal"
-          dataSource={classManaList}
-          size="large"
-          renderItem={(item) => (
-            <List.Item key={item.id} style={{ height: '80px' }}>
-              {item.renameState ? (
-                <div style={{ display: 'flex' }}>
-                  <Input
-                    placeholder="请输入新的班级名称"
-                    id="newclassname"
-                    style={{ width: '300px' }}
-                    value={newClassName}
-                    onChange={(e) => {
-                      //改的名儿不为空
-                      // if (e.target.value.trim()) {
-                      dispatch({
-                        type: 'setNewClassName',
-                        payload: e.target.value
-                      })
-                      // }
-                    }}
+      <PageWrapper>
+        <HeaderWrapper>
+          <TitleWrapper>
+            <div className="page-title">班级管理</div>
+          </TitleWrapper>
+        </HeaderWrapper>
+        <ContentWrapper>
+          <List
+            itemLayout="horizontal"
+            dataSource={classManaList}
+            size="large"
+            renderItem={(item) => (
+              <List.Item key={item.id} style={{ height: '80px' }}>
+                {item.renameState ? (
+                  <div style={{ display: 'flex' }}>
+                    <Input
+                      placeholder="请输入新的班级名称"
+                      id="newclassname"
+                      style={{ width: '300px' }}
+                      value={newClassName}
+                      onChange={(e) => {
+                        //改的名儿不为空
+                        // if (e.target.value.trim()) {
+                        dispatch({
+                          type: 'setNewClassName',
+                          payload: e.target.value
+                        })
+                        // }
+                      }}
+                    />
+                    <Button
+                      type="primary"
+                      style={{
+                        height: '37px',
+                        width: '40px',
+                        marginLeft: '30px',
+                        color: 'white',
+                        backgroundColor: 'green'
+                      }}
+                      onClick={() => {
+                        renameFun_certain(item)
+                      }}
+                    >
+                      √
+                    </Button>
+                    <Button
+                      type="primary"
+                      style={{
+                        height: '37px',
+                        width: '40px',
+                        marginLeft: '10px',
+                        color: 'white',
+                        backgroundColor: 'red'
+                      }}
+                      onClick={() => {
+                        renameFun_cancel(item)
+                      }}
+                    >
+                      ×
+                    </Button>
+                  </div>
+                ) : (
+                  <List.Item.Meta
+                    title={<a href="https://ant.design">{item.className}</a>}
+                    description={'学生人数：' + item.studentAmount}
                   />
+                )}
+                <div>
                   <Button
-                    type="primary"
-                    style={{
-                      height: '37px',
-                      width: '40px',
-                      marginLeft: '30px',
-                      color: 'white',
-                      backgroundColor: 'green'
-                    }}
+                    type="link"
+                    style={{ color: 'orange' }}
                     onClick={() => {
-                      renameFun_certain(item)
+                      renameFun(item)
                     }}
                   >
-                    √
+                    重命名
                   </Button>
                   <Button
-                    type="primary"
-                    style={{
-                      height: '37px',
-                      width: '40px',
-                      marginLeft: '10px',
-                      color: 'white',
-                      backgroundColor: 'red'
-                    }}
+                    type="link"
+                    style={{ color: 'red' }}
                     onClick={() => {
-                      renameFun_cancel(item)
+                      removeClassFun(item.id)
                     }}
                   >
-                    ×
+                    删除
+                  </Button>
+                  <Button
+                    type="link"
+                    style={{ color: 'purple' }}
+                    onClick={() => {
+                      console.log('重命名')
+                    }}
+                  >
+                    管理
                   </Button>
                 </div>
-              ) : (
-                <List.Item.Meta
-                  title={<a href="https://ant.design">{item.className}</a>}
-                  description={'学生人数：' + item.studentAmount}
-                />
-              )}
-              <div>
-                <Button
-                  type="link"
-                  style={{ color: 'orange' }}
-                  onClick={() => {
-                    renameFun(item)
-                  }}
-                >
-                  重命名
-                </Button>
-                <Button
-                  type="link"
-                  style={{ color: 'red' }}
-                  onClick={() => {
-                    removeClassFun(item.id)
-                  }}
-                >
-                  删除
-                </Button>
-                <Button
-                  type="link"
-                  style={{ color: 'purple' }}
-                  onClick={() => {
-                    console.log('重命名')
-                  }}
-                >
-                  管理
-                </Button>
-              </div>
-            </List.Item>
-          )}
-        />
-      </ClassListWrapper>
+              </List.Item>
+            )}
+          />
+        </ContentWrapper>
+      </PageWrapper>
     </>
   )
 }

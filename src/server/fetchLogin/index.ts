@@ -14,7 +14,10 @@ export const useToken = (name: string, password: string) => {
       await delayFetch()
       return client.post<{ token: string }>({
         url: 'user/login',
-        data: {}
+        data: {
+          name,
+          password
+        }
       })
     },
     {

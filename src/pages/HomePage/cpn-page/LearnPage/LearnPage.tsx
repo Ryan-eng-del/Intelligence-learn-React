@@ -1,18 +1,19 @@
 import React, { useReducer, useState } from 'react'
 import {
-  LearnPageWrapper,
-  LearnClassWrapper,
-  LearnHeaderWrapper,
   LearnRoutePageWrapper,
-  LearnTitleWrapper,
   ModalContextWrapper
 } from './LearnPageStyle'
+import {
+  PageWrapper,
+  ContentWrapper,
+  HeaderWrapper,
+  TitleWrapper
+} from 'publicComponents/PageStyle/PageHeaderWapper'
 import { Button, Modal, Input, Col, Row } from 'antd'
 import { ClassCard } from 'publicComponents/TeachRotePage'
-import { useShowLearnClass, useJoinClass, useShowInvitedCourseInfo, useJoinInvitedCourse } from 'server/fetchClass'
+import { useShowLearnClass,  useShowInvitedCourseInfo, useJoinInvitedCourse } from 'server/fetchClass'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { uniqueId } from 'lodash'
-import { width } from 'dom7'
 import { CourseInfo } from 'server/fetchClass/types'
 
 
@@ -120,16 +121,16 @@ export const LearnPage: React.FC = () => {
 
         </Modal>
       </>
-      <LearnPageWrapper>
-        <LearnHeaderWrapper>
-          <LearnTitleWrapper>
-            <div className="Learn-page-title">我学的课程</div>
+      <PageWrapper>
+        <HeaderWrapper>
+          <TitleWrapper>
+            <div className="page-title">我学的课程</div>
             <Button type="primary" onClick={showModal}>
               加入课程
             </Button>
-          </LearnTitleWrapper>
-        </LearnHeaderWrapper>
-        <LearnClassWrapper>
+          </TitleWrapper>
+        </HeaderWrapper>
+        <ContentWrapper>
           <Row>
             {isLoading ? (
               <BaseLoading
@@ -145,7 +146,6 @@ export const LearnPage: React.FC = () => {
                   return (
                     <Row key={uniqueId()} style={{ marginBottom: '30px', width: 1100 }}  >
                       {(data as CourseInfo[]).map((item: CourseInfo, index: number) => {
-                        // if (item.optimistic == undefined) item.optimistic = true
                         if (index >= i * 4 &&
                           index < (i + 1) * 4)
                           return (
@@ -166,8 +166,8 @@ export const LearnPage: React.FC = () => {
               </>
             )}
           </Row>
-        </LearnClassWrapper>
-      </LearnPageWrapper>
+        </ContentWrapper>
+      </PageWrapper>
     </LearnRoutePageWrapper>
   )
 }

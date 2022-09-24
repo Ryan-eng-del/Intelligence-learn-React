@@ -1,13 +1,16 @@
 import React, { useReducer } from 'react'
 import {
-  TeachPageWrapper,
   TeachClassWrapper,
-  TeachHeaderWrapper,
   TeachRoutePageWrapper,
-  TeachTitleWrapper,
   ModalContextWrapper,
   UploadImageWrapper
 } from './TeachPageStyle'
+import {
+  PageWrapper,
+  HeaderWrapper,
+  TitleWrapper
+} from 'publicComponents/PageStyle/PageHeaderWapper'
+
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { Col, Row, Upload } from 'antd'
 import type { UploadChangeParam } from 'antd/es/upload'
@@ -119,15 +122,15 @@ export const TeachPage = () => {
           </ModalContextWrapper>
         </Modal>
       </>
-      <TeachPageWrapper>
-        <TeachHeaderWrapper>
-          <TeachTitleWrapper>
-            <div className="teach-page-title">我教的课程</div>
+      <PageWrapper>
+        <HeaderWrapper>
+          <TitleWrapper>
+            <div className="page-title">我教的课程</div>
             <Button type="primary" onClick={showModal}>
               新建课程
             </Button>
-          </TeachTitleWrapper>
-        </TeachHeaderWrapper>
+          </TitleWrapper>
+        </HeaderWrapper>
         <TeachClassWrapper>
           <Row>
             {classList
@@ -146,7 +149,7 @@ export const TeachPage = () => {
               })}
           </Row>
         </TeachClassWrapper>
-      </TeachPageWrapper>
+      </PageWrapper>
     </TeachRoutePageWrapper>
   )
 }

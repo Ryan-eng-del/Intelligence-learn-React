@@ -1,10 +1,10 @@
 import React from 'react'
 import {
-  ExamSummaryPageWrapper,
-  ExamSummaryContentWrapper,
-  ExamSummaryHeaderWrapper,
-  ExamSummaryTitleWrapper
-} from './ExamSummaryStyle'
+  PageWrapper,
+  ContentWrapper,
+  HeaderWrapper,
+  TitleWrapper
+} from 'publicComponents/PageStyle/PageHeaderWapper'
 import { Button, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 
@@ -80,16 +80,16 @@ export const ExamSummary: React.FC = () => {
 
   return (
     <>
-      <ExamSummaryPageWrapper>
-        <ExamSummaryHeaderWrapper>
-          <ExamSummaryTitleWrapper>
-            <div className="ExamSummary-page-title">我的作业 & 考试</div>
-          </ExamSummaryTitleWrapper>
-        </ExamSummaryHeaderWrapper>
-        <ExamSummaryContentWrapper>
+      <PageWrapper>
+        <HeaderWrapper>
+          <TitleWrapper>
+            <div className="page-title">我的作业 & 考试</div>
+          </TitleWrapper>
+        </HeaderWrapper>
+        <ContentWrapper>
           <Table columns={columns} dataSource={data} />
-        </ExamSummaryContentWrapper>
-      </ExamSummaryPageWrapper>
+        </ContentWrapper>
+      </PageWrapper>
     </>
   )
 }

@@ -42,10 +42,8 @@ import {
   StudentResourcePage,
   StudentExamPage,
   StudentDiscussPage,
-  StudentClassManaPage,
   StudentKnowledgePage
 } from 'pages/StudentClassInfoPage'
-import { ChapterInfo, ChapterPreviewFile } from 'pages/ChapterInfo'
 
 // util
 import { RequireAuth } from 'util/requireAuth'
@@ -104,17 +102,12 @@ root.render(
               <Route path="studentexam" element={<StudentExamPage />} />
               <Route path="studentresource" element={<StudentResourcePage />} />
               <Route path="studentdiscuss" element={<StudentDiscussPage />} />
-              <Route path="studentclass" element={<StudentClassManaPage />} />
               <Route
                 path="studentknowledge"
                 element={<StudentKnowledgePage />}
               />
             </Route>
             <Route path={'k-graph'} element={<KnowledgeGraph />} />
-            <Route path="chapterinfo" element={<ChapterInfo />}>
-              {/* ChapterID */}
-            </Route>
-            <Route path="study" element={<ChapterPreviewFile />} />
             <Route path="editpaper/:paperid" element={<CreateExamPage />} />
             <Route
               path="teacher-preview"

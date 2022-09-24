@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import { Button } from 'antd'
-import { ExamPageWrapper, ExamHeaderWrapper, ExamTitleWrapper} from './ExamPageStyle'
 import { ExamList } from 'publicComponents/ExamPage'
 import { useAddTestPaper } from 'server/fetchExam/TestPaper'
 import { useNavigate } from 'react-router-dom'
-
+import {
+  PageWrapper,
+  ContentWrapper,
+  HeaderWrapper,
+  TitleWrapper
+} from 'publicComponents/PageStyle/PageHeaderWapper'
 export const ExamPage: React.FC = () => {
   const { mutate, data } = useAddTestPaper(()=>{
     navigate(`/editpaper/${data}`)
@@ -18,10 +22,10 @@ export const ExamPage: React.FC = () => {
   }
   return (
     <>
-      <ExamPageWrapper>
-        <ExamHeaderWrapper>
-          <ExamTitleWrapper>
-            <div className="Exam-page-title">考试作业</div>
+      <PageWrapper>
+        <HeaderWrapper>
+          <TitleWrapper>
+            <div className="page-title">考试作业</div>
             <Button
               type="primary"
               onClick={wait}
@@ -30,11 +34,13 @@ export const ExamPage: React.FC = () => {
             >
               新建作业
             </Button>
-          </ExamTitleWrapper>
-        </ExamHeaderWrapper>
+          </TitleWrapper>
+        </HeaderWrapper>
         {/* 主体内容 */}
-        <ExamList></ExamList>
-      </ExamPageWrapper>
+        <ContentWrapper>
+          <ExamList></ExamList>
+        </ContentWrapper>
+      </PageWrapper>
     </>
   )
 }

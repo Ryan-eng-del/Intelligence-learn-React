@@ -3,7 +3,6 @@ import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
 import { deleteTreeNode, generateExpandKeys } from '../../util/chapterStudyTree'
 import { message } from 'antd'
-import { findIdResource } from '../../util/TeacherSourcePreviewPage'
 import { StateSetter } from 'types'
 import { ChapterNodeType } from './types'
 /*展示章节学习树*/
@@ -44,8 +43,8 @@ export const useConfirmAddChapter = (setCurNode: any) => {
   return useMutation(
     async ({
       name,
-      course_id,
-      chapter_pid
+      // course_id,
+      // chapter_pid
     }: {
       name: string
       course_id: string
@@ -65,7 +64,6 @@ export const useConfirmAddChapter = (setCurNode: any) => {
 }
 /*添加章节学习树的子目录*/
 export const useAddChildChapter = (data: any) => {
-  const queryClient = useQueryClient()
   return useMutation(
     async (object: { chapterId: any; node: any }) => {
       return client.post({

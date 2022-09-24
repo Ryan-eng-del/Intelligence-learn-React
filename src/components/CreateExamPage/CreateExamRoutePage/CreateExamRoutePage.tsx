@@ -45,3 +45,25 @@ export const CreateExamRoutePage: React.FC<{
     </CreateExamRoutePageWrapper>
   )
 }
+
+//
+export const RouteTest: React.FC<{
+  Consumer: React.Consumer<QuestionDataWithID | undefined>
+}> = ({ Consumer }) => {
+  const mapper = (context: any) => ({
+    [QuestionType.single]:<SingleChoice content={context}/>,
+    [QuestionType.multiple]:<MultipleChoice content={context}/>,
+    [QuestionType.shortAnswer]:<ShortAnswer content={context}/>,
+    [QuestionType.programming]:<Programming content={context}/>,
+    [QuestionType.judge]:<Judge content={context}/>,
+    [QuestionType.fillBlank]:<FillBlank content={context}/>,
+  })
+
+  return (
+    <CreateExamRoutePageWrapper>
+      <Consumer>
+        {context => mapper(context)[context?.questionType as QuestionType]}
+      </Consumer>
+    </CreateExamRoutePageWrapper>
+  )
+}

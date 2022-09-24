@@ -6,7 +6,7 @@ export const findIdResource = (data: any, id: any, setResource: any) => {
       if (d.courTimes && d.courTimes.length) {
         d.courTimes.forEach((courTime: any) => {
           if (courTime.resource && courTime.resource.length) {
-            courTime.resource.forEach((resource: any, i: any) => {
+            courTime.resource.forEach((resource: any) => {
               if (resource.id === id) {
                 result.push(resource)
               }
