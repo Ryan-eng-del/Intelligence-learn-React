@@ -2,13 +2,18 @@ import { Tree } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 import React from 'react'
 import { useChapterControl } from './useChapterControl'
-import { ChapterNodeRenameStatus } from 'components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeRenameStatus'
-import { ChapterNodeFocusStatus } from 'components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeFocusStatus'
+import ChapterNodeRenameStatus from 'components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeRenameStatus'
+import ChapterNodeFocusStatus from 'components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeFocusStatus'
 import ChapterTreeDirectory from 'components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeDirectory'
 import ChapterTreeContent from '../../components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeContent'
-import { ChapterNodeType, ChapterResourceType, CourTimeType } from 'server/fetchChapter/types'
+import {
+  ChapterNodeType,
+  ChapterResourceType,
+  CourTimeType
+} from 'server/fetchChapter/types'
+
 const { TreeNode } = Tree
-export const useChapterUI = () => {
+export const useChapterUI = (type?: 'show') => {
   /*业务逻辑层*/
   const {
     confirmAdd,
@@ -32,13 +37,22 @@ export const useChapterUI = () => {
     handleClickAddResource,
     isModalVisible,
     setIsModalVisible,
-    handleModalOk,
     resourceTitle,
     setResourceTitle,
     uploadType,
     setUploadType,
     handleDeleteResource,
-    setExpandKeys
+    setExpandKeys,
+    setAddContentNodeModal,
+    addContentNodeModal,
+    resourceObj,
+    setResourceObj,
+    setCurAddType,
+    curFileListName,
+    setCurFileListName,
+    fileList,
+    setFileList,
+    handleOk
   } = useChapterControl()
   /*表单focus状态UI*/
   const focusStateUI = (
@@ -60,8 +74,8 @@ export const useChapterUI = () => {
     )
   }
   /*目录节点UI*/
-  const generateTreeNodeUI = (chapterId: string, name: string) => {
-    return (
+  const generateTreeNodeUI = (chapterId: any, name: any) => {
+    return !type ? (
       <ChapterTreeDirectory
         nodeId={chapterId}
         nodeName={name}
@@ -70,10 +84,16 @@ export const useChapterUI = () => {
         handleClickAddChildCourseTime={handleClickAddChildCourseTime}
         handleReNameTreeNode={handleReNameTreeNode}
       />
+    ) : (
+      name
     )
   }
   /*课时节点UI*/
-  const generateTreeContentUI = (id: string, name: string, resource: ChapterResourceType[]) => {
+  const generateTreeContentUI = (
+    id: string,
+    name: string,
+    resource: ChapterResourceType[]
+  ) => {
     if (!resource) return
     return (
       <TreeNode
@@ -82,6 +102,7 @@ export const useChapterUI = () => {
         key={id}
         title={
           <ChapterTreeContent
+            type={type}
             contentId={id}
             contentName={name}
             handleDeleteTreeContent={handleDeleteTreeNode}
@@ -95,80 +116,71 @@ export const useChapterUI = () => {
       ></TreeNode>
     )
   }
+  const generateConfigObj = (key: any, title: any) => ({
+    key,
+    title
+  })
 
   /*根据后台数据来递归构造树节点*/
   const generateTreeNode = (data: ChapterNodeType[]) => {
     if (!data) return
     const recursion = (data: ChapterNodeType[] | CourTimeType[]) => {
-      return data.map((d: ChapterNodeType | CourTimeType) => {
-        if ('resource' in d) {    // 断言为 CourTimeType
-          if (d == curNode) {
-            return (
-              <TreeNode
-                key={d.id}
-                title={
-                  focusStatus
-                    ? focusStateUI
-                    : generateTreeContentUI(d.id, d.name, d.resource)
-                }
-              />
-            )
-          } else if (d == curRenameNode) {
-            return (
-              <TreeNode
-                key={d.id}
-                title={
-                  focusStatus
-                    ? renameStatusUI(d.name)
-                    : generateTreeContentUI(d.id, d.name, d.resource)
-                }
-              />
-            )
-          } else {
-            return generateTreeContentUI(d.id, d.name, d.resource)
-          }
-        }
-        // CourTimeType 在上方必定return
-            d;
-        // 👆即使不断言也类型收窄到  CourTimeType
-        if ('courTimes' in d) {   // 断言为 ChapterNodeType
-          if (d === curRenameNode)
-            return (
-              <TreeNode key={d.chapterId} title={renameStatusUI(d.name)}>
-                {recursion(d.childChapters)}
-                {d.courTimes && recursion(d.courTimes)}
-              </TreeNode>
-            )
-          else {
-            return (
-              <TreeNode
-                key={d.chapterId}
-                title={generateTreeNodeUI(d.chapterId, d.name)}
-              >
-                {d.childChapters.length && recursion(d.childChapters)}
-                {d.courTimes && d.courTimes.length && recursion(d.courTimes)}
-              </TreeNode>
-            )
-          }
-        }
-        // courTimes 是可选项， 运行到这里都是没有courTimes的ChapterNodeType
-        if (d == curNode) {
+      return data.map((d: any) => {
+        if (d?.childChapters?.length || d?.courTimes?.length) {
           return (
             <TreeNode
-              key={d.chapterId}
-              title={
+              {...generateConfigObj(
+                d.id,
+                focusStatus && d == curRenameNode
+                  ? renameStatusUI(d.name)
+                  : generateTreeNodeUI(d.id, d.name)
+              )}
+            >
+              {recursion(d.childChapters)}
+              {recursion(d.courTimes)}
+            </TreeNode>
+          )
+        }
+        if (d.resource) {
+          return d == curNode ? (
+            <TreeNode
+              {...generateConfigObj(
+                d.classTimeId,
                 focusStatus
                   ? focusStateUI
-                  : generateTreeNodeUI(d.chapterId, d.name)
-              }
-            ></TreeNode>
-          )
-        } else if (d == curRenameNode) {
-          return <TreeNode key={d.chapterId} title={renameStatusUI(d.name)} />
-        } else return (
+                  : generateTreeContentUI(d.classTimeId, d.name, d.resource)
+              )}
+            />
+          ) : d == curRenameNode ? (
             <TreeNode
-              key={d.chapterId}
-              title={generateTreeNodeUI(d.chapterId, d.name)}
+              {...generateConfigObj(
+                d.classTimeId,
+                focusStatus
+                  ? renameStatusUI(d.name)
+                  : generateTreeContentUI(d.classTimeId, d.name, d.resource)
+              )}
+            />
+          ) : (
+            generateTreeContentUI(d.classTimeId, d.name, d.resource)
+          )
+        }
+        if (d == curNode)
+          return (
+            <TreeNode
+              {...generateConfigObj(
+                d.id,
+                focusStatus ? focusStateUI : generateTreeNodeUI(d.id, d.name)
+              )}
+            />
+          )
+        else if (d == curRenameNode)
+          return (
+            <TreeNode {...generateConfigObj(d.id, renameStatusUI(d.name))} />
+          )
+        else
+          return (
+            <TreeNode
+              {...generateConfigObj(d.id, generateTreeNodeUI(d.id, d.name))}
             />
           )
       })
@@ -183,12 +195,22 @@ export const useChapterUI = () => {
     handleOnExpand,
     isModalVisible,
     setIsModalVisible,
-    handleModalOk,
     resourceTitle,
     setResourceTitle,
     uploadType,
     setUploadType,
     data,
-    setExpandKeys
+    setExpandKeys,
+    setAddContentNodeModal,
+    addContentNodeModal,
+    resourceObj,
+    setResourceObj,
+    setCurAddType,
+    setAddInputValue,
+    curFileListName,
+    setCurFileListName,
+    fileList,
+    setFileList,
+    handleOk
   }
 }

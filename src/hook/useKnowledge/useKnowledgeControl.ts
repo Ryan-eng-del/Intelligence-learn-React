@@ -10,7 +10,10 @@ import {
   updateKnowledgeTreeQueryCache
 } from '../../util/knowledgeTree'
 import { useKnowledgeClient } from './useKnowledgeClient'
-import { KnowledgeNodeType, KnowledgeNodeType_init } from 'server/fetchKnowledge/types'
+import {
+  KnowledgeNodeType,
+  KnowledgeNodeType_init
+} from 'server/fetchKnowledge/types'
 import { Key } from 'react'
 
 export const useKnowledgeControl = () => {
@@ -58,7 +61,11 @@ export const useKnowledgeControl = () => {
   }
   /*确认添加知识点*/
   const confirmAdd = () => {
-    setCurNode((pre: KnowledgeNodeType) => (pre.pointName = curAddInputValue,{...pre}))
+    setCurNode(
+      (pre: KnowledgeNodeType) => (
+        (pre.pointName = curAddInputValue), { ...pre }
+      )
+    )
     setFocusStatus(false)
     /*发送创建节点的请求*/
     setCurNode(KnowledgeNodeType_init)
@@ -104,7 +111,11 @@ export const useKnowledgeControl = () => {
   /*确认重命名*/
   const confirmRename = () => {
     setFocusStatus(false)
-    setCurRenameNode((pre: KnowledgeNodeType) => (pre.pointName = curAddInputValue,{...pre}))
+    setCurRenameNode(
+      (pre: KnowledgeNodeType) => (
+        (pre.pointName = curAddInputValue), { ...pre }
+      )
+    )
     setCurRenameNode(KnowledgeNodeType_init)
     setAddInputValue('')
   }
@@ -133,6 +144,7 @@ export const useKnowledgeControl = () => {
   }
   /*选择树来触发*/
   const handleRelateCheck = (checkInfo: any) => {
+    console.log(checkInfo, 'checkInfo')
     const { checked } = checkInfo
     setCurCheckId(checked)
   }

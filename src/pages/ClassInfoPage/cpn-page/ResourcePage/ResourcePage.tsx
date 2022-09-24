@@ -10,7 +10,7 @@ export const ResourcePage: React.FC = () => {
   const [mode,setMode] = useState(false)
 
   const { data, isLoading } = useShowResourceList()
-  console.log(data);
+  console.log(data)
 
   return (
     <>

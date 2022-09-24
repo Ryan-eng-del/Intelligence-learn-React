@@ -1,96 +1,222 @@
-import React, { useState } from 'react'
-import { Button, Input, message, Modal, Select, Upload } from 'antd'
-import { InboxOutlined } from '@ant-design/icons'
+import React, { useRef, useState } from 'react'
+import { Button, Drawer, Input, List, message, Modal, Upload } from 'antd'
+import { UploadOutlined } from '@ant-design/icons'
 
 import type { UploadProps } from 'antd'
+import styled from 'styled-components'
+import { RcFile } from 'antd/lib/upload'
+import { TreeSelected } from '../../../KnowledgePage/KnowledgeTree/cpn/TreeSelected'
+import { useAddContentResource } from '../../../../../../server/fetchChapter'
 
-const { Dragger } = Upload
-const { Option } = Select
 export const ChapterTreeModal: React.FC<{
   isModalVisible: any
   setIsModalVisible: any
-  handleOk: any
   resourceTitle: any
   setResourceTitle: any
   uploadType: any
   setUploadType: any
+  setResourceObj: any
+  checkTreeData: any
+  curCheckId: any
+  handleRelateCheck: any
+  handleRelateExpand: any
+  relateKeys: any
+  curFileListName: any
+  setCurFileListName: any
+  fileList: any
+  setFileList: any
+  handleOk: any
 }> = ({
   isModalVisible,
   setIsModalVisible,
-  handleOk,
   resourceTitle,
   setResourceTitle,
-  uploadType,
-  setUploadType
+  checkTreeData,
+  curCheckId,
+  handleRelateCheck,
+  handleRelateExpand,
+  relateKeys,
+  curFileListName,
+  setCurFileListName,
+  fileList,
+  setFileList,
+  handleOk,
+  setResourceObj
 }) => {
-  const handleChange = (value: string) => {
-    setUploadType(value)
-  }
+  const ref = useRef<any>()
+  const [open, setOpen] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const { mutateAsync: addContentResource, data: resourceData } =
+    useAddContentResource(setResourceObj)
 
-  const handleCancel = () => {
-    setIsModalVisible(false)
-  }
-  const props: UploadProps = {
-    name: 'file',
-    multiple: true,
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    onChange(info) {
-      const { status } = info.file
-      if (status !== 'uploading') {
-        console.log(info.file, info.fileList)
-      }
-      if (status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully.`)
-      } else if (status === 'error') {
-        message.error(`${info.file.name} file upload failed.`)
-      }
-    },
-    onDrop(e) {
-      console.log('Dropped files', e.dataTransfer.files)
+  /* 处理上传 */
+  const handleUpload = async () => {
+    //toDo 这里要注意，不能重复上传同一文件，如果上传了同一个，记得提醒用户。
+    setOpen(false)
+    const formData = new FormData()
+    fileList.forEach((file: any) => {
+      formData.append('files[]', file as RcFile)
+      setCurFileListName((pre: any) => {
+        /*标记是否已经添加过*/
+        let flag = false
+        /*标记是否是第一次上传*/
+        let first = false
+        if (pre.length == 0) {
+          pre = pre.concat({ title: file.name })
+          first = true
+        } else
+          pre.forEach((i: any) => {
+            if (i.title == file.name) flag = true
+          })
+        if (!flag && !first) pre = pre.concat({ title: file.name })
+        return pre
+      })
+    })
+    setUploading(true)
+    try {
+      await addContentResource({
+        file: formData,
+        related_points: curCheckId,
+        course_id: '1'
+      })
+      message.success('文件上传成功')
+      setFileList([])
+    } catch (err) {
+      // toDo错误处理
+    } finally {
+      setUploading(false)
     }
   }
+
+  const props: UploadProps = {
+    onRemove: (file) => {
+      const index = fileList.indexOf(file)
+      const newFileList = fileList.slice()
+      newFileList.splice(index, 1)
+      setFileList(newFileList)
+    },
+    beforeUpload: (file) => {
+      const name: string[] = []
+      //toDo 这里之后，需要用Map来优化
+      if (fileList.length >= 1) {
+        //toDo 提示用户一次性只能上传一个
+        return false
+      }
+      setFileList([...fileList, file])
+      fileList.forEach((f: any) => {
+        name.push(f.name + f.size)
+      })
+      // if (name.includes(file.name + file.size)) {
+      //   message.error('重复上传文件！')
+      // } else setFileList([...fileList, file])
+      return false
+    },
+    fileList
+  }
+
   return (
-    <>
+    <ChapterTreeModalWrapper className={'modal-wrapper'}>
       <Modal
-        title="添加资源"
+        title="添加课时"
         visible={isModalVisible}
         onOk={handleOk}
-        onCancel={handleCancel}
+        onCancel={() => setIsModalVisible(false)}
+        style={{ height: '400px' }}
+        className={'modal-chapter'}
       >
-        <label htmlFor={'addResource'}>请输入资源标题</label>
+        <label htmlFor={'addResource'}>课时名称</label>
         <Input
-          placeholder={'请输入资源标题'}
+          placeholder={'请输入课时名称'}
           id={'addResource'}
-          defaultValue={resourceTitle}
-          onChange={(e) => {
-            setResourceTitle(e.target.value)
-          }}
+          value={resourceTitle}
+          onChange={(e) => setResourceTitle(e.target.value)}
+          style={{ position: 'relative', zIndex: '4' }}
         />
-        <label>请选择资源类型</label>
-        <div></div>
-        <Select
-          defaultValue="视频"
-          style={{ width: 120 }}
-          onChange={handleChange}
+        <div
+          style={{ marginTop: 16, display: 'flex', justifyContent: 'center' }}
         >
-          <Option value="视频">视频</Option>
-          <Option value="课件">课件</Option>
-          <Option value="作业">作业</Option>
-        </Select>
-        {uploadType === '视频' || uploadType === '课件' ? (
-          <Dragger {...props}>
-            <p className="ant-upload-drag-icon">
-              <InboxOutlined />
-            </p>
-            <p className="ant-upload-text">上传{uploadType}</p>
-            <p className="ant-upload-hint">点击或者拖拽到该区域进行</p>
-          </Dragger>
-        ) : (
-          <div>
-            <Button type={'primary'}>从作业库当中上传作业</Button>
-          </div>
-        )}
+          <Button
+            type="primary"
+            onClick={() => setOpen(true)}
+            style={{ position: 'relative', zIndex: '4' }}
+          >
+            添加资源并且关联知识点
+          </Button>
+        </div>
+        <DrawerWrapper ref={ref}>
+          <Drawer
+            title="添加资源并且关联知识点"
+            placement="top"
+            closable={true}
+            onClose={() => setOpen(false)}
+            visible={open}
+            mask={false}
+            width={'520'}
+            getContainer={ref.current}
+            style={{ position: 'absolute' }}
+            height={'475.6'}
+          >
+            <>
+              <UploadWrapper>
+                <Upload {...props} className={'upload'}>
+                  <Button icon={<UploadOutlined />}>
+                    请选择文件，支持多个文件上传
+                  </Button>
+                </Upload>
+              </UploadWrapper>
+
+              <RelatePointsWrapper>
+                <label>关联知识点</label>
+                <TreeSelected
+                  checkTreeData={checkTreeData}
+                  relateKeys={relateKeys}
+                  handleRelateExpand={handleRelateExpand}
+                  handleRelateCheck={handleRelateCheck}
+                  curCheckId={curCheckId}
+                />
+              </RelatePointsWrapper>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Button
+                  type="primary"
+                  onClick={handleUpload}
+                  disabled={fileList.length === 0}
+                  loading={uploading}
+                  style={{ marginTop: 16 }}
+                >
+                  {fileList.length === 0 ? '请先上传视频' : '点击上传'}
+                </Button>
+              </div>
+            </>
+          </Drawer>
+        </DrawerWrapper>
+        <div>
+          <label>已经上传的资源:</label>
+          <List
+            itemLayout="horizontal"
+            dataSource={curFileListName}
+            renderItem={(item: any) => <List.Item>{item.title}</List.Item>}
+          />
+        </div>
       </Modal>
-    </>
+    </ChapterTreeModalWrapper>
   )
 }
+export const ChapterTreeModalWrapper = styled.div`
+  position: relative;
+`
+export const DrawerWrapper = styled.div`
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 520px;
+  height: 475.6px;
+`
+export const UploadWrapper = styled.div`
+  margin-bottom: 13px;
+  display: flex;
+  flex-flow: column nowrap;
+`
+export const RelatePointsWrapper = styled.div`
+  margin-top: 20px;
+`

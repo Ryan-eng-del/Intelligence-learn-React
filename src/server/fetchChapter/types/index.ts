@@ -1,11 +1,10 @@
 /** 章节树的类型 */
-export type ChapterNodeType =
-{
-  chapterId: string,
-  name: string,
-  chapterOrder: number,
-  courseId: string,
-  courTimes?: CourTimeType[],       //此字段似乎不是什么时候都存在
+export type ChapterNodeType = {
+  chapterId: string
+  name: string
+  chapterOrder: number
+  courseId: string
+  courTimes?: CourTimeType[] //此字段似乎不是什么时候都存在
   childChapters: ChapterNodeType[]
 }
 
@@ -19,16 +18,16 @@ export type CourTimeType = {
 /** 章节树中的课时的资源的类型 */
 export type ChapterResourceType = {
   type: string
-  name: string
-  id: string
+  resourceName: string
+  resourceId: string
 }
 
 /** 用于ChapterNodeType类型初始化，就不会出现undefined */
 export const ChapterNodeType_init: ChapterNodeType = {
-  chapterId: "",
-  name: "",
+  chapterId: '',
+  name: '',
   chapterOrder: 1,
-  courseId: "",
+  courseId: '',
   courTimes: [],
   childChapters: []
 }

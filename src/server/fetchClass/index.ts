@@ -128,7 +128,6 @@ export const useCreateClass = ({
         queryClient.invalidateQueries(['class'])
       }
     }
-
   )
 }
 

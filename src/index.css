@@ -274,3 +274,10 @@ span.ant-tree-title {
 .ant-btn-icon-only.ant-btn-lg > * {
   font-size: 22px;
 }
+
+.modal-chapter .ant-modal-content {
+  min-height: 503px;
+}
+.modal-chapter .ant-modal-footer {
+  text-align: center;
+}
