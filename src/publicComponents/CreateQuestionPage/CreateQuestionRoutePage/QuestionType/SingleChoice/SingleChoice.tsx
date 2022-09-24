@@ -8,6 +8,8 @@ export const SingleChoice: React.FC<{
   content: QuestionDataWithID
   callback?: (content: string, id: string) => void
 }> = ({ content }) => {
+  console.log('content', content)
+
   //序列化为题目数据
   const [question, setQuestion] = useState({
     id: content.questionId,

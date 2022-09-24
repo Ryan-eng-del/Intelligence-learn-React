@@ -2,7 +2,10 @@ import React, { useState } from 'react'
 import { Form, Button } from 'antd'
 import { TextArea } from '../Component/TextArea'
 import { Footer } from '../Component/Footer'
-import { QuestionDataWithID } from 'server/fetchExam/types/index'
+import {
+  QuestionDataWithID,
+  QuestionDetails
+} from 'server/fetchExam/types/index'
 
 export const MultipleChoice: React.FC<{
   content: QuestionDataWithID

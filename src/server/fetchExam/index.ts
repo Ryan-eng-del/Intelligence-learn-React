@@ -5,6 +5,7 @@ import {
   ExamListItem,
   QuestionData,
   QuestionDataWithID,
+  QuestionDetails,
   QuestionType
 } from './types'
 import { message } from 'antd'
@@ -46,9 +47,12 @@ export const useShowCreateQuestion = () => {
 /** 展示题目详细信息 做展示试题页面 */
 export const useShowQuestionDetails = (id?: string) => {
   return useQuery(['preview'], async () => {
-    await delayFetch()
-    return client.get<any>({
-      url: `/question/show-question`
+    // await delayFetch()
+    return client.get<QuestionDetails>({
+      url: `/question/show-question`,
+      params: {
+        questionId: id
+      }
     })
   })
 }
@@ -70,7 +74,7 @@ export const useShowExamList = (courseID: string) => {
 export const useCreateEmptyQuestion = () => {
   return useMutation(
     async (type: QuestionType) => {
-      await delayFetch()
+      // await delayFetch()
       const defData = {
         questionDescription: '',
         courseId: '',

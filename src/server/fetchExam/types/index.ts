@@ -69,7 +69,9 @@ export type QuestionData = {
   pointIds: string[]
 }
 /** 修改的题目实体 */
-export type QuestionDataWithID = QuestionData & { questionId: string }
+export type QuestionDataWithID = QuestionData & {
+  questionId: string | undefined
+}
 
 ///////////////////////////////////////////////////////////////（网络实体）
 
@@ -87,7 +89,7 @@ export type ExamListItem = {
 /** (网络实体)请求回来的单个题目详细信息 */
 export type QuestionDetails = {
   createTime: string
-  points: string[]
+  pointIds: string[]
   questionAnswerExplain: string
   questionAnswerNum: number
   questionDescription: string
