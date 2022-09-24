@@ -43,7 +43,7 @@ export const QuestionPreviewPage: React.FC = () => {
             </Button>
           </>
         )}
-        <ShowDetails data={data} />
+        <ShowDetails questionId={questionId} />
       </QuestionPreviewPageWrapper>
     </>
   )

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useShowQuestionDetails } from 'server/fetchExam'
 import { QuestionDetails } from 'server/fetchExam/types'
 import {
   PreviewItemWrapperAnswer,
@@ -9,7 +10,10 @@ import {
   PreviewItemWrapperRate,
   ShowDetailsWrapper
 } from './ShowDetailsStyle'
-export const ShowDetails: React.FC<{ data: QuestionDetails }> = ({ data }) => {
+export const ShowDetails: React.FC<{ questionId: string | undefined }> = ({
+  questionId
+}) => {
+  const { data } = useShowQuestionDetails(questionId)
   return (
     <>
       <ShowDetailsWrapper>
@@ -20,7 +24,8 @@ export const ShowDetails: React.FC<{ data: QuestionDetails }> = ({ data }) => {
 
         <br />
         <PreviewItemWrapperOption>
-          选项：{data?.questionOption}
+          选项：
+          {data?.questionOption}
         </PreviewItemWrapperOption>
 
         <br />
@@ -44,7 +49,7 @@ export const ShowDetails: React.FC<{ data: QuestionDetails }> = ({ data }) => {
         <br />
         <PreviewItemWrapperKnowledge>
           知识点：
-          {data?.points}
+          {data?.pointIds}
         </PreviewItemWrapperKnowledge>
       </ShowDetailsWrapper>
     </>

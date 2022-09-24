@@ -42,10 +42,6 @@ export const Footer: React.FC<{
     rightAnswer: TrueOption ? TrueOption : ''
   }
 
-  // console.log('Options', Options)
-
-  // console.log('net', networkData)
-
   //网络请求
   const { mutate } = useUpadateQuestion()
 
@@ -56,7 +52,8 @@ export const Footer: React.FC<{
       networkData.questionAnswerExplain = '暂无'
     }
     mutate({ ...networkData })
-    //跳转到预览界面
+    //跳转到预览界面:有两种预览界面
+    navigator(`/preview/${id}`) //题库的
   }
 
   const handleSave = () => {

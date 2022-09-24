@@ -54,6 +54,11 @@ export const QuestionBankTable: React.FC = () => {
     setKey('')
   }
 
+  const onSelectChange = (newSelectedRowKeys: React.SetStateAction<any[]>) => {
+    setSelectedRowKeys(newSelectedRowKeys)
+  }
+
+  //删除
   const showDeleteConfirm = (id: string) => {
     confirm({
       title: '您确定要删除这道题吗？',
@@ -72,10 +77,6 @@ export const QuestionBankTable: React.FC = () => {
         console.log('Cancel')
       }
     })
-  }
-
-  const onSelectChange = (newSelectedRowKeys: React.SetStateAction<any[]>) => {
-    setSelectedRowKeys(newSelectedRowKeys)
   }
 
   const rowSelection = {
@@ -111,7 +112,14 @@ export const QuestionBankTable: React.FC = () => {
             >
               删除
             </Button>
-            <Button type="link">编辑</Button>
+            <Button
+              type="link"
+              onClick={() => {
+                navigate(`/edit/${record.questionId}`)
+              }}
+            >
+              编辑
+            </Button>
           </QuestionDetailsWrapper>
         </QuestionItemWrapper>
       )
