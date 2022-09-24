@@ -89,7 +89,7 @@ export const useEditChapter = () => {
   )
 }
 /*上传课时资源*/
-export const useAddContentResource = () => {
+export const useAddContentResource = (setResourceObj: any) => {
   return useMutation(
     async ({ related_points, course_id, file }: AddContentResource) => {
       return client.post({
@@ -97,6 +97,11 @@ export const useAddContentResource = () => {
         params: { course_id, related_points },
         data: { file }
       })
+    },
+    {
+      onSuccess: (data) => {
+        setResourceObj((pre: any) => pre.concat(data))
+      }
     }
   )
 }

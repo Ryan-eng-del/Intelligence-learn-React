@@ -40,15 +40,17 @@ export const ChapterTreeModal: React.FC<{
   setCurFileListName,
   fileList,
   setFileList,
-  handleOk
+  handleOk,
+  setResourceObj
 }) => {
   const ref = useRef<any>()
   const [open, setOpen] = useState(false)
   const [uploading, setUploading] = useState(false)
-  const { mutateAsync: addContentResource } = useAddContentResource()
+  const { mutateAsync: addContentResource, data: resourceData } =
+    useAddContentResource(setResourceObj)
 
   /* 处理上传 */
-  const handleUpload = () => {
+  const handleUpload = async () => {
     //toDo 这里要注意，不能重复上传同一文件，如果上传了同一个，记得提醒用户。
     setOpen(false)
     const formData = new FormData()
@@ -71,24 +73,22 @@ export const ChapterTreeModal: React.FC<{
       })
     })
     setUploading(true)
-    addContentResource({
-      file: formData,
-      related_points: curCheckId,
-      course_id: '1'
-    })
-      .then(() => {
-        message.success('文件上传成功')
+    try {
+      await addContentResource({
+        file: formData,
+        related_points: curCheckId,
+        course_id: '1'
       })
-      .catch(() => {
-        message.error('upload failed.')
-      })
-      .finally(() => {
-        setUploading(false)
-      })
+      message.success('文件上传成功')
+      setFileList([])
+    } catch (err) {
+      // toDo错误处理
+    } finally {
+      setUploading(false)
+    }
   }
 
   const props: UploadProps = {
-    multiple: true,
     onRemove: (file) => {
       const index = fileList.indexOf(file)
       const newFileList = fileList.slice()
@@ -98,12 +98,17 @@ export const ChapterTreeModal: React.FC<{
     beforeUpload: (file) => {
       const name: string[] = []
       //toDo 这里之后，需要用Map来优化
+      if (fileList.length >= 1) {
+        //toDo 提示用户一次性只能上传一个
+        return false
+      }
+      setFileList([...fileList, file])
       fileList.forEach((f: any) => {
         name.push(f.name + f.size)
       })
-      if (name.includes(file.name + file.size)) {
-        message.error('重复上传文件！')
-      } else setFileList([...fileList, file])
+      // if (name.includes(file.name + file.size)) {
+      //   message.error('重复上传文件！')
+      // } else setFileList([...fileList, file])
       return false
     },
     fileList

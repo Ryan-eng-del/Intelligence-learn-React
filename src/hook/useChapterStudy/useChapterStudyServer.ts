@@ -28,14 +28,9 @@ export const useChapterServer = (
   const { mutateAsync: editChapterMutate } = useEditChapter()
   /* 添加课时*/
   const { mutateAsync: addContentMutate } = useAddContent()
-  /* 上传课时资源并且关联知识点
-   */
-  const { mutateAsync: addContentResource, data: resourceData } =
-    useAddContentResource()
+
   return {
-    addContentResource,
     data,
-    resourceData,
     isLoading,
     queryClient,
     deleteChapterMutate,

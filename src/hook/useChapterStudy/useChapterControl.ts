@@ -12,6 +12,7 @@ import {
 import { useCallback } from 'react'
 import { Key } from 'react'
 import { ChildChapter } from 'types/server/fetchChapter'
+import { cloneDeepWith } from 'lodash'
 
 export const useChapterControl = () => {
   /*Client状态层*/
@@ -56,8 +57,7 @@ export const useChapterControl = () => {
     isLoading,
     editChapterMutate,
     deleteChapterMutate,
-    addContentMutate,
-    resourceData
+    addContentMutate
   } = useChapterServer(setExpandKeys, setCurNode)
 
   /*处理树节点一点击就触发*/
@@ -159,7 +159,7 @@ export const useChapterControl = () => {
   }, [])
   const handleOk = useCallback(async () => {
     setIsModalVisible(false)
-    setResourceObj(resourceData)
+
     try {
       await addContentMutate({
         chapter_id: curChapterId,
@@ -168,8 +168,10 @@ export const useChapterControl = () => {
         paper_name: '',
         resource_ids: []
       })
+      console.log(resourceObj, 'resourceObj')
       setCurContentNode((pre: any) => {
         pre.name = resourceTitle
+        pre.resource = cloneDeepWith(resourceObj)
         return pre
       })
       /* 添加课时 */
@@ -180,8 +182,9 @@ export const useChapterControl = () => {
       setResourceTitle('')
       setFileList([])
       setCurFileListName([])
+      setResourceObj([])
     }
-  }, [data, curChapterId, curContentNode, resourceData, resourceTitle])
+  }, [data, curChapterId, curContentNode, resourceObj, resourceTitle])
   /*确认添加*/
   const confirmAdd = async () => {
     const arg = {

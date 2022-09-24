@@ -28,8 +28,6 @@ const ChapterTreeContent: React.FC<{
   contentId,
   handleReNameTreeNode,
   resource,
-  handleClickAddResource,
-  handleClickRelatePoints,
   handleDeleteResource
 }) => {
   return (
