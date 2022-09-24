@@ -1,8 +1,8 @@
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Input, Radio, Tooltip } from 'antd'
-import { QuestionType } from 'publicComponents/CreateQuestionPage/config/type'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { QuestionType } from '../../../server/fetchExam/types/index'
 import {
   QuestionBankHeaderWrapper,
   SelectiveList,
