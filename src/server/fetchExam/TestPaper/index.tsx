@@ -23,8 +23,8 @@ export const useAddTestPaper = (callback:AnyFn) => {
     })
   },
   {
-    onSuccess: () => {
-      callback()
+    onSuccess: (data) => {
+      callback(data)
       message.success('添加成功')
     },
     onError: () => {

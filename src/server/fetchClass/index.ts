@@ -1,5 +1,6 @@
 import { Query, QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { message } from 'antd'
+import axios from 'axios'
 import exp from 'constants'
 import { dataTool } from 'echarts'
 import { client } from 'server'
@@ -25,12 +26,10 @@ export const useShowLearnClass = () => {
 }
 
 //显示邀请码班级信息
-export const useShowInvitedCourseInfo = (class_invitation_code: string) => {
-  // const queryClient=new QueryClient
-
-  // console.log(queryClient)
-  return useQuery(['showInvitedCourseInfo'], () => {
-    return client.get<CourseInfo>(
+export const useShowInvitedCourseInfo = (class_invitation_code: string, setNewCourse: any,setModalVisible2:any) => {
+  return useMutation(async () => {
+    await delayFetch()
+    return await client.get<CourseInfo>(
       {
         url: '/class/invitation-code',
         params: { class_invitation_code }
@@ -38,6 +37,9 @@ export const useShowInvitedCourseInfo = (class_invitation_code: string) => {
     )
   }, {
     onSuccess: (data) => {
+      console.log(data)
+      setNewCourse(data)
+      setModalVisible2(true)
       message.success('查询成功')
     },
     onError: () => {

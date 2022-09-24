@@ -14,41 +14,46 @@ import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { uniqueId } from 'lodash'
 import { width } from 'dom7'
 import { CourseInfo } from 'server/fetchClass/types'
+import { QueryClient } from '@tanstack/react-query'
+import axios from 'axios'
 
 
 export const LearnPage: React.FC = () => {
   const [invitedcode, setInvitedCode] = useState('')
-  const [newCourse, setNewCourse] = useState({} as CourseInfo)
+  const [newCourse, setNewCourse] = useState<CourseInfo>({} as CourseInfo)
+
+  const { data, isLoading } = useShowLearnClass()
+  const { mutate: joinClass } = useJoinInvitedCourse(invitedcode, newCourse)
+
+  const [modal2Visible, setModalVisible2] = useState(false);
+  const [confirmLoading2, setComfirmLoading2] = useState(false)
+
   ////////////////////////////////////////////////////
   // 窗口一
   const [modalVisible, setModalVisible] = useState(false)
   const [confirmLoading, setComfirmLoading] = useState(false)
 
-
+  const { mutate,isLoading:wait,isSuccess,} = useShowInvitedCourseInfo(invitedcode, setNewCourse,setModalVisible2)
 
   const showModal = () => {
     setModalVisible(true)
   }
-  const handleOk = () => {
-    setComfirmLoading(true)//展示loading
-
-    DemoCourse.refetch()//重新拉取query查找课程
-
-    setNewCourse({ ...DemoCourse.data, course_cover: '' } as CourseInfo)
+  const handleOk = async() => {
+    // setComfirmLoading(true)//展示loading
+    mutate()
     //将设置的课程设置为状态方便加入
-
-    setTimeout(() => {//模拟请求,想起可以用async但懒得改了
-      setComfirmLoading(false)//关闭loading
-      setModalVisible2(true)//设置窗口2 展示
-    }, 1000)
+    setComfirmLoading(false)//关闭loading
+    // setModalVisible2(true)//设置窗口2 展示
   }
+
+
+
   const handleCancel = () => {
     setModalVisible(false)
   }
   ////////////////////////////////////////////////////
   //窗口二
-  const [modal2Visible, setModalVisible2] = useState(false);
-  const [confirmLoading2, setComfirmLoading2] = useState(false)
+
 
   const handleOk2 = () => {
     setComfirmLoading2(true)//打开loading
@@ -61,15 +66,12 @@ export const LearnPage: React.FC = () => {
   }
   const handleCancel2 = () => {
     setModalVisible2(false)
+
   }
 
 
 
 
-  const { data, isLoading } = useShowLearnClass()
-  const { mutate: joinClass } = useJoinInvitedCourse(invitedcode,newCourse)
-  const DemoCourse = useShowInvitedCourseInfo(invitedcode)
-  // const {mutate:joinClass}=useJoinClass(courseinfo)
 
 
 
@@ -84,7 +86,7 @@ export const LearnPage: React.FC = () => {
           onCancel={handleCancel}
           okText="查询"
           cancelText="取消"
-          confirmLoading={confirmLoading}
+          confirmLoading={wait}
         >
           <ModalContextWrapper>
             <label className="classname-label">输入邀请码</label>
