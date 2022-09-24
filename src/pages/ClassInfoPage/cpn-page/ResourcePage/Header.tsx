@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { UploadOutlined, InboxOutlined } from '@ant-design/icons'
+import { UploadOutlined, InboxOutlined, UnorderedListOutlined, AppstoreOutlined } from '@ant-design/icons'
 import { Modal, Button, Upload, message } from 'antd'
 import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
 import {
@@ -8,12 +8,12 @@ import {
 } from 'publicComponents/PageStyle/PageHeaderWapper'
 export const Header: React.FC<{
   reflush: ()=>void
-
+  switchMode:(a:boolean)=>void
 }> = ({
-  reflush
+  reflush,
+  switchMode
 }) => {
   const [upLoadModalVisible, setUpLoadModalVisible] = useState(false);
-
   const showUpLoadModal = () => {
     setUpLoadModalVisible(true);
   };
@@ -66,6 +66,11 @@ export const Header: React.FC<{
       <HeaderWrapper>
         <TitleWrapper>
           <div className="page-title">课程资源</div>
+          <span>
+            <UnorderedListOutlined onClick={()=>switchMode(true)}/>
+            &nbsp;&nbsp;&nbsp;
+            <AppstoreOutlined  onClick={()=>switchMode(false)}/>
+          </span>
           <Button
             type="primary"
             icon={<UploadOutlined />}

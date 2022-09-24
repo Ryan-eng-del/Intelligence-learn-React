@@ -29,9 +29,8 @@ export const ExamPage: React.FC = () => {
             <Button
               type="primary"
               onClick={wait}
-              style={{ marginBottom: '24px' }}
               loading={loading}
-            >
+              >
               新建作业
             </Button>
           </TitleWrapper>
