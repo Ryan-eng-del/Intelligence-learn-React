@@ -1,6 +1,15 @@
+import '@wangeditor/editor/dist/css/style.css' // 引入 css
 import React, { useState, useEffect } from 'react'
 import { Editor, Toolbar } from '@wangeditor/editor-for-react'
-import { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor'
+import {
+  Boot,
+  IDomEditor,
+  IEditorConfig,
+  IToolbarConfig
+} from '@wangeditor/editor'
+import formulaModule from '@wangeditor/plugin-formula'
+Boot.registerModule(formulaModule)
+
 
 export const TextArea: React.FC<any> = (props: {
   content: string

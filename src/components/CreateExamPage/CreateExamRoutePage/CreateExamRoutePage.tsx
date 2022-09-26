@@ -7,7 +7,7 @@ import {
   ShortAnswer,
   Programming,
   Judge
-} from 'publicComponents/CreateQuestionPage/CreateQuestionRoutePage'
+} from 'publicComponents/CreateQuestionPage'
 import { QuestionDataWithID, QuestionType } from 'server/fetchExam/types'
 import { Tabs } from 'antd'
 
