@@ -12,7 +12,7 @@ export const HomeInfoWrapper = styled(LeftInfoWrapper)`
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     transition: transform 300ms;
     &:hover {
-      transform: scale(1.1,1.1);
+      transform: scale(1.1, 1.1);
     }
   }
 `

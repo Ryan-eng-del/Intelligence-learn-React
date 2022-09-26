@@ -1,9 +1,9 @@
 import React from 'react'
 import { Tree } from 'antd'
 import { useKnowledgeControl } from './useKnowledgeControl'
-import { ChapterNodeFocusStatus } from '../../components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeFocusStatus'
+import ChapterNodeFocusStatus from '../../components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeFocusStatus'
 import { KnowledgeTreeNode } from '../../components/ClassInfoPage/ClassInfoRoutePage/KnowledgePage/KnowledgeTree/cpn/KnowledgeTreeNode'
-import { ChapterNodeRenameStatus } from '../../components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeRenameStatus'
+import ChapterNodeRenameStatus from '../../components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeRenameStatus'
 
 export const useKnowledgeUI = () => {
   /*业务逻辑层*/

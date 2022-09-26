@@ -7,7 +7,6 @@ import {
 
 export const ClassInfoNavWrapper = styled(LeftSideWrapper)`
   .class-img {
-
   }
   .class-info-nav-intro {
     padding-top: 12px;
@@ -17,10 +16,10 @@ export const ClassInfoNavWrapper = styled(LeftSideWrapper)`
   }
 
   .class-img-wapper {
-    display:flex;
+    display: flex;
     font-size: 24px;
     width: 100%;
-    justify-content:center;
+    justify-content: center;
     transition: transform 300ms;
     transform: translateY(48px);
     &:hover {
@@ -35,7 +34,7 @@ export const ClassInfoNavWrapper = styled(LeftSideWrapper)`
     font-size: 24px;
     z-index: -10;
     display: flex;
-    justify-content:center;
+    justify-content: center;
   }
 `
 export const ClassInfoWrapper = styled(LeftInfoWrapper)``

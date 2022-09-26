@@ -1,5 +1,8 @@
 import { useState } from 'react'
-import { KnowledgeNodeType, KnowledgeNodeType_init } from 'server/fetchKnowledge/types'
+import {
+  KnowledgeNodeType,
+  KnowledgeNodeType_init
+} from 'server/fetchKnowledge/types'
 import { useChapterClient } from '../useChapterStudy/useChapterStudyClient'
 
 export const useKnowledgeClient = () => {
@@ -16,15 +19,20 @@ export const useKnowledgeClient = () => {
     setResourceTitle,
     uploadType,
     setUploadType,
-    curAddId,
-    setCurAddId
+    curChapterId
   } = useChapterClient()
   const [curOrder, setCurOrder] = useState('')
   const [curId, setCurId] = useState('')
   const [curCheckId, setCurCheckId] = useState([])
   const [relateKeys, setRelateKeys] = useState([])
-  const [curNode, setCurNode] = useState<KnowledgeNodeType>(KnowledgeNodeType_init)
-  const [curRenameNode, setCurRenameNode] = useState<KnowledgeNodeType>(KnowledgeNodeType_init)
+  const [curNode, setCurNode] = useState<KnowledgeNodeType>(
+    KnowledgeNodeType_init
+  )
+
+  /*:表示当前重命名的节点*/
+  const [curRenameNode, setCurRenameNode] = useState<KnowledgeNodeType>(
+    KnowledgeNodeType_init
+  )
   return {
     curId,
     setCurId,
@@ -46,8 +54,7 @@ export const useKnowledgeClient = () => {
     setResourceTitle,
     uploadType,
     setUploadType,
-    curAddId,
-    setCurAddId,
+    curChapterId,
     curCheckId,
     setCurCheckId,
     relateKeys,

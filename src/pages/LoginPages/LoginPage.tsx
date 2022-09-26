@@ -3,13 +3,23 @@ import { LoginPageWrapper, AvatarWrapper } from './LoginPageStyle'
 import { LoginForm, LoginIntro, RegisterForm } from 'components/LoginPage'
 import { Avatar } from 'antd'
 import { useToken } from 'server/fetchLogin'
-import { BaseSpin } from 'baseUI/BaseSpin/BaseSpin'
+import { BaseLoading } from '../../baseUI/BaseLoding/BaseLoading'
 
 export const LoginPage: React.FC = () => {
   const { mutate, isLoading } = useToken('jk', 'Jk')
   const [loginIn, setLoginIn] = useState(true)
 
-  if (isLoading) return <BaseSpin title="正在登录中……"></BaseSpin>
+  if (isLoading)
+    return (
+      <BaseLoading
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)'
+        }}
+      />
+    )
 
   return (
     <LoginPageWrapper>

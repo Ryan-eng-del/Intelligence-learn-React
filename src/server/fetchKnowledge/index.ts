@@ -5,8 +5,7 @@ import { delayFetch } from 'util/delayFetch'
 import { generateKnowledgeKeys } from 'util/knowledgeTree'
 import { KnowledgeNodeType } from './types'
 /*展示章节学习树*/
-export const useShowKnowledgeTree
-= ( setExpandKeys?: StateSetter<string[]> ) => {
+export const useShowKnowledgeTree = (setExpandKeys?: StateSetter<string[]>) => {
   return useQuery(
     ['knowledgeTree'],
     async () => {
@@ -17,7 +16,7 @@ export const useShowKnowledgeTree
     },
     {
       onSuccess: (data: KnowledgeNodeType[]) => {
-        setExpandKeys ? setExpandKeys(generateKnowledgeKeys(data)) : 0;
+        setExpandKeys ? setExpandKeys(generateKnowledgeKeys(data)) : 0
       }
     }
   )

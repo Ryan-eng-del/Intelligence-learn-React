@@ -5,10 +5,10 @@ export const ResourcePageWrapper = styled.div`
   padding: 20px 20px;
 
   .flex {
-    display:flex;
-    justify-content:space-between;
-    width:100%;
-    align-items:center;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
   }
 `
 export const ResourceHeaderWrapper = styled.div`
@@ -26,4 +26,3 @@ export const ResourceTitleWrapper = styled.div`
   }
   padding-bottom: 10px;
 `
-
