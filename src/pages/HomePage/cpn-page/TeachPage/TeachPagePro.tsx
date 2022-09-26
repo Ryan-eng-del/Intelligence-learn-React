@@ -16,7 +16,7 @@ import { Button, Modal, Input } from 'antd'
 import { getBase64, beforeUpload } from './config/util'
 import { TeachRoutePageReducer, initialState } from './config/reducer'
 import { ClassCard } from 'publicComponents/TeachRotePage'
-import { useCreateClass, useShowCreateClass } from 'server/fetchClass'
+import { useCreateClass, useShowCreateClass } from 'server/fetchCourse'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 
 

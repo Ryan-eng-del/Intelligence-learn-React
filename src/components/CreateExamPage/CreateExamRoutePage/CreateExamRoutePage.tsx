@@ -9,13 +9,16 @@ import {
   Judge
 } from 'publicComponents/CreateQuestionPage/CreateQuestionRoutePage'
 import { QuestionDataWithID, QuestionType } from 'server/fetchExam/types'
+import { Tabs } from 'antd'
 
 export const CreateExamRoutePage: React.FC<{
   Consumer: React.Consumer<QuestionDataWithID | undefined>
   dispatch?: any
 }> = ({ Consumer }) => {
   return (
+    <>
     <CreateExamRoutePageWrapper>
+
       <Consumer>
         {(context) => (
           <>
@@ -43,6 +46,7 @@ export const CreateExamRoutePage: React.FC<{
         )}
       </Consumer>
     </CreateExamRoutePageWrapper>
+  </>
   )
 }
 

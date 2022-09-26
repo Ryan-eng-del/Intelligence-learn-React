@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, Button, message, Radio } from 'antd'
-import { TextArea } from '../Component/TextArea'
+import { TextArea } from './TextArea'
 import { useCreateQuestion, useUpadateQuestion } from 'server/fetchExam'
 import { QuestionDataWithID, QuestionType } from 'server/fetchExam/types/index'
 import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
