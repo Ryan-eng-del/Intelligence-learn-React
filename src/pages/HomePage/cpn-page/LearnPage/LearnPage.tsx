@@ -11,10 +11,10 @@ import {
 } from 'publicComponents/PageStyle/PageHeaderWapper'
 import { Button, Modal, Input, Col, Row } from 'antd'
 import { ClassCard } from 'publicComponents/TeachRotePage'
-import { useShowLearnClass,  useShowInvitedCourseInfo, useJoinInvitedCourse } from 'server/fetchClass'
+import { useShowLearnClass,  useShowInvitedCourseInfo, useJoinInvitedCourse } from 'server/fetchCourse'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { uniqueId } from 'lodash'
-import { CourseInfo } from 'server/fetchClass/types'
+import { CourseInfo } from 'server/fetchCourse/types'
 
 
 export const LearnPage: React.FC = () => {

@@ -5,7 +5,7 @@ import {
   Programming,
   ShortAnswer,
   SingleChoice
-} from 'publicComponents/CreateQuestionPage/CreateQuestionRoutePage'
+} from 'publicComponents/CreateQuestionPage'
 import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useShowQuestionDetails } from 'server/fetchExam'

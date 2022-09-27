@@ -27,7 +27,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   /*background-color: #d3dedc;*/
   /*color: var(--blue);*/
-  min-width: 1500px;
+  /* min-width: 1500px; */
   /* background-color: rgba(255, 255, 255, 0.1) !important; */
 }
 
