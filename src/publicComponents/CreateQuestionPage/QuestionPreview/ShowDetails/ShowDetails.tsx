@@ -1,6 +1,5 @@
 import React from 'react'
 import { useShowQuestionDetails } from 'server/fetchExam'
-import { QuestionDetails } from 'server/fetchExam/types'
 import {
   PreviewItemWrapperAnswer,
   PreviewItemWrapperKnowledge,

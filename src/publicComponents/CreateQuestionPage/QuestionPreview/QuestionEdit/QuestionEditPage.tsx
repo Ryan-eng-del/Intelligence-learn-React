@@ -9,11 +9,7 @@ import {
 import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useShowQuestionDetails } from 'server/fetchExam'
-import {
-  QuestionDataWithID,
-  QuestionDetails,
-  QuestionType
-} from 'server/fetchExam/types'
+import { QuestionDataWithID } from 'server/fetchExam/types'
 import { QuestionEditPageWrapper } from './QuestionEditPageStyle'
 export const QuestionEditPage: React.FC = () => {
   const navigate = useNavigate()

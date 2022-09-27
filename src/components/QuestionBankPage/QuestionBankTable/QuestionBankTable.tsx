@@ -10,9 +10,9 @@ import {
 import { useDeleteQuestion, useShowCreateQuestion } from 'server/fetchExam'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { useNavigate } from 'react-router-dom'
-import { Item, ShowDetailsCellProps } from '../type'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { ShowDetailsCell } from './cpn/ShowDetailsCell'
+import { Item, QuestionBank } from 'server/fetchExam/types'
 const { confirm } = Modal
 
 export const QuestionBankTable: React.FC = () => {
@@ -27,19 +27,50 @@ export const QuestionBankTable: React.FC = () => {
   //网络请求
   const { data, isLoading } = useShowCreateQuestion()
   const { mutate } = useDeleteQuestion()
+  console.log('data', data)
+  console.log('length', data?.length)
+
+  const handleType = (type: number) => {
+    switch (type) {
+      case 0:
+        return '单选题'
+      case 1:
+        return '多选题'
+      case 2:
+        return '判断题'
+      case 3:
+        return '填空题'
+      default:
+        return ''
+    }
+  }
+
+  const handleRate = (rate: number) => {
+    switch (rate) {
+      case 0:
+        return '易'
+      case 1:
+        return '中'
+      case 2:
+        return '难'
+      default:
+        return ''
+    }
+  }
 
   //添加数据
-  for (let i = 0; i < data?.length; i++) {
+  const length = data?.length || 0
+  for (let i = 0; i < length; i++) {
     originData.push({
       key: i.toString(),
-      question: data[i].questionDescription,
-      rate: data[i].questionDifficulty,
-      type: data[i].questionType,
+      question: data![i].questionDescription,
+      rate: handleRate(data![i].questionDifficulty),
+      type: handleType(data![i].questionType),
       creator: '莉塔',
-      create_time: data[i].createTime,
-      questionId: data[i].questionId,
-      rightAnswer: data[i].rightAnswer,
-      questionOption: data[i].questionOption
+      create_time: data![i].createTime,
+      questionId: data![i].questionId,
+      rightAnswer: data![i].rightAnswer,
+      questionOption: data![i].questionOption
     })
   }
 
@@ -107,7 +138,8 @@ export const QuestionBankTable: React.FC = () => {
               type="link"
               className="deletebtn"
               onClick={() => {
-                showDeleteConfirm(data.id)
+                // showDeleteConfirm(data.id)
+                showDeleteConfirm('123')
               }}
             >
               删除

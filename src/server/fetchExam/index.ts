@@ -3,10 +3,11 @@ import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
 import {
   ExamListItem,
+  QuestionBank,
   QuestionData,
   QuestionDataWithID,
-  QuestionDetails,
-  QuestionType
+  QuestionType,
+  WholeQuestion
 } from './types'
 import { message } from 'antd'
 import { AnyFn } from 'types'
@@ -38,7 +39,7 @@ export const useCreateQuestion = () => {
 export const useShowCreateQuestion = () => {
   return useQuery(['questionbank'], async () => {
     await delayFetch()
-    return client.get<any>({
+    return client.get<QuestionBank[]>({
       url: 'question/list-question'
     })
   })
@@ -48,7 +49,7 @@ export const useShowCreateQuestion = () => {
 export const useShowQuestionDetails = (id?: string) => {
   return useQuery(['preview'], async () => {
     // await delayFetch()
-    return client.get<QuestionDetails>({
+    return client.get<WholeQuestion>({
       url: `/question/show-question`,
       params: {
         questionId: id
@@ -57,7 +58,7 @@ export const useShowQuestionDetails = (id?: string) => {
   })
 }
 
-/** 获取此课程的全部试题 */
+/** 获取此课程的全部作业 */
 export const useShowExamList = (courseID: string) => {
   return useQuery([`ExamList-${courseID}`], async () => {
     await delayFetch()

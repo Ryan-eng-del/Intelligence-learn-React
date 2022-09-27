@@ -53,7 +53,7 @@ export type WholeQuestion = {
   rightAnswer: string // 正确答案
   questionAnswerExplain: string // 答案描述
   createTime: string // 创建时间
-  points: string[] // 关联知识点
+  pointIds: string[] // 关联知识点
 }
 
 /** （网络实体）发送的题目数据 */
@@ -85,17 +85,25 @@ export type ExamListItem = {
   endTime: string
 }
 
-///////////////////////////////////
-/** (网络实体)请求回来的单个题目详细信息 */
-export type QuestionDetails = {
+// 试题库
+export type QuestionBank = {
   createTime: string
-  pointIds: string[]
-  questionAnswerExplain: string
-  questionAnswerNum: number
   questionDescription: string
   questionDifficulty: number
   questionId: string
   questionOption: string
   questionType: number
   rightAnswer: string
+}
+
+export type Item = {
+  key: string
+  question: string
+  rate: string
+  type: string
+  creator: string
+  create_time: string
+  questionId: string
+  rightAnswer: string
+  questionOption: string
 }
