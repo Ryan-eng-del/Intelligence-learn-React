@@ -1,8 +1,8 @@
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Input, Radio, Tooltip } from 'antd'
-import { QuestionType } from 'server/fetchExam/types'
-import React, { useState } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { QuestionType } from '../../../server/fetchExam/types/index'
 import {
   QuestionBankHeaderWrapper,
   SelectiveList,
@@ -34,70 +34,59 @@ export const QuestionBankHeader: React.FC = () => {
           onSearch={(value) => {
             console.log('输入框', value)
           }}
-          style={{ marginLeft: '30px', marginTop: '10px', width: '340px' }}
+          className="search"
         />
+        <Button
+          type="primary"
+          style={{ float: 'right' }}
+          onClick={() => {
+            navigate('/classinfo', { replace: true })
+          }}
+        >
+          返回
+        </Button>
         {/* 添加题目 */}
         <Tooltip title="添加题目" placement="bottom">
           <Button
             type="primary"
             shape="circle"
-            icon={<PlusOutlined style={{ fontSize: '50px' }} />}
+            icon={<PlusOutlined className="addicon" />}
             size="large"
-            style={{
-              width: '110px',
-              height: '110px',
-              float: 'right',
-              marginTop: '60px',
-              marginRight: '70px'
-            }}
-            onClick={() => navigate('/createquestion')}
+            className="aqbtn"
+            onClick={() => navigate('/createquestion', { replace: true })}
           />
         </Tooltip>
 
         {/* 题型、知识点管理 */}
         <SelectiveList>
           <div>
-            <span style={{ fontSize: '19px' }}>题目类型:</span>
+            <span className="introduce">题目类型:</span>
             <Radio.Group
               onChange={() => {
                 console.log(1)
               }}
               defaultValue="all"
             >
-              <Radio.Button
-                value="all"
-                style={{
-                  marginLeft: '25px',
-                  border: '1px dashed #d9d9d9'
-                  // boxShadow: '5px 5px 30px -7px rgba(0, 0, 0, .3)'
-                }}
-              >
+              <Button type="primary" value="all" className="choosebtn">
                 所有
-              </Radio.Button>
+              </Button>
               {questionType.map((item, index) => (
-                <Radio.Button
+                <Button
                   key={index}
                   value={item.type}
-                  style={{
-                    marginLeft: '25px',
-                    border: '1px dashed #d9d9d9'
-                  }}
+                  className="choosebtn"
+                  type="primary"
                 >
                   {item.title}
-                </Radio.Button>
+                </Button>
               ))}
             </Radio.Group>
           </div>
 
           <KnowledgePoint>
-            <span style={{ fontSize: '19px' }}>知识点：</span>
-            <Button
-              type="dashed"
-              style={{
-                marginLeft: '25px'
-              }}
-            >
-              点击添加知识点
+            <span className="introduce">知识点：</span>
+            <Button type="dashed" className="choosebtn">
+              点击选择知识点
             </Button>
             {/* 弹出模态框 */}
           </KnowledgePoint>

@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { client } from 'server'
-import { useNavigate } from 'react-router-dom'
 import { message } from 'antd'
 import { delayFetch } from 'util/delayFetch'
 import { TestPaper, PostTestPaper } from '../types'
@@ -8,7 +7,6 @@ import { AnyFn } from 'types'
 
 /** 创建一张试卷 */
 export const useAddTestPaper = (callback:AnyFn) => {
-  const navigate = useNavigate()
   return useMutation(async (courseId: string) => {
     await delayFetch()
     return client.post({

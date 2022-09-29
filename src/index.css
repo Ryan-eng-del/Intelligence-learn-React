@@ -27,7 +27,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   /*background-color: #d3dedc;*/
   /*color: var(--blue);*/
-  min-width: 1500px;
+  /* min-width: 1500px; */
   /* background-color: rgba(255, 255, 255, 0.1) !important; */
 }
 
@@ -273,4 +273,11 @@ span.ant-tree-title {
 /* 搜索框图标 */
 .ant-btn-icon-only.ant-btn-lg > * {
   font-size: 22px;
+}
+
+.modal-chapter .ant-modal-content {
+  min-height: 503px;
+}
+.modal-chapter .ant-modal-footer {
+  text-align: center;
 }

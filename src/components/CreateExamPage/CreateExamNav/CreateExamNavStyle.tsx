@@ -23,8 +23,25 @@ export const CreateExamNavWrapper = styled.div`
   }
 `
 export const QuestionItemWrapper = styled.div`
+  display: flex;
   &:hover {
     background-color: rgb(238, 237, 237);
+    // cursor: pointer;
+  }
+`
+
+export const DeleteButtonWrapper = styled.div`
+  width: 25%;
+  opacity: 0;
+  &:hover {
+    opacity: 1;
+  }
+  .delete {
+    display: block;
+    color: grey;
+    font-size: 15px;
+    margin: auto;
+    line-height: 32px;
     cursor: pointer;
   }
 `

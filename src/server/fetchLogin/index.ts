@@ -14,12 +14,14 @@ export const useToken = (name: string, password: string) => {
       await delayFetch()
       return client.post<{ token: string }>({
         url: 'user/login',
-        data: {}
+        data: {
+          name,
+          password
+        }
       })
     },
     {
       onSuccess: (data) => {
-        console.log(data)
         queryClient.setQueryData(['token'], data)
         cache.setCache('token', data)
         navigate('/home/teach')

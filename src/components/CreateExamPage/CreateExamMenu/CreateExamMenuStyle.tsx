@@ -2,7 +2,7 @@ import styled from 'styled-components'
 export const CreateExamMenuWrapper = styled.div`
   background-color: white;
   margin: 10px 0 10px 10px;
-  height: 52px;
+  height: 60px;
   padding: 10px;
   border-radius: 5px;
   animation: 0.7s fadeleft ease forwards;

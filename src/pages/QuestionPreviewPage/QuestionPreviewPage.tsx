@@ -1,20 +1,49 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { QuestionPreviewPageWrapper } from './QuestionPreviewPageStyle'
-import { QuestionPreview } from 'publicComponents/CreateQuestionPage'
+import { Button } from 'antd'
+import { ShowDetails } from 'publicComponents/CreateQuestionPage'
+import { useShowQuestionDetails } from 'server/fetchExam'
 export const QuestionPreviewPage: React.FC = () => {
   const navigate = useNavigate()
+  const { questionId } = useParams<{ questionId?: string }>()
+  //网络请求
+  const { data } = useShowQuestionDetails(questionId)
+  const [isEditing, setEditing] = useState(false)
+  const save = () => {
+    console.log('保存')
+  }
+
+  //编辑按钮
+  const edit = () => {
+    navigate(`/edit/${questionId}`)
+    //去请求回来对应的type
+  }
   return (
     <>
       <QuestionPreviewPageWrapper>
-        <button
-          onClick={() => {
-            navigate('/questionbank')
-          }}
-        >
-          返回
-        </button>
-        <QuestionPreview></QuestionPreview>
+        {isEditing ? (
+          <>
+            <Button type="primary" onClick={save}>
+              保存
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button
+              type="primary"
+              onClick={() => {
+                navigate('/questionbank', { replace: true })
+              }}
+            >
+              返回
+            </Button>
+            <Button type="primary" style={{ float: 'right' }} onClick={edit}>
+              编辑
+            </Button>
+          </>
+        )}
+        <ShowDetails questionId={questionId} />
       </QuestionPreviewPageWrapper>
     </>
   )

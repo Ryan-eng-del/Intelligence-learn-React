@@ -7,7 +7,8 @@ export const updateKnowledgeTreeQueryCache = (
   updaterFun: AnyFn<KnowledgeNodeType[]>,
   queryClient: QueryClient
 ) => {
-  const queryTreeData: KnowledgeNodeType[] | undefined = queryClient.getQueryData(['knowledgeTree'])
+  const queryTreeData: KnowledgeNodeType[] | undefined =
+    queryClient.getQueryData(['knowledgeTree'])
   const newQueryTreeData = updaterFun(queryTreeData)
   queryClient.setQueryData(['knowledgeTree'], newQueryTreeData)
 }

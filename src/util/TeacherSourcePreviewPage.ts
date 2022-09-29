@@ -1,5 +1,5 @@
 export const findIdResource = (data: any, id: any, setResource: any) => {
-  const result: any = []
+  let result: any = {}
   const recursion = (data: any) => {
     if (!data) return
     data.map((d: any) => {
@@ -7,8 +7,8 @@ export const findIdResource = (data: any, id: any, setResource: any) => {
         d.courTimes.forEach((courTime: any) => {
           if (courTime.resource && courTime.resource.length) {
             courTime.resource.forEach((resource: any, i: any) => {
-              if (resource.id === id) {
-                result.push(resource)
+              if (resource.resourceId === id) {
+                result = { ...resource }
               }
             })
           }
@@ -19,7 +19,7 @@ export const findIdResource = (data: any, id: any, setResource: any) => {
       }
     })
   }
-  console.log(result, 'result')
   recursion(data)
   setResource(result)
+  return result
 }

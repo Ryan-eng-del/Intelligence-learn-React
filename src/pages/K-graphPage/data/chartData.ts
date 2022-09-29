@@ -1,5 +1,5 @@
 export const nodeData = [
-  // { name: '离散数学', id: '0', category: 0 },
+  { name: '离散数学', id: '0', category: 0 },
   { name: '简单命题', id: '11249322', category: 3 },
   { name: '命题真值', id: '11249321', category: 3 },
   { name: '真命题', id: '11249320', category: 3 },

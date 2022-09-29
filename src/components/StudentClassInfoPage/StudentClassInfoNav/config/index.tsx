@@ -30,11 +30,6 @@ function getItem(
 
 const items: MenuItem[] = [
   getItem(
-    <Link to={'studentclass'}>课程班级</Link>,
-    'studentClass',
-    <ProfileOutlined />
-  ),
-  getItem(
     <Link to={'studentchapter'}>课程章节</Link>,
     'studentChapter',
     <FundProjectionScreenOutlined />

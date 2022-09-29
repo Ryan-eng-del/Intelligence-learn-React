@@ -1,6 +1,0 @@
-export { ChapterInfo } from './ChapterInfo'
-export { ChapterEditorFile } from './ChapterEditor/ChapterEditorFile/ChapterEditorFile'
-export { ChapterEditorRich } from './ChapterEditor/ChapterEditorRich/ChapterEditorRich'
-export { ChapterPreviewFile } from './ChapterPreview/ChapterPreviewFile/ChapterPreviewFile'
-export { ChapterPreviewRich } from './ChapterPreview/ChapterPreviewRich/ChapterPreviewRich'
-export { AssociateKnowledgePoints } from './ChapterEditor/AssociateKnowledgePoints/AssociateKnowledgePoints'

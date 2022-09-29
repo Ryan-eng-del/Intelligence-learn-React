@@ -2,31 +2,41 @@ import { useQueryClient } from '@tanstack/react-query'
 import { StateSetter } from 'types'
 import {
   useAddChildChapter,
-  useConfirmAddChapter,
+  useAddChapter,
   useDeleteChapter,
-  useShowCreateChapter
+  useShowChapter,
+  useEditChapter,
+  useAddContentResource
 } from '../../server/fetchChapter'
 import { ChapterNodeType, CourTimeType } from 'server/fetchChapter/types'
+import { useAddContent } from '../../server/fetchChapter/index'
 
 export const useChapterServer = (
   setExpandKeys: StateSetter<string[]>,
-   setCurNode: StateSetter<ChapterNodeType | CourTimeType>
+  setCurNode: StateSetter<ChapterNodeType | CourTimeType>
 ) => {
-  const { mutate: addChapterMutate, data: addChapterData } =
-    useConfirmAddChapter(setCurNode)
+  /*query容器*/
   const queryClient = useQueryClient()
-  const { data, isLoading } = useShowCreateChapter(setExpandKeys)
-  const { mutate: addChildChapterMutate, data: addChildChapterData } =
-    useAddChildChapter(data)
-  const { mutate: deleteChapterMutate } = useDeleteChapter({ data })
+  const { data, isLoading } = useShowChapter(setExpandKeys)
+  /*展示子章节*/
+  const { mutateAsync: addChildChapterMutate } = useAddChildChapter(setCurNode)
+  /*删除章节*/
+  const { mutateAsync: deleteChapterMutate } = useDeleteChapter()
+  /*添加根章节*/
+  const { mutateAsync: addChapterMutate } = useAddChapter(setCurNode)
+  /*编辑章节*/
+  const { mutateAsync: editChapterMutate } = useEditChapter()
+  /* 添加课时*/
+  const { mutateAsync: addContentMutate } = useAddContent()
+
   return {
     data,
     isLoading,
+    queryClient,
     deleteChapterMutate,
     addChildChapterMutate,
-    addChildChapterData,
-    queryClient,
     addChapterMutate,
-    addChapterData
+    editChapterMutate,
+    addContentMutate
   }
 }
