@@ -1,6 +1,0 @@
-export { StudentClassInfoPage } from './StudentClassInfoPage'
-export { StudentChapterPage } from './cpn-page/StudentChapterPage/ChapterPage'
-export { StudentResourcePage } from './cpn-page/ResourcePage/ResourcePage'
-export { StudentDiscussPage } from './cpn-page/DiscussPage/DiscussPage'
-export { StudentExamPage } from './cpn-page/ExamPage/ExamPage'
-export { StudentKnowledgePage } from './cpn-page/KnowledgePage/KnowledgePage'

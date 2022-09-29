@@ -2,14 +2,13 @@ import React from 'react'
 import { Button, Tag } from 'antd'
 import {
   DeleteOutlined,
-  FileDoneOutlined,
   FilePptOutlined,
   YoutubeOutlined
 } from '@ant-design/icons'
 import { formatResource } from 'util/chapterStudyTree'
 import styled from 'styled-components'
-import { CustomLink } from '../../../../../../util/CustomLink'
-import { ChapterResourceType } from '../../../../../../server/fetchChapter/types'
+import { CustomLink } from 'util/CustomLink'
+import { ChapterResourceType } from 'server/fetchChapter/types'
 
 const ChapterTreeContent: React.FC<{
   contentName: string
@@ -20,9 +19,9 @@ const ChapterTreeContent: React.FC<{
   handleClickAddResource: any
   handleClickRelatePoints: any
   handleDeleteResource: any
-  type?: 'show'
+  editable: boolean
 }> = ({
-  type,
+  editable,
   contentName,
   handleDeleteTreeContent,
   contentId,
@@ -35,7 +34,7 @@ const ChapterTreeContent: React.FC<{
       <ChapterTreeContentWrapper>
         <div style={{ display: 'flex' }}>
           <div>{contentName}</div>
-          {!type && (
+          {editable && (
             <EditToolWrapperContent className={'edit-content-tool-wrapper'}>
               <Button type={'primary'}>编辑</Button>
               <Button
@@ -86,7 +85,7 @@ const ChapterTreeContent: React.FC<{
                     </CustomLink>
                   )}
 
-                  {!type && (
+                  {editable && (
                     <DeleteIconWrapper>
                       <DeleteOutlined
                         onClick={() => handleDeleteResource(item.resourceId)}

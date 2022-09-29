@@ -136,7 +136,7 @@ export const useChapterControl = () => {
         childChapters: []
       }
       setCurNode(node)
-      addChildChapterNode(data, chapterId, queryClient, node)
+      addChildChapterNode(data!, chapterId, queryClient, node)
     },
     [data]
   )

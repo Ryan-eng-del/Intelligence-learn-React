@@ -156,6 +156,7 @@ export const LearnPage: React.FC = () => {
                                 tname={item.course_name}
                                 iurl={item.course_cover || null}
                                 optimistic={item.optimistic}
+                                Permission={false}
                               ></ClassCard>
                             </Col>
                           )

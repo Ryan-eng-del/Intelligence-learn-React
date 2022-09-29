@@ -20,7 +20,6 @@ import {
   QuestionBankPage,
   CreateQuestionPage,
   QuestionPreviewPage,
-  StudentClassInfoPage
 } from 'pages'
 import {
   LearnPage,
@@ -37,13 +36,7 @@ import {
   ClassManaPage,
   KnowledgePage
 } from 'pages/ClassInfoPage'
-import {
-  StudentChapterPage,
-  StudentResourcePage,
-  StudentExamPage,
-  StudentDiscussPage,
-  StudentKnowledgePage
-} from 'pages/StudentClassInfoPage'
+
 
 // util
 import { RequireAuth } from 'util/requireAuth'
@@ -53,7 +46,6 @@ import { SourceVideoPreview } from './pages/TeacherSourcePreviewPage/cpn-page/So
 import { SourcePdfPreview } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/SourcePdfPreview'
 import {
   QuestionEditPage,
-  ShowDetails
 } from 'publicComponents/CreateQuestionPage'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
@@ -97,16 +89,6 @@ root.render(
               <Route path="discuss" element={<DiscussPage />} />
               <Route path="class" element={<ClassManaPage />} />
               <Route path="knowledge" element={<KnowledgePage />} />
-            </Route>
-            <Route path="studentclassinfo" element={<StudentClassInfoPage />}>
-              <Route path="studentchapter" element={<StudentChapterPage />} />
-              <Route path="studentexam" element={<StudentExamPage />} />
-              <Route path="studentresource" element={<StudentResourcePage />} />
-              <Route path="studentdiscuss" element={<StudentDiscussPage />} />
-              <Route
-                path="studentknowledge"
-                element={<StudentKnowledgePage />}
-              />
             </Route>
             <Route path={'k-graph'} element={<KnowledgeGraph />} />
             <Route path="editpaper/:paperid" element={<CreateExamPage />} />

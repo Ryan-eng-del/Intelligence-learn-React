@@ -5,7 +5,7 @@ import {
   HeaderWrapper,
   TitleWrapper
 } from 'publicComponents/PageStyle/PageHeaderWapper'
-import { Card, Col, Row, Button, Input, Modal, Space, message, Badge, Tooltip, Typography, Dropdown, Menu } from 'antd'
+import { Card, Col, Row, Button, Input, Modal, Space, message, Badge, Tooltip, Typography, Dropdown, Menu, Popconfirm } from 'antd'
 import { ClassManaPageReducer, initialState } from './config/reducer'
 import { DownOutlined, HighlightOutlined, ShareAltOutlined } from '@ant-design/icons'
 
@@ -71,8 +71,8 @@ export const ClassManaPage: React.FC = () => {
   }
 
   // 点击分享
-  const share = (i:any,e:any) => {
-    e.stopPropagation()
+  const share = (i:any,e?:any) => {
+    e?.stopPropagation()
     if(navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.write(i.id as any).then(
         ()=>message.success("邀请码已复制到剪切板"),
@@ -102,13 +102,21 @@ export const ClassManaPage: React.FC = () => {
       </Modal>
       {/* 班级详情 */}
       <Modal
-        title={`管理 - ${"xx班级"}`}
+        title={`管理 - ${showing?.className}`}
         centered
         visible={detailvisable}
         footer={
           <>
-            <Button type='primary' danger onClick={()=>removeClassFun(showing)}>删除这个班级</Button>
-            <Button type='primary'>复制邀请码</Button>
+            <Popconfirm
+              placement="top"
+              title="你确定哟啊删除此班级吗？全部学生将被解散。你可以设置为结课状态保留这个班级，"
+              okText="删除并解散全部学生"
+              onConfirm={()=>removeClassFun(showing)}
+              cancelText="取消"
+            >
+              <Button type='primary' danger>删除这个班级</Button>
+            </Popconfirm>
+            <Button type='primary' onClick={()=>share(showing.id)}>复制邀请码</Button>
           </>
         }
         onCancel={()=>setDetailVisable(false)}
@@ -262,7 +270,7 @@ export const ClassManaPage: React.FC = () => {
                   </Space>
                 </>}
                   style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"}}
-                  onClick={()=>setDetailVisable(true)}
+                  onClick={()=>(setshowing(i),setDetailVisable(true))}
                 >
                   <div style={{display:"flex", justifyContent:"space-between"}}>
                     共 {i.studentAmount} 位学生

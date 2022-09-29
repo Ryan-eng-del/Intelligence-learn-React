@@ -5,7 +5,8 @@ import { DownloadOutlined, EditOutlined, EyeOutlined, FileUnknownOutlined } from
 
 export const ResourceCard: React.FC<{
   resourceItems: ResourceType[]
-}> = ({ resourceItems }) => {
+  premission: boolean
+}> = ({ resourceItems, premission }) => {
   return (
     <>
       <Row gutter={[16,16]}>
@@ -28,7 +29,7 @@ export const ResourceCard: React.FC<{
               <div style={{display:"flex", justifyContent:"space-between"}}>
                 <EyeOutlined />
                 <DownloadOutlined />
-                <EditOutlined />
+                {premission ? <EditOutlined /> : <></>}
               </div>
               </Card>
             </Col>

@@ -143,6 +143,7 @@ export const TeachPage = () => {
                       cname={item.cname}
                       tname={item.tname}
                       iurl={item.iurl}
+                      Permission={true}
                     ></ClassCard>
                   </Col>
                 )

@@ -10,7 +10,7 @@ import { Button } from 'antd'
 
 export const TeacherSourcePreviewPage = () => {
   const { treeData, setExpandKeys, data, expandKeys, handleOnExpand } =
-    useChapterUI('show')
+    useChapterUI(true)
 
   useMount(() => {
     setExpandKeys(expandOnMount(data!))
