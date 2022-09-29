@@ -1,7 +1,8 @@
-import { QueryClient } from '@tanstack/react-query'
 import { Button } from 'antd'
+import { CurCourseProvider } from 'pages/ClassInfoPage/ClassInfoPage'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { AnyFn } from 'types'
 import { CardBodyWrapper, CardHeadWrapper, CardWrapper } from './ClassCardStyle'
 interface ClassCard {
   id: string
@@ -9,15 +10,17 @@ interface ClassCard {
   cname: string
   iurl: string | null
   optimistic?: boolean
+  Permission: boolean
 }
-export const ClassCard: React.FC<ClassCard> = ({ id, cname, iurl, optimistic,  }) => {
-  const queryClient = new QueryClient()
-  const handleClick = () => {
-    queryClient.setQueryData(['CurrentCourse'],{ cname, iurl, id })
-    console.log(cname);
-    navigate('/classinfo/chapter', {
-      state: { cname, iurl, id }
-    });
+export const ClassCard: React.FC<ClassCard> = ({ id, cname, iurl, optimistic, Permission }) => {
+  const handleClick = (setCurCourse:AnyFn) => {
+    navigate('/classinfo/chapter');
+    setCurCourse({
+      classId:id,
+      cover:iurl!,
+      className:cname,
+      Permission
+    })
   }
   const navigate = useNavigate()
   return (
@@ -33,9 +36,13 @@ export const ClassCard: React.FC<ClassCard> = ({ id, cname, iurl, optimistic,  }
               Loading
             </Button>
           ) : (
-            <Button type='primary' onClick={handleClick}>
-              进入课程
-            </Button>
+            <CurCourseProvider>
+              {({setCurCourse})=>
+                <Button type='primary' onClick={()=>handleClick(setCurCourse)}>
+                  进入课程
+                </Button>
+              }
+            </CurCourseProvider>
           )}
         </CardBodyWrapper>
       </CardWrapper>

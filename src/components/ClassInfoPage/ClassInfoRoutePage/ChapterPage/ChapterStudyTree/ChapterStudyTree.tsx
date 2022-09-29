@@ -13,7 +13,9 @@ import { useKnowledgeServer } from '../../../../../hook/useKnowledge/useKnowledg
 import { useKnowledgeUI } from '../../../../../hook/useKnowledge/useKnowledgeUI'
 import { useCheckKnowledgeTreeUI } from '../../../../../hook/useKnowledge/useCheckKnowledgeTreeUI'
 
-export const ChapterStudyTree = () => {
+export const ChapterStudyTree: React.FC<{
+  editable: boolean
+}> = ({editable}) => {
   /*UI驱动层*/
   const {
     treeData,
@@ -37,7 +39,7 @@ export const ChapterStudyTree = () => {
     fileList,
     setFileList,
     handleOk
-  } = useChapterUI()
+  } = useChapterUI(editable)
   const {
     handleRelateCheck,
     handleRelateExpand,

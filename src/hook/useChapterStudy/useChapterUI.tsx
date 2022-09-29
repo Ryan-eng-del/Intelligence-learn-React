@@ -13,7 +13,7 @@ import {
 } from 'server/fetchChapter/types'
 
 const { TreeNode } = Tree
-export const useChapterUI = (type?: 'show') => {
+export const useChapterUI = (editable: boolean) => {
   /*业务逻辑层*/
   const {
     confirmAdd,
@@ -75,7 +75,7 @@ export const useChapterUI = (type?: 'show') => {
   }
   /*目录节点UI*/
   const generateTreeNodeUI = (chapterId: any, name: any) => {
-    return !type ? (
+    return editable ? (
       <ChapterTreeDirectory
         nodeId={chapterId}
         nodeName={name}
@@ -102,7 +102,7 @@ export const useChapterUI = (type?: 'show') => {
         key={id}
         title={
           <ChapterTreeContent
-            type={type}
+            editable={editable}
             contentId={id}
             contentName={name}
             handleDeleteTreeContent={handleDeleteTreeNode}

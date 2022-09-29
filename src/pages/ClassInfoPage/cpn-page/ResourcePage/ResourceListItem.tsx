@@ -20,7 +20,8 @@ export const ResourceListItem: React.FC<{
   item: ResourceType
   rename: (newName: string) => void
   deleteFile: () => void
-}> = ({ item, rename, deleteFile }) => {
+  premission: boolean
+}> = ({ item, rename, deleteFile, premission }) => {
   const [hover, setHover] = useState(false)
   const [newName, setNewName] = useState(item.resourceName)
 
@@ -115,13 +116,15 @@ export const ResourceListItem: React.FC<{
           <Button type="primary" icon={<DownloadOutlined />}>
             下载
           </Button>
-          <Button
-            type="primary"
-            icon={<EditOutlined />}
-            onClick={() => setIsModalVisible(true)}
-          >
-            编辑
-          </Button>
+          {premission ?
+            <Button
+              type="primary"
+                icon={<EditOutlined />}
+                onClick={() => setIsModalVisible(true)}
+              >
+              编辑
+            </Button> : <></>
+          }
         </Space>
       </div>
     </>
