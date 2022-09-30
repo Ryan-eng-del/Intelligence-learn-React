@@ -5,20 +5,22 @@ import { useCreateQuestion, useUpadateQuestion } from 'server/fetchExam'
 import { QuestionDataWithID, QuestionType } from 'server/fetchExam/types/index'
 import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
 import { useNavigate } from 'react-router-dom'
+import { FooterType } from './types'
 
 export const Footer: React.FC<{
-  data: any
-  setter: (obj: {
-    explanation: string
-    rate: number
-    knowledge: Array<string>
-  }) => void
-}> = ({ data, setter }) => {
+  data: {
+    footer: FooterType,
+    [key: string]: any
+  }
+  setter: (obj: FooterType) => void
+  Serializer?:(data:any) => QuestionDataWithID // 要求传入一个序列化器将题目数据转换为标准格式
+}> = ({ data, setter, Serializer }) => {
   const navigator = useNavigate()
   const { id, Options, content, TrueOption, rightAnswerNum, footer } = data
   const { explanation, rate, knowledge } = footer
 
   //处理Options
+  // PCR: 这个页面的数据处理应该都交给传入的转换器处理
   const handleOptions = () => {
     const optionsArr: string[] = []
     Options.map((item: { content: string }) => {
@@ -29,45 +31,43 @@ export const Footer: React.FC<{
   }
 
   //编辑题目
-  const networkData: QuestionDataWithID = {
-    questionId: id,
-    courseId: id,
-    pointIds: knowledge,
-    questionOption: Options ? handleOptions() : '没有',
-    questionAnswerExplain: explanation,
-    questionAnswerNum: rightAnswerNum ? rightAnswerNum : 1,
-    questionDescription: content,
-    questionDifficulty: rate,
-    questionType: QuestionType.single,
-    rightAnswer: TrueOption ? TrueOption : ''
-  }
+  // PCR: 这个页面的数据处理应该都交给传入的转换器处理
+  // const networkData: QuestionDataWithID = {
+  //   questionId: id,
+  //   courseId: id,
+  //   pointIds: knowledge,
+  //   questionOption: Options ? handleOptions() : '没有',
+  //   questionAnswerExplain: explanation,
+  //   questionAnswerNum: rightAnswerNum ? rightAnswerNum : 1,
+  //   questionDescription: content,
+  //   questionDifficulty: rate,
+  //   questionType: QuestionType.single,
+  //   rightAnswer: TrueOption ? TrueOption : ''
+  // }
 
   //网络请求
   const { mutate } = useUpadateQuestion()
 
-  //保存按钮
-  const SuccessSave = () => {
-    if (networkData.questionAnswerExplain === '') {
-      setter({ ...data.footer, explanation: '暂无' })
-      networkData.questionAnswerExplain = '暂无'
-    }
-    mutate({ ...networkData })
-    //跳转到预览界面:有两种预览界面
-    navigator(`/preview/${id}`) //题库的
-  }
+
 
   const handleSave = () => {
-    if (networkData.questionDescription === '') {
-      message.error('请输入题目信息')
-    } else if (networkData.questionOption.split('<>').includes('')) {
-      if (networkData.questionOption === '') {
-        message.error('请输入选项信息')
-      } else {
-        SuccessSave()
-      }
-    } else {
-      SuccessSave()
-    }
+    // if (networkData.questionDescription === '') {
+    //   message.error('请输入题目信息')
+    // } else if (networkData.questionOption.split('<>').includes('')) {
+    //   if (networkData.questionOption === '') {
+    //     message.error('请输入选项信息')
+    //   }
+    // } else if (networkData.questionAnswerExplain === '') {
+    //   setter({ ...data.footer, explanation: '暂无' })
+    //   networkData.questionAnswerExplain = '暂无'
+    // } else {
+
+    //   mutate({ ...networkData })
+    //   //跳转到预览界面:有两种预览界面
+    //   navigator(`/preview/${id}`) //题库的
+      console.log("校验数据格式");
+      mutate(Serializer!(data))
+    // }
   }
   return (
     <>

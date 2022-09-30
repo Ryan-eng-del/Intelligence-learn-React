@@ -10,7 +10,6 @@ import {
   WholeQuestion
 } from './types'
 import { message } from 'antd'
-import { AnyFn } from 'types'
 
 /** 添加试题 */
 export const useCreateQuestion = () => {

@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 export const QuestionEditPageWrapper = styled.div`
   margin: auto;
+  color: #000;
   // background-color: rgb(243, 241, 241);
   width: 90vw;
   height: 1500px;

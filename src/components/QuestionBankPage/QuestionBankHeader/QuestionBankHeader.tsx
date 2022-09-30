@@ -21,7 +21,6 @@ export const QuestionBankHeader: React.FC = () => {
     },
     { title: '填空题', type: QuestionType.fillBlank },
     { title: '简答题', type: QuestionType.shortAnswer },
-    { title: '编程题', type: QuestionType.programming },
     { title: '判断题', type: QuestionType.judge }
   ]
   return (

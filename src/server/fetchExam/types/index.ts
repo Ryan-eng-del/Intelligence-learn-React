@@ -4,7 +4,6 @@ export enum QuestionType {
   'multiple',
   'fillBlank',
   'shortAnswer',
-  'programming',
   'judge'
 }
 
@@ -41,10 +40,7 @@ export interface QuestionList {
 }
 
 ///////////////////////////////////////////////////////////////（网络实体）
-
-/** （网络实体）获取的完整的题目  */
-export type WholeQuestion = {
-  questionId: string //id
+type QuestionContext = {
   questionDescription: string //解析
   questionOption: string // 选项集合
   questionDifficulty: number // 难易度
@@ -52,21 +48,18 @@ export type WholeQuestion = {
   questionAnswerNum: number // 答案个数
   rightAnswer: string // 正确答案
   questionAnswerExplain: string // 答案描述
-  createTime: string // 创建时间
   pointIds: string[] // 关联知识点
+}
+/** （网络实体）获取的完整的题目  */
+export type WholeQuestion = QuestionContext & {
+  questionId: string //id
+  createTime: string // 创建时间
+  questionAnswerNum: number // 答案个数
 }
 
 /** （网络实体）发送的题目数据 */
-export type QuestionData = {
-  questionDescription: string
-  questionOption: string
-  questionDifficulty: number
-  questionType: number
-  questionAnswerNum: number
-  rightAnswer?: string
-  questionAnswerExplain: string
+export type QuestionData = QuestionContext & {
   courseId: string
-  pointIds: string[]
 }
 /** 修改的题目实体 */
 export type QuestionDataWithID = QuestionData & {

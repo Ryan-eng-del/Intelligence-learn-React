@@ -1,8 +1,8 @@
+import { Tabs } from 'antd'
 import {
   FillBlank,
   Judge,
   MultipleChoice,
-  Programming,
   ShortAnswer,
   SingleChoice
 } from 'publicComponents/CreateQuestionPage'
@@ -26,7 +26,7 @@ export const QuestionEditPage: React.FC = () => {
   }
 
   const curEdit: QuestionDataWithID = {
-    questionId,
+    questionId:questionId!,
     questionDescription: data?.questionDescription || '',
     courseId: '',
     pointIds: data?.pointIds || [],
@@ -40,17 +40,25 @@ export const QuestionEditPage: React.FC = () => {
 
   return (
     <QuestionEditPageWrapper>
-      {curEdit.questionType === 0 ? (
-        <SingleChoice content={curEdit!}></SingleChoice>
-      ) : curEdit.questionType === 1 ? (
-        <MultipleChoice content={curEdit!}></MultipleChoice>
-      ) : curEdit.questionType === 2 ? (
-        <Judge content={curEdit!}></Judge>
-      ) : curEdit.questionType === 3 ? (
-        <FillBlank content={curEdit!}></FillBlank>
-      ) : (
-        <></>
-      )}
+      {/* <Tabs defaultActiveKey='preview' centered>
+        <Tabs.TabPane tab="编辑模式" key="edit"> */}
+          {curEdit.questionType === 0 ? (
+            <SingleChoice content={curEdit!}></SingleChoice>
+          ) : curEdit.questionType === 1 ? (
+            <MultipleChoice content={curEdit!}></MultipleChoice>
+          ) : curEdit.questionType === 2 ? (
+            <Judge content={curEdit!}></Judge>
+          ) : curEdit.questionType === 3 ? (
+            <FillBlank content={curEdit!}></FillBlank>
+          ) : (
+            <></>
+          )}
+        {/* </Tabs.TabPane>
+        <Tabs.TabPane tab="预览模式" key="preview">
+
+        </Tabs.TabPane>
+      </Tabs> */}
+
     </QuestionEditPageWrapper>
   )
 }

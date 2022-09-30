@@ -37,7 +37,6 @@ import {
   KnowledgePage
 } from 'pages/ClassInfoPage'
 
-
 // util
 import { RequireAuth } from 'util/requireAuth'
 import { KnowledgeGraph } from './pages/K-graphPage/KnowledgeGraph'
@@ -74,13 +73,11 @@ root.render(
             }
           >
             <Route path="home" element={<HomePage />}>
-              {/* <Route path="class"> */}
               <Route path="teach" element={<TeachPage />} />
               <Route path="learn" element={<LearnPage />} />
               <Route path="inbox" element={<InboxPage />} />
               <Route path="profile" element={<ProfilePage />} />
               <Route path="exam" element={<ExamSummary />} />
-              {/* </Route> */}
             </Route>
             <Route path="classinfo" element={<ClassInfoPage />}>
               <Route path="chapter" element={<ChapterPage />} />
@@ -89,6 +86,7 @@ root.render(
               <Route path="discuss" element={<DiscussPage />} />
               <Route path="class" element={<ClassManaPage />} />
               <Route path="knowledge" element={<KnowledgePage />} />
+              <Route path="questionbank" element={<QuestionBankPage />} />
             </Route>
             <Route path={'k-graph'} element={<KnowledgeGraph />} />
             <Route path="editpaper/:paperid" element={<CreateExamPage />} />
@@ -96,14 +94,9 @@ root.render(
               path="teacher-preview"
               element={<TeacherSourcePreviewPage />}
             >
-              <Route path={'video'}>
-                <Route path=":id" element={<SourceVideoPreview />} />
-              </Route>
-              <Route path={'pdf'}>
-                <Route path=":id" element={<SourcePdfPreview />} />
-              </Route>
+              <Route path='video/:id' element={<SourceVideoPreview />} />
+              <Route path='pdf/:id' element={<SourcePdfPreview />} />
             </Route>
-            <Route path="questionbank" element={<QuestionBankPage />} />
             <Route path="createquestion" element={<CreateQuestionPage />} />
             <Route
               path="preview/:questionId"

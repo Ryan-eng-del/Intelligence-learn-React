@@ -5,7 +5,7 @@ import {
   DeleteButtonWrapper
 } from './CreateExamNavStyle'
 import { Collapse, Button, Popconfirm, Tooltip, InputNumber } from 'antd'
-import { DeleteOutlined } from '@ant-design/icons'
+import { DeleteOutlined, SettingOutlined } from '@ant-design/icons'
 import { QuestionItem, QuestionList } from 'server/fetchExam/types'
 import { AnyFn } from 'types'
 import { QuestionICON } from '../CreateExamMenu/CreateExamMenu'
@@ -17,7 +17,6 @@ export const CreateExamNav: React.FC<{
   changeScore: AnyFn<void>
   focus: (item: QuestionItem) => void
 }> = ({ questionList, focus, changeScore }) => {
-  const [data, setData] = useState(questionList)
   const [Fouce, setFouce] = useState<QuestionItem>()
   const removeQuesItem = (curItem: QuestionItem, curList: QuestionList) => {
     if (curList.amount === 0) {
@@ -28,23 +27,27 @@ export const CreateExamNav: React.FC<{
   return (
     <>
       <CreateExamNavWrapper>
+        <div>
+          试卷总分:100分
+          <SettingOutlined />
+        </div>
         <Collapse
           bordered={false}
           expandIconPosition="end"
           className="collapse"
-          defaultActiveKey={data.map((item) => item.type)}
+          defaultActiveKey={questionList.map((item) => item.type)}
         >
-          {data.map((QuestionPanel) =>
+          {questionList.map((QuestionPanel) =>
             QuestionPanel.isExists ? (
               <Panel
-                header={QuestionICON[QuestionPanel.type].title}
+                header={`${QuestionICON[QuestionPanel.type].title}(${QuestionPanel.amount})`}
                 key={QuestionPanel.type}
-                extra={
+                extra={<>
                   <DeleteButton
                     title={`确认移除整个组吗，这将移除里面全部${QuestionPanel.type}`}
                     confirm={() => console.log('删除了整个组！')}
-                  />
-                }
+                    />
+                </>}
               >
                 {QuestionPanel.questiton.map((questionItem, index) => (
                   <QuestionItemWrapper
@@ -73,16 +76,6 @@ export const CreateExamNav: React.FC<{
                       bordered={false}
                       style={{ width: '25%' }}
                     />
-                    {/* <Tooltip title="点击+1，按住ALT点击-1">
-                      <span
-                        style={{ userSelect: 'none' }}
-                        onClick={(e) =>
-                          e.altKey
-                            ? changeScore(questionItem, -1)
-                            : changeScore(questionItem, 1)
-                        }
-                      >{`${questionItem.score}分`}</span>
-                    </Tooltip> */}
                     {/* 删除按钮 */}
                     <DeleteButton
                       confirm={() =>
@@ -94,10 +87,11 @@ export const CreateExamNav: React.FC<{
                 ))}
               </Panel>
             ) : (
-              <div key={QuestionPanel.type}></div>
+              <div key={QuestionPanel.type}>调试信息：没有这种题</div>
             )
           )}
         </Collapse>
+        AAAAA
       </CreateExamNavWrapper>
     </>
   )

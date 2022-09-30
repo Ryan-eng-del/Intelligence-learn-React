@@ -12,14 +12,15 @@ import {
 export const ShortAnswer: React.FC<{
   content: QuestionDataWithID
 }> = ({ content }) => {
-  //序列化为题目数据
+
+    //序列化为题目数据
   const [question, setQuestion] = useState({
     id: content.questionId,
-    content: '',
+    content: content.questionDescription,
     footer: {
-      explanation: '',
-      rate: 1,
-      knowledge: ['离散数学', '图论']
+      explanation: content.questionDescription,
+      rate: content.questionDifficulty,
+      knowledge: content.pointIds
     }
   })
   const handleEdit = (content: string) => {

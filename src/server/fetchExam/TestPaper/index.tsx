@@ -2,8 +2,9 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { client } from 'server'
 import { message } from 'antd'
 import { delayFetch } from 'util/delayFetch'
-import { TestPaper, PostTestPaper } from '../types'
+import { TestPaper, PostTestPaper, QuestionType } from '../types'
 import { AnyFn } from 'types'
+import { dropRight } from 'lodash'
 
 /** 创建一张试卷 */
 export const useAddTestPaper = (callback:AnyFn) => {
@@ -32,16 +33,42 @@ export const useAddTestPaper = (callback:AnyFn) => {
 }
 
 /** 打开一张试卷 */
-export const useShowTestPaper = (paperId?: string) => useQuery(
-  ['currentOpenTestPaper'], async () => {
+export const useShowTestPaper = (paperId: string, callback:any) => useQuery(
+  [`TestPaper-${paperId}`], async () => {
     await delayFetch()
     const data = client.get<TestPaper>({
-      url: `paper/show-paper-detail`,
+      url: `paper/show-paper-preview`,
       params: {
         id: paperId
       }
     })
     return data;
+  },{
+    onSuccess: (data) => {
+      // get enum type value and key ,
+      // e.g.: enum { 'name1', 'name2' } => ['0','1','name1','name2']
+      const QuestionTypeList = Object.keys(QuestionType)
+      // remove:  ['0','1','name1','name2'] => [ 0, 1 ]
+      const QuestionTypeList2 = dropRight(QuestionTypeList,QuestionTypeList.length/2).map(i=>parseInt(i))
+      callback(
+        QuestionTypeList2.map(Type=>{ // 获取类型
+          // 这里是过滤了类型的WholeQuestion[]
+          const thisTypeList = data.questionOfPaperVos.filter((i)=>i.questionType===Type)
+          return {
+              type: Type,
+              amount: thisTypeList.length,
+              isExists: thisTypeList.length != 0,
+              questiton:
+              thisTypeList.map(i=>({
+                score:1,
+                item_key:i.questionId,
+                item_data: {...i,courseId: "unknown" }  // FIXME: 等待接口更新courseID字段
+              }))
+            }
+          }
+        )
+      )
+    }
   }
 )
 

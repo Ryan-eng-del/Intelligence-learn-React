@@ -12,16 +12,18 @@ export const FillBlank: React.FC<{
   //序列化为题目数据
   const [question, setQuestion] = useState({
     id: content.questionId,
-    content: '',
-    TrueOption: 'true',   //设置主客观性
-    Options: [{ id: Math.random(), content: '' }],  //挖空
+    content: content.questionDescription,
+    TrueOption: content.rightAnswer ,//设置主客观性
+    Options: content.questionOption.split('<>').map((i, x) => ({
+      id: x,
+      content: i
+    })),
     footer: {
-      explanation: '',
-      rate: 1,
-      knowledge: ['离散数学', '图论'],
+      explanation: content.questionDescription,
+      rate: content.questionDifficulty,
+      knowledge: content.pointIds
     }
   })
-
   const handleEdit = (content: string) => {
     question.content = content
     setQuestion({ ...question })

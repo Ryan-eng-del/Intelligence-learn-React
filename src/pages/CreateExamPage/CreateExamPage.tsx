@@ -12,71 +12,31 @@ import {
   QuestionDataWithID,
   QuestionItem,
   QuestionList,
-  QuestionType
+  QuestionType,
 } from 'server/fetchExam/types'
 import { useCreateEmptyQuestion, useCreateQuestion } from 'server/fetchExam'
-
 const RandomInt = () => Math.floor(Math.random() * 1e9)
 
 export const CreateExamPage: React.FC = () => {
   const { paperid } = useParams()
-  const { data, isLoading } = useShowTestPaper(paperid) // 打开试卷
 
-  // 将WholeQuestion[]转换成QuestionList[] （分组操作）
-  const NavList: QuestionList[] = [
-    // { type: QuestionType.single, amount: 0, isExists: true, questiton:
-    //   data!.questionOfPaperVos.filter((i)=>i.questionType===QuestionType.single) // 这里是过滤了类型的WholeQuestion[]
-    //   .map(i=>(
-    //     {
-    //       score:1,
-    //       item_key:i.questionId,
-    //       item_data: {
-    //         questionDescription: i.questionDescription,
-    //         questionOption: i.questionOption,
-    //         questionDifficulty: i.questionDifficulty,
-    //         questionType: i.questionType,
-    //         questionAnswerNum: i.questionAnswerNum,
-    //         rightAnswer: i.rightAnswer,
-    //         questionAnswerExplain: i.questionAnswerExplain,
-    //         courseId: "nuknowed",
-    //         pointIds: i.points
-    //       }
-    //     }
-    //   ))
-    // },  // for
-    { type: QuestionType.single, amount: 0, isExists: false, questiton: [] },
-    { type: QuestionType.multiple, amount: 0, isExists: false, questiton: [] },
-    { type: QuestionType.fillBlank, amount: 0, isExists: false, questiton: [] },
-    {
-      type: QuestionType.shortAnswer,
-      amount: 0,
-      isExists: false,
-      questiton: []
-    },
-    {
-      type: QuestionType.programming,
-      amount: 0,
-      isExists: false,
-      questiton: []
-    },
-    { type: QuestionType.judge, amount: 0, isExists: false, questiton: [] }
-  ]
-  //
-  const [dataList, setData] = useState(NavList)
+  const [dataList, setData] = useState<QuestionList[]>([])
+  const { data, isLoading } = useShowTestPaper(paperid!,setData) // 打开试卷
 
-  const { mutate, data: newQ } = useCreateEmptyQuestion()
+  const { mutate, data: newQ ,isLoading: wait } = useCreateEmptyQuestion()
   const AddQuestion = (type: QuestionType) => {
     mutate(type)
-    const ChangePanel = dataList.find((i) => i.type === type)
+    const ChangePanel = dataList.find((i:QuestionList) => i.type === type)
     ChangePanel!.isExists = true
+    ChangePanel!.amount += 1
     ChangePanel!.questiton = ChangePanel!.questiton.concat({
       score: 1, //题目在此试卷的分数
       item_data: {
         questionId: RandomInt().toString(),
-        questionDescription: '',
+        questionDescription: '<p>这里题目<strong>加粗</strong></p>',
         courseId: '',
         pointIds: [],
-        questionOption: 'dsadas<>fr<>ads<>dsads',
+        questionOption: '<p>这里是选项A</p><><p>这里是选项B</p><><p>这里是选项C</p><><p>这里是选项D</p>',
         questionAnswerExplain: '',
         questionAnswerNum: 1,
         questionDifficulty: 1,

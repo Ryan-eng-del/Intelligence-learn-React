@@ -3,28 +3,17 @@ import { Form, Button, Radio } from 'antd'
 import { TextArea } from '../Component/TextArea'
 import { Footer } from '../Component/Footer'
 import { QuestionDataWithID } from 'server/fetchExam/types'
+import { Data2Network, Network2Data } from './serializer'
+import { AnyFn } from 'types'
 
 export const SingleChoice: React.FC<{
   content: QuestionDataWithID
-  callback?: (content: string, id: string) => void
+  callback?: AnyFn
 }> = ({ content }) => {
   console.log('content', content)
 
-  //序列化为题目数据
-  const [question, setQuestion] = useState({
-    id: content.questionId,
-    content: content.questionDescription,
-    TrueOption: content.rightAnswer || '',
-    Options: content.questionOption.split('<>').map((i, x) => ({
-      optionName: String.fromCharCode(x + 65),
-      content: i
-    })),
-    footer: {
-      explanation: content.questionDescription,
-      rate: content.questionDifficulty,
-      knowledge: content.pointIds
-    }
-  })
+  //正序列化为题目数据
+  const [question, setQuestion] = useState(Network2Data(content))
 
   // 变化方法
   const handleChangeFooter = (obj: any) => {
@@ -100,7 +89,7 @@ export const SingleChoice: React.FC<{
             </React.Fragment>
           ))}
         </Radio.Group>
-        <Footer data={question} setter={handleChangeFooter} />
+        <Footer data={question} setter={handleChangeFooter} Serializer={Data2Network}/>
       </Form>
     </>
   )
