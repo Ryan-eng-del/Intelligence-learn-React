@@ -73,16 +73,7 @@ export const CreateExamNav: React.FC<{
                       bordered={false}
                       style={{ width: '25%' }}
                     />
-                    {/* <Tooltip title="点击+1，按住ALT点击-1">
-                      <span
-                        style={{ userSelect: 'none' }}
-                        onClick={(e) =>
-                          e.altKey
-                            ? changeScore(questionItem, -1)
-                            : changeScore(questionItem, 1)
-                        }
-                      >{`${questionItem.score}分`}</span>
-                    </Tooltip> */}
+
                     {/* 删除按钮 */}
                     <DeleteButton
                       confirm={() =>

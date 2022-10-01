@@ -121,7 +121,10 @@ root.render(
                 <Route path=":id" element={<SourcePdfPreview />} />
               </Route>
             </Route>
-            <Route path="questionbank" element={<QuestionBankPage />} />
+            <Route
+              path="classinfo/questionbank"
+              element={<QuestionBankPage />}
+            />
             <Route path="createquestion" element={<CreateQuestionPage />} />
             <Route
               path="preview/:questionId"

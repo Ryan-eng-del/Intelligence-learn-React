@@ -8,7 +8,11 @@ import {
   SelectiveList,
   KnowledgePoint
 } from '../QuestionBankHeader/QuestionBankHeaderStyle'
-export const QuestionBankHeader: React.FC = () => {
+export const QuestionBankHeader: React.FC<{
+  changeType: (type: string) => void
+  showAll: () => void
+  search: (value: string) => void
+}> = ({ changeType, showAll, search }) => {
   const navigate = useNavigate()
   const questionType = [
     {
@@ -24,27 +28,38 @@ export const QuestionBankHeader: React.FC = () => {
     { title: '编程题', type: QuestionType.programming },
     { title: '判断题', type: QuestionType.judge }
   ]
+
+  const QuestionICON = {
+    [QuestionType.single]: { title: '单选题' },
+    [QuestionType.multiple]: { title: '多选题' },
+    [QuestionType.fillBlank]: { title: '填空题' },
+    [QuestionType.shortAnswer]: { title: '简答题' },
+    [QuestionType.programming]: { title: '编程题' },
+    [QuestionType.judge]: { title: '判断题' }
+  }
+
   return (
     <>
       <QuestionBankHeaderWrapper>
-        {/* 搜索题目 */}
-        <Input.Search
-          allowClear
-          size="large"
-          onSearch={(value) => {
-            console.log('输入框', value)
-          }}
-          className="search"
-        />
         <Button
           type="primary"
-          style={{ float: 'right' }}
+          // style={{ float: 'right' }}
           onClick={() => {
             navigate('/classinfo', { replace: true })
           }}
         >
           返回
         </Button>
+        {/* 搜索题目 */}
+        <Input.Search
+          allowClear
+          size="large"
+          onSearch={(value) => {
+            search(value)
+          }}
+          className="search"
+        />
+
         {/* 添加题目 */}
         <Tooltip title="添加题目" placement="bottom">
           <Button
@@ -67,7 +82,12 @@ export const QuestionBankHeader: React.FC = () => {
               }}
               defaultValue="all"
             >
-              <Button type="primary" value="all" className="choosebtn">
+              <Button
+                type="primary"
+                value="all"
+                className="choosebtn"
+                onClick={showAll}
+              >
                 所有
               </Button>
               {questionType.map((item, index) => (
@@ -76,6 +96,9 @@ export const QuestionBankHeader: React.FC = () => {
                   value={item.type}
                   className="choosebtn"
                   type="primary"
+                  onClick={() => {
+                    changeType(QuestionICON[item.type].title)
+                  }}
                 >
                   {item.title}
                 </Button>

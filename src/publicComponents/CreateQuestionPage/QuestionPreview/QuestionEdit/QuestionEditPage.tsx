@@ -1,3 +1,4 @@
+import { Button } from 'antd'
 import {
   FillBlank,
   Judge,
@@ -19,8 +20,6 @@ export const QuestionEditPage: React.FC = () => {
   const { data } = useShowQuestionDetails(questionId)
   console.log(data)
 
-  // const { Provider, Consumer } = React.createContext(curEdit)
-
   const save = () => {
     navigate(`/preview/${questionId}`)
   }
@@ -40,6 +39,14 @@ export const QuestionEditPage: React.FC = () => {
 
   return (
     <QuestionEditPageWrapper>
+      <Button
+        type="primary"
+        onClick={() => {
+          navigate('/classinfo/questionbank')
+        }}
+      >
+        返回
+      </Button>
       {curEdit.questionType === 0 ? (
         <SingleChoice content={curEdit!}></SingleChoice>
       ) : curEdit.questionType === 1 ? (

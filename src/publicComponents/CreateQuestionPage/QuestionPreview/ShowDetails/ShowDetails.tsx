@@ -12,7 +12,11 @@ import {
 export const ShowDetails: React.FC<{ questionId: string | undefined }> = ({
   questionId
 }) => {
+  console.log(questionId)
+  //这个数据没有更新，函数没有重新调用
   const { data } = useShowQuestionDetails(questionId)
+  console.log(data)
+
   return (
     <>
       <ShowDetailsWrapper>

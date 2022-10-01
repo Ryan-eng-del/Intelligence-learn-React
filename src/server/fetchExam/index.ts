@@ -36,19 +36,21 @@ export const useCreateQuestion = () => {
 }
 
 /** 显示试题库 */
-export const useShowCreateQuestion = () => {
+export const useShowCreateQuestion = (id?: string) => {
   return useQuery(['questionbank'], async () => {
     await delayFetch()
     return client.get<QuestionBank[]>({
-      url: 'question/list-question'
+      url: 'question/list-question',
+      params: {
+        courseId: id
+      }
     })
   })
 }
 
 /** 展示题目详细信息 做展示试题页面 */
 export const useShowQuestionDetails = (id?: string) => {
-  return useQuery(['preview'], async () => {
-    // await delayFetch()
+  return useQuery([`preview-${id}`], async () => {
     return client.get<WholeQuestion>({
       url: `/question/show-question`,
       params: {

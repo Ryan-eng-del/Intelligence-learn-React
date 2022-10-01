@@ -48,7 +48,7 @@ const items: MenuItem[] = [
     <NotificationOutlined />
   ),
   getItem(
-    <Link to={'/questionbank'}>题库</Link>,
+    <Link to={'/classinfo/questionbank'}>题库</Link>,
     'QuestionBank',
     <CopyOutlined />
   ),
