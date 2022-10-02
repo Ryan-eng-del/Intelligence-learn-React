@@ -65,14 +65,7 @@ export const LearnPage: React.FC = () => {
   }
   const handleCancel2 = () => {
     setModalVisible2(false)
-
   }
-
-
-
-
-
-
 
 
   return (

@@ -76,6 +76,7 @@ export const PublishPanel: React.FC<{
     <Modal
       title={`发布${'试卷'}`}
       visible={visible}
+      onCancel={close}
       footer={[
         <Button key="cancel" onClick={close} icon={<CloseOutlined />}>
           取消

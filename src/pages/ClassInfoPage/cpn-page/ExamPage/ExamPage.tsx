@@ -1,44 +1,24 @@
-import React, { useState } from 'react'
-import { Button } from 'antd'
-import { ExamList } from 'publicComponents/ExamPage'
-import { useAddTestPaper } from 'server/fetchExam/TestPaper'
-import { useNavigate } from 'react-router-dom'
+import React from 'react'
 import {
   PageWrapper,
-  ContentWrapper,
-  HeaderWrapper,
-  TitleWrapper
 } from 'publicComponents/PageStyle/PageHeaderWapper'
-export const ExamPage: React.FC = () => {
-  const { mutate, data } = useAddTestPaper(()=>{
-    navigate(`/editpaper/${data}`)
-  })
-  const [loading,setLoading] = useState(false)
-  const navigate = useNavigate()
-  const wait = () => {
-    setLoading(true)
-    mutate('课程id')
+import { CurCourseProvider } from 'pages/ClassInfoPage/ClassInfoPage'
+import { StudentExamPage } from "./studentExamPage/studentExamPage";
+import { TeacherExamPage } from "./teacherExamPage/teacherExamPage";
 
-  }
+export const ExamPage: React.FC = () => {
+
+
   return (
     <>
       <PageWrapper>
-        <HeaderWrapper>
-          <TitleWrapper>
-            <div className="page-title">考试作业</div>
-            <Button
-              type="primary"
-              onClick={wait}
-              loading={loading}
-              >
-              新建作业
-            </Button>
-          </TitleWrapper>
-        </HeaderWrapper>
-        {/* 主体内容 */}
-        <ContentWrapper>
-          <ExamList></ExamList>
-        </ContentWrapper>
+        <CurCourseProvider>
+          {({ curCourse }) => <>
+            {
+              curCourse.Permission ? <TeacherExamPage classId={curCourse.classId}/> : <StudentExamPage classId={curCourse.classId} />
+            }
+          </>}
+        </CurCourseProvider>
       </PageWrapper>
     </>
   )
