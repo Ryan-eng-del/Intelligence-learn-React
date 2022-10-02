@@ -40,7 +40,9 @@ export const BaseLoadingProvider = (props: {
         marginTop: '24px'
       }}
     ></BaseLoading>
-  ) : (props.children.map(item => item))
+  ) : (
+    props.children.map((item) => item)
+  )
 }
 
 const BaseLodingWrapper = styled.div`

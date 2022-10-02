@@ -7,9 +7,11 @@ export const ChapterPage: React.FC = () => {
   return (
     <>
       <ChapterPageWrapper>
-        <CurCourseProvider>{
-         ({curCourse}) => <ChapterStudyTree editable={curCourse.Permission}/>
-        }</CurCourseProvider>
+        <CurCourseProvider>
+          {({ curCourse }) => (
+            <ChapterStudyTree editable={curCourse.Permission} />
+          )}
+        </CurCourseProvider>
       </ChapterPageWrapper>
     </>
   )

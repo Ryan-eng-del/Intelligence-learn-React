@@ -10,7 +10,6 @@ import {
 import formulaModule from '@wangeditor/plugin-formula'
 Boot.registerModule(formulaModule)
 
-
 export const TextArea: React.FC<any> = (props: {
   content: string
   setContent: (content: string) => void

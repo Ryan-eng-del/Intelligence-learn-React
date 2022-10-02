@@ -19,7 +19,9 @@ export const MultipleChoiceP: React.FC<{
       knowledge: content.pointIds
     }
   }
-  const str2DOM = (str:string) => <div dangerouslySetInnerHTML={{__html:str}} />
+  const str2DOM = (str: string) => (
+    <div dangerouslySetInnerHTML={{ __html: str }} />
+  )
 
   return (
     <>
@@ -40,7 +42,6 @@ export const MultipleChoiceP: React.FC<{
       ))}
       <h2>解析</h2>
       {str2DOM(question.footer.explanation)}
-
     </>
   )
 }

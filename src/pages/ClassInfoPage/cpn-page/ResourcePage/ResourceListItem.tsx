@@ -116,15 +116,17 @@ export const ResourceListItem: React.FC<{
           <Button type="primary" icon={<DownloadOutlined />}>
             下载
           </Button>
-          {premission ?
+          {premission ? (
             <Button
               type="primary"
-                icon={<EditOutlined />}
-                onClick={() => setIsModalVisible(true)}
-              >
+              icon={<EditOutlined />}
+              onClick={() => setIsModalVisible(true)}
+            >
               编辑
-            </Button> : <></>
-          }
+            </Button>
+          ) : (
+            <></>
+          )}
         </Space>
       </div>
     </>

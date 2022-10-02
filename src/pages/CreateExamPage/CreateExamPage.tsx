@@ -12,21 +12,21 @@ import {
   QuestionDataWithID,
   QuestionItem,
   QuestionList,
-  QuestionType,
+  QuestionType
 } from 'server/fetchExam/types'
-import { useCreateEmptyQuestion, useCreateQuestion } from 'server/fetchExam'
+import { useCreateEmptyQuestion } from 'server/fetchExam'
 const RandomInt = () => Math.floor(Math.random() * 1e9)
 
 export const CreateExamPage: React.FC = () => {
   const { paperid } = useParams()
 
   const [dataList, setData] = useState<QuestionList[]>([])
-  const { data, isLoading } = useShowTestPaper(paperid!,setData) // 打开试卷
+  const { data, isLoading } = useShowTestPaper(paperid!, setData) // 打开试卷
 
-  const { mutate, data: newQ ,isLoading: wait } = useCreateEmptyQuestion()
+  const { mutate } = useCreateEmptyQuestion()
   const AddQuestion = (type: QuestionType) => {
     mutate(type)
-    const ChangePanel = dataList.find((i:QuestionList) => i.type === type)
+    const ChangePanel = dataList.find((i: QuestionList) => i.type === type)
     ChangePanel!.isExists = true
     ChangePanel!.amount += 1
     ChangePanel!.questiton = ChangePanel!.questiton.concat({
@@ -36,7 +36,8 @@ export const CreateExamPage: React.FC = () => {
         questionDescription: '<p>这里题目<strong>加粗</strong></p>',
         courseId: '',
         pointIds: [],
-        questionOption: '<p>这里是选项A</p><><p>这里是选项B</p><><p>这里是选项C</p><><p>这里是选项D</p>',
+        questionOption:
+          '<p>这里是选项A</p><><p>这里是选项B</p><><p>这里是选项C</p><><p>这里是选项D</p>',
         questionAnswerExplain: '',
         questionAnswerNum: 1,
         questionDifficulty: 1,
@@ -71,6 +72,7 @@ export const CreateExamPage: React.FC = () => {
         <CreateExamHeader name={data?.paperName} id={paperid} />
         <div style={{ display: 'flex', height: '500px' }}>
           <CreateExamNav
+            isLoading={isLoading}
             questionList={dataList}
             focus={FocusQuestion}
             changeScore={changeScore}

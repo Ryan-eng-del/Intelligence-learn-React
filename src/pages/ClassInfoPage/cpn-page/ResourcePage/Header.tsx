@@ -1,5 +1,10 @@
 import React, { useState } from 'react'
-import { UploadOutlined, InboxOutlined, UnorderedListOutlined, AppstoreOutlined } from '@ant-design/icons'
+import {
+  UploadOutlined,
+  InboxOutlined,
+  UnorderedListOutlined,
+  AppstoreOutlined
+} from '@ant-design/icons'
 import { Modal, Button, Upload, message } from 'antd'
 import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
 import {
@@ -7,13 +12,10 @@ import {
   TitleWrapper
 } from 'publicComponents/PageStyle/PageHeaderWapper'
 export const Header: React.FC<{
-  reflush: ()=>void
-  switchMode:(a:boolean)=>void
-}> = ({
-  reflush,
-  switchMode
-}) => {
-  const [upLoadModalVisible, setUpLoadModalVisible] = useState(false);
+  reflush: () => void
+  switchMode: (a: boolean) => void
+}> = ({ reflush, switchMode }) => {
+  const [upLoadModalVisible, setUpLoadModalVisible] = useState(false)
   const showUpLoadModal = () => {
     setUpLoadModalVisible(true)
   }
@@ -70,9 +72,9 @@ export const Header: React.FC<{
         <TitleWrapper>
           <div className="page-title">课程资源</div>
           <span>
-            <UnorderedListOutlined onClick={()=>switchMode(true)}/>
+            <UnorderedListOutlined onClick={() => switchMode(true)} />
             &nbsp;&nbsp;&nbsp;
-            <AppstoreOutlined  onClick={()=>switchMode(false)}/>
+            <AppstoreOutlined onClick={() => switchMode(false)} />
           </span>
           <Button
             type="primary"

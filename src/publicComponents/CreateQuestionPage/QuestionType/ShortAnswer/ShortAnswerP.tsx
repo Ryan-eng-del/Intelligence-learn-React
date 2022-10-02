@@ -1,8 +1,8 @@
 import { Button, Space } from 'antd'
-import React, { ReactElement } from 'react'
+import React from 'react'
 import { QuestionDataWithID } from 'server/fetchExam/types'
 
-export const SubjectivePreview: React.FC<{
+export const ShortAnswerPreview: React.FC<{
   content: QuestionDataWithID
 }> = ({ content }) => {
   const question = {
@@ -19,7 +19,9 @@ export const SubjectivePreview: React.FC<{
       knowledge: content.pointIds
     }
   }
-  const str2DOM = (str:string) => <div dangerouslySetInnerHTML={{__html:str}} />
+  const str2DOM = (str: string) => (
+    <div dangerouslySetInnerHTML={{ __html: str }} />
+  )
   return (
     <>
       <h2>题目(未完成)</h2>
@@ -40,7 +42,6 @@ export const SubjectivePreview: React.FC<{
       ))}
       <h2>解析</h2>
       {str2DOM(question.footer.explanation)}
-
     </>
   )
 }

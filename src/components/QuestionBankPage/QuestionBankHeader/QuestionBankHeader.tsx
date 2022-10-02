@@ -1,5 +1,6 @@
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Input, Radio, Tooltip } from 'antd'
+import { CurCourseProvider } from 'pages/ClassInfoPage/ClassInfoPage'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { QuestionType } from '../../../server/fetchExam/types/index'
@@ -45,16 +46,24 @@ export const QuestionBankHeader: React.FC = () => {
           返回
         </Button>
         {/* 添加题目 */}
-        <Tooltip title="添加题目" placement="bottom">
-          <Button
-            type="primary"
-            shape="circle"
-            icon={<PlusOutlined className="addicon" />}
-            size="large"
-            className="aqbtn"
-            onClick={() => navigate('/createquestion', { replace: true })}
-          />
-        </Tooltip>
+        <CurCourseProvider>
+          {
+            ({curCourse})=>
+            curCourse.Permission
+            ? <Tooltip title="添加题目" placement="bottom">
+              <Button
+                type="primary"
+                shape="circle"
+                icon={<PlusOutlined className="addicon" />}
+                size="large"
+                className="aqbtn"
+                onClick={() => navigate('/createquestion', { replace: true })}
+              />
+            </Tooltip>
+            : <></>
+          }
+        </CurCourseProvider>
+
 
         {/* 题型、知识点管理 */}
         <SelectiveList>

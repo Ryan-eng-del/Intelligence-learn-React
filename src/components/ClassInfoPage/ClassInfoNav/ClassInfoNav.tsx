@@ -38,8 +38,8 @@ function getItem(
   } as MenuItem
 }
 
-const items = (Permission:boolean) => {
-  const a:MenuItem[] =[
+const items = (Permission: boolean) => {
+  const a: MenuItem[] = [
     getItem(
       <Link to={'chapter'}>课程章节</Link>,
       'Chapter',
@@ -63,10 +63,12 @@ const items = (Permission:boolean) => {
     ),
     getItem(<Link to={'knowledge'}>知识点</Link>, 'Knowledge', <GoldOutlined />)
   ]
-  if(Permission) {
-    a.unshift(getItem(<Link to={'class'}>课程班级</Link>, 'class', <ProfileOutlined />))
+  if (Permission) {
+    a.unshift(
+      getItem(<Link to={'class'}>课程班级</Link>, 'class', <ProfileOutlined />)
+    )
   }
-  return a;
+  return a
 }
 
 export const ClassInfoNav: React.FC = () => {
@@ -74,41 +76,45 @@ export const ClassInfoNav: React.FC = () => {
   return (
     <ClassInfoNavWrapper>
       <ClassInfoWrapper>
-        <CurCourseProvider>{
-          ({curCourse})=><>
-            <div
-              onClick={() => navigate('/home/teach')}
-              className="class-img-wapper"
-            >
-              <img
-                className="class-img"
-                src={require('assets/img/class.jpg')}
-              ></img>
-            </div>
-            <div
-              className="backButton"
-              style={{backgroundColor:curCourse.Permission? "var(--blue)": "red"}}
-            >👈切换课程</div>
-            <div className="class-info-nav-intro">
-              <div>{curCourse.className}</div>
-            </div>
-          </>
-        }</CurCourseProvider>
-
+        <CurCourseProvider>
+          {({ curCourse }) => (
+            <>
+              <div
+                onClick={() => navigate('/home/teach')}
+                className="class-img-wapper"
+              >
+                <img
+                  className="class-img"
+                  src={require('assets/img/class.jpg')}
+                ></img>
+              </div>
+              <div
+                className="backButton"
+                style={{
+                  backgroundColor: curCourse.Permission ? 'var(--blue)' : 'red'
+                }}
+              >
+                👈切换课程
+              </div>
+              <div className="class-info-nav-intro">
+                <div>{curCourse.className}</div>
+              </div>
+            </>
+          )}
+        </CurCourseProvider>
       </ClassInfoWrapper>
       <ClassInfoMenuWrapper>
         <CurCourseProvider>
-          {
-            ({curCourse})=><Menu
-            defaultSelectedKeys={['Chapter']}
-            defaultOpenKeys={['Chapter']}
-            mode="inline"
-            inlineCollapsed={false}
-            items={items(curCourse.Permission)}
-          />
-          }
+          {({ curCourse }) => (
+            <Menu
+              defaultSelectedKeys={['Chapter']}
+              defaultOpenKeys={['Chapter']}
+              mode="inline"
+              inlineCollapsed={false}
+              items={items(curCourse.Permission)}
+            />
+          )}
         </CurCourseProvider>
-
       </ClassInfoMenuWrapper>
     </ClassInfoNavWrapper>
   )

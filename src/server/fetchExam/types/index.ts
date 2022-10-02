@@ -50,12 +50,6 @@ type QuestionContext = {
   questionAnswerExplain: string // 答案描述
   pointIds: string[] // 关联知识点
 }
-/** （网络实体）获取的完整的题目  */
-export type WholeQuestion = QuestionContext & {
-  questionId: string //id
-  createTime: string // 创建时间
-  questionAnswerNum: number // 答案个数
-}
 
 /** （网络实体）发送的题目数据 */
 export type QuestionData = QuestionContext & {
@@ -63,7 +57,13 @@ export type QuestionData = QuestionContext & {
 }
 /** 修改的题目实体 */
 export type QuestionDataWithID = QuestionData & {
-  questionId: string | undefined
+  questionId: string
+}
+
+/** （网络实体）获取的完整的题目  */
+export type WholeQuestion = QuestionDataWithID & {
+  createTime: string // 创建时间
+  questionAnswerNum: number // 答案个数
 }
 
 ///////////////////////////////////////////////////////////////（网络实体）

@@ -12,13 +12,19 @@ interface ClassCard {
   optimistic?: boolean
   Permission: boolean
 }
-export const ClassCard: React.FC<ClassCard> = ({ id, cname, iurl, optimistic, Permission }) => {
-  const handleClick = (setCurCourse:AnyFn) => {
-    navigate('/classinfo/chapter');
+export const ClassCard: React.FC<ClassCard> = ({
+  id,
+  cname,
+  iurl,
+  optimistic,
+  Permission
+}) => {
+  const handleClick = (setCurCourse: AnyFn) => {
+    navigate('/classinfo/chapter')
     setCurCourse({
-      classId:id,
-      cover:iurl!,
-      className:cname,
+      classId: id,
+      cover: iurl!,
+      className: cname,
       Permission
     })
   }
@@ -37,11 +43,14 @@ export const ClassCard: React.FC<ClassCard> = ({ id, cname, iurl, optimistic, Pe
             </Button>
           ) : (
             <CurCourseProvider>
-              {({setCurCourse})=>
-                <Button type='primary' onClick={()=>handleClick(setCurCourse)}>
+              {({ setCurCourse }) => (
+                <Button
+                  type="primary"
+                  onClick={() => handleClick(setCurCourse)}
+                >
                   进入课程
                 </Button>
-              }
+              )}
             </CurCourseProvider>
           )}
         </CardBodyWrapper>

@@ -3,33 +3,13 @@ import { Form, Button } from 'antd'
 import { TextArea } from '../Component/TextArea'
 import { Footer } from '../Component/Footer'
 import { QuestionDataWithID } from 'server/fetchExam/types/index'
-import { useMount } from 'hook/useMount'
+import { Data2Network, Network2Data } from './config'
 
 export const MultipleChoice: React.FC<{
   content: QuestionDataWithID
 }> = ({ content }) => {
-
   //序列化为题目数据
-  const [question, setQuestion] = useState({
-    id: content.questionId,
-    content: content.questionDescription,
-    TrueOption: content.rightAnswer || '',
-    Options: content.questionOption.split('<>').map((i, x) => ({
-      optionName: String.fromCharCode(x + 65),
-      isTrue: true, content:i
-    })),
-    footer: {
-      explanation: content.questionDescription,
-      rate: content.questionDifficulty,
-      knowledge: content.pointIds
-    }
-  })
-  // 设置正确答案
-  useMount(()=>{
-    question.Options.map(i=>i.isTrue = content.rightAnswer.split(',').includes(i.optionName))
-    setQuestion({...question})
-  })
-
+  const [question, setQuestion] = useState(Network2Data(content))
 
   const handleChangeFooter = (obj: any) => {
     setQuestion({ ...question, footer: obj })
@@ -100,7 +80,11 @@ export const MultipleChoice: React.FC<{
             </Form.Item>
           </React.Fragment>
         ))}
-        <Footer data={question} setter={handleChangeFooter} />
+        <Footer
+          data={question}
+          setter={handleChangeFooter}
+          Serializer={Data2Network}
+        />
       </Form>
     </>
   )

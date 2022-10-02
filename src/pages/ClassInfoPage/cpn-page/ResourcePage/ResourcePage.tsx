@@ -7,8 +7,7 @@ import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { ResourceCard } from './ResourceCard'
 import { CurCourseProvider } from 'pages/ClassInfoPage/ClassInfoPage'
 export const ResourcePage: React.FC = () => {
-
-  const [mode,setMode] = useState(false)
+  const [mode, setMode] = useState(false)
 
   const { data, isLoading } = useShowResourceList()
   console.log(data)
@@ -17,17 +16,27 @@ export const ResourcePage: React.FC = () => {
     <>
       <ResourcePageWrapper>
         <CurCourseProvider>
-          {({curCourse})=><>
-            <Header
-              reflush={()=>console.log("更新文件列表")}
-              switchMode={setMode}
+          {({ curCourse }) => (
+            <>
+              <Header
+                reflush={() => console.log('更新文件列表')}
+                switchMode={setMode}
               />
-            {
-              isLoading ? <BaseLoading /> :
-              mode ? <ResourceList resourceItems={data!} premission={curCourse.Permission} />:
-              <ResourceCard resourceItems={data!} premission={curCourse.Permission}/>
-            }
-          </>}
+              {isLoading ? (
+                <BaseLoading />
+              ) : mode ? (
+                <ResourceList
+                  resourceItems={data!}
+                  premission={curCourse.Permission}
+                />
+              ) : (
+                <ResourceCard
+                  resourceItems={data!}
+                  premission={curCourse.Permission}
+                />
+              )}
+            </>
+          )}
         </CurCourseProvider>
       </ResourcePageWrapper>
     </>

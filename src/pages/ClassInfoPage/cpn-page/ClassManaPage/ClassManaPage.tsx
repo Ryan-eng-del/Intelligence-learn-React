@@ -5,14 +5,33 @@ import {
   HeaderWrapper,
   TitleWrapper
 } from 'publicComponents/PageStyle/PageHeaderWapper'
-import { Card, Col, Row, Button, Input, Modal, Space, message, Badge, Tooltip, Typography, Dropdown, Menu, Popconfirm } from 'antd'
+import {
+  Card,
+  Col,
+  Row,
+  Button,
+  Input,
+  Modal,
+  Space,
+  message,
+  Badge,
+  Tooltip,
+  Typography,
+  Dropdown,
+  Menu,
+  Popconfirm
+} from 'antd'
 import { ClassManaPageReducer, initialState } from './config/reducer'
-import { DownOutlined, HighlightOutlined, ShareAltOutlined } from '@ant-design/icons'
+import {
+  DownOutlined,
+  HighlightOutlined,
+  ShareAltOutlined
+} from '@ant-design/icons'
 
 export const ClassManaPage: React.FC = () => {
   const [state, dispatch] = useReducer(ClassManaPageReducer, initialState)
-  const [detailvisable,setDetailVisable] = useState(false)
-  const [showing,setshowing] = useState<any>()
+  const [detailvisable, setDetailVisable] = useState(false)
+  const [showing, setshowing] = useState<any>()
   const {
     modalVisible,
     classManaList,
@@ -71,12 +90,12 @@ export const ClassManaPage: React.FC = () => {
   }
 
   // 点击分享
-  const share = (i:any,e?:any) => {
+  const share = (i: any, e?: any) => {
     e?.stopPropagation()
-    if(navigator.clipboard && window.isSecureContext) {
+    if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.write(i.id as any).then(
-        ()=>message.success("邀请码已复制到剪切板"),
-        ()=>message.error("复制失败，请检测浏览器版本或权限设置")
+        () => message.success('邀请码已复制到剪切板'),
+        () => message.error('复制失败，请检测浏览器版本或权限设置')
       )
     }
   }
@@ -111,42 +130,50 @@ export const ClassManaPage: React.FC = () => {
               placement="top"
               title="你确定哟啊删除此班级吗？全部学生将被解散。你可以设置为结课状态保留这个班级，"
               okText="删除并解散全部学生"
-              onConfirm={()=>removeClassFun(showing)}
+              onConfirm={() => removeClassFun(showing)}
               cancelText="取消"
             >
-              <Button type='primary' danger>删除这个班级</Button>
+              <Button type="primary" danger>
+                删除这个班级
+              </Button>
             </Popconfirm>
-            <Button type='primary' onClick={()=>share(showing.id)}>复制邀请码</Button>
+            <Button type="primary" onClick={() => share(showing.id)}>
+              复制邀请码
+            </Button>
           </>
         }
-        onCancel={()=>setDetailVisable(false)}
+        onCancel={() => setDetailVisable(false)}
       >
         <Typography.Paragraph
           editable={{
             icon: <HighlightOutlined />,
-          tooltip: '修改课程名字',
-          onChange: renameFun_certain,  //不可用
+            tooltip: '修改课程名字',
+            onChange: renameFun_certain //不可用
           }}
         >
           班级名字
         </Typography.Paragraph>
-        <Dropdown overlay={<Menu
-          selectable
-          defaultSelectedKeys={['1']}
-          items={[
-            {
-              key: '1',
-              label: <Badge status='success' text="开课中" />,
-            },
-            {
-              key: '2',
-              label: <Badge status='default' text="已结束" />,
-            }
-          ]}
-        />}>
+        <Dropdown
+          overlay={
+            <Menu
+              selectable
+              defaultSelectedKeys={['1']}
+              items={[
+                {
+                  key: '1',
+                  label: <Badge status="success" text="开课中" />
+                },
+                {
+                  key: '2',
+                  label: <Badge status="default" text="已结束" />
+                }
+              ]}
+            />
+          }
+        >
           <Typography.Link>
             <Space>
-              <Badge status='success' text="开课中" />
+              <Badge status="success" text="开课中" />
               <DownOutlined />
             </Space>
           </Typography.Link>
@@ -157,11 +184,9 @@ export const ClassManaPage: React.FC = () => {
         <HeaderWrapper>
           <TitleWrapper>
             <div className="page-title">班级管理</div>
-            <Button
-              type="primary"
-              onClick={addClass}
-              className="add-button-X"
-            >新建班级</Button>
+            <Button type="primary" onClick={addClass} className="add-button-X">
+              新建班级
+            </Button>
           </TitleWrapper>
         </HeaderWrapper>
         <ContentWrapper>
@@ -257,24 +282,35 @@ export const ClassManaPage: React.FC = () => {
               </List.Item>
             )}
           /> */}
-          <Row gutter={[16,24]}>
-            {classManaList.map(i=>(
+          <Row gutter={[16, 24]}>
+            {classManaList.map((i) => (
               <Col span={8} key={i.id}>
-                <Card title={<>
-                  <Space style={{fontSize:"24px"}}>
-                    <Typography.Text
-                      style={{ width:"220px"}}
-                      ellipsis={true}
-                    >{i.className}</Typography.Text>
-                    <ShareAltOutlined onClick={(e)=>share(i,e)}/>
-                  </Space>
-                </>}
-                  style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"}}
-                  onClick={()=>(setshowing(i),setDetailVisable(true))}
+                <Card
+                  title={
+                    <>
+                      <Space style={{ fontSize: '24px' }}>
+                        <Typography.Text
+                          style={{ width: '220px' }}
+                          ellipsis={true}
+                        >
+                          {i.className}
+                        </Typography.Text>
+                        <ShareAltOutlined onClick={(e) => share(i, e)} />
+                      </Space>
+                    </>
+                  }
+                  style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
+                  onClick={() => (setshowing(i), setDetailVisable(true))}
                 >
-                  <div style={{display:"flex", justifyContent:"space-between"}}>
+                  <div
+                    style={{ display: 'flex', justifyContent: 'space-between' }}
+                  >
                     共 {i.studentAmount} 位学生
-                    <Badge status='success' text="开课中" style={{color:"#999"}}/>
+                    <Badge
+                      status="success"
+                      text="开课中"
+                      style={{ color: '#999' }}
+                    />
                   </div>
                 </Card>
               </Col>

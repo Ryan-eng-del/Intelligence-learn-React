@@ -7,86 +7,97 @@ import { AnyFn } from 'types'
 import { dropRight } from 'lodash'
 
 /** 创建一张试卷 */
-export const useAddTestPaper = (callback:AnyFn) => {
-  return useMutation(async (courseId: string) => {
-    await delayFetch()
-    return client.post({
-      url: 'paper/add-paper',
-      data:{
-        paper_name: "新建试卷",
-        course_id: courseId,
-        paper_type: 1,
-        questions_ids: [],
-        questions_score: []
-      }
-    })
-  },
-  {
-    onSuccess: (data) => {
-      callback(data)
-      message.success('添加成功')
+export const useAddTestPaper = (callback: AnyFn) => {
+  return useMutation(
+    async (courseId: string) => {
+      await delayFetch()
+      return client.post({
+        url: 'paper/add-paper',
+        data: {
+          paper_name: '新建试卷',
+          course_id: courseId,
+          paper_type: 1,
+          questions_ids: [],
+          questions_score: []
+        }
+      })
     },
-    onError: () => {
-      message.error('添加失败')
+    {
+      onSuccess: (data) => {
+        callback(data)
+        message.success('添加成功')
+      },
+      onError: () => {
+        message.error('添加失败')
+      }
     }
-  })
+  )
 }
 
 /** 打开一张试卷 */
-export const useShowTestPaper = (paperId: string, callback:any) => useQuery(
-  [`TestPaper-${paperId}`], async () => {
-    await delayFetch()
-    const data = client.get<TestPaper>({
-      url: `paper/show-paper-preview`,
-      params: {
-        id: paperId
-      }
-    })
-    return data;
-  },{
-    onSuccess: (data) => {
-      // get enum type value and key ,
-      // e.g.: enum { 'name1', 'name2' } => ['0','1','name1','name2']
-      const QuestionTypeList = Object.keys(QuestionType)
-      // remove:  ['0','1','name1','name2'] => [ 0, 1 ]
-      const QuestionTypeList2 = dropRight(QuestionTypeList,QuestionTypeList.length/2).map(i=>parseInt(i))
-      callback(
-        QuestionTypeList2.map(Type=>{ // 获取类型
-          // 这里是过滤了类型的WholeQuestion[]
-          const thisTypeList = data.questionOfPaperVos.filter((i)=>i.questionType===Type)
-          return {
+export const useShowTestPaper = (paperId: string, callback: any) =>
+  useQuery(
+    [`TestPaper-${paperId}`],
+    async () => {
+      await delayFetch()
+      const data = client.get<TestPaper>({
+        url: `paper/show-paper-preview`,
+        params: {
+          id: paperId
+        }
+      })
+      return data
+    },
+    {
+      onSuccess: (data) => {
+        // get enum type value and key ,
+        // e.g.: enum { 'name1', 'name2' } => ['0','1','name1','name2']
+        const QuestionTypeList = Object.keys(QuestionType)
+        // remove:  ['0','1','name1','name2'] => [ 0, 1 ]
+        const QuestionTypeList2 = dropRight(
+          QuestionTypeList,
+          QuestionTypeList.length / 2
+        ).map((i) => parseInt(i))
+        callback(
+          QuestionTypeList2.map((Type) => {
+            // 获取类型
+            // 这里是过滤了类型的WholeQuestion[]
+            const thisTypeList = data.questionOfPaperVos.filter(
+              (i) => i.questionType === Type
+            )
+            return {
               type: Type,
               amount: thisTypeList.length,
               isExists: thisTypeList.length != 0,
-              questiton:
-              thisTypeList.map(i=>({
-                score:1,
-                item_key:i.questionId,
-                item_data: {...i,courseId: "unknown" }  // FIXME: 等待接口更新courseID字段
+              questiton: thisTypeList.map((i) => ({
+                score: 1,
+                item_key: i.questionId,
+                item_data: { ...i, courseId: 'unknown' } // FIXME: 等待接口更新courseID字段
               }))
             }
-          }
+          })
         )
-      )
+      }
     }
-  }
-)
+  )
 
 /** 保存这张试卷 */
 export const useSaveTestPaper = () => {
-  return useMutation(async (paper: PostTestPaper) => {
-    await delayFetch()
-    return client.post({
-      url: '/paper/update-paper',
-      data: paper
-    })
-  },
-  {
-    onSuccess: () => {
-      message.success('保存成功')
+  return useMutation(
+    async (paper: PostTestPaper) => {
+      await delayFetch()
+      return client.post({
+        url: '/paper/update-paper',
+        data: paper
+      })
     },
-    onError: () => {
-      message.error('保存失败')
+    {
+      onSuccess: () => {
+        message.success('保存成功')
+      },
+      onError: () => {
+        message.error('保存失败')
+      }
     }
-  })
+  )
 }

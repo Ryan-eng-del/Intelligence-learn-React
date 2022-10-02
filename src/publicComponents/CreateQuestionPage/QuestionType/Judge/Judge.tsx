@@ -2,27 +2,14 @@ import React, { useState } from 'react'
 import { Form, Switch } from 'antd'
 import { TextArea } from '../Component/TextArea'
 import { Footer } from '../Component/Footer'
-import {
-  QuestionData,
-  QuestionDataWithID,
-  QuestionItem
-} from 'server/fetchExam/types/index'
+import { QuestionDataWithID } from 'server/fetchExam/types/index'
+import { Data2Network, Network2Data } from './config'
 
 export const Judge: React.FC<{
   content: QuestionDataWithID
 }> = ({ content }) => {
-
   //序列化为题目数据
-  const [question, setQuestion] = useState({
-    id: content.questionId,
-    content: content.questionDescription,
-    TrueOption: content.rightAnswer ,
-    footer: {
-      explanation: content.questionDescription,
-      rate: content.questionDifficulty,
-      knowledge: content.pointIds
-    }
-  })
+  const [question, setQuestion] = useState(Network2Data(content))
   const handleEdit = (content: string) => {
     question.content = content
     setQuestion({ ...question })
@@ -46,13 +33,15 @@ export const Judge: React.FC<{
           <Switch
             checkedChildren="对"
             unCheckedChildren="错"
-            checked={question.TrueOption == 'true'}
-            onChange={(e) =>
-              setQuestion({ ...question, TrueOption: e.toString() })
-            }
+            checked={question.isTrue}
+            onChange={(e) => setQuestion({ ...question, isTrue: e })}
           />
         </Form.Item>
-        <Footer data={question} setter={handleChangeFooter} />
+        <Footer
+          data={question}
+          setter={handleChangeFooter}
+          Serializer={Data2Network}
+        />
       </Form>
     </>
   )

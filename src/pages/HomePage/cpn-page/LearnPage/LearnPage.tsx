@@ -1,8 +1,5 @@
 import React, { useReducer, useState } from 'react'
-import {
-  LearnRoutePageWrapper,
-  ModalContextWrapper
-} from './LearnPageStyle'
+import { LearnRoutePageWrapper, ModalContextWrapper } from './LearnPageStyle'
 import {
   PageWrapper,
   ContentWrapper,
@@ -11,11 +8,14 @@ import {
 } from 'publicComponents/PageStyle/PageHeaderWapper'
 import { Button, Modal, Input, Col, Row } from 'antd'
 import { ClassCard } from 'publicComponents/TeachRotePage'
-import { useShowLearnClass,  useShowInvitedCourseInfo, useJoinInvitedCourse } from 'server/fetchCourse'
+import {
+  useShowLearnClass,
+  useShowInvitedCourseInfo,
+  useJoinInvitedCourse
+} from 'server/fetchCourse'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { uniqueId } from 'lodash'
 import { CourseInfo } from 'server/fetchCourse/types'
-
 
 export const LearnPage: React.FC = () => {
   const [invitedcode, setInvitedCode] = useState('')
@@ -24,7 +24,7 @@ export const LearnPage: React.FC = () => {
   const { data, isLoading } = useShowLearnClass()
   const { mutate: joinClass } = useJoinInvitedCourse(invitedcode, newCourse)
 
-  const [modal2Visible, setModalVisible2] = useState(false);
+  const [modal2Visible, setModalVisible2] = useState(false)
   const [confirmLoading2, setComfirmLoading2] = useState(false)
 
   ////////////////////////////////////////////////////
@@ -32,20 +32,22 @@ export const LearnPage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false)
   const [confirmLoading, setComfirmLoading] = useState(false)
 
-  const { mutate,isLoading:wait,isSuccess,} = useShowInvitedCourseInfo(invitedcode, setNewCourse,setModalVisible2)
+  const {
+    mutate,
+    isLoading: wait,
+    isSuccess
+  } = useShowInvitedCourseInfo(invitedcode, setNewCourse, setModalVisible2)
 
   const showModal = () => {
     setModalVisible(true)
   }
-  const handleOk = async() => {
+  const handleOk = async () => {
     // setComfirmLoading(true)//展示loading
     mutate()
     //将设置的课程设置为状态方便加入
-    setComfirmLoading(false)//关闭loading
+    setComfirmLoading(false) //关闭loading
     // setModalVisible2(true)//设置窗口2 展示
   }
-
-
 
   const handleCancel = () => {
     setModalVisible(false)
@@ -53,10 +55,9 @@ export const LearnPage: React.FC = () => {
   ////////////////////////////////////////////////////
   //窗口二
 
-
   const handleOk2 = () => {
-    setComfirmLoading2(true)//打开loading
-    joinClass()//使用mutate发送网络请求加入课程
+    setComfirmLoading2(true) //打开loading
+    joinClass() //使用mutate发送网络请求加入课程
 
     setComfirmLoading2(false)
     setModalVisible2(false)
@@ -65,15 +66,7 @@ export const LearnPage: React.FC = () => {
   }
   const handleCancel2 = () => {
     setModalVisible2(false)
-
   }
-
-
-
-
-
-
-
 
   return (
     <LearnRoutePageWrapper>
@@ -113,12 +106,14 @@ export const LearnPage: React.FC = () => {
           confirmLoading={confirmLoading2}
           width={300}
         >
-          <ModalContextWrapper >
-            <img src={newCourse.course_cover || require('assets/img/class.jpg')} alt="课程图片" />
+          <ModalContextWrapper>
+            <img
+              src={newCourse.course_cover || require('assets/img/class.jpg')}
+              alt="课程图片"
+            />
             <h1>{newCourse.course_name}</h1>
             <h3>{newCourse.teacher_name}</h3>
           </ModalContextWrapper>
-
         </Modal>
       </>
       <PageWrapper>
@@ -142,25 +137,31 @@ export const LearnPage: React.FC = () => {
               />
             ) : (
               <>
-                {Array.from({ length: ((data as CourseInfo[]).length / 4) + 1 }).map((v, i) => {
+                {Array.from({
+                  length: (data as CourseInfo[]).length / 4 + 1
+                }).map((v, i) => {
                   return (
-                    <Row key={uniqueId()} style={{ marginBottom: '30px', width: 1100 }}  >
-                      {(data as CourseInfo[]).map((item: CourseInfo, index: number) => {
-                        if (index >= i * 4 &&
-                          index < (i + 1) * 4)
-                          return (
-                            <Col span={6} key={item.class_id} >
-                              <ClassCard
-                                id={item.class_id}
-                                cname={item.course_name}
-                                tname={item.course_name}
-                                iurl={item.course_cover || null}
-                                optimistic={item.optimistic}
-                                Permission={false}
-                              ></ClassCard>
-                            </Col>
-                          )
-                      })}
+                    <Row
+                      key={uniqueId()}
+                      style={{ marginBottom: '30px', width: 1100 }}
+                    >
+                      {(data as CourseInfo[]).map(
+                        (item: CourseInfo, index: number) => {
+                          if (index >= i * 4 && index < (i + 1) * 4)
+                            return (
+                              <Col span={6} key={item.class_id}>
+                                <ClassCard
+                                  id={item.class_id}
+                                  cname={item.course_name}
+                                  tname={item.course_name}
+                                  iurl={item.course_cover || null}
+                                  optimistic={item.optimistic}
+                                  Permission={false}
+                                ></ClassCard>
+                              </Col>
+                            )
+                        }
+                      )}
                     </Row>
                   )
                 })}

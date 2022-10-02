@@ -1,17 +1,14 @@
 import React, { useState } from 'react'
-import { Form, Button, Radio } from 'antd'
+import { Form, Radio } from 'antd'
 import { TextArea } from '../Component/TextArea'
 import { Footer } from '../Component/Footer'
 import { QuestionDataWithID } from 'server/fetchExam/types'
-import { Data2Network, Network2Data } from './serializer'
-import { AnyFn } from 'types'
+import { Data2Network, Network2Data } from './config'
 
-export const SingleChoice: React.FC<{
+const Single: React.FC<{
   content: QuestionDataWithID
-  callback?: AnyFn
-}> = ({ content }) => {
-  console.log('content', content)
-
+  callback?: (newData: QuestionDataWithID) => void
+}> = ({ content, callback }) => {
   //正序列化为题目数据
   const [question, setQuestion] = useState(Network2Data(content))
 
@@ -27,6 +24,8 @@ export const SingleChoice: React.FC<{
   const handleEdit = (item: { content: string }, content: string) => {
     item.content = content
     setQuestion({ ...question })
+    // 测试数据反向流动
+    callback ? callback(Data2Network(question)) : 0
   }
 
   return (
@@ -89,8 +88,13 @@ export const SingleChoice: React.FC<{
             </React.Fragment>
           ))}
         </Radio.Group>
-        <Footer data={question} setter={handleChangeFooter} Serializer={Data2Network}/>
+        <Footer
+          data={question}
+          setter={handleChangeFooter}
+          Serializer={Data2Network}
+        />
       </Form>
     </>
   )
 }
+export const SingleChoice = React.memo(Single)

@@ -13,7 +13,6 @@ import { useShowExamList } from 'server/fetchExam'
 import { ExamListItem } from 'server/fetchExam/types'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 
-
 export const ExamList: React.FC = () => {
   const navigate = useNavigate()
   const [statistics, setStatistics] = useState(false)
@@ -32,7 +31,7 @@ export const ExamList: React.FC = () => {
     {
       title: '操作',
       key: 'action',
-      render: (_,record) => (
+      render: (_, record) => (
         <>
           <Space size="middle">
             <Button
@@ -59,11 +58,12 @@ export const ExamList: React.FC = () => {
     }
   ]
 
-
-  const { data, isLoading } = useShowExamList("这个应该是课程ID")
-  return (
-    isLoading ? <BaseLoading /> : <>
-      <Table columns={columns} dataSource={data!} rowKey='paperId'/>
+  const { data, isLoading } = useShowExamList('这个应该是课程ID')
+  return isLoading ? (
+    <BaseLoading />
+  ) : (
+    <>
+      <Table columns={columns} dataSource={data!} rowKey="paperId" />
       <StatisticsPanel
         visible={statistics}
         close={() => setStatistics(false)}

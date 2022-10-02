@@ -10,15 +10,14 @@ import {
   TitleWrapper
 } from 'publicComponents/PageStyle/PageHeaderWapper'
 export const ExamPage: React.FC = () => {
-  const { mutate, data } = useAddTestPaper(()=>{
+  const { mutate, data } = useAddTestPaper(() => {
     navigate(`/editpaper/${data}`)
   })
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const wait = () => {
     setLoading(true)
     mutate('课程id')
-
   }
   return (
     <>
@@ -26,11 +25,7 @@ export const ExamPage: React.FC = () => {
         <HeaderWrapper>
           <TitleWrapper>
             <div className="page-title">考试作业</div>
-            <Button
-              type="primary"
-              onClick={wait}
-              loading={loading}
-              >
+            <Button type="primary" onClick={wait} loading={loading}>
               新建作业
             </Button>
           </TitleWrapper>

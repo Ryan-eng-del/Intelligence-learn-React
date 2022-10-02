@@ -19,7 +19,7 @@ import {
   CreateExamPage,
   QuestionBankPage,
   CreateQuestionPage,
-  QuestionPreviewPage,
+  QuestionPreviewPage
 } from 'pages'
 import {
   LearnPage,
@@ -43,9 +43,7 @@ import { KnowledgeGraph } from './pages/K-graphPage/KnowledgeGraph'
 import { TeacherSourcePreviewPage } from './pages/TeacherSourcePreviewPage/TeacherSourcePreviewPage'
 import { SourceVideoPreview } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/SourceVideoPreview'
 import { SourcePdfPreview } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/SourcePdfPreview'
-import {
-  QuestionEditPage,
-} from 'publicComponents/CreateQuestionPage'
+import { QuestionEditPage } from 'publicComponents/CreateQuestionPage'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
@@ -94,8 +92,8 @@ root.render(
               path="teacher-preview"
               element={<TeacherSourcePreviewPage />}
             >
-              <Route path='video/:id' element={<SourceVideoPreview />} />
-              <Route path='pdf/:id' element={<SourcePdfPreview />} />
+              <Route path="video/:id" element={<SourceVideoPreview />} />
+              <Route path="pdf/:id" element={<SourcePdfPreview />} />
             </Route>
             <Route path="createquestion" element={<CreateQuestionPage />} />
             <Route

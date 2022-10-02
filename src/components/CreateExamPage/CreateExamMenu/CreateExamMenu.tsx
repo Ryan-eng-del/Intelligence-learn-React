@@ -46,7 +46,7 @@ export const CreateExamMenu: React.FC<{
             icon={<ArrowLeftOutlined />}
             type="primary"
             style={{ marginLeft: '10px' }}
-            onClick={() => navigate('/questionbank', { replace: true })}
+            onClick={() => navigate('/classinfo/questionbank', { replace: true })}
           >
             返回
           </Button>

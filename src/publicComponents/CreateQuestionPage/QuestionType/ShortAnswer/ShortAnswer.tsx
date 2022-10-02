@@ -2,27 +2,14 @@ import React, { useState } from 'react'
 import { Form } from 'antd'
 import { Footer } from '../Component/Footer'
 import { TextArea } from '../Component/TextArea'
-import {
-  QuestionData,
-  QuestionDataWithID,
-  QuestionItem,
-  QuestionType
-} from 'server/fetchExam/types/index'
+import { QuestionDataWithID } from 'server/fetchExam/types/index'
+import { Data2Network, Network2Data } from './config'
 
 export const ShortAnswer: React.FC<{
   content: QuestionDataWithID
 }> = ({ content }) => {
-
-    //序列化为题目数据
-  const [question, setQuestion] = useState({
-    id: content.questionId,
-    content: content.questionDescription,
-    footer: {
-      explanation: content.questionDescription,
-      rate: content.questionDifficulty,
-      knowledge: content.pointIds
-    }
-  })
+  //序列化为题目数据
+  const [question, setQuestion] = useState(Network2Data(content))
   const handleEdit = (content: string) => {
     question.content = content
     setQuestion({ ...question })
@@ -42,7 +29,11 @@ export const ShortAnswer: React.FC<{
             setContent={(content: string) => handleEdit(content)}
           />
         </Form.Item>
-        <Footer data={question} setter={handleChangeFooter} />
+        <Footer
+          data={question}
+          setter={handleChangeFooter}
+          Serializer={Data2Network}
+        />
       </Form>
     </>
   )

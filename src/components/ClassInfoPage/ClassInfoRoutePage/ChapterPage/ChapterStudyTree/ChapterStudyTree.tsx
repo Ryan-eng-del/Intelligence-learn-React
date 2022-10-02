@@ -6,16 +6,12 @@ import { useChapterUI } from 'hook/useChapterStudy/useChapterUI'
 import { useMount } from 'hook/useMount'
 import { expandOnMount } from 'util/chapterStudyTree'
 import styled from 'styled-components'
-import { useChapterClient } from 'hook/useChapterStudy/useChapterStudyClient'
-import { useKnowledgeClient } from '../../../../../hook/useKnowledge/useKnowledgeClient'
 import { useKnowledgeControl } from '../../../../../hook/useKnowledge/useKnowledgeControl'
-import { useKnowledgeServer } from '../../../../../hook/useKnowledge/useKnowledgeServer'
-import { useKnowledgeUI } from '../../../../../hook/useKnowledge/useKnowledgeUI'
 import { useCheckKnowledgeTreeUI } from '../../../../../hook/useKnowledge/useCheckKnowledgeTreeUI'
 
 export const ChapterStudyTree: React.FC<{
   editable: boolean
-}> = ({editable}) => {
+}> = ({ editable }) => {
   /*UI驱动层*/
   const {
     treeData,

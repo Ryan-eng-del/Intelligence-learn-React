@@ -9,14 +9,16 @@ import { DeleteOutlined, SettingOutlined } from '@ant-design/icons'
 import { QuestionItem, QuestionList } from 'server/fetchExam/types'
 import { AnyFn } from 'types'
 import { QuestionICON } from '../CreateExamMenu/CreateExamMenu'
+import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 
 const { Panel } = Collapse
 
 export const CreateExamNav: React.FC<{
+  isLoading: boolean
   questionList: QuestionList[]
   changeScore: AnyFn<void>
   focus: (item: QuestionItem) => void
-}> = ({ questionList, focus, changeScore }) => {
+}> = ({ questionList, focus, isLoading }) => {
   const [Fouce, setFouce] = useState<QuestionItem>()
   const removeQuesItem = (curItem: QuestionItem, curList: QuestionList) => {
     if (curList.amount === 0) {
@@ -27,10 +29,11 @@ export const CreateExamNav: React.FC<{
   return (
     <>
       <CreateExamNavWrapper>
-        <div>
+        <h2>
           试卷总分:100分
           <SettingOutlined />
-        </div>
+        </h2>
+        {isLoading ? <BaseLoading /> : <></>}
         <Collapse
           bordered={false}
           expandIconPosition="end"
@@ -40,14 +43,18 @@ export const CreateExamNav: React.FC<{
           {questionList.map((QuestionPanel) =>
             QuestionPanel.isExists ? (
               <Panel
-                header={`${QuestionICON[QuestionPanel.type].title}(${QuestionPanel.amount})`}
+                header={`${QuestionICON[QuestionPanel.type].title}(${
+                  QuestionPanel.amount
+                })`}
                 key={QuestionPanel.type}
-                extra={<>
-                  <DeleteButton
-                    title={`确认移除整个组吗，这将移除里面全部${QuestionPanel.type}`}
-                    confirm={() => console.log('删除了整个组！')}
+                extra={
+                  <>
+                    <DeleteButton
+                      title={`确认移除整个组吗，这将移除里面全部${QuestionPanel.type}`}
+                      confirm={() => console.log('删除了整个组！')}
                     />
-                </>}
+                  </>
+                }
               >
                 {QuestionPanel.questiton.map((questionItem, index) => (
                   <QuestionItemWrapper
@@ -87,11 +94,10 @@ export const CreateExamNav: React.FC<{
                 ))}
               </Panel>
             ) : (
-              <div key={QuestionPanel.type}>调试信息：没有这种题</div>
+              <div key={QuestionPanel.type}></div>
             )
           )}
         </Collapse>
-        AAAAA
       </CreateExamNavWrapper>
     </>
   )
