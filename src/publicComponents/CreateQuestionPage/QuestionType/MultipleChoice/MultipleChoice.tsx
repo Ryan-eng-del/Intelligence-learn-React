@@ -4,11 +4,13 @@ import { TextArea } from '../Component/TextArea'
 import { Footer } from '../Component/Footer'
 import { QuestionDataWithID } from 'server/fetchExam/types/index'
 import { Data2Network, Network2Data } from './config'
+import { Preview } from './Preview'
 
 export const MultipleChoice: React.FC<{
   content: QuestionDataWithID
 }> = ({ content }) => {
   //序列化为题目数据
+
   const [question, setQuestion] = useState(Network2Data(content))
 
   const handleChangeFooter = (obj: any) => {
@@ -84,6 +86,7 @@ export const MultipleChoice: React.FC<{
           data={question}
           setter={handleChangeFooter}
           Serializer={Data2Network}
+          PreviewPage={Preview}
         />
       </Form>
     </>

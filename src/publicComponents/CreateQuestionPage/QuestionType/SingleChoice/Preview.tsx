@@ -1,31 +1,18 @@
 import { Button, Space } from 'antd'
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { QuestionDataWithID } from 'server/fetchExam/types'
+import { Network2Data } from './config'
 
-export const MultipleChoiceP: React.FC<{
+export const Preview: React.FC<{
   content: QuestionDataWithID
 }> = ({ content }) => {
-  const question = {
-    id: content.questionId,
-    content: content.questionDescription,
-    TrueOption: content.rightAnswer || '',
-    Options: content.questionOption.split('<>').map((i, x) => ({
-      optionName: String.fromCharCode(x + 65),
-      content: i
-    })),
-    footer: {
-      explanation: content.questionDescription,
-      rate: content.questionDifficulty,
-      knowledge: content.pointIds
-    }
-  }
+  const question = Network2Data(content)
   const str2DOM = (str: string) => (
     <div dangerouslySetInnerHTML={{ __html: str }} />
   )
-
   return (
     <>
-      <h2>题目(未完成)</h2>
+      <h2>题目</h2>
       {str2DOM(question.content)}
       <h2>选项</h2>
       {question.Options.map((i) => (
@@ -33,6 +20,7 @@ export const MultipleChoiceP: React.FC<{
           <Space>
             <Button
               type={i.optionName == question.TrueOption ? 'primary' : 'default'}
+              shape="circle"
             >
               {i.optionName}
             </Button>

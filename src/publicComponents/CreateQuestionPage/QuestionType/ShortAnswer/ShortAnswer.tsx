@@ -4,6 +4,7 @@ import { Footer } from '../Component/Footer'
 import { TextArea } from '../Component/TextArea'
 import { QuestionDataWithID } from 'server/fetchExam/types/index'
 import { Data2Network, Network2Data } from './config'
+import { Preview } from './Preview'
 
 export const ShortAnswer: React.FC<{
   content: QuestionDataWithID
@@ -33,6 +34,7 @@ export const ShortAnswer: React.FC<{
           data={question}
           setter={handleChangeFooter}
           Serializer={Data2Network}
+          PreviewPage={Preview}
         />
       </Form>
     </>

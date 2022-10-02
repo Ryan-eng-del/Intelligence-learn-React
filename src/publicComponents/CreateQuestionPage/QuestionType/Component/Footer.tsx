@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Form, Button, Modal, Radio, message } from 'antd'
 import { TextArea } from './TextArea'
 import { useUpadateQuestion } from 'server/fetchExam'
 import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
 import { Data2NetworkConverter, FooterType } from './types'
+import { QuestionDataWithID } from 'server/fetchExam/types'
+import { Network2Data } from '../MultipleChoice/config'
 
 export const Footer: React.FC<{
   data: {
@@ -11,12 +13,30 @@ export const Footer: React.FC<{
     [key: string]: any
   }
   setter: (obj: FooterType) => void
-  Serializer: Data2NetworkConverter<any> // 要求传入一个序列化器将题目数据转换为标准格式
-  previewPage?: React.ReactElement
-}> = ({ data, setter, Serializer }) => {
+
+  // 要求传入一个序列化器将题目数据转换为标准格式
+  Serializer: Data2NetworkConverter<any>
+  // 预览界面
+  PreviewPage?: React.FC<{
+    content: QuestionDataWithID
+  }>
+}> = ({ data, setter, Serializer, PreviewPage }) => {
   //网络请求
   const { mutate } = useUpadateQuestion()
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   return (
     <>
       <hr />
@@ -68,7 +88,7 @@ export const Footer: React.FC<{
           Save
         </Button>
         <Button
-          onClick={() => message.loading('打开预览界面')}
+          onClick={showModal}
           size="large"
           style={{ float: 'right' }}
           type="primary"
@@ -76,6 +96,10 @@ export const Footer: React.FC<{
           预览
         </Button>
       </Form.Item>
+      <Modal title="预览" visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+      footer={[]}>
+        {PreviewPage ? <PreviewPage content={Serializer(data)}/> : <h1>传入一个预览界面</h1>}
+      </Modal>
     </>
   )
 }

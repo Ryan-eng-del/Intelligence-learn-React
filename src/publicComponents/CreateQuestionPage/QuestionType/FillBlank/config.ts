@@ -46,7 +46,7 @@ export const Data2Network: Data2NetworkConverter<structure> = (content) => ({
   questionAnswerNum: content.Options.length,
   questionDescription: content.content,
   questionDifficulty: content.footer.rate,
-  questionType: QuestionType.shortAnswer,
+  questionType: QuestionType.fillBlank,
   rightAnswer: content.isSubjective ? '1' : '0',
   questionAnswerExplain: content.footer.explanation,
   pointIds: content.footer.knowledge

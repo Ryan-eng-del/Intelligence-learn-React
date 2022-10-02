@@ -5,6 +5,7 @@ import { TextArea } from '../Component/TextArea'
 // import { RandomInt } from 'publicComponents/ClassInfoPage/ChapterList/config/util'
 import { QuestionDataWithID } from 'server/fetchExam/types/index'
 import { Data2Network, Network2Data } from './config'
+import { Preview } from './Preview'
 
 export const FillBlank: React.FC<{
   content: QuestionDataWithID
@@ -75,6 +76,7 @@ export const FillBlank: React.FC<{
           data={question}
           setter={handleChangeFooter}
           Serializer={Data2Network}
+          PreviewPage={Preview}
         />
       </Form>
     </>
