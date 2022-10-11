@@ -18,6 +18,7 @@ import { TeachRoutePageReducer, initialState } from './config/reducer'
 import { ClassCard } from 'publicComponents/TeachRotePage'
 import { useCreateClass, useShowCreateClass } from 'server/fetchClass'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
+import { Link } from 'react-router-dom'
 
 export const TeachPage = () => {
   const [state, dispatch] = useReducer(TeachRoutePageReducer, initialState)
@@ -113,6 +114,8 @@ export const TeachPage = () => {
       <TeachPageWrapper>
         <TeachHeaderWrapper>
           <TeachTitleWrapper>
+            <Link to={'/mk-graph'}>mk-test-graph</Link>
+
             <div className="teach-page-title">我教的课程</div>
             <Button type="primary" onClick={showModal}>
               新建课程

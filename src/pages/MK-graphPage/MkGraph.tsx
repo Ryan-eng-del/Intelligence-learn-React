@@ -1,12 +1,17 @@
 import React, { useEffect } from 'react'
 import * as echarts from 'echarts'
 import styled from 'styled-components'
-import { setNodeStyle } from './config'
-import { useShowKG } from '../../server/fetchGraph/index'
-import { setCategories2 } from './config/index'
+import {
+  getKnowPoint,
+  setNodeStyle,
+  HTMLToolTip,
+  setCategories
+} from './config'
+import { useShowMG } from '../../server/fetchGraph/index'
 
-export const KnowledgeGraph = () => {
-  const { data } = useShowKG()
+export const MkGraph = () => {
+  const { data } = useShowMG()
+
   useEffect(() => {
     const chartDom: any = document.getElementById('chart')
     const myChart = echarts.init(chartDom, 'dark')
@@ -15,19 +20,20 @@ export const KnowledgeGraph = () => {
       maxLevel = Math.max(node.category, maxLevel)
       setNodeStyle(node)
     })
-    const categories = setCategories2(maxLevel)
+
+    const categories = setCategories(maxLevel)
+
     const option: any = {
       tooltip: {
         formatter: function (param: any) {
-          return `
-         ${param.name}`
+          const [know, color] = getKnowPoint(param.data.level)
+          return HTMLToolTip(color, know, param)
         }
       },
       animationDuration: 2000,
       animationEasingUpdate: 'quinticInOut',
       legend: {
         show: true,
-        selectedMode: false, //开启关闭点击图例
         orient: 'vertical',
         icon: 'circle',
         padding: 20,
@@ -47,7 +53,7 @@ export const KnowledgeGraph = () => {
           layout: 'force',
           focusNodeAdjacency: true,
           roam: true,
-          zoom: 0.6,
+          zoom: 1,
           draggable: true,
           force: {
             repulsion: 1500,
@@ -72,7 +78,11 @@ export const KnowledgeGraph = () => {
     }
     myChart.setOption(option)
   }, [data])
-  return <KnowledgeGraphWrapper id={'chart'}></KnowledgeGraphWrapper>
+  return (
+    <>
+      <KnowledgeGraphWrapper id={'chart'}></KnowledgeGraphWrapper>
+    </>
+  )
 }
 const KnowledgeGraphWrapper = styled.div`
   width: 100vw;

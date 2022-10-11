@@ -19,6 +19,7 @@ import { Button, Modal, Input } from 'antd'
 import { getBase64, beforeUpload } from './config/util'
 import { TeachRoutePageReducer, initialState } from './config/reducer'
 import { ClassCard } from 'publicComponents/TeachRotePage'
+import { Link } from 'react-router-dom'
 
 export const TeachPage = () => {
   const [state, dispatch] = useReducer(TeachRoutePageReducer, initialState)

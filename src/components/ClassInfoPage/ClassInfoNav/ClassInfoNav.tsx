@@ -1,16 +1,19 @@
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import {
   ClassInfoWrapper,
   ClassInfoMenuWrapper,
   ClassInfoNavWrapper
 } from './ClassInfoNavStyle'
 import items from './config/index'
-import { Menu } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { NavMapMenu } from '../../../publicComponents/NavMap/NavMap'
+import { createClassNavMap } from '../../../util/createNavMap'
 
 export const ClassInfoNav: React.FC = () => {
   const location: any = useLocation()
   const navigate = useNavigate()
+  const [curSelect, setCurSelect] = useState<string>('')
+  const map = useMemo(() => createClassNavMap(), [])
   return (
     <ClassInfoNavWrapper>
       <ClassInfoWrapper>
@@ -29,12 +32,12 @@ export const ClassInfoNav: React.FC = () => {
         </div>
       </ClassInfoWrapper>
       <ClassInfoMenuWrapper>
-        <Menu
-          defaultSelectedKeys={['Chapter']}
-          defaultOpenKeys={['Chapter']}
-          mode="inline"
-          inlineCollapsed={false}
+        <NavMapMenu
+          sliceCount={10}
           items={items}
+          curSelect={curSelect}
+          setCurSelect={setCurSelect}
+          navMap={map}
         />
       </ClassInfoMenuWrapper>
     </ClassInfoNavWrapper>

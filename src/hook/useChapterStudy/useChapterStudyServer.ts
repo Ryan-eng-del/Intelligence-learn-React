@@ -5,8 +5,7 @@ import {
   useAddChapter,
   useDeleteChapter,
   useShowChapter,
-  useEditChapter,
-  useAddContentResource
+  useEditChapter
 } from '../../server/fetchChapter'
 import { ChapterNodeType, CourTimeType } from 'server/fetchChapter/types'
 import { useAddContent } from '../../server/fetchChapter/index'

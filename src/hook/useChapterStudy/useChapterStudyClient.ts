@@ -1,13 +1,6 @@
 import { UploadFile } from 'antd'
 import { InternalUploadFile } from 'antd/lib/upload/interface'
 import { useState } from 'react'
-// import {
-//   ChapterNodeType,
-//   ChapterNodeType_init,
-//   ChapterResourceType,
-//   CourTimeType
-// } from 'server/fetchChapter/types'
-// import { KnowledgeNodeType } from 'server/fetchKnowledge/types'
 
 export const useChapterClient = () => {
   /*:受控树展开的节点 :用来控制树*/
@@ -42,6 +35,10 @@ export const useChapterClient = () => {
   )
   /* 当前上传的文件列表 */
   const [fileList, setFileList] = useState([])
+  //toDo 优化目的：减少共享状态层的状态，增强维护性
+  //toDo 优化建议：1: clienState: {allState}
+  //toDo 优化建议：2：可不可以分出单独的，不会影响其他状态的state，放在小的组件当中。不然太臃肿，减少该组件的Hook Queue的长度
+
   return {
     curFileListName,
     setCurFileListName,

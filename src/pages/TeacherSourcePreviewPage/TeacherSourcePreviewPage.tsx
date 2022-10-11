@@ -44,7 +44,7 @@ const TeachPreviewWrapper = styled.div`
 `
 const PreviewContentWrapper = styled.div`
   margin-right: 100px;
-  width: 600px;
+  width: 500px;
   height: 700px;
   overflow: scroll;
   overflow-x: hidden;

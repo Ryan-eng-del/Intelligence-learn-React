@@ -55,6 +55,7 @@ import {
   QuestionEditPage,
   ShowDetails
 } from 'publicComponents/CreateQuestionPage'
+import { MkGraph } from 'pages/MK-graphPage/MkGraph'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
@@ -109,6 +110,7 @@ root.render(
               />
             </Route>
             <Route path={'k-graph'} element={<KnowledgeGraph />} />
+            <Route path={'mk-graph'} element={<MkGraph />} />
             <Route path="editpaper/:paperid" element={<CreateExamPage />} />
             <Route
               path="teacher-preview"

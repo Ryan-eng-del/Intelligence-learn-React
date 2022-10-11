@@ -13,6 +13,7 @@ import { useCallback } from 'react'
 import { Key } from 'react'
 import { ChildChapter } from 'types/server/fetchChapter'
 import { cloneDeepWith } from 'lodash'
+import { useMount } from '../useMount'
 
 export const useChapterControl = () => {
   /*Client状态层*/
@@ -87,6 +88,7 @@ export const useChapterControl = () => {
   const handleClickAddResource = useCallback(() => {
     setIsModalVisible(true)
   }, [])
+
   /*关联知识点*/
   const handleClickRelatePoints = useCallback(
     (id: string) => {
@@ -115,6 +117,7 @@ export const useChapterControl = () => {
       queryClient
     )
   }, [data])
+
   /*添加子目录*/
   const handleClickAddChildChapter = useCallback(
     (chapterId: string) => {
@@ -140,6 +143,7 @@ export const useChapterControl = () => {
     },
     [data]
   )
+
   /*添加课时*/
   const handleClickAddChildCourseTime = useCallback((chapterId: any) => {
     setIsModalVisible(true)
@@ -157,6 +161,7 @@ export const useChapterControl = () => {
     })
     setCurContentNode(node)
   }, [])
+
   const handleOk = useCallback(async () => {
     setIsModalVisible(false)
 
@@ -185,6 +190,7 @@ export const useChapterControl = () => {
       setResourceObj([])
     }
   }, [data, curChapterId, curContentNode, resourceObj, resourceTitle])
+
   /*确认添加*/
   const confirmAdd = async () => {
     const arg = {
@@ -221,13 +227,7 @@ export const useChapterControl = () => {
   /*删除节点*/
   const handleDeleteTreeNode = useCallback(
     async (id: string, type: string) => {
-      switch (type) {
-        case 'courTimes':
-          deleteTreeContent(data!, id, queryClient)
-          break
-        case 'chapterNode':
-          deleteTreeNode(data!, id, queryClient)
-      }
+      deleteTreeNode(data!, id, queryClient)
     },
     [data]
   )
@@ -249,6 +249,7 @@ export const useChapterControl = () => {
       setAddInputValue('')
     }
   }
+  /* 取消重命名 */
   const cancelRename = () => {
     setCurRenameNode({})
     setFocusStatus(false)
