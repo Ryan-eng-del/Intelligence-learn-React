@@ -5,6 +5,7 @@ import { delayFetch } from 'util/delayFetch'
 import { TestPaper, PostTestPaper, QuestionType } from '../types'
 import { AnyFn } from 'types'
 import { dropRight } from 'lodash'
+import { config } from '../config'
 
 /** 创建一张试卷 */
 export const useAddTestPaper = (callback: AnyFn) => {
@@ -46,7 +47,7 @@ export const useShowTestPaper = (paperId: string, callback: any) =>{
       QuestionTypeList,
       QuestionTypeList.length / 2
     ).map((i) => parseInt(i))
-    return QuestionTypeList2.map((Type) => {
+    return QuestionTypeList2.map((Type: QuestionType) => {
       // 获取类型
       // 这里是过滤了类型的WholeQuestion[]
       const thisTypeList = data.questionOfPaperVos.filter(
@@ -54,9 +55,10 @@ export const useShowTestPaper = (paperId: string, callback: any) =>{
       )
       return {
         type: Type,
-        min: 1,
-        max: 10,
-        defaultScore: 1,
+        name: config[Type].name,
+        min: config[Type].min,
+        max: config[Type].max,
+        defaultScore: config[Type].defaultScore,
         amount: thisTypeList.length,
         isExists: thisTypeList.length != 0,
         questiton: thisTypeList.map((i) => ({

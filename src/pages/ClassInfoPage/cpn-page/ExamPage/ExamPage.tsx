@@ -10,8 +10,8 @@ import {
   TitleWrapper
 } from 'publicComponents/PageStyle/PageHeaderWapper'
 export const ExamPage: React.FC = () => {
-  const { mutate, data } = useAddTestPaper(() => {
-    navigate(`/editpaper/${data}`)
+  const { mutate } = useAddTestPaper((id:string) => {
+    navigate(`/editpaper/${id}`)
   })
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()

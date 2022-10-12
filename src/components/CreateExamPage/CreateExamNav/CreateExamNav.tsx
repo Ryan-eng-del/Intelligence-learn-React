@@ -24,11 +24,18 @@ export const CreateExamNav: React.FC<{
 }> = ({ questionList, focus, isLoading,SumScore, setConfig }) => {
   const [Fouce, setFouce] = useState<QuestionItem>()
   const removeQuesItem = (curItem: QuestionItem, curList: QuestionList) => {
+    curList.questiton = curList.questiton.filter(i=>i!==curItem)
     if (curList.amount === 0) {
-      console.log()
+      curList.isExists = false
     }
+    setConfig()
   }
-
+  const removeCollapse = (curList: QuestionList) => {
+    curList.amount = 0;
+    curList.isExists = false;
+    curList.questiton = [];
+    setConfig()
+  }
   return (
     <>
       <CreateExamNavWrapper>
@@ -55,7 +62,7 @@ export const CreateExamNav: React.FC<{
                   <>
                     <DeleteButton
                       title={`确认移除整个组吗，这将移除里面全部${QuestionPanel.type}`}
-                      confirm={() => console.log('删除了整个组！')}
+                      confirm={()=>removeCollapse(QuestionPanel)}
                     />
                   </>
                 }
