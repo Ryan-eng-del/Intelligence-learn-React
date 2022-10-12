@@ -6,19 +6,22 @@ import {
 } from './CreateExamNavStyle'
 import { Collapse, Button, Popconfirm, Tooltip, InputNumber } from 'antd'
 import { DeleteOutlined, SettingOutlined } from '@ant-design/icons'
-import { QuestionItem, QuestionList } from 'server/fetchExam/types'
+import { QuestionItem, QuestionList, QuestionType } from 'server/fetchExam/types'
 import { AnyFn } from 'types'
 import { QuestionICON } from '../CreateExamMenu/CreateExamMenu'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
+import { Config } from './Config'
 
 const { Panel } = Collapse
 
 export const CreateExamNav: React.FC<{
   isLoading: boolean
   questionList: QuestionList[]
+  setConfig:()=>void
   changeScore: AnyFn<void>
   focus: (item: QuestionItem) => void
-}> = ({ questionList, focus, isLoading }) => {
+  SumScore:()=>number
+}> = ({ questionList, focus, isLoading,SumScore, setConfig }) => {
   const [Fouce, setFouce] = useState<QuestionItem>()
   const removeQuesItem = (curItem: QuestionItem, curList: QuestionList) => {
     if (curList.amount === 0) {
@@ -29,10 +32,11 @@ export const CreateExamNav: React.FC<{
   return (
     <>
       <CreateExamNavWrapper>
-        <h2>
-          试卷总分:100分
-          <SettingOutlined />
-        </h2>
+        <Config
+          config={questionList}
+          setConfig={setConfig}
+          SumScore={SumScore}
+        ></Config>
         {isLoading ? <BaseLoading /> : <></>}
         <Collapse
           bordered={false}

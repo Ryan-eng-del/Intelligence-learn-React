@@ -34,6 +34,10 @@ export interface QuestionItem {
 /** （本地类型）试卷编辑导航一种题型的折叠面板(type唯一) */
 export interface QuestionList {
   type: QuestionType //题目类型
+  name: string
+  defaultScore: number
+  min: number
+  max: number
   amount: number //题目总数
   isExists: boolean //表示该类型题目是否已经存在
   questiton: QuestionItem[] // ↑上面那种类型

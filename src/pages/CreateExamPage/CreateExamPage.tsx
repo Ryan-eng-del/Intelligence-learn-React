@@ -24,13 +24,22 @@ export const CreateExamPage: React.FC = () => {
   const { data, isLoading } = useShowTestPaper(paperid!, setData) // 打开试卷
 
   const { mutate } = useCreateEmptyQuestion()
+
+  const getSumScore = () =>{
+    let sum = 0
+    dataList.forEach(C=>{
+      sum += C.questiton.reduce((p,c)=>p+c.score,0)
+    })
+    return sum;
+  }
+
   const AddQuestion = (type: QuestionType) => {
     mutate(type)
     const ChangePanel = dataList.find((i: QuestionList) => i.type === type)
     ChangePanel!.isExists = true
     ChangePanel!.amount += 1
     ChangePanel!.questiton = ChangePanel!.questiton.concat({
-      score: 1, //题目在此试卷的分数
+      score: ChangePanel!.defaultScore, //题目在此试卷的分数
       item_data: {
         questionId: RandomInt().toString(),
         questionDescription: '<p>这里题目<strong>加粗</strong></p>',
@@ -76,6 +85,8 @@ export const CreateExamPage: React.FC = () => {
             questionList={dataList}
             focus={FocusQuestion}
             changeScore={changeScore}
+            SumScore={getSumScore}
+            setConfig={()=>setData([...dataList])}
           />
           <div style={{ width: '80%' }}>
             {/* 添加按钮 */}

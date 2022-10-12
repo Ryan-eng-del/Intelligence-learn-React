@@ -44,6 +44,7 @@ import { TeacherSourcePreviewPage } from './pages/TeacherSourcePreviewPage/Teach
 import { SourceVideoPreview } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/SourceVideoPreview'
 import { SourcePdfPreview } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/SourcePdfPreview'
 import { QuestionEditPage } from 'publicComponents/CreateQuestionPage'
+import { TestPaperPreview } from 'components/CreateExamPage'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
@@ -88,6 +89,7 @@ root.render(
             </Route>
             <Route path={'k-graph'} element={<KnowledgeGraph />} />
             <Route path="editpaper/:paperid" element={<CreateExamPage />} />
+            <Route path="previewtestpaper/:paperid" element={<TestPaperPreview />} />
             <Route
               path="teacher-preview"
               element={<TeacherSourcePreviewPage />}

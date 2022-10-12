@@ -15,7 +15,7 @@ export const CreateExamHeader: React.FC<{
         <Button
           type="primary"
           shape="circle"
-          onClick={() => navigate('/classinfo/exam', { replace: true })}
+          onClick={() => navigate(-1)}
           icon={<ArrowLeftOutlined />}
         />
         <label>试卷名字：</label>

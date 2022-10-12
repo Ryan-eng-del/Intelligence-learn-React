@@ -48,9 +48,9 @@ export const ExamList: React.FC = () => {
             </Button>
             <Button
               icon={<ArrowRightOutlined />}
-              onClick={() => navigate(`/editpaper/${record.paperId}`)}
+              onClick={() => navigate(`/previewtestpaper/${record.paperId}`)}
             >
-              编辑
+              打开
             </Button>
           </Space>
         </>

@@ -20,6 +20,7 @@ const CreateExamRoute: React.FC<{
     [QuestionType.judge]: <Judge content={context} />,
     [QuestionType.fillBlank]: <FillBlank content={context} />
   })
+
   return (
     <CreateExamRoutePageWrapper>
       <Consumer>

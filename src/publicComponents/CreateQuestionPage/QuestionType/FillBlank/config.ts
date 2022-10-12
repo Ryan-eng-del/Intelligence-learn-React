@@ -1,5 +1,5 @@
 import { join } from 'lodash'
-import { QuestionType } from 'server/fetchExam/types'
+import { QuestionDataWithID, QuestionType } from 'server/fetchExam/types'
 import {
   Data2NetworkConverter,
   Network2DataConverter
