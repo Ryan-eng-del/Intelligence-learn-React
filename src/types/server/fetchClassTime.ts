@@ -15,3 +15,29 @@ export interface AddContent {
   paper_name?: string
   resource_ids?: string[]
 }
+export interface EditContent {
+  /**
+   * 章节id
+   */
+  chapter_id: string
+  /**
+   * 课时id
+   */
+  class_time_id: string
+  /**
+   * 课时名
+   */
+  name: string
+  /**
+   * 试卷id
+   */
+  paper_id: string
+  /**
+   * 试卷名称
+   */
+  paper_name: string
+  /**
+   * 资源id集合
+   */
+  resource_ids: string[]
+}

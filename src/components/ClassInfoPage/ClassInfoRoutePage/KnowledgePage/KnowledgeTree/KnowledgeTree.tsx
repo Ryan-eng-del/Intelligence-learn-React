@@ -30,6 +30,7 @@ export const KnowledgeTree = () => {
   } = useKnowledgeUI()
   const { checkTreeData } = useCheckKnowledgeTreeUI(data)
   useMount(() => {
+    console.log('知识点页面挂载')
     setExpandKeys(generateKnowledgeKeys(data))
   })
   return (

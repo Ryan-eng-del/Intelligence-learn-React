@@ -29,6 +29,8 @@ const ChapterTreeContent: React.FC<{
   resource,
   handleDeleteResource
 }) => {
+  console.log('TreeContent')
+
   return (
     <>
       <ChapterTreeContentWrapper>
@@ -43,12 +45,6 @@ const ChapterTreeContent: React.FC<{
                 onClick={() => handleDeleteTreeContent(contentId, 'courTimes')}
               >
                 删除
-              </Button>
-              <Button
-                type={'primary'}
-                onClick={() => handleReNameTreeNode(contentId)}
-              >
-                重命名
               </Button>
             </EditToolWrapperContent>
           )}

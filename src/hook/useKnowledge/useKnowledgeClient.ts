@@ -28,7 +28,6 @@ export const useKnowledgeClient = () => {
   const [curNode, setCurNode] = useState<KnowledgeNodeType>(
     KnowledgeNodeType_init
   )
-
   /*:表示当前重命名的节点*/
   const [curRenameNode, setCurRenameNode] = useState<KnowledgeNodeType>(
     KnowledgeNodeType_init

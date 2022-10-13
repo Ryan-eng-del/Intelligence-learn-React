@@ -1,78 +1,19 @@
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import {
   ClassInfoWrapper,
   ClassInfoMenuWrapper,
   ClassInfoNavWrapper
 } from './ClassInfoNavStyle'
-
+import items from './config/index'
 import { Menu } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { CurCourseProvider } from 'pages/ClassInfoPage/ClassInfoPage'
-import {
-  FolderOutlined,
-  FundProjectionScreenOutlined,
-  BellOutlined,
-  NotificationOutlined,
-  GoldOutlined,
-  ProfileOutlined,
-  CopyOutlined
-} from '@ant-design/icons'
-import type { MenuProps } from 'antd'
-import { Link } from 'react-router-dom'
-
-type MenuItem = Required<MenuProps>['items'][number]
-
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[],
-  type?: 'group'
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type
-  } as MenuItem
-}
-
-const items = (Permission: boolean) => {
-  const a: MenuItem[] = [
-    getItem(
-      <Link to={'chapter'}>课程章节</Link>,
-      'Chapter',
-      <FundProjectionScreenOutlined />
-    ),
-    getItem(<Link to={'exam'}>作业考试</Link>, 'Homework', <BellOutlined />),
-    getItem(
-      <Link to={'resource'}>课程资料</Link>,
-      'Resource',
-      <FolderOutlined />
-    ),
-    getItem(
-      <Link to={'discuss'}>讨论区域</Link>,
-      'Discuss',
-      <NotificationOutlined />
-    ),
-    getItem(
-      <Link to={'questionbank'}>题库</Link>,
-      'QuestionBank',
-      <CopyOutlined />
-    ),
-    getItem(<Link to={'knowledge'}>知识点</Link>, 'Knowledge', <GoldOutlined />)
-  ]
-  if (Permission) {
-    a.unshift(
-      getItem(<Link to={'class'}>课程班级</Link>, 'class', <ProfileOutlined />)
-    )
-  }
-  return a
-}
+import { createClassNavMap } from '../../../util/createNavMap'
 
 export const ClassInfoNav: React.FC = () => {
   const navigate = useNavigate()
+  const [curSelect, setCurSelect] = useState<string>('')
+  const map = useMemo(() => createClassNavMap(), [])
   return (
     <ClassInfoNavWrapper>
       <ClassInfoWrapper>
@@ -104,17 +45,13 @@ export const ClassInfoNav: React.FC = () => {
         </CurCourseProvider>
       </ClassInfoWrapper>
       <ClassInfoMenuWrapper>
-        <CurCourseProvider>
-          {({ curCourse }) => (
-            <Menu
-              defaultSelectedKeys={['Chapter']}
-              defaultOpenKeys={['Chapter']}
-              mode="inline"
-              inlineCollapsed={false}
-              items={items(curCourse.Permission)}
-            />
-          )}
-        </CurCourseProvider>
+        <Menu
+          defaultSelectedKeys={['Chapter']}
+          defaultOpenKeys={['Chapter']}
+          mode="inline"
+          inlineCollapsed={false}
+          items={items}
+        />
       </ClassInfoMenuWrapper>
     </ClassInfoNavWrapper>
   )

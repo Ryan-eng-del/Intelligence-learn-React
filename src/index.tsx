@@ -44,6 +44,7 @@ import { TeacherSourcePreviewPage } from './pages/TeacherSourcePreviewPage/Teach
 import { SourceVideoPreview } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/SourceVideoPreview'
 import { SourcePdfPreview } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/SourcePdfPreview'
 import { QuestionEditPage } from 'publicComponents/CreateQuestionPage'
+import { MkGraph } from 'pages/MK-graphPage/MkGraph'
 import { PaperDoing } from 'pages/PaperDoingPage/paperDoingPage'
 import { TestPaperPreview } from 'components/CreateExamPage'
 
@@ -98,6 +99,7 @@ root.render(
               <Route path="questionbank" element={<QuestionBankPage />} />
             </Route>
             <Route path={'k-graph'} element={<KnowledgeGraph />} />
+            <Route path={'mk-graph'} element={<MkGraph />} />
             <Route path="editpaper/:paperid" element={<CreateExamPage />} />
             <Route path="previewtestpaper/:paperid" element={<TestPaperPreview />} />
             <Route
