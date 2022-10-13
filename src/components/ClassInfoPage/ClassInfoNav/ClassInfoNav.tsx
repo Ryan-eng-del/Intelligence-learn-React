@@ -9,6 +9,7 @@ import { Menu } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { CurCourseProvider } from 'pages/ClassInfoPage/ClassInfoPage'
 import { createClassNavMap } from '../../../util/createNavMap'
+import { NavMapMenu } from '../../../publicComponents/NavMap/NavMap'
 
 export const ClassInfoNav: React.FC = () => {
   const navigate = useNavigate()
@@ -45,12 +46,12 @@ export const ClassInfoNav: React.FC = () => {
         </CurCourseProvider>
       </ClassInfoWrapper>
       <ClassInfoMenuWrapper>
-        <Menu
-          defaultSelectedKeys={['Chapter']}
-          defaultOpenKeys={['Chapter']}
-          mode="inline"
-          inlineCollapsed={false}
+      <NavMapMenu
+          sliceCount={10}
           items={items}
+          curSelect={curSelect}
+          setCurSelect={setCurSelect}
+          navMap={map}
         />
       </ClassInfoMenuWrapper>
     </ClassInfoNavWrapper>
