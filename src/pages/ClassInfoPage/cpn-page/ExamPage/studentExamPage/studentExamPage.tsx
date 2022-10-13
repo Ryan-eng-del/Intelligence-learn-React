@@ -7,6 +7,8 @@ import {
 } from 'publicComponents/PageStyle/PageHeaderWapper'
 import { Button, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
+import { useNavigate } from 'react-router-dom'
+import { replace } from 'lodash'
 
 enum statusType {
   'undone' = '未提交',
@@ -23,6 +25,7 @@ type TableType = {
 export const StudentExamPage: React.FC<{
   classId:string
 }> = (classId) => {
+const navigate = useNavigate();
   const columns: ColumnsType<TableType> = [
 
     {
@@ -43,8 +46,9 @@ export const StudentExamPage: React.FC<{
       render: (_: any, record: TableType) =>
         typeof record.status === 'number' ? (
           <Button>查看详情</Button>
-        ) : record.status === statusType.undone ? (
-          <Button type="primary">去完成</Button>
+        ) : record.status === statusType.undone ? (//navigate(`/editpaper/${data}`)
+          <Button type="primary" onClick={()=>{
+            navigate(`/homework`),{replace:true}}}>去完成</Button>
         ) : record.status === statusType.Correcting ? (
           <Button>去修改</Button>
         ) : (

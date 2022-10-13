@@ -7,8 +7,6 @@ import { StudentExamPage } from "./studentExamPage/studentExamPage";
 import { TeacherExamPage } from "./teacherExamPage/teacherExamPage";
 
 export const ExamPage: React.FC = () => {
-
-
   return (
     <>
       <PageWrapper>

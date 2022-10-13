@@ -18,7 +18,6 @@ export const TeacherExamPage: React.FC<{classId:string}> = (classId) => {
   const wait = () => {
     setLoading(true)
     mutate('课程id')
-
   }
   return (
     <>

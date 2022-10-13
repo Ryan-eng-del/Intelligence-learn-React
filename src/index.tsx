@@ -46,6 +46,7 @@ import { SourcePdfPreview } from './pages/TeacherSourcePreviewPage/cpn-page/Sour
 import {
   QuestionEditPage,
 } from 'publicComponents/CreateQuestionPage'
+import { PaperDoing } from 'pages/PaperDoingPage/paperDoingPage'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
@@ -112,6 +113,7 @@ root.render(
               element={<QuestionPreviewPage />}
             />
             <Route path="edit/:questionId" element={<QuestionEditPage />} />
+            <Route path="homeWork" element={<PaperDoing/>} ></Route>
           </Route>
         </Routes>
       </Router>
