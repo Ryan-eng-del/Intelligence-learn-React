@@ -68,6 +68,7 @@ export const LearnPage: React.FC = () => {
     setModalVisible2(false)
   }
 
+
   return (
     <LearnRoutePageWrapper>
       <>

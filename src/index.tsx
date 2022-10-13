@@ -44,6 +44,7 @@ import { TeacherSourcePreviewPage } from './pages/TeacherSourcePreviewPage/Teach
 import { SourceVideoPreview } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/SourceVideoPreview'
 import { SourcePdfPreview } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/SourcePdfPreview'
 import { QuestionEditPage } from 'publicComponents/CreateQuestionPage'
+import { PaperDoing } from 'pages/PaperDoingPage/paperDoingPage'
 import { TestPaperPreview } from 'components/CreateExamPage'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
@@ -87,6 +88,15 @@ root.render(
               <Route path="knowledge" element={<KnowledgePage />} />
               <Route path="questionbank" element={<QuestionBankPage />} />
             </Route>
+            <Route path="studentClassinfo" element={<ClassInfoPage />}>
+              <Route path="chapter" element={<ChapterPage />} />
+              <Route path="exam" element={<ExamPage />} />
+              <Route path="resource" element={<ResourcePage />} />
+              <Route path="discuss" element={<DiscussPage />} />
+              <Route path="class" element={<ClassManaPage />} />
+              <Route path="knowledge" element={<KnowledgePage />} />
+              <Route path="questionbank" element={<QuestionBankPage />} />
+            </Route>
             <Route path={'k-graph'} element={<KnowledgeGraph />} />
             <Route path="editpaper/:paperid" element={<CreateExamPage />} />
             <Route path="previewtestpaper/:paperid" element={<TestPaperPreview />} />
@@ -103,6 +113,7 @@ root.render(
               element={<QuestionPreviewPage />}
             />
             <Route path="edit/:questionId" element={<QuestionEditPage />} />
+            <Route path="homeWork" element={<PaperDoing/>} ></Route>
           </Route>
         </Routes>
       </Router>
