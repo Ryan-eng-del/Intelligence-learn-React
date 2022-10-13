@@ -2,8 +2,8 @@ import styled from 'styled-components'
 export const QuestionBankHeaderWrapper = styled.div`
   height: 250px;
   .search {
-    marginleft: 30px;
-    margin-top: 10px;
+    margin-left: 50px;
+    // margin-top: 10px;
     width: 340px;
   }
   .aqbtn {

@@ -1,6 +1,9 @@
 import React from 'react'
 import { ShowDetailsCellProps } from 'components/QuestionBankPage/type'
-import { QuestionItemWrapper } from '../QuestionBankTableStyle'
+import {
+  QuestionItemWrapper,
+  QuestionDetailsWrapper
+} from '../QuestionBankTableStyle'
 
 export const ShowDetailsCell: React.FC<ShowDetailsCellProps> = ({
   editing,
@@ -8,19 +11,37 @@ export const ShowDetailsCell: React.FC<ShowDetailsCellProps> = ({
   children,
   ...restProps
 }) => {
+  // const optionArr = record.questionOption.split('<>')
+  // console.log(record.questionOption)
+
   //网络请求回来对应数据
   return (
     <td {...restProps}>
       {editing ? (
-        <QuestionItemWrapper>
+        <QuestionDetailsWrapper>
           题目：{record.question}
-          <br />
+          <br /> <br />
           {/* 需要处理 */}
-          选项：{record.questionOption}
-          <br />
-          正确答案：{record.rightAnswer}
-          <br />
-        </QuestionItemWrapper>
+          {record.questionOption === '' ? (
+            <></>
+          ) : (
+            <>
+              选项：
+              <br />
+              {record.questionOption.split('<>').map((item, index) => (
+                <span key={index}>
+                  {item}
+                  <br />
+                </span>
+              ))}
+              <br />
+            </>
+          )}
+          正确答案：
+          {record.rightAnswer.split('#').map((item, index) => (
+            <span key={index}>{item}&nbsp;&nbsp;</span>
+          ))}
+        </QuestionDetailsWrapper>
       ) : (
         children
       )}

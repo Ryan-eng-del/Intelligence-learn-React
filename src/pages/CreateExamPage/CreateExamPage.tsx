@@ -15,6 +15,7 @@ import {
   QuestionType
 } from 'server/fetchExam/types'
 import { useCreateEmptyQuestion } from 'server/fetchExam'
+
 const RandomInt = () => Math.floor(Math.random() * 1e9)
 
 export const CreateExamPage: React.FC = () => {

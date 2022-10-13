@@ -19,7 +19,7 @@ export const QuestionItemWrapper = styled.div`
   min-height: 32px;
   display: flex;
 `
-export const QuestionDetailsWrapper = styled.div`
+export const QuestionOperateWrapper = styled.div`
   width: 18%;
   opacity: 0;
   margin-left: 10px;
@@ -30,3 +30,4 @@ export const QuestionDetailsWrapper = styled.div`
     color: red;
   }
 `
+export const QuestionDetailsWrapper = styled.div``

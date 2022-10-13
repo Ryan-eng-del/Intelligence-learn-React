@@ -33,7 +33,7 @@ export const QuestionPreviewPage: React.FC = () => {
             <Button
               type="primary"
               onClick={() => {
-                navigate('/questionbank', { replace: true })
+                navigate('/classinfo/questionbank', { replace: true })
               }}
             >
               返回

@@ -264,7 +264,15 @@ span.ant-tree-title {
   width: 18px;
   height: 18px;
 }
-
+.rowStyle:nth-child(2n) {
+  background-color: #fafafa;
+}
+th.table-header {
+  background-color: #f0f0f0 !important;
+}
+th.ant-table-selection-column {
+  background-color: #f0f0f0 !important;
+}
 /* 搜索框 */
 .ant-btn-icon-only.ant-btn-lg {
   width: 52px;
