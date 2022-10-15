@@ -1,27 +1,13 @@
 export interface AddChapterParam {
-  /**
-   * 课程id
-   */
   course_id: string
-  /**
-   * 章节名称
-   */
   name: string
-  /**
-   * 父章节id
-   */
   pid: string
 }
 export interface EditChapterParam {
-  /**
-   * 章节id
-   */
   chapter_id: string
-  /**
-   * 新的章节名称
-   */
   new_name: string
 }
+
 /*章节树Data*/
 export interface ChapterData {
   chapterOrder: number

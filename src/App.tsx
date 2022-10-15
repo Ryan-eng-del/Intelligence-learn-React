@@ -1,4 +1,3 @@
-import React from 'react'
 import { useMount } from 'hook/useMount'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import './App.css'

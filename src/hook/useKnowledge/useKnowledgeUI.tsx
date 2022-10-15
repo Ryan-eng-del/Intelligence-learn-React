@@ -35,20 +35,13 @@ export const useKnowledgeUI = () => {
     relatePoints,
     handleRelateExpand
   } = useKnowledgeControl()
-  const generateKnowledgeNode = (
-    pointId: any,
-    pointName: any,
-    prePoints: any,
-    afterPoints: any
-  ) => {
+  const generateKnowledgeNode = (pointId: any, pointName: any, prePoints: any, afterPoints: any) => {
     return (
       <KnowledgeTreeNode
         nodeName={pointName}
         nodeId={pointId}
         handleDeleteTreeNode={(pointId: any) => deleteKnowledgePoint(pointId)}
-        handleClickAddChildChapter={(pointId: any) =>
-          addKnowledgeChildrenPoint(pointId)
-        }
+        handleClickAddChildChapter={(pointId: any) => addKnowledgeChildrenPoint(pointId)}
         relatePoints={relatePoints}
         prePoints={prePoints}
         afterPoints={afterPoints}
@@ -68,17 +61,14 @@ export const useKnowledgeUI = () => {
               title={
                 focusStatus ? (
                   <ChapterNodeFocusStatus
-                    setAddInputValue={setAddInputValue}
                     confirmAdd={confirmAdd}
                     cancelAdd={cancelAdd}
+                    dispatchChapter={() => {
+                      console.log('#')
+                    }}
                   />
                 ) : (
-                  generateKnowledgeNode(
-                    d.pointId,
-                    d.pointName,
-                    d.prePoints,
-                    d.afterPoints
-                  )
+                  generateKnowledgeNode(d.pointId, d.pointName, d.prePoints, d.afterPoints)
                 )
               }
               key={d.pointId}
@@ -91,18 +81,15 @@ export const useKnowledgeUI = () => {
               title={
                 focusStatus ? (
                   <ChapterNodeRenameStatus
-                    setAddInputValue={setAddInputValue}
+                    dispatchChapter={() => {
+                      console.log('#')
+                    }}
                     confirmRename={confirmRename}
                     cancelRename={cancelRename}
                     value={curRenameNode.pointName}
                   />
                 ) : (
-                  generateKnowledgeNode(
-                    d.pointId,
-                    d.pointName,
-                    d.prePoints,
-                    d.afterPoints
-                  )
+                  generateKnowledgeNode(d.pointId, d.pointName, d.prePoints, d.afterPoints)
                 )
               }
               key={d.pointId}
@@ -114,12 +101,7 @@ export const useKnowledgeUI = () => {
         if (d?.children?.length) {
           return (
             <Tree.TreeNode
-              title={generateKnowledgeNode(
-                d.pointId,
-                d.pointName,
-                d.prePoints,
-                d.afterPoints
-              )}
+              title={generateKnowledgeNode(d.pointId, d.pointName, d.prePoints, d.afterPoints)}
               key={d.pointId}
             >
               {recursion(d.children)}
@@ -129,12 +111,7 @@ export const useKnowledgeUI = () => {
 
         return (
           <Tree.TreeNode
-            title={generateKnowledgeNode(
-              d.pointId,
-              d.pointName,
-              d.prePoints,
-              d.afterPoints
-            )}
+            title={generateKnowledgeNode(d.pointId, d.pointName, d.prePoints, d.afterPoints)}
             key={d.pointId}
           ></Tree.TreeNode>
         )

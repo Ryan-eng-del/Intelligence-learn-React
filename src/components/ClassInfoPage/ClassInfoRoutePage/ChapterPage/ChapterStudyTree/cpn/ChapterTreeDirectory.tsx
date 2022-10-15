@@ -17,8 +17,6 @@ const ChapterTreeDirectory: React.FC<{
   handleClickAddChildCourseTime,
   handleReNameTreeNode
 }) => {
-  console.log('TreeDirectory')
-
   return (
     <ChapterTreeDirectoryWrapper style={{ display: 'flex' }}>
       <div>{nodeName}</div>

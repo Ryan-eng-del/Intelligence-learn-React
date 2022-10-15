@@ -9,11 +9,13 @@ import { expandOnMount } from '../../util/chapterStudyTree'
 import { Button } from 'antd'
 
 export const TeacherSourcePreviewPage = () => {
-  const { treeData, setExpandKeys, data, expandKeys, handleOnExpand } =
-    useChapterUI('show')
+  const { treeData, chapterControl } = useChapterUI('show')
 
   useMount(() => {
-    setExpandKeys(expandOnMount(data!))
+    chapterControl.dispatchChapter({
+      type: 'setExpandKeys',
+      expandKeys: () => expandOnMount(chapterControl.data ?? [])
+    })
   })
 
   return (
@@ -26,9 +28,9 @@ export const TeacherSourcePreviewPage = () => {
             </Link>
           </div>
           <Tree
-            expandedKeys={expandKeys}
-            onExpand={handleOnExpand}
-            onSelect={handleOnExpand}
+            expandedKeys={chapterControl.expandKeys}
+            onExpand={chapterControl.handleOnExpand}
+            onSelect={chapterControl.handleOnExpand}
           >
             {treeData}
           </Tree>

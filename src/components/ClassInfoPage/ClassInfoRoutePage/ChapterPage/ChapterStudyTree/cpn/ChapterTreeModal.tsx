@@ -1,126 +1,39 @@
 import React, { useRef, useState } from 'react'
-import { Button, Drawer, Input, List, message, Modal, Upload } from 'antd'
+import { Button, Drawer, Input, List, Modal, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
-
-import type { UploadProps } from 'antd'
 import styled from 'styled-components'
-import { RcFile } from 'antd/lib/upload'
 import { TreeSelected } from '../../../KnowledgePage/KnowledgeTree/cpn/TreeSelected'
-import { useAddContentResource } from '../../../../../../server/fetchChapter'
+import { useHandleUploadClassTimeResource } from '../../../../../../hook/useChapterStudy/useHandleUploadClassTimeResource'
+import { useClassTimeDispatch } from '../../../../../../context/ChapterStudyTree/ClassTimeDispatchContext'
+import { uploadProps } from '../../../../../../hook/useChapterStudy/config'
 
 export const ChapterTreeModal: React.FC<{
-  isModalVisible: any
-  setIsModalVisible: any
-  resourceTitle: any
-  setResourceTitle: any
-  uploadType: any
-  setUploadType: any
-  setResourceObj: any
   checkTreeData: any
-  curCheckId: any
   handleRelateCheck: any
-  handleRelateExpand: any
   relateKeys: any
-  curFileListName: any
-  setCurFileListName: any
-  fileList: any
-  setFileList: any
+  handleRelateExpand: any
   handleOk: any
-}> = ({
-  isModalVisible,
-  setIsModalVisible,
-  resourceTitle,
-  setResourceTitle,
-  checkTreeData,
-  curCheckId,
-  handleRelateCheck,
-  handleRelateExpand,
-  relateKeys,
-  curFileListName,
-  setCurFileListName,
-  fileList,
-  setFileList,
-  handleOk,
-  setResourceObj
-}) => {
+}> = ({ checkTreeData, handleRelateExpand, handleOk, relateKeys }) => {
   const ref = useRef<any>()
-  const [open, setOpen] = useState(false)
-  const [uploading, setUploading] = useState(false)
-  const { mutateAsync: addContentResource, data: resourceData } =
-    useAddContentResource(setResourceObj)
+  const [fileList, setFileList] = useState<any>([])
 
-  /* 处理上传 */
-  const handleUpload = async () => {
-    //toDo 这里要注意，不能重复上传同一文件，如果上传了同一个，记得提醒用户。
-    setOpen(false)
-    const formData = new FormData()
-    fileList.forEach((file: any) => {
-      formData.append('files[]', file as RcFile)
-      setCurFileListName((pre: any) => {
-        /*标记是否已经添加过*/
-        let flag = false
-        /*标记是否是第一次上传*/
-        let first = false
-        if (pre.length == 0) {
-          pre = pre.concat({ title: file.name })
-          first = true
-        } else
-          pre.forEach((i: any) => {
-            if (i.title == file.name) flag = true
-          })
-        if (!flag && !first) pre = pre.concat({ title: file.name })
-        return pre
-      })
+  /*ClassTime Reducer*/
+  const { dispatch, classTimeState } = useClassTimeDispatch()
+  /*上传资源，关联知识点*/
+  const { handleUpload, uploading, setOpenResourceDrawer, openResourceDrawer, relatePoints, handleRelateCheck } =
+    useHandleUploadClassTimeResource({
+      dispatch
     })
-    setUploading(true)
-    try {
-      await addContentResource({
-        file: formData,
-        related_points: curCheckId,
-        course_id: '1'
-      })
-      message.success('文件上传成功')
-      setFileList([])
-    } catch (err) {
-      // toDo错误处理
-    } finally {
-      setUploading(false)
-    }
-  }
-
-  const props: UploadProps = {
-    onRemove: (file) => {
-      const index = fileList.indexOf(file)
-      const newFileList = fileList.slice()
-      newFileList.splice(index, 1)
-      setFileList(newFileList)
-    },
-    beforeUpload: (file) => {
-      const name: string[] = []
-      //toDo 这里之后，需要用Map来优化
-      if (fileList.length >= 1) {
-        //toDo 提示用户一次性只能上传一个
-        return false
-      }
-      setFileList([...fileList, file])
-      fileList.forEach((f: any) => {
-        name.push(f.name + f.size)
-      })
-      // if (name.includes(file.name + file.size)) {
-      //   message.error('重复上传文件！')
-      // } else setFileList([...fileList, file])
-      return false
-    },
-    fileList
-  }
+  /*Upload Props*/
+  const props = uploadProps(fileList, setFileList)
 
   return (
     <ChapterTreeModalWrapper className={'modal-wrapper'}>
       <Modal
         title="添加课时"
-        visible={isModalVisible}
+        visible={classTimeState.courseTimeModalVisible}
         onOk={handleOk}
-        onCancel={() => setIsModalVisible(false)}
+        onCancel={() => dispatch({ type: 'setModalState', open: false })}
         style={{ height: '400px' }}
         className={'modal-chapter'}
       >
@@ -128,16 +41,14 @@ export const ChapterTreeModal: React.FC<{
         <Input
           placeholder={'请输入课时名称'}
           id={'addResource'}
-          value={resourceTitle}
-          onChange={(e) => setResourceTitle(e.target.value)}
+          value={classTimeState.courseTimeName}
+          onChange={(e) => dispatch({ type: 'setName', name: e.target.value })}
           style={{ position: 'relative', zIndex: '4' }}
         />
-        <div
-          style={{ marginTop: 16, display: 'flex', justifyContent: 'center' }}
-        >
+        <div style={{ marginTop: 16, display: 'flex', justifyContent: 'center' }}>
           <Button
             type="primary"
-            onClick={() => setOpen(true)}
+            onClick={() => setOpenResourceDrawer(true)}
             style={{ position: 'relative', zIndex: '4' }}
           >
             添加资源并且关联知识点
@@ -148,8 +59,8 @@ export const ChapterTreeModal: React.FC<{
             title="添加资源并且关联知识点"
             placement="top"
             closable={true}
-            onClose={() => setOpen(false)}
-            visible={open}
+            onClose={() => setOpenResourceDrawer(false)}
+            visible={openResourceDrawer}
             mask={false}
             width={'520'}
             getContainer={ref.current}
@@ -159,9 +70,7 @@ export const ChapterTreeModal: React.FC<{
             <>
               <UploadWrapper>
                 <Upload {...props} className={'upload'}>
-                  <Button icon={<UploadOutlined />}>
-                    请选择文件，支持多个文件上传
-                  </Button>
+                  <Button icon={<UploadOutlined />}>请选择文件，支持多个文件上传</Button>
                 </Upload>
               </UploadWrapper>
 
@@ -172,7 +81,7 @@ export const ChapterTreeModal: React.FC<{
                   relateKeys={relateKeys}
                   handleRelateExpand={handleRelateExpand}
                   handleRelateCheck={handleRelateCheck}
-                  curCheckId={curCheckId}
+                  curCheckId={relatePoints}
                 />
               </RelatePointsWrapper>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -193,8 +102,8 @@ export const ChapterTreeModal: React.FC<{
           <label>已经上传的资源:</label>
           <List
             itemLayout="horizontal"
-            dataSource={curFileListName}
-            renderItem={(item: any) => <List.Item>{item.title}</List.Item>}
+            dataSource={classTimeState.fileList}
+            renderItem={(item: any) => <List.Item>{item.resourceName}</List.Item>}
           />
         </div>
       </Modal>

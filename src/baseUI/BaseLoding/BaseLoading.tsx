@@ -40,10 +40,16 @@ export const BaseLoadingProvider = (props: {
         marginTop: '24px'
       }}
     ></BaseLoading>
-  ) : (props.children.map(item => item))
+  ) : (
+    props.children.map((item) => item)
+  )
 }
 
 const BaseLodingWrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   .loader {
     --path: #2f3545;
     --dot: #5628ee;

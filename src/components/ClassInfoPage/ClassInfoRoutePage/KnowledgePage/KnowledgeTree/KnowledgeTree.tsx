@@ -9,6 +9,7 @@ import { BaseLoading } from '../../../../../baseUI/BaseLoding/BaseLoading'
 import styled from 'styled-components'
 import { TreeSelected } from './cpn/TreeSelected'
 import { keys } from 'lodash'
+import { LoadingWrapper } from './cpn/LodingWrapper'
 
 export const KnowledgeTree = () => {
   const {
@@ -30,7 +31,6 @@ export const KnowledgeTree = () => {
   } = useKnowledgeUI()
   const { checkTreeData } = useCheckKnowledgeTreeUI(data)
   useMount(() => {
-    console.log('知识点页面挂载')
     setExpandKeys(generateKnowledgeKeys(data))
   })
   return (
@@ -44,15 +44,13 @@ export const KnowledgeTree = () => {
           添加知识点
         </a>
         <Link to={'/k-graph'}>
-          <a className={'k-graph'}>知识图谱</a>
+          <a className={'k-graph'}>课程知识图谱</a>
+        </Link>
+        <Link to={'/mk-graph'}>
+          <a className={'mk-graph'}>个人知识图谱</a>
         </Link>
       </KnowledgeHeaderButtonWrapper>
-      <Modal
-        title={curOrder}
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
+      <Modal title={curOrder} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
         <TreeSelected
           curCheckId={curCheckId}
           checkTreeData={checkTreeData}
@@ -61,24 +59,13 @@ export const KnowledgeTree = () => {
           relateKeys={relateKeys}
         />
       </Modal>
-
-      {isLoading ? (
-        <BaseLoading
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            marginTop: '24px'
-          }}
-        />
-      ) : (
-        <Tree
-          expandedKeys={expandKeys}
-          onExpand={handleExpand}
-          onSelect={handleExpand}
-        >
-          {treeData && treeData}
-        </Tree>
-      )}
+      <LoadingWrapper
+        isLoading={isLoading}
+        treeData={treeData}
+        handleExpand={handleExpand}
+        handleSelect={handleExpand}
+        expandKeys={expandKeys}
+      />
     </div>
   )
 }
@@ -100,10 +87,11 @@ const KnowledgeHeaderButtonWrapper = styled.div`
     }
   }
 
-  a.k-graph {
+  a.k-graph,
+  a.mk-graph {
     display: inline-block;
     padding: 0 16px;
-    width: 120px;
+    width: 130px;
     height: 36px;
     line-height: 36px;
     border: solid #94c1ff 1px;
@@ -117,5 +105,8 @@ const KnowledgeHeaderButtonWrapper = styled.div`
     &:hover {
       background: #eaf0ff;
     }
+  }
+  a.mk-graph {
+    margin-left: 8px;
   }
 `

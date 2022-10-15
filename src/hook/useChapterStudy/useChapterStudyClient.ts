@@ -5,6 +5,7 @@ import { useState } from 'react'
 export const useChapterClient = () => {
   /*:受控树展开的节点 :用来控制树*/
   const [expandKeys, setExpandKeys] = useState<string[]>([])
+  const [ChapterError, setChapterError] = useState<unknown>()
   /*:当前input框的值*/
   const [curAddInputValue, setAddInputValue] = useState('')
   /*:当前的状态是处于编辑或者添加状态 :用来表示树的添加和编辑的交互*/
@@ -40,6 +41,8 @@ export const useChapterClient = () => {
   //toDo 优化建议：2：可不可以分出单独的，不会影响其他状态的state，放在小的组件当中。不然太臃肿，减少该组件的Hook Queue的长度
 
   return {
+    ChapterError,
+    setChapterError,
     curFileListName,
     setCurFileListName,
     fileList,

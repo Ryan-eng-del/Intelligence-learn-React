@@ -21,3 +21,5 @@ export const useShowKnowledgeTree = (setExpandKeys?: StateSetter<string[]>) => {
     }
   )
 }
+/* 添加知识点 */
+// export const useAddKonwledgePoints = () => {}

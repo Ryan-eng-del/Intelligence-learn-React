@@ -2,28 +2,19 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
 import { generateExpandKeys } from '../../util/chapterStudyTree'
-import { StateSetter } from 'types'
-import { ChapterNodeType } from './types'
-import {
-  AddChapterParam,
-  addClassTimeParam,
-  EditChapterParam
-} from '../../types/server/fetchChapter'
-import {
-  AddContentResource,
-  AddContent
-} from '../../types/server/fetchClassTime'
-import { message } from 'antd'
-import { EditContent } from '../../types/server/fetchClassTime'
-//? ts的类型约束在网络请求方面起到了什么样的约束？
+import { AddChapterParam, EditChapterParam } from '../../types/server/fetchChapter'
+import { AddContent, AddContentResource, EditContent } from '../../types/server/fetchClassTime'
+import { ChapterTreeData } from '../../hook/useChapterStudy/type'
+import React from 'react'
+import { IChapterReducerAction } from '../../reducer/ChaperStudyTree/type/type'
 /*获取章节学习树信息*/
-export const useShowChapter = (setExpandKeys: StateSetter<string[]>) => {
+export const useShowChapter = (dispatch: React.Dispatch<IChapterReducerAction>) => {
   return useQuery(['chapterTree'], async () => {
     await delayFetch()
-    const data: ChapterNodeType[] = await client.get({
+    const data: ChapterTreeData[] = await client.get({
       url: 'chapter/getChapter'
     })
-    if (setExpandKeys) setExpandKeys(generateExpandKeys(data))
+    dispatch({ type: 'setExpandKeys', expandKeys: () => generateExpandKeys(data) })
     return data
   })
 }
@@ -90,44 +81,29 @@ export const useEditChapter = () => {
   )
 }
 /*上传课时资源*/
-export const useAddContentResource = (setResourceObj: any) => {
-  return useMutation(
-    async ({ related_points, course_id, file }: AddContentResource) => {
-      return client.post({
-        url: '/resources/upload-course',
-        params: { course_id, related_points },
-        data: { file }
-      })
-    },
-    {
-      onSuccess: (data) => {
-        setResourceObj((pre: any) => pre.concat(data))
-      }
-    }
-  )
+export const useAddContentResource = () => {
+  return useMutation(async ({ related_points, course_id, file }: AddContentResource) => {
+    return client.post({
+      url: '/resources/upload-course',
+      params: { course_id, related_points },
+      data: { file }
+    })
+  })
 }
 /* 添加课时 */
 export const useAddContent = () => {
-  return useMutation(
-    async ({
-      chapter_id,
-      name,
-      resource_ids,
-      paper_id,
-      paper_name
-    }: AddContent) => {
-      return client.post({
-        url: '/ctime/addClassTime',
-        data: {
-          chapter_id,
-          name,
-          resource_ids,
-          paper_id,
-          paper_name
-        }
-      })
-    }
-  )
+  return useMutation(async ({ chapter_id, name, resource_ids, paper_id, paper_name }: AddContent) => {
+    return client.post({
+      url: '/ctime/addClassTime',
+      data: {
+        chapter_id,
+        name,
+        resource_ids,
+        paper_id,
+        paper_name
+      }
+    })
+  })
 }
 /* 删除课时 */
 export const useDeleteClassTime = () => {
@@ -135,28 +111,25 @@ export const useDeleteClassTime = () => {
     return client.delete({ url: `/ctime/deleteClassTime/${id}` })
   })
 }
+/*删除资源*/
+export const useDeleteResource = () => {
+  return useMutation(async (id: string) => {
+    return client.delete({ url: `/resources/delete/${id}` })
+  })
+}
 /* 编辑课时 */
 export const useEditClassTime = () => {
-  return useMutation(
-    async ({
-      chapter_id,
-      class_time_id,
-      name,
-      paper_id,
-      paper_name,
-      resource_ids
-    }: EditContent) => {
-      return client.put({
-        url: '/ctime/updateClassTime',
-        data: {
-          chapter_id,
-          class_time_id,
-          name,
-          paper_id,
-          paper_name,
-          resource_ids
-        }
-      })
-    }
-  )
+  return useMutation(async ({ chapter_id, class_time_id, name, paper_id, paper_name, resource_ids }: EditContent) => {
+    return client.put({
+      url: '/ctime/updateClassTime',
+      data: {
+        chapter_id,
+        class_time_id,
+        name,
+        paper_id,
+        paper_name,
+        resource_ids
+      }
+    })
+  })
 }
