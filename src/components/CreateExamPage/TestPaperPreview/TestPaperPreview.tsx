@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useShowTestPaper } from 'server/fetchExam/TestPaper'
-import { QuestionDataWithID, QuestionList, QuestionType } from 'server/fetchExam/types'
+import { QuestionDataWithID, QuestionList, QuestionType, TestPaper } from 'server/fetchExam/types'
 import { Preview as P1 } from 'publicComponents/CreateQuestionPage/QuestionType/SingleChoice/Preview'
 import { Preview as P2 } from 'publicComponents/CreateQuestionPage/QuestionType/MultipleChoice/Preview'
 import { Preview as P3 } from 'publicComponents/CreateQuestionPage/QuestionType/FillBlank/Preview'
@@ -11,12 +11,65 @@ import { ItemWrapper, TestPaperPreviewWrapper, TitleWrapper } from './TestPaperP
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { Button, Space } from 'antd'
 import { ArrowLeftOutlined } from '@ant-design/icons'
+import { dropRight } from 'lodash'
 
 export const TestPaperPreview: React.FC = () => {
   const { paperid } = useParams()
   const [dataList, setData] = useState<QuestionList[]>([])
   const { data, isLoading } = useShowTestPaper(paperid!, setData) // 打开试卷
-
+  const config = {
+    [QuestionType.single]:{
+      name:"单选题", min: 1, max: 10, defaultScore: 1
+    },
+    [QuestionType.multiple]:{
+      name:"多选题", min: 1, max: 10, defaultScore: 2
+    },
+    [QuestionType.fillBlank]:{
+      name:"填空题", min: 1, max: 10, defaultScore: 5
+    },
+    [QuestionType.shortAnswer]:{
+      name:"简答题", min: 1, max: 10, defaultScore: 10
+    },
+    [QuestionType.judge]:{
+      name:"判断题", min: 1, max: 10, defaultScore: 1
+    }
+  }
+  const Process = (data:TestPaper) => {
+    // 接下来进行数据分组
+    // get enum type value and key ,
+    // e.g.: enum { 'name1', 'name2' } => ['0','1','name1','name2']
+    const QuestionTypeList = Object.keys(QuestionType)
+    // remove:  ['0','1','name1','name2'] => [ 0, 1 ]
+    const QuestionTypeList2 = dropRight(
+      QuestionTypeList,
+      QuestionTypeList.length / 2
+    ).map((i) => parseInt(i))
+    return QuestionTypeList2.map((Type: QuestionType) => {
+      // 获取类型
+      // 这里是过滤了类型的WholeQuestion[]
+      const thisTypeList = data.questionOfPaperVos.filter(
+        (i) => i.questionType === Type
+      )
+      return {
+        type: Type,
+        name: config[Type].name,
+        min: config[Type].min,
+        max: config[Type].max,
+        defaultScore: config[Type].defaultScore,
+        amount: thisTypeList.length,
+        isExists: thisTypeList.length != 0,
+        questiton: thisTypeList.map((i) => ({
+          score: 1,
+          item_key: i.questionId,
+          item_data: { ...i, courseId: 'unknown' } // FIXME: 等待接口更新courseID字段
+        }))
+      }
+    })
+  }
+  useEffect(( ) => {
+    if(data)
+      setData(Process(data));
+  }, [data])
   const navigate = useNavigate()
   type T = QuestionDataWithID
   const mapper = {

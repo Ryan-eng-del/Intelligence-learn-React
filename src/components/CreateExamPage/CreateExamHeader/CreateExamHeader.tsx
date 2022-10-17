@@ -21,6 +21,7 @@ export const CreateExamHeader: React.FC<{
         <label>试卷名字：</label>
         <Input defaultValue={name}></Input>
         <Button type="primary">保存试卷</Button>
+        <Button type="primary" onClick={()=>navigate(`/previewtestpaper/${id}`)}>Preview</Button>
         <span>ID:{id}</span>
       </Space>
     </CreateExamHeaderWrapper>
