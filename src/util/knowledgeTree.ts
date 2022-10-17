@@ -1,28 +1,28 @@
 import { QueryClient } from '@tanstack/react-query'
 import { cloneDeepWith } from 'lodash'
-import { KnowledgeNodeType, RelateNodeType } from 'server/fetchKnowledge/types'
-import { AnyFn } from 'types'
+import { IKnowledgePoint, PrePoint } from '../hook/useKnowledge/type'
+import { IChapterReducerAction } from '../reducer/ChaperStudyTree/type/type'
+import React from 'react'
 
 export const updateKnowledgeTreeQueryCache = (
-  updaterFun: AnyFn<KnowledgeNodeType[]>,
+  updaterFun: (query: IKnowledgePoint[]) => IKnowledgePoint[],
   queryClient: QueryClient
 ) => {
-  const queryTreeData: KnowledgeNodeType[] | undefined =
-    queryClient.getQueryData(['knowledgeTree'])
+  const queryTreeData: IKnowledgePoint[] = queryClient.getQueryData(['knowledgeTree']) ?? []
   const newQueryTreeData = updaterFun(queryTreeData)
   queryClient.setQueryData(['knowledgeTree'], newQueryTreeData)
 }
 /*添加子知识点*/
 export const addChildKnowledgeNode = (
-  data: any,
-  id: any,
-  queryClient: any,
-  node: any
+  data: IKnowledgePoint[],
+  id: string,
+  queryClient: QueryClient,
+  node: IKnowledgePoint
 ) => {
   const deepCloneData = cloneDeepWith(data)
-  const recursion = (data: any) => {
+  const recursion = (data: IKnowledgePoint[]) => {
     if (!data) return
-    data.map((d: any) => {
+    data.map((d) => {
       if (d.children.length) {
         recursion(d.children)
       }
@@ -53,33 +53,30 @@ export const deleteKnowledgeNode = (data: any, id: any, queryClient: any) => {
 }
 /*重命名节点*/
 export const renameKnowledgePoint = (
-  data: any,
-  id: any,
+  data: IKnowledgePoint[],
+  id: string,
   setCurRenameNode: any,
-  setFocusState: any,
-  setExpandKeys: any,
-  setAddInputValue: any
+  dispatch: React.Dispatch<IChapterReducerAction>
 ) => {
-  const recursion = (data: any) => {
+  const recursion = (data: IKnowledgePoint[]) => {
     if (!data) return
-    data.map((d: any) => {
+    data.map((d) => {
       if (d.children.length) {
         recursion(d.children)
       }
       if (id == d.pointId) {
         setCurRenameNode(d)
-        setAddInputValue(d.pointName)
-        setFocusState(true)
+        dispatch({ type: 'setCurInputValue', curInputValue: d.pointName })
       }
     })
   }
   recursion(data)
 }
-export const generateKnowledgeKeys = (data: KnowledgeNodeType[]) => {
+export const generateKnowledgeKeys = (data: any) => {
   if (!data) return
   const result: any = []
-  const recursion = (data: KnowledgeNodeType[]) => {
-    data.forEach((d) => {
+  const recursion = (data: any) => {
+    data.forEach((d: any) => {
       if (d.children) {
         recursion(d.children)
       }
@@ -91,20 +88,21 @@ export const generateKnowledgeKeys = (data: KnowledgeNodeType[]) => {
 }
 /*关联前序知识点*/
 export const relateAllPoints = (
-  data: any,
-  id: any,
-  queryClient: any,
-  node: any,
-  mark: any
+  data: IKnowledgePoint[],
+  id: string,
+  queryClient: QueryClient,
+  node: PrePoint[],
+  mark: string
 ) => {
   const deepCloneData = cloneDeepWith(data)
-  const recursion = (data: any) => {
+  const recursion = (data: IKnowledgePoint[]) => {
     if (!data) return
-    data.map((d: any) => {
+    data.map((d: IKnowledgePoint) => {
       if (d.children.length) {
         recursion(d.children)
       }
       if (id == d.pointId) {
+        console.log('find', id, d.pointId)
         mark === 'pre' ? (d.prePoints = node) : (d.afterPoints = node)
         queryClient.setQueryData(['knowledgeTree'], deepCloneData)
       }
@@ -112,11 +110,11 @@ export const relateAllPoints = (
   }
   recursion(deepCloneData)
 }
-export const generateRelatePointsObj = (data: any, checked: any) => {
-  if (!data) return
-  const result: RelateNodeType[] = []
-  const recursion = (data: any) => {
-    data.forEach((d: any) => {
+export const generateRelatePointsObj = (data: IKnowledgePoint[], checked: string[]) => {
+  if (!data) return []
+  const result: PrePoint[] = []
+  const recursion = (data: IKnowledgePoint[]) => {
+    data.forEach((d) => {
       if (d.children) {
         recursion(d.children)
       }

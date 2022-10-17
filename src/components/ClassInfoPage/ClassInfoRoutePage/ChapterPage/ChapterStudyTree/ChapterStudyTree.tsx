@@ -11,23 +11,23 @@ import { useCheckKnowledgeTreeUI } from '../../../../../hook/useKnowledge/useChe
 export const ChapterStudyTree = () => {
   /*UI驱动层*/
   const { treeData, chapterControl } = useChapterUI()
-  const { handleRelateCheck, handleRelateExpand, relateKeys, data: KnowledgeData } = useKnowledgeControl()
-  const { checkTreeData } = useCheckKnowledgeTreeUI(KnowledgeData)
+  const { knowledgeControl } = useKnowledgeControl()
+  const { checkTreeData } = useCheckKnowledgeTreeUI(knowledgeControl.data)
   // 每次挂载后全部展开
   useEffect(() => {
     chapterControl.dispatchChapter({
       type: 'setExpandKeys',
       expandKeys: () => expandOnMount(chapterControl.data || [])
     })
-  }, [])
+  }, [treeData])
 
   return (
     <ChapterStudyTreeWrapper>
       <ChapterTreeModal
         checkTreeData={checkTreeData}
-        handleRelateCheck={handleRelateCheck}
-        handleRelateExpand={handleRelateExpand}
-        relateKeys={relateKeys}
+        handleRelateCheck={knowledgeControl.handleRelateCheck}
+        handleRelateExpand={knowledgeControl.handleRelateExpand}
+        relateKeys={knowledgeControl.relateKeys}
         handleOk={chapterControl.handleOk}
       />
       <a

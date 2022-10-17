@@ -1,6 +1,6 @@
 export interface ICurFileObj {
   resourceId: string
-  resourceLink: string
+  sourceLink: string
   resourceName: string
   type: number
 }

@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
-import { ClassTimeInitNode, IHandleChapterControl } from './type'
+import { ChapterTreeData, ClassTimeInitNode, IHandleChapterControl } from './type'
 import { useQueryClient } from '@tanstack/react-query'
 import { useAddContent } from '../../server/fetchChapter'
 import { ClassTimeNode } from './config'
@@ -7,7 +7,7 @@ import { cloneDeepWith } from 'lodash'
 import { addChildContentNode } from '../../util/chapterStudyTree'
 import { useClassTimeDispatch } from '../../context/ChapterStudyTree/ClassTimeDispatchContext'
 
-export const useHandleAddClassTime = (props: Omit<IHandleChapterControl, 'chapterState'>) => {
+export const useHandleAddClassTime = (props: Omit<IHandleChapterControl<ChapterTreeData>, 'chapterState'>) => {
   const { data, dispatchChapter } = props
   const curChapterId = useRef('')
   const { dispatch, classTimeState } = useClassTimeDispatch()

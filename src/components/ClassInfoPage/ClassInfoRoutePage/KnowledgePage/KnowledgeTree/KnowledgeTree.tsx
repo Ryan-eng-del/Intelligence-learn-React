@@ -1,45 +1,27 @@
-import { Button, Modal, Tree } from 'antd'
-import React from 'react'
+import { Modal } from 'antd'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useKnowledgeUI } from 'hook/useKnowledge/useKnowledgeUI'
 import { generateKnowledgeKeys } from 'util/knowledgeTree'
-import { useMount } from 'hook/useMount'
 import { useCheckKnowledgeTreeUI } from 'hook/useKnowledge/useCheckKnowledgeTreeUI'
-import { BaseLoading } from '../../../../../baseUI/BaseLoding/BaseLoading'
 import styled from 'styled-components'
 import { TreeSelected } from './cpn/TreeSelected'
-import { keys } from 'lodash'
 import { LoadingWrapper } from './cpn/LodingWrapper'
 
 export const KnowledgeTree = () => {
-  const {
-    isLoading,
-    treeData,
-    addKnowledgePoint,
-    expandKeys,
-    setExpandKeys,
-    handleExpand,
-    data,
-    handleRelateCheck,
-    handleCancel,
-    handleOk,
-    isModalVisible,
-    curOrder,
-    curCheckId,
-    relateKeys,
-    handleRelateExpand
-  } = useKnowledgeUI()
-  const { checkTreeData } = useCheckKnowledgeTreeUI(data)
-  useMount(() => {
-    setExpandKeys(generateKnowledgeKeys(data))
-  })
+  const { knowledgeControl, treeData } = useKnowledgeUI()
+  const { checkTreeData } = useCheckKnowledgeTreeUI(knowledgeControl.data)
+
+  useEffect(() => {
+    knowledgeControl.dispatch({ type: 'setExpandKeys', expandKeys: () => generateKnowledgeKeys(knowledgeControl.data) })
+  }, [knowledgeControl.data])
   return (
     <div>
       <KnowledgeHeaderButtonWrapper>
         <a
           className={'add-knowledge'}
           style={{ marginRight: '12px', marginBottom: '35px' }}
-          onClick={addKnowledgePoint}
+          onClick={knowledgeControl.addKnowledgePoint}
         >
           添加知识点
         </a>
@@ -50,21 +32,26 @@ export const KnowledgeTree = () => {
           <a className={'mk-graph'}>个人知识图谱</a>
         </Link>
       </KnowledgeHeaderButtonWrapper>
-      <Modal title={curOrder} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <Modal
+        title={knowledgeControl.curOrder}
+        visible={knowledgeControl.isModalVisible}
+        onOk={knowledgeControl.handleOk}
+        onCancel={knowledgeControl.handleCancel}
+      >
         <TreeSelected
-          curCheckId={curCheckId}
+          curCheckId={knowledgeControl.curCheckId}
           checkTreeData={checkTreeData}
-          handleRelateExpand={handleRelateExpand}
-          handleRelateCheck={handleRelateCheck}
-          relateKeys={relateKeys}
+          handleRelateExpand={knowledgeControl.handleRelateExpand}
+          handleRelateCheck={knowledgeControl.handleRelateCheck}
+          relateKeys={knowledgeControl.relateKeys}
         />
       </Modal>
       <LoadingWrapper
-        isLoading={isLoading}
+        isLoading={knowledgeControl.isLoading}
         treeData={treeData}
-        handleExpand={handleExpand}
-        handleSelect={handleExpand}
-        expandKeys={expandKeys}
+        handleExpand={knowledgeControl.handleExpand}
+        handleSelect={knowledgeControl.handleExpand}
+        expandKeys={knowledgeControl.knowledgeState.expandKeys}
       />
     </div>
   )

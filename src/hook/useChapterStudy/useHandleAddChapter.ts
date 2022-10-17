@@ -47,13 +47,6 @@ export const useHandleAddChapter = (props: handleAddChapterProps) => {
     (chapterId: string) => {
       curAddId.current = chapterId
       curAddType.current = 'noRoot'
-      dispatchChapter({
-        type: 'setExpandKeys',
-        expandKeys: (prevState) => {
-          if (!prevState.includes(chapterId)) prevState = prevState.concat(chapterId)
-          return prevState
-        }
-      })
       dispatchChapter({ type: 'setFocusState', focusState: true })
       setCurAddNode(chapterNode)
       addChildChapterNode(data, chapterId, queryClient, chapterNode)
@@ -63,7 +56,6 @@ export const useHandleAddChapter = (props: handleAddChapterProps) => {
 
   /*确认添加章节*/
   const confirmAddChapter = useCallback(async () => {
-    console.log(curAddInputValue, 'cur value')
     const param: AddChapterParam = {
       name: curAddInputValue,
       course_id: '####',

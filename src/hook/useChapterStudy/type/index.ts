@@ -10,8 +10,8 @@ export interface ChapterTreeData {
   pid: string
 }
 
-export interface IHandleChapterControl {
-  data: ChapterTreeData[]
+export interface IHandleChapterControl<T> {
+  data: T[]
   chapterState: IChapterReducerState
   dispatchChapter: React.Dispatch<IChapterReducerAction>
 }
@@ -54,7 +54,7 @@ export interface CourTime {
 
 export interface Resource {
   resourceId: string
-  resourceLink: string
+  sourceLink: string
   resourceName: string
   type: number
 }

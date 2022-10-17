@@ -1,11 +1,10 @@
 import React from 'react'
 import { Tree } from 'antd'
-import { KnowledgeNodeType } from 'server/fetchKnowledge/types'
 
-export const useCheckKnowledgeTreeUI = (data: KnowledgeNodeType[]) => {
-  const generateKnowledgeTreeUI = (data: KnowledgeNodeType[]) => {
+export const useCheckKnowledgeTreeUI = (data: any[]) => {
+  const generateKnowledgeTreeUI = (data: any[]) => {
     if (!data) return
-    const recursion = (data: KnowledgeNodeType[]) => {
+    const recursion = (data: any[]) => {
       return data.map((d) => {
         if (d.children?.length) {
           return (

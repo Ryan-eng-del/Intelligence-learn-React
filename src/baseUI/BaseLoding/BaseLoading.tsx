@@ -1,9 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export const BaseLoading: React.FC<{ style?: React.CSSProperties }> = ({
-  style
-}) => {
+export const BaseLoading: React.FC<{ style?: React.CSSProperties }> = ({ style }) => {
   return (
     <BaseLodingWrapper style={style}>
       <div className="loader">
@@ -27,23 +25,23 @@ export const BaseLoading: React.FC<{ style?: React.CSSProperties }> = ({
   )
 }
 
-// 组件式加载动画
-export const BaseLoadingProvider = (props: {
-  loading: boolean
-  children: React.ReactElement[]
-}) => {
-  return props.loading ? (
-    <BaseLoading
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        marginTop: '24px'
-      }}
-    ></BaseLoading>
-  ) : (
-    props.children.map((item) => item)
-  )
-}
+// // 组件式加载动画
+// export const BaseLoadingProvider = (props: {
+//   loading: boolean
+//   children: React.ReactElement[]
+// }) => {
+//   return props.loading ? (
+//     <BaseLoading
+//       style={{
+//         display: 'flex',
+//         justifyContent: 'center',
+//         marginTop: '24px'
+//       }}
+//     ></BaseLoading>
+//   ) : (
+//     props.children.map((item) => item)
+//   )
+// }
 
 const BaseLodingWrapper = styled.div`
   position: absolute;
@@ -70,8 +68,7 @@ const BaseLodingWrapper = styled.div`
     top: 37px;
     left: 19px;
     transform: translate(-18px, -18px);
-    animation: dotRect var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86)
-      infinite;
+    animation: dotRect var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
   }
 
   .loader svg {
@@ -93,8 +90,7 @@ const BaseLodingWrapper = styled.div`
   .loader svg polygon {
     stroke-dasharray: 145 76 145 76;
     stroke-dashoffset: 0;
-    animation: pathTriangle var(--duration)
-      cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+    animation: pathTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
   }
 
   .loader svg rect {
@@ -106,8 +102,7 @@ const BaseLodingWrapper = styled.div`
   .loader svg circle {
     stroke-dasharray: 150 50 150 50;
     stroke-dashoffset: 75;
-    animation: pathCircle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86)
-      infinite;
+    animation: pathCircle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
   }
 
   .loader.triangle {
@@ -117,8 +112,7 @@ const BaseLodingWrapper = styled.div`
   .loader.triangle:before {
     left: 21px;
     transform: translate(-10px, -18px);
-    animation: dotTriangle var(--duration)
-      cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+    animation: dotTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
   }
 
   @keyframes pathTriangle {

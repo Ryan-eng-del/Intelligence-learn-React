@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
-import { BaseLoading } from '../../../../baseUI/BaseLoding/BaseLoading'
-import { Input, Spin, Tooltip } from 'antd'
+import { Tooltip } from 'antd'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { BaseSpin } from '../../../../baseUI/BaseSpin/BaseSpin'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 export const SourcePdfPreview = () => {
-  console.log('Pdf preview')
   const [numPages, setNumPages] = useState(0)
   const [pageNumber, setPageNumber] = useState(1)
-  const resourceId: any = location.pathname.split('/')[3]
-  useEffect(() => {
-    // console.log('resourceId', resourceId)
-    // setChange('../../../../assets/18-集合.pdf')
-  }, [resourceId])
+
   const onDocumentLoadSuccess = ({ numPages }: { numPages: any }) => {
     setNumPages(numPages)
   }
@@ -32,29 +26,19 @@ export const SourcePdfPreview = () => {
   return (
     <PdfViewWrapper style={{ width: '943px' }}>
       <Document
-        loading={
-          <BaseSpin title={''} style={{ position: 'absolute', top: '300px' }} />
-        }
-        file={require('../../../../assets/17-匿名类_Lambda.pdf')}
+        loading={<BaseSpin title={''} style={{ position: 'absolute', top: '300px' }} />}
+        file={require('../../../../assets/18-集合.pdf')}
         onLoadSuccess={onDocumentLoadSuccess}
       >
         <Page
           pageNumber={pageNumber}
-          loading={
-            <BaseSpin
-              title={''}
-              style={{ position: 'absolute', top: '300px' }}
-            />
-          }
+          loading={<BaseSpin title={''} style={{ position: 'absolute', top: '300px' }} />}
         />
       </Document>
       <PdfControl>
         <LeftChangeWrapper>
           <Tooltip title={pageNumber == 1 ? '已是第一页' : '上一页'}>
-            <LeftOutlined
-              onClick={lastPage}
-              style={{ width: '100%', height: '100%', lineHeight: '44px' }}
-            />
+            <LeftOutlined onClick={lastPage} style={{ width: '100%', height: '100%', lineHeight: '44px' }} />
           </Tooltip>
         </LeftChangeWrapper>
         <PdfNums>
@@ -62,10 +46,7 @@ export const SourcePdfPreview = () => {
         </PdfNums>
         <RightChangeWrapper>
           <Tooltip title={pageNumber == numPages ? '已是最后一页' : '下一页'}>
-            <RightOutlined
-              onClick={nextPage}
-              style={{ width: '100%', height: '100%', lineHeight: '44px' }}
-            />
+            <RightOutlined onClick={nextPage} style={{ width: '100%', height: '100%', lineHeight: '44px' }} />
           </Tooltip>
         </RightChangeWrapper>
       </PdfControl>

@@ -8,7 +8,7 @@ const ChapterNodeRenameStatus: React.FC<{
   dispatchChapter: React.Dispatch<IChapterReducerAction>
   confirmRename: any
   cancelRename: any
-  value: any
+  value: string
 }> = ({ dispatchChapter, confirmRename, cancelRename, value }) => {
   // debounce用来阻止，多次type造成setUpdaterFunction连续调用，导致组件多次渲染更新
   const debounceChange = debounce(

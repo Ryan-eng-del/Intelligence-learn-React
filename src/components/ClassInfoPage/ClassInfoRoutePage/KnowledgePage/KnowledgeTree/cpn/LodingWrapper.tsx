@@ -1,8 +1,7 @@
 import { BaseLoading } from '../../../../../../baseUI/BaseLoding/BaseLoading'
 import { Tree } from 'antd'
 import React from 'react'
-interface LoadingWrapperProps
-  extends Omit<React.ComponentProps<typeof Tree>, 'expandKeys'> {
+interface LoadingWrapperProps extends Omit<React.ComponentProps<typeof Tree>, 'expandKeys'> {
   isLoading: boolean
   treeData: any
   handleExpand: any
@@ -19,11 +18,7 @@ export const LoadingWrapper = (props: LoadingWrapperProps) => {
       }}
     />
   ) : (
-    <Tree
-      expandedKeys={props.expandKeys}
-      onExpand={props.handleExpand}
-      onSelect={props.handleExpand}
-    >
+    <Tree expandedKeys={props.expandKeys} onExpand={props.handleExpand} onSelect={props.handleExpand}>
       {props?.treeData}
     </Tree>
   )
