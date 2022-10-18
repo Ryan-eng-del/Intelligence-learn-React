@@ -47,6 +47,7 @@ import { QuestionEditPage } from 'publicComponents/CreateQuestionPage'
 import { MkGraph } from 'pages/MK-graphPage/MkGraph'
 import { PaperDoing } from 'pages/PaperDoingPage/paperDoingPage'
 import { TestPaperPreview } from 'components/CreateExamPage'
+import {ClassTimeDispatchContextProvider} from "./context/ChapterStudyTree/ClassTimeDispatchContext";
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
@@ -60,66 +61,68 @@ const queryClient = new QueryClient({
 
 root.render(
   <QueryClientProvider client={queryClient}>
-    <ConfigProvider locale={zhCN}>
-      <ReactQueryDevtools initialIsOpen />
-      <Router>
-        <Routes>
-          <Route path="login" element={<LoginPage />} />
-          <Route
-            path="/"
-            element={
-              <RequireAuth>
-                <App />
-              </RequireAuth>
-            }
-          >
-            <Route path="home" element={<HomePage />}>
-              <Route path="teach" element={<TeachPage />} />
-              <Route path="learn" element={<LearnPage />} />
-              <Route path="inbox" element={<InboxPage />} />
-              <Route path="profile" element={<ProfilePage />} />
-              <Route path="exam" element={<ExamSummary />} />
-            </Route>
-            <Route path="classinfo" element={<ClassInfoPage />}>
-              <Route path="chapter" element={<ChapterPage />} />
-              <Route path="exam" element={<ExamPage />} />
-              <Route path="resource" element={<ResourcePage />} />
-              <Route path="discuss" element={<DiscussPage />} />
-              <Route path="class" element={<ClassManaPage />} />
-              <Route path="knowledge" element={<KnowledgePage />} />
-              <Route path="questionbank" element={<QuestionBankPage />} />
-            </Route>
-            <Route path="studentClassinfo" element={<ClassInfoPage />}>
-              <Route path="chapter" element={<ChapterPage />} />
-              <Route path="exam" element={<ExamPage />} />
-              <Route path="resource" element={<ResourcePage />} />
-              <Route path="discuss" element={<DiscussPage />} />
-              <Route path="class" element={<ClassManaPage />} />
-              <Route path="knowledge" element={<KnowledgePage />} />
-              <Route path="questionbank" element={<QuestionBankPage />} />
-            </Route>
-            <Route path={'k-graph'} element={<KnowledgeGraph />} />
-            <Route path={'mk-graph'} element={<MkGraph />} />
-            <Route path="editpaper/:paperid" element={<CreateExamPage />} />
-            <Route path="previewtestpaper/:paperid" element={<TestPaperPreview />} />
+    <ClassTimeDispatchContextProvider>
+      <ConfigProvider locale={zhCN}>
+        <ReactQueryDevtools initialIsOpen />
+        <Router>
+          <Routes>
+            <Route path="login" element={<LoginPage />} />
             <Route
-              path="teacher-preview"
-              element={<TeacherSourcePreviewPage />}
+              path="/"
+              element={
+                <RequireAuth>
+                  <App />
+                </RequireAuth>
+              }
             >
-              <Route path="video/:id" element={<SourceVideoPreview />} />
-              <Route path="pdf/:id" element={<SourcePdfPreview />} />
+              <Route path="home" element={<HomePage />}>
+                <Route path="teach" element={<TeachPage />} />
+                <Route path="learn" element={<LearnPage />} />
+                <Route path="inbox" element={<InboxPage />} />
+                <Route path="profile" element={<ProfilePage />} />
+                <Route path="exam" element={<ExamSummary />} />
+              </Route>
+              <Route path="classinfo" element={<ClassInfoPage />}>
+                <Route path="chapter" element={<ChapterPage />} />
+                <Route path="exam" element={<ExamPage />} />
+                <Route path="resource" element={<ResourcePage />} />
+                <Route path="discuss" element={<DiscussPage />} />
+                <Route path="class" element={<ClassManaPage />} />
+                <Route path="knowledge" element={<KnowledgePage />} />
+                <Route path="questionbank" element={<QuestionBankPage />} />
+              </Route>
+              <Route path="studentClassinfo" element={<ClassInfoPage />}>
+                <Route path="chapter" element={<ChapterPage />} />
+                <Route path="exam" element={<ExamPage />} />
+                <Route path="resource" element={<ResourcePage />} />
+                <Route path="discuss" element={<DiscussPage />} />
+                <Route path="class" element={<ClassManaPage />} />
+                <Route path="knowledge" element={<KnowledgePage />} />
+                <Route path="questionbank" element={<QuestionBankPage />} />
+              </Route>
+              <Route path={'k-graph'} element={<KnowledgeGraph />} />
+              <Route path={'mk-graph'} element={<MkGraph />} />
+              <Route path="editpaper/:paperid" element={<CreateExamPage />} />
+              <Route path="previewtestpaper/:paperid" element={<TestPaperPreview />} />
+              <Route
+                path="teacher-preview"
+                element={<TeacherSourcePreviewPage />}
+              >
+                <Route path="video/:id" element={<SourceVideoPreview />} />
+                <Route path="pdf/:id" element={<SourcePdfPreview />} />
+              </Route>
+              <Route path="createquestion" element={<CreateQuestionPage />} />
+              <Route
+                path="preview/:questionId"
+                element={<QuestionPreviewPage />}
+              />
+              <Route path="edit/:questionId" element={<QuestionEditPage />} />
+              <Route path="homeWork" element={<PaperDoing/>} ></Route>
             </Route>
-            <Route path="createquestion" element={<CreateQuestionPage />} />
-            <Route
-              path="preview/:questionId"
-              element={<QuestionPreviewPage />}
-            />
-            <Route path="edit/:questionId" element={<QuestionEditPage />} />
-            <Route path="homeWork" element={<PaperDoing/>} ></Route>
-          </Route>
-        </Routes>
-      </Router>
-    </ConfigProvider>
+          </Routes>
+        </Router>
+      </ConfigProvider>
+    </ClassTimeDispatchContextProvider>
   </QueryClientProvider>
 )
 
