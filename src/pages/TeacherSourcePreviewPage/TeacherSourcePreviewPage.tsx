@@ -1,20 +1,20 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import { useMount } from '../../hook/useMount'
 
 import styled from 'styled-components'
 import { Tree } from 'antd/es'
 import { useChapterUI } from '../../hook/useChapterStudy/useChapterUI'
-import { expandOnMount } from '../../util/chapterStudyTree'
 import { Button } from 'antd'
+import {expandOnMount} from "../../helper/chapterStudyTree";
 
 export const TeacherSourcePreviewPage = () => {
-  const { treeData, setExpandKeys, data, expandKeys, handleOnExpand } =
+  const { treeData, chapterControl } =
     useChapterUI(true)
 
-  useMount(() => {
-    setExpandKeys(expandOnMount(data!))
-  })
+  useEffect(() => {
+    chapterControl.dispatchChapter({type:"setExpandKeys", expandKeys: () => expandOnMount(chapterControl.data || [])})
+  }, [chapterControl.dispatchChapter, chapterControl.data])
 
   return (
     <>
@@ -26,9 +26,9 @@ export const TeacherSourcePreviewPage = () => {
             </Link>
           </div>
           <Tree
-            expandedKeys={expandKeys}
-            onExpand={handleOnExpand}
-            onSelect={handleOnExpand}
+            expandedKeys={chapterControl.expandKeys}
+            onExpand={chapterControl.handleOnExpand}
+            onSelect={chapterControl.handleOnExpand}
           >
             {treeData}
           </Tree>

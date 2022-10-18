@@ -10,7 +10,7 @@ import { useCheckKnowledgeTreeUI } from '../../../../hook/useKnowledge/useCheckK
 
 export const ChapterStudyTree = () => {
   /*UI驱动层*/
-  const { treeData, chapterControl } = useChapterUI()
+  const { treeData, chapterControl } = useChapterUI(true);
   const { knowledgeControl } = useKnowledgeControl()
   const { checkTreeData } = useCheckKnowledgeTreeUI(knowledgeControl.data)
   // 每次挂载后全部展开

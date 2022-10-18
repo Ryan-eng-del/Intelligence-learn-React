@@ -34,7 +34,7 @@ export const QuestionBankHeader: React.FC<{
     [QuestionType.multiple]: { title: '多选题' },
     [QuestionType.fillBlank]: { title: '填空题' },
     [QuestionType.shortAnswer]: { title: '简答题' },
-    [QuestionType.programming]: { title: '编程题' },
+    // [QuestionType.]: { title: '编程题' },
     [QuestionType.judge]: { title: '判断题' }
   }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { ChapterPageWrapper } from './ChapterPageStyle'
-import { ChapterStudyTree } from 'components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/ChapterStudyTree'
 import { CurCourseProvider } from 'pages/ClassInfoPage/ClassInfoPage'
+import {ChapterStudyTree} from "../../../../components/ClassInfoPage/ChapterPage/ChapterStudyTree/ChapterStudyTree";
 
 export const ChapterPage: React.FC = () => {
   return (
@@ -9,7 +9,7 @@ export const ChapterPage: React.FC = () => {
       <ChapterPageWrapper>
         <CurCourseProvider>
           {({ curCourse }) => (
-            <ChapterStudyTree editable={curCourse.Permission} />
+            <ChapterStudyTree  />
           )}
         </CurCourseProvider>
       </ChapterPageWrapper>

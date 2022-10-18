@@ -5,19 +5,16 @@ import {
   FilePptOutlined,
   YoutubeOutlined
 } from '@ant-design/icons'
-import { formatResource } from 'util/chapterStudyTree'
 import styled from 'styled-components'
 import { CustomLink } from 'util/CustomLink'
 import { ChapterResourceType } from 'server/fetchChapter/types'
+import {formatResource} from "../../../../../helper/chapterStudyTree";
 
 const ChapterTreeContent: React.FC<{
   contentName: string
   handleDeleteTreeContent: any
   contentId: string
-  handleReNameTreeNode: any
   resource: ChapterResourceType[]
-  handleClickAddResource: any
-  handleClickRelatePoints: any
   handleDeleteResource: any
   editable: boolean
 }> = ({
@@ -25,7 +22,6 @@ const ChapterTreeContent: React.FC<{
   contentName,
   handleDeleteTreeContent,
   contentId,
-  handleReNameTreeNode,
   resource,
   handleDeleteResource
 }) => {
