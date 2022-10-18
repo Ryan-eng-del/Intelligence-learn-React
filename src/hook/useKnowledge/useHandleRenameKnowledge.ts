@@ -1,7 +1,7 @@
 import { useRenameKnowledgeAPI } from '../../server/fetchKnowledge'
 import { useCallback, useRef, useState } from 'react'
 import { IKnowledgePoint } from './type'
-import { renameKnowledgePoint } from '../../util/knowledgeTree'
+import { renameKnowledgePoint } from '../../helper/knowledgeTree'
 import { IHandleChapterControl } from '../useChapterStudy/type'
 
 export const useRenameKnowledgePoints = (props: IHandleChapterControl<IKnowledgePoint>) => {
@@ -29,6 +29,7 @@ export const useRenameKnowledgePoints = (props: IHandleChapterControl<IKnowledge
     } finally {
       dispatch({ type: 'setFocusState', focusState: false })
       dispatch({ type: 'setCurInputValue', curInputValue: '' })
+      setCurRenameNode(null)
     }
   }
   /*取消重命名*/

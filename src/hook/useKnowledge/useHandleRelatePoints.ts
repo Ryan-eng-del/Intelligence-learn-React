@@ -6,7 +6,7 @@ import {
   generateKnowledgeKeys,
   generateRelatePointsObj,
   relateAllPoints
-} from '../../util/knowledgeTree'
+} from '../../helper/knowledgeTree'
 import { IHandleChapterControl } from '../useChapterStudy/type'
 import { useQueryClient } from '@tanstack/react-query'
 

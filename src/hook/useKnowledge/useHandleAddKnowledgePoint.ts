@@ -2,7 +2,7 @@ import { useCallback, useMemo, useRef, useState } from 'react'
 import { IKnowledgePoint } from './type'
 import { useAddKnowledgePointsAPI } from '../../server/fetchKnowledge'
 import { initialKnowledgePoint } from './config'
-import { addChildKnowledgeNode, deleteKnowledgeNode, updateKnowledgeTreeQueryCache } from '../../util/knowledgeTree'
+import { addChildKnowledgeNode, deleteKnowledgeNode, updateKnowledgeTreeQueryCache } from '../../helper/knowledgeTree'
 import { IHandleChapterControl } from '../useChapterStudy/type'
 import { useQueryClient } from '@tanstack/react-query'
 
@@ -56,6 +56,7 @@ export const useAddKnowledgePoints = (props: IHandleChapterControl<IKnowledgePoi
       dispatch({ type: 'setFocusState', focusState: false })
       dispatch({ type: 'setCurInputValue', curInputValue: '' })
       curId.current = ''
+      setCurKnowledgeNode(null)
     }
   }, [data, knowledgeState])
   /*取消添加节点*/

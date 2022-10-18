@@ -2,7 +2,7 @@ import { Modal } from 'antd'
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useKnowledgeUI } from 'hook/useKnowledge/useKnowledgeUI'
-import { generateKnowledgeKeys } from 'util/knowledgeTree'
+import { generateKnowledgeKeys } from 'helper/knowledgeTree'
 import { useCheckKnowledgeTreeUI } from 'hook/useKnowledge/useCheckKnowledgeTreeUI'
 import styled from 'styled-components'
 import { TreeSelected } from './cpn/TreeSelected'
@@ -26,10 +26,10 @@ export const KnowledgeTree = () => {
           添加知识点
         </a>
         <Link to={'/k-graph'}>
-          <a className={'k-graph'}>课程知识图谱</a>
+          <span className={'k-graph'}>课程知识图谱</span>
         </Link>
         <Link to={'/mk-graph'}>
-          <a className={'mk-graph'}>个人知识图谱</a>
+          <span className={'mk-graph'}>个人知识图谱</span>
         </Link>
       </KnowledgeHeaderButtonWrapper>
       <Modal
@@ -74,8 +74,8 @@ const KnowledgeHeaderButtonWrapper = styled.div`
     }
   }
 
-  a.k-graph,
-  a.mk-graph {
+  span.k-graph,
+  span.mk-graph {
     display: inline-block;
     padding: 0 16px;
     width: 130px;
@@ -93,7 +93,7 @@ const KnowledgeHeaderButtonWrapper = styled.div`
       background: #eaf0ff;
     }
   }
-  a.mk-graph {
+  span.mk-graph {
     margin-left: 8px;
   }
 `

@@ -1,10 +1,10 @@
 import React from 'react'
 import { Button, Tag } from 'antd'
 import { DeleteOutlined, FilePptOutlined, YoutubeOutlined } from '@ant-design/icons'
-import { formatResource } from 'util/chapterStudyTree'
+import { formatResource } from 'helper/chapterStudyTree'
 import styled from 'styled-components'
-import { CustomLink } from '../../../../../../util/CustomLink'
-import { ChapterResourceType } from '../../../../../../server/fetchChapter/types'
+import { CustomLink } from '../../../../../util/CustomLink'
+import { ChapterResourceType } from '../../../../../server/fetchChapter/types'
 
 const ChapterTreeContent: React.FC<{
   contentName: string

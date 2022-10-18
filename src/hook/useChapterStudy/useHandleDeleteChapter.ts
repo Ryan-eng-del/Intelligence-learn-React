@@ -3,7 +3,7 @@ import { ChapterTreeData, IHandleChapterControl } from './type'
 import { useQueryClient } from '@tanstack/react-query'
 import { useDeleteChapter, useDeleteClassTime, useDeleteResource } from '../../server/fetchChapter'
 import { useCallback } from 'react'
-import { deleteResource, deleteTreeContent, deleteTreeNode } from '../../util/chapterStudyTree'
+import { deleteResource, deleteTreeContent, deleteTreeNode } from '../../helper/chapterStudyTree'
 
 export const useHandleDeleteChapter = (props: Omit<IHandleChapterControl<ChapterTreeData>, 'chapterState'>) => {
   const { data, dispatchChapter } = props

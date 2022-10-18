@@ -1,4 +1,4 @@
-import { BaseLoading } from '../../../../../../baseUI/BaseLoding/BaseLoading'
+import { BaseLoading } from '../../../../../baseUI/BaseLoding/BaseLoading'
 import { Tree } from 'antd'
 import React from 'react'
 interface LoadingWrapperProps extends Omit<React.ComponentProps<typeof Tree>, 'expandKeys'> {

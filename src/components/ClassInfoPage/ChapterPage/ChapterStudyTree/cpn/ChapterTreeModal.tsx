@@ -3,9 +3,9 @@ import { Button, Drawer, Input, List, Modal, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { TreeSelected } from '../../../KnowledgePage/KnowledgeTree/cpn/TreeSelected'
-import { useHandleUploadClassTimeResource } from '../../../../../../hook/useChapterStudy/useHandleUploadClassTimeResource'
-import { useClassTimeDispatch } from '../../../../../../context/ChapterStudyTree/ClassTimeDispatchContext'
-import { uploadProps } from '../../../../../../hook/useChapterStudy/config'
+import { useHandleUploadClassTimeResource } from '../../../../../hook/useChapterStudy/useHandleUploadClassTimeResource'
+import { useClassTimeDispatch } from '../../../../../context/ChapterStudyTree/ClassTimeDispatchContext'
+import { uploadProps } from '../../../../../hook/useChapterStudy/config'
 
 export const ChapterTreeModal: React.FC<{
   checkTreeData: any

@@ -1,7 +1,7 @@
 import { ChapterTreeData } from './type'
 import React, { useCallback, useState } from 'react'
 import { useEditChapter } from '../../server/fetchChapter'
-import { reNameTreeNode } from '../../util/chapterStudyTree'
+import { reNameTreeNode } from '../../helper/chapterStudyTree'
 import { IChapterReducerAction, IChapterReducerState } from '../../reducer/ChaperStudyTree/type/type'
 
 interface IHandleChapterControl {

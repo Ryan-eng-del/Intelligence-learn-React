@@ -5,7 +5,7 @@ import { useMount } from '../../hook/useMount'
 import styled from 'styled-components'
 import { Tree } from 'antd/es'
 import { useChapterUI } from '../../hook/useChapterStudy/useChapterUI'
-import { expandOnMount } from '../../util/chapterStudyTree'
+import { expandOnMount } from '../../helper/chapterStudyTree'
 import { Button } from 'antd'
 
 export const TeacherSourcePreviewPage = () => {

@@ -1,7 +1,7 @@
 /*删除知识点*/
 import { useDeleteKnowledgeAPI } from '../../server/fetchKnowledge'
 import { useCallback } from 'react'
-import { deleteKnowledgeNode } from '../../util/knowledgeTree'
+import { deleteKnowledgeNode } from '../../helper/knowledgeTree'
 import { IKnowledgePoint } from './type'
 import { IHandleChapterControl } from '../useChapterStudy/type'
 import { useQueryClient } from '@tanstack/react-query'

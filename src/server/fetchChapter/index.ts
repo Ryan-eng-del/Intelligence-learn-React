@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
-import { generateExpandKeys } from '../../util/chapterStudyTree'
+import { generateExpandKeys } from '../../helper/chapterStudyTree'
 import { AddChapterParam, EditChapterParam } from '../../types/server/fetchChapter'
 import { AddContent, AddContentResource, EditContent } from '../../types/server/fetchClassTime'
 import { ChapterTreeData } from '../../hook/useChapterStudy/type'

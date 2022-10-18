@@ -3,10 +3,10 @@ import { Tree } from 'antd'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { ChapterTreeModal } from './cpn/ChapterTreeModal'
 import { useChapterUI } from 'hook/useChapterStudy/useChapterUI'
-import { expandOnMount } from 'util/chapterStudyTree'
+import { expandOnMount } from 'helper/chapterStudyTree'
 import styled from 'styled-components'
-import { useKnowledgeControl } from '../../../../../hook/useKnowledge/useKnowledgeControl'
-import { useCheckKnowledgeTreeUI } from '../../../../../hook/useKnowledge/useCheckKnowledgeTreeUI'
+import { useKnowledgeControl } from '../../../../hook/useKnowledge/useKnowledgeControl'
+import { useCheckKnowledgeTreeUI } from '../../../../hook/useKnowledge/useCheckKnowledgeTreeUI'
 
 export const ChapterStudyTree = () => {
   /*UI驱动层*/
@@ -19,7 +19,7 @@ export const ChapterStudyTree = () => {
       type: 'setExpandKeys',
       expandKeys: () => expandOnMount(chapterControl.data || [])
     })
-  }, [treeData])
+  }, [chapterControl.data, chapterControl.dispatchChapter])
 
   return (
     <ChapterStudyTreeWrapper>

@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useAddContent } from '../../server/fetchChapter'
 import { ClassTimeNode } from './config'
 import { cloneDeepWith } from 'lodash'
-import { addChildContentNode } from '../../util/chapterStudyTree'
+import { addChildContentNode } from '../../helper/chapterStudyTree'
 import { useClassTimeDispatch } from '../../context/ChapterStudyTree/ClassTimeDispatchContext'
 
 export const useHandleAddClassTime = (props: Omit<IHandleChapterControl<ChapterTreeData>, 'chapterState'>) => {
