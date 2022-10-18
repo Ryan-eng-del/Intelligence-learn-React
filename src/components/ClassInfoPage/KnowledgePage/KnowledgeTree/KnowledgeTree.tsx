@@ -1,84 +1,58 @@
-import { Button, Modal, Tree } from 'antd'
-import React from 'react'
+import { Modal } from 'antd'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useKnowledgeUI } from 'hook/useKnowledge/useKnowledgeUI'
-import { generateKnowledgeKeys } from 'util/knowledgeTree'
-import { useMount } from 'hook/useMount'
+import { generateKnowledgeKeys } from 'helper/knowledgeTree'
 import { useCheckKnowledgeTreeUI } from 'hook/useKnowledge/useCheckKnowledgeTreeUI'
-import { BaseLoading } from '../../../../../baseUI/BaseLoding/BaseLoading'
 import styled from 'styled-components'
 import { TreeSelected } from './cpn/TreeSelected'
-import { keys } from 'lodash'
+import { LoadingWrapper } from './cpn/LodingWrapper'
 
 export const KnowledgeTree = () => {
-  const {
-    isLoading,
-    treeData,
-    addKnowledgePoint,
-    expandKeys,
-    setExpandKeys,
-    handleExpand,
-    data,
-    handleRelateCheck,
-    handleCancel,
-    handleOk,
-    isModalVisible,
-    curOrder,
-    curCheckId,
-    relateKeys,
-    handleRelateExpand
-  } = useKnowledgeUI()
-  const { checkTreeData } = useCheckKnowledgeTreeUI(data)
-  useMount(() => {
-    console.log('知识点页面挂载')
-    setExpandKeys(generateKnowledgeKeys(data))
-  })
+  const { knowledgeControl, treeData } = useKnowledgeUI()
+  const { checkTreeData } = useCheckKnowledgeTreeUI(knowledgeControl.data)
+
+  useEffect(() => {
+    knowledgeControl.dispatch({ type: 'setExpandKeys', expandKeys: () => generateKnowledgeKeys(knowledgeControl.data) })
+  }, [knowledgeControl.data])
   return (
     <div>
       <KnowledgeHeaderButtonWrapper>
         <a
           className={'add-knowledge'}
           style={{ marginRight: '12px', marginBottom: '35px' }}
-          onClick={addKnowledgePoint}
+          onClick={knowledgeControl.addKnowledgePoint}
         >
           添加知识点
         </a>
         <Link to={'/k-graph'}>
-          <a className={'k-graph'}>知识图谱</a>
+          <span className={'k-graph'}>课程知识图谱</span>
+        </Link>
+        <Link to={'/mk-graph'}>
+          <span className={'mk-graph'}>个人知识图谱</span>
         </Link>
       </KnowledgeHeaderButtonWrapper>
       <Modal
-        title={curOrder}
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
+        title={knowledgeControl.curOrder}
+        visible={knowledgeControl.isModalVisible}
+        onOk={knowledgeControl.handleOk}
+        onCancel={knowledgeControl.handleCancel}
       >
         <TreeSelected
-          curCheckId={curCheckId}
+          curCheckId={knowledgeControl.curCheckId}
           checkTreeData={checkTreeData}
-          handleRelateExpand={handleRelateExpand}
-          handleRelateCheck={handleRelateCheck}
-          relateKeys={relateKeys}
+          handleRelateExpand={knowledgeControl.handleRelateExpand}
+          handleRelateCheck={knowledgeControl.handleRelateCheck}
+          relateKeys={knowledgeControl.relateKeys}
         />
       </Modal>
-
-      {isLoading ? (
-        <BaseLoading
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            marginTop: '24px'
-          }}
-        />
-      ) : (
-        <Tree
-          expandedKeys={expandKeys}
-          onExpand={handleExpand}
-          onSelect={handleExpand}
-        >
-          {treeData && treeData}
-        </Tree>
-      )}
+      <LoadingWrapper
+        isLoading={knowledgeControl.isLoading}
+        treeData={treeData}
+        handleExpand={knowledgeControl.handleExpand}
+        handleSelect={knowledgeControl.handleExpand}
+        expandKeys={knowledgeControl.knowledgeState.expandKeys}
+      />
     </div>
   )
 }
@@ -100,10 +74,11 @@ const KnowledgeHeaderButtonWrapper = styled.div`
     }
   }
 
-  a.k-graph {
+  span.k-graph,
+  span.mk-graph {
     display: inline-block;
     padding: 0 16px;
-    width: 120px;
+    width: 130px;
     height: 36px;
     line-height: 36px;
     border: solid #94c1ff 1px;
@@ -117,5 +92,8 @@ const KnowledgeHeaderButtonWrapper = styled.div`
     &:hover {
       background: #eaf0ff;
     }
+  }
+  span.mk-graph {
+    margin-left: 8px;
   }
 `

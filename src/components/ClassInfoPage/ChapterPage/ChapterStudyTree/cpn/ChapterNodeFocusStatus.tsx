@@ -2,18 +2,16 @@ import React, { memo } from 'react'
 import { Button, Input } from 'antd'
 import { stopPropagation } from 'util/stopPropagation'
 import { debounce } from 'util/debounece'
+import { IChapterReducerAction } from '../../../../../reducer/ChaperStudyTree/type/type'
 
 const ChapterNodeFocusStatus: React.FC<{
-  setAddInputValue: any
+  dispatchChapter: React.Dispatch<IChapterReducerAction>
   confirmAdd: any
   cancelAdd: any
-}> = ({ setAddInputValue, confirmAdd, cancelAdd }) => {
-  // debounce用来阻止，多次点击造成setUpdaterFunction，导致组件多次渲染
-  console.log('addNode')
-
+}> = ({ confirmAdd, cancelAdd, dispatchChapter }) => {
   const debounceChange = debounce(
     (e: any) => {
-      setAddInputValue(e.target.value)
+      dispatchChapter({ type: 'setCurInputValue', curInputValue: e.target.value })
     },
     300,
     true
@@ -26,18 +24,10 @@ const ChapterNodeFocusStatus: React.FC<{
         style={{ marginRight: '12px' }}
         onClick={(e) => e.stopPropagation()}
       />
-      <Button
-        type={'primary'}
-        onClick={(e) => stopPropagation(e, confirmAdd)}
-        style={{ marginRight: '15px' }}
-      >
+      <Button type={'primary'} onClick={(e) => stopPropagation(e, confirmAdd)} style={{ marginRight: '15px' }}>
         √
       </Button>
-      <Button
-        type={'primary'}
-        danger
-        onClick={(e) => stopPropagation(e, cancelAdd)}
-      >
+      <Button type={'primary'} danger onClick={(e) => stopPropagation(e, cancelAdd)}>
         x
       </Button>
     </div>

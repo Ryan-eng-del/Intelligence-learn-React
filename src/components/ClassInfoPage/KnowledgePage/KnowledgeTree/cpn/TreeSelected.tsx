@@ -1,4 +1,4 @@
-import { Modal, Tree } from 'antd'
+import { Tree } from 'antd'
 import React from 'react'
 export interface TreeSelected {
   curCheckId?: any

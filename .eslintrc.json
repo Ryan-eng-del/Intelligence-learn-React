@@ -20,6 +20,8 @@
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
-    "react/display-name": "off"
+    "react/display-name": "off",
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off"
   }
 }

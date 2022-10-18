@@ -1,74 +1,33 @@
 import { Tree } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 import React from 'react'
-import { useChapterControl } from './useChapterControl'
-import ChapterNodeRenameStatus from 'components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeRenameStatus'
-import ChapterNodeFocusStatus from 'components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeFocusStatus'
-import ChapterTreeDirectory from 'components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeDirectory'
-import ChapterTreeContent from '../../components/ClassInfoPage/ClassInfoRoutePage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeContent'
-import {
-  ChapterNodeType,
-  ChapterResourceType,
-  CourTimeType
-} from 'server/fetchChapter/types'
+import ChapterNodeRenameStatus from 'components/ClassInfoPage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeRenameStatus'
+import ChapterNodeFocusStatus from 'components/ClassInfoPage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeFocusStatus'
+import ChapterTreeDirectory from 'components/ClassInfoPage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeDirectory'
+import ChapterTreeContent from '../../components/ClassInfoPage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeContent'
+import { ChapterNodeType, ChapterResourceType, CourTimeType } from 'server/fetchChapter/types'
+import { useChapterControlRefactor } from './useChapterControlRefactor'
 
 const { TreeNode } = Tree
 export const useChapterUI = (editable: boolean) => {
   /*业务逻辑层*/
-  const {
-    confirmAdd,
-    cancelAdd,
-    cancelRename,
-    handleReNameTreeNode,
-    handleClickAddChildChapter,
-    confirmRename,
-    handleClickAddChildCourseTime,
-    handleDeleteTreeNode,
-    setAddInputValue,
-    handleClickAddChapter,
-    data,
-    isLoading,
-    curNode,
-    curRenameNode,
-    focusStatus,
-    expandKeys,
-    handleOnExpand,
-    handleClickRelatePoints,
-    handleClickAddResource,
-    isModalVisible,
-    setIsModalVisible,
-    resourceTitle,
-    setResourceTitle,
-    uploadType,
-    setUploadType,
-    handleDeleteResource,
-    setExpandKeys,
-    setAddContentNodeModal,
-    addContentNodeModal,
-    resourceObj,
-    setResourceObj,
-    setCurAddType,
-    curFileListName,
-    setCurFileListName,
-    fileList,
-    setFileList,
-    handleOk
-  } = useChapterControl()
+  const { chapterControl } = useChapterControlRefactor()
+
   /*表单focus状态UI*/
   const focusStateUI = (
     <ChapterNodeFocusStatus
-      setAddInputValue={setAddInputValue}
-      confirmAdd={confirmAdd}
-      cancelAdd={cancelAdd}
+      confirmAdd={chapterControl.confirmAddChapter}
+      cancelAdd={chapterControl.cancelAddChapter}
+      dispatchChapter={chapterControl.dispatchChapter}
     />
   )
   /*重命名状态的UI*/
   const renameStatusUI = (name: string) => {
     return (
       <ChapterNodeRenameStatus
-        setAddInputValue={setAddInputValue}
-        confirmRename={confirmRename}
-        cancelRename={cancelRename}
+        dispatchChapter={chapterControl.dispatchChapter}
+        confirmRename={chapterControl.confirmRename}
+        cancelRename={chapterControl.cancelRename}
         value={name}
       />
     )
@@ -79,21 +38,17 @@ export const useChapterUI = (editable: boolean) => {
       <ChapterTreeDirectory
         nodeId={chapterId}
         nodeName={name}
-        handleDeleteTreeNode={handleDeleteTreeNode}
-        handleClickAddChildChapter={handleClickAddChildChapter}
-        handleClickAddChildCourseTime={handleClickAddChildCourseTime}
-        handleReNameTreeNode={handleReNameTreeNode}
+        handleDeleteTreeNode={chapterControl.handleDeleteTreeNode}
+        handleClickAddChildChapter={chapterControl.handleClickAddChildChapter}
+        handleClickAddChildCourseTime={chapterControl.handleClickAddChildCourseTime}
+        handleReNameTreeNode={chapterControl.handleReNameTreeNode}
       />
     ) : (
       name
     )
   }
   /*课时节点UI*/
-  const generateTreeContentUI = (
-    id: string,
-    name: string,
-    resource: ChapterResourceType[]
-  ) => {
+  const generateTreeContentUI = (id: string, name: string, resource: ChapterResourceType[]) => {
     if (!resource) return
     return (
       <TreeNode
@@ -105,12 +60,9 @@ export const useChapterUI = (editable: boolean) => {
             editable={editable}
             contentId={id}
             contentName={name}
-            handleDeleteTreeContent={handleDeleteTreeNode}
-            handleReNameTreeNode={handleReNameTreeNode}
+            handleDeleteTreeContent={chapterControl.handleDeleteTreeContent}
             resource={resource}
-            handleClickAddResource={handleClickAddResource}
-            handleClickRelatePoints={handleClickRelatePoints}
-            handleDeleteResource={handleDeleteResource}
+            handleDeleteResource={chapterControl.handleDeleteResource}
           />
         }
       ></TreeNode>
@@ -122,7 +74,7 @@ export const useChapterUI = (editable: boolean) => {
   })
 
   /*根据后台数据来递归构造树节点*/
-  const generateTreeNode = (data: ChapterNodeType[]) => {
+  const generateTreeNode = (data: any[]) => {
     if (!data) return
     const recursion = (data: ChapterNodeType[] | CourTimeType[]) => {
       return data.map((d: any) => {
@@ -131,7 +83,7 @@ export const useChapterUI = (editable: boolean) => {
             <TreeNode
               {...generateConfigObj(
                 d.id,
-                focusStatus && d == curRenameNode
+                chapterControl.focusStatus && d == chapterControl.curRenameNode
                   ? renameStatusUI(d.name)
                   : generateTreeNodeUI(d.id, d.name)
               )}
@@ -142,20 +94,18 @@ export const useChapterUI = (editable: boolean) => {
           )
         }
         if (d.resource) {
-          return d == curNode ? (
+          return d == chapterControl.curAddNode ? (
             <TreeNode
               {...generateConfigObj(
                 d.classTimeId,
-                focusStatus
-                  ? focusStateUI
-                  : generateTreeContentUI(d.classTimeId, d.name, d.resource)
+                chapterControl.focusStatus ? focusStateUI : generateTreeContentUI(d.classTimeId, d.name, d.resource)
               )}
             />
-          ) : d == curRenameNode ? (
+          ) : d == chapterControl.curRenameNode ? (
             <TreeNode
               {...generateConfigObj(
                 d.classTimeId,
-                focusStatus
+                chapterControl.focusStatus
                   ? renameStatusUI(d.name)
                   : generateTreeContentUI(d.classTimeId, d.name, d.resource)
               )}
@@ -164,53 +114,21 @@ export const useChapterUI = (editable: boolean) => {
             generateTreeContentUI(d.classTimeId, d.name, d.resource)
           )
         }
-        if (d == curNode)
+        if (d == chapterControl.curAddNode)
           return (
             <TreeNode
-              {...generateConfigObj(
-                d.id,
-                focusStatus ? focusStateUI : generateTreeNodeUI(d.id, d.name)
-              )}
+              {...generateConfigObj(d.id, chapterControl.focusStatus ? focusStateUI : generateTreeNodeUI(d.id, d.name))}
             />
           )
-        else if (d == curRenameNode)
-          return (
-            <TreeNode {...generateConfigObj(d.id, renameStatusUI(d.name))} />
-          )
-        else
-          return (
-            <TreeNode
-              {...generateConfigObj(d.id, generateTreeNodeUI(d.id, d.name))}
-            />
-          )
+        else if (d == chapterControl.curRenameNode)
+          return <TreeNode {...generateConfigObj(d.id, renameStatusUI(d.name))} />
+        else return <TreeNode {...generateConfigObj(d.id, generateTreeNodeUI(d.id, d.name))} />
       })
     }
     return recursion(data)
   }
   return {
-    treeData: generateTreeNode(data!),
-    isLoading,
-    handleClickAddChapter,
-    expandKeys,
-    handleOnExpand,
-    isModalVisible,
-    setIsModalVisible,
-    resourceTitle,
-    setResourceTitle,
-    uploadType,
-    setUploadType,
-    data,
-    setExpandKeys,
-    setAddContentNodeModal,
-    addContentNodeModal,
-    resourceObj,
-    setResourceObj,
-    setCurAddType,
-    setAddInputValue,
-    curFileListName,
-    setCurFileListName,
-    fileList,
-    setFileList,
-    handleOk
+    treeData: generateTreeNode(chapterControl.data ?? []),
+    chapterControl
   }
 }
