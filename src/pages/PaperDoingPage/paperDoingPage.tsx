@@ -2,80 +2,37 @@ import React from "react"
 import { Title } from "./Title/theTitle"
 import { Menu } from "./Menu/Menu"
 import { PaperDoingWrapper } from "./paperDoingPageStyle"
-import { QuestionList } from "./QuestionList/QuestionList"
+import { QuestionList, questionOfPaperVosType } from "./QuestionList/QuestionList"
 import { Layout } from 'antd';
 import { isAbsolute } from "path"
 import { HeaderWrapper } from "publicComponents/PageStyle/PageHeaderWapper"
-import { questiontype } from "./QuestionListItem/QuestionListItem"
+import { useShowQuestionDetails, useShowQuestionForStudent } from "server/fetchExam"
 
 const { Header, Footer, Sider, Content } = Layout;
 
-const Questionlist: questiontype[] = [
-  {
-    questionName: '555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555',
-    answerA: '1',
-    answerB: '2',
-    answerC: '3',
-    answerD: '4',
-    score: 1
-  }, {
-    questionName: '2+1=?',
-    answerA: '1',
-    answerB: '2',
-    answerC: '3',
-    answerD: '4',
-    score: 2
-  }, {
-    questionName: '3+1=?',
-    answerA: '1',
-    answerB: '2',
-    answerC: '3',
-    answerD: '4',
-    score: 3
-  }, {
-    questionName: '3+1=?',
-    answerA: '1',
-    answerB: '2',
-    answerC: '3',
-    answerD: '4',
-    score: 3
-  }, {
-    questionName: '3+1=?',
-    answerA: '1',
-    answerB: '2',
-    answerC: '3',
-    answerD: '4',
-    score: 3
-  }, {
-    questionName: '3+1=?',
-    answerA: '1',
-    answerB: '2',
-    answerC: '3',
-    answerD: '4',
-    score: 3
-  }, {
-    questionName: '3+1=?',
-    answerA: '1',
-    answerB: '2',
-    answerC: '3',
-    answerD: '4',
-    score: 3
-  }
-]
 
 export const PaperDoing: React.FC = () => {
+  // 需要路由获取参数
+  const { data, isSuccess } = useShowQuestionForStudent("11")
+  //useShowQuestionForStudent 会慢一拍,没有获取数据则显示报错
   return (
     <>
       <Layout style={{ backgroundColor: 'white' }}>
         <Header style={{ position: 'sticky', top: 0, backgroundColor: 'white', borderBottom: 'solid 1px', }}>
-          <Title />
+          {
+            isSuccess &&
+            <Title paperName={data!.paperName} />
+          }
         </Header>
         <Layout>
-          <Sider style={{ position: 'sticky', top: 64, backgroundColor: 'white',  border: '1px solid', borderRadius: 5,height:600}}>
-            <Menu num={Questionlist.length}/>
+          <Sider style={{ position: 'sticky', top: 64, backgroundColor: 'white', border: '1px solid', borderRadius: 5, height: 600 }}>
+            <Menu num={0} />
           </Sider>
-          <Content style={{fontSize:'large',backgroundColor: 'white'}}>
-            <QuestionList Questionlist={Questionlist}/>
+          <Content style={{ fontSize: 'large', backgroundColor: 'white' }}>
+          {
+            isSuccess &&
+            <QuestionList Questionlist={data!.questionOfPaperVos} />
+          }
           </Content>
         </Layout>
       </Layout>

@@ -1,47 +1,76 @@
 import React from "react"
+import { questionOfPaperVosType } from "../QuestionList/QuestionList"
 
 
 
 
 
-export interface questiontype{
-  questionName: string,
-  answerA: string,
-  answerB: string,
-  answerC: string,
-  answerD: string,
-  score?:number
-}
+export const QuestionListItem: React.FC<{ data: questionOfPaperVosType, index: number }> = (props) => {
+  const data = props.data
+  // if (data.questionType == 0) {
+  //   options = data.questionOption.split("<>");
+  // }
 
-export const QuestionListItem: React.FC<{data:questiontype,index:number}> = (parm) => {
   return (
-    <div style={{ display: 'flex',textAlign:'left',paddingTop:10}} id={`item${parm.index.toString()}`}>
-      <div style={{flexDirection:'column',flex:'2'}}>
-        <div style={{wordWrap:'break-word',width:800}}>
-          {parm.data.questionName}
+    <>
+      <div style={{ display: 'flex', textAlign: 'left', paddingTop: 10 }} id={`item${data.questionOrder}`}>
+        <div style={{ flexDirection: 'column', flex: '2' }}>
+          <div style={{ wordWrap: 'break-word', width: 800 }}>
+            {data.questionDescription}
+          </div>
+          {
+            // 我也不知道01234分别是什么题!!
+            // 单选题
+            data.questionType == 0 && (
+              data.questionOption.split("<>").map((data, index) =>
+                <>
+                  {/* 在这里应该是试卷表单的input,但目前用p挂一下 */}
+                  <p key={index}>{data}</p>
+                </>
+              )
+            )
+            ||
+            // 多选题
+            data.questionType == 1 && (
+              data.questionOption.split("<>").map((data, index) =>
+                <>
+                  {/* 在这里应该是试卷表单的input */}
+                  <p key={index}>{data}</p>
+                </>
+              )
+            )
+            ||
+            // 填空题
+            data.questionType == 2 && (
+              // 填空题不知道怎么传过来
+              <>
+              </>
+
+              // data.questionOption.split("<>").map((data,index)=>
+              //   <>
+              //   {/* 在这里应该是试卷表单的input */}
+              //   <p key={index}>{data}</p>
+              //   </>
+              // )
+            )
+            ||
+            // 简答题
+            data.questionType == 3 &&
+            <input />
+            ||
+            // 判断题
+            data.questionType == 4 &&
+            data.questionOption.split("<>").map((data, index) =>
+              <>
+                <p key={index}>{data}</p>
+              </>
+            )
+          }
         </div>
-        <ul style={{paddingLeft:'0',listStyle:'none'}}>
-          <li>
-          <input type={'radio'} name={`${parm.index}`}/>
-          {parm.data.answerA}
-          </li>
-          <li>
-          <input type={'radio'} name={`${parm.index}`}/>
-          {parm.data.answerB}
-          </li>
-          <li>
-          <input type={'radio'} name={`${parm.index}`}/>
-          {parm.data.answerC}
-          </li>
-          <li>
-          <input type={'radio'} name={`${parm.index}`}/>
-          {parm.data.answerD}
-          </li>
-        </ul>
+        <div style={{ flex: '1' }}>
+          {data.questionScore}分
+        </div>
       </div>
-      <div style={{flex:'1'}}>
-        {parm.data.score}分
-      </div>
-    </div>
+    </>
   )
 }

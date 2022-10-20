@@ -10,6 +10,7 @@ import {
   WholeQuestion
 } from './types'
 import { message } from 'antd'
+import { dataTypeOfQuestionOfPaperVosType, questionOfPaperVosType } from 'pages/PaperDoingPage/QuestionList/QuestionList'
 
 /** 添加试题 */
 export const useCreateQuestion = () => {
@@ -147,4 +148,27 @@ export const useDeleteQuestion = () => {
       }
     }
   )
+}
+
+
+// 学生获得试卷
+export const useShowQuestionForStudent = (id: string) => {
+  return useQuery([`paperdoing-${id}`], () => {
+    return client.get<dataTypeOfQuestionOfPaperVosType>(
+      {
+        url: '/paper/show-paper-detail',
+        params: {
+          id: id
+        }
+      }
+    )
+  }, {
+    onSuccess: () => {
+      message.success('删除成功')
+    },
+    onError: () => {
+      message.error('删除失败')
+    }
+  })
+
 }
