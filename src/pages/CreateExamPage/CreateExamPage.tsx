@@ -17,6 +17,7 @@ import {
 } from 'server/fetchExam/types'
 import { useCreateEmptyQuestion } from 'server/fetchExam'
 import { dropRight } from 'lodash'
+import { config } from 'server/fetchExam/config'
 
 const RandomInt = () => Math.floor(Math.random() * 1e9)
 
@@ -25,24 +26,8 @@ export const CreateExamPage: React.FC = () => {
 
   const [dataList, setData] = useState<QuestionList[]>([])
   const { data, isLoading } = useShowTestPaper(paperid!, setData) // 打开试卷
-  const config = {
-    [QuestionType.single]:{
-      name:"单选题", min: 1, max: 10, defaultScore: 1
-    },
-    [QuestionType.multiple]:{
-      name:"多选题", min: 1, max: 10, defaultScore: 2
-    },
-    [QuestionType.fillBlank]:{
-      name:"填空题", min: 1, max: 10, defaultScore: 5
-    },
-    [QuestionType.shortAnswer]:{
-      name:"简答题", min: 1, max: 10, defaultScore: 10
-    },
-    [QuestionType.judge]:{
-      name:"判断题", min: 1, max: 10, defaultScore: 1
-    }
-  }
-  const Process = (data:TestPaper) => {
+
+  const Process = (data: TestPaper) => {
     // 接下来进行数据分组
     // get enum type value and key ,
     // e.g.: enum { 'name1', 'name2' } => ['0','1','name1','name2']
@@ -74,18 +59,17 @@ export const CreateExamPage: React.FC = () => {
       }
     })
   }
-  useEffect(( ) => {
-    if(data)
-      setData(Process(data));
+  useEffect(() => {
+    if (data) setData(Process(data))
   }, [data])
   const { mutate } = useCreateEmptyQuestion()
 
-  const getSumScore = () =>{
+  const getSumScore = () => {
     let sum = 0
-    dataList.forEach(C=>{
-      sum += C.questiton.reduce((p,c)=>p+c.score,0)
+    dataList.forEach((C) => {
+      sum += C.questiton.reduce((p, c) => p + c.score, 0)
     })
-    return sum;
+    return sum
   }
 
   const AddQuestion = (type: QuestionType) => {
@@ -141,7 +125,7 @@ export const CreateExamPage: React.FC = () => {
             focus={FocusQuestion}
             changeScore={changeScore}
             SumScore={getSumScore}
-            setConfig={()=>setData([...dataList])}
+            setConfig={() => setData([...dataList])}
           />
           <div style={{ width: '80%' }}>
             {/* 添加按钮 */}

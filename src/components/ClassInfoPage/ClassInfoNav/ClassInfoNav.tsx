@@ -5,8 +5,7 @@ import {
   ClassInfoNavWrapper
 } from './ClassInfoNavStyle'
 import items from './config/index'
-import { Menu } from 'antd'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { CurCourseProvider } from 'pages/ClassInfoPage/ClassInfoPage'
 import { createClassNavMap } from '../../../util/createNavMap'
 import { NavMapMenu } from '../../../publicComponents/NavMap/NavMap'
@@ -46,7 +45,7 @@ export const ClassInfoNav: React.FC = () => {
         </CurCourseProvider>
       </ClassInfoWrapper>
       <ClassInfoMenuWrapper>
-      <NavMapMenu
+        <NavMapMenu
           sliceCount={10}
           items={items}
           curSelect={curSelect}

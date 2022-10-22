@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react'
+import React, { useState } from 'react'
 import { LearnRoutePageWrapper, ModalContextWrapper } from './LearnPageStyle'
 import {
   PageWrapper,
@@ -35,7 +35,6 @@ export const LearnPage: React.FC = () => {
   const {
     mutate,
     isLoading: wait,
-    isSuccess
   } = useShowInvitedCourseInfo(invitedcode, setNewCourse, setModalVisible2)
 
   const showModal = () => {
@@ -67,7 +66,6 @@ export const LearnPage: React.FC = () => {
   const handleCancel2 = () => {
     setModalVisible2(false)
   }
-
 
   return (
     <LearnRoutePageWrapper>

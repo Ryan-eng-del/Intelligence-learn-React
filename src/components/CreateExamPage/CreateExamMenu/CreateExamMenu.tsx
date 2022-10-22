@@ -1,7 +1,7 @@
 import React from 'react'
 import { CreateExamMenuWrapper } from './CreateExamMenuStyle'
 import { Button } from 'antd'
-import { QuestionList, QuestionType } from 'server/fetchExam/types'
+import { QuestionType } from 'server/fetchExam/types'
 
 import {
   CheckOutlined,
@@ -9,7 +9,6 @@ import {
   CheckSquareOutlined,
   EditOutlined,
   FormOutlined,
-  CodeOutlined,
   ArrowLeftOutlined,
   HddOutlined
 } from '@ant-design/icons'
@@ -46,7 +45,9 @@ export const CreateExamMenu: React.FC<{
             icon={<ArrowLeftOutlined />}
             type="primary"
             style={{ marginLeft: '10px' }}
-            onClick={() => navigate('/classinfo/questionbank', { replace: true })}
+            onClick={() =>
+              navigate('/classinfo/questionbank', { replace: true })
+            }
           >
             返回
           </Button>

@@ -1,4 +1,4 @@
-import { useMutation, useQuery, UseQueryResult } from '@tanstack/react-query'
+import { useMutation, useQuery} from '@tanstack/react-query'
 import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
 import {
@@ -10,7 +10,6 @@ import {
   WholeQuestion
 } from './types'
 import { message } from 'antd'
-import { dataTypeOfQuestionOfPaperVosType, questionOfPaperVosType } from 'pages/PaperDoingPage/QuestionList/QuestionList'
 
 /** 添加试题 */
 export const useCreateQuestion = () => {
@@ -18,7 +17,7 @@ export const useCreateQuestion = () => {
     async (QuestionItem: QuestionData) => {
       await delayFetch()
       return client.post({
-        url: 'question/add-question',
+        url: '/question/teacher/create',
         data: {
           ...QuestionItem
         }
@@ -40,7 +39,7 @@ export const useShowCreateQuestion = (id?: string) => {
   return useQuery(['questionbank'], async () => {
     await delayFetch()
     return client.get<QuestionBank[]>({
-      url: 'question/list-question',
+      url: '/question/teacher/show-all',
       params: {
         courseId: id
       }
@@ -52,7 +51,7 @@ export const useShowCreateQuestion = (id?: string) => {
 export const useShowQuestionDetails = (id?: string) => {
   return useQuery([`preview-${id}`], async () => {
     return client.get<WholeQuestion>({
-      url: `/question/show-question`,
+      url: `/question/teacher/show-one`,
       params: {
         questionId: id
       }
@@ -65,7 +64,7 @@ export const useShowExamList = (courseID: string) => {
   return useQuery([`ExamList-${courseID}`], async () => {
     await delayFetch()
     return client.get<ExamListItem[]>({
-      url: `/paper/show-all`,
+      url: `/paper/teacher/show-all`,
       params: {
         courseId: courseID
       }
@@ -90,10 +89,14 @@ export const useCreateEmptyQuestion = () => {
         rightAnswer: 'A'
       }
       const qID = client.post<string>({
-        url: 'question/add-question',
+        url: '/question/teacher/create',
         data: defData
       })
-      return { ...defData, questionId: qID as unknown as string }
+      let id = '1'
+      qID.then((v) => {
+        id = v
+      })
+      return { ...defData, questionId: id }
     },
     {
       onSuccess: () => {
@@ -112,7 +115,7 @@ export const useUpadateQuestion = () => {
     async (QuestionItem: QuestionDataWithID) => {
       await delayFetch()
       return client.post({
-        url: '/question/update-question',
+        url: '/question/teacher/update',
         data: {
           ...QuestionItem
         }
@@ -135,7 +138,7 @@ export const useDeleteQuestion = () => {
     async (id: string) => {
       await delayFetch()
       return client.post({
-        url: '/question/delete-question',
+        url: '/question/teacher/delete',
         data: { id }
       })
     },
@@ -148,27 +151,4 @@ export const useDeleteQuestion = () => {
       }
     }
   )
-}
-
-
-// 学生获得试卷
-export const useShowQuestionForStudent = (id: string) => {
-  return useQuery([`paperdoing-${id}`], () => {
-    return client.get<dataTypeOfQuestionOfPaperVosType>(
-      {
-        url: '/paper/show-paper-detail',
-        params: {
-          id: id
-        }
-      }
-    )
-  }, {
-    onSuccess: () => {
-      message.success('删除成功')
-    },
-    onError: () => {
-      message.error('删除失败')
-    }
-  })
-
 }

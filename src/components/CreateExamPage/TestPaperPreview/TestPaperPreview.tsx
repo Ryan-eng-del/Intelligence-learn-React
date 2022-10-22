@@ -1,40 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useShowTestPaper } from 'server/fetchExam/TestPaper'
-import { QuestionDataWithID, QuestionList, QuestionType, TestPaper } from 'server/fetchExam/types'
+import {
+  QuestionDataWithID,
+  QuestionList,
+  QuestionType,
+  TestPaper
+} from 'server/fetchExam/types'
 import { Preview as P1 } from 'publicComponents/CreateQuestionPage/QuestionType/SingleChoice/Preview'
 import { Preview as P2 } from 'publicComponents/CreateQuestionPage/QuestionType/MultipleChoice/Preview'
 import { Preview as P3 } from 'publicComponents/CreateQuestionPage/QuestionType/FillBlank/Preview'
 import { Preview as P4 } from 'publicComponents/CreateQuestionPage/QuestionType/ShortAnswer/Preview'
 import { Preview as P5 } from 'publicComponents/CreateQuestionPage/QuestionType/Judge/Preview'
-import { ItemWrapper, TestPaperPreviewWrapper, TitleWrapper } from './TestPaperPreviewStyle'
+import {
+  ItemWrapper,
+  TestPaperPreviewWrapper,
+  TitleWrapper
+} from './TestPaperPreviewStyle'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { Button, Space } from 'antd'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import { dropRight } from 'lodash'
+import { config } from 'server/fetchExam/config'
 
 export const TestPaperPreview: React.FC = () => {
   const { paperid } = useParams()
   const [dataList, setData] = useState<QuestionList[]>([])
   const { data, isLoading } = useShowTestPaper(paperid!, setData) // 打开试卷
-  const config = {
-    [QuestionType.single]:{
-      name:"单选题", min: 1, max: 10, defaultScore: 1
-    },
-    [QuestionType.multiple]:{
-      name:"多选题", min: 1, max: 10, defaultScore: 2
-    },
-    [QuestionType.fillBlank]:{
-      name:"填空题", min: 1, max: 10, defaultScore: 5
-    },
-    [QuestionType.shortAnswer]:{
-      name:"简答题", min: 1, max: 10, defaultScore: 10
-    },
-    [QuestionType.judge]:{
-      name:"判断题", min: 1, max: 10, defaultScore: 1
-    }
-  }
-  const Process = (data:TestPaper) => {
+  const Process = (data: TestPaper) => {
     // 接下来进行数据分组
     // get enum type value and key ,
     // e.g.: enum { 'name1', 'name2' } => ['0','1','name1','name2']
@@ -66,38 +59,55 @@ export const TestPaperPreview: React.FC = () => {
       }
     })
   }
-  useEffect(( ) => {
-    if(data)
-      setData(Process(data));
+  useEffect(() => {
+    if (data) setData(Process(data))
   }, [data])
   const navigate = useNavigate()
   type T = QuestionDataWithID
   const mapper = {
-    [QuestionType.single]:(data:T)=><P1 content={data}/>,
-    [QuestionType.multiple]:(data:T)=><P2 content={data}/>,
-    [QuestionType.fillBlank]:(data:T)=><P3 content={data}/>,
-    [QuestionType.shortAnswer]:(data:T)=><P4 content={data}/>,
-    [QuestionType.judge]:(data:T)=><P5 content={data}/>
+    [QuestionType.single]: (data: T) => <P1 content={data} />,
+    [QuestionType.multiple]: (data: T) => <P2 content={data} />,
+    [QuestionType.fillBlank]: (data: T) => <P3 content={data} />,
+    [QuestionType.shortAnswer]: (data: T) => <P4 content={data} />,
+    [QuestionType.judge]: (data: T) => <P5 content={data} />
   }
   return (
     <>
       <TestPaperPreviewWrapper>
         <TitleWrapper>
-          { isLoading ? <BaseLoading /> : <Space align='center' size={24}>
-            <Button icon={<ArrowLeftOutlined />} shape='circle' onClick={()=>navigate(-1)}/>
-            <h1> { data?.paperName } </h1>
-            <Button onClick={()=>navigate(`/editpaper/${paperid}`)} type='primary'>编辑</Button>
-          </Space> }
+          {isLoading ? (
+            <BaseLoading />
+          ) : (
+            <Space align="center" size={24}>
+              <Button
+                icon={<ArrowLeftOutlined />}
+                shape="circle"
+                onClick={() => navigate(-1)}
+              />
+              <h1> {data?.paperName} </h1>
+              <Button
+                onClick={() => navigate(`/editpaper/${paperid}`)}
+                type="primary"
+              >
+                编辑
+              </Button>
+            </Space>
+          )}
         </TitleWrapper>
-        {
-          dataList.map(q=>(<div key={q.type}>{
-            q.isExists ? q.questiton.map(i=>(
-              <ItemWrapper key={i.item_data.questionId}>
-                { mapper[q.type](i.item_data) }
-                本题得分: {i.score}
-              </ItemWrapper>)) : <></>
-          }</div>))
-        }
+        {dataList.map((q) => (
+          <div key={q.type}>
+            {q.isExists ? (
+              q.questiton.map((i) => (
+                <ItemWrapper key={i.item_data.questionId}>
+                  {mapper[q.type](i.item_data)}
+                  本题得分: {i.score}
+                </ItemWrapper>
+              ))
+            ) : (
+              <></>
+            )}
+          </div>
+        ))}
       </TestPaperPreviewWrapper>
     </>
   )

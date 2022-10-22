@@ -1,33 +1,35 @@
-import React from "react"
+import { Space } from 'antd'
+import React from 'react'
+import { ItemWrapper, MenuWrapper } from './MenuStyle'
 
-let i: number
-let j: number
+export const Menu: React.FC<{ num: number[] }> = ({ num }) => {
+  const temp: Array<number[]> = [[], [], [], [], []]
+  num.map((n, i) => {
+    let j = n
 
-
-const theA=(num1:number)=>{
-  const s = '#item'+num1
-    return(<a href={s}>{`${i}`}</a>)
-}
-
-export const Menu: React.FC<{ num: number }> = (parm) => {
-  i=0
-  j=parm.num
-  const temp=[]
-  while(j!=0){
-    temp.push(i)
-    i++
-    j--
-  }
+    while (j != 0) {
+      temp[i].unshift(j)
+      j--
+    }
+  })
+  console.log('导航栏重载')
 
   return (
-  <>
-    {
-      temp.map((item,key)=>{
-        return(<>
-        <a href={`#item${item}`}>{`${item+1}`}</a>
-        </>)
-      })
-    }
-    <div></div>
-  </>)
+    <MenuWrapper>
+      {temp.map((t, index) => (
+        <>
+          <hr />
+          <Space wrap size={[16, 24]} style={{ maxWidth: '300px' }} key={index}>
+            {t.map((item) => (
+              <>
+                <a href={`#item${item}`}>
+                  <ItemWrapper>{item}</ItemWrapper>
+                </a>
+              </>
+            ))}
+          </Space>
+        </>
+      ))}
+    </MenuWrapper>
+  )
 }

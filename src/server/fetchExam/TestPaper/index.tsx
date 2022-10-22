@@ -1,8 +1,8 @@
-import { useMutation, useQuery, UseQueryResult } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { client } from 'server'
 import { message } from 'antd'
 import { delayFetch } from 'util/delayFetch'
-import { TestPaper, PostTestPaper, QuestionType } from '../types'
+import { TestPaper, PostTestPaper, QuestionType, StudentPaper } from '../types'
 import { AnyFn } from 'types'
 import { dropRight } from 'lodash'
 import { config } from '../config'
@@ -13,7 +13,7 @@ export const useAddTestPaper = (callback: AnyFn) => {
     async (courseId: string) => {
       await delayFetch()
       return client.post({
-        url: 'paper/add-paper',
+        url: '/paper/teacher/create',
         data: {
           paper_name: '新建试卷',
           course_id: courseId,
@@ -36,8 +36,8 @@ export const useAddTestPaper = (callback: AnyFn) => {
 }
 
 /** 打开一张试卷 */
-export const useShowTestPaper = (paperId: string, callback: any) =>{
-  const Process = (data:TestPaper) => {
+export const useShowTestPaper = (paperId: string, callback: any) => {
+  const Process = (data: TestPaper) => {
     // 接下来进行数据分组
     // get enum type value and key ,
     // e.g.: enum { 'name1', 'name2' } => ['0','1','name1','name2']
@@ -74,19 +74,20 @@ export const useShowTestPaper = (paperId: string, callback: any) =>{
     async () => {
       await delayFetch()
       return client.get<TestPaper>({
-        url: `paper/show-paper-preview`,
+        url: `/paper/teacher/paper-preview`,
         params: {
           id: paperId
         }
       })
-    },{
-      onSuccess:(data)=>{
+    },
+    {
+      onSuccess: (data) => {
         callback(Process(data!))
       }
     }
   )
   // callback(Process(data.data!))
-  return data;
+  return data
 }
 
 /** 保存这张试卷 */
@@ -95,7 +96,7 @@ export const useSaveTestPaper = () => {
     async (paper: PostTestPaper) => {
       await delayFetch()
       return client.post({
-        url: '/paper/update-paper',
+        url: '/paper/teacher/update',
         data: paper
       })
     },
@@ -108,4 +109,14 @@ export const useSaveTestPaper = () => {
       }
     }
   )
+}
+
+/** 学生获取到试卷 */
+export const useShowQuestionForStudent = (id: string) => {
+  return useQuery([`paperdoing-${id}`], () => {
+    return client.get<StudentPaper>({
+      url: '/paper/stu/paper-detail',
+      params: { id }
+    })
+  })
 }

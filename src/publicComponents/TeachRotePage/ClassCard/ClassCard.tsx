@@ -12,27 +12,31 @@ interface ClassCard {
   optimistic?: boolean
   Permission: boolean
 }
-export const ClassCard: React.FC<ClassCard> = ({ id, cname, iurl, optimistic, Permission }) => {
-  const handleClick = (setCurCourse:AnyFn) => {
-    if(Permission){
-      navigate('/classinfo/chapter');
+export const ClassCard: React.FC<ClassCard> = ({
+  id,
+  cname,
+  iurl,
+  optimistic,
+  Permission
+}) => {
+  const handleClick = (setCurCourse: AnyFn) => {
+    if (Permission) {
+      navigate('/classinfo/chapter')
       setCurCourse({
-        classId:id,
-        cover:iurl!,
-        className:cname,
+        classId: id,
+        cover: iurl!,
+        className: cname,
+        Permission
+      })
+    } else {
+      navigate('/studentClassinfo/chapter')
+      setCurCourse({
+        classId: id,
+        cover: iurl!,
+        className: cname,
         Permission
       })
     }
-    else{
-      navigate('/studentClassinfo/chapter');
-      setCurCourse({
-        classId:id,
-        cover:iurl!,
-        className:cname,
-        Permission
-      })
-    }
-
   }
   const navigate = useNavigate()
   return (

@@ -102,7 +102,10 @@ root.render(
             <Route path={'k-graph'} element={<KnowledgeGraph />} />
             <Route path={'mk-graph'} element={<MkGraph />} />
             <Route path="editpaper/:paperid" element={<CreateExamPage />} />
-            <Route path="previewtestpaper/:paperid" element={<TestPaperPreview />} />
+            <Route
+              path="previewtestpaper/:paperid"
+              element={<TestPaperPreview />}
+            />
             <Route
               path="teacher-preview"
               element={<TeacherSourcePreviewPage />}
@@ -116,7 +119,7 @@ root.render(
               element={<QuestionPreviewPage />}
             />
             <Route path="edit/:questionId" element={<QuestionEditPage />} />
-            <Route path="homeWork" element={<PaperDoing />} ></Route>
+            <Route path="homeWork/:paperId" element={<PaperDoing />}></Route>
           </Route>
         </Routes>
       </Router>

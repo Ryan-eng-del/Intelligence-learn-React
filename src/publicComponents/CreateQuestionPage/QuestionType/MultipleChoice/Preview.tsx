@@ -19,9 +19,7 @@ export const Preview: React.FC<{
       {question.Options.map((i) => (
         <div key={i.optionName}>
           <Space>
-            <Button
-              type={i.isTrue ? 'primary' : 'default'}
-            >
+            <Button type={i.isTrue ? 'primary' : 'default'}>
               {i.optionName}
             </Button>
             {str2DOM(i.content)}
@@ -30,7 +28,11 @@ export const Preview: React.FC<{
       ))}
       <h2>解析</h2>
       {str2DOM(question.footer.explanation)}
-      {question.footer.knowledge?.map(i=><Tag color='red' key={i}>{i}</Tag>)}
+      {question.footer.knowledge?.map((i) => (
+        <Tag color="red" key={i}>
+          {i}
+        </Tag>
+      ))}
     </>
   )
 }

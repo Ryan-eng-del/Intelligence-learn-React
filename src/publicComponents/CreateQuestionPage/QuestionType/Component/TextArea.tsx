@@ -10,15 +10,14 @@ import {
 import formulaModule from '@wangeditor/plugin-formula'
 Boot.registerModule(formulaModule)
 
-export const TextArea: React.FC<any> = (props: {
+export const Textarea: React.FC<{
   content: string
   setContent: (content: string) => void
   style?: object
-}) => {
+}> = ({ content, setContent, style }) => {
   // editor 实例
   const [editor, setEditor] = useState<IDomEditor | null>(null)
   const [foucs, setFouce] = useState(false)
-  const { content, setContent, style } = props
 
   // 工具栏配置
   const toolbarConfig: Partial<IToolbarConfig> = {
@@ -94,6 +93,7 @@ export const TextArea: React.FC<any> = (props: {
   )
 }
 
+export const TextArea = React.memo(Textarea)
 //  调试行： 调整工具栏时将此行复制到页面内查看工具名称
 {
   /* <Button onClick={()=>console.log(DomEditor.getToolbar(editor as IDomEditor)?.getConfig())}>2333</Button> */

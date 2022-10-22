@@ -104,3 +104,19 @@ export type Item = {
   rightAnswer: string
   questionOption: string
 }
+
+///////////////////////////////////////// 学生试卷
+export interface StudentPaper {
+  paperId: string
+  paperName: string
+  questionOfPaperVos: StudentPaperItem[]
+}
+
+export interface StudentPaperItem {
+  questionId?: string
+  questionDescription: string
+  questionType: number
+  questionScore?: number
+  questionOrder?: number
+  questionOption: string
+}

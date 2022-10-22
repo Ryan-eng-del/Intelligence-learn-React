@@ -61,23 +61,23 @@ export const QuestionBankHeader: React.FC<{
 
         {/* 添加题目 */}
         <CurCourseProvider>
-          {
-            ({curCourse})=>
-            curCourse.Permission
-            ? <Tooltip title="添加题目" placement="bottom">
-              <Button
-                type="primary"
-                shape="circle"
-                icon={<PlusOutlined className="addicon" />}
-                size="large"
-                className="aqbtn"
-                onClick={() => navigate('/createquestion', { replace: true })}
-              />
-            </Tooltip>
-            : <></>
+          {({ curCourse }) =>
+            curCourse.Permission ? (
+              <Tooltip title="添加题目" placement="bottom">
+                <Button
+                  type="primary"
+                  shape="circle"
+                  icon={<PlusOutlined className="addicon" />}
+                  size="large"
+                  className="aqbtn"
+                  onClick={() => navigate('/createquestion', { replace: true })}
+                />
+              </Tooltip>
+            ) : (
+              <></>
+            )
           }
         </CurCourseProvider>
-
 
         {/* 题型、知识点管理 */}
         <SelectiveList>
