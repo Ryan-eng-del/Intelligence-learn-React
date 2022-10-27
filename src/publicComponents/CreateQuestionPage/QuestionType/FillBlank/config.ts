@@ -67,5 +67,5 @@ export const Network2Sutdent: Network2SummaryConverter<summary> = (
   content: content.questionDescription,
   score: content.questionScore,
   // TODO:
-  AnsNum: 3
+  AnsNum: content.questionAnswerNum
 })

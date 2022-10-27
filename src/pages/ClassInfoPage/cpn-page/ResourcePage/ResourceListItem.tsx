@@ -15,6 +15,7 @@ import { last } from 'lodash'
 import { Button, Space, Modal, Input, Popconfirm, message } from 'antd'
 import { ResourceType } from 'server/fetchCourseResource/types'
 import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
+import { useNavigate } from 'react-router-dom'
 
 export const ResourceListItem: React.FC<{
   item: ResourceType
@@ -46,6 +47,7 @@ export const ResourceListItem: React.FC<{
     )
 
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const navigate = useNavigate()
 
   const handleOk = () => {
     // 发送修改信息的请求
@@ -110,7 +112,7 @@ export const ResourceListItem: React.FC<{
           size="middle"
           style={{ visibility: hover ? 'visible' : 'hidden' }}
         >
-          <Button type="primary" icon={<EyeOutlined />}>
+          <Button type="primary" icon={<EyeOutlined />} onClick={()=>navigate(`/resource-video/${123}`)}>
             预览
           </Button>
           <Button type="primary" icon={<DownloadOutlined />}>

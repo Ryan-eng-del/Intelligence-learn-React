@@ -7,11 +7,13 @@ import {
   EyeOutlined,
   FileUnknownOutlined
 } from '@ant-design/icons'
+import { useNavigate } from 'react-router-dom'
 
 export const ResourceCard: React.FC<{
   resourceItems: ResourceType[]
   premission: boolean
 }> = ({ resourceItems, premission }) => {
+  const navigate = useNavigate()
   return (
     <>
       <Row gutter={[16, 16]}>
@@ -33,7 +35,7 @@ export const ResourceCard: React.FC<{
                 <div
                   style={{ display: 'flex', justifyContent: 'space-between' }}
                 >
-                  <EyeOutlined />
+                  <EyeOutlined onClick={()=>navigate(`/resource-video/${123}`)}/>
                   <DownloadOutlined />
                   {premission ? <EditOutlined /> : <></>}
                 </div>

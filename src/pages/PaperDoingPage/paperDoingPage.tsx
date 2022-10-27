@@ -5,7 +5,7 @@ import { QuestionList } from './QuestionList/QuestionList'
 import { Layout } from 'antd'
 import { useParams } from 'react-router-dom'
 import { useShowQuestionForStudent } from 'server/fetchExam/TestPaper'
-
+import { QuestionType, StudentPaperItem } from 'server/fetchExam/types'
 const { Header, Sider, Content } = Layout
 
 export const PaperDoing: React.FC = () => {
@@ -41,6 +41,14 @@ export const PaperDoing: React.FC = () => {
         questionScore: 1
       },
       {
+        questionId: '155834522a138s294611969',
+        questionDescription: '测试用填空222',
+        questionOption: '',
+        questionType: 2,
+        questionAnswerNum: 4,
+        questionScore: 1
+      },
+      {
         questionId: '155834d5138s294611969',
         questionDescription: '测试用简答',
         questionOption: 'A:1<>B:2<>C:3<>D:4',
@@ -59,6 +67,16 @@ export const PaperDoing: React.FC = () => {
     ]
   }
 
+  const len = (list: StudentPaperItem[]) => {
+    return [
+      list.filter((i) => i.questionType == QuestionType.single).length,
+      list.filter((i) => i.questionType == QuestionType.multiple).length,
+      list.filter((i) => i.questionType == QuestionType.fillBlank).length,
+      list.filter((i) => i.questionType == QuestionType.shortAnswer).length,
+      list.filter((i) => i.questionType == QuestionType.judge).length
+    ]
+  }
+
   return (
     <>
       <Layout style={{ backgroundColor: 'white' }}>
@@ -71,10 +89,7 @@ export const PaperDoing: React.FC = () => {
             zIndex: 100
           }}
         >
-          {
-            // isSuccess &&
-            <Title paperName={data!.paperName} />
-          }
+          <Title paperName={data!.paperName} />
         </Header>
         <Layout>
           <Sider
@@ -88,13 +103,10 @@ export const PaperDoing: React.FC = () => {
               width: 300
             }}
           >
-            <Menu num={[1, 2, 3, 4, 5]} />
+            <Menu num={len(data.questionOfPaperVos)} />
           </Sider>
           <Content style={{ fontSize: 'large', backgroundColor: 'white' }}>
-            {
-              // isSuccess &&
-              <QuestionList Questionlist={data!.questionOfPaperVos} />
-            }
+            <QuestionList Questionlist={data!.questionOfPaperVos} />
           </Content>
         </Layout>
       </Layout>

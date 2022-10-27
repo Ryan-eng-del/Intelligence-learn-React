@@ -7,6 +7,7 @@ import {
   QuestionData,
   QuestionDataWithID,
   QuestionType,
+  StudentPaperItem,
   WholeQuestion
 } from './types'
 import { message } from 'antd'
@@ -148,6 +149,44 @@ export const useDeleteQuestion = () => {
       },
       onError: () => {
         message.error('删除失败')
+      }
+    }
+  )
+}
+
+
+/** 学生端显示题目 */
+export const useShowQuestionForStu = (id?: string) => {
+  return useQuery([`preview-stu-${id}`], async () => {
+    return client.get<StudentPaperItem>({
+      url: `/question/stu/show/{questionId}`,
+      params: {
+        questionId: id
+      }
+    })
+  })
+}
+/** 学生提交题目 */
+export const useSubmitQuestion = () => {
+  return useMutation(
+    async (data:{
+      questionId: string,
+      questionType: QuestionType,
+      questionAnswer: string,
+      questionExistType: string
+    }) => {
+      await delayFetch()
+      return client.post({
+        url: '/question/stu/submit',
+        data: data
+      })
+    },
+    {
+      onSuccess: () => {
+        message.success('提交成功')
+      },
+      onError: () => {
+        message.error('提交失败')
       }
     }
   )

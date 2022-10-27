@@ -120,3 +120,24 @@ export const useShowQuestionForStudent = (id: string) => {
     })
   })
 }
+
+/** 学生提交试卷 */
+export const useSubmitTestPaper = () => {
+  return useMutation(
+    async (paper: {questionId:string,studentAnswer:string}[]) => {
+      await delayFetch()
+      return client.post({
+        url: '/paper/stu/submit',
+        data: paper
+      })
+    },
+    {
+      onSuccess: () => {
+        message.success('保存成功')
+      },
+      onError: () => {
+        message.error('保存失败')
+      }
+    }
+  )
+}

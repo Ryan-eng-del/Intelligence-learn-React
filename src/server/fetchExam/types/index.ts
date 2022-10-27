@@ -113,10 +113,11 @@ export interface StudentPaper {
 }
 
 export interface StudentPaperItem {
-  questionId?: string
+  questionId: string
   questionDescription: string
-  questionType: number
+  questionType: QuestionType
   questionScore?: number
+  questionAnswerNum: number
   questionOrder?: number
   questionOption: string
 }

@@ -48,6 +48,7 @@ import { MkGraph } from 'pages/MK-graphPage/MkGraph'
 import { PaperDoing } from 'pages/PaperDoingPage/paperDoingPage'
 import { TestPaperPreview } from 'components/CreateExamPage'
 import { StudentExamPage } from 'pages/ClassInfoPage/cpn-page/ExamPage/studentExamPage/studentExamPage'
+import { QuestionDoingPage } from 'pages/QuestionDoingPage/QuestionDoingPage'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
@@ -113,13 +114,19 @@ root.render(
               <Route path="video/:id" element={<SourceVideoPreview />} />
               <Route path="pdf/:id" element={<SourcePdfPreview />} />
             </Route>
+            <Route path="resource-video/:id" element={<SourceVideoPreview />} />
+            <Route path="resource-pdf/:id" element={<SourcePdfPreview />} />
             <Route path="createquestion" element={<CreateQuestionPage />} />
             <Route
               path="preview/:questionId"
               element={<QuestionPreviewPage />}
             />
+            <Route
+              path="promote/:questionId"
+              element={<QuestionDoingPage />}
+            />
             <Route path="edit/:questionId" element={<QuestionEditPage />} />
-            <Route path="homeWork/:paperId" element={<PaperDoing />}></Route>
+            <Route path="homeWork/:paperId" element={<PaperDoing />} />
           </Route>
         </Routes>
       </Router>
