@@ -94,3 +94,22 @@ export const useShowStudent = (classId: string) => {
     }
   })
 }
+
+export const useDeleteStudent = ()=>{
+  return useMutation((props:{classId:string,userId:string})=>{
+    return client.delete(
+      {url:'/class/remove-student',
+      params:{
+        classId:props.classId,
+        userId:props.userId
+      }}
+    )
+  }, {
+    onSuccess: () => {
+      message.success('删除成功')
+    },
+    onError: () => {
+      message.error('删除失败')
+    }
+  })
+}

@@ -40,6 +40,7 @@ export const ClassManaMain: React.FC<{ classList: classmana[] }> = (props) => {
   const [state, dispatch] = useReducer(ClassManaPageReducer, { ...initialState, classManaList: props.classList })
   const { mutate: deleteClassMutate } = useDeleteClass()
   const { mutate: renameMutate, isSuccess: renameMutateIsSuccess, isLoading: renameMutateIsLoading } = useReName()
+
   const [detailvisable, setDetailVisable] = useState(false)
   const [newName, setNewName] = useState('')
   const [showing, setshowing] = useState<classmana>({
@@ -248,7 +249,7 @@ export const ClassManaMain: React.FC<{ classList: classmana[] }> = (props) => {
               </Space>
             </Typography.Link>
           </Dropdown>
-          <ClassManaStudentList studentlist={studentlist} />
+          <ClassManaStudentList class_id={showing.class_id} />
         </Modal>
         {/* 主体内容 */}
         <PageWrapper>

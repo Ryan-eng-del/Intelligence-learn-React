@@ -1,7 +1,9 @@
 import React from "react";
-import {ClassManaStudentType} from './config/type'
+import { ClassManaStudentType } from './config/type'
 import { Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import { useShowStudent } from "server/fetchClass";
+import { BaseLoading } from "baseUI/BaseLoding/BaseLoading";
 
 
 const columns: ColumnsType<ClassManaStudentType> = [
@@ -38,11 +40,17 @@ const columns: ColumnsType<ClassManaStudentType> = [
 ]
 
 
+export const ClassManaStudentList: React.FC<{ class_id: string }> = (props) => {
+  const { data: studentList, isLoading: useShowStudentIsLoading } = useShowStudent(props.class_id)
 
-export const ClassManaStudentList: React.FC<{studentlist:ClassManaStudentType[]}> = (props) => {
   return (
     <>
-    <Table columns={columns} dataSource={props.studentlist} />;
+      {
+        useShowStudentIsLoading ?
+          <BaseLoading />
+         :
+            <Table columns={columns} dataSource={studentList} />
+      }
     </>
   )
 }
