@@ -17,18 +17,18 @@ export const ClassCard: React.FC<ClassCard> = ({ id, cname, iurl, optimistic, Pe
     if(Permission){
       navigate('/classinfo/chapter');
       setCurCourse({
-        classId:id,
+        courseId:id,
         cover:iurl!,
-        className:cname,
+        courseName:cname,
         Permission
       })
     }
     else{
       navigate('/studentClassinfo/chapter');
       setCurCourse({
-        classId:id,
+        courseId:id,
         cover:iurl!,
-        className:cname,
+        courseName:cname,
         Permission
       })
     }

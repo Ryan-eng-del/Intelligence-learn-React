@@ -5,15 +5,15 @@ import { ClassInfoNav, ClassInfoRoutePage } from 'components/ClassInfoPage'
 import { LayoutCpn } from 'publicComponents/LayoutCpn/LayoutCpn'
 
 const curCourse = {
-  classId: '',
-  className: '未知的课程',
+  courseId: '',
+  courseName: '未知的课程',
   cover: '',
   Permission: false
 }
 
 const setCurCourse = (e: typeof curCourse) => {
-  curCourse.classId = e.classId
-  curCourse.className = e.className
+  curCourse.courseId = e.courseId
+  curCourse.courseName = e.courseName
   curCourse.cover = e.cover
   curCourse.Permission = e.Permission
 }

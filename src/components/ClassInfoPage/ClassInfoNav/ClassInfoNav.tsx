@@ -39,7 +39,7 @@ export const ClassInfoNav: React.FC = () => {
                 👈切换课程
               </div>
               <div className="class-info-nav-intro">
-                <div>{curCourse.className}</div>
+                <div>{curCourse.courseName}</div>
               </div>
             </>
           )}
