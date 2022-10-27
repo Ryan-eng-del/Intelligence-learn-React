@@ -43,6 +43,7 @@ export const ClassManaMain: React.FC<{ classList: classmana[] }> = (props) => {
 
   const [detailvisable, setDetailVisable] = useState(false)
   const [newName, setNewName] = useState('')
+  const [renameState, setReNameState] = useState(false)
   const [showing, setshowing] = useState<classmana>({
     class_id: "",
     class_name: "",
@@ -59,22 +60,6 @@ export const ClassManaMain: React.FC<{ classList: classmana[] }> = (props) => {
     // searchKeyword
   } = state
 
-  const studentlist: ClassManaStudentType[] = [
-    {
-      "name": "员器变",
-      "mobile": "18632900455",
-      "class_name": "油口格专据方",
-      "join_time": "2008-06-27 14:08:52",
-      "role": 66
-    },
-    {
-      "name": "特等后需",
-      "mobile": "18688275872",
-      "class_name": "常成日别",
-      "join_time": "2020-03-23 12:11:45",
-      "role": 54
-    }
-  ]
 
   //在渲染完后更新一下state中的数组,这个数组存在的意义完全是为了方便看效果,
   //因为网络请求的增删改后查的数据仍然没变化
@@ -143,6 +128,11 @@ export const ClassManaMain: React.FC<{ classList: classmana[] }> = (props) => {
     )
   }
 
+  const toUpdateClassName = (value:string) => {
+    dispatch({ type: 'rename_certain', payload: { classId: showing.class_id, newClassName: value } })
+    setshowing({ ...showing, class_name: value })
+    setReNameState(false)
+  }
 
   return (
     <>
@@ -168,31 +158,35 @@ export const ClassManaMain: React.FC<{ classList: classmana[] }> = (props) => {
           // {`管理 - ${showing?.className}`}
           // title={(<p onClick={renameFun_certain}>{`${showing?.className}`}<EditOutlined /></p>)}
           title={
-            renameMutateIsLoading ? (
+            renameState ? (
               <BaseLoading />
             ) :
-              (<Typography.Title editable={{
-                onChange(value) {
-                  // renames(value)
-                  setNewName(value)
-                },
-                //需要补一下网络请求
-                onEnd() {
-                  // renames(value)
-                  const class_id = showing.class_id
-                  renameMutate({ className: newName, classId: class_id }, {
-                    onSuccess: () => {
-                      dispatch({ type: 'rename_certain', payload: { classId: showing.class_id, newClassName: newName } })
-                      setshowing({ ...showing, class_name: newName })
-                    }
-                  })
-                },
-              }} level={4} style={{ margin: 0 }}>
-                {`${showing.class_name}`}
-              </Typography.Title>)}
+              (
+                <Typography.Title editable={{
+                  onChange(value) {
+                    // renames(value)
+                    setNewName(value)
+                    toUpdateClassName(value)
+                  },
+                  // onEnd() {
+                  //   // renames(value)
+                  //   const class_id = showing.class_id
+                  //   setReNameState(true)
+                  //   renameMutate({ className: newName, classId: class_id }, {
+                  //     onSuccess: () => {
+                  //       console.log("setnewName");
+                  //       console.log(newName)
+                  //       toUpdateClassName()
+                  //     }
+                  //   })
+                  // },
+                }} level={4} style={{ margin: 0 }}>
+                  {`${showing.class_name}`}
+                </Typography.Title>
+              )}
           centered
           visible={detailvisable}
-          width = '1000px'
+          width='1000px'
           footer={
             <>
               <Popconfirm

@@ -1,4 +1,4 @@
-import { Space } from 'antd'
+import { Button, Divider, Space } from 'antd'
 import React from 'react'
 import { ItemWrapper, MenuWrapper } from './MenuStyle'
 
@@ -12,17 +12,32 @@ export const Menu: React.FC<{ num: number[] }> = ({ num }) => {
     }
   })
   console.log('导航栏重载')
+  console.log(temp);
+  let indey1 = 0;
+  let yiweixunhuan = 0
 
   return (
     <MenuWrapper>
       {temp.map((t, index) => (
         <div key={index}>
-          <hr />
-          <Space wrap size={[16, 24]} style={{ maxWidth: '300px' }} key={index}>
-            {t.map((item,indey) => (
+          <Divider orientation="left" orientationMargin="0">
+            {
+              ++yiweixunhuan == 1 ? (<span>单选题</span>) :
+              yiweixunhuan == 2 ? (<span>多选题</span>) :
+              yiweixunhuan == 3 ? (<span>填空题</span>) :
+              yiweixunhuan == 4 ? (<span>简答题</span>) :
+              (<span>判断题</span>)
+            }
+          </Divider>
+          <Space wrap size={[0, 0]} style={{ maxWidth: '300px', border: 'border: 1px solid #000' }} key={index}>
+            {t.map((item, indey) => (
               <div key={indey}>
-                <a href={`#item${item}`}>
-                  <ItemWrapper>{item}</ItemWrapper>
+                <a href={`#item${index}${indey1++}`}>
+                  <ItemWrapper>
+                    <Button type="primary" shape="circle">
+                      {item}
+                    </Button>
+                  </ItemWrapper>
                 </a>
               </div>
             ))}

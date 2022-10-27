@@ -40,7 +40,9 @@ export const QuestionList: React.FC<{ Questionlist: StudentPaperItem[] }> = (
     <>
       <div>
         <form>
-          {questions.map((data) => {
+          {questions.map((data,i) => {
+            console.log(`item${data.questionType}${i}`);
+
             return (
               <div
                 key={data.questionId}
@@ -49,6 +51,7 @@ export const QuestionList: React.FC<{ Questionlist: StudentPaperItem[] }> = (
                   border: '1px solid #000',
                   padding: '10px'
                 }}
+                id={`item${data.questionType}${i}`}
               >
                 {mapper[data.questionType as QuestionType](data)}
               </div>

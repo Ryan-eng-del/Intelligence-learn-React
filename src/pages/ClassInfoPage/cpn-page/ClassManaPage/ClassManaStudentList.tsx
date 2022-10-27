@@ -1,6 +1,6 @@
 import React from "react";
 import { ClassManaStudentType } from './config/type'
-import { Space, Table, Tag } from 'antd';
+import { Button, Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useShowStudent } from "server/fetchClass";
 import { BaseLoading } from "baseUI/BaseLoding/BaseLoading";
@@ -33,7 +33,7 @@ const columns: ColumnsType<ClassManaStudentType> = [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <a>Delete</a>
+        <Button type='primary'>Delete</Button>
       </Space>
     ),
   },
@@ -42,6 +42,11 @@ const columns: ColumnsType<ClassManaStudentType> = [
 
 export const ClassManaStudentList: React.FC<{ class_id: string }> = (props) => {
   const { data: studentList, isLoading: useShowStudentIsLoading } = useShowStudent(props.class_id)
+
+  // const deleteStudent = (classId:string)=>{
+
+  // }
+
 
   return (
     <>
