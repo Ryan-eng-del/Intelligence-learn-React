@@ -1,9 +1,9 @@
-import React from "react"
+import React from 'react'
 
 export const Single: React.FC = (props) => {
-
-  return (<>
-  {/* <ul>
+  return (
+    <>
+      {/* <ul>
           <li>
             <input type={'radio'} name={`${parm.index}`} />
             {props.data.answerA}
@@ -21,5 +21,6 @@ export const Single: React.FC = (props) => {
             {props.data.answerD}
           </li>
         </ul> */}
-  </>)
+    </>
+  )
 }

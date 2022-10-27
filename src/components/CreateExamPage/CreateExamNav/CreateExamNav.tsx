@@ -4,9 +4,12 @@ import {
   QuestionItemWrapper,
   DeleteButtonWrapper
 } from './CreateExamNavStyle'
-import { Collapse, Button, Popconfirm, Tooltip, InputNumber } from 'antd'
-import { DeleteOutlined, SettingOutlined } from '@ant-design/icons'
-import { QuestionItem, QuestionList, QuestionType } from 'server/fetchExam/types'
+import { Collapse, Button, Popconfirm,  InputNumber } from 'antd'
+import { DeleteOutlined } from '@ant-design/icons'
+import {
+  QuestionItem,
+  QuestionList,
+} from 'server/fetchExam/types'
 import { AnyFn } from 'types'
 import { QuestionICON } from '../CreateExamMenu/CreateExamMenu'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
@@ -17,23 +20,23 @@ const { Panel } = Collapse
 export const CreateExamNav: React.FC<{
   isLoading: boolean
   questionList: QuestionList[]
-  setConfig:()=>void
+  setConfig: () => void
   changeScore: AnyFn<void>
   focus: (item: QuestionItem) => void
-  SumScore:()=>number
-}> = ({ questionList, focus, isLoading,SumScore, setConfig }) => {
+  SumScore: () => number
+}> = ({ questionList, focus, isLoading, SumScore, setConfig }) => {
   const [Fouce, setFouce] = useState<QuestionItem>()
   const removeQuesItem = (curItem: QuestionItem, curList: QuestionList) => {
-    curList.questiton = curList.questiton.filter(i=>i!==curItem)
+    curList.questiton = curList.questiton.filter((i) => i !== curItem)
     if (curList.amount === 0) {
       curList.isExists = false
     }
     setConfig()
   }
   const removeCollapse = (curList: QuestionList) => {
-    curList.amount = 0;
-    curList.isExists = false;
-    curList.questiton = [];
+    curList.amount = 0
+    curList.isExists = false
+    curList.questiton = []
     setConfig()
   }
   return (
@@ -62,7 +65,7 @@ export const CreateExamNav: React.FC<{
                   <>
                     <DeleteButton
                       title={`确认移除整个组吗，这将移除里面全部${QuestionPanel.type}`}
-                      confirm={()=>removeCollapse(QuestionPanel)}
+                      confirm={() => removeCollapse(QuestionPanel)}
                     />
                   </>
                 }

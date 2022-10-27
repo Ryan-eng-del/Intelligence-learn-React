@@ -1,7 +1,8 @@
 import { QuestionType } from 'server/fetchExam/types'
 import {
   Data2NetworkConverter,
-  Network2DataConverter
+  Network2DataConverter,
+  Network2SummaryConverter
 } from '../Component/types'
 
 // // 题目结构
@@ -36,4 +37,19 @@ export const Data2Network: Data2NetworkConverter<structure> = (content) => ({
   rightAnswer: '',
   questionAnswerExplain: content.footer.explanation,
   pointIds: content.footer.knowledge
+})
+
+// 题目结构
+export type summary = {
+  id: string
+  content: string
+  score?: number
+}
+
+export const Network2Sutdent: Network2SummaryConverter<summary> = (
+  content
+) => ({
+  id: content.questionId!,
+  content: content.questionDescription,
+  score: content.questionScore
 })

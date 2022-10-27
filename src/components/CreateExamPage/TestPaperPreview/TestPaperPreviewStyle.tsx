@@ -1,9 +1,9 @@
-import { RightSideWrapper } from "publicComponents/PageStyle/TwoColumnLayout";
-import styled from "styled-components";
+import { RightSideWrapper } from 'publicComponents/PageStyle/TwoColumnLayout'
+import styled from 'styled-components'
 
 export const TestPaperPreviewWrapper = styled(RightSideWrapper)`
- margin: 50px;
- margin-bottom: 100px;
+  margin: 50px;
+  margin-bottom: 100px;
 `
 
 export const TitleWrapper = styled.div`
@@ -12,6 +12,6 @@ export const TitleWrapper = styled.div`
 
 export const ItemWrapper = styled.div`
   margin: 10px;
-  border: 1px black solid ;
+  border: 1px black solid;
   padding: 10px;
 `

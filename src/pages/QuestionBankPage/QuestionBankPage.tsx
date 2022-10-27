@@ -5,7 +5,8 @@ import {
 } from 'components/QuestionBankPage'
 import { QuestionBankPageWrapper } from './QuestionBankPageStyle'
 import { useShowCreateQuestion } from 'server/fetchExam'
-import { Item } from 'server/fetchExam/types'
+import { Item, QuestionType } from 'server/fetchExam/types'
+import { config } from 'server/fetchExam/config'
 
 export const QuestionBankPage: React.FC = () => {
   const { data, isLoading } = useShowCreateQuestion('课程id')
@@ -13,39 +14,17 @@ export const QuestionBankPage: React.FC = () => {
   const length = data?.length || 0
   const [curData, setCurData] = useState<Item[]>([])
   const [isAll, setIsAll] = useState(true)
-  const handleType = (type: number): string => {
-    switch (type) {
-      case 0:
-        return '单选题'
-      case 1:
-        return '多选题'
-      case 2:
-        return '判断题'
-      case 3:
-        return '填空题'
-      default:
-        return ''
-    }
+  const handleType = (type: QuestionType): string => {
+    return config[type].name
   }
 
-  const handleRate = (rate: number): string => {
-    switch (rate) {
-      case 0:
-        return '易'
-      case 1:
-        return '中'
-      case 2:
-        return '难'
-      default:
-        return ''
-    }
-  }
+  const handleRate = {0:"易",1:"中",2:"难"}
 
   for (let i = 0; i < length; i++) {
     originData.push({
       key: data![i].questionId,
       question: data![i].questionDescription,
-      rate: handleRate(data![i].questionDifficulty),
+      rate: handleRate[data![i].questionDifficulty as 0|1|2],
       type: handleType(data![i].questionType),
       creator: '莉塔',
       create_time: data![i].createTime,

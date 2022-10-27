@@ -1,7 +1,8 @@
 import { QuestionType } from 'server/fetchExam/types'
 import {
   Data2NetworkConverter,
-  Network2DataConverter
+  Network2DataConverter,
+  Network2SummaryConverter
 } from '../Component/types'
 import { join } from 'lodash'
 // 题目结构
@@ -56,4 +57,27 @@ export const Data2Network: Data2NetworkConverter<structure> = (content) => ({
   rightAnswer: content.Options.map((i) => i.isTrue && i.optionName).toString(),
   questionAnswerExplain: content.footer.explanation,
   pointIds: content.footer.knowledge
+})
+
+// 题目结构
+export type summary = {
+  id: string
+  content: string
+  score?: number
+  Options: {
+    optionName: string
+    content: string
+  }[]
+}
+
+export const Network2Sutdent: Network2SummaryConverter<summary> = (
+  content
+) => ({
+  id: content.questionId!,
+  content: content.questionDescription,
+  score: content.questionScore,
+  Options: content.questionOption.split('<>').map((i, x) => ({
+    optionName: String.fromCharCode(x + 65),
+    content: i
+  }))
 })

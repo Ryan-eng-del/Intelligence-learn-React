@@ -1,45 +1,73 @@
-import { render } from "@testing-library/react";
-import { uniqueId } from "lodash";
-import React from "react"
-import { QuestionListItem } from "../QuestionListItem/QuestionListItem"
-import { Button } from "antd";
+import React, { useState } from 'react'
+import { Button } from 'antd'
+import { QuestionType, StudentPaperItem } from 'server/fetchExam/types'
+import { Take as P1 } from 'publicComponents/CreateQuestionPage/QuestionType/SingleChoice/Take'
+import { Take as P2 } from 'publicComponents/CreateQuestionPage/QuestionType/MultipleChoice/Take'
+import { Take as P3 } from 'publicComponents/CreateQuestionPage/QuestionType/FillBlank/Take'
+import { Take as P4 } from 'publicComponents/CreateQuestionPage/QuestionType/ShortAnswer/Take'
+import { Take as P5 } from 'publicComponents/CreateQuestionPage/QuestionType/Judge/Take'
+import { useSubmitTestPaper } from 'server/fetchExam/TestPaper'
 
-export interface dataTypeOfQuestionOfPaperVosType{
-  paperId:string
-  paperName:string
-  questionOfPaperVos:questionOfPaperVosType[]
-}
+export const QuestionList: React.FC<{ Questionlist: StudentPaperItem[] }> = (
+  props
+) => {
+  const questions = props.Questionlist
+  type T = StudentPaperItem
 
-export interface questionOfPaperVosType {
-  questionId?: string
-  questionDescription: string
-  questionType: number
-  questionScore: number
-  questionDifficulty: number
-  questionOrder: number
-  questionOption:string
-}
+  // 这是没有必要的，setAns数据不返回到页面
+  const [ansSet,setAnsSet] = useState(questions.map(i=>({questionId:i.questionId,studentAnswer:''})))
+  const setAns = (id:string,ans:string) => {
+    ansSet.filter(i=>i.questionId==id)[0].studentAnswer = ans;
+    setAnsSet([...ansSet])
+  }
+  const { mutate } = useSubmitTestPaper()
+  const submit = () => {
+    mutate(ansSet)
+  }
 
-export const QuestionList: React.FC<{ Questionlist: questionOfPaperVosType[] }> = (props) => {
-  const questions = props.Questionlist;
-  console.log(questions);
-
+  const mapper = {
+    [QuestionType.single]: (data: T) => <P1 content={data} setAns={ans=>setAns(data.questionId!,ans)} />,
+    [QuestionType.multiple]: (data: T) => <P2 content={data} setAns={ans=>setAns(data.questionId!,ans)} />,
+    [QuestionType.fillBlank]: (data: T) => (
+      <P3 content={data} setAns={ans=>setAns(data.questionId!,ans)} />
+    ),
+    [QuestionType.shortAnswer]: (data: T) => (
+      <P4 content={data} setAns={ans=>setAns(data.questionId!,ans)} />
+    ),
+    [QuestionType.judge]: (data: T) => <P5 content={data} setAns={ans=>setAns(data.questionId!,ans)} />
+  }
   return (
     <>
-      <div >
+      <div>
         <form>
-          {
-            questions.map((data, index) => {
-              return (
-                <li key={data.questionId}>
-                  <QuestionListItem key={data.questionId} data={data} index={index} />
-                </li>
-              )
-            })
-          }
-          <div style={{ display: '-ms-flexbox', marginLeft: '35%', marginTop: 20 }}>
-            <Button type="primary" htmlType={'submit'}>保存修改</Button>
-            <Button type="primary" ghost htmlType={'submit'} style={{ marginLeft: 30 }}>提交</Button>
+          {questions.map((data) => {
+            return (
+              <div
+                key={data.questionId}
+                style={{
+                  margin: '20px',
+                  border: '1px solid #000',
+                  padding: '10px'
+                }}
+              >
+                {mapper[data.questionType as QuestionType](data)}
+              </div>
+            )
+          })}
+          <div
+            style={{ display: '-ms-flexbox', marginLeft: '35%', marginTop: 20 }}
+          >
+            <Button type="primary" htmlType={'submit'}>
+              保存修改
+            </Button>
+            <Button
+              type="primary"
+              ghost
+              onClick={submit}
+              style={{ marginLeft: 30 }}
+            >
+              提交
+            </Button>
           </div>
         </form>
       </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { CreateExamHeaderWrapper } from './CreateExamHeaderStyle'
-import { Button, Form, Input, Checkbox, Space } from 'antd'
+import { Button, Input, Space } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 
@@ -21,7 +21,12 @@ export const CreateExamHeader: React.FC<{
         <label>试卷名字：</label>
         <Input defaultValue={name}></Input>
         <Button type="primary">保存试卷</Button>
-        <Button type="primary" onClick={()=>navigate(`/previewtestpaper/${id}`)}>Preview</Button>
+        <Button
+          type="primary"
+          onClick={() => navigate(`/previewtestpaper/${id}`)}
+        >
+          Preview
+        </Button>
         <span>ID:{id}</span>
       </Space>
     </CreateExamHeaderWrapper>

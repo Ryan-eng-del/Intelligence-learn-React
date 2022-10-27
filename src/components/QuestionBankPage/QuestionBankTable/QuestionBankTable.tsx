@@ -14,6 +14,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { ShowDetailsCell } from './cpn/ShowDetailsCell'
 import { Item } from 'server/fetchExam/types'
 import styled from 'styled-components'
+import { CurCourseProvider } from 'pages/ClassInfoPage/ClassInfoPage'
 const { confirm } = Modal
 
 export const QuestionBankTable: React.FC<{
@@ -82,14 +83,17 @@ export const QuestionBankTable: React.FC<{
       className: 'table-header',
       render: (_: any, record: Item) => (
         <QuestionItemWrapper>
-          <ShowQuestionDetails
-            onClick={() => {
-              navigate(`/preview/${record.questionId}`, { replace: true })
-            }}
-          >
-            {record.question}
-          </ShowQuestionDetails>
-
+          <CurCourseProvider>
+            {({ curCourse }) => (<>
+              <ShowQuestionDetails
+                onClick={() => curCourse.Permission
+                ? navigate(`/preview/${record.questionId}`, { replace: true })
+                : navigate(`/promote/${record.questionId}`, { replace: true })}
+              >
+                {record.question}
+              </ShowQuestionDetails>
+            </>)}
+          </CurCourseProvider>
           <QuestionOperateWrapper>
             <Button
               type="link"

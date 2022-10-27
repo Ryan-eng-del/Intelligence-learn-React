@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-import { Form, Button, Modal, Radio, message } from 'antd'
+import { Form, Button, Modal, Radio } from 'antd'
 import { TextArea } from './TextArea'
 import { useUpadateQuestion } from 'server/fetchExam'
 import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
 import { Data2NetworkConverter, FooterType } from './types'
 import { QuestionDataWithID } from 'server/fetchExam/types'
-import { Network2Data } from '../MultipleChoice/config'
 
 export const Footer: React.FC<{
   data: {
@@ -24,19 +23,19 @@ export const Footer: React.FC<{
   //网络请求
   const { mutate } = useUpadateQuestion()
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const showModal = () => {
-    setIsModalOpen(true);
-  };
+    setIsModalOpen(true)
+  }
 
   const handleOk = () => {
-    setIsModalOpen(false);
-  };
+    setIsModalOpen(false)
+  }
 
   const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+    setIsModalOpen(false)
+  }
   return (
     <>
       <hr />
@@ -96,9 +95,18 @@ export const Footer: React.FC<{
           预览
         </Button>
       </Form.Item>
-      <Modal title="预览" visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}
-      footer={[]}>
-        {PreviewPage ? <PreviewPage content={Serializer(data)}/> : <h1>传入一个预览界面</h1>}
+      <Modal
+        title="预览"
+        visible={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={[]}
+      >
+        {PreviewPage ? (
+          <PreviewPage content={Serializer(data)} />
+        ) : (
+          <h1>传入一个预览界面</h1>
+        )}
       </Modal>
     </>
   )

@@ -1,4 +1,4 @@
-import { useMutation, useQuery, UseQueryResult } from '@tanstack/react-query'
+import { useMutation, useQuery} from '@tanstack/react-query'
 import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
 import {
@@ -7,10 +7,10 @@ import {
   QuestionData,
   QuestionDataWithID,
   QuestionType,
+  StudentPaperItem,
   WholeQuestion
 } from './types'
 import { message } from 'antd'
-import { dataTypeOfQuestionOfPaperVosType, questionOfPaperVosType } from 'pages/PaperDoingPage/QuestionList/QuestionList'
 
 /** 添加试题 */
 export const useCreateQuestion = () => {
@@ -18,7 +18,7 @@ export const useCreateQuestion = () => {
     async (QuestionItem: QuestionData) => {
       await delayFetch()
       return client.post({
-        url: 'question/add-question',
+        url: '/question/teacher/create',
         data: {
           ...QuestionItem
         }
@@ -40,7 +40,7 @@ export const useShowCreateQuestion = (id?: string) => {
   return useQuery(['questionbank'], async () => {
     await delayFetch()
     return client.get<QuestionBank[]>({
-      url: 'question/list-question',
+      url: '/question/teacher/show-all',
       params: {
         courseId: id
       }
@@ -52,7 +52,7 @@ export const useShowCreateQuestion = (id?: string) => {
 export const useShowQuestionDetails = (id?: string) => {
   return useQuery([`preview-${id}`], async () => {
     return client.get<WholeQuestion>({
-      url: `/question/show-question`,
+      url: `/question/teacher/show-one`,
       params: {
         questionId: id
       }
@@ -65,7 +65,7 @@ export const useShowExamList = (courseID: string) => {
   return useQuery([`ExamList-${courseID}`], async () => {
     await delayFetch()
     return client.get<ExamListItem[]>({
-      url: `/paper/show-all`,
+      url: `/paper/teacher/show-all`,
       params: {
         courseId: courseID
       }
@@ -90,10 +90,14 @@ export const useCreateEmptyQuestion = () => {
         rightAnswer: 'A'
       }
       const qID = client.post<string>({
-        url: 'question/add-question',
+        url: '/question/teacher/create',
         data: defData
       })
-      return { ...defData, questionId: qID as unknown as string }
+      let id = '1'
+      qID.then((v) => {
+        id = v
+      })
+      return { ...defData, questionId: id }
     },
     {
       onSuccess: () => {
@@ -112,7 +116,7 @@ export const useUpadateQuestion = () => {
     async (QuestionItem: QuestionDataWithID) => {
       await delayFetch()
       return client.post({
-        url: '/question/update-question',
+        url: '/question/teacher/update',
         data: {
           ...QuestionItem
         }
@@ -135,7 +139,7 @@ export const useDeleteQuestion = () => {
     async (id: string) => {
       await delayFetch()
       return client.post({
-        url: '/question/delete-question',
+        url: '/question/teacher/delete',
         data: { id }
       })
     },
@@ -151,24 +155,39 @@ export const useDeleteQuestion = () => {
 }
 
 
-// 学生获得试卷
-export const useShowQuestionForStudent = (id: string) => {
-  return useQuery([`paperdoing-${id}`], () => {
-    return client.get<dataTypeOfQuestionOfPaperVosType>(
-      {
-        url: '/paper/show-paper-detail',
-        params: {
-          id: id
-        }
+/** 学生端显示题目 */
+export const useShowQuestionForStu = (id?: string) => {
+  return useQuery([`preview-stu-${id}`], async () => {
+    return client.get<StudentPaperItem>({
+      url: `/question/stu/show/{questionId}`,
+      params: {
+        questionId: id
       }
-    )
-  }, {
-    onSuccess: () => {
-      message.success('删除成功')
-    },
-    onError: () => {
-      message.error('删除失败')
-    }
+    })
   })
-
+}
+/** 学生提交题目 */
+export const useSubmitQuestion = () => {
+  return useMutation(
+    async (data:{
+      questionId: string,
+      questionType: QuestionType,
+      questionAnswer: string,
+      questionExistType: string
+    }) => {
+      await delayFetch()
+      return client.post({
+        url: '/question/stu/submit',
+        data: data
+      })
+    },
+    {
+      onSuccess: () => {
+        message.success('提交成功')
+      },
+      onError: () => {
+        message.error('提交失败')
+      }
+    }
+  )
 }

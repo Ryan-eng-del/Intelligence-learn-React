@@ -3,18 +3,15 @@ import {
   ContentWrapper,
   HeaderWrapper,
   PageWrapper,
-  TitleWrapper,
+  TitleWrapper
 } from 'publicComponents/PageStyle/PageHeaderWapper'
-import { CurCourseProvider } from 'pages/ClassInfoPage/ClassInfoPage'
-import { StudentExamPage } from "./studentExamPage/studentExamPage";
-import { TeacherExamPage } from "./teacherExamPage/teacherExamPage";
-import { useAddTestPaper } from 'server/fetchExam/TestPaper';
-import { useNavigate } from 'react-router-dom';
-import { Button } from 'antd';
-import { ExamList } from 'publicComponents/ExamPage';
+import { useAddTestPaper } from 'server/fetchExam/TestPaper'
+import { useNavigate } from 'react-router-dom'
+import { Button } from 'antd'
+import { ExamList } from 'publicComponents/ExamPage'
 
 export const ExamPage: React.FC = () => {
-  const { mutate } = useAddTestPaper((id:string) => {
+  const { mutate } = useAddTestPaper((id: string) => {
     navigate(`/editpaper/${id}`)
   })
   const [loading, setLoading] = useState(false)

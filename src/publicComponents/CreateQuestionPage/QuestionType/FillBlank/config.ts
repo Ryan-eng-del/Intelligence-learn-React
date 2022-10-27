@@ -1,8 +1,9 @@
 import { join } from 'lodash'
-import { QuestionDataWithID, QuestionType } from 'server/fetchExam/types'
+import {QuestionType } from 'server/fetchExam/types'
 import {
   Data2NetworkConverter,
-  Network2DataConverter
+  Network2DataConverter,
+  Network2SummaryConverter
 } from '../Component/types'
 
 // // 题目结构
@@ -50,4 +51,21 @@ export const Data2Network: Data2NetworkConverter<structure> = (content) => ({
   rightAnswer: content.isSubjective ? '1' : '0',
   questionAnswerExplain: content.footer.explanation,
   pointIds: content.footer.knowledge
+})
+
+// 写题的时候
+export type summary = {
+  id: string
+  content: string
+  AnsNum: number
+}
+
+export const Network2Sutdent: Network2SummaryConverter<summary> = (
+  content
+) => ({
+  id: content.questionId!,
+  content: content.questionDescription,
+  score: content.questionScore,
+  // TODO:
+  AnsNum: content.questionAnswerNum
 })

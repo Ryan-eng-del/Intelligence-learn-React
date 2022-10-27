@@ -9,11 +9,11 @@ import {
   HeaderWrapper,
   TitleWrapper
 } from 'publicComponents/PageStyle/PageHeaderWapper'
-export const TeacherExamPage: React.FC<{classId:string}> = (classId) => {
-  const { mutate, data } = useAddTestPaper(()=>{
+export const TeacherExamPage: React.FC<{ classId: string }> = (classId) => {
+  const { mutate, data } = useAddTestPaper(() => {
     navigate(`/editpaper/${data}`)
   })
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const wait = () => {
     setLoading(true)
@@ -21,22 +21,18 @@ export const TeacherExamPage: React.FC<{classId:string}> = (classId) => {
   }
   return (
     <>
-        <HeaderWrapper>
-          <TitleWrapper>
-            <div className="page-title">考试作业</div>
-            <Button
-              type="primary"
-              onClick={wait}
-              loading={loading}
-              >
-              新建作业
-            </Button>
-          </TitleWrapper>
-        </HeaderWrapper>
-        {/* 主体内容 */}
-        <ContentWrapper>
-          <ExamList></ExamList>
-        </ContentWrapper>
+      <HeaderWrapper>
+        <TitleWrapper>
+          <div className="page-title">考试作业</div>
+          <Button type="primary" onClick={wait} loading={loading}>
+            新建作业
+          </Button>
+        </TitleWrapper>
+      </HeaderWrapper>
+      {/* 主体内容 */}
+      <ContentWrapper>
+        <ExamList></ExamList>
+      </ContentWrapper>
     </>
   )
 }
