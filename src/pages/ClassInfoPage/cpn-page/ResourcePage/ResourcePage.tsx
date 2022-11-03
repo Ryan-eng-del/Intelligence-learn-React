@@ -7,7 +7,7 @@ import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { ResourceCard } from './ResourceCard'
 import { CurCourseProvider } from 'pages/ClassInfoPage/ClassInfoPage'
 export const ResourcePage: React.FC = () => {
-  const [mode, setMode] = useState(false)
+  const [mode, setMode] = useState(true)
 
   const { data, isLoading } = useShowResourceList()
   console.log(data)

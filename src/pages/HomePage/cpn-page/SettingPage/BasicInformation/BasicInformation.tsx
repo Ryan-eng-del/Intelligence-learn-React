@@ -1,6 +1,6 @@
 import React from 'react'
 import { Descriptions, Badge, Button } from 'antd'
-import { BasicInformationWrapper } from '../ProfilePageStyle'
+import { BasicInformationWrapper } from '../SettingPageStyle'
 
 export const BasicInformation = () => {
   return (

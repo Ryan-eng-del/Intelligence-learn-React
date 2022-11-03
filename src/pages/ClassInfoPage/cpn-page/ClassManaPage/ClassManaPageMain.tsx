@@ -1,11 +1,10 @@
-import React, { useEffect, useReducer, useState } from 'react'
+import React, { useReducer, useState } from 'react'
 import {
   PageWrapper,
   ContentWrapper,
   HeaderWrapper,
   TitleWrapper
 } from 'publicComponents/PageStyle/PageHeaderWapper'
-
 import {
   Card,
   Col,
@@ -16,30 +15,21 @@ import {
   Space,
   message,
   Badge,
-  Tooltip,
   Typography,
-  Dropdown,
-  Menu,
   Popconfirm,
-
 } from 'antd'
 import { ClassManaPageReducer, initialState } from './config/reducer'
 import {
-  DownOutlined,
-  EditOutlined,
-  HighlightOutlined,
   ShareAltOutlined
 } from '@ant-design/icons'
-import { useDeleteClass, useReName, useToGetClassList } from 'server/fetchClass'
-import { CurCourseProvider } from 'pages/ClassInfoPage/ClassInfoPage'
+import { useDeleteClass /*, useReName */ } from 'server/fetchClass'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
-import { ClassMana as classmana, ClassManaStudentType } from './config/type'
-import { val } from 'dom7'
+import { ClassMana as classmana } from './config/type'
 import { ClassManaStudentList } from './ClassManaStudentList'
 export const ClassManaMain: React.FC<{ classList: classmana[] }> = (props) => {
   const [state, dispatch] = useReducer(ClassManaPageReducer, { ...initialState, classManaList: props.classList })
   const { mutate: deleteClassMutate } = useDeleteClass()
-  const { mutate: renameMutate, isSuccess: renameMutateIsSuccess, isLoading: renameMutateIsLoading } = useReName()
+  // const { mutate: renameMutate, isSuccess: renameMutateIsSuccess, isLoading: renameMutateIsLoading } = useReName()
 
   const [detailvisable, setDetailVisable] = useState(false)
   const [newName, setNewName] = useState('')
@@ -55,32 +45,8 @@ export const ClassManaMain: React.FC<{ classList: classmana[] }> = (props) => {
   const {
     modalVisible,
     classManaList,
-    newClassName,
     inputClassName
-    // searchKeyword
   } = state
-
-
-  //在渲染完后更新一下state中的数组,这个数组存在的意义完全是为了方便看效果,
-  //因为网络请求的增删改后查的数据仍然没变化
-
-
-  // //重命名功能
-  // const renameFun = (curItem: any) => {
-  //   dispatch({ type: 'rename', curItem })
-  // }
-
-  // //重命名确认的函数
-  // const renameFun_certain = (curItem: any) => {
-  //   dispatch({ type: 'rename_certain', curItem }) //异步
-  // }
-
-  // //重命名取消的函数
-  // const renameFun_cancel = (curItem: any) => {
-  //   dispatch({ type: 'rename_cancel', curItem })
-  //   dispatch({ type: 'setNewClassName', payload: '' })
-  //   console.log('取消')
-  // }
 
   //删除班级的函数
   const removeClassFun = (id: string) => {
@@ -120,8 +86,6 @@ export const ClassManaMain: React.FC<{ classList: classmana[] }> = (props) => {
 
   // 点击分享
   const share = (invitedcode: string) => {
-    // const share = (invitedcode: string, e?: any) => {
-    // e?.stopPropagation()
     navigator.clipboard.writeText(invitedcode).then(
       () => message.success('邀请码已复制到剪切板'),
       () => message.error('复制失败，请检测浏览器版本或权限设置')
