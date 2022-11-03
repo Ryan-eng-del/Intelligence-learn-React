@@ -9,14 +9,18 @@ import { Avatar } from 'antd'
 
 import { createHomeNavMap } from '../../../util/createNavMap'
 import { NavMapMenu } from 'publicComponents/NavMap/NavMap'
+import { useNavigate } from 'react-router-dom'
 
 export const HomeNav = () => {
   const [curSelect, setCurSelect] = useState<string>('')
   const map = useMemo(() => createHomeNavMap(), [])
+  const navigate = useNavigate();
 
   return (
     <HomeNavWrapper>
-      <HomeInfoWrapper>
+      <HomeInfoWrapper
+        onClick={()=>navigate('profile')}
+      >
         <Avatar
           className="avatar"
           src={require('assets/img/pyy.png')}
