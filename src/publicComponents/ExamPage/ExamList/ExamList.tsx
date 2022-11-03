@@ -9,14 +9,16 @@ import {
 } from '@ant-design/icons'
 import { StatisticsPanel } from '../StatisticsPanel/StatisticsPanel'
 import { PublishPanel } from '../PublishPanel/PublishPanel'
-import { useShowExamList } from 'server/fetchExam'
+import { useGetPaperTarget, useShowExamList } from 'server/fetchExam'
 import { ExamListItem } from 'server/fetchExam/types'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 
 export const ExamList: React.FC = () => {
+  const { data: paperTarget } = useGetPaperTarget("1")
   const navigate = useNavigate()
   const [statistics, setStatistics] = useState(false)
   const [publish, setPublish] = useState(false)
+
   const columns: ColumnsType<ExamListItem> = [
     {
       title: '试卷名字',
@@ -68,7 +70,7 @@ export const ExamList: React.FC = () => {
         visible={statistics}
         close={() => setStatistics(false)}
       />
-      <PublishPanel visible={publish} close={() => setPublish(false)} />
+      <PublishPanel visible={publish} close={() => setPublish(false)} studentTree={paperTarget}/>
     </>
   )
 }

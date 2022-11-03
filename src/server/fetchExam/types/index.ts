@@ -59,6 +59,7 @@ type QuestionContext = {
 export type QuestionData = QuestionContext & {
   courseId: string
 }
+
 /** 修改的题目实体 */
 export type QuestionDataWithID = QuestionData & {
   questionId: string

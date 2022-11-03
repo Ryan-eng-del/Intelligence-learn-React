@@ -128,7 +128,7 @@ export const ClassManaMain: React.FC<{ classList: classmana[] }> = (props) => {
     )
   }
 
-  const toUpdateClassName = (value:string) => {
+  const toUpdateClassName = (value: string) => {
     dispatch({ type: 'rename_certain', payload: { classId: showing.class_id, newClassName: value } })
     setshowing({ ...showing, class_name: value })
     setReNameState(false)
@@ -168,18 +168,16 @@ export const ClassManaMain: React.FC<{ classList: classmana[] }> = (props) => {
                     setNewName(value)
                     toUpdateClassName(value)
                   },
-                  // onEnd() {
-                  //   // renames(value)
-                  //   const class_id = showing.class_id
-                  //   setReNameState(true)
-                  //   renameMutate({ className: newName, classId: class_id }, {
-                  //     onSuccess: () => {
-                  //       console.log("setnewName");
-                  //       console.log(newName)
-                  //       toUpdateClassName()
-                  //     }
-                  //   })
-                  // },
+                  onEnd() {
+                    // renames(value)
+                    const class_id = showing.class_id
+                    setReNameState(true)
+                    renameMutate({ className: newName, classId: class_id }, {
+                      onSuccess: () => {
+                        toUpdateClassName(newName)
+                      }
+                    })
+                  },
                 }} level={4} style={{ margin: 0 }}>
                   {`${showing.class_name}`}
                 </Typography.Title>
@@ -218,32 +216,35 @@ export const ClassManaMain: React.FC<{ classList: classmana[] }> = (props) => {
             >
               班级名字
             </Typography.Paragraph> */}
-          <Dropdown
-            overlay={
-              <Menu
-                selectable
-                defaultSelectedKeys={['1']}
-                items={[
-                  {
-                    key: '1',
-                    label: <Badge status="success" text="开课中" />
-                  },
-                  {
-                    key: '2',
-                    label: <Badge status="default" text="已结束" />
-                  }
-                ]}
-              />
-            }
-          >
-            <Typography.Link>
-              <Space>
-                <Badge status="success" text="开课中" />
-                <DownOutlined />
-              </Space>
-            </Typography.Link>
-          </Dropdown>
-          <ClassManaStudentList class_id={showing.class_id} />
+          <div style={{ padding: 0, margin: 0 }}>
+
+            {/* <Dropdown
+              overlay={
+                <Menu
+                  selectable
+                  defaultSelectedKeys={['1']}
+                  items={[
+                    {
+                      key: '1',
+                      label: <Badge status="success" text="开课中" />
+                    },
+                    {
+                      key: '2',
+                      label: <Badge status="default" text="已结束" />
+                    }
+                  ]}
+                />
+              }
+            >
+              <Typography.Link>
+                <Space>
+                  <Badge status="success" text="开课中" />
+                  <DownOutlined />
+                </Space>
+              </Typography.Link>
+            </Dropdown> */}
+            <ClassManaStudentList class_id={showing.class_id} />
+          </div>
         </Modal>
         {/* 主体内容 */}
         <PageWrapper>
@@ -256,11 +257,7 @@ export const ClassManaMain: React.FC<{ classList: classmana[] }> = (props) => {
             </TitleWrapper>
           </HeaderWrapper>
           <ContentWrapper>
-
-            {/* facing problem: 找不到网络请求的data */}
             <Row gutter={[16, 24]}>
-              {/* 在这里遍历的是classmanaList,是先通过网络请求获取的实际data再
-                    赋值出的新死数组,再次是方便配合增删查改,真正使用可用实际网络请求数组(classList) */}
               {classManaList!.map((i, index) => (
 
                 <Col span={8} key={i.class_id}>
@@ -274,7 +271,7 @@ export const ClassManaMain: React.FC<{ classList: classmana[] }> = (props) => {
                           >
                             {i.class_name}
                           </Typography.Text>
-                          <ShareAltOutlined onClick={(e) => (share(i.class_invitation_code), e.stopPropagation())} />
+                          <ShareAltOutlined style={{position: "absolute",right:"20px",top:"25px"}} onClick={(e) => (share(i.class_invitation_code), e.stopPropagation())} />
                         </Space>
                       </>
                     }

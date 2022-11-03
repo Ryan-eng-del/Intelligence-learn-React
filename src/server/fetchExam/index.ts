@@ -11,6 +11,7 @@ import {
   WholeQuestion
 } from './types'
 import { message } from 'antd'
+import { paperTarget } from 'publicComponents/ExamPage/PublishPanel/PublishPanel'
 
 /** 添加试题 */
 export const useCreateQuestion = () => {
@@ -189,5 +190,18 @@ export const useSubmitQuestion = () => {
         message.error('提交失败')
       }
     }
+  )
+}
+
+export const useGetPaperTarget = (courseID:string)=>{
+  return useQuery([`paperTarget-${courseID}`],
+  ()=>{
+    return client.get<paperTarget>({
+      url: `/paper/teacher/get-target`,
+      params: {
+        courseID: courseID
+      }
+    })
+  }
   )
 }

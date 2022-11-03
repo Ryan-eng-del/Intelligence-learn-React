@@ -26,6 +26,7 @@ export type ClassManaPageAction =
   | { type: 'setClassManaList'; payload: ClassMana[] }
 
   export interface ClassManaStudentType{
+    userId:string
     name:string
     mobile:string
     class_name:string

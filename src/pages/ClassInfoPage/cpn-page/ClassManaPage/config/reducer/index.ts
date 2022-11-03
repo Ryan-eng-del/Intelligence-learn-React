@@ -29,8 +29,6 @@ export const ClassManaPageReducer = (
             //一定要有不能删
             item.class_name = action.payload.newClassName
           }
-        } else {
-          item.renameState = false
         }
       })
       return { ...newState }

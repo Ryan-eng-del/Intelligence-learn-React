@@ -80,12 +80,12 @@ export const useShowStudent = (classId: string) => {
     return client.get<ClassManaStudentType[]>(
       {
         url: '/class/show-student',
-        params:{
-          classId:classId
+        params: {
+          classId: classId
         }
       }
     )
-  },{
+  }, {
     onSuccess: () => {
       message.success('查询成功')
     },
@@ -95,14 +95,16 @@ export const useShowStudent = (classId: string) => {
   })
 }
 
-export const useDeleteStudent = ()=>{
-  return useMutation((props:{classId:string,userId:string})=>{
+export const useDeleteStudent = () => {
+  return useMutation((argus: { classId: string, userId: string }) => {
     return client.delete(
-      {url:'/class/remove-student',
-      params:{
-        classId:props.classId,
-        userId:props.userId
-      }}
+      {
+        url: '/class/remove-student',
+        params: {
+          classId: argus.classId,
+          userId: argus.userId
+        }
+      }
     )
   }, {
     onSuccess: () => {
