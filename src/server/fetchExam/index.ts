@@ -1,4 +1,4 @@
-import { useMutation, useQuery} from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
 import {
@@ -11,7 +11,7 @@ import {
   WholeQuestion
 } from './types'
 import { message } from 'antd'
-import { paperTarget } from 'publicComponents/ExamPage/PublishPanel/PublishPanel'
+import { paperTarget, PublishExamType, PublishHomeworkType } from 'publicComponents/ExamPage/types'
 
 /** 添加试题 */
 export const useCreateQuestion = () => {
@@ -170,7 +170,7 @@ export const useShowQuestionForStu = (id?: string) => {
 /** 学生提交题目 */
 export const useSubmitQuestion = () => {
   return useMutation(
-    async (data:{
+    async (data: {
       questionId: string,
       questionType: QuestionType,
       questionAnswer: string,
@@ -193,15 +193,70 @@ export const useSubmitQuestion = () => {
   )
 }
 
-export const useGetPaperTarget = (courseID:string)=>{
+export const useGetPaperTarget = (courseID: string) => {
   return useQuery([`paperTarget-${courseID}`],
-  ()=>{
-    return client.get<paperTarget>({
-      url: `/paper/teacher/get-target`,
+    () => {
+      return client.get<paperTarget>({
+        url: `/paper/teacher/get-target`,
+        params: {
+          courseID: courseID
+        }
+      })
+    }
+  )
+}
+
+export const useReleaseExam = () => {
+  return useMutation((data: PublishExamType) => {
+    return client.post({
+      url: "/paper/teacher/release-exam",
       params: {
-        courseID: courseID
+        paper_id: data.paper_id,
+        student_ids: data.student_ids,
+        is_allow_make_up: data.is_allow_make_up,
+        pass_score: data.pass_score,
+        start_time: data.start_time,
+        end_time: data.end_time,
+        limit_time: data.limit_time,
+        limit_submit_time: data.limit_submit_time,
+        limit_enter_time: data.limit_enter_time,
+        is_distinguish_case: data.is_distinguish_case,
+        remake_time: data.remake_time,
+        is_show_score: data.is_show_score,
+        is_allow_show_paper: data.is_allow_show_paper,
+        is_get_high_score: data.is_get_high_score,
+        is_show_rank: data.is_show_rank,
       }
     })
-  }
-  )
+  }, {
+    onSuccess: () => {
+      message.success('提交成功')
+    },
+    onError: () => {
+      message.error('提交失败')
+    }
+  })
+}
+export const useReleaseHomework = () => {
+  return useMutation((data: PublishHomeworkType) => {
+    return client.post({
+      url: "/paper/teacher/release-exam",
+      params: {
+        paper_id: data.paper_id,
+        student_ids: data.student_ids,
+        is_allow_make_up: data.is_allow_make_up,
+        start_time: data.start_time,
+        end_time: data.end_time,
+        remake_time: data.remake_time,
+        is_get_high_score: data.is_get_high_score,
+      }
+    })
+  }, {
+    onSuccess: () => {
+      message.success('提交成功')
+    },
+    onError: () => {
+      message.error('提交失败')
+    }
+  })
 }

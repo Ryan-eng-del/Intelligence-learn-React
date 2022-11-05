@@ -9,6 +9,7 @@ import {
   HeaderWrapper,
   TitleWrapper
 } from 'publicComponents/PageStyle/PageHeaderWapper'
+import { CurCourseProvider } from 'pages/ClassInfoPage/ClassInfoPage'
 export const TeacherExamPage: React.FC<{ classId: string }> = (classId) => {
   const { mutate, data } = useAddTestPaper(() => {
     navigate(`/editpaper/${data}`)
@@ -31,7 +32,11 @@ export const TeacherExamPage: React.FC<{ classId: string }> = (classId) => {
       </HeaderWrapper>
       {/* 主体内容 */}
       <ContentWrapper>
-        <ExamList></ExamList>
+        <CurCourseProvider>
+          {({ curCourse }) => (
+            <ExamList courseId={curCourse.courseId} />
+          )}
+        </CurCourseProvider>
       </ContentWrapper>
     </>
   )

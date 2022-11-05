@@ -9,6 +9,7 @@ import { useAddTestPaper } from 'server/fetchExam/TestPaper'
 import { useNavigate } from 'react-router-dom'
 import { Button } from 'antd'
 import { ExamList } from 'publicComponents/ExamPage'
+import { CurCourseProvider } from 'pages/ClassInfoPage/ClassInfoPage'
 
 export const ExamPage: React.FC = () => {
   const { mutate } = useAddTestPaper((id: string) => {
@@ -33,7 +34,12 @@ export const ExamPage: React.FC = () => {
         </HeaderWrapper>
         {/* 主体内容 */}
         <ContentWrapper>
-          <ExamList></ExamList>
+          <CurCourseProvider>
+            {({ curCourse }) => (
+              <ExamList courseId={curCourse.courseId} />
+
+            )}
+          </CurCourseProvider>
         </ContentWrapper>
       </PageWrapper>
     </>

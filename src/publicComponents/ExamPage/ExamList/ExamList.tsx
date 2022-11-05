@@ -13,11 +13,13 @@ import { useGetPaperTarget, useShowExamList } from 'server/fetchExam'
 import { ExamListItem } from 'server/fetchExam/types'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 
-export const ExamList: React.FC = () => {
-  const { data: paperTarget } = useGetPaperTarget("1")
+export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
+  const { data, isLoading } = useShowExamList(courseId)
+  const { data: paperTarget } = useGetPaperTarget(courseId)
   const navigate = useNavigate()
   const [statistics, setStatistics] = useState(false)
   const [publish, setPublish] = useState(false)
+  const [paper_id, setPaperId] = useState("")
 
   const columns: ColumnsType<ExamListItem> = [
     {
@@ -44,7 +46,11 @@ export const ExamList: React.FC = () => {
             </Button>
             <Button
               icon={<DeliveredProcedureOutlined />}
-              onClick={() => setPublish(true)}
+              onClick={() => {
+                // console.log(paperId);
+                setPaperId(record.paperId)
+                setPublish(true)
+              }}
             >
               发布
             </Button>
@@ -60,7 +66,6 @@ export const ExamList: React.FC = () => {
     }
   ]
 
-  const { data, isLoading } = useShowExamList('这个应该是课程ID')
   return isLoading ? (
     <BaseLoading />
   ) : (
@@ -70,7 +75,9 @@ export const ExamList: React.FC = () => {
         visible={statistics}
         close={() => setStatistics(false)}
       />
-      <PublishPanel visible={publish} close={() => setPublish(false)} studentTree={paperTarget}/>
+      <PublishPanel visible={publish} close={() => {
+        setPublish(false)
+      }} studentTree={paperTarget!} paperId={paper_id} />
     </>
   )
 }

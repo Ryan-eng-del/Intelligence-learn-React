@@ -22,14 +22,15 @@ import { ClassManaPageReducer, initialState } from './config/reducer'
 import {
   ShareAltOutlined
 } from '@ant-design/icons'
-import { useDeleteClass /*, useReName */ } from 'server/fetchClass'
+import { useDeleteClass, /*, useReName */
+useReName} from 'server/fetchClass'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { ClassMana as classmana } from './config/type'
 import { ClassManaStudentList } from './ClassManaStudentList'
 export const ClassManaMain: React.FC<{ classList: classmana[] }> = (props) => {
   const [state, dispatch] = useReducer(ClassManaPageReducer, { ...initialState, classManaList: props.classList })
   const { mutate: deleteClassMutate } = useDeleteClass()
-  // const { mutate: renameMutate, isSuccess: renameMutateIsSuccess, isLoading: renameMutateIsLoading } = useReName()
+  const { mutate: renameMutate, isSuccess: renameMutateIsSuccess, isLoading: renameMutateIsLoading } = useReName()
 
   const [detailvisable, setDetailVisable] = useState(false)
   const [newName, setNewName] = useState('')
