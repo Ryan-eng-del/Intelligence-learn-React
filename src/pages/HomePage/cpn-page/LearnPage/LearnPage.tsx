@@ -152,7 +152,6 @@ export const LearnPage: React.FC = () => {
                                 <ClassCard
                                   id={item.class_id}
                                   cname={item.course_name}
-                                  tname={item.course_name}
                                   iurl={item.course_cover || null}
                                   optimistic={item.optimistic}
                                   Permission={false}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Input, Button } from 'antd'
 import {
   EyeInvisibleOutlined,
@@ -14,6 +14,11 @@ export const LoginForm: React.FC<{
   mutate: any
   routeToRegister: () => void
 }> = ({ mutate, routeToRegister }) => {
+
+  const [password,setPassword] = useState('');
+  const [userName,setUserName] = useState('');
+
+
   return (
     <LoginFormWrapper>
       <LoginTitle>
@@ -23,11 +28,15 @@ export const LoginForm: React.FC<{
         size="large"
         placeholder="请您输入用户名"
         prefix={<UserOutlined />}
+        value={userName}
+        onChange={({target})=>setUserName(target.value)}
         style={{ marginBottom: '20px' }}
       />
       <Input.Password
         placeholder="请您输入密码"
         prefix={<CompassOutlined />}
+        value={password}
+        onChange={({target})=>setPassword(target.value)}
         iconRender={(visible) =>
           visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
         }
@@ -37,7 +46,7 @@ export const LoginForm: React.FC<{
         <Button
           type="primary"
           onClick={() => {
-            mutate({ name: 'jk', password: 'jjk' })
+            mutate({ name: userName, password: password })
           }}
           icon={<CheckOutlined />}
         >

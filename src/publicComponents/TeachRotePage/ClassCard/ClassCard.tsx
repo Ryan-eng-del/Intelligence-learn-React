@@ -6,7 +6,6 @@ import { AnyFn } from 'types'
 import { CardBodyWrapper, CardHeadWrapper, CardWrapper } from './ClassCardStyle'
 interface ClassCard {
   id: string
-  tname: string
   cname: string
   iurl: string | null
   optimistic?: boolean

@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import {
   TeachPageWrapper,
   TeachClassWrapper,
@@ -28,6 +28,8 @@ export const TeachPage = () => {
     course_cover: imgUrl,
     course_name: className
   })
+
+
   const handleChange: UploadProps['onChange'] = (
     info: UploadChangeParam<UploadFile>
   ) => {
@@ -97,7 +99,7 @@ export const TeachPage = () => {
                 listType="picture-card"
                 className="avatar-uploader"
                 showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                action="#"
                 beforeUpload={beforeUpload}
                 onChange={handleChange}
               >
@@ -114,8 +116,6 @@ export const TeachPage = () => {
       <TeachPageWrapper>
         <TeachHeaderWrapper>
           <TeachTitleWrapper>
-            <Link to={'/mk-graph'}>mk-test-graph</Link>
-
             <div className="teach-page-title">我教的课程</div>
             <Button type="primary" onClick={showModal}>
               新建课程
@@ -133,40 +133,21 @@ export const TeachPage = () => {
             />
           ) : (
             <>
-              {Array.from({ length: (data?.length % 4) + 1 }).map((v, i) => {
-                return (
+              {Array.from({ length: ((data ?? []).length % 4) + 1 }).map((v, i) =>
                   <Row key={i} style={{ marginBottom: '30px' }}>
-                    {data?.map((item: any, index: any) => {
-                      return (
-                        index >= i * 4 &&
-                        index < (i + 1) * 4 &&
-                        (item.optimistic ? (
-                          <Col span={6} key={item.course_id}>
-                            <ClassCard
-                              id={item.course_id}
-                              cname={item.course_name}
-                              tname={item.course_name}
-                              iurl={item.courses_cover}
-                              optimistic={item.optimistic}
-                              Permission={true}
-                            ></ClassCard>
-                          </Col>
-                        ) : (
-                          <Col span={6} key={item.course_id}>
-                            <ClassCard
-                              id={item.course_id}
-                              cname={item.course_name}
-                              tname={item.course_name}
-                              iurl={item.courses_cover}
-                              Permission={true}
-                            ></ClassCard>
-                          </Col>
-                        ))
-                      )
-                    })}
+                    {data?.map((item, index) =>
+                      index >= i * 4 && index < (i + 1) * 4 &&
+                      <Col span={6} key={item.courseId}>
+                        <ClassCard
+                          id={item.courseId}
+                          cname={item.courseName}
+                          iurl={item.coursesCover}
+                          Permission={true}
+                        ></ClassCard>
+                      </Col>
+                    )}
                   </Row>
-                )
-              })}
+                )}
             </>
           )}
         </TeachClassWrapper>

@@ -6,3 +6,10 @@ export interface CourseInfo {
   teacher_name?: string
   optimistic?: boolean
 }
+
+export type  CourseList = {
+  courseId: string
+  courseName: string
+  coursesCover: string
+  courseDescribe: string
+}
