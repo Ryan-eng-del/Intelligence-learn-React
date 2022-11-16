@@ -1,24 +1,17 @@
-import React, { useReducer } from 'react'
-import {
-  TeachPageWrapper,
-  TeachClassWrapper,
-  TeachHeaderWrapper,
-  TeachRoutePageWrapper,
-  TeachTitleWrapper,
-  ModalContextWrapper,
-  UploadImageWrapper
-} from './TeachPageStyle'
+import { useReducer } from 'react'
+import { UploadImageWrapper } from './TeachPageStyle'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { Col, Row, Upload } from 'antd'
+import { Input, Modal, Row, Upload } from 'antd'
 import type { UploadChangeParam } from 'antd/es/upload'
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
-import { Button, Modal, Input } from 'antd'
-import { getBase64, beforeUpload } from './config/util'
-import { TeachRoutePageReducer, initialState } from './config/reducer'
+import { beforeUpload, getBase64 } from './config/util'
+import { initialState, TeachRoutePageReducer } from './config/reducer'
 import { ClassCard } from 'publicComponents/TeachRotePage'
 import { useCreateClass, useShowCreateClass } from 'server/fetchCourse'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
-import { Link } from 'react-router-dom'
+import { PrimaryButton } from '../../../../publicComponents/Button/index'
+import { GlobalHeader } from '../../../../publicComponents/GlobalHeader/index'
+import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/index'
 
 export const TeachPage = () => {
   const [state, dispatch] = useReducer(TeachRoutePageReducer, initialState)
@@ -28,9 +21,7 @@ export const TeachPage = () => {
     course_cover: imgUrl,
     course_name: className
   })
-  const handleChange: UploadProps['onChange'] = (
-    info: UploadChangeParam<UploadFile>
-  ) => {
+  const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
     if (info.file.status === 'uploading') {
       dispatch({ type: 'setUploadLoading', payload: true })
       return
@@ -67,7 +58,7 @@ export const TeachPage = () => {
   }
 
   return (
-    <TeachRoutePageWrapper>
+    <>
       <>
         <Modal
           title="新建课程"
@@ -77,98 +68,72 @@ export const TeachPage = () => {
           okText="确认"
           cancelText="取消"
         >
-          <ModalContextWrapper>
-            <label className="classname-label" htmlFor="classname">
-              请输入课程名称
-            </label>
-            <Input
-              placeholder="课程名称"
-              id="classname"
-              value={className}
-              onChange={(e) => {
-                dispatch({ type: 'setClassName', payload: e.target.value })
-              }}
-            />
-            <div className="classname-label">请上传课程图片</div>
-            <UploadImageWrapper>
-              <img src={require('assets/img/class.jpg')} alt="默认课程图片" />
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={handleChange}
-              >
-                {imgUrl ? (
-                  <img src={imgUrl} alt="avatar" style={{ width: '100%' }} />
-                ) : (
-                  uploadButton
-                )}
-              </Upload>
-            </UploadImageWrapper>
-          </ModalContextWrapper>
+          <label className="classname-label" htmlFor="classname">
+            请输入课程名称
+          </label>
+          <Input
+            placeholder="课程名称"
+            id="classname"
+            value={className}
+            onChange={(e) => {
+              dispatch({ type: 'setClassName', payload: e.target.value })
+            }}
+          />
+          <div className="classname-label">请上传课程图片</div>
+          <UploadImageWrapper>
+            <img src={require('assets/img/class.jpg')} alt="默认课程图片" />
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              beforeUpload={beforeUpload}
+              onChange={handleChange}
+            >
+              {imgUrl ? <img src={imgUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+            </Upload>
+          </UploadImageWrapper>
         </Modal>
       </>
-      <TeachPageWrapper>
-        <TeachHeaderWrapper>
-          <TeachTitleWrapper>
-            <div className="teach-page-title">我教的课程</div>
-            <Button type="primary" onClick={showModal}>
-              新建课程
-            </Button>
-          </TeachTitleWrapper>
-        </TeachHeaderWrapper>
-        <TeachClassWrapper>
-          {isLoading ? (
-            <BaseLoading
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                marginTop: '24px'
-              }}
-            />
-          ) : (
-            <>
-              {Array.from({ length: (data?.length % 4) + 1 }).map((v, i) => {
-                return (
-                  <Row key={i} style={{ marginBottom: '30px' }}>
-                    {data?.map((item: any, index: any) => {
-                      return (
-                        index >= i * 4 &&
-                        index < (i + 1) * 4 &&
-                        (item.optimistic ? (
-                          <Col span={6} key={item.course_id}>
-                            <ClassCard
-                              id={item.course_id}
-                              cname={item.course_name}
-                              tname={item.course_name}
-                              iurl={item.courses_cover}
-                              optimistic={item.optimistic}
-                              Permission={true}
-                            ></ClassCard>
-                          </Col>
-                        ) : (
-                          <Col span={6} key={item.course_id}>
-                            <ClassCard
-                              id={item.course_id}
-                              cname={item.course_name}
-                              tname={item.course_name}
-                              iurl={item.courses_cover}
-                              Permission={true}
-                            ></ClassCard>
-                          </Col>
-                        ))
+      <GlobalHeader
+        title="我教的课程"
+        tool={<PrimaryButton title="新建课程" handleClick={showModal}></PrimaryButton>}
+      ></GlobalHeader>
+      <GlobalRightLayout>
+        {isLoading ? (
+          <BaseLoading
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginTop: '24px'
+            }}
+          />
+        ) : (
+          <>
+            {Array.from({ length: (data?.length % 4) + 1 }).map((v, i) => {
+              return (
+                <Row key={i} style={{ marginBottom: '30px' }}>
+                  {data?.map((item: any, index: any) => {
+                    return (
+                      index >= i * 4 &&
+                      index < (i + 1) * 4 && (
+                        <ClassCard
+                          id={item.course_id}
+                          cname={item.course_name}
+                          tname={item.course_name}
+                          iurl={item.courses_cover}
+                          Permission={true}
+                        ></ClassCard>
                       )
-                    })}
-                  </Row>
-                )
-              })}
-            </>
-          )}
-        </TeachClassWrapper>
-      </TeachPageWrapper>
-    </TeachRoutePageWrapper>
+                    )
+                  })}
+                </Row>
+              )
+            })}
+          </>
+        )}
+      </GlobalRightLayout>
+    </>
   )
 }

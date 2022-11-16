@@ -14,9 +14,7 @@ export const createHomeNavMap = (): globalThis.Map<string, string> => {
     { name: '/profile', select: '5' }
   ]
 
-  configObj.forEach((configObj: SelectObj) =>
-    map.set(configObj.name, configObj.select)
-  )
+  configObj.forEach((configObj: SelectObj) => map.set(configObj.name, configObj.select))
   return map
 }
 
@@ -29,11 +27,10 @@ export const createClassNavMap = (): globalThis.Map<string, string> => {
     { name: '/exam', select: '3' },
     { name: '/resource', select: '4' },
     { name: '/discuss', select: '5' },
+    { name: '/questionbank', select: '6' },
     { name: '/knowledge', select: '7' }
   ]
 
-  configObj.forEach((configObj: SelectObj) =>
-    map.set(configObj.name, configObj.select)
-  )
+  configObj.forEach((configObj: SelectObj) => map.set(configObj.name, configObj.select))
   return map
 }

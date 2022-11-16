@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Tabs, Badge, List, Button, Modal, Typography } from 'antd'
+
 const { TabPane } = Tabs
 const { Paragraph } = Typography
 import {
@@ -10,7 +11,8 @@ import {
   HeartFilled,
   ContainerOutlined
 } from '@ant-design/icons'
-import { InboxWrapper } from './InobxPageStyle'
+import { GlobalHeader } from '../../../../publicComponents/GlobalHeader/index'
+import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/index'
 
 type msgItem = {
   tag: string
@@ -71,7 +73,8 @@ export const InboxPage: React.FC = () => {
 
   return (
     <>
-      <InboxWrapper>
+      <GlobalHeader title="消息通知"></GlobalHeader>
+      <GlobalRightLayout>
         <Tabs
           activeKey={chosen}
           onChange={(key: string) => {
@@ -139,35 +142,23 @@ export const InboxPage: React.FC = () => {
                   key={item.msgID}
                   avatar={<TeamOutlined />}
                   title={<Badge dot={!item.Readed}>{item.from}</Badge>}
-                  description={
-                    <Paragraph ellipsis={true}>{item.content}</Paragraph>
-                  }
+                  description={<Paragraph ellipsis={true}>{item.content}</Paragraph>}
                 />
-                <Button onClick={() => favMsg(item)}>
-                  {item.isFavority ? <HeartFilled /> : <HeartOutlined />}
-                </Button>
+                <Button onClick={() => favMsg(item)}>{item.isFavority ? <HeartFilled /> : <HeartOutlined />}</Button>
               </List.Item>
             </>
           )}
         />
-      </InboxWrapper>
-      <Modal
-        visible={showModal}
-        footer={null}
-        onCancel={() => setShowModal(false)}
-        title={onDisplayMsg?.from}
-      >
+      </GlobalRightLayout>
+      <Modal visible={showModal} footer={null} onCancel={() => setShowModal(false)} title={onDisplayMsg?.from}>
         {onDisplayMsg?.content}
         <br />
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi harum
-        tenetur nobis quae delectus soluta enim necessitatibus alias sed
-        possimus aspernatur laboriosam, sunt nisi deleniti accusantium vero
-        quas? Ut, culpa?
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi harum tenetur nobis quae delectus soluta enim
+        necessitatibus alias sed possimus aspernatur laboriosam, sunt nisi deleniti accusantium vero quas? Ut, culpa?
         <br />
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ex natus
-        magnam voluptates assumenda id qui, possimus cumque eligendi dolorem
-        omnis perspiciatis dolores animi. Voluptatum, facere excepturi.
-        Architecto fugiat placeat adipisci!
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ex natus magnam voluptates assumenda id qui, possimus
+        cumque eligendi dolorem omnis perspiciatis dolores animi. Voluptatum, facere excepturi. Architecto fugiat
+        placeat adipisci!
       </Modal>
     </>
   )

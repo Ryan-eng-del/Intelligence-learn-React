@@ -1,15 +1,13 @@
 import styled from 'styled-components'
 import { RightSideWrapper } from 'publicComponents/PageStyle/TwoColumnLayout/index'
-export const CreateExamRoutePageWrapper = styled(RightSideWrapper)`
+
+export const CreateExamRoutePageWrapper = styled.div`
+  width: 879px;
   animation: both;
   background-color: white;
   color: #000;
+  height: 100%;
   margin-left: 10px;
-  height: 90vh;
-  padding: 40px;
-  padding-top: 0px;
+  padding: 25px 20px 10px 20px;
   border-radius: 5px;
-  overflow-y: overlay;
-  overflow: auto;
-  margin-bottom: 50px;
 `

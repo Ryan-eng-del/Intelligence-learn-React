@@ -1,12 +1,9 @@
 import React from 'react'
-import {
-  PageWrapper,
-  ContentWrapper,
-  HeaderWrapper,
-  TitleWrapper
-} from 'publicComponents/PageStyle/PageHeaderWapper'
+import { HeaderWrapper } from 'publicComponents/PageStyle/PageHeaderWapper'
 import { Button, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
+import { GlobalHeader } from '../../../../publicComponents/GlobalHeader/index'
+import { GlobalRightLayout } from 'publicComponents/GlobalLayout'
 
 enum statusType {
   'undone' = '未提交',
@@ -80,16 +77,14 @@ export const ExamSummary: React.FC = () => {
 
   return (
     <>
-      <PageWrapper>
+      <>
         <HeaderWrapper>
-          <TitleWrapper>
-            <div className="page-title">我的作业 & 考试</div>
-          </TitleWrapper>
+          <GlobalHeader title="我的作业和考试"></GlobalHeader>
         </HeaderWrapper>
-        <ContentWrapper>
+        <GlobalRightLayout>
           <Table columns={columns} dataSource={data} />
-        </ContentWrapper>
-      </PageWrapper>
+        </GlobalRightLayout>
+      </>
     </>
   )
 }

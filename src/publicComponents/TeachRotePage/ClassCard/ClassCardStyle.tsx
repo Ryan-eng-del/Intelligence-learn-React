@@ -1,11 +1,12 @@
 import styled from 'styled-components'
 export const CardWrapper = styled.div`
-  /* background-color: var(--navy); */
   width: 200px;
+  overflow: hidden;
+  border-radius: 14px;
   color: var(--navy);
   height: 250px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  margin-right: 40px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   transition: transform 300ms;
   &:hover {
     transform: translateY(-6px);
@@ -37,7 +38,7 @@ export const CardBodyWrapper = styled.div`
     border-color: transparent;
   }
   .tname {
-    font-size: 17px;
+    font-size: 14px;
     margin-bottom: 5px;
   }
 `

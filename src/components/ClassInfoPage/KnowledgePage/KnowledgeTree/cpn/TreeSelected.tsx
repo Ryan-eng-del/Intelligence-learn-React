@@ -1,19 +1,16 @@
 import { Tree } from 'antd'
 import React from 'react'
+
 export interface TreeSelected {
-  curCheckId?: any
+  curCheckId?: string[]
   handleRelateCheck: any
-  relateKeys: any
+  relateKeys: string[]
   handleRelateExpand: any
   checkTreeData: any
 }
-export const TreeSelected: React.FC<TreeSelected> = ({
-  checkTreeData,
-  curCheckId,
-  handleRelateCheck,
-  handleRelateExpand,
-  relateKeys
-}) => {
+
+export const TreeSelected = (props: TreeSelected) => {
+  const { checkTreeData, curCheckId, handleRelateCheck, handleRelateExpand, relateKeys } = props
   return (
     <Tree
       checkStrictly={true}

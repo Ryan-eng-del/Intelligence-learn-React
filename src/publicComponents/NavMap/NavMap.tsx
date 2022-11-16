@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 import { Menu } from 'antd'
 import { MenuProps } from 'rc-menu/lib/Menu'
 import { useEffect } from 'react'
@@ -13,15 +13,8 @@ interface NavMapProps extends Pick<MenuProps, NavOmitMenu> {
   sliceCount: number
 }
 
-export const NavMapMenu = ({
-  navMap,
-  setCurSelect,
-  curSelect,
-  items,
-  sliceCount
-}: NavMapProps) => {
+export const NavMapMenu = ({ navMap, setCurSelect, curSelect, items, sliceCount }: NavMapProps) => {
   const { pathname } = useLocation()
-  console.log(navMap.get(pathname.slice(sliceCount)))
 
   useEffect(() => setCurSelect(navMap.get(pathname.slice(sliceCount))!), [])
   const handleOnSelect = (selectInfo: any) => setCurSelect(selectInfo.key)

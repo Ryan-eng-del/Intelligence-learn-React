@@ -1,22 +1,20 @@
 import React from 'react'
 import { Tabs } from 'antd'
+
 const { TabPane } = Tabs
-import {
-  UserOutlined,
-  LockOutlined,
-  MessageOutlined,
-  BgColorsOutlined
-} from '@ant-design/icons'
+import { UserOutlined, LockOutlined, MessageOutlined, BgColorsOutlined } from '@ant-design/icons'
 import { AccountSecurity } from './AccountSecurity/AccountSecurity'
 import { BasicInformation } from './BasicInformation/BasicInformation'
 import { Notification } from './Notification/Notification'
 import { Personalization } from './Personalization/Personalization'
-import { ProfileWapper } from './ProfilePageStyle'
+import { GlobalHeader } from '../../../../publicComponents/GlobalHeader/index'
+import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/index'
 
 export const ProfilePage: React.FC = () => {
   return (
     <>
-      <ProfileWapper>
+      <GlobalHeader title="关于我"></GlobalHeader>
+      <GlobalRightLayout>
         <Tabs tabPosition="left" centered>
           <TabPane
             tab={
@@ -63,7 +61,7 @@ export const ProfilePage: React.FC = () => {
             <Personalization></Personalization>
           </TabPane>
         </Tabs>
-      </ProfileWapper>
+      </GlobalRightLayout>
     </>
   )
 }

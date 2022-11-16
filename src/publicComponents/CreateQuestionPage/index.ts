@@ -1,7 +1,6 @@
 export { ShowDetails } from './QuestionPreview/ShowDetails/ShowDetails'
 export { QuestionEditPage } from './QuestionPreview/QuestionEdit/QuestionEditPage'
 export { SingleChoice } from './QuestionType/SingleChoice/SingleChoice'
-export { MultipleChoice } from './QuestionType/MultipleChoice/MultipleChoice'
 export { FillBlank } from './QuestionType/FillBlank/FillBlank'
 export { ShortAnswer } from './QuestionType/ShortAnswer/ShortAnswer'
 export { Judge } from './QuestionType/Judge/Judge'

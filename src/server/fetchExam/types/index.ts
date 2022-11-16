@@ -7,6 +7,17 @@ export enum QuestionType {
   'judge'
 }
 
+export enum QuestionTypeAction {
+  'addSingle',
+  'addMultiple',
+  'addFillBlank',
+  'addShortAnswer',
+  'addJudge'
+}
+
+export type QuestionActionString = 'singleChoice' | 'multipleChoice' | 'fillBlankData' | 'judgeChoice' | 'shortAnswer'
+
+export type QuestionConstantString = '0' | '1' | '2' | '3' | '4'
 ///////////////////////////////////////////////////////////////（网络实体）
 
 /** （网络实体）获取的试卷的类型 */
@@ -23,6 +34,7 @@ export type PostTestPaper = {
   questionsScore: number[] // 保存题目的分数
   questionsIds: string[] // 仅保存题目的ID
 }
+
 /////////////////////////////////////////////////////////////// （本地类型）
 
 /** （本地类型）题目在试卷中的类型 */

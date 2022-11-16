@@ -2,15 +2,13 @@ import React, { useEffect } from 'react'
 import { Tree } from 'antd'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { ChapterTreeModal } from './cpn/ChapterTreeModal'
-import { useChapterUI } from 'hook/useChapterStudy/useChapterUI'
 import { expandOnMount } from 'helper/chapterStudyTree'
 import styled from 'styled-components'
 import { useKnowledgeControl } from '../../../../hook/useKnowledge/useKnowledgeControl'
 import { useCheckKnowledgeTreeUI } from '../../../../hook/useKnowledge/useCheckKnowledgeTreeUI'
 
-export const ChapterStudyTree = () => {
-  /*UI驱动层*/
-  const { treeData, chapterControl } = useChapterUI(true);
+export const ChapterStudyTree = (props: { treeData: any; chapterControl: Record<string, any> }) => {
+  const { treeData, chapterControl } = props
   const { knowledgeControl } = useKnowledgeControl()
   const { checkTreeData } = useCheckKnowledgeTreeUI(knowledgeControl.data)
   // 每次挂载后全部展开
@@ -30,16 +28,7 @@ export const ChapterStudyTree = () => {
         relateKeys={knowledgeControl.relateKeys}
         handleOk={chapterControl.handleOk}
       />
-      <a
-        type={'primary'}
-        className={'add-chapter'}
-        onClick={() => {
-          chapterControl.handleClickAddChapter()
-        }}
-        style={{ marginBottom: '35px' }}
-      >
-        添加章节
-      </a>
+
       {chapterControl.isLoading ? (
         <BaseLoading
           style={{
@@ -72,6 +61,7 @@ const ChapterStudyTreeWrapper = styled.div`
     font-size: 14px;
     line-height: 36px;
     background: linear-gradient(140deg, #6cc7ff 0%, #5a33ff 100%);
+
     &:hover {
       background: linear-gradient(140deg, #89d9ff 0%, #6c4aff 100%);
     }

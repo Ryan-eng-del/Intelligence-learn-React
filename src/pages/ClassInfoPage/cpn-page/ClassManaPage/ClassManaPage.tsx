@@ -1,10 +1,5 @@
 import React, { useReducer, useState } from 'react'
-import {
-  PageWrapper,
-  ContentWrapper,
-  HeaderWrapper,
-  TitleWrapper
-} from 'publicComponents/PageStyle/PageHeaderWapper'
+import { ContentWrapper, HeaderWrapper, TitleWrapper } from 'publicComponents/PageStyle/PageHeaderWapper'
 import {
   Card,
   Col,
@@ -22,11 +17,10 @@ import {
   Popconfirm
 } from 'antd'
 import { ClassManaPageReducer, initialState } from './config/reducer'
-import {
-  DownOutlined,
-  HighlightOutlined,
-  ShareAltOutlined
-} from '@ant-design/icons'
+import { DownOutlined, HighlightOutlined, ShareAltOutlined } from '@ant-design/icons'
+import { GlobalHeader } from 'publicComponents/GlobalHeader'
+import { PrimaryButton } from 'publicComponents/Button'
+import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/index'
 
 export const ClassManaPage: React.FC = () => {
   const [state, dispatch] = useReducer(ClassManaPageReducer, initialState)
@@ -180,108 +174,14 @@ export const ClassManaPage: React.FC = () => {
         </Dropdown>
       </Modal>
       {/* 主体内容 */}
-      <PageWrapper>
-        <HeaderWrapper>
-          <TitleWrapper>
-            <div className="page-title">班级管理</div>
-            <Button type="primary" onClick={addClass} className="add-button-X">
-              新建班级
-            </Button>
-          </TitleWrapper>
-        </HeaderWrapper>
+      <GlobalHeader
+        title="班级管理"
+        tool={<PrimaryButton title="添加章节" handleClick={addClass}></PrimaryButton>}
+      ></GlobalHeader>
+
+      <GlobalRightLayout>
+        {' '}
         <ContentWrapper>
-          {/* <List
-            itemLayout="horizontal"
-            dataSource={classManaList}
-            size="large"
-            renderItem={(item) => (
-              <List.Item key={item.id} style={{ height: '80px' }}>
-                {item.renameState ? (
-                  <div style={{ display: 'flex' }}>
-                    <Input
-                      placeholder="请输入新的班级名称"
-                      id="newclassname"
-                      style={{ width: '300px' }}
-                      value={newClassName}
-                      onChange={(e) => {
-                        //改的名儿不为空
-                        // if (e.target.value.trim()) {
-                        dispatch({
-                          type: 'setNewClassName',
-                          payload: e.target.value
-                        })
-                        // }
-                      }}
-                    />
-                    <Button
-                      type="primary"
-                      style={{
-                        height: '37px',
-                        width: '40px',
-                        marginLeft: '30px',
-                        color: 'white',
-                        backgroundColor: 'green'
-                      }}
-                      onClick={() => {
-                        renameFun_certain(item)
-                      }}
-                    >
-                      √
-                    </Button>
-                    <Button
-                      type="primary"
-                      style={{
-                        height: '37px',
-                        width: '40px',
-                        marginLeft: '10px',
-                        color: 'white',
-                        backgroundColor: 'red'
-                      }}
-                      onClick={() => {
-                        renameFun_cancel(item)
-                      }}
-                    >
-                      ×
-                    </Button>
-                  </div>
-                ) : (
-                  <List.Item.Meta
-                    title={<a href="https://ant.design">{item.className}</a>}
-                    description={'学生人数：' + item.studentAmount}
-                  />
-                )}
-                <div>
-                  <Button
-                    type="link"
-                    style={{ color: 'orange' }}
-                    onClick={() => {
-                      renameFun(item)
-                    }}
-                  >
-                    重命名
-                  </Button>
-                  <Button
-                    type="link"
-                    style={{ color: 'red' }}
-                    onClick={() => {
-                      removeClassFun(item.id)
-                    }}
-                  >
-                    删除
-                  </Button>
-                  <Button
-                    type="link"
-                    style={{ color: 'purple' }}
-                    onClick={() => {
-                      console.log('重命名')
-                    }}
-                  >
-                    管理
-                  </Button>
-                </div>
-              </List.Item>
-            )}
-          /> */}
           <Row gutter={[16, 24]}>
             {classManaList.map((i) => (
               <Col span={8} key={i.id}>
@@ -289,10 +189,7 @@ export const ClassManaPage: React.FC = () => {
                   title={
                     <>
                       <Space style={{ fontSize: '24px' }}>
-                        <Typography.Text
-                          style={{ width: '220px' }}
-                          ellipsis={true}
-                        >
+                        <Typography.Text style={{ width: '220px' }} ellipsis={true}>
                           {i.className}
                         </Typography.Text>
                         <ShareAltOutlined onClick={(e) => share(i, e)} />
@@ -302,22 +199,16 @@ export const ClassManaPage: React.FC = () => {
                   style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
                   onClick={() => (setshowing(i), setDetailVisable(true))}
                 >
-                  <div
-                    style={{ display: 'flex', justifyContent: 'space-between' }}
-                  >
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     共 {i.studentAmount} 位学生
-                    <Badge
-                      status="success"
-                      text="开课中"
-                      style={{ color: '#999' }}
-                    />
+                    <Badge status="success" text="开课中" style={{ color: '#999' }} />
                   </div>
                 </Card>
               </Col>
             ))}
           </Row>
         </ContentWrapper>
-      </PageWrapper>
+      </GlobalRightLayout>
     </>
   )
 }

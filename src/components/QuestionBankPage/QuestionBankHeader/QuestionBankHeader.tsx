@@ -1,14 +1,9 @@
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Input, Radio, Tooltip } from 'antd'
-import { CurCourseProvider } from 'pages/ClassInfoPage/ClassInfoPage'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { QuestionType } from '../../../server/fetchExam/types/index'
-import {
-  QuestionBankHeaderWrapper,
-  SelectiveList,
-  KnowledgePoint
-} from '../QuestionBankHeader/QuestionBankHeaderStyle'
+import { QuestionBankHeaderWrapper, SelectiveList, KnowledgePoint } from '../QuestionBankHeader/QuestionBankHeaderStyle'
 export const QuestionBankHeader: React.FC<{
   changeType: (type: string) => void
   showAll: () => void
@@ -34,22 +29,12 @@ export const QuestionBankHeader: React.FC<{
     [QuestionType.multiple]: { title: '多选题' },
     [QuestionType.fillBlank]: { title: '填空题' },
     [QuestionType.shortAnswer]: { title: '简答题' },
-    // [QuestionType.]: { title: '编程题' },
     [QuestionType.judge]: { title: '判断题' }
   }
 
   return (
     <>
       <QuestionBankHeaderWrapper>
-        <Button
-          type="primary"
-          // style={{ float: 'right' }}
-          onClick={() => {
-            navigate('/classinfo', { replace: true })
-          }}
-        >
-          返回
-        </Button>
         {/* 搜索题目 */}
         <Input.Search
           allowClear
@@ -60,25 +45,16 @@ export const QuestionBankHeader: React.FC<{
           className="search"
         />
 
-        {/* 添加题目 */}
-        <CurCourseProvider>
-          {
-            ({curCourse})=>
-            curCourse.Permission
-            ? <Tooltip title="添加题目" placement="bottom">
-              <Button
-                type="primary"
-                shape="circle"
-                icon={<PlusOutlined className="addicon" />}
-                size="large"
-                className="aqbtn"
-                onClick={() => navigate('/createquestion', { replace: true })}
-              />
-            </Tooltip>
-            : <></>
-          }
-        </CurCourseProvider>
-
+        <Tooltip title="添加题目" placement="bottom">
+          <Button
+            type="primary"
+            shape="circle"
+            icon={<PlusOutlined className="addicon" />}
+            size="large"
+            className="aqbtn"
+            onClick={() => navigate('/createquestion', { replace: true })}
+          />
+        </Tooltip>
 
         {/* 题型、知识点管理 */}
         <SelectiveList>
@@ -90,12 +66,7 @@ export const QuestionBankHeader: React.FC<{
               }}
               defaultValue="all"
             >
-              <Button
-                type="primary"
-                value="all"
-                className="choosebtn"
-                onClick={showAll}
-              >
+              <Button type="primary" value="all" className="choosebtn" onClick={showAll}>
                 所有
               </Button>
               {questionType.map((item, index) => (
@@ -119,7 +90,6 @@ export const QuestionBankHeader: React.FC<{
             <Button type="dashed" className="choosebtn">
               点击选择知识点
             </Button>
-            {/* 弹出模态框 */}
           </KnowledgePoint>
         </SelectiveList>
       </QuestionBankHeaderWrapper>

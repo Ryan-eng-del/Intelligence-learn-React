@@ -1,24 +1,11 @@
 import React, { useState } from 'react'
-import {
-  UploadOutlined,
-  InboxOutlined,
-  UnorderedListOutlined,
-  AppstoreOutlined
-} from '@ant-design/icons'
-import { Modal, Button, Upload, message } from 'antd'
+import { InboxOutlined } from '@ant-design/icons'
+import { Modal, Upload, message } from 'antd'
 import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
-import {
-  HeaderWrapper,
-  TitleWrapper
-} from 'publicComponents/PageStyle/PageHeaderWapper'
-export const Header: React.FC<{
-  reflush: () => void
-  switchMode: (a: boolean) => void
-}> = ({ reflush, switchMode }) => {
-  const [upLoadModalVisible, setUpLoadModalVisible] = useState(false)
-  const showUpLoadModal = () => {
-    setUpLoadModalVisible(true)
-  }
+
+export const Header = (props: { reflush: () => void; upLoadModalVisible: boolean; setUpLoadModalVisible: any }) => {
+  const { upLoadModalVisible, setUpLoadModalVisible, reflush } = props
+
 
   const UploadModalOK = () => {
     setUpLoadModalVisible(false)
@@ -29,7 +16,7 @@ export const Header: React.FC<{
     setUpLoadModalVisible(false)
   }
 
-  const props = {
+  const Iprops = {
     name: 'file',
     multiple: true,
     action: ' ',
@@ -50,14 +37,9 @@ export const Header: React.FC<{
   }
   return (
     <>
-      <Modal
-        title="上传资源"
-        visible={upLoadModalVisible}
-        onOk={UploadModalOK}
-        onCancel={UploadModalCancel}
-      >
+      <Modal title="上传资源" visible={upLoadModalVisible} onOk={UploadModalOK} onCancel={UploadModalCancel}>
         {/* 上传文件部分 */}
-        <Upload.Dragger {...props}>
+        <Upload.Dragger {...Iprops}>
           <p className="ant-upload-drag-icon">
             <InboxOutlined />
           </p>
@@ -67,24 +49,6 @@ export const Header: React.FC<{
         {/* 知识点选择部分 */}
         <KnowledgeSeletor></KnowledgeSeletor>
       </Modal>
-
-      <HeaderWrapper>
-        <TitleWrapper>
-          <div className="page-title">课程资源</div>
-          <span>
-            <UnorderedListOutlined onClick={() => switchMode(true)} />
-            &nbsp;&nbsp;&nbsp;
-            <AppstoreOutlined onClick={() => switchMode(false)} />
-          </span>
-          <Button
-            type="primary"
-            icon={<UploadOutlined />}
-            onClick={showUpLoadModal}
-          >
-            上传文件
-          </Button>
-        </TitleWrapper>
-      </HeaderWrapper>
     </>
   )
 }

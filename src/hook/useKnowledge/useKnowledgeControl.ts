@@ -19,6 +19,7 @@ export const useKnowledgeControl = () => {
     })
   /*删除知识点*/
   const { deleteKnowledgePoint } = useDeleteKnowledgePoints({ data, dispatchChapter: dispatch })
+
   /*重命名知识点*/
   const { confirmRename, cancelRename, curRenameNode, renameKnowledgeNode } = useRenameKnowledgePoints({
     data,

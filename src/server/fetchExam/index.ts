@@ -1,37 +1,19 @@
 import { useMutation, useQuery, UseQueryResult } from '@tanstack/react-query'
 import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
-import {
-  ExamListItem,
-  QuestionBank,
-  QuestionData,
-  QuestionDataWithID,
-  QuestionType,
-  WholeQuestion
-} from './types'
+import { ExamListItem, QuestionBank, QuestionData, QuestionDataWithID, QuestionType, WholeQuestion } from './types'
 import { message } from 'antd'
 
 /** 添加试题 */
 export const useCreateQuestion = () => {
-  return useMutation(
-    async (QuestionItem: QuestionData) => {
-      await delayFetch()
-      return client.post({
-        url: 'question/add-question',
-        data: {
-          ...QuestionItem
-        }
-      })
-    },
-    {
-      onSuccess: () => {
-        message.success('保存成功')
-      },
-      onError: () => {
-        message.error('保存失败')
+  return useMutation(async (QuestionItem: QuestionData) => {
+    return client.post({
+      url: 'question/teacher/create',
+      data: {
+        ...QuestionItem
       }
-    }
-  )
+    })
+  })
 }
 
 /** 显示试题库 */
@@ -74,35 +56,25 @@ export const useShowExamList = (courseID: string) => {
 
 /** 添加空试题 */
 export const useCreateEmptyQuestion = () => {
-  return useMutation(
-    async (type: QuestionType) => {
-      // await delayFetch()
-      const defData = {
-        questionDescription: '',
-        courseId: '',
-        pointIds: [],
-        questionOption: 'dsadas<>fr<>ads<>dsads',
-        questionAnswerExplain: '',
-        questionAnswerNum: 1,
-        questionDifficulty: 1,
-        questionType: type,
-        rightAnswer: 'A'
-      }
-      const qID = client.post<string>({
-        url: 'question/add-question',
-        data: defData
-      })
-      return { ...defData, questionId: qID as unknown as string }
-    },
-    {
-      onSuccess: () => {
-        message.success('添加空试题成功')
-      },
-      onError: () => {
-        message.error('添加失败')
-      }
+  return useMutation(async (type: QuestionType) => {
+    // await delayFetch()
+    const defData = {
+      questionDescription: '',
+      courseId: '',
+      pointIds: [],
+      questionOption: 'dsadas<>fr<>ads<>dsads',
+      questionAnswerExplain: '',
+      questionAnswerNum: 1,
+      questionDifficulty: 1,
+      questionType: type,
+      rightAnswer: 'A'
     }
-  )
+    const qID = client.post<string>({
+      url: 'question/add-question',
+      data: defData
+    })
+    return { ...defData, questionId: qID as unknown as string }
+  })
 }
 
 /** 更新题目 */

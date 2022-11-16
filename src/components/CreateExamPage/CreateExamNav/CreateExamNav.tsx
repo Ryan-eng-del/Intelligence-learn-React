@@ -1,137 +1,127 @@
-import React, { useState } from 'react'
-import {
-  CreateExamNavWrapper,
-  QuestionItemWrapper,
-  DeleteButtonWrapper
-} from './CreateExamNavStyle'
-import { Collapse, Button, Popconfirm, Tooltip, InputNumber } from 'antd'
-import { DeleteOutlined, SettingOutlined } from '@ant-design/icons'
-import { QuestionItem, QuestionList, QuestionType } from 'server/fetchExam/types'
-import { AnyFn } from 'types'
-import { QuestionICON } from '../CreateExamMenu/CreateExamMenu'
-import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
-import { Config } from './Config'
+import React, { useMemo, useState } from 'react'
+import { Collapse } from 'antd'
+import { QuestionActionString } from 'server/fetchExam/types'
+import styled from 'styled-components'
+import { getQuestionHeader } from '../../../pages/CreateExamPage/util/util'
+import { IQuestionType, IQuestionTypeInitialState } from '../../../reducer/CreateExamPaper/type/type'
 
 const { Panel } = Collapse
 
-export const CreateExamNav: React.FC<{
-  isLoading: boolean
-  questionList: QuestionList[]
-  setConfig:()=>void
-  changeScore: AnyFn<void>
-  focus: (item: QuestionItem) => void
-  SumScore:()=>number
-}> = ({ questionList, focus, isLoading,SumScore, setConfig }) => {
-  const [Fouce, setFouce] = useState<QuestionItem>()
-  const removeQuesItem = (curItem: QuestionItem, curList: QuestionList) => {
-    curList.questiton = curList.questiton.filter(i=>i!==curItem)
-    if (curList.amount === 0) {
-      curList.isExists = false
-    }
-    setConfig()
+export interface CreateExamNavProps {
+  setCurEdit: (curEdit: IQuestionType) => void
+  questionTypeState: IQuestionTypeInitialState<IQuestionType>
+  setCurOrder: (curOrder: number) => void
+  curEditQuestion: IQuestionType
+}
+
+export const CreateExamNav = (props: CreateExamNavProps) => {
+  const { questionTypeState, setCurEdit, setCurOrder, curEditQuestion } = props
+  const [curId, setCurId] = useState('')
+
+  /*编辑试卷类型*/
+  const editQuestionType = (question: IQuestionType, index: number) => {
+    setCurEdit(question)
+    setCurId(question.questionId)
+    setCurOrder(index)
   }
-  const removeCollapse = (curList: QuestionList) => {
-    curList.amount = 0;
-    curList.isExists = false;
-    curList.questiton = [];
-    setConfig()
-  }
+
+  /*试卷总题量*/
+  const allQuestionCount = useMemo(() => {
+    return Object.keys(questionTypeState).reduce((pre, cur) => {
+      return pre + questionTypeState[cur as QuestionActionString].list.length
+    }, 0)
+  }, [questionTypeState, curEditQuestion])
+
+  /*试卷总分数*/
+  const allQuestionPoint = useMemo(() => {
+    return Object.keys(questionTypeState).reduce((pre, cur) => {
+      return (
+        pre +
+        questionTypeState[cur as QuestionActionString].list.reduce((pre, cur) => {
+          return (pre += cur.score)
+        }, 0)
+      )
+    }, 0)
+  }, [questionTypeState, curEditQuestion])
+
   return (
     <>
-      <CreateExamNavWrapper>
-        <Config
-          config={questionList}
-          setConfig={setConfig}
-          SumScore={SumScore}
-        ></Config>
-        {isLoading ? <BaseLoading /> : <></>}
-        <Collapse
-          bordered={false}
-          expandIconPosition="end"
-          className="collapse"
-          defaultActiveKey={questionList.map((item) => item.type)}
-        >
-          {questionList.map((QuestionPanel) =>
-            QuestionPanel.isExists ? (
+      <ExamNavHeader>
+        <span style={{ marginRight: '12px' }}>总题量：{allQuestionCount}</span>
+        <span>总分数：{allQuestionPoint}</span>
+      </ExamNavHeader>
+      <Collapse
+        bordered={false}
+        expandIconPosition="end"
+        className="collapse"
+        ghost={true}
+        defaultActiveKey={Object.keys(questionTypeState).map((_, index) => index)}
+      >
+        {Object.keys(questionTypeState).map((type, index) => {
+          const questionTypeKey = questionTypeState[type as QuestionActionString]
+          return (
+            questionTypeKey.list.length && (
               <Panel
-                header={`${QuestionICON[QuestionPanel.type].title}(${
-                  QuestionPanel.amount
-                })`}
-                key={QuestionPanel.type}
-                extra={
-                  <>
-                    <DeleteButton
-                      title={`确认移除整个组吗，这将移除里面全部${QuestionPanel.type}`}
-                      confirm={()=>removeCollapse(QuestionPanel)}
-                    />
-                  </>
+                key={index}
+                header={
+                  <PanelHeader>
+                    <span style={{ marginRight: '7px' }}>{getQuestionHeader(index)}</span>（共
+                    {questionTypeKey.list.length}题
+                    <span>
+                      {questionTypeKey.list.reduce((pre, now) => {
+                        return (pre += now.score)
+                      }, 0)}
+                      分）
+                    </span>
+                  </PanelHeader>
                 }
               >
-                {QuestionPanel.questiton.map((questionItem, index) => (
-                  <QuestionItemWrapper
-                    key={questionItem.item_data.questionId}
-                    style={{
-                      backgroundColor:
-                        Fouce === questionItem ? 'rgb(238, 237, 237)' : '#fff'
-                    }}
-                  >
-                    <Button
-                      type="link"
-                      // 创建的题目并不一定已经保存，暂时用一个字段记录
-                      style={{ color: 'red', width: '50%' }}
-                      onClick={() => (
-                        setFouce(questionItem), focus(questionItem)
-                      )}
+                {questionTypeKey.list.map((question, index) => {
+                  return (
+                    <QuestionTypeWrapper
+                      className={curId === question.questionId ? 'active' : 'noActive'}
+                      key={question.questionId}
+                      onClick={(e) => {
+                        editQuestionType(question, index + 1)
+                      }}
                     >
-                      {index + 1}
-                      {/* {questionItem.item_data.questionId} */}
-                    </Button>
-                    {/* 分数控制 */}
-                    <InputNumber
-                      min={1}
-                      max={10}
-                      defaultValue={questionItem.score}
-                      bordered={false}
-                      style={{ width: '25%' }}
-                    />
-
-                    {/* 删除按钮 */}
-                    <DeleteButton
-                      confirm={() =>
-                        removeQuesItem(questionItem, QuestionPanel)
-                      }
-                      title="从试卷中移除这道题目？如果题目来源于题库，这并不会删除题目"
-                    />
-                  </QuestionItemWrapper>
-                ))}
+                      <span style={{ marginRight: '3px' }}>{index + 1}</span>
+                      <span>({question.score}分)</span>
+                    </QuestionTypeWrapper>
+                  )
+                })}
               </Panel>
-            ) : (
-              <div key={QuestionPanel.type}></div>
             )
-          )}
-        </Collapse>
-      </CreateExamNavWrapper>
+          )
+        })}
+      </Collapse>
     </>
   )
 }
 
-const DeleteButton: React.FC<{
-  confirm: AnyFn
-  title: string
-}> = ({ confirm, title }) => {
-  return (
-    <Popconfirm
-      title={title}
-      onConfirm={(e) => {
-        e?.stopPropagation()
-        confirm()
-      }}
-      okText="是"
-      cancelText="否"
-    >
-      <DeleteButtonWrapper>
-        <DeleteOutlined className="delete" />
-      </DeleteButtonWrapper>
-    </Popconfirm>
-  )
+export const QuestionTypeWrapper = styled.div`
+  height: 32px;
+  cursor: pointer;
+  font-size: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: ${(props) => (props.className === 'active' ? '#3a8bff' : '#646873')};
+  position: relative;
+  background: ${(props) => (props.className === 'active' ? '#f0f6ff' : 'white')};
+
+  &:hover {
+    background-color: rgb(247, 250, 252);
+  }
 }
+`
+export const PanelHeader = styled.div`
+  font-size: 13px;
+`
+export const ExamNavHeader = styled.div`
+  height: 34px;
+  line-height: 34px;
+  font-size: 16px;
+  color: #a8a8b3;
+  padding-left: 16px;
+`

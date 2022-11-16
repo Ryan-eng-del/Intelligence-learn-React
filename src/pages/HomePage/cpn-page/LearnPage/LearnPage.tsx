@@ -1,21 +1,12 @@
-import React, { useReducer, useState } from 'react'
-import { LearnRoutePageWrapper, ModalContextWrapper } from './LearnPageStyle'
-import {
-  PageWrapper,
-  ContentWrapper,
-  HeaderWrapper,
-  TitleWrapper
-} from 'publicComponents/PageStyle/PageHeaderWapper'
-import { Button, Modal, Input, Col, Row } from 'antd'
+import React, { useState } from 'react'
+import { ModalContextWrapper } from './LearnPageStyle'
+import { Input, Modal, Row } from 'antd'
 import { ClassCard } from 'publicComponents/TeachRotePage'
-import {
-  useShowLearnClass,
-  useShowInvitedCourseInfo,
-  useJoinInvitedCourse
-} from 'server/fetchCourse'
+import { useJoinInvitedCourse, useShowInvitedCourseInfo, useShowLearnClass } from 'server/fetchCourse'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
-import { uniqueId } from 'lodash'
 import { CourseInfo } from 'server/fetchCourse/types'
+import { GlobalHeader } from '../../../../publicComponents/GlobalHeader/index'
+import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/index'
 
 export const LearnPage: React.FC = () => {
   const [invitedcode, setInvitedCode] = useState('')
@@ -32,11 +23,7 @@ export const LearnPage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false)
   const [confirmLoading, setComfirmLoading] = useState(false)
 
-  const {
-    mutate,
-    isLoading: wait,
-    isSuccess
-  } = useShowInvitedCourseInfo(invitedcode, setNewCourse, setModalVisible2)
+  const { mutate, isLoading: wait, isSuccess } = useShowInvitedCourseInfo(invitedcode, setNewCourse, setModalVisible2)
 
   const showModal = () => {
     setModalVisible(true)
@@ -68,9 +55,8 @@ export const LearnPage: React.FC = () => {
     setModalVisible2(false)
   }
 
-
   return (
-    <LearnRoutePageWrapper>
+    <>
       <>
         <Modal
           title="加入课程"
@@ -108,25 +94,15 @@ export const LearnPage: React.FC = () => {
           width={300}
         >
           <ModalContextWrapper>
-            <img
-              src={newCourse.course_cover || require('assets/img/class.jpg')}
-              alt="课程图片"
-            />
+            <img src={newCourse.course_cover || require('assets/img/class.jpg')} alt="课程图片" />
             <h1>{newCourse.course_name}</h1>
             <h3>{newCourse.teacher_name}</h3>
           </ModalContextWrapper>
         </Modal>
       </>
-      <PageWrapper>
-        <HeaderWrapper>
-          <TitleWrapper>
-            <div className="page-title">我学的课程</div>
-            <Button type="primary" onClick={showModal}>
-              加入课程
-            </Button>
-          </TitleWrapper>
-        </HeaderWrapper>
-        <ContentWrapper>
+      <>
+        <GlobalHeader title="我学的课"></GlobalHeader>
+        <GlobalRightLayout>
           <Row>
             {isLoading ? (
               <BaseLoading
@@ -141,36 +117,25 @@ export const LearnPage: React.FC = () => {
                 {Array.from({
                   length: (data as CourseInfo[]).length / 4 + 1
                 }).map((v, i) => {
-                  return (
-                    <Row
-                      key={uniqueId()}
-                      style={{ marginBottom: '30px', width: 1100 }}
-                    >
-                      {(data as CourseInfo[]).map(
-                        (item: CourseInfo, index: number) => {
-                          if (index >= i * 4 && index < (i + 1) * 4)
-                            return (
-                              <Col span={6} key={item.class_id}>
-                                <ClassCard
-                                  id={item.class_id}
-                                  cname={item.course_name}
-                                  tname={item.course_name}
-                                  iurl={item.course_cover || null}
-                                  optimistic={item.optimistic}
-                                  Permission={false}
-                                ></ClassCard>
-                              </Col>
-                            )
-                        }
-                      )}
-                    </Row>
-                  )
+                  return (data as CourseInfo[]).map((item: CourseInfo, index: number) => {
+                    return (
+                      <ClassCard
+                        key={index}
+                        id={item.class_id}
+                        cname={item.course_name}
+                        tname={item.course_name}
+                        iurl={item.course_cover || null}
+                        optimistic={item.optimistic}
+                        Permission={false}
+                      ></ClassCard>
+                    )
+                  })
                 })}
               </>
             )}
           </Row>
-        </ContentWrapper>
-      </PageWrapper>
-    </LearnRoutePageWrapper>
+        </GlobalRightLayout>
+      </>
+    </>
   )
 }

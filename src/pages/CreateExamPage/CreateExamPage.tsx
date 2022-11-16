@@ -1,106 +1,68 @@
-import React, { useState } from 'react'
-import {
-  CreateExamNav,
-  CreateExamRoutePage,
-  CreateExamHeader,
-  CreateExamMenu
-} from 'components/CreateExamPage'
-import { CreateExamPageWrapper } from './CreateExamPageStyle'
-import { useShowTestPaper } from 'server/fetchExam/TestPaper'
+import React, { useReducer, useRef, useState } from 'react'
+import { CreateExamHeader, CreateExamMenu, CreateExamNav, CreateExamRoutePage } from 'components/CreateExamPage'
 import { useParams } from 'react-router-dom'
+import { QuestionConstantString, QuestionTypeAction } from 'server/fetchExam/types'
 import {
-  QuestionDataWithID,
-  QuestionItem,
-  QuestionList,
-  QuestionType
-} from 'server/fetchExam/types'
-import { useCreateEmptyQuestion } from 'server/fetchExam'
-
-const RandomInt = () => Math.floor(Math.random() * 1e9)
+  CreateExamBodyLeftWrapper,
+  CreateExamBodyRightWrapper,
+  CreateExamBodyWrapper,
+  CreateExamCenterWrapper,
+  CreateExamNavWrapper,
+  CreateExamPageWrapper,
+  CreateExamQuestion
+} from './CreateExamPageStyle'
+import { initialQuestionTypeState, questionTypeReducer } from '../../reducer/CreateExamPaper/questionTypeReducer'
+import { createQuestionObj } from './util/util'
+import { IQuestionType } from '../../reducer/CreateExamPaper/type/type'
 
 export const CreateExamPage: React.FC = () => {
   const { paperid } = useParams()
+  const idSet = useRef<Set<number>>(new Set())
+  /*当前正在编辑的题目*/
+  const [curEditQuestion, setCurEditQuestion] = useState<null | IQuestionType>(null)
+  /*当前正再编辑题目的次序*/
+  const [curOrder, setCurOrder] = useState(1)
+  const [questionTypeState, dispatchQuestionType] = useReducer(questionTypeReducer, initialQuestionTypeState)
 
-  const [dataList, setData] = useState<QuestionList[]>([])
-  const { data, isLoading } = useShowTestPaper(paperid!, setData) // 打开试卷
-
-  const { mutate } = useCreateEmptyQuestion()
-
-  const getSumScore = () =>{
-    let sum = 0
-    dataList.forEach(C=>{
-      sum += C.questiton.reduce((p,c)=>p+c.score,0)
-    })
-    return sum;
+  const handleOnEdit = (edit: IQuestionType) => {
+    setCurEditQuestion(edit)
   }
 
-  const AddQuestion = (type: QuestionType) => {
-    mutate(type)
-    const ChangePanel = dataList.find((i: QuestionList) => i.type === type)
-    ChangePanel!.isExists = true
-    ChangePanel!.amount += 1
-    ChangePanel!.questiton = ChangePanel!.questiton.concat({
-      score: ChangePanel!.defaultScore, //题目在此试卷的分数
-      item_data: {
-        questionId: RandomInt().toString(),
-        questionDescription: '<p>这里题目<strong>加粗</strong></p>',
-        courseId: '',
-        pointIds: [],
-        questionOption:
-          '<p>这里是选项A</p><><p>这里是选项B</p><><p>这里是选项C</p><><p>这里是选项D</p>',
-        questionAnswerExplain: '',
-        questionAnswerNum: 1,
-        questionDifficulty: 1,
-        questionType: type,
-        rightAnswer: 'A'
-      }
-    })
-    setData([...dataList])
-  }
-
-  // 当前编辑
-  const [curEdit, setCurEdit] = useState<QuestionDataWithID>()
-  const CurrentQuestionData = React.createContext(curEdit)
-  const { Consumer, Provider } = CurrentQuestionData
-  const FocusQuestion = (item: QuestionItem) => {
-    setCurEdit(item.item_data)
-  }
-
-  const ChangleEdit = () => {
-    setData([...dataList])
-  }
-
-  const changeScore = (item: QuestionItem, n: number) => {
-    item.score += n
-    if (item.score <= 0) item.score = 1
-    setData([...dataList])
+  /*添加考试题目*/
+  const addQuestionType = (type: QuestionConstantString) => {
+    const actionType = QuestionTypeAction[type] as any
+    dispatchQuestionType({ type: actionType, payload: createQuestionObj(type, idSet.current) })
   }
 
   return (
     <>
       <CreateExamPageWrapper>
-        <CreateExamHeader name={data?.paperName} id={paperid} />
-        <div style={{ display: 'flex', height: '500px' }}>
-          <CreateExamNav
-            isLoading={isLoading}
-            questionList={dataList}
-            focus={FocusQuestion}
-            changeScore={changeScore}
-            SumScore={getSumScore}
-            setConfig={()=>setData([...dataList])}
-          />
-          <div style={{ width: '80%' }}>
-            {/* 添加按钮 */}
-            <CreateExamMenu AddQuestion={AddQuestion} allowBank />
-            {/* 提供当前编辑的题目数据 */}
-            <Provider value={curEdit}>
-              <CreateExamRoutePage
-                Consumer={Consumer}
-                dispatch={ChangleEdit}
-              ></CreateExamRoutePage>
-            </Provider>
-          </div>
-        </div>
+        <CreateExamCenterWrapper>
+          <CreateExamHeader questionTypeState={questionTypeState} />
+          <CreateExamBodyWrapper>
+            <CreateExamBodyLeftWrapper>
+              <CreateExamNav
+                questionTypeState={questionTypeState}
+                setCurEdit={(curEdit: IQuestionType) => handleOnEdit(curEdit)}
+                setCurOrder={(curOrder: number) => setCurOrder(curOrder)}
+                curEditQuestion={curEditQuestion!}
+              />
+            </CreateExamBodyLeftWrapper>
+            <CreateExamBodyRightWrapper>
+              <CreateExamNavWrapper>
+                <CreateExamMenu addQuestionType={addQuestionType} />
+              </CreateExamNavWrapper>
+              <CreateExamQuestion>
+                <CreateExamRoutePage
+                  curEdit={curEditQuestion!}
+                  curOrder={curOrder}
+                  setCurEditQuestion={setCurEditQuestion}
+                  dispatchQuestionType={dispatchQuestionType}
+                ></CreateExamRoutePage>
+              </CreateExamQuestion>
+            </CreateExamBodyRightWrapper>
+          </CreateExamBodyWrapper>
+        </CreateExamCenterWrapper>
       </CreateExamPageWrapper>
     </>
   )

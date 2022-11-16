@@ -1,12 +1,7 @@
-import React from 'react'
-import { HomePageWrapper } from './HomePageStyle'
-import { HomeNav, HomeRoutePage } from 'components/HomePage'
-import { LayoutCpn } from 'publicComponents/LayoutCpn/LayoutCpn'
+import { GlobalLayout } from '../../publicComponents/GlobalLayout/index'
+import { Outlet } from 'react-router-dom'
+import HomeItems from './config/index'
 
 export const HomePage = () => {
-  return (
-    <HomePageWrapper>
-      <LayoutCpn layoutLeft={HomeNav} layoutRight={HomeRoutePage} />
-    </HomePageWrapper>
-  )
+  return <GlobalLayout navItems={HomeItems} routePage={<Outlet />} />
 }

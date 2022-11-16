@@ -5,8 +5,7 @@ import { ResourceListItem } from './ResourceListItem'
 
 export const ResourceList: React.FC<{
   resourceItems: ResourceType[]
-  premission: boolean
-}> = ({ resourceItems, premission }) => {
+}> = ({ resourceItems }) => {
   const [data, setData] = useState(resourceItems)
 
   return (
@@ -25,7 +24,6 @@ export const ResourceList: React.FC<{
         renderItem={(i) => (
           <List.Item>
             <ResourceListItem
-              premission={premission}
               item={i}
               rename={(name) => {
                 i.resourceName = name

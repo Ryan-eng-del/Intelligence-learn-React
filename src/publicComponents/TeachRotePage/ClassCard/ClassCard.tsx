@@ -1,5 +1,5 @@
 import { Button } from 'antd'
-import { CurCourseProvider } from 'pages/ClassInfoPage/ClassInfoPage'
+import { PrimaryButton } from 'publicComponents/Button'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AnyFn } from 'types'
@@ -13,26 +13,24 @@ interface ClassCard {
   Permission: boolean
 }
 export const ClassCard: React.FC<ClassCard> = ({ id, cname, iurl, optimistic, Permission }) => {
-  const handleClick = (setCurCourse:AnyFn) => {
-    if(Permission){
-      navigate('/classinfo/chapter');
+  const handleClick = (setCurCourse: AnyFn) => {
+    if (Permission) {
+      navigate('/classinfo/chapter')
       setCurCourse({
-        classId:id,
-        cover:iurl!,
-        className:cname,
+        classId: id,
+        cover: iurl!,
+        className: cname,
+        Permission
+      })
+    } else {
+      navigate('/studentClassinfo/chapter')
+      setCurCourse({
+        classId: id,
+        cover: iurl!,
+        className: cname,
         Permission
       })
     }
-    else{
-      navigate('/studentClassinfo/chapter');
-      setCurCourse({
-        classId:id,
-        cover:iurl!,
-        className:cname,
-        Permission
-      })
-    }
-
   }
   const navigate = useNavigate()
   return (
@@ -48,16 +46,15 @@ export const ClassCard: React.FC<ClassCard> = ({ id, cname, iurl, optimistic, Pe
               Loading
             </Button>
           ) : (
-            <CurCourseProvider>
-              {({ setCurCourse }) => (
-                <Button
-                  type="primary"
-                  onClick={() => handleClick(setCurCourse)}
-                >
-                  进入课程
-                </Button>
-              )}
-            </CurCourseProvider>
+            <PrimaryButton
+              title="进入课程"
+              handleClick={() =>
+                handleClick(() => {
+                  console.log('')
+                })
+              }
+              style={{ width: '100px', marginTop: '12px' }}
+            ></PrimaryButton>
           )}
         </CardBodyWrapper>
       </CardWrapper>

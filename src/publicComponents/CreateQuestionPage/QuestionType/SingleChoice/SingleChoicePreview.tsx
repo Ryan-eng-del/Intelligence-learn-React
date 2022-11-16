@@ -1,0 +1,41 @@
+import React from 'react'
+import { OptionPreviewWrapper } from '../QuestionFooter'
+import { IQuestionType } from '../../../../reducer/CreateExamPaper/type/type'
+
+interface SingleChoiceProps {
+  question: IQuestionType
+}
+
+export const SingleChoicePreview = (props: SingleChoiceProps) => {
+  const { question } = props
+  return (
+    <>
+      {question.questionOption
+        .split('<>')
+        .map((optionContent, index) => {
+          return {
+            option: String.fromCharCode(index + 65),
+            optionContent: optionContent
+          }
+        })
+        .map((option) => {
+          console.log(option.option, question.rightAnswer, 'correct')
+          const isRightAnswer = option.option == question.rightAnswer
+          return (
+            <div style={{ display: 'flex', marginBottom: '12px', alignItems: 'center' }} key={option.optionContent}>
+              <OptionPreviewWrapper
+                style={{
+                  color: isRightAnswer ? 'white' : 'black',
+                  textAlign: 'center',
+                  backgroundColor: isRightAnswer ? 'rgb(24, 144, 255)' : 'rgb(245, 245, 245)'
+                }}
+              >
+                <span>{option.option}</span>
+              </OptionPreviewWrapper>
+              <span style={{ paddingLeft: '14px' }}>{option.optionContent}</span>
+            </div>
+          )
+        })}
+    </>
+  )
+}

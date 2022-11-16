@@ -6,6 +6,7 @@ import { TreeSelected } from '../../../KnowledgePage/KnowledgeTree/cpn/TreeSelec
 import { useHandleUploadClassTimeResource } from '../../../../../hook/useChapterStudy/useHandleUploadClassTimeResource'
 import { useClassTimeDispatch } from '../../../../../context/ChapterStudyTree/ClassTimeDispatchContext'
 import { uploadProps } from '../../../../../hook/useChapterStudy/config'
+import { GlobalLabel } from '../../../../../publicComponents/GlobalLabel/globalLabel'
 
 export const ChapterTreeModal: React.FC<{
   checkTreeData: any
@@ -75,7 +76,7 @@ export const ChapterTreeModal: React.FC<{
               </UploadWrapper>
 
               <RelatePointsWrapper>
-                <label>关联知识点</label>
+                <GlobalLabel>关联知识点</GlobalLabel>
                 <TreeSelected
                   checkTreeData={checkTreeData}
                   relateKeys={relateKeys}
@@ -99,7 +100,7 @@ export const ChapterTreeModal: React.FC<{
           </Drawer>
         </DrawerWrapper>
         <div>
-          <label>已经上传的资源:</label>
+          <GlobalLabel>已经上传的资源:</GlobalLabel>
           <List
             itemLayout="horizontal"
             dataSource={classTimeState.fileList}

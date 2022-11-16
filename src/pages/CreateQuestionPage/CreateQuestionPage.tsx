@@ -1,21 +1,14 @@
 import React, { useState } from 'react'
 import { CreateQuestionWrapper } from './CreateQuestionPageStyle'
-import { CreateExamMenu, CreateExamRoutePage } from 'components/CreateExamPage'
-import {
-  QuestionData,
-  QuestionDataWithID,
-  QuestionType
-} from 'server/fetchExam/types'
-import {
-  useCreateEmptyQuestion,
-  useShowQuestionDetails
-} from 'server/fetchExam'
+import { CreateExamMenu } from 'components/CreateExamPage'
+import { QuestionDataWithID, QuestionType } from 'server/fetchExam/types'
+import { useCreateEmptyQuestion } from 'server/fetchExam'
 
 export const CreateQuestionPage: React.FC = () => {
   const [curEdit, setCur] = useState<QuestionDataWithID>()
-  const { Provider, Consumer } = React.createContext(curEdit)
+  const { Provider } = React.createContext(curEdit)
 
-  const { mutate, data } = useCreateEmptyQuestion()
+  const { mutate } = useCreateEmptyQuestion()
   const RandomInt = () => Math.floor(Math.random() * 1e9)
 
   const AddQuestion = (type: QuestionType) => {
@@ -36,10 +29,8 @@ export const CreateQuestionPage: React.FC = () => {
   return (
     <>
       <CreateQuestionWrapper>
-        <CreateExamMenu AddQuestion={AddQuestion} />
-        <Provider value={curEdit}>
-          <CreateExamRoutePage Consumer={Consumer}></CreateExamRoutePage>
-        </Provider>
+        <CreateExamMenu addQuestionType={AddQuestion} />
+        <Provider value={curEdit}></Provider>
       </CreateQuestionWrapper>
     </>
   )
