@@ -4,6 +4,22 @@ import { QuestionActionString } from 'server/fetchExam/types'
 import styled from 'styled-components'
 import { getQuestionHeader } from '../../../pages/CreateExamPage/util/util'
 import { IQuestionType, IQuestionTypeInitialState } from '../../../reducer/CreateExamPaper/type/type'
+import React, { useState } from 'react'
+import {
+  CreateExamNavWrapper,
+  QuestionItemWrapper,
+  DeleteButtonWrapper
+} from './CreateExamNavStyle'
+import { Collapse, Button, Popconfirm,  InputNumber } from 'antd'
+import { DeleteOutlined } from '@ant-design/icons'
+import {
+  QuestionItem,
+  QuestionList,
+} from 'server/fetchExam/types'
+import { AnyFn } from 'types'
+import { QuestionICON } from '../CreateExamMenu/CreateExamMenu'
+import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
+import { Config } from './Config'
 
 const { Panel } = Collapse
 
@@ -23,6 +39,21 @@ export const CreateExamNav = (props: CreateExamNavProps) => {
     setCurEdit(question)
     setCurId(question.questionId)
     setCurOrder(index)
+export const CreateExamNav: React.FC<{
+  isLoading: boolean
+  questionList: QuestionList[]
+  setConfig: () => void
+  changeScore: AnyFn<void>
+  focus: (item: QuestionItem) => void
+  SumScore: () => number
+}> = ({ questionList, focus, isLoading, SumScore, setConfig }) => {
+  const [Fouce, setFouce] = useState<QuestionItem>()
+  const removeQuesItem = (curItem: QuestionItem, curList: QuestionList) => {
+    curList.questiton = curList.questiton.filter((i) => i !== curItem)
+    if (curList.amount === 0) {
+      curList.isExists = false
+    }
+    setConfig()
   }
 
   /*试卷总题量*/

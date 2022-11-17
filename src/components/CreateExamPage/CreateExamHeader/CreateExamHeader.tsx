@@ -1,5 +1,7 @@
 import React from 'react'
 import { Button, Input, notification } from 'antd'
+import { CreateExamHeaderWrapper } from './CreateExamHeaderStyle'
+import { Button, Input, Space } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
@@ -44,16 +46,26 @@ export const CreateExamHeader = (props: CreateExamHeaderProps) => {
     })
   }
   return (
-    <ExamHeader>
-      <Button type="primary" shape="circle" onClick={() => navigate(-1)} icon={<ArrowLeftOutlined />}></Button>
-      <InputWrapper>
-        <label htmlFor={'paperName'}>试卷名称：</label>
-        <Input defaultValue={'新建试卷'} id={'paperName'} />
-      </InputWrapper>
-      <Button type="primary" onClick={() => handleOnStorePaper()}>
-        完成
-      </Button>
-    </ExamHeader>
+    <CreateExamHeaderWrapper>
+      <Space>
+        <Button
+          type="primary"
+          shape="circle"
+          onClick={() => navigate(-1)}
+          icon={<ArrowLeftOutlined />}
+        />
+        <label>试卷名字：</label>
+        <Input defaultValue={name}></Input>
+        <Button type="primary">保存试卷</Button>
+        <Button
+          type="primary"
+          onClick={() => navigate(`/previewtestpaper/${id}`)}
+        >
+          Preview
+        </Button>
+        <span>ID:{id}</span>
+      </Space>
+    </CreateExamHeaderWrapper>
   )
 }
 export const ExamHeader = styled.div`

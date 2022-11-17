@@ -1,12 +1,13 @@
 import { Tag } from 'antd'
 import React from 'react'
 import { QuestionDataWithID } from 'server/fetchExam/types'
+import { str2DOM } from 'util/str2DOM'
+import { Network2Data } from './config'
 
 export const Preview: React.FC<{
   content: QuestionDataWithID
 }> = ({ content }) => {
-  const question: any = content
-  const str2DOM = (str: string) => <div dangerouslySetInnerHTML={{ __html: str }} />
+  const question = Network2Data(content)
   return (
     <>
       <h2>题目</h2>
