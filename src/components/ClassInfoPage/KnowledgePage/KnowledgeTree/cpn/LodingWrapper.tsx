@@ -10,13 +10,7 @@ interface LoadingWrapperProps extends Omit<React.ComponentProps<typeof Tree>, 'e
 }
 export const LoadingWrapper = (props: LoadingWrapperProps) => {
   return props.isLoading ? (
-    <BaseLoading
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        marginTop: '24px'
-      }}
-    />
+    <BaseLoading />
   ) : (
     <Tree expandedKeys={props.expandKeys} onExpand={props.handleExpand} onSelect={props.handleExpand}>
       {props?.treeData}

@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useReducer, useState } from 'react'
-import { Button, message, Modal, Radio, Select } from 'antd'
+import { useCallback, useEffect, useMemo, useReducer, useState } from 'react'
+import { Button, message, Modal, Select } from 'antd'
 import { QuestionTitleArea } from '../../QuestionTitleArea/QuestionTitleArea'
 import { IQuestionType } from '../../../reducer/CreateExamPaper/type/type'
 import { useShowKnowledgeTree } from '../../../server/fetchKnowledge'
@@ -27,23 +27,23 @@ export const QuestionFooter = (props: QuestionFooterProps) => {
   const { question, setCurEditQuestion } = props
   const { data, isLoading: KnowledgeTreeLoading } = useShowKnowledgeTree()
   const { checkTreeData } = useCheckKnowledgeTreeUI(data)
-  /*两个弹框的开闭状态*/
+  /* 两个弹框的开闭状态 */
   const [isModalOpen, setIsModalOpen] = useState(false)
-  /*知识点选择树的UI层*/
+  /* 知识点选择树的UI层 */
   const [chapterTreeState, dispatch] = useReducer(chapterReducer, initialChapterState)
-  /*处理树的受控展开*/
+  /* 处理树的受控展开 */
   const { handleOnExpand } = useHandleOnExpand(dispatch)
-  /*难度数组*/
+  /* 难度数组 */
   const optionDifficulty = useMemo(() => ['简单', '容易', '困难'], [])
 
-  /*树的展开*/
+  /* 树的展开 */
   useEffect(() => {
     dispatch({
       type: 'setExpandKeys',
       expandKeys: () => generateKnowledgeKeys(data)
     })
   }, [data])
-  /*处理预览试卷*/
+  /* 处理预览试卷 */
   const handlePreviewPaper = () => {
     const { isError, msg } = handleFormDataIsValid()
     if (!isError) {
@@ -52,14 +52,14 @@ export const QuestionFooter = (props: QuestionFooterProps) => {
       message.warning(msg, 0.5)
     }
   }
-  /*处理试题表单校验*/
+  /* 处理试题表单校验 */
   const handleFormDataIsValid = useCallback(() => {
-    /*检测表单选项进行提示*/
+    /* 检测表单选项进行提示 */
     const { isError, message: msg } = isCouldSaveQuestion(question)
     return { isError, msg }
   }, [question])
 
-  /*处理保存试题*/
+  /* 处理保存试题 */
   const handleSaveQuestion = () => {
     const { isError, msg } = handleFormDataIsValid()
     if (!isError) {
@@ -69,7 +69,7 @@ export const QuestionFooter = (props: QuestionFooterProps) => {
     }
   }
 
-  /*处理上传试卷*/
+  /* 处理上传试卷 */
   const {
     handleChange,
     handleRelateCheck,
@@ -81,7 +81,7 @@ export const QuestionFooter = (props: QuestionFooterProps) => {
     isLoading
   } = useHandleUploadExamPaper(question, setCurEditQuestion)
 
-  /*编辑题目解析*/
+  /* 编辑题目解析 */
   const handleQuestionAnswerExplain = (content: string) => {
     question.questionAnswerExplain = content
   }

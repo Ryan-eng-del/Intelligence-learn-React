@@ -6,4 +6,6 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   baseURL = 'https://test/'
 }
+
+/* BaseUrl Mock http://127.0.0.1:3000/api  端口号看自己的com */
 export const TIME_OUT = 10000

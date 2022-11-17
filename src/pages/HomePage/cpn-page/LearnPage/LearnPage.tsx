@@ -18,33 +18,22 @@ export const LearnPage: React.FC = () => {
   const [modal2Visible, setModalVisible2] = useState(false)
   const [confirmLoading2, setComfirmLoading2] = useState(false)
 
-  ////////////////////////////////////////////////////
   // 窗口一
   const [modalVisible, setModalVisible] = useState(false)
-  const [confirmLoading, setComfirmLoading] = useState(false)
 
-  const { mutate, isLoading: wait, isSuccess } = useShowInvitedCourseInfo(invitedcode, setNewCourse, setModalVisible2)
+  const { mutate, isLoading: wait } = useShowInvitedCourseInfo(invitedcode, setNewCourse, setModalVisible2)
 
-  const showModal = () => {
-    setModalVisible(true)
-  }
   const handleOk = async () => {
-    // setComfirmLoading(true)//展示loading
     mutate()
-    //将设置的课程设置为状态方便加入
-    setComfirmLoading(false) //关闭loading
-    // setModalVisible2(true)//设置窗口2 展示
   }
 
   const handleCancel = () => {
     setModalVisible(false)
   }
-  ////////////////////////////////////////////////////
-  //窗口二
 
   const handleOk2 = () => {
-    setComfirmLoading2(true) //打开loading
-    joinClass() //使用mutate发送网络请求加入课程
+    setComfirmLoading2(true)
+    joinClass()
 
     setComfirmLoading2(false)
     setModalVisible2(false)
@@ -103,37 +92,29 @@ export const LearnPage: React.FC = () => {
       <>
         <GlobalHeader title="我学的课"></GlobalHeader>
         <GlobalRightLayout>
-          <Row>
-            {isLoading ? (
-              <BaseLoading
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  marginTop: '24px'
-                }}
-              />
-            ) : (
-              <>
-                {Array.from({
-                  length: (data as CourseInfo[]).length / 4 + 1
-                }).map((v, i) => {
-                  return (data as CourseInfo[]).map((item: CourseInfo, index: number) => {
-                    return (
-                      <ClassCard
-                        key={index}
-                        id={item.class_id}
-                        cname={item.course_name}
-                        tname={item.course_name}
-                        iurl={item.course_cover || null}
-                        optimistic={item.optimistic}
-                        Permission={false}
-                      ></ClassCard>
-                    )
-                  })
-                })}
-              </>
-            )}
-          </Row>
+          {isLoading ? (
+            <BaseLoading />
+          ) : (
+            <Row>
+              {Array.from({
+                length: (data as CourseInfo[]).length / 4 + 1
+              }).map((v, i) => {
+                return (data as CourseInfo[]).map((item: CourseInfo, index: number) => {
+                  return (
+                    <ClassCard
+                      key={index}
+                      id={item.class_id}
+                      cname={item.course_name}
+                      tname={item.course_name}
+                      iurl={item.course_cover || null}
+                      optimistic={item.optimistic}
+                      Permission={false}
+                    ></ClassCard>
+                  )
+                })
+              })}
+            </Row>
+          )}
         </GlobalRightLayout>
       </>
     </>

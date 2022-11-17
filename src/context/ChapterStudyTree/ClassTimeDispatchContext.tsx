@@ -8,7 +8,7 @@ interface IClassTimeContext {
 const ClassTimeDispatchContext = React.createContext<null | IClassTimeContext>(null)
 
 export const ClassTimeDispatchContextProvider = (props: any) => {
-  /*ClassTime Reducer*/
+  /* ClassTime Reducer */
   const [classTimeState, dispatchClassTime] = useReducer(courseTimeReducer, initialCourseTimeState)
   return (
     <ClassTimeDispatchContext.Provider value={{ dispatch: dispatchClassTime, classTimeState }}>

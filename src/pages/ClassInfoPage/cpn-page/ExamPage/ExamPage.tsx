@@ -1,5 +1,4 @@
 import React from 'react'
-import { ContentWrapper, HeaderWrapper, TitleWrapper } from 'publicComponents/PageStyle/PageHeaderWapper'
 import { useNavigate } from 'react-router-dom'
 import { ExamList } from 'publicComponents/ExamPage'
 import { GlobalHeader } from 'publicComponents/GlobalHeader'
@@ -15,9 +14,7 @@ export const ExamPage: React.FC = () => {
         tool={<PrimaryButton title="添加考试" handleClick={() => navigate('/editpaper/1')}></PrimaryButton>}
       ></GlobalHeader>
       <GlobalRightLayout>
-        <ContentWrapper>
-          <ExamList></ExamList>
-        </ContentWrapper>
+        <ExamList></ExamList>
       </GlobalRightLayout>
     </>
   )

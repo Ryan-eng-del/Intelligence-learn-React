@@ -30,13 +30,7 @@ export const ChapterStudyTree = (props: { treeData: any; chapterControl: Record<
       />
 
       {chapterControl.isLoading ? (
-        <BaseLoading
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            marginTop: '24px'
-          }}
-        />
+        <BaseLoading />
       ) : (
         <Tree
           expandedKeys={chapterControl.expandKeys}

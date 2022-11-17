@@ -2,7 +2,12 @@ import { Avatar } from 'antd'
 import { GlobalNav } from 'publicComponents/GlobalNav'
 import styled from 'styled-components'
 
-export const GlobalLayout = (props: { navItems: any; routePage: JSX.Element }) => {
+export const GlobalLayout = (props: {
+  navItems: any
+  routePage: any
+  sliceCount: number
+  createMapFunction: () => Map<string, string>
+}) => {
   return (
     <HomePageWrapper>
       <LeftLayoutWrapper>
@@ -10,7 +15,11 @@ export const GlobalLayout = (props: { navItems: any; routePage: JSX.Element }) =
           <img src={require('assets/img/R.png')} style={{ width: '80%', height: '80%' }} />
         </LogoWrapper>
         <NavWrapper>
-          <GlobalNav items={props.navItems}></GlobalNav>
+          <GlobalNav
+            items={props.navItems}
+            sliceCount={props.sliceCount}
+            createMapFunction={props.createMapFunction}
+          ></GlobalNav>
         </NavWrapper>
         <NavBottomWrapper>
           <UserAvatarWrapper>

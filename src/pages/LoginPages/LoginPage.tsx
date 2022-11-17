@@ -9,17 +9,7 @@ export const LoginPage: React.FC = () => {
   const { mutate, isLoading } = useToken('jk', 'Jk')
   const [loginIn, setLoginIn] = useState(true)
 
-  if (isLoading)
-    return (
-      <BaseLoading
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)'
-        }}
-      />
-    )
+  if (isLoading) return <BaseLoading />
 
   return (
     <LoginPageWrapper>

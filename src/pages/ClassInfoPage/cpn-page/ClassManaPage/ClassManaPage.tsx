@@ -1,5 +1,4 @@
 import React, { useReducer, useState } from 'react'
-import { ContentWrapper, HeaderWrapper, TitleWrapper } from 'publicComponents/PageStyle/PageHeaderWapper'
 import {
   Card,
   Col,
@@ -10,7 +9,6 @@ import {
   Space,
   message,
   Badge,
-  Tooltip,
   Typography,
   Dropdown,
   Menu,
@@ -20,48 +18,30 @@ import { ClassManaPageReducer, initialState } from './config/reducer'
 import { DownOutlined, HighlightOutlined, ShareAltOutlined } from '@ant-design/icons'
 import { GlobalHeader } from 'publicComponents/GlobalHeader'
 import { PrimaryButton } from 'publicComponents/Button'
-import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/index'
+import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
 
 export const ClassManaPage: React.FC = () => {
   const [state, dispatch] = useReducer(ClassManaPageReducer, initialState)
   const [detailvisable, setDetailVisable] = useState(false)
   const [showing, setshowing] = useState<any>()
-  const {
-    modalVisible,
-    classManaList,
-    newClassName,
-    inputClassName
-    // searchKeyword
-  } = state
+  const { modalVisible, classManaList, inputClassName } = state
 
-  //重命名功能
-  const renameFun = (curItem: any) => {
-    dispatch({ type: 'rename', curItem })
+  // 重命名确认的函数
+  const renameFunCertain = (curItem: any) => {
+    dispatch({ type: 'rename_certain', curItem })
   }
 
-  //重命名确认的函数
-  const renameFun_certain = (curItem: any) => {
-    dispatch({ type: 'rename_certain', curItem }) //异步
-  }
-
-  //重命名取消的函数
-  const renameFun_cancel = (curItem: any) => {
-    dispatch({ type: 'rename_cancel', curItem })
-    dispatch({ type: 'setNewClassName', payload: '' })
-    console.log('取消')
-  }
-
-  //删除班级的函数
+  // 删除班级的函数
   const removeClassFun = (id: string) => {
     dispatch({ type: 'removeClass', id })
   }
 
-  //打开模态框
+  // 打开模态框
   const addClass = () => {
     dispatch({ type: 'setModalVisible', payload: true })
   }
 
-  //模态框的确认
+  // 模态框的确认
   const setModalVisibleCertain = () => {
     dispatch({
       type: 'addClass',
@@ -74,10 +54,9 @@ export const ClassManaPage: React.FC = () => {
     })
     dispatch({ type: 'setModalVisible', payload: false })
     dispatch({ type: 'setClassName', payload: '' })
-    console.log(inputClassName)
   }
 
-  //模态框的取消
+  // 模态框的取消
   const setModalVisibleCancel = () => {
     dispatch({ type: 'setModalVisible', payload: false })
     dispatch({ type: 'setClassName', payload: '' })
@@ -142,7 +121,7 @@ export const ClassManaPage: React.FC = () => {
           editable={{
             icon: <HighlightOutlined />,
             tooltip: '修改课程名字',
-            onChange: renameFun_certain //不可用
+            onChange: renameFunCertain
           }}
         >
           班级名字
@@ -176,38 +155,38 @@ export const ClassManaPage: React.FC = () => {
       {/* 主体内容 */}
       <GlobalHeader
         title="班级管理"
-        tool={<PrimaryButton title="添加章节" handleClick={addClass}></PrimaryButton>}
+        tool={<PrimaryButton title="新建班级" handleClick={addClass}></PrimaryButton>}
       ></GlobalHeader>
 
       <GlobalRightLayout>
-        {' '}
-        <ContentWrapper>
-          <Row gutter={[16, 24]}>
-            {classManaList.map((i) => (
-              <Col span={8} key={i.id}>
-                <Card
-                  title={
-                    <>
-                      <Space style={{ fontSize: '24px' }}>
-                        <Typography.Text style={{ width: '220px' }} ellipsis={true}>
-                          {i.className}
-                        </Typography.Text>
-                        <ShareAltOutlined onClick={(e) => share(i, e)} />
-                      </Space>
-                    </>
-                  }
-                  style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
-                  onClick={() => (setshowing(i), setDetailVisable(true))}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    共 {i.studentAmount} 位学生
-                    <Badge status="success" text="开课中" style={{ color: '#999' }} />
-                  </div>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </ContentWrapper>
+        <Row gutter={[16, 24]}>
+          {classManaList.map((i) => (
+            <Col span={8} key={i.id}>
+              <Card
+                title={
+                  <>
+                    <Space style={{ fontSize: '24px' }}>
+                      <Typography.Text style={{ width: '220px' }} ellipsis={true}>
+                        {i.className}
+                      </Typography.Text>
+                      <ShareAltOutlined onClick={(e) => share(i, e)} />
+                    </Space>
+                  </>
+                }
+                style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
+                onClick={() => {
+                  setshowing(i)
+                  setDetailVisable(true)
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  共 {i.studentAmount} 位学生
+                  <Badge status="success" text="开课中" style={{ color: '#999' }} />
+                </div>
+              </Card>
+            </Col>
+          ))}
+        </Row>
       </GlobalRightLayout>
     </>
   )

@@ -1,5 +1,4 @@
 import React from 'react'
-import { ContentWrapper, HeaderWrapper, TitleWrapper } from 'publicComponents/PageStyle/PageHeaderWapper'
 import { Button, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { useNavigate } from 'react-router-dom'
@@ -78,14 +77,8 @@ export const StudentExamPage: React.FC<{
 
   return (
     <>
-      <HeaderWrapper>
-        <TitleWrapper>
-          <div className="page-title">我的作业 & 考试</div>
-        </TitleWrapper>
-      </HeaderWrapper>
-      <ContentWrapper>
-        <Table columns={columns} dataSource={data} />
-      </ContentWrapper>
+      <div className="page-title">我的作业 & 考试</div>
+      <Table columns={columns} dataSource={data} />
     </>
   )
 }

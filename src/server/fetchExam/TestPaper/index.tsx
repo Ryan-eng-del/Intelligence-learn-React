@@ -1,11 +1,10 @@
-import {useMutation, useQuery, UseQueryResult} from '@tanstack/react-query'
-import {client} from 'server'
-import {message} from 'antd'
-import {delayFetch} from 'util/delayFetch'
-import {TestPaper, PostTestPaper, QuestionType} from '../types'
-import {dropRight} from 'lodash'
-import {config} from '../config'
-
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { client } from 'server'
+import { message } from 'antd'
+import { delayFetch } from 'util/delayFetch'
+import { TestPaper, PostTestPaper, QuestionType } from '../types'
+import { dropRight } from 'lodash'
+import { config } from '../config'
 
 /** 打开一张试卷 */
 export const useShowTestPaper = (paperId: string, callback: any) => {
@@ -15,16 +14,11 @@ export const useShowTestPaper = (paperId: string, callback: any) => {
     // e.g.: enum { 'name1', 'name2' } => ['0','1','name1','name2']
     const QuestionTypeList = Object.keys(QuestionType)
     // remove:  ['0','1','name1','name2'] => [ 0, 1 ]
-    const QuestionTypeList2 = dropRight(
-      QuestionTypeList,
-      QuestionTypeList.length / 2
-    ).map((i) => parseInt(i))
+    const QuestionTypeList2 = dropRight(QuestionTypeList, QuestionTypeList.length / 2).map((i) => parseInt(i))
     return QuestionTypeList2.map((Type: QuestionType) => {
       // 获取类型
       // 这里是过滤了类型的WholeQuestion[]
-      const thisTypeList = data.questionOfPaperVos.filter(
-        (i) => i.questionType === Type
-      )
+      const thisTypeList = data.questionOfPaperVos.filter((i) => i.questionType === Type)
       return {
         type: Type,
         name: config[Type].name,
@@ -32,11 +26,11 @@ export const useShowTestPaper = (paperId: string, callback: any) => {
         max: config[Type].max,
         defaultScore: config[Type].defaultScore,
         amount: thisTypeList.length,
-        isExists: thisTypeList.length != 0,
-        questiton: thisTypeList.map((i) => ({
+        isExists: thisTypeList.length !== 0,
+        questiton: thisTypeList.map((i: any) => ({
           score: 1,
           item_key: i.questionId,
-          item_data: {...i, courseId: 'unknown'} // FIXME: 等待接口更新courseID字段
+          item_data: { ...i, courseId: 'unknown' } // FIXME: 等待接口更新courseID字段
         }))
       }
     })
@@ -51,14 +45,15 @@ export const useShowTestPaper = (paperId: string, callback: any) => {
           id: paperId
         }
       })
-    }, {
+    },
+    {
       onSuccess: (data) => {
         callback(Process(data!))
       }
     }
   )
   // callback(Process(data.data!))
-  return data;
+  return data
 }
 
 /** 保存这张试卷 */

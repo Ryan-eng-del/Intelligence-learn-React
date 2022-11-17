@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 /** 目前支持的题目类型 */
 export enum QuestionType {
   'single',
@@ -18,12 +19,12 @@ export enum QuestionTypeAction {
 export type QuestionActionString = 'singleChoice' | 'multipleChoice' | 'fillBlankData' | 'judgeChoice' | 'shortAnswer'
 
 export type QuestionConstantString = '0' | '1' | '2' | '3' | '4'
-///////////////////////////////////////////////////////////////（网络实体）
 
 /** （网络实体）获取的试卷的类型 */
 export type TestPaper = {
   paperName: string
   paperId: string
+  // eslint-disable-next-line no-use-before-define
   questionOfPaperVos: WholeQuestion[] & { score: number }
 }
 
@@ -35,23 +36,22 @@ export type PostTestPaper = {
   questionsIds: string[] // 仅保存题目的ID
 }
 
-/////////////////////////////////////////////////////////////// （本地类型）
-
 /** （本地类型）题目在试卷中的类型 */
 export interface QuestionItem {
-  score: number //题目在此试卷的分数
-  item_data: QuestionDataWithID //这里保存的类型可以直接发送
+  score: number // 题目在此试卷的分数
+  // eslint-disable-next-line no-use-before-define
+  item_data: QuestionDataWithID // 这里保存的类型可以直接发送
 }
 
 /** （本地类型）试卷编辑导航一种题型的折叠面板(type唯一) */
 export interface QuestionList {
-  type: QuestionType //题目类型
+  type: QuestionType // 题目类型
   name: string
   defaultScore: number
   min: number
   max: number
-  amount: number //题目总数
-  isExists: boolean //表示该类型题目是否已经存在
+  amount: number // 题目总数
+  isExists: boolean // 表示该类型题目是否已经存在
   questiton: QuestionItem[] // ↑上面那种类型
 }
 

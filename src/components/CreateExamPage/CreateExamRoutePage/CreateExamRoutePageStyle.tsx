@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { RightSideWrapper } from 'publicComponents/PageStyle/TwoColumnLayout/index'
 
 export const CreateExamRoutePageWrapper = styled.div`
   width: 879px;

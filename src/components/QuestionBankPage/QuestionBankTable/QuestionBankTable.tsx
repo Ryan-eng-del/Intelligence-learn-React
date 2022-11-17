@@ -7,13 +7,12 @@ import {
   ShowQuestionDetails,
   TotalQuestionWrapper
 } from './QuestionBankTableStyle'
-import { useDeleteQuestion, useShowCreateQuestion } from 'server/fetchExam'
+import { useDeleteQuestion } from 'server/fetchExam'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { useNavigate } from 'react-router-dom'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { ShowDetailsCell } from './cpn/ShowDetailsCell'
 import { Item } from 'server/fetchExam/types'
-import styled from 'styled-components'
 const { confirm } = Modal
 
 export const QuestionBankTable: React.FC<{
@@ -23,16 +22,16 @@ export const QuestionBankTable: React.FC<{
   isAll: boolean
 }> = ({ originData, isLoading, curData, isAll }) => {
   const navigate = useNavigate()
-  //页面状态
-  const [pageSize, setPageSize] = useState(20)
-  const [currentPage, setCurrentPage] = useState(1)
+  // 页面状态
+  const [pageSize] = useState(20)
+  const [currentPage] = useState(1)
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([])
   const [showDetailsKey, setKey] = useState('')
 
-  //网络请求
+  // 网络请求
   const { mutate } = useDeleteQuestion()
 
-  //操作函数
+  // 操作函数
   const isShow = (record: Item) => record.key === showDetailsKey
 
   const show = (record: Partial<Item> & { key: React.Key }) => {
@@ -71,7 +70,7 @@ export const QuestionBankTable: React.FC<{
     onChange: onSelectChange
   }
 
-  //表格配置
+  // 表格配置
   const columns = [
     {
       title: '题目',
@@ -141,14 +140,12 @@ export const QuestionBankTable: React.FC<{
       title: '操作',
       className: 'table-header',
       render: (_: any, record: Item) => {
-        //record是全部数据
+        // record是全部数据
         const editable = isShow(record)
         return editable ? (
           <Typography.Link onClick={close}>关闭详情</Typography.Link>
         ) : (
-          <Typography.Link onClick={() => show(record)}>
-            展开详情
-          </Typography.Link>
+          <Typography.Link onClick={() => show(record)}>展开详情</Typography.Link>
         )
       }
     }
@@ -172,12 +169,10 @@ export const QuestionBankTable: React.FC<{
     <>
       <QuestionBankTableWrapper>
         {isLoading ? (
-          <BaseLoading style={{ margin: '100px auto' }} />
+          <BaseLoading />
         ) : (
           <>
-            <TotalQuestionWrapper>
-              共计{originData?.length}题
-            </TotalQuestionWrapper>
+            <TotalQuestionWrapper>共计{originData?.length}题</TotalQuestionWrapper>
             <Table
               rowSelection={rowSelection}
               columns={mergedColumns}
@@ -191,9 +186,6 @@ export const QuestionBankTable: React.FC<{
                 position: ['bottomCenter'],
                 showSizeChanger: true,
                 pageSize: pageSize,
-                onChange: (page, pageSize) => {
-                  setPageSize(pageSize), setCurrentPage(page)
-                },
                 style: {
                   paddingBottom: '10px',
                   fontSize: '17px'

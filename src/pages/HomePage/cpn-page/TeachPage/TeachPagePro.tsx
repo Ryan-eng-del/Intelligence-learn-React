@@ -97,18 +97,12 @@ export const TeachPage = () => {
         </Modal>
       </>
       <GlobalHeader
-        title="我教的课程"
+        title="我教的课"
         tool={<PrimaryButton title="新建课程" handleClick={showModal}></PrimaryButton>}
       ></GlobalHeader>
       <GlobalRightLayout>
         {isLoading ? (
-          <BaseLoading
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginTop: '24px'
-            }}
-          />
+          <BaseLoading />
         ) : (
           <>
             {Array.from({ length: (data?.length % 4) + 1 }).map((v, i) => {
@@ -124,6 +118,7 @@ export const TeachPage = () => {
                           tname={item.course_name}
                           iurl={item.courses_cover}
                           Permission={true}
+                          key={index}
                         ></ClassCard>
                       )
                     )

@@ -1,22 +1,26 @@
-import { NavMapMenu } from 'publicComponents/NavMap/NavMap'
-import { useMemo, useState } from 'react'
-import { createHomeNavMap } from 'util/createNavMap'
+import { Menu } from 'antd'
+import { useEffect, useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
-export const GlobalNav = (props: { items: any }) => {
+interface NavMapProps extends React.ComponentProps<typeof Menu> {
+  items: any
+  sliceCount: number
+  createMapFunction: () => Map<string, string>
+}
+export const GlobalNav = (props: NavMapProps) => {
   const [curSelect, setCurSelect] = useState<string>('')
-  const map = useMemo(() => createHomeNavMap(), [])
+  const { pathname } = useLocation()
+  const map = useMemo(() => props.createMapFunction(), [])
+  useEffect(() => setCurSelect(map.get(pathname.slice(props.sliceCount))!), [])
+  const handleOnSelect = (selectInfo: any) => setCurSelect(selectInfo.key)
+
   return (
-    <div>
-      <div>
-        <NavMapMenu
-          navMap={map}
-          sliceCount={5}
-          curSelect={curSelect}
-          setCurSelect={setCurSelect}
-          items={props.items}
-          defaultOpenKeys={['sub1']}
-        />
-      </div>
-    </div>
+    <Menu
+      mode="inline"
+      inlineCollapsed={false}
+      items={props.items}
+      selectedKeys={[curSelect]}
+      onSelect={handleOnSelect}
+    />
   )
 }

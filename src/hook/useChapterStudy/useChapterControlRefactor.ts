@@ -8,12 +8,12 @@ import { useHandleAddClassTime } from './useHandleAddClassTime'
 import { useHandleOnExpand } from './useHandleTreeOnExpand'
 
 export const useChapterControlRefactor = () => {
-  /*ChapterNode Reducer*/
+  /* ChapterNode Reducer */
   const [chapterState, dispatchChapter] = useReducer(chapterReducer, initialChapterState)
-  /*Chapter TreeData*/
+  /* Chapter TreeData */
   const { data, isLoading } = useShowChapter(dispatchChapter)
 
-  /*添加章节*/
+  /* 添加章节 */
   const { curAddNode, handleClickAddChapter, confirmAddChapter, cancelAddChapter, handleClickAddChildChapter } =
     useHandleAddChapter({
       data: data ?? [],
@@ -21,26 +21,26 @@ export const useChapterControlRefactor = () => {
       dispatchChapter
     })
 
-  /*编辑章节*/
+  /* 编辑章节 */
   const { confirmRename, curRenameNode, cancelRename, handleReNameTreeNode } = useHandleRenameChapter({
     data: data ?? [],
     chapterState,
     dispatchChapter
   })
 
-  /*删除章节*/
+  /* 删除章节 */
   const { handleDeleteResource, handleDeleteTreeContent, handleDeleteTreeNode } = useHandleDeleteChapter({
     data: data ?? [],
     dispatchChapter
   })
 
-  /*添加课时*/
+  /* 添加课时 */
   const { handleConfirmAddClassTime, handleClickAddChildCourseTime, classTimeState } = useHandleAddClassTime({
     data: data ?? [],
     dispatchChapter
   })
 
-  /*点击树节点交互*/
+  /* 点击树节点交互 */
   const { handleOnExpand } = useHandleOnExpand(dispatchChapter)
 
   return {

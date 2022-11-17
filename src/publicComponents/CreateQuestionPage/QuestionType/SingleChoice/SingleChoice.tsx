@@ -18,9 +18,10 @@ interface SingleChoiceProps {
 
 export const SingleChoice = (props: SingleChoiceProps) => {
   const { question, config, setCurEditQuestion } = props
-  /*当选选中的选项*/
+  /* 当选选中的选项 */
   const [curSelect, setCurSelect] = useState('')
-  /*当前多选选择的选项*/
+
+  /* 当前多选选择的选项 */
   const [curSelects, setCurSelects] = useState<string[]>([])
   const getFromOptionObj = (option: string, content: string) => {
     const splitArr = question.questionOption.split('<>')
@@ -28,19 +29,19 @@ export const SingleChoice = (props: SingleChoiceProps) => {
     splitArr[index] = content
     return splitArr.join('<>')
   }
-  /*处理单选题编辑题干*/
+  /* 处理单选题编辑题干 */
   const handleEditTitle = (content: string) => {
     question.questionDescription = content
     setCurEditQuestion(question)
   }
 
-  /*处理编辑题目选项*/
+  /* 处理编辑题目选项 */
   const handleEditOption = (content: string, optionName: string) => {
     question.questionOption = getFromOptionObj(optionName, content)
     setCurEditQuestion(question)
   }
 
-  /*处理单选题编辑选项*/
+  /* 处理单选题编辑选项 */
   const handleEditRightOption = (value: string) => {
     question.rightAnswer = value
     question.questionAnswerNum = 1
@@ -48,7 +49,7 @@ export const SingleChoice = (props: SingleChoiceProps) => {
     setCurEditQuestion(question)
   }
 
-  /*处理多选题编辑选项*/
+  /* 处理多选题编辑选项 */
   const handleEditRightMultipleOption = (optionName: string) => {
     setCurSelects((pre) => {
       const index = pre.indexOf(optionName)

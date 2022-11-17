@@ -1,20 +1,9 @@
 import React from 'react'
 import { ShowDetailsCellProps } from 'components/QuestionBankPage/type'
-import {
-  QuestionItemWrapper,
-  QuestionDetailsWrapper
-} from '../QuestionBankTableStyle'
+import { QuestionDetailsWrapper } from '../QuestionBankTableStyle'
 
-export const ShowDetailsCell: React.FC<ShowDetailsCellProps> = ({
-  editing,
-  record,
-  children,
-  ...restProps
-}) => {
-  // const optionArr = record.questionOption.split('<>')
-  // console.log(record.questionOption)
-
-  //网络请求回来对应数据
+export const ShowDetailsCell: React.FC<ShowDetailsCellProps> = ({ editing, record, children, ...restProps }) => {
+  // 网络请求回来对应数据
   return (
     <td {...restProps}>
       {editing ? (

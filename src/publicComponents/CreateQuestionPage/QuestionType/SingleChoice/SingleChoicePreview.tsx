@@ -15,12 +15,12 @@ export const SingleChoicePreview = (props: SingleChoiceProps) => {
         .map((optionContent, index) => {
           return {
             option: String.fromCharCode(index + 65),
-            optionContent: optionContent
+            optionContent
           }
         })
         .map((option) => {
           console.log(option.option, question.rightAnswer, 'correct')
-          const isRightAnswer = option.option == question.rightAnswer
+          const isRightAnswer = option.option === question.rightAnswer
           return (
             <div style={{ display: 'flex', marginBottom: '12px', alignItems: 'center' }} key={option.optionContent}>
               <OptionPreviewWrapper

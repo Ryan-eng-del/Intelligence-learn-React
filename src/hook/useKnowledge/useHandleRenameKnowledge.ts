@@ -9,12 +9,12 @@ export const useRenameKnowledgePoints = (props: IHandleChapterControl<IKnowledge
   const { mutateAsync: renameKnowledgeAPI } = useRenameKnowledgeAPI()
   const curId = useRef('')
   const [curRenameNode, setCurRenameNode] = useState<IKnowledgePoint | null>()
-  /*重命名节点*/
+  /* 重命名节点 */
   const renameKnowledgeNode = (id: string) => {
     dispatch({ type: 'setFocusState', focusState: true })
     renameKnowledgePoint(data, id, setCurRenameNode, dispatch)
   }
-  /*确认重命名*/
+  /* 确认重命名 */
   const confirmRename = async () => {
     try {
       await renameKnowledgeAPI({ pointId: curId.current, pointName: knowledgeState.curAddInputValue })
@@ -32,7 +32,7 @@ export const useRenameKnowledgePoints = (props: IHandleChapterControl<IKnowledge
       setCurRenameNode(null)
     }
   }
-  /*取消重命名*/
+  /* 取消重命名 */
   const cancelRename = useCallback(() => {
     dispatch({ type: 'setFocusState', focusState: false })
   }, [dispatch])

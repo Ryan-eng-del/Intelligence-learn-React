@@ -6,16 +6,16 @@ import { ChapterData } from '../types/server/fetchChapter'
 import { ChapterInitNode, ChapterTreeData, ChildChapter, ClassTimeInitNode } from '../hook/useChapterStudy/type'
 import React from 'react'
 import { IChapterReducerAction } from '../reducer/ChaperStudyTree/type/type'
-/*寻找要刪除的树的章节目录节点*/
+/* 寻找要刪除的树的章节目录节点 */
 export const deleteTreeNode = (data: any[], id: string, queryClient: QueryClient) => {
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: any[]) => {
     if (!data) return
-    data.map((d: ChildChapter, index) => {
+    data.forEach((d: ChildChapter, index) => {
       if (d.childChapters.length) {
         recursion(d.childChapters)
       }
-      if (id == d.id) {
+      if (id === d.id) {
         data.splice(index, 1)
         queryClient.setQueryData(['chapterTree'], deepCloneData)
       }
@@ -23,11 +23,11 @@ export const deleteTreeNode = (data: any[], id: string, queryClient: QueryClient
   }
   recursion(deepCloneData)
 }
-/*删除资源*/
+/* 删除资源 */
 export const deleteResource = (data: ChapterTreeData[], id: string, queryClient: QueryClient) => {
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: ChapterTreeData[]) => {
-    data.map((d) => {
+    data.forEach((d) => {
       if (!data) return
       if (d.courTimes && d.courTimes.length) {
         d.courTimes.forEach((courTime) => {
@@ -48,12 +48,12 @@ export const deleteResource = (data: ChapterTreeData[], id: string, queryClient:
   }
   recursion(deepCloneData)
 }
-/*删除课时*/
+/* 删除课时 */
 export const deleteTreeContent = (data: ChapterTreeData[], id: string, queryClient: QueryClient) => {
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: ChapterTreeData[]) => {
     if (!data) return
-    data.map((d) => {
+    data.forEach((d) => {
       d.courTimes?.forEach((da, index) => {
         if (da.classTimeId === id) {
           d.courTimes?.splice(index, 1)
@@ -76,11 +76,11 @@ export const addChildChapterNode = (
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: ChapterTreeData[]) => {
     if (!data) return
-    data.map((d: ChapterTreeData) => {
+    data.forEach((d: ChapterTreeData) => {
       if (d.childChapters.length) {
         recursion(d.childChapters)
       }
-      if (id == d.id) {
+      if (id === d.id) {
         d.childChapters = d.childChapters.concat(node)
         queryClient.setQueryData(['chapterTree'], deepCloneData)
       }
@@ -88,7 +88,7 @@ export const addChildChapterNode = (
   }
   recursion(deepCloneData)
 }
-/*传入参数一更新函数来更新queryData,从而使得UI更新*/
+/* 传入参数一更新函数来更新queryData,从而使得UI更新 */
 export const updateChapterTreeQueryCache = (
   updaterFun: (Treedata: ChapterData[]) => ChapterData[],
   queryClient: QueryClient
@@ -97,7 +97,7 @@ export const updateChapterTreeQueryCache = (
   const newQueryTreeData = queryTreeData ? updaterFun(queryTreeData!) : 0
   queryClient.setQueryData(['chapterTree'], newQueryTreeData)
 }
-/*添加课时*/
+/* 添加课时 */
 export const addChildContentNode = (
   data: ChapterTreeData[],
   id: string,
@@ -108,11 +108,11 @@ export const addChildContentNode = (
   const recursion = (data: ChapterTreeData[]) => {
     console.log('come')
     if (!data) return
-    data.map((d: ChildChapter) => {
+    data.forEach((d: ChildChapter) => {
       if (d.childChapters.length) {
         recursion(d.childChapters)
       }
-      if (id == d.id) {
+      if (id === d.id) {
         d.courTimes = d.courTimes.concat(node)
         queryClient.setQueryData(['chapterTree'], deepCloneData)
       }
@@ -121,7 +121,7 @@ export const addChildContentNode = (
   recursion(deepCloneData)
 }
 
-/*重命名节点*/
+/* 重命名节点 */
 export const reNameTreeNode = (
   data: ChapterTreeData[],
   id: string,
@@ -130,11 +130,11 @@ export const reNameTreeNode = (
 ) => {
   const recursion = (data: ChapterTreeData[]) => {
     if (!data) return
-    data.map((d: ChildChapter) => {
+    data.forEach((d: ChildChapter) => {
       if (d.childChapters.length) {
         recursion(d.childChapters)
       }
-      if (id == d.id) {
+      if (id === d.id) {
         setCurRenameNode(d)
         console.log(d.id)
         dispatch({ type: 'setCurInputValue', curInputValue: d.name })
@@ -147,7 +147,7 @@ export const reNameTreeNode = (
   }
   recursion(data)
 }
-/*受控keys，全部展开*/
+/* 受控keys，全部展开 */
 export const generateExpandKeys = (data: ChapterTreeData[]) => {
   if (!data) return []
   const result: string[] = []
@@ -168,12 +168,12 @@ export const generateExpandKeys = (data: ChapterTreeData[]) => {
 export const formatResource = (resource: ChapterResourceType[]) => {
   const result: ChapterResourceType[] = []
   resource.forEach((r) => {
-    if (r.type == '10') {
+    if (r.type === '10') {
       result.push(r)
     }
   })
   resource.forEach((r) => {
-    if (r.type == '20') {
+    if (r.type === '20') {
       result.push(r)
     }
   })
@@ -184,11 +184,11 @@ export const formatResource = (resource: ChapterResourceType[]) => {
   })
   return result
 }
-/*挂载前展开所有视频*/
+/* 挂载前展开所有视频 */
 export const expandOnMount = (data: ChapterTreeData[]) => {
   const result: string[] = []
   const recursion = (data: ChapterTreeData[]) => {
-    data.map((d: ChildChapter) => {
+    data.forEach((d: ChildChapter) => {
       if (d.childChapters.length) {
         recursion(d.childChapters)
       }

@@ -1,20 +1,18 @@
 import React from 'react'
-import { HeaderWrapper } from 'publicComponents/PageStyle/PageHeaderWapper'
 import { Button, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { GlobalHeader } from '../../../../publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout'
-
-enum statusType {
-  'undone' = '未提交',
-  'Correcting' = '待批改'
+const statusType = {
+  undone: '未提交',
+  Correcting: '待批改'
 }
 
 type TableType = {
   key: string
   Course: string
   name: string
-  status: statusType | number
+  status: number
   deadline: string
 }
 
@@ -56,14 +54,14 @@ export const ExamSummary: React.FC = () => {
       key: '1',
       Course: '马原',
       name: '期末论文',
-      status: statusType.undone,
+      status: 0,
       deadline: '2022-9-10 00:00'
     },
     {
       key: '2',
       Course: '毛概',
       name: '期中考试',
-      status: statusType.Correcting,
+      status: 1,
       deadline: '2022-9-10 00:00'
     },
     {
@@ -77,14 +75,10 @@ export const ExamSummary: React.FC = () => {
 
   return (
     <>
-      <>
-        <HeaderWrapper>
-          <GlobalHeader title="我的作业和考试"></GlobalHeader>
-        </HeaderWrapper>
-        <GlobalRightLayout>
-          <Table columns={columns} dataSource={data} />
-        </GlobalRightLayout>
-      </>
+      <GlobalHeader title="作业和考试"></GlobalHeader>
+      <GlobalRightLayout>
+        <Table columns={columns} dataSource={data} />
+      </GlobalRightLayout>
     </>
   )
 }
