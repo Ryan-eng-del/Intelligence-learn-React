@@ -50,7 +50,7 @@ export const LeftMenuWrapper = styled.div`
 //此为右侧部分
 export const RightSideWrapper = styled.div`
   animation: 0.7s fadeleft ease forwards;
-  min-height: 460px;
+  min-height: 600px;
   border-top: 3px solid var(--border);
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;

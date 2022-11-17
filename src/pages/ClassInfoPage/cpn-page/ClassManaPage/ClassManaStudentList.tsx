@@ -5,6 +5,7 @@ import type { ColumnsType } from 'antd/es/table';
 import { useDeleteStudent, useShowStudent } from "server/fetchClass";
 import { BaseLoading } from "baseUI/BaseLoding/BaseLoading";
 import { remove } from "lodash";
+import { FontSizeOutlined } from "@ant-design/icons";
 
 
 
@@ -57,7 +58,7 @@ export const ClassManaStudentList: React.FC<{ class_id: string }> = (props) => {
         useShowStudentIsLoading ?
           <BaseLoading />
           :
-          <Table style={{ height: '500px' }} size="small" columns={columns} dataSource={studentList} rowKey={record => record.userId} />
+          <Table style={{ height: '500px',fontWeight:'bold'}} size="small" columns={columns} dataSource={studentList} rowKey={record => record.userId} />
       }
     </>
   )

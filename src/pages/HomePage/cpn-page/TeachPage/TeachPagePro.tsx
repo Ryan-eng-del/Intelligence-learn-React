@@ -115,7 +115,6 @@ export const TeachPage = () => {
         <TeachHeaderWrapper>
           <TeachTitleWrapper>
             <Link to={'/mk-graph'}>mk-test-graph</Link>
-
             <div className="teach-page-title">我教的课程</div>
             <Button type="primary" onClick={showModal}>
               新建课程

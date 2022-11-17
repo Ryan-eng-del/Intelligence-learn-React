@@ -183,6 +183,7 @@ export const QuestionBankTable: React.FC<{
               共计{originData?.length}题
             </TotalQuestionWrapper>
             <Table
+              style={{fontWeight:'bold'}}
               rowSelection={rowSelection}
               columns={mergedColumns}
               dataSource={isAll ? originData : curData}

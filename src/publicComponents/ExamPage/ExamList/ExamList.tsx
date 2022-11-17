@@ -15,7 +15,7 @@ import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 
 export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
   const { data, isLoading } = useShowExamList(courseId)
-  const { data: paperTarget } = useGetPaperTarget(courseId)
+  const { data: paperTarget} = useGetPaperTarget(courseId)
   const navigate = useNavigate()
   const [statistics, setStatistics] = useState(false)
   const [publish, setPublish] = useState(false)

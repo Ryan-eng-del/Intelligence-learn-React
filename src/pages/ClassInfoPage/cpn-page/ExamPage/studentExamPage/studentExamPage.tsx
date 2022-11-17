@@ -88,7 +88,7 @@ export const StudentExamPage: React.FC = () => {
         </TitleWrapper>
       </HeaderWrapper>
       <ContentWrapper>
-        <Table columns={columns} dataSource={data} />
+        <Table style={{fontWeight:'bold'}} columns={columns} dataSource={data} />
       </ContentWrapper>
     </>
   )

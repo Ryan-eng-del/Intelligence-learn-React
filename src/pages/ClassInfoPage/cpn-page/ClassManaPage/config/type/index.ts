@@ -12,6 +12,7 @@ export interface ClassManaPageState {
   modalVisible: boolean //添加班级模态窗状态
   classManaList: ClassMana[] //班级列表
 }
+
 export type ClassManaPageAction =
   | { type: 'rename'; curItem: ClassMana }
   | { type: 'removeClass'; id: string }
