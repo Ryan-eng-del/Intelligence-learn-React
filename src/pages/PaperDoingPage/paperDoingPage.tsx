@@ -1,17 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Title } from './Title/theTitle'
 import { Menu } from './Menu/Menu'
 import { QuestionList } from './QuestionList/QuestionList'
 import { Layout } from 'antd'
 import { useParams } from 'react-router-dom'
 import { useShowQuestionForStudent } from 'server/fetchExam/TestPaper'
-import { QuestionType, StudentPaperItem } from 'server/fetchExam/types'
+import { QuestionType, StudentPaper, StudentPaperItem } from 'server/fetchExam/types'
+import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 const { Header, Sider, Content } = Layout
 
 export const PaperDoing: React.FC = () => {
   // 需要路由获取参数
   const { paperId } = useParams()
-  const { isSuccess } = useShowQuestionForStudent(paperId!)
+  // const { data ,isLoading } = useShowQuestionForStudent(paperId!)
   const data = {
     paperId: '1559401k362804965378',
     paperName: '第一次月考',
@@ -67,7 +68,8 @@ export const PaperDoing: React.FC = () => {
     ]
   }
 
-  const len = (list: StudentPaperItem[]) => {
+  const len = (data:StudentPaper) => {
+    const list = data.questionOfPaperVos
     return [
       list.filter((i) => i.questionType == QuestionType.single).length,
       list.filter((i) => i.questionType == QuestionType.multiple).length,
@@ -78,14 +80,15 @@ export const PaperDoing: React.FC = () => {
   }
 
   return (
-    <>
+    <>{
+      data == undefined ? <BaseLoading/>:
       <Layout style={{ backgroundColor: 'white' }}>
         <Header
           style={{
             position: 'sticky',
             top: 0,
             backgroundColor: 'white',
-            borderBottom: 'solid 1px',
+            boxShadow: "rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px",
             zIndex: 100
           }}
         >
@@ -95,21 +98,20 @@ export const PaperDoing: React.FC = () => {
           <Sider
             style={{
               position: 'sticky',
-              top: 84,
+              top: 59,
               backgroundColor: 'white',
-              border: '1px solid',
-              borderRadius: 5,
+              boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
               height: 600,
-              width: 300
+              width: 400
             }}
           >
-            <Menu num={len(data.questionOfPaperVos)} />
+            <Menu num={len(data)} />
           </Sider>
           <Content style={{ fontSize: 'large', backgroundColor: 'white' }}>
-            <QuestionList Questionlist={data!.questionOfPaperVos} />
+            <QuestionList Questionlist={data.questionOfPaperVos} />
           </Content>
         </Layout>
       </Layout>
-    </>
+    }</>
   )
 }

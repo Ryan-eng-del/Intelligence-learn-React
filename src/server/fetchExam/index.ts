@@ -115,7 +115,7 @@ export const useUpadateQuestion = () => {
   return useMutation(
     async (QuestionItem: QuestionDataWithID) => {
       await delayFetch()
-      return client.post({
+      return client.put({
         url: '/question/teacher/update',
         data: {
           ...QuestionItem

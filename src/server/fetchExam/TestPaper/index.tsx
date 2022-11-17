@@ -115,8 +115,8 @@ export const useSaveTestPaper = () => {
 export const useShowQuestionForStudent = (id: string) => {
   return useQuery([`paperdoing-${id}`], () => {
     return client.get<StudentPaper>({
-      url: '/paper/stu/paper-detail',
-      params: { id }
+      url: `/paper/stu/paper-detail/${id}`,
+      params: { paperId:id }
     })
   })
 }

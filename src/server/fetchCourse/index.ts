@@ -38,10 +38,15 @@ export const useShowInvitedCourseInfo = (
     },
     {
       onSuccess: (data) => {
-        console.log(data)
-        setNewCourse(data)
-        setModalVisible2(true)
-        message.success('查询成功')
+        if(data) {
+          console.log(data)
+          setNewCourse(data)
+          setModalVisible2(true)
+          message.success('查询成功')
+        } else {
+
+          message.error(`不存在的课: ${class_invitation_code}`)
+        }
       },
       onError: () => {
         message.error('查询失败')

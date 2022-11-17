@@ -1,7 +1,6 @@
 import axios from 'axios'
 import type { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios'
 import { message } from 'antd'
-import cache from 'util/cache'
 
 const DEBUGINFO = process.env.NODE_ENV == 'development' ? "错误：" : ""
 interface InterceptorHooks {
