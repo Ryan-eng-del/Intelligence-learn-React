@@ -1,8 +1,9 @@
-import React, { createContext, useContext, useState } from 'react'
-import { ClassInfoPageWrapper } from './ClassInfoPageStyle'
 
-import { ClassInfoNav, ClassInfoRoutePage } from 'components/ClassInfoPage'
-import { LayoutCpn } from 'publicComponents/LayoutCpn/LayoutCpn'
+import { GlobalLayout } from 'publicComponents/GlobalLayout'
+import { createContext } from 'react'
+import { Outlet } from 'react-router-dom'
+import { createClassNavMap } from 'util/createNavMap'
+import ClassInfoNavItems from './config'
 
 const curCourse = {
   courseId: '',

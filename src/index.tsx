@@ -33,7 +33,6 @@ import { QuestionEditPage } from 'publicComponents/CreateQuestionPage'
 import { MkGraph } from 'pages/MK-graphPage/MkGraph'
 import { PaperDoing } from 'pages/PaperDoingPage/paperDoingPage'
 import { ClassTimeDispatchContextProvider } from './context/ChapterStudyTree/ClassTimeDispatchContext'
-import { TestPaperPreview } from 'components/CreateExamPage'
 import { StudentExamPage } from 'pages/ClassInfoPage/cpn-page/ExamPage/studentExamPage/studentExamPage'
 import { QuestionDoingPage } from 'pages/QuestionDoingPage/QuestionDoingPage'
 
@@ -81,7 +80,7 @@ root.render(
             </Route>
             <Route path="studentClassinfo" element={<ClassInfoPage />}>
               <Route path="chapter" element={<ChapterPage />} />
-              <Route path="exam" element={<StudentExamPage />} />
+              {/* <Route path="exam" element={<StudentExamPage />} /> */}
               <Route path="resource" element={<ResourcePage />} />
               <Route path="discuss" element={<DiscussPage />} />
               <Route path="class" element={<ClassManaPage />} />
@@ -91,10 +90,10 @@ root.render(
             <Route path={'k-graph'} element={<KnowledgeGraph />} />
             <Route path={'mk-graph'} element={<MkGraph />} />
             <Route path="editpaper/:paperid" element={<CreateExamPage />} />
-            <Route
+            {/* <Route
               path="previewtestpaper/:paperid"
               element={<TestPaperPreview />}
-            />
+            /> */}
             <Route
               path="teacher-preview"
               element={<TeacherSourcePreviewPage />}

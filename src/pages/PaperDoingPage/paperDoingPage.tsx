@@ -3,11 +3,13 @@ import { Title } from './Title/theTitle'
 import { Menu } from './Menu/Menu'
 import { QuestionList } from './QuestionList/QuestionList'
 import { Layout } from 'antd'
-import { questiontype } from './QuestionListItem/QuestionListItem'
+import { QuestionType, StudentPaperItem } from 'server/fetchExam/types'
+import { useShowQuestionForStudent } from 'server/fetchExam/TestPaper'
+import { useParams } from 'react-router-dom'
 
 const { Header, Sider, Content } = Layout
 
-const Questionlist: questiontype[] = [
+const Questionlist: any[] = [
   {
     questionName:
       '555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555',

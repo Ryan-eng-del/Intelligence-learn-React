@@ -24,7 +24,7 @@ export const Take: React.FC<{
       <h2>题目</h2>
       {str2DOM(question.content)}
       <h2>选项</h2>
-      {question.Options.map((i) => (
+      {question.Options.map((i:any) => (
         <div key={i.optionName}>
           <Space>
             <Button

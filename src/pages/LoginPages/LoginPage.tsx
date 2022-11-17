@@ -37,7 +37,7 @@ export const LoginPage: React.FC = () => {
               <></>
             ) :
               (
-                <BaseLoading style={{ position: 'absolute', top: '40%' }} />
+                <BaseLoading />
               )
           }
           <img width="100%" height="100%" src='https://source.unsplash.com/random/700x980/?sky' onLoad={() => { setload(true) }} />

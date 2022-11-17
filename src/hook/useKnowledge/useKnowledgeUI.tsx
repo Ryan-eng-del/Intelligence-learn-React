@@ -24,7 +24,7 @@ export const useKnowledgeUI = () => {
     )
   }
 
-  /*根据后台数据来递归构造树节点*/
+  /* 根据后台数据来递归构造树节点*/
   const generateKnowledgeTree = (data: IKnowledgePoint[]) => {
     if (!data) return
     const recursion = (data: IKnowledgePoint[]) => {

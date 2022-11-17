@@ -13,8 +13,7 @@ import {
   InputNumber,
   TimePicker
 } from 'antd'
-import { format } from 'path';
-import { val } from 'dom7';
+
 import { Childen, paperTarget, PublishExamType, PublishHomeworkType, TreeData } from '../types';
 import { useReleaseExam, useReleaseHomework } from 'server/fetchExam';
 

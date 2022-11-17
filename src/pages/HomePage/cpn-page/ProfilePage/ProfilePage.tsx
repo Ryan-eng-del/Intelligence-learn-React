@@ -3,12 +3,13 @@ import { Tabs } from 'antd'
 
 const { TabPane } = Tabs
 import { UserOutlined, LockOutlined, MessageOutlined, BgColorsOutlined } from '@ant-design/icons'
-import { AccountSecurity } from './AccountSecurity/AccountSecurity'
-import { BasicInformation } from './BasicInformation/BasicInformation'
-import { Notification } from './Notification/Notification'
-import { Personalization } from './Personalization/Personalization'
+
 import { GlobalHeader } from '../../../../publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/index'
+import { BasicInformation } from '../SettingPage/BasicInformation/BasicInformation'
+import { AccountSecurity } from '../SettingPage/AccountSecurity/AccountSecurity'
+import { Notification } from '../SettingPage/Notification/Notification'
+import { Personalization } from '../SettingPage/Personalization/Personalization'
 
 export const ProfilePage: React.FC = () => {
   return (

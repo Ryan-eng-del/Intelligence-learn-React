@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
-import { ExamListItem, QuestionBank, QuestionData, QuestionDataWithID, QuestionType, WholeQuestion } from './types'
+import { ExamListItem, QuestionBank, QuestionData, QuestionDataWithID, QuestionType, StudentPaperItem, WholeQuestion } from './types'
 import { message } from 'antd'
 import { paperTarget, PublishExamType, PublishHomeworkType } from 'publicComponents/ExamPage/types'
 

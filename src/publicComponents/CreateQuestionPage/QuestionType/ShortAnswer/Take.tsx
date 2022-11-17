@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { StudentPaperItem } from 'server/fetchExam/types'
 import { str2DOM } from 'util/str2DOM'
-import { TextArea } from '../Component/TextArea'
 import { Network2Sutdent } from './config'
 
 export const Take: React.FC<{
@@ -16,12 +15,7 @@ export const Take: React.FC<{
       {str2DOM(question.content)}
 
       <h2>回答</h2>
-      <TextArea
-        setContent={(c: string) => {
-          setANS(c), setAns(c)
-        }}
-        content={ans}
-      ></TextArea>
+
     </>
   )
 }

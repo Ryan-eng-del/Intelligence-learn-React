@@ -1,10 +1,5 @@
 import React, { useReducer, useState } from 'react'
-import {
-  PageWrapper,
-  ContentWrapper,
-  HeaderWrapper,
-  TitleWrapper
-} from 'publicComponents/PageStyle/PageHeaderWapper'
+
 import {
   Card,
   Col,
@@ -212,16 +207,10 @@ export const ClassManaMain: React.FC<{ classList: classmana[] }> = (props) => {
           </div>
         </Modal>
         {/* 主体内容 */}
-        <PageWrapper>
-          <HeaderWrapper>
-            <TitleWrapper>
               <div className="page-title">班级管理</div>
               <Button type="primary" onClick={addClass} className="add-button-X">
                 新建班级
               </Button>
-            </TitleWrapper>
-          </HeaderWrapper>
-          <ContentWrapper>
             <Row gutter={[16, 24]}>
               {classManaList!.map((i, index) => (
 
@@ -257,8 +246,7 @@ export const ClassManaMain: React.FC<{ classList: classmana[] }> = (props) => {
                 </Col>
               ))}
             </Row>
-          </ContentWrapper>
-        </PageWrapper>
+
       </>
     </>
   )

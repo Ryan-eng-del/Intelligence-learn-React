@@ -101,13 +101,13 @@ export const InboxPage: React.FC = () => {
   return (
     <>
       <InboxWrapper>
-        <Tabs activeKey={chosen} centered onChange={key =>setChosen(key)} >
-          {tabConfig.map(i=><TabPane
-            tab={<Badge dot={showBadge(i.tag)}>
-              {i.icon} {i.name}
-            </Badge>}
-            key={i.tag}
-          />)}
+        <Tabs activeKey={chosen} centered onChange={key =>setChosen(key)} />
+            {tabConfig.map(i=>
+            <TabPane tab={<Badge dot={showBadge(i.tag)}>
+                {i.icon} {i.name}
+              </Badge>}
+              key={i.tag}
+            />)}
       <GlobalHeader title="消息通知"></GlobalHeader>
       <GlobalRightLayout>
         <Tabs
@@ -162,17 +162,6 @@ export const InboxPage: React.FC = () => {
             default: return item.tag == chosen
           }})}
           renderItem={(item) => (
-            <List.Item onClick={() => readMsg(item)} >
-              <List.Item.Meta
-                key={item.msgID}
-                avatar={<TeamOutlined />}
-                title={<Badge dot={!item.Readed}>{item.from}</Badge>}
-                description={<Paragraph ellipsis={true}>{item.pre}</Paragraph>}
-              />
-              <Button onClick={(e) => favMsg(e,item)}>
-                {item.isFavority ? <HeartFilled /> : <HeartOutlined />}
-              </Button>
-            </List.Item>
             <>
               <List.Item
                 onClick={() => readMsg(item)}
@@ -184,7 +173,7 @@ export const InboxPage: React.FC = () => {
                   title={<Badge dot={!item.Readed}>{item.from}</Badge>}
                   description={<Paragraph ellipsis={true}>{item.content}</Paragraph>}
                 />
-                <Button onClick={() => favMsg(item)}>{item.isFavority ? <HeartFilled /> : <HeartOutlined />}</Button>
+                <Button onClick={(e) => favMsg(e,item)}>{item.isFavority ? <HeartFilled /> : <HeartOutlined />}</Button>
               </List.Item>
             </>
           )}

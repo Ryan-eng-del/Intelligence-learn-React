@@ -9,11 +9,7 @@ export const ClassMana: React.FC<{ courseId: string }> = (props) => {
     <>
       {useToGetClassListIsLoading ?
         <BaseLoading
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            marginTop: '24px'
-          }}
+
         />
         :
         <ClassManaMain classList={classList!} />

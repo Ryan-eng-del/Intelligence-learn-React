@@ -4,22 +4,6 @@ import { QuestionActionString } from 'server/fetchExam/types'
 import styled from 'styled-components'
 import { getQuestionHeader } from '../../../pages/CreateExamPage/util/util'
 import { IQuestionType, IQuestionTypeInitialState } from '../../../reducer/CreateExamPaper/type/type'
-import React, { useState } from 'react'
-import {
-  CreateExamNavWrapper,
-  QuestionItemWrapper,
-  DeleteButtonWrapper
-} from './CreateExamNavStyle'
-import { Collapse, Button, Popconfirm,  InputNumber } from 'antd'
-import { DeleteOutlined } from '@ant-design/icons'
-import {
-  QuestionItem,
-  QuestionList,
-} from 'server/fetchExam/types'
-import { AnyFn } from 'types'
-import { QuestionICON } from '../CreateExamMenu/CreateExamMenu'
-import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
-import { Config } from './Config'
 
 const { Panel } = Collapse
 
@@ -39,21 +23,6 @@ export const CreateExamNav = (props: CreateExamNavProps) => {
     setCurEdit(question)
     setCurId(question.questionId)
     setCurOrder(index)
-export const CreateExamNav: React.FC<{
-  isLoading: boolean
-  questionList: QuestionList[]
-  setConfig: () => void
-  changeScore: AnyFn<void>
-  focus: (item: QuestionItem) => void
-  SumScore: () => number
-}> = ({ questionList, focus, isLoading, SumScore, setConfig }) => {
-  const [Fouce, setFouce] = useState<QuestionItem>()
-  const removeQuesItem = (curItem: QuestionItem, curList: QuestionList) => {
-    curList.questiton = curList.questiton.filter((i) => i !== curItem)
-    if (curList.amount === 0) {
-      curList.isExists = false
-    }
-    setConfig()
   }
 
   /*试卷总题量*/
@@ -89,7 +58,7 @@ export const CreateExamNav: React.FC<{
         defaultActiveKey={Object.keys(questionTypeState).map((_, index) => index)}
       >
         {Object.keys(questionTypeState).map((type, index) => {
-          const questionTypeKey = questionTypeState[type as QuestionActionString]
+          const questionTypeKey:any = questionTypeState[type as QuestionActionString]
           return (
             questionTypeKey.list.length && (
               <Panel
@@ -99,7 +68,7 @@ export const CreateExamNav: React.FC<{
                     <span style={{ marginRight: '7px' }}>{getQuestionHeader(index)}</span>（共
                     {questionTypeKey.list.length}题
                     <span>
-                      {questionTypeKey.list.reduce((pre, now) => {
+                      {questionTypeKey.list.reduce((pre:any, now:any) => {
                         return (pre += now.score)
                       }, 0)}
                       分）
@@ -107,7 +76,7 @@ export const CreateExamNav: React.FC<{
                   </PanelHeader>
                 }
               >
-                {questionTypeKey.list.map((question, index) => {
+                {questionTypeKey.list.map((question:any, index:any) => {
                   return (
                     <QuestionTypeWrapper
                       className={curId === question.questionId ? 'active' : 'noActive'}
@@ -144,7 +113,6 @@ export const QuestionTypeWrapper = styled.div`
   &:hover {
     background-color: rgb(247, 250, 252);
   }
-}
 `
 export const PanelHeader = styled.div`
   font-size: 13px;
