@@ -3,6 +3,7 @@ import { Button, Input } from 'antd'
 import { stopPropagation } from 'util/stopPropagation'
 import { debounce } from 'util/debounece'
 import { IChapterReducerAction } from '../../../../../reducer/ChaperStudyTree/type/type'
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 
 const ChapterNodeRenameStatus: React.FC<{
   dispatchChapter: React.Dispatch<IChapterReducerAction>
@@ -27,12 +28,19 @@ const ChapterNodeRenameStatus: React.FC<{
         defaultValue={value}
         onClick={(e) => e.stopPropagation()}
       />
-      <Button type={'primary'} onClick={(e) => stopPropagation(e, confirmRename)} style={{ marginRight: '15px' }}>
-        √
-      </Button>
-      <Button type={'primary'} danger onClick={(e) => stopPropagation(e, cancelRename)}>
-        x
-      </Button>
+      <Button
+        type={'primary'}
+        onClick={(e) => stopPropagation(e, confirmRename)}
+        style={{ marginRight: '15px',width:"3rem" }}
+        icon={<CheckOutlined />}
+      />
+      <Button
+        type={'primary'}
+        style={{ marginRight: '15px',width:"3rem" }}
+        danger
+        onClick={(e) => stopPropagation(e, cancelRename)}
+        icon={<CloseOutlined />}
+      />
     </div>
   )
 }

@@ -7,11 +7,12 @@ import {
   AreaChartOutlined,
   DeliveredProcedureOutlined
 } from '@ant-design/icons'
-import { StatisticsPanel } from '../StatisticsPanel/StatisticsPanel'
-import { PublishPanel } from '../PublishPanel/PublishPanel'
+
 import { useGetPaperTarget, useShowExamList } from 'server/fetchExam'
 import { ExamListItem } from 'server/fetchExam/types'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
+import { StatisticsPanel } from 'publicComponents/ExamPage/StatisticsPanel/StatisticsPanel'
+import { PublishPanel } from 'publicComponents/ExamPage/PublishPanel/PublishPanel'
 
 export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
   const { data, isLoading } = useShowExamList(courseId)

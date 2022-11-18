@@ -112,7 +112,6 @@ const EditToolWrapperContent = styled.div`
 `
 const ChapterTreeContentWrapper = styled.div`
   width: 950px;
-
   &:hover .edit-content-tool-wrapper {
     opacity: 1;
   }

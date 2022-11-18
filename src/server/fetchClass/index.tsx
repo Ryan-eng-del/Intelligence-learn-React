@@ -4,15 +4,12 @@ import { ClassMana, ClassManaStudentType } from "pages/ClassInfoPage/cpn-page/Cl
 import { client } from "server"
 import { delayFetch } from "util/delayFetch"
 
-export const useToGetClassList = (courseId: string, token: string) => {
+export const useToGetClassList = (courseId: string) => {
   return useQuery([`classList-${courseId}`], async () => {
     await delayFetch()
     return client.get<ClassMana[]>({
       url: '/class/show',
-      params: {
-        courseId: courseId,
-        token: token,
-      }
+      params: {courseId}
     })
   }, {
     onSuccess: () => {

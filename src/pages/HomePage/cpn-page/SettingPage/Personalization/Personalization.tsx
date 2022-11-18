@@ -29,8 +29,8 @@ export const Personalization = () => {
         项目贡献者：
         {
           isLoading ? <BaseLoading/> :
-          (data as dataType[]).map(i=><>
-            <span onClick={()=>window.open(i.html_url)} style={{margin:"5px"}}>
+          (data as dataType[]).map((i,n)=><>
+            <span onClick={()=>window.open(i.html_url)} style={{margin:"5px"}} key={n}>
               <Tooltip title={i.login}>
                 <Avatar src={i.avatar_url} size={30} />
               </Tooltip>

@@ -33,7 +33,7 @@ const HomeItems: MenuItem[] = [
   getItem(<Link to={'teach'}>我教的课</Link>, '2', <TagsOutlined />),
   getItem(<Link to={'inbox'}>消息通知</Link>, '3', <BellOutlined />),
   getItem(<Link to={'exam'}>我的考试</Link>, '4', <ContainerOutlined />),
-  getItem(<Link to={'profile'}>个人信息</Link>, '5', <UserOutlined />),
-  getItem(<Link to={'setting'}>设置</Link>, '6', <SettingOutlined />)
+  getItem(<Link to={'profile'}>社区</Link>, '5', <UserOutlined />),
+  getItem(<Link to={'setting'}>设置</Link>, '6', <SettingOutlined />),
 ]
 export default HomeItems

@@ -108,16 +108,15 @@ export const TeachPage = () => {
             {Array.from({ length: (data?.length || 4 % 4) + 1 }).map((v, i) => {
               return (
                 <Row key={i} style={{ marginBottom: '30px' }}>
-                  {data?.map((item: any, index: any) => {
+                  {data?.map((item, index) => {
                     return (
                       index >= i * 4 &&
                       index < (i + 1) * 4 && (
                         <ClassCard
                           to={'teacher'}
-                          id={item.course_id}
-                          cname={item.course_name}
-                          iurl={item.courses_cover}
-                          Permission={true}
+                          id={item.courseId}
+                          cname={item.courseName}
+                          iurl={item.coursesCover}
                           key={index}
                         ></ClassCard>
                       )

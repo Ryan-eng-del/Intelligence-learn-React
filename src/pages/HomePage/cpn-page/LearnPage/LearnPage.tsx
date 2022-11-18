@@ -4,13 +4,14 @@ import { Input, Modal, Row } from 'antd'
 import { ClassCard } from 'publicComponents/TeachRotePage'
 import { useJoinInvitedCourse, useShowInvitedCourseInfo, useShowLearnClass } from 'server/fetchCourse'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
-import { CourseInfo } from 'server/fetchCourse/types'
-import { GlobalHeader } from '../../../../publicComponents/GlobalHeader/index'
-import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/index'
+import { CourseList } from 'server/fetchCourse/types'
+import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
+import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
+import { PrimaryButton } from 'publicComponents/Button'
 
 export const LearnPage: React.FC = () => {
   const [invitedcode, setInvitedCode] = useState('')
-  const [newCourse, setNewCourse] = useState<CourseInfo | undefined>()
+  const [newCourse, setNewCourse] = useState<CourseList | undefined>()
 
   const { data, isLoading } = useShowLearnClass()
   const { mutate: joinClass } = useJoinInvitedCourse(invitedcode, newCourse!)
@@ -82,37 +83,43 @@ export const LearnPage: React.FC = () => {
           width={300}
         >
           <ModalContextWrapper>
-            <img src={newCourse?.course_cover || require('assets/img/class.jpg')} alt="课程图片" />
-            <h1>{newCourse?.course_name}</h1>
-            <h3>{newCourse?.teacher_name}</h3>
+            <img src={newCourse?.coursesCover || require('assets/img/class.jpg')} alt="课程图片" />
+            <h1>{newCourse?.courseName}</h1>
+            <h3>{newCourse?.courseName}</h3>
           </ModalContextWrapper>
         </Modal>
       </>
       <>
-        <GlobalHeader title="我学的课"></GlobalHeader>
+        <GlobalHeader
+          title="我学的课"
+          tool={<PrimaryButton title="加入课程" handleClick={()=>setModalVisible(true)}></PrimaryButton>}
+        ></GlobalHeader>
         <GlobalRightLayout>
           {isLoading ? (
             <BaseLoading />
           ) : (
-            <Row>
-              {Array.from({
-                length: (data as CourseInfo[]).length / 4 + 1
-              }).map((v, i) => {
-                return (data as CourseInfo[]).map((item: CourseInfo, index: number) => {
-                  return (
-                    <ClassCard
-                      to={'student'}
-                      key={index}
-                      id={item.class_id}
-                      cname={item.course_name}
-                      iurl={item.course_cover || null}
-                      optimistic={item.optimistic}
-                      Permission={false}
-                    ></ClassCard>
-                  )
-                })
+            <>
+              {Array.from({ length: (data?.length || 4 % 4) + 1 }).map((v, i) => {
+                return (
+                  <Row key={i} style={{ marginBottom: '30px' }}>
+                    {data?.map((item, index) => {
+                      return (
+                        index >= i * 4 &&
+                        index < (i + 1) * 4 && (
+                          <ClassCard
+                            to={'teacher'}
+                            id={item.courseId}
+                            cname={item.courseName}
+                            iurl={item.coursesCover}
+                            key={index}
+                          ></ClassCard>
+                        )
+                      )
+                    })}
+                  </Row>
+                )
               })}
-            </Row>
+            </>
           )}
         </GlobalRightLayout>
       </>

@@ -54,9 +54,7 @@ const ChapterTreeDirectory: React.FC<{
 const EditToolWrapper = styled.div`
   opacity: 0;
   transition: 0.3s opacity;
-  position: absolute;
   right: 0;
-
   button {
     margin-right: 14px;
   }
@@ -64,8 +62,8 @@ const EditToolWrapper = styled.div`
 const ChapterTreeDirectoryWrapper = styled.div`
   width: 950px;
   transition: 0.3s opacity var(--easing);
-
   &:hover .edit-tool-wrapper {
+    color:var(--blue);
     opacity: 1;
   }
 `

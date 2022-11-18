@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { message } from 'antd'
 import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
-import { CourseInfo, CourseList } from './types'
+import {  CourseList } from './types'
 // 显示课程
 export const useShowCreateClass = () => {
   return useQuery(['class'], async () => {
@@ -16,7 +16,7 @@ export const useShowCreateClass = () => {
 export const useShowLearnClass = () => {
   return useQuery(['learnclass'], async () => {
     await delayFetch()
-    return client.get<CourseInfo[]>({
+    return client.get<CourseList[]>({
       url: '/course/show-join'
     })
   })
@@ -31,7 +31,7 @@ export const useShowInvitedCourseInfo = (
   return useMutation(
     async () => {
       await delayFetch()
-      return await client.get<CourseInfo>({
+      return await client.get<CourseList>({
         url: '/class/invitation-code',
         params: { class_invitation_code }
       })
@@ -57,13 +57,13 @@ export const useShowInvitedCourseInfo = (
 
 export const useJoinInvitedCourse = (
   class_invitation_code: string,
-  newCourse: CourseInfo
+  newCourse: CourseList
 ) => {
   const queryClient = useQueryClient()
   return useMutation(
     async () => {
       await delayFetch()
-      return client.post<CourseInfo>({
+      return client.post<CourseList>({
         url: '/class/join',
         data: { class_invitation_code: class_invitation_code }
       })

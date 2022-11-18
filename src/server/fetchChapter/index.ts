@@ -14,7 +14,7 @@ export const useShowChapter = (dispatch: React.Dispatch<IChapterReducerAction>) 
     const data: ChapterTreeData[] = await client.get({
       url: 'chapter/getChapter'
     })
-    dispatch({ type: 'setExpandKeys', expandKeys: () => generateExpandKeys(data) })
+      dispatch({ type: 'setExpandKeys', expandKeys: () => generateExpandKeys(data) })
     return data
   })
 }
