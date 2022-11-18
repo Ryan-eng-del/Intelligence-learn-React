@@ -58,7 +58,7 @@ export const CreateExamNav = (props: CreateExamNavProps) => {
         defaultActiveKey={Object.keys(questionTypeState).map((_, index) => index)}
       >
         {Object.keys(questionTypeState).map((type, index) => {
-          const questionTypeKey = questionTypeState[type as QuestionActionString]
+          const questionTypeKey:any = questionTypeState[type as QuestionActionString]
           return (
             questionTypeKey.list.length && (
               <Panel
@@ -68,7 +68,7 @@ export const CreateExamNav = (props: CreateExamNavProps) => {
                     <span style={{ marginRight: '7px' }}>{getQuestionHeader(index)}</span>（共
                     {questionTypeKey.list.length}题
                     <span>
-                      {questionTypeKey.list.reduce((pre, now) => {
+                      {questionTypeKey.list.reduce((pre:any, now:any) => {
                         return (pre += now.score)
                       }, 0)}
                       分）
@@ -76,7 +76,7 @@ export const CreateExamNav = (props: CreateExamNavProps) => {
                   </PanelHeader>
                 }
               >
-                {questionTypeKey.list.map((question, index) => {
+                {questionTypeKey.list.map((question:any, index:any) => {
                   return (
                     <QuestionTypeWrapper
                       className={curId === question.questionId ? 'active' : 'noActive'}
@@ -113,7 +113,6 @@ export const QuestionTypeWrapper = styled.div`
   &:hover {
     background-color: rgb(247, 250, 252);
   }
-}
 `
 export const PanelHeader = styled.div`
   font-size: 13px;

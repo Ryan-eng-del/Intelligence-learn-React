@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { Button, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { useNavigate } from 'react-router-dom'
@@ -9,7 +10,7 @@ enum statusType {
 }
 
 type TableType = {
-  key: string
+  id: string
   name: string
   status: statusType | number
   deadline: string
@@ -38,11 +39,11 @@ export const StudentExamPage: React.FC<{
       render: (_: any, record: TableType) =>
         typeof record.status === 'number' ? (
           <Button>查看详情</Button>
-        ) : record.status === statusType.undone ? ( //navigate(`/editpaper/${data}`)
+        ) : record.status === statusType.undone ? (
           <Button
             type="primary"
             onClick={() => {
-              navigate(`/homework`), { replace: true }
+              navigate(`/homework/${record.id}`, { replace: true })
             }}
           >
             去完成
@@ -56,19 +57,19 @@ export const StudentExamPage: React.FC<{
   ]
   const data: TableType[] = [
     {
-      key: '1',
+      id: '1',
       name: '期末论文',
       status: statusType.undone,
       deadline: '2022-9-10 00:00'
     },
     {
-      key: '2',
+      id: '2',
       name: '期中考试',
       status: statusType.Correcting,
       deadline: '2022-9-10 00:00'
     },
     {
-      key: '3',
+      id: '3',
       name: '第一章作业',
       status: 70,
       deadline: '2022-9-10 00:00'

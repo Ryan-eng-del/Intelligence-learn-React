@@ -71,6 +71,7 @@ type QuestionContext = {
 export type QuestionData = QuestionContext & {
   courseId: string
 }
+
 /** 修改的题目实体 */
 export type QuestionDataWithID = QuestionData & {
   questionId: string
@@ -114,5 +115,22 @@ export type Item = {
   create_time: string
   questionId: string
   rightAnswer: string
+  questionOption: string
+}
+
+///////////////////////////////////////// 学生试卷
+export interface StudentPaper {
+  paperId: string
+  paperName: string
+  questionOfPaperVos: StudentPaperItem[]
+}
+
+export interface StudentPaperItem {
+  questionId: string
+  questionDescription: string
+  questionType: QuestionType
+  questionScore?: number
+  questionAnswerNum: number
+  questionOrder?: number
   questionOption: string
 }

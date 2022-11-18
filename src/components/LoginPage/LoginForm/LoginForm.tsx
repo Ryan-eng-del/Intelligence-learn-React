@@ -8,7 +8,7 @@ import {
   CheckOutlined,
   ArrowRightOutlined
 } from '@ant-design/icons'
-import { LoginFormWrapper, LoginTitle, ButtonWrapper } from './LoginFormStyle'
+import { LoginFormWrapper, ButtonWrapper } from './LoginFormStyle'
 
 export const LoginForm: React.FC<{
   mutate: any
@@ -16,24 +16,23 @@ export const LoginForm: React.FC<{
 }> = ({ mutate, routeToRegister }) => {
   return (
     <LoginFormWrapper>
-      <LoginTitle>
-        <p className="title-login">Login In</p>
-      </LoginTitle>
-      <Input
-        size="large"
-        placeholder="请您输入用户名"
-        prefix={<UserOutlined />}
-        style={{ marginBottom: '20px' }}
-      />
-      <Input.Password
-        placeholder="请您输入密码"
-        prefix={<CompassOutlined />}
-        iconRender={(visible) =>
-          visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-        }
-      />
+      <h1>Login In</h1>
+      <div className="input-group">
+        <label className="label">Name</label>
+        <input autoComplete="off" name="Email" id="Email" className="input" type="email" />
+      </div>
+      <div className="input-group">
+        <label className="label">PassWord</label>
+        <input autoComplete="off" name="Email" id="Email" className="input" type="email" />
+      </div>
+
       <div className="forget-password">忘记密码</div>
-      <ButtonWrapper>
+      <button className='btn' onClick={() => {
+        mutate({ name: 'jk', password: 'jjk' })
+      }}><CheckOutlined />   登录</button>
+      <button className='btn' onClick={routeToRegister}><ArrowRightOutlined />   注册</button>
+
+      {/* <ButtonWrapper>
         <Button
           type="primary"
           onClick={() => {
@@ -41,16 +40,17 @@ export const LoginForm: React.FC<{
           }}
           icon={<CheckOutlined />}
         >
-          登录
+             登录
         </Button>
         <Button
           type="primary"
+
           onClick={routeToRegister}
           icon={<ArrowRightOutlined />}
         >
-          前往注册
+             前往注册
         </Button>
-      </ButtonWrapper>
+      </ButtonWrapper> */}
     </LoginFormWrapper>
   )
 }

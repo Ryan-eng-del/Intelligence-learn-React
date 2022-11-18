@@ -1,26 +1,36 @@
 import styled, { keyframes } from 'styled-components'
 
 export const LoginPageWrapper = styled.div`
-  margin: 0 auto;
-  width: 1261px;
-  min-width: 1261px;
-  padding-top: 110px;
-  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: aliceblue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: linear-gradient(225deg, #8EC5FC 0%, #ffffff 100%);
+  height:100vh;
 `
-const faderight = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-    transition: opacity 300ms var(--easing), transform 300ms var(--easing);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-    transition: opacity 300ms var(--easing), transform 300ms var(--easing);
-  }
+export const ContanierWrapper = styled.div`
+  height: 700px;
+  width: 980px;
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
+  margin: 10px;
+  border: 20px #d9dde8;
+  border-radius:3%;
+  -webkit-box-shadow: 0px 2px 48px -3px rgba(0,0,0,0.39);
+  -moz-box-shadow: 0px 2px 48px -3px rgba(0,0,0,0.39);
+  box-shadow: 0px 2px 48px -3px rgba(0,0,0,0.39);
 `
-export const AvatarWrapper = styled.div`
-  top: 18px;
-  left: 27px;
-  animation: 0.5s ${faderight} linear;
+
+export const BoardWrapper = styled.div`
+  background: #f2f6fc;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius:3%;
+
 `

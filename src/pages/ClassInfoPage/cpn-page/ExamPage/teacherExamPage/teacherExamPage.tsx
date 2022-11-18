@@ -7,7 +7,7 @@ export const TeacherExamPage: React.FC<{ classId: string }> = () => {
     <>
       <div className="page-title">考试作业</div>
       <Button type="primary">新建作业</Button>
-      <ExamList></ExamList>
+      <ExamList courseId='11'></ExamList>
     </>
   )
 }
