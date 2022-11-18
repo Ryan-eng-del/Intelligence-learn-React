@@ -2,6 +2,7 @@ import React from 'react'
 import { ContainerOutlined, BellOutlined, TagOutlined, TagsOutlined, UserOutlined } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
 import { Link } from 'react-router-dom'
+
 type MenuItem = Required<MenuProps>['items'][number]
 
 function getItem(
@@ -21,10 +22,10 @@ function getItem(
 }
 
 const HomeItems: MenuItem[] = [
-  getItem(<Link to={'learn'}></Link>, '1', <TagOutlined />),
-  getItem(<Link to={'teach'}></Link>, '2', <TagsOutlined />),
-  getItem(<Link to={'inbox'}></Link>, '3', <BellOutlined />),
-  getItem(<Link to={'exam'}></Link>, '4', <ContainerOutlined />),
-  getItem(<Link to={'profile'}></Link>, '5', <UserOutlined />)
+  getItem(<Link to={'learn'}>我学的课</Link>, '1', <TagOutlined />),
+  getItem(<Link to={'teach'}>我教的课</Link>, '2', <TagsOutlined />),
+  getItem(<Link to={'inbox'}>消息通知</Link>, '3', <BellOutlined />),
+  getItem(<Link to={'exam'}>我的考试</Link>, '4', <ContainerOutlined />),
+  getItem(<Link to={'profile'}>个人信息</Link>, '5', <UserOutlined />)
 ]
 export default HomeItems

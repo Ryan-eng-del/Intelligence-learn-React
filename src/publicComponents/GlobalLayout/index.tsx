@@ -35,7 +35,7 @@ export const GlobalLayout = (props: {
 }
 
 export const GlobalRightLayout = styled.div`
-  padding: 30px 0 0 30px;
+  padding: 30px 30px 0 30px;
 `
 
 const RightLayoutRouteWrapper = styled.div``
@@ -75,6 +75,7 @@ const LeftLayoutWrapper = styled.div`
   height: 100%;
   border-right: rgb(245, 245, 245) 2px solid;
   min-width: 100px;
+  //width: 200px;
 `
 const RightLayoutWrapper = styled.div`
   height: 100%;
