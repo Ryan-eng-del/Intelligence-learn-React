@@ -1,5 +1,4 @@
 import React, { useReducer, useState } from 'react'
-
 import {
   Card,
   Col,
@@ -22,11 +21,12 @@ useReName} from 'server/fetchClass'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { ClassMana as classmana } from './config/type'
 import { ClassManaStudentList } from './ClassManaStudentList'
+import { GlobalHeader } from 'publicComponents/GlobalHeader'
+import { GlobalRightLayout } from 'publicComponents/GlobalLayout'
 export const ClassManaMain: React.FC<{ classList: classmana[] }> = (props) => {
   const [state, dispatch] = useReducer(ClassManaPageReducer, { ...initialState, classManaList: props.classList })
   const { mutate: deleteClassMutate } = useDeleteClass()
   const { mutate: renameMutate, isSuccess: renameMutateIsSuccess, isLoading: renameMutateIsLoading } = useReName()
-
   const [detailvisable, setDetailVisable] = useState(false)
   const [newName, setNewName] = useState('')
   const [renameState, setReNameState] = useState(false)
@@ -207,46 +207,49 @@ export const ClassManaMain: React.FC<{ classList: classmana[] }> = (props) => {
           </div>
         </Modal>
         {/* 主体内容 */}
-              <div className="page-title">班级管理</div>
-              <Button type="primary" onClick={addClass} className="add-button-X">
-                新建班级
-              </Button>
-            <Row gutter={[16, 24]}>
-              {classManaList!.map((i, index) => (
+              <GlobalHeader title="班级管理"
+              tool={
+                <Button type="primary" onClick={addClass} className="add-button-X">
+                  新建班级
+                </Button>
+              }></GlobalHeader>
+              <GlobalRightLayout>
+                <Row gutter={[16, 24]}>
+                  {classManaList!.map((i, index) => (
 
-                <Col span={8} key={i.class_id}>
-                  <Card
-                    title={
-                      <>
-                        <Space style={{ fontSize: '24px' }}>
-                          <Typography.Text
-                            style={{ width: '220px' }}
-                            ellipsis={true}
-                          >
-                            {i.class_name}
-                          </Typography.Text>
-                          <ShareAltOutlined style={{position: "absolute",right:"20px",top:"25px"}} onClick={(e) => (share(i.class_invitation_code), e.stopPropagation())} />
-                        </Space>
-                      </>
-                    }
-                    style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
-                    onClick={() => (setshowing(i), setDetailVisable(true), console.log(showing))}
-                  >
-                    <div
-                      style={{ display: 'flex', justifyContent: 'space-between' }}
-                    >
-                      共 {i.student_number} 位学生
-                      <Badge
-                        status="success"
-                        text="开课中"
-                        style={{ color: '#999' }}
-                      />
-                    </div>
-                  </Card>
-                </Col>
-              ))}
-            </Row>
-
+                    <Col span={8} key={i.class_id}>
+                      <Card
+                        title={
+                          <>
+                            <Space style={{ fontSize: '24px' }}>
+                              <Typography.Text
+                                style={{ width: '220px' }}
+                                ellipsis={true}
+                              >
+                                {i.class_name}
+                              </Typography.Text>
+                              <ShareAltOutlined style={{position: "absolute",right:"20px",top:"25px"}} onClick={(e) => (share(i.class_invitation_code), e.stopPropagation())} />
+                            </Space>
+                          </>
+                        }
+                        style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
+                        onClick={() => (setshowing(i), setDetailVisable(true), console.log(showing))}
+                      >
+                        <div
+                          style={{ display: 'flex', justifyContent: 'space-between' }}
+                        >
+                          共 {i.student_number} 位学生
+                          <Badge
+                            status="success"
+                            text="开课中"
+                            style={{ color: '#999' }}
+                          />
+                        </div>
+                      </Card>
+                    </Col>
+                  ))}
+                </Row>
+              </GlobalRightLayout>
       </>
     </>
   )

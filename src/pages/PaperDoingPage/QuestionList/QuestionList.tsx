@@ -8,12 +8,12 @@ import { Take as P4 } from 'publicComponents/CreateQuestionPage/QuestionType/Sho
 import { Take as P5 } from 'publicComponents/CreateQuestionPage/QuestionType/Judge/Take'
 import { useSubmitTestPaper } from 'server/fetchExam/TestPaper'
 
-export const QuestionList: React.FC<{ Questionlist: StudentPaperItem[] }> = (
-  props
-) => {
-  const questions = props.Questionlist
-  type T = StudentPaperItem
-
+export const QuestionList: React.FC<{
+  Questionlist: StudentPaperItem[]
+}> = ({ Questionlist }) => {
+  const questions = Questionlist || []
+  type T = StudentPaperItem & {index?:number}
+  console.log(questions);
   // 这是没有必要的，setAns数据不返回到页面
   const [ansSet,setAnsSet] = useState(questions.map(i=>({questionId:i.questionId,studentAnswer:''})))
   const setAns = (id:string,ans:string) => {
@@ -48,12 +48,13 @@ export const QuestionList: React.FC<{ Questionlist: StudentPaperItem[] }> = (
                 key={data.questionId}
                 style={{
                   margin: '20px',
-                  border: '1px solid #000',
-                  padding: '10px'
+                  boxShadow: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
+                  padding: '20px',
+                  minWidth:"500px"
                 }}
                 id={`item${data.questionType}${i}`}
               >
-                {mapper[data.questionType as QuestionType](data)}
+                {mapper[data.questionType as QuestionType]({...data,index:i+1})}
               </div>
             )
           })}

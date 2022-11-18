@@ -1,4 +1,4 @@
-import { Input} from 'antd'
+import { Divider, Input} from 'antd'
 import React, { ReactNode, useState } from 'react'
 import { StudentPaperItem } from 'server/fetchExam/types'
 import { str2DOM } from 'util/str2DOM'
@@ -8,7 +8,7 @@ import { Network2Sutdent } from './config'
 // 需要展示 题目 选项 分值
 // 请更改传入类型
 export const Take: React.FC<{
-  content: StudentPaperItem
+  content: StudentPaperItem & {index?:number}
   setAns: (s: string) => void
 }> = ({ content }) => {
   const [ansSet,setAnsSet] = useState<string[]>([])
@@ -17,10 +17,12 @@ export const Take: React.FC<{
     const child: ReactNode[] = []
     for (let i = 0; i < num; i++) {
       ansSet.push('')
-      child.push(<Input key={i} value={ansSet[i]}
-        placeholder={`第${i+1}空`}
-        onChange={(v)=>{ansSet[i] = v.target.value,setAnsSet([...ansSet])}}
-      ></Input>)
+      child.push(<div style={{paddingLeft:"40px", margin:"10px"}}>
+        <Input key={i} value={ansSet[i]}
+          placeholder={`第${i+1}空`}
+          onChange={(v)=>{ansSet[i] = v.target.value,setAnsSet([...ansSet])}}
+        />
+      </div>)
     }
     console.log("input parmater nomber is ", num);
 
@@ -33,9 +35,11 @@ export const Take: React.FC<{
 
   return (
     <>
-      <h2>题目</h2>
-      {str2DOM(question.content)}
-      <h2>回答</h2>
+      <Divider plain orientation='left'>{`第${content.index}题 - (${question.score}分)`}</Divider>
+      <div style={{paddingLeft:"50px"}}>
+        {str2DOM(question.content)}
+      </div>
+      <Divider plain orientation='left'>回答</Divider>
       {gen(question.AnsNum)}
     </>
   )

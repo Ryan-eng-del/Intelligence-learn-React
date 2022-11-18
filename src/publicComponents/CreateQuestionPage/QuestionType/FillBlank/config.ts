@@ -58,6 +58,7 @@ export type summary = {
   id: string
   content: string
   AnsNum: number
+  score?: number
 }
 
 export const Network2Sutdent: Network2SummaryConverter<summary> = (

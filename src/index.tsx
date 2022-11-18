@@ -3,10 +3,9 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import App from './App'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router,Route, Routes } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { Route, Routes } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 // antd
 import { ConfigProvider } from 'antd'
@@ -27,14 +26,13 @@ import { ChapterPage, ResourcePage, ExamPage, DiscussPage, ClassManaPage, Knowle
 import { RequireAuth } from 'util/requireAuth'
 import { KnowledgeGraph } from './pages/K-graphPage/KnowledgeGraph'
 import { TeacherSourcePreviewPage } from './pages/TeacherSourcePreviewPage/TeacherSourcePreviewPage'
-import { SourceVideoPreview } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/SourceVideoPreview'
-import { SourcePdfPreview } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/SourcePdfPreview'
+import { SourceVideoPreview,SourcePdfPreview } from './pages/TeacherSourcePreviewPage'
 import { QuestionEditPage } from 'publicComponents/CreateQuestionPage'
 import { MkGraph } from 'pages/MK-graphPage/MkGraph'
 import { PaperDoing } from 'pages/PaperDoingPage/paperDoingPage'
-import { ClassTimeDispatchContextProvider } from './context/ChapterStudyTree/ClassTimeDispatchContext'
-import { StudentExamPage } from 'pages/ClassInfoPage/cpn-page/ExamPage/studentExamPage/studentExamPage'
+import { ClassTimeDispatchContextProvider } from 'context/ChapterStudyTree/ClassTimeDispatchContext'
 import { QuestionDoingPage } from 'pages/QuestionDoingPage/QuestionDoingPage'
+import { StudentExamPage } from 'pages/ClassInfoPage/cpn-page/ExamPage/studentExamPage/studentExamPage'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
@@ -63,6 +61,7 @@ root.render(
           >
             <Route path="home" element={<HomePage />}>
               <Route path="profile" element={<ProfilePage />} />
+              <Route path="community" element={<ProfilePage />} />
               <Route path="teach" element={<TeachPage />} />
               <Route path="learn" element={<LearnPage />} />
               <Route path="inbox" element={<InboxPage />} />
@@ -72,15 +71,6 @@ root.render(
             <Route path="classinfo" element={<ClassInfoPage />}>
               <Route path="chapter" element={<ChapterPage />} />
               <Route path="exam" element={<ExamPage />} />
-              <Route path="resource" element={<ResourcePage />} />
-              <Route path="discuss" element={<DiscussPage />} />
-              <Route path="class" element={<ClassManaPage />} />
-              <Route path="knowledge" element={<KnowledgePage />} />
-              <Route path="questionbank" element={<QuestionBankPage />} />
-            </Route>
-            <Route path="studentClassinfo" element={<ClassInfoPage />}>
-              <Route path="chapter" element={<ChapterPage />} />
-              {/* <Route path="exam" element={<StudentExamPage />} /> */}
               <Route path="resource" element={<ResourcePage />} />
               <Route path="discuss" element={<DiscussPage />} />
               <Route path="class" element={<ClassManaPage />} />

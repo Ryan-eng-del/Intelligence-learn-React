@@ -2,13 +2,13 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { message } from 'antd'
 import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
-import { CourseInfo } from './types'
+import { CourseInfo, CourseList } from './types'
 // 显示课程
 export const useShowCreateClass = () => {
   return useQuery(['class'], async () => {
     await delayFetch()
-    return client.get<any>({
-      url: 'course/show-create'
+    return client.get<CourseList[]>({
+      url: '/course/show-create'
     })
   })
 }
@@ -17,7 +17,7 @@ export const useShowLearnClass = () => {
   return useQuery(['learnclass'], async () => {
     await delayFetch()
     return client.get<CourseInfo[]>({
-      url: 'course/show-join'
+      url: '/course/show-join'
     })
   })
 }
@@ -38,10 +38,15 @@ export const useShowInvitedCourseInfo = (
     },
     {
       onSuccess: (data) => {
-        console.log(data)
-        setNewCourse(data)
-        setModalVisible2(true)
-        message.success('查询成功')
+        if(data) {
+          console.log(data)
+          setNewCourse(data)
+          setModalVisible2(true)
+          message.success('查询成功')
+        } else {
+
+          message.error(`不存在的课: ${class_invitation_code}`)
+        }
       },
       onError: () => {
         message.error('查询失败')
@@ -92,7 +97,7 @@ export const useJoinInvitedCourse = (
   )
 }
 
-// 添加课程(目前不可用)
+// 添加课程
 export const useCreateClass = ({
   course_cover,
   course_name
@@ -105,7 +110,7 @@ export const useCreateClass = ({
     async () => {
       await delayFetch()
       return client.post({
-        url: '18796117',
+        url: '/course/create',
         data: { course_cover, course_name }
       })
     },

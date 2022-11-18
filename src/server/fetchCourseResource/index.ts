@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
 import { ResourceType } from './types'
@@ -10,4 +10,17 @@ export const useShowResourceList = () => {
       url: 'resources/list-resources'
     })
   })
+}
+
+
+export const useUploadRes = () => {
+  return useMutation(
+    (res:any) => {
+      return client.post<any>({
+        url: '/resources/upload-avatar',
+        data:{
+          avatar:res
+        }
+      })
+    })
 }

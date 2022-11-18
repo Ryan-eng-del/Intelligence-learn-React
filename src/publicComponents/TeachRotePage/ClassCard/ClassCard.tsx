@@ -6,7 +6,6 @@ import { AnyFn } from 'types'
 import { CardBodyWrapper, CardHeadWrapper, CardWrapper } from './ClassCardStyle'
 interface ClassCard {
   id: string
-  tname: string
   cname: string
   iurl: string | null
   optimistic?: boolean
@@ -23,7 +22,7 @@ export const ClassCard: React.FC<ClassCard> = ({ id, cname, iurl, optimistic, Pe
         Permission
       })
     } else {
-      navigate('/studentClassinfo/chapter')
+      navigate('/classinfo/chapter')
       setCurCourse({
         classId: id,
         cover: iurl!,

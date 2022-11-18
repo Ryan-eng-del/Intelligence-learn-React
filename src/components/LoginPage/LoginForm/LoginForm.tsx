@@ -1,34 +1,37 @@
-import React from 'react'
-import { Input, Button } from 'antd'
+import React, { useState } from 'react'
 import {
-  EyeInvisibleOutlined,
-  EyeTwoTone,
-  UserOutlined,
-  CompassOutlined,
+
   CheckOutlined,
   ArrowRightOutlined
 } from '@ant-design/icons'
-import { LoginFormWrapper, ButtonWrapper } from './LoginFormStyle'
+import { LoginFormWrapper } from './LoginFormStyle'
 
 export const LoginForm: React.FC<{
   mutate: any
   routeToRegister: () => void
 }> = ({ mutate, routeToRegister }) => {
+
+  const [password,setPassword] = useState('');
+  const [userName,setUserName] = useState('');
+
+
   return (
     <LoginFormWrapper>
       <h1>Login In</h1>
       <div className="input-group">
         <label className="label">Name</label>
-        <input autoComplete="off" name="Email" id="Email" className="input" type="email" />
+        <input autoComplete="off" name="Email" id="Email" className="input" type="email"
+        onChange={({target})=>setUserName(target.value)}/>
       </div>
       <div className="input-group">
         <label className="label">PassWord</label>
-        <input autoComplete="off" name="Email" id="Email" className="input" type="email" />
+        <input autoComplete="off" name="Email" id="Email" className="input" type="email"
+        onChange={({target})=>setPassword(target.value)}/>
       </div>
 
       <div className="forget-password">忘记密码</div>
       <button className='btn' onClick={() => {
-        mutate({ name: 'jk', password: 'jjk' })
+        mutate({ name: userName, password: password })
       }}><CheckOutlined />   登录</button>
       <button className='btn' onClick={routeToRegister}><ArrowRightOutlined />   注册</button>
 
@@ -36,7 +39,7 @@ export const LoginForm: React.FC<{
         <Button
           type="primary"
           onClick={() => {
-            mutate({ name: 'jk', password: 'jjk' })
+            mutate({ name: userName, password: password })
           }}
           icon={<CheckOutlined />}
         >

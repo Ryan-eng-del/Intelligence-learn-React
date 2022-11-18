@@ -2,11 +2,11 @@ import React, { useRef, useState } from 'react'
 import { Button, Drawer, Input, List, Modal, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
-import { TreeSelected } from '../../../KnowledgePage/KnowledgeTree/cpn/TreeSelected'
-import { useHandleUploadClassTimeResource } from '../../../../../hook/useChapterStudy/useHandleUploadClassTimeResource'
-import { useClassTimeDispatch } from '../../../../../context/ChapterStudyTree/ClassTimeDispatchContext'
-import { uploadProps } from '../../../../../hook/useChapterStudy/config'
-import { GlobalLabel } from '../../../../../publicComponents/GlobalLabel/globalLabel'
+import { TreeSelected } from 'components/ClassInfoPage/KnowledgePage/KnowledgeTree/cpn/TreeSelected'
+import { useHandleUploadClassTimeResource } from 'hook/useChapterStudy/useHandleUploadClassTimeResource'
+import { useClassTimeDispatch } from 'context/ChapterStudyTree/ClassTimeDispatchContext'
+import { uploadProps } from 'hook/useChapterStudy/config'
+import { GlobalLabel } from 'publicComponents/GlobalLabel/globalLabel'
 
 export const ChapterTreeModal: React.FC<{
   checkTreeData: any

@@ -8,11 +8,6 @@ export const BasicInformationWrapper = styled.div`
 export const ProfileWapper = styled.div`
   padding: 20px;
   background-color: #fff;
-  position: absolute;
-  bottom: 0px;
-  top: 0px;
-  left: 0px;
-  right: 0px;
   span.tab-list {
     color: #000;
   }

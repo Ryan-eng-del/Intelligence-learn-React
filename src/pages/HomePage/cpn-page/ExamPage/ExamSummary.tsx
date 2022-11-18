@@ -1,13 +1,13 @@
 import React from 'react'
 import { Button, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
+import { useNavigate } from 'react-router-dom'
 import { GlobalHeader } from '../../../../publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout'
 const statusType = {
   undone: '未提交',
   Correcting: '待批改'
 }
-
 type TableType = {
   key: string
   Course: string
@@ -17,6 +17,7 @@ type TableType = {
 }
 
 export const ExamSummary: React.FC = () => {
+  const navigate = useNavigate()
   const columns: ColumnsType<TableType> = [
     {
       title: '来源课程',
@@ -41,7 +42,9 @@ export const ExamSummary: React.FC = () => {
         typeof record.status === 'number' ? (
           <Button>查看详情</Button>
         ) : record.status === statusType.undone ? (
-          <Button type="primary">去完成</Button>
+          <Button type="primary" onClick={() => {
+            navigate(`/homework/${record.key}`, { replace: true })
+          }}>去完成</Button>
         ) : record.status === statusType.Correcting ? (
           <Button>去修改</Button>
         ) : (

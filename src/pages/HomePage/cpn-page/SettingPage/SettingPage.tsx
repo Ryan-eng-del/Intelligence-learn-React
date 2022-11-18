@@ -12,10 +12,15 @@ import { BasicInformation } from './BasicInformation/BasicInformation'
 import { Notification } from './Notification/Notification'
 import { Personalization } from './Personalization/Personalization'
 import { ProfileWapper } from './SettingPageStyle'
+import { GlobalLabel } from 'publicComponents/GlobalLabel/globalLabel'
+import { GlobalHeader } from 'publicComponents/GlobalHeader'
 
 export const SettingPage: React.FC = () => {
   return (
     <>
+    <GlobalHeader title="设置" tool={
+      <></>
+    }></GlobalHeader>
       <ProfileWapper>
         <Tabs tabPosition="left" centered>
           <TabPane

@@ -101,59 +101,17 @@ export const InboxPage: React.FC = () => {
   return (
     <>
       <InboxWrapper>
-        <Tabs activeKey={chosen} centered onChange={key =>setChosen(key)} />
-            {tabConfig.map(i=>
-            <TabPane tab={<Badge dot={showBadge(i.tag)}>
-                {i.icon} {i.name}
-              </Badge>}
-              key={i.tag}
-            />)}
-      <GlobalHeader title="消息通知"></GlobalHeader>
-      <GlobalRightLayout>
-        <Tabs
-          activeKey={chosen}
-          onChange={(key: string) => {
-            setChosen(key)
-          }}
-          centered
-        >
-          <TabPane
-            tab={
-              <Badge dot={showBadge('')}>
-                <MailOutlined />
-                全部消息
-              </Badge>
-            }
-            key="All"
-          ></TabPane>
-          <TabPane
-            tab={
-              <Badge dot={showBadge('Notice')}>
-                <CommentOutlined />
-                课程通知
-              </Badge>
-            }
-            key="Notice"
-          ></TabPane>
-          <TabPane
-            tab={
-              <Badge dot={showBadge('Broadcast')}>
-                <ContainerOutlined />
-                推广信息
-              </Badge>
-            }
-            key="Broadcast"
-          ></TabPane>
-          <TabPane
-            tab={
-              <Badge dot={false}>
-                <HeartOutlined />
-                收藏待办
-              </Badge>
-            }
-            key="Favority"
-          ></TabPane>
+      <GlobalHeader title="消息通知" tool={
+        <Tabs activeKey={chosen} centered onChange={key =>setChosen(key)} >
+          {tabConfig.map(i=><TabPane
+            tab={<Badge dot={showBadge(i.tag)}>
+              {i.icon} {i.name}
+            </Badge>}
+            key={i.tag}
+          />)}
         </Tabs>
+      }></GlobalHeader>
+      <GlobalRightLayout>
         <List
           itemLayout="horizontal"
           dataSource={msgList.filter((item)=>{switch(chosen) {
@@ -161,34 +119,21 @@ export const InboxPage: React.FC = () => {
             case 'Favority': return item.isFavority
             default: return item.tag == chosen
           }})}
-          renderItem={(item) => (
-            <>
-              <List.Item
-                onClick={() => readMsg(item)}
-                // style={{ display: 'inline-block' }}
-              >
-                <List.Item.Meta
-                  key={item.msgID}
-                  avatar={<TeamOutlined />}
-                  title={<Badge dot={!item.Readed}>{item.from}</Badge>}
-                  description={<Paragraph ellipsis={true}>{item.content}</Paragraph>}
-                />
-                <Button onClick={(e) => favMsg(e,item)}>{item.isFavority ? <HeartFilled /> : <HeartOutlined />}</Button>
-              </List.Item>
-            </>
-          )}
+          renderItem={item =>
+            <List.Item onClick={() => readMsg(item)} >
+              <List.Item.Meta
+                key={item.msgID}
+                avatar={<TeamOutlined />}
+                title={<Badge dot={!item.Readed}>{item.from}</Badge>}
+                description={<Paragraph ellipsis={true}>{item.content}</Paragraph>}
+              />
+              <Button onClick={(e) => favMsg(e,item)}>
+                {item.isFavority ? <HeartFilled /> : <HeartOutlined />}
+              </Button>
+            </List.Item>
+          }
         />
       </GlobalRightLayout>
-      <Modal visible={showModal} footer={null} onCancel={() => setShowModal(false)} title={onDisplayMsg?.from}>
-        {onDisplayMsg?.content}
-        <br />
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi harum tenetur nobis quae delectus soluta enim
-        necessitatibus alias sed possimus aspernatur laboriosam, sunt nisi deleniti accusantium vero quas? Ut, culpa?
-        <br />
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ex natus magnam voluptates assumenda id qui, possimus
-        cumque eligendi dolorem omnis perspiciatis dolores animi. Voluptatum, facere excepturi. Architecto fugiat
-        placeat adipisci!
-      </Modal>
       </InboxWrapper>
       <ReadOnlyModal
         visible={showModal}
@@ -204,3 +149,5 @@ export const InboxPage: React.FC = () => {
     </>
   )
 }
+
+

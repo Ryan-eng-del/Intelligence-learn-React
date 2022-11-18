@@ -105,7 +105,7 @@ export const TeachPage = () => {
           <BaseLoading />
         ) : (
           <>
-            {Array.from({ length: (data?.length % 4) + 1 }).map((v, i) => {
+            {Array.from({ length: (data?.length || 4 % 4) + 1 }).map((v, i) => {
               return (
                 <Row key={i} style={{ marginBottom: '30px' }}>
                   {data?.map((item: any, index: any) => {
@@ -115,7 +115,6 @@ export const TeachPage = () => {
                         <ClassCard
                           id={item.course_id}
                           cname={item.course_name}
-                          tname={item.course_name}
                           iurl={item.courses_cover}
                           Permission={true}
                           key={index}

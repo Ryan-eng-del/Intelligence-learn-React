@@ -1,4 +1,4 @@
-import { Button, Space } from 'antd'
+import { Button, Divider, Space } from 'antd'
 import React, { useState } from 'react'
 import { StudentPaperItem } from 'server/fetchExam/types'
 import { str2DOM } from 'util/str2DOM'
@@ -9,7 +9,7 @@ import { Network2Sutdent } from './config'
 // 请更改传入类型
 type optionType = "A" | "B" | "C" | "D"
 export const Take: React.FC<{
-  content: StudentPaperItem
+  content: StudentPaperItem & {index?:number}
   setAns: (s: string) => void
 }> = ({ content, setAns }) => {
   const question = Network2Sutdent(content)
@@ -21,15 +21,18 @@ export const Take: React.FC<{
   }
   return (
     <>
-      <h2>题目</h2>
-      {str2DOM(question.content)}
-      <h2>选项</h2>
-      {question.Options.map((i:any) => (
-        <div key={i.optionName}>
+      <Divider plain orientation='left'>{`第${content.index}题 - (${question.score}分)`}</Divider>
+      <div style={{paddingLeft:"50px"}}>
+        {str2DOM(question.content)}
+      </div>
+      <Divider plain orientation='left'>选项</Divider>
+      {question.Options.map((i) => (
+        <div key={i.optionName} style={{paddingLeft:"40px", margin:"10px"}}>
           <Space>
             <Button
               type={ans[i.optionName as optionType] ? 'primary' : 'default'}
               onClick={() => set(i.optionName as optionType)}
+              style={{width:"2.5rem",height:"2.5rem"}}
             >
               {i.optionName}
             </Button>

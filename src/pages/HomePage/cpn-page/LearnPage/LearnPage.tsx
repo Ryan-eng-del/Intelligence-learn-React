@@ -10,10 +10,10 @@ import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/ind
 
 export const LearnPage: React.FC = () => {
   const [invitedcode, setInvitedCode] = useState('')
-  const [newCourse, setNewCourse] = useState<CourseInfo>({} as CourseInfo)
+  const [newCourse, setNewCourse] = useState<CourseInfo | undefined>()
 
   const { data, isLoading } = useShowLearnClass()
-  const { mutate: joinClass } = useJoinInvitedCourse(invitedcode, newCourse)
+  const { mutate: joinClass } = useJoinInvitedCourse(invitedcode, newCourse!)
 
   const [modal2Visible, setModalVisible2] = useState(false)
   const [confirmLoading2, setComfirmLoading2] = useState(false)
@@ -64,7 +64,6 @@ export const LearnPage: React.FC = () => {
               value={invitedcode}
               style={{ margin: '3px 0 12px 0' }}
               onChange={(e) => {
-                // dispatch({ type: 'setInvitedCode', payload: e.target.value })
                 setInvitedCode(e.target.value)
               }}
             />
@@ -83,9 +82,12 @@ export const LearnPage: React.FC = () => {
           width={300}
         >
           <ModalContextWrapper>
-            <img src={newCourse.course_cover || require('assets/img/class.jpg')} alt="课程图片" />
-            <h1>{newCourse.course_name}</h1>
-            <h3>{newCourse.teacher_name}</h3>
+            <img
+              src={newCourse?.course_cover || require('assets/img/class.jpg')}
+              alt="课程图片"
+            />
+            <h1>{newCourse?.course_name}</h1>
+            <h3>{newCourse?.teacher_name}</h3>
           </ModalContextWrapper>
         </Modal>
       </>
@@ -105,7 +107,6 @@ export const LearnPage: React.FC = () => {
                       key={index}
                       id={item.class_id}
                       cname={item.course_name}
-                      tname={item.course_name}
                       iurl={item.course_cover || null}
                       optimistic={item.optimistic}
                       Permission={false}

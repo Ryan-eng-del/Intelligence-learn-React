@@ -1,6 +1,8 @@
 import axios from 'axios'
 import type { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios'
+import { message } from 'antd'
 
+const DEBUGINFO = process.env.NODE_ENV == 'development' ? "错误：" : ""
 interface InterceptorHooks {
   requestInterceptor?: (config: AxiosRequestConfig) => AxiosRequestConfig
   requestInterceptorCatch?: (error: any) => any
@@ -14,9 +16,9 @@ interface RequestConfig extends AxiosRequestConfig {
 }
 
 interface Data<T> {
+  code: string
+  msg: boolean
   data: T
-  returnCode: string
-  success: boolean
 }
 
 class Request {
@@ -47,9 +49,18 @@ class Request {
       this.instance
         .request<any, Data<T>>(config)
         .then((res) => {
+          ///////////////////////////////////////////////////////////////
+          console.log("%c%s"," color: yellow;",`发送 @URL | ${config.url}`)
+          if(res.code != '200') {
+            message.error(`${DEBUGINFO}${res.code}  | ${res.msg}`)
+            console.log("%c%s","color: yellow;",`${DEBUGINFO}${res.code} | ${res.msg}`)
+          } else {
+            console.log("%c%s","color: yellow;",JSON.stringify(res))
+          }
           resolve(res.data)
         })
         .catch((err) => {
+          message.error("网络错误")
           reject(err)
         })
     })

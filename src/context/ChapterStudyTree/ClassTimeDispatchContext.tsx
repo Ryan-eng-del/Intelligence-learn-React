@@ -5,7 +5,14 @@ interface IClassTimeContext {
   dispatch: React.Dispatch<ICourseTimeReducerAction>
   classTimeState: ICourseTimeReducerState
 }
-const ClassTimeDispatchContext = React.createContext<null | IClassTimeContext>(null)
+const ClassTimeDispatchContext = React.createContext<IClassTimeContext>({ // 无意义的初始值
+  dispatch:(i:ICourseTimeReducerAction)=>{i},
+  classTimeState:{
+    courseTimeModalVisible: false,
+    fileList: [],
+    courseTimeName: ""
+  }
+})
 
 export const ClassTimeDispatchContextProvider = (props: any) => {
   /* ClassTime Reducer */
@@ -16,7 +23,5 @@ export const ClassTimeDispatchContextProvider = (props: any) => {
     </ClassTimeDispatchContext.Provider>
   )
 }
-export const useClassTimeDispatch = () => {
-  const { dispatch, classTimeState } = useContext(ClassTimeDispatchContext) as IClassTimeContext
-  return { dispatch, classTimeState }
-}
+export const useClassTimeDispatch: ()=>IClassTimeContext
+  = () => useContext(ClassTimeDispatchContext)

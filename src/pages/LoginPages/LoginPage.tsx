@@ -6,7 +6,7 @@ import { useToken } from 'server/fetchLogin'
 import { BaseLoading } from '../../baseUI/BaseLoding/BaseLoading'
 
 export const LoginPage: React.FC = () => {
-  const { mutate, isLoading } = useToken('jk', 'Jk')
+  const { mutate, isLoading } = useToken()
   const [loginIn, setLoginIn] = useState(true)
   const [load, setload] = useState(false)
 

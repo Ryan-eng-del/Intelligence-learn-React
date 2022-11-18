@@ -3,11 +3,7 @@ import styled from 'styled-components'
 export const ProfileWapper = styled.div`
   padding: 50px;
   background-color: #fff;
-  position: absolute;
-  bottom: 0px;
-  top: 0px;
-  left: 0px;
-  right: 0px;
+
   span.tab-list {
     color: #000;
   }

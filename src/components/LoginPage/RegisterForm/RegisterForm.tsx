@@ -14,18 +14,24 @@ import {
 } from '@ant-design/icons'
 import { RegisterFormWrapper, RegisterTitle, ButtonWrapper } from './RegisterFormStyle'
 import { InputStatus } from 'antd/lib/_util/statusUtils'
+import { useRegister } from 'server/fetchLogin'
 
 // 对T内全部key的type设置为K
 // eslint-disable-next-line no-unused-vars
 type SetObjectTypeTo<T, K> = { [P in keyof T]: K }
 
-export const RegisterForm: React.FC<{ routeToLoginIn: () => void }> = ({ routeToLoginIn }) => {
-  const EmailRegex = /^[a-zA-Z0-9]+([-_.][A-Za-zd]+)*@([a-zA-Z0-9]+[-.])+[A-Za-zd]{2,5}$/
+export const RegisterForm: React.FC<{ routeToLoginIn: () => void }> = ({
+  routeToLoginIn
+}) => {
+  const { mutate } = useRegister()
+  const EmailRegex =
+    /^[a-zA-Z0-9]+([-_.][A-Za-zd]+)*@([a-zA-Z0-9]+[-.])+[A-Za-zd]{2,5}$/
   const init = {
     userName: '',
     password: '',
     confirmPW: '',
     email: '',
+    mobile: '',
     verification: ''
   }
   const options = [
@@ -43,9 +49,10 @@ export const RegisterForm: React.FC<{ routeToLoginIn: () => void }> = ({ routeTo
     password: '',
     confirmPW: '',
     email: '',
+    mobile: '',
     verification: ''
   })
-  const defaultStatus = { ...inputStatus }
+  // const defaultStatus = { ...inputStatus }
   const [inputValue, setInputValue] = useState(init)
 
   const vertify = (): void => {
@@ -56,29 +63,31 @@ export const RegisterForm: React.FC<{ routeToLoginIn: () => void }> = ({ routeTo
     if (inputValue.userName.length < 2 || inputStatus.userName.length > 10) {
       message.error('用户名长度必须在2-10之间') // 前端校验 后端校验
       newStatus.userName = 'error'
-    } else if (inputValue.password.length < 8 || inputStatus.password.length > 16) {
-      message.error('密码长度必须在8-16之间') // 前端校验 后端校验
+    } else if (
+      inputValue.password.length < 6 ||
+      inputStatus.password.length > 15
+    ) {
+      message.error('密码长度必须在6-15之间') // 前端校验 后端校验
       newStatus.password = 'error'
     } else if (inputValue.password !== inputValue.confirmPW) {
       message.error('两次密码不一致') // 前端校验 后端校验
       newStatus.confirmPW = 'error'
-    } else if (!EmailRegex.test(inputValue.email)) {
-      message.error('非法邮箱格式') // 前端校验
-      newStatus.email = 'error'
-    } else if (inputValue.verification !== '') {
+    // } else if (!EmailRegex.test(inputValue.email)) {
+    //   message.error('非法邮箱格式') // 前端校验
+    //   newStatus.email = 'error'
+    } else if (inputValue.verification != '') {
       message.error('验证码错误') //       后端校验
       newStatus.verification = 'error'
     } else {
       setComfirmIcon(<LoadingOutlined />)
+      setInputStatus(newStatus)
+      mutate({
+        name:inputValue.userName,
+        password:inputValue.password,
+        mobile:inputValue.mobile,
+        school:school
+      })
     }
-    setInputStatus(newStatus)
-
-    setTimeout(() => {
-      // 2秒后重置状态
-      setInputStatus(defaultStatus)
-      setComfirmIcon(<CheckCircleOutlined />)
-      message.warning('还没做好呢')
-    }, 2000)
   }
 
   return (
@@ -124,7 +133,17 @@ export const RegisterForm: React.FC<{ routeToLoginIn: () => void }> = ({ routeTo
         iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
         style={{ marginBottom: '20px' }}
       />
-
+      <Input
+        status={inputStatus.mobile}
+        value={inputValue.mobile}
+        onChange={({ target }) =>
+          setInputValue({ ...inputValue, mobile: target.value })
+        }
+        size="large"
+        placeholder="手机号"
+        prefix={<MailOutlined />}
+        style={{ marginBottom: '5px' }}
+      />
       <Input
         status={inputStatus.verification}
         value={inputValue.verification}
@@ -133,8 +152,7 @@ export const RegisterForm: React.FC<{ routeToLoginIn: () => void }> = ({ routeTo
         placeholder="验证码"
         prefix={<VerifiedOutlined />}
       />
-
-      <div className="forget-password">使用手机号验证</div>
+      <div className="forget-password">使用邮箱验证</div>
       <ButtonWrapper>
         <Button type="primary" onClick={routeToLoginIn} icon={<ArrowLeftOutlined />}>
           返回登录

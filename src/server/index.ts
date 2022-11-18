@@ -7,9 +7,9 @@ export const client = new HYRequest({
   timeout: TIME_OUT,
   interceptorHooks: {
     requestInterceptor: (config: any) => {
-      const token = localCache.getCache('token')
+      const token = localCache.getCache('token') ?? ""
       if (token) {
-        config.headers.Authorization = `Bearer ${token}`
+        config.headers.token = `${JSON.parse(token)['token']}`
       }
       return config
     },
