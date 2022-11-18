@@ -4,7 +4,7 @@ import { PrimaryButton } from '../../../../publicComponents/Button/index'
 import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/index'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ExamList } from 'publicComponents/ExamPage'
+import { ExamList } from './Teacher'
 
 export const ExamPage: React.FC = () => {
   const { mutate } = useAddTestPaper((id: string) => {

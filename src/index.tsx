@@ -32,7 +32,6 @@ import { MkGraph } from 'pages/MK-graphPage/MkGraph'
 import { PaperDoing } from 'pages/PaperDoingPage/paperDoingPage'
 import { ClassTimeDispatchContextProvider } from 'context/ChapterStudyTree/ClassTimeDispatchContext'
 import { QuestionDoingPage } from 'pages/QuestionDoingPage/QuestionDoingPage'
-import { StudentExamPage } from 'pages/ClassInfoPage/cpn-page/ExamPage/studentExamPage/studentExamPage'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({

@@ -80,7 +80,7 @@ export const ExamSummary: React.FC = () => {
     <>
       <GlobalHeader title="作业和考试"></GlobalHeader>
       <GlobalRightLayout>
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={data} pagination={false}/>
       </GlobalRightLayout>
     </>
   )

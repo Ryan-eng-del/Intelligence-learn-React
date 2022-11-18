@@ -206,6 +206,10 @@ span.ant-tree-title {
   margin: 10px 20px 30px;
 }
 
+.ant-table-thead {
+  background-color: #166fff;
+}
+
 .ant-checkbox-inner {
   width: 18px;
   height: 18px;
