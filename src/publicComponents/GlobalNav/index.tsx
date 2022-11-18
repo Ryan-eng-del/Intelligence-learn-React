@@ -7,11 +7,13 @@ interface NavMapProps extends React.ComponentProps<typeof Menu> {
   sliceCount: number
   createMapFunction: () => Map<string, string>
 }
+
 export const GlobalNav = (props: NavMapProps) => {
   const [curSelect, setCurSelect] = useState<string>('')
   const { pathname } = useLocation()
+  console.log(pathname.slice(props.sliceCount), props.sliceCount, '')
   const map = useMemo(() => props.createMapFunction(), [])
-  useEffect(() => setCurSelect(map.get(pathname.slice(props.sliceCount))!), [])
+  useEffect(() => setCurSelect(map.get(pathname.slice(props.sliceCount))!), [props.sliceCount])
   const handleOnSelect = (selectInfo: any) => setCurSelect(selectInfo.key)
 
   return (

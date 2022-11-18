@@ -1,4 +1,3 @@
-
 import { GlobalLayout } from 'publicComponents/GlobalLayout'
 import { createContext } from 'react'
 import { Outlet } from 'react-router-dom'
@@ -29,7 +28,7 @@ export const ClassInfoPage = () => {
     <GlobalLayout
       navItems={ClassInfoNavItems}
       routePage={<Outlet />}
-      sliceCount={10}
+      sliceCount={18}
       createMapFunction={createClassNavMap}
     />
   )

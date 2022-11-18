@@ -82,10 +82,7 @@ export const LearnPage: React.FC = () => {
           width={300}
         >
           <ModalContextWrapper>
-            <img
-              src={newCourse?.course_cover || require('assets/img/class.jpg')}
-              alt="课程图片"
-            />
+            <img src={newCourse?.course_cover || require('assets/img/class.jpg')} alt="课程图片" />
             <h1>{newCourse?.course_name}</h1>
             <h3>{newCourse?.teacher_name}</h3>
           </ModalContextWrapper>
@@ -104,6 +101,7 @@ export const LearnPage: React.FC = () => {
                 return (data as CourseInfo[]).map((item: CourseInfo, index: number) => {
                   return (
                     <ClassCard
+                      to={'student'}
                       key={index}
                       id={item.class_id}
                       cname={item.course_name}

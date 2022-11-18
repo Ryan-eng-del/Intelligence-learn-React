@@ -4,34 +4,21 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AnyFn } from 'types'
 import { CardBodyWrapper, CardHeadWrapper, CardWrapper } from './ClassCardStyle'
+
 interface ClassCard {
   id: string
   cname: string
   iurl: string | null
   optimistic?: boolean
   Permission: boolean
+  to: 'teacher' | 'student'
 }
-export const ClassCard: React.FC<ClassCard> = ({ id, cname, iurl, optimistic, Permission }) => {
-  const handleClick = (setCurCourse: AnyFn) => {
-    if (Permission) {
-      navigate('/classinfo/chapter')
-      setCurCourse({
-        classId: id,
-        cover: iurl!,
-        className: cname,
-        Permission
-      })
-    } else {
-      navigate('/classinfo/chapter')
-      setCurCourse({
-        classId: id,
-        cover: iurl!,
-        className: cname,
-        Permission
-      })
-    }
-  }
+
+export const ClassCard: React.FC<ClassCard> = ({ id, to, cname, iurl, optimistic, Permission }) => {
   const navigate = useNavigate()
+
+  const handleClick = () => navigate(`/classinfo/${to}/chapter`)
+
   return (
     <>
       <CardWrapper>
@@ -47,11 +34,7 @@ export const ClassCard: React.FC<ClassCard> = ({ id, cname, iurl, optimistic, Pe
           ) : (
             <PrimaryButton
               title="进入课程"
-              handleClick={() =>
-                handleClick(() => {
-                  console.log('')
-                })
-              }
+              handleClick={handleClick}
               style={{ width: '100px', marginTop: '12px' }}
             ></PrimaryButton>
           )}

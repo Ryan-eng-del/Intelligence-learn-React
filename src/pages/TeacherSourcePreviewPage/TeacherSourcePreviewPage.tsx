@@ -1,19 +1,20 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { Link, Outlet } from 'react-router-dom'
-import { useMount } from '../../hook/useMount'
 
 import styled from 'styled-components'
 import { Tree } from 'antd/es'
 import { useChapterUI } from '../../hook/useChapterStudy/useChapterUI'
 import { Button } from 'antd'
-import {expandOnMount} from "../../helper/chapterStudyTree";
+import { expandOnMount } from '../../helper/chapterStudyTree'
 
 export const TeacherSourcePreviewPage = () => {
-  const { treeData, chapterControl } =
-    useChapterUI(true)
+  const { treeData, chapterControl } = useChapterUI(true)
 
   useEffect(() => {
-    chapterControl.dispatchChapter({type:"setExpandKeys", expandKeys: () => expandOnMount(chapterControl.data || [])})
+    chapterControl.dispatchChapter({
+      type: 'setExpandKeys',
+      expandKeys: () => expandOnMount(chapterControl.data || [])
+    })
   }, [chapterControl.dispatchChapter, chapterControl.data])
 
   return (

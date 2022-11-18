@@ -6,11 +6,11 @@ import { KnowledgeTreeNode } from '../../components/ClassInfoPage/KnowledgePage/
 import ChapterNodeRenameStatus from '../../components/ClassInfoPage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeRenameStatus'
 import { IKnowledgePoint } from './type'
 
-export const useKnowledgeUI = () => {
+export const useKnowledgeUI = (editable: boolean) => {
   /*业务逻辑层*/
   const { knowledgeControl } = useKnowledgeControl()
   const generateKnowledgeNode = (pointId: any, pointName: any, prePoints: any, afterPoints: any) => {
-    return (
+    return editable ? (
       <KnowledgeTreeNode
         nodeName={pointName}
         nodeId={pointId}
@@ -21,6 +21,8 @@ export const useKnowledgeUI = () => {
         afterPoints={afterPoints}
         handleReNameTreeNode={(pointId: any) => knowledgeControl.renameKnowledgeNode(pointId)}
       />
+    ) : (
+      pointName
     )
   }
 

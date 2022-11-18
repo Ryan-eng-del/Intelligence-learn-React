@@ -7,24 +7,27 @@ import styled from 'styled-components'
 import { useKnowledgeUI } from 'hook/useKnowledge/useKnowledgeUI'
 
 export const KnowledgePage: React.FC = () => {
-  const { knowledgeControl, treeData } = useKnowledgeUI()
+  const editable = location.pathname.slice(11, 18) === 'teacher' ? true : false
+  const { knowledgeControl, treeData } = useKnowledgeUI(editable)
 
   return (
     <KnowledgePageWrapper>
       <GlobalHeader
         title="课程知识点"
         tool={
-          <>
-            <a className={'add-knowledge'} onClick={knowledgeControl.addKnowledgePoint}>
-              添加知识点
-            </a>
-            <Link to={'/k-graph'}>
-              <span className={'k-graph'}>课程知识图谱</span>
-            </Link>
-            <Link to={'/mk-graph'}>
-              <span className={'mk-graph'}>个人知识图谱</span>
-            </Link>
-          </>
+          editable && (
+            <>
+              <a className={'add-knowledge'} onClick={knowledgeControl.addKnowledgePoint}>
+                添加知识点
+              </a>
+              <Link to={'/k-graph'}>
+                <span className={'k-graph'}>课程知识图谱</span>
+              </Link>
+              <Link to={'/mk-graph'}>
+                <span className={'mk-graph'}>个人知识图谱</span>
+              </Link>
+            </>
+          )
         }
       ></GlobalHeader>
       <GlobalRightLayout>
@@ -71,6 +74,7 @@ const KnowledgePageWrapper = styled.div`
       background: #eaf0ff;
     }
   }
+
   span.mk-graph {
     margin-left: 8px;
   }

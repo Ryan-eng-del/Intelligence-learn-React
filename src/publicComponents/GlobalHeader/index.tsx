@@ -3,8 +3,9 @@ import { Typography } from 'antd'
 
 interface GlobalHeaderProps {
   title: string
-  tool?: JSX.Element
+  tool?: JSX.Element | boolean
 }
+
 export const GlobalHeader = (props: GlobalHeaderProps) => {
   return (
     <RightLayoutHeaderWrapper>
