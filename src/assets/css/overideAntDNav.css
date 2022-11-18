@@ -1,9 +1,4 @@
 /* 覆盖nav导航栏样式 */
-.ant-menu-item .ant-menu-item-icon, .ant-menu-submenu-title .ant-menu-item-icon, .ant-menu-item .anticon, .ant-menu-submenu-title .anticon {
-  position: relative;
-  left: 18px;
-  font-size: 17px;
-}
 
 .ant-menu-inline.ant-menu-root .ant-menu-item, .ant-menu-inline.ant-menu-root .ant-menu-submenu-title {
   margin: 24px 0px;
