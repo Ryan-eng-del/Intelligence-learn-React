@@ -1,5 +1,12 @@
 import React from 'react'
-import { ContainerOutlined, BellOutlined, TagOutlined, TagsOutlined, UserOutlined, SettingOutlined } from '@ant-design/icons'
+import {
+  ContainerOutlined,
+  BellOutlined,
+  TagOutlined,
+  TagsOutlined,
+  UserOutlined,
+  SettingOutlined
+} from '@ant-design/icons'
 import type { MenuProps } from 'antd'
 import { Link } from 'react-router-dom'
 
@@ -27,6 +34,6 @@ const HomeItems: MenuItem[] = [
   getItem(<Link to={'inbox'}>消息通知</Link>, '3', <BellOutlined />),
   getItem(<Link to={'exam'}>我的考试</Link>, '4', <ContainerOutlined />),
   getItem(<Link to={'profile'}>个人信息</Link>, '5', <UserOutlined />),
-  getItem(<Link to={'setting'}>设置</Link>, '5', <SettingOutlined />),
+  getItem(<Link to={'setting'}>设置</Link>, '6', <SettingOutlined />)
 ]
 export default HomeItems

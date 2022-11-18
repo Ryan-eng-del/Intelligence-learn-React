@@ -35,7 +35,7 @@ export const GlobalLayout = (props: {
 }
 
 export const GlobalRightLayout = styled.div`
-  padding: 30px ;
+  padding: 30px;
 `
 
 const RightLayoutRouteWrapper = styled.div``
@@ -59,9 +59,11 @@ const NavBottomWrapper = styled.div`
 
 const HomePageWrapper = styled.div`
   margin: 0 auto;
-  height: 800px;
+  //height: 800px;
   max-width: 1504px;
   min-width: 1200px;
+  max-height: 700px;
+  overflow: scroll;
   background-color: white;
   display: flex;
   border-radius: 20px;
@@ -78,7 +80,7 @@ const LeftLayoutWrapper = styled.div`
   //width: 200px;
 `
 const RightLayoutWrapper = styled.div`
-  height: 100%;
+  //height: 100%;
   flex: 1;
 `
 
