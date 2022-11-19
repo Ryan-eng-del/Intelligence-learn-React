@@ -1,80 +1,72 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { message } from "antd"
-import { ClassMana, ClassManaStudentType } from "pages/ClassInfoPage/cpn-page/ClassManaPage/config/type"
 import { client } from "server"
 import { delayFetch } from "util/delayFetch"
+import { ClassList } from "./types"
 
 export const useToGetClassList = (courseId: string) => {
   return useQuery([`classList-${courseId}`], async () => {
     await delayFetch()
-    return client.get<ClassMana[]>({
+    return client.get<ClassList[]>({
       url: '/class/show',
       params: {courseId}
     })
-  }, {
-    onSuccess: () => {
-      message.success('查找成功')
-    },
-    onError: () => {
-      message.error('查找失败')
-    }
-  }
-  )
+  } )
 }
 
 
-export const useDeleteClass = () => {
+export const useDeleteClass = (courseId: string) => {
+  const queryClient = useQueryClient()
   return useMutation((id: string) => {
     return client.delete({ url: `/class/delete/${id}` })
-  }, {
-    onSuccess: () => {
-      message.success('删除成功')
-    },
-    onError: () => {
-      message.error('删除失败')
+  },{
+    onSuccess:()=>{
+      message.loading("重新获取列表")
+      queryClient.refetchQueries([`classList-${courseId}`])
     }
   })
 }
 
-export const useCreateNewClass = () => {
-  return useQuery([`newClass`], () => {
-    return client.get<ClassMana>({
-      url: '/class/create',
+
+export const useCreateNewClass = (courseId:string) => {
+  const queryClient = useQueryClient()
+  return useMutation((className:string) => {
+    return client.post({
+      url: `/class/create`,
+      data: {
+        course_id:courseId,
+        class_name:className
+      }
     })
-  }, {
-    onSuccess: () => {
-      message.success('查找成功')
-    },
-    onError: () => {
-      message.error('查找失败')
+  },{
+    onSuccess:()=>{
+      message.loading("重新获取列表")
+      queryClient.refetchQueries([`classList-${courseId}`])
     }
-  }
-  )
+  })
 }
 
-export const useReName = () => {
-  // classId:string,className:string
+export const useReName = (courseId: string) => {
+  const queryClient = useQueryClient()
   return useMutation((props: { className: string, classId: string }) => {
     return client.put({
       url: '/class/update-name',
-      params: {
+      data: {
         class_id: props.classId,
         class_name: props.className
       }
     })
-  }, {
-    onSuccess: () => {
-      message.success('修改成功')
-    },
-    onError: () => {
-      message.error('修改失败')
+  },{
+    onSuccess:()=>{
+      message.loading("重新获取列表")
+      queryClient.refetchQueries([`classList-${courseId}`])
     }
   })
 }
 
 export const useShowStudent = (classId: string) => {
   return useQuery([`useShowStudent-${classId}`], () => {
-    return client.get<ClassManaStudentType[]>(
+    return client.get<any[]>(
       {
         url: '/class/show-student',
         params: {
@@ -82,13 +74,6 @@ export const useShowStudent = (classId: string) => {
         }
       }
     )
-  }, {
-    onSuccess: () => {
-      message.success('查询成功')
-    },
-    onError: () => {
-      message.error('查询失败')
-    }
   })
 }
 
@@ -103,12 +88,5 @@ export const useDeleteStudent = () => {
         }
       }
     )
-  }, {
-    onSuccess: () => {
-      message.success('删除成功')
-    },
-    onError: () => {
-      message.error('删除失败')
-    }
   })
 }

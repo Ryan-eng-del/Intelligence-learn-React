@@ -15,6 +15,7 @@ import { StateSetter } from '../../../types'
 import { isCouldSaveQuestion } from './util'
 import styled from 'styled-components'
 import { SingleChoicePreview } from './SingleChoice/SingleChoicePreview'
+import { useCurrentClassInfo } from 'context/ClassInfoContext'
 
 const { Option } = Select
 
@@ -25,7 +26,8 @@ interface QuestionFooterProps {
 
 export const QuestionFooter = (props: QuestionFooterProps) => {
   const { question, setCurEditQuestion } = props
-  const { data, isLoading: KnowledgeTreeLoading } = useShowKnowledgeTree()
+  const { classInfo } = useCurrentClassInfo()
+  const { data, isLoading: KnowledgeTreeLoading } = useShowKnowledgeTree(classInfo.courseId)
   const { checkTreeData } = useCheckKnowledgeTreeUI(data)
   /* 两个弹框的开闭状态 */
   const [isModalOpen, setIsModalOpen] = useState(false)

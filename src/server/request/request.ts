@@ -50,18 +50,21 @@ class Request {
       this.instance
         .request<any, Data<T>>(config)
         .then((res) => {
-          if (res.code != '200') {
+          ///////////////////////////////////////////////////////////////
+          console.log("%c%s"," color: yellow;",`发送 @URL | ${config.url}`)
+          if(res.code != '200') {
             message.error(`${DEBUGINFO}${res.code}  | ${res.msg}`)
+            console.log("%c%s","color: yellow;",`${DEBUGINFO}${res.code} | ${res.msg}`)
           } else {
+            console.log("%c%s","color: yellow;",JSON.stringify(res))
           }
           resolve(res.data)
         })
         .catch((err) => {
-          message.error('网络错误')
+          message.error("网络错误")
           reject(err)
         })
-    })
-  }
+    })}
 
   get<T = any>(config: RequestConfig): Promise<T> {
     return this.request({ ...config, method: 'GET' })

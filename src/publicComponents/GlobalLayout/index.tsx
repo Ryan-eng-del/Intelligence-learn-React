@@ -14,7 +14,7 @@ export const GlobalLayout = (props: {
     <HomePageWrapper>
       <LeftLayoutWrapper>
         <LogoWrapper>
-          <img src={classInfo.coursesCover || require('assets/img/class.jpg')} />
+          <img src={ require('assets/img/class.jpg')} />
           <span>{classInfo.courseName || "不在课程里面"}</span>
         </LogoWrapper>
         <NavWrapper>

@@ -3,12 +3,14 @@ import { CreateQuestionWrapper } from './CreateQuestionPageStyle'
 import { CreateExamMenu } from 'components/CreateExamPage'
 import { QuestionDataWithID, QuestionType } from 'server/fetchExam/types'
 import { useCreateEmptyQuestion } from 'server/fetchExam'
+import { useCurrentClassInfo } from 'context/ClassInfoContext'
 
 export const CreateQuestionPage: React.FC = () => {
   const [curEdit, setCur] = useState<QuestionDataWithID>()
   const { Provider } = React.createContext(curEdit)
+  const { classInfo } = useCurrentClassInfo()
+  const { mutate } = useCreateEmptyQuestion(classInfo.courseId)
 
-  const { mutate } = useCreateEmptyQuestion()
   const RandomInt = () => Math.floor(Math.random() * 1e9)
 
   const AddQuestion = (type: QuestionType) => {

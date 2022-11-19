@@ -100,34 +100,17 @@ export const TeachPage = () => {
         title="我教的课"
         tool={<PrimaryButton title="新建课程" handleClick={showModal}></PrimaryButton>}
       ></GlobalHeader>
-      <GlobalRightLayout>
-        {isLoading ? (
-          <BaseLoading />
-        ) : (
-          <>
-            {Array.from({ length: (data?.length || 4 % 4) + 1 }).map((v, i) => {
-              return (
-                <Row key={i} style={{ marginBottom: '30px' }}>
-                  {data?.map((item, index) => {
-                    return (
-                      index >= i * 4 &&
-                      index < (i + 1) * 4 && (
-                        <ClassCard
-                          to={'teacher'}
-                          classId={item.courseId}
-                          cname={item.courseName}
-                          iurl={item.coursesCover}
-                          key={index}
-                        ></ClassCard>
-                      )
-                    )
-                  })}
-                </Row>
-              )
-            })}
-          </>
-        )}
-      </GlobalRightLayout>
+        <GlobalRightLayout>
+          { isLoading ? <BaseLoading /> :
+            Array.from({ length: (data?.length || 4 % 4) + 1 }).map(
+              (v, i) => <Row key={i} style={{ marginBottom: '30px' }}>
+                {data?.map((item, index) => index >= i * 4 && index < (i + 1) * 4 &&
+                  <ClassCard to='MyTeach' classInfo={item} key={item.courseId} />
+                )}
+              </Row>
+            )
+          }
+        </GlobalRightLayout>
     </>
   )
 }

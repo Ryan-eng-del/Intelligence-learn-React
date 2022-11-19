@@ -3,11 +3,12 @@ import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
 import { IAddKnowledgeParam } from './types'
 /*展示章节学习树*/
-export const useShowKnowledgeTree = () => {
+export const useShowKnowledgeTree = (courseId:string) => {
   return useQuery(['knowledgeTree'], async () => {
     await delayFetch()
     return client.get({
-      url: 'points/show'
+      url: 'points/show',
+      params:{ courseId }
     })
   })
 }

@@ -56,12 +56,11 @@ export const useShowExamList = (courseID: string) => {
 }
 
 /** 添加空试题 */
-export const useCreateEmptyQuestion = () => {
+export const useCreateEmptyQuestion = (courseId:string) => {
   return useMutation(async (type: QuestionType) => {
-    // await delayFetch()
     const defData = {
       questionDescription: '',
-      courseId: '',
+      courseId,
       pointIds: [],
       questionOption: 'dsadas<>fr<>ads<>dsads',
       questionAnswerExplain: '',
@@ -70,11 +69,13 @@ export const useCreateEmptyQuestion = () => {
       questionType: type,
       rightAnswer: 'A'
     }
-    const qID = client.post<string>({
-      url: 'question/add-question',
+    const qID = await client.post<string>({
+      url: '/question/teacher/create',
       data: defData
     })
-    return { ...defData, questionId: qID as unknown as string }
+    console.log("在",courseId,"创建题目,题目的ids",qID);
+
+    return { ...defData, questionId: qID }
   })
 }
 

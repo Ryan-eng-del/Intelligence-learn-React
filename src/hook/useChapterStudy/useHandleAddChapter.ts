@@ -6,6 +6,7 @@ import { addChildChapterNode, deleteTreeNode, updateChapterTreeQueryCache } from
 import { AddChapterParam } from '../../types/server/fetchChapter'
 import { useQueryClient } from '@tanstack/react-query'
 import { IChapterReducerAction, IChapterReducerState } from '../../reducer/ChaperStudyTree/type/type'
+import { useCurrentClassInfo } from 'context/ClassInfoContext'
 
 interface handleAddChapterProps {
   data: ChapterTreeData[]
@@ -15,6 +16,7 @@ interface handleAddChapterProps {
 
 /*添加章节的Hook*/
 export const useHandleAddChapter = (props: handleAddChapterProps) => {
+  const { classInfo } = useCurrentClassInfo()
   const { data, chapterState, dispatchChapter } = props
   const { curAddInputValue } = chapterState
   /*正在添加的类型*/
@@ -58,7 +60,7 @@ export const useHandleAddChapter = (props: handleAddChapterProps) => {
   const confirmAddChapter = useCallback(async () => {
     const param: AddChapterParam = {
       name: curAddInputValue,
-      course_id: '####',
+      course_id: classInfo.courseId,
       pid: curAddId.current
     }
     try {

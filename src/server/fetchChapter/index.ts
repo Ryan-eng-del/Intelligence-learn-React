@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { client } from 'server'
-import { delayFetch } from 'util/delayFetch'
 import { generateExpandKeys } from '../../helper/chapterStudyTree'
 import { AddChapterParam, EditChapterParam } from '../../types/server/fetchChapter'
 import { AddContent, AddContentResource, EditContent } from '../../types/server/fetchClassTime'
@@ -8,13 +7,13 @@ import { ChapterTreeData } from '../../hook/useChapterStudy/type'
 import React from 'react'
 import { IChapterReducerAction } from '../../reducer/ChaperStudyTree/type/type'
 /*获取章节学习树信息*/
-export const useShowChapter = (dispatch: React.Dispatch<IChapterReducerAction>) => {
+export const useShowChapter = (courseId:string,dispatch: React.Dispatch<IChapterReducerAction>) => {
   return useQuery(['chapterTree'], async () => {
-    await delayFetch()
     const data: ChapterTreeData[] = await client.get({
-      url: 'chapter/getChapter'
+      url: 'chapter/getChapter',
+      params:{ courseId }
     })
-      dispatch({ type: 'setExpandKeys', expandKeys: () => generateExpandKeys(data) })
+    dispatch({ type: 'setExpandKeys', expandKeys: () => generateExpandKeys(data) })
     return data
   })
 }

@@ -1,4 +1,5 @@
 import { Button, Tree, TreeSelect } from 'antd'
+import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import React, { useState } from 'react'
 import { useShowKnowledgeTree } from 'server/fetchKnowledge'
 
@@ -8,7 +9,8 @@ export const KnowledgeSeletor: React.FC<{
   related?: string[]
   callback?: (knowledgeList: string[]) => void
 }> = ({ related, callback }) => {
-  const { data } = useShowKnowledgeTree()
+  const { classInfo } = useCurrentClassInfo()
+  const { data } = useShowKnowledgeTree(classInfo.courseId)
   const [value, setValue] = useState<string[]>(related!)
   const onChange = (newValue: string[]) => {
     console.log(newValue)

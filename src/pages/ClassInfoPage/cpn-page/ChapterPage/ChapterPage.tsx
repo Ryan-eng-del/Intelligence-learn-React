@@ -4,11 +4,11 @@ import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { PrimaryButton } from 'publicComponents/Button'
 import { useChapterUI } from 'hook/useChapterStudy/useChapterUI'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout'
-import { useParams } from 'react-router-dom'
+import { useCurrentClassInfo } from 'context/ClassInfoContext'
 
 export const ChapterPage: React.FC = () => {
-  const params = useParams()
-  const editable = params.identify === 'teacher' ? true : false
+  const { classInfo } = useCurrentClassInfo()
+  const editable = classInfo.isOwner
   const { treeData, chapterControl } = useChapterUI(editable)
   return (
     <>

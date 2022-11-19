@@ -5,10 +5,13 @@ import { initialKnowledgePoint } from './config'
 import { addChildKnowledgeNode, deleteKnowledgeNode, updateKnowledgeTreeQueryCache } from '../../helper/knowledgeTree'
 import { IHandleChapterControl } from '../useChapterStudy/type'
 import { useQueryClient } from '@tanstack/react-query'
+import { useCurrentClassInfo } from 'context/ClassInfoContext'
 
 export const useAddKnowledgePoints = (props: IHandleChapterControl<IKnowledgePoint>) => {
   const { data, chapterState: knowledgeState, dispatchChapter: dispatch } = props
   const [curKnowledgeNode, setCurKnowledgeNode] = useState<IKnowledgePoint | null>(null)
+  const { classInfo } = useCurrentClassInfo()
+
   const { mutateAsync: addKnowledgePoints } = useAddKnowledgePointsAPI()
   const knowledgeNode: IKnowledgePoint = useMemo(() => Object.assign({}, initialKnowledgePoint), [data])
   const queryClient = useQueryClient()
@@ -40,7 +43,7 @@ export const useAddKnowledgePoints = (props: IHandleChapterControl<IKnowledgePoi
       const knowledgeId = await addKnowledgePoints({
         pointName: knowledgeState.curAddInputValue,
         pointPid: curId.current ? '555' : curId.current,
-        courseId: '#'
+        courseId: classInfo.courseId
       })
       setCurKnowledgeNode((pre) => {
         if (pre) {

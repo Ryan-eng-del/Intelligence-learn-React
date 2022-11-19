@@ -6,9 +6,11 @@ import { useDeleteKnowledgePoints } from './useDeleteKnowledgePoints'
 import { useHandleRelatePoints } from './useHandleRelatePoints'
 import { useHandleOnExpand } from '../useChapterStudy/useHandleTreeOnExpand'
 import { useShowKnowledgeTree } from '../../server/fetchKnowledge'
+import { useCurrentClassInfo } from 'context/ClassInfoContext'
 
 export const useKnowledgeControl = () => {
-  const { data, isLoading } = useShowKnowledgeTree()
+  const { classInfo } = useCurrentClassInfo()
+  const { data, isLoading } = useShowKnowledgeTree(classInfo.courseId)
   const [knowledgeState, dispatch] = useReducer(chapterReducer, initialChapterState)
   /*添加知识点*/
   const { addKnowledgePoint, confirmAdd, curKnowledgeNode, cancelAdd, addKnowledgeChildrenPoint } =

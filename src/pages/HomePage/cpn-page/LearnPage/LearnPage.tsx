@@ -4,17 +4,16 @@ import { Input, Modal, Row } from 'antd'
 import { ClassCard } from 'publicComponents/TeachRotePage'
 import { useJoinInvitedCourse, useShowInvitedCourseInfo, useShowLearnClass } from 'server/fetchCourse'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
-import { CourseList } from 'server/fetchCourse/types'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
 import { PrimaryButton } from 'publicComponents/Button'
-
+type Class = {classId: string, courseName: string, courseCover: string, teacherName: string}
 export const LearnPage: React.FC = () => {
   const [invitedcode, setInvitedCode] = useState('')
-  const [newCourse, setNewCourse] = useState<CourseList | undefined>()
+  const [newCourse, setNewCourse] = useState<Class | undefined>()
 
   const { data, isLoading } = useShowLearnClass()
-  const { mutate: joinClass } = useJoinInvitedCourse(invitedcode, newCourse!)
+  const { mutate: joinClass } = useJoinInvitedCourse()
 
   const [modal2Visible, setModalVisible2] = useState(false)
   const [confirmLoading2, setComfirmLoading2] = useState(false)
@@ -22,10 +21,12 @@ export const LearnPage: React.FC = () => {
   // 窗口一
   const [modalVisible, setModalVisible] = useState(false)
 
-  const { mutate, isLoading: wait } = useShowInvitedCourseInfo(invitedcode, setNewCourse, setModalVisible2)
+  const { mutateAsync, isLoading: wait } = useShowInvitedCourseInfo()
 
   const handleOk = async () => {
-    mutate()
+    const data = await mutateAsync(invitedcode)
+    setNewCourse(data)
+    setModalVisible2(true)
   }
 
   const handleCancel = () => {
@@ -34,8 +35,8 @@ export const LearnPage: React.FC = () => {
 
   const handleOk2 = () => {
     setComfirmLoading2(true)
-    joinClass()
-
+    console.log("2323",newCourse);
+    newCourse ? joinClass(newCourse.classId) : console.log("没有查询到班级");
     setComfirmLoading2(false)
     setModalVisible2(false)
     setModalVisible(false)
@@ -83,7 +84,7 @@ export const LearnPage: React.FC = () => {
           width={300}
         >
           <ModalContextWrapper>
-            <img src={newCourse?.coursesCover || require('assets/img/class.jpg')} alt="课程图片" />
+            <img src={newCourse?.courseCover || require('assets/img/class.jpg')} alt="课程图片" />
             <h1>{newCourse?.courseName}</h1>
             <h3>{newCourse?.courseName}</h3>
           </ModalContextWrapper>
@@ -95,32 +96,15 @@ export const LearnPage: React.FC = () => {
           tool={<PrimaryButton title="加入课程" handleClick={()=>setModalVisible(true)}></PrimaryButton>}
         ></GlobalHeader>
         <GlobalRightLayout>
-          {isLoading ? (
-            <BaseLoading />
-          ) : (
-            <>
-              {Array.from({ length: (data?.length || 4 % 4) + 1 }).map((v, i) => {
-                return (
-                  <Row key={i} style={{ marginBottom: '30px' }}>
-                    {data?.map((item, index) => {
-                      return (
-                        index >= i * 4 &&
-                        index < (i + 1) * 4 && (
-                          <ClassCard
-                            to={'student'}
-                            classId={item.courseId}
-                            cname={item.courseName}
-                            iurl={item.coursesCover}
-                            key={index}
-                          ></ClassCard>
-                        )
-                      )
-                    })}
-                  </Row>
-                )
-              })}
-            </>
-          )}
+          { isLoading ? <BaseLoading /> :
+            Array.from({ length: (data?.length || 4 % 4) + 1 }).map(
+              (v, i) => <Row key={i} style={{ marginBottom: '30px' }}>
+                {data?.map((item, index) => index >= i * 4 && index < (i + 1) * 4 &&
+                  <ClassCard to='MyStudy' classInfo={item} key={item.courseId} />
+                )}
+              </Row>
+            )
+          }
         </GlobalRightLayout>
       </>
     </>

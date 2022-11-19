@@ -5,6 +5,7 @@ import { deleteKnowledgeNode } from '../../helper/knowledgeTree'
 import { IKnowledgePoint } from './type'
 import { IHandleChapterControl } from '../useChapterStudy/type'
 import { useQueryClient } from '@tanstack/react-query'
+import { useCurrentClassInfo } from 'context/ClassInfoContext'
 
 export const useDeleteKnowledgePoints = (props: Omit<IHandleChapterControl<IKnowledgePoint>, 'chapterState'>) => {
   const { data, dispatchChapter: dispatch } = props

@@ -6,12 +6,14 @@ import { useHandleDeleteChapter } from './useHandleDeleteChapter'
 import { chapterReducer, initialChapterState } from '../../reducer/ChaperStudyTree/chapterReducer'
 import { useHandleAddClassTime } from './useHandleAddClassTime'
 import { useHandleOnExpand } from './useHandleTreeOnExpand'
+import { useCurrentClassInfo } from 'context/ClassInfoContext'
 
 export const useChapterControlRefactor = () => {
   /* ChapterNode Reducer */
   const [chapterState, dispatchChapter] = useReducer(chapterReducer, initialChapterState)
   /* Chapter TreeData */
-  const { data, isLoading } = useShowChapter(dispatchChapter)
+  const { classInfo } = useCurrentClassInfo();
+  const { data, isLoading } = useShowChapter(classInfo.courseId,dispatchChapter)
 
   /* 添加章节 */
   const { curAddNode, handleClickAddChapter, confirmAddChapter, cancelAddChapter, handleClickAddChildChapter } =
