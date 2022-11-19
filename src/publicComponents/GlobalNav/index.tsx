@@ -1,6 +1,6 @@
 import { Menu } from 'antd'
 import { useEffect, useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 
 interface NavMapProps extends React.ComponentProps<typeof Menu> {
   items: any
@@ -11,7 +11,8 @@ interface NavMapProps extends React.ComponentProps<typeof Menu> {
 export const GlobalNav = (props: NavMapProps) => {
   const [curSelect, setCurSelect] = useState<string>('')
   const { pathname } = useLocation()
-  console.log(pathname.slice(props.sliceCount), props.sliceCount, '')
+  const params = useParams()
+
   const map = useMemo(() => props.createMapFunction(), [])
   useEffect(() => setCurSelect(map.get(pathname.slice(props.sliceCount))!), [props.sliceCount])
   const handleOnSelect = (selectInfo: any) => setCurSelect(selectInfo.key)

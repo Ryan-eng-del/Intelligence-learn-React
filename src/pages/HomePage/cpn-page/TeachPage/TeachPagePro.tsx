@@ -114,10 +114,9 @@ export const TeachPage = () => {
                       index < (i + 1) * 4 && (
                         <ClassCard
                           to={'teacher'}
-                          id={item.course_id}
+                          classId={item.course_id}
                           cname={item.course_name}
                           iurl={item.courses_cover}
-                          Permission={true}
                           key={index}
                         ></ClassCard>
                       )

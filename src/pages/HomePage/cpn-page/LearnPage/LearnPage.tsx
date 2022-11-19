@@ -103,11 +103,9 @@ export const LearnPage: React.FC = () => {
                     <ClassCard
                       to={'student'}
                       key={index}
-                      id={item.class_id}
+                      classId={item.class_id}
                       cname={item.course_name}
                       iurl={item.course_cover || null}
-                      optimistic={item.optimistic}
-                      Permission={false}
                     ></ClassCard>
                   )
                 })

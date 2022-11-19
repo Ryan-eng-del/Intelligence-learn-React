@@ -1,34 +1,45 @@
 import { GlobalLayout } from 'publicComponents/GlobalLayout'
-import { createContext } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation, useParams } from 'react-router-dom'
 import { createClassNavMap } from 'util/createNavMap'
 import ClassInfoNavItems from './config'
-
-const curCourse = {
-  courseId: '',
-  courseName: '未知的课程',
-  cover: '',
-  Permission: false
-}
-
-const setCurCourse = (e: typeof curCourse) => {
-  curCourse.courseId = e.courseId
-  curCourse.courseName = e.courseName
-  curCourse.cover = e.cover
-  curCourse.Permission = e.Permission
-}
-
-const { Provider, Consumer: CurCourseProvider } = createContext({
-  curCourse,
-  setCurCourse
-})
+import { useUserInfo } from '../../context/UserInfoContext'
+import { useGetClassInfoApi } from '../../server/fetchCourse'
+import { useCurrentClassInfo } from '../../context/ClassInfoContext'
+import { useEffect, useMemo } from 'react'
 
 export const ClassInfoPage = () => {
+  const userInfoContext = useUserInfo()
+  const classInfoContext = useCurrentClassInfo()
+  const location = useLocation()
+  const { mutateAsync } = useGetClassInfoApi()
+  const params = useParams()
+
+  useEffect(() => {
+    if (userInfoContext?.getUserInfo) {
+      userInfoContext.getUserInfo()
+    }
+  }, [])
+
+  useEffect(() => {
+    ;(async function () {
+      const { id } = params
+      const data = await mutateAsync(id!)
+      classInfoContext?.dispatchClassInfo(data)
+    })()
+  }, [])
+
+  const len = useMemo(() => {
+    if (params) {
+      const identify = params.identify!
+      return location.pathname.indexOf(identify) + identify?.length
+    }
+  }, [location.pathname, params.identify])
+
   return (
     <GlobalLayout
       navItems={ClassInfoNavItems}
       routePage={<Outlet />}
-      sliceCount={18}
+      sliceCount={len as number}
       createMapFunction={createClassNavMap}
     />
   )

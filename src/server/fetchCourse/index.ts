@@ -23,11 +23,7 @@ export const useShowLearnClass = () => {
 }
 
 //显示邀请码班级信息
-export const useShowInvitedCourseInfo = (
-  class_invitation_code: string,
-  setNewCourse: any,
-  setModalVisible2: any
-) => {
+export const useShowInvitedCourseInfo = (class_invitation_code: string, setNewCourse: any, setModalVisible2: any) => {
   return useMutation(
     async () => {
       await delayFetch()
@@ -38,13 +34,12 @@ export const useShowInvitedCourseInfo = (
     },
     {
       onSuccess: (data) => {
-        if(data) {
+        if (data) {
           console.log(data)
           setNewCourse(data)
           setModalVisible2(true)
           message.success('查询成功')
         } else {
-
           message.error(`不存在的课: ${class_invitation_code}`)
         }
       },
@@ -55,10 +50,7 @@ export const useShowInvitedCourseInfo = (
   )
 }
 
-export const useJoinInvitedCourse = (
-  class_invitation_code: string,
-  newCourse: CourseInfo
-) => {
+export const useJoinInvitedCourse = (class_invitation_code: string, newCourse: CourseInfo) => {
   const queryClient = useQueryClient()
   return useMutation(
     async () => {
@@ -98,13 +90,7 @@ export const useJoinInvitedCourse = (
 }
 
 // 添加课程
-export const useCreateClass = ({
-  course_cover,
-  course_name
-}: {
-  course_name: string
-  course_cover: string | null
-}) => {
+export const useCreateClass = ({ course_cover, course_name }: { course_name: string; course_cover: string | null }) => {
   const queryClient = useQueryClient()
   return useMutation(
     async () => {
@@ -156,60 +142,9 @@ export const useJoinClass = (newCourseId: string) => {
   )
 }
 
-//加入课程旧版本
-// export const useJoinClass = (invitedcode: string) => {
-//   const queryClient = useQueryClient()
-//   let newLearnClass = {}
-//   return useMutation(
-//     async () => {
-//       await delayFetch()
-//       return client.post({
-//         url: '/course/join-class',
-//         data: { "invitedcode": invitedcode }
-//       }).then(res => {
-//         newLearnClass = res;
-//       })
-//     },
-//     {
-//       onMutate: () => {
-//         const previousLearnClass = queryClient.getQueryData(['learnclass'])
-//         queryClient.setQueryData(['learnclass'], (old: any) => {
-//           const newState = [...old].concat({
-//             "course_id": "1547211425930256386",
-//             "course_name": "loading",
-//             "courses_cover": null,
-//             "course_describe": null,
-//             "optimistic": true
-//           })
-//           return newState
-//         })
-//         return { previousLearnClass }
-//       },
-//       onSuccess: () => {
-//         message.success('加入课程成功')
-//         // queryClient.invalidateQueries(['learnclass'])
-//         queryClient.setQueryData(['learnclass'], (old: any) => {
-//           old.pop()
-//           const newState = [...old].concat(newLearnClass)
-//           return newState
-//         })
-//       },
-// onError: (err, variables, context) => {
-//   if (context?.previousLearnClass) {
-//     queryClient.setQueryData(['learnclass'], context.previousLearnClass)
-//   }
-// },
-// onSettled: () => {
-//   message.success('加入课程成功')
-//   // queryClient.invalidateQueries(['learnclass'])
-//   queryClient.setQueryData(['learnclass'], (old: any) => {
-//     old.pop()
-//     const newState = [...old].concat(newLearnClass)
-//     return newState
-//   })
-// }
-//     }
-
-//   )
-
-// }
+//通过课程id去获取课程信息
+export const useGetClassInfoApi = () => {
+  return useMutation((id: string) => {
+    return client.get({ url: '', params: id })
+  })
+}

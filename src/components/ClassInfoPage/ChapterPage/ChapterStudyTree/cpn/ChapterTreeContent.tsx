@@ -1,14 +1,10 @@
 import React from 'react'
 import { Button, Tag } from 'antd'
-import {
-  DeleteOutlined,
-  FilePptOutlined,
-  YoutubeOutlined
-} from '@ant-design/icons'
+import { DeleteOutlined, FilePptOutlined, YoutubeOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { CustomLink } from 'util/CustomLink'
 import { ChapterResourceType } from 'server/fetchChapter/types'
-import {formatResource} from "../../../../../helper/chapterStudyTree";
+import { formatResource } from '../../../../../helper/chapterStudyTree'
 
 const ChapterTreeContent: React.FC<{
   contentName: string
@@ -17,16 +13,7 @@ const ChapterTreeContent: React.FC<{
   resource: ChapterResourceType[]
   handleDeleteResource: any
   editable: boolean
-}> = ({
-  editable,
-  contentName,
-  handleDeleteTreeContent,
-  contentId,
-  resource,
-  handleDeleteResource
-}) => {
-  console.log('TreeContent')
-
+}> = ({ editable, contentName, handleDeleteTreeContent, contentId, resource, handleDeleteResource }) => {
   return (
     <>
       <ChapterTreeContentWrapper>
@@ -35,11 +22,7 @@ const ChapterTreeContent: React.FC<{
           {editable && (
             <EditToolWrapperContent className={'edit-content-tool-wrapper'}>
               <Button type={'primary'}>编辑</Button>
-              <Button
-                type={'primary'}
-                danger
-                onClick={() => handleDeleteTreeContent(contentId, 'courTimes')}
-              >
+              <Button type={'primary'} danger onClick={() => handleDeleteTreeContent(contentId, 'courTimes')}>
                 删除
               </Button>
             </EditToolWrapperContent>
@@ -50,20 +33,13 @@ const ChapterTreeContent: React.FC<{
           {formatResource(resource).map((item: ChapterResourceType) => {
             return (
               <ul key={item.resourceId}>
-                <li
-                  className={'resource'}
-                  style={{ listStyle: 'none', position: 'relative' }}
-                >
+                <li className={'resource'} style={{ listStyle: 'none', position: 'relative' }}>
                   {item.type == '10' && (
-                    <CustomLink
-                      to={'/teacher-preview/video/' + item.resourceId}
-                    >
+                    <CustomLink to={'/teacher-preview/video/' + item.resourceId}>
                       <Tag color="#cd201f" icon={<YoutubeOutlined />}>
                         视频
                       </Tag>
-                      <div style={{ display: 'inline-block' }}>
-                        {item.resourceName}
-                      </div>
+                      <div style={{ display: 'inline-block' }}>{item.resourceName}</div>
                     </CustomLink>
                   )}
                   {item.type == '20' && (
@@ -71,9 +47,7 @@ const ChapterTreeContent: React.FC<{
                       <Tag color="#55acee" icon={<FilePptOutlined />}>
                         课件
                       </Tag>
-                      <div style={{ display: 'inline-block' }}>
-                        {item.resourceName}
-                      </div>
+                      <div style={{ display: 'inline-block' }}>{item.resourceName}</div>
                     </CustomLink>
                   )}
 

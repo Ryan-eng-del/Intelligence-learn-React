@@ -1,14 +1,14 @@
 import React from 'react'
-import { ChapterStudyTree } from '../../../../components/ClassInfoPage/ChapterPage/ChapterStudyTree/ChapterStudyTree'
-import { GlobalHeader } from '../../../../publicComponents/GlobalHeader/index'
+import { ChapterStudyTree } from 'components/ClassInfoPage/ChapterPage/ChapterStudyTree/ChapterStudyTree'
+import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { PrimaryButton } from 'publicComponents/Button'
 import { useChapterUI } from 'hook/useChapterStudy/useChapterUI'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout'
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 export const ChapterPage: React.FC = () => {
-  const location = useLocation()
-  const editable = location.pathname.slice(11, 18) === 'teacher' ? true : false
+  const params = useParams()
+  const editable = params.identify === 'teacher' ? true : false
   const { treeData, chapterControl } = useChapterUI(editable)
   return (
     <>

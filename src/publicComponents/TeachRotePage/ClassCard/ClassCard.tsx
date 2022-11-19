@@ -1,23 +1,19 @@
-import { Button } from 'antd'
 import { PrimaryButton } from 'publicComponents/Button'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AnyFn } from 'types'
 import { CardBodyWrapper, CardHeadWrapper, CardWrapper } from './ClassCardStyle'
 
 interface ClassCard {
-  id: string
+  classId: string
   cname: string
   iurl: string | null
-  optimistic?: boolean
-  Permission: boolean
   to: 'teacher' | 'student'
 }
 
-export const ClassCard: React.FC<ClassCard> = ({ id, to, cname, iurl, optimistic, Permission }) => {
+export const ClassCard: React.FC<ClassCard> = ({ classId, to, cname, iurl }) => {
   const navigate = useNavigate()
 
-  const handleClick = () => navigate(`/classinfo/${to}/chapter`)
+  const handleClick = () => navigate(`/classinfo/${classId}/${to}/chapter`)
 
   return (
     <>
@@ -27,17 +23,11 @@ export const ClassCard: React.FC<ClassCard> = ({ id, to, cname, iurl, optimistic
         </CardHeadWrapper>
         <CardBodyWrapper>
           <div className="tname">{cname}</div>
-          {optimistic ? (
-            <Button type="primary" loading>
-              Loading
-            </Button>
-          ) : (
-            <PrimaryButton
-              title="进入课程"
-              handleClick={handleClick}
-              style={{ width: '100px', marginTop: '12px' }}
-            ></PrimaryButton>
-          )}
+          <PrimaryButton
+            title="进入课程"
+            handleClick={handleClick}
+            style={{ width: '100px', marginTop: '12px' }}
+          ></PrimaryButton>
         </CardBodyWrapper>
       </CardWrapper>
     </>

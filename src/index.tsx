@@ -29,7 +29,7 @@ import { SourcePdfPreview, SourceVideoPreview } from './pages/TeacherSourcePrevi
 import { QuestionEditPage } from 'publicComponents/CreateQuestionPage'
 import { MkGraph } from 'pages/MK-graphPage/MkGraph'
 import { PaperDoing } from 'pages/PaperDoingPage/paperDoingPage'
-import { ClassTimeDispatchContextProvider } from 'context/ChapterStudyTree/ClassTimeDispatchContext'
+import { ContextProvider } from './context'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
@@ -43,9 +43,9 @@ const queryClient = new QueryClient({
 
 root.render(
   <QueryClientProvider client={queryClient}>
-    <ClassTimeDispatchContextProvider>
-      <ConfigProvider locale={zhCN}>
-        <ReactQueryDevtools initialIsOpen />
+    <ConfigProvider locale={zhCN}>
+      <ReactQueryDevtools initialIsOpen />
+      <ContextProvider>
         <Router>
           <Routes>
             <Route path="login" element={<LoginPage />} />
@@ -64,7 +64,7 @@ root.render(
                 <Route path="profile" element={<ProfilePage />} />
                 <Route path="exam" element={<ExamSummary />} />
               </Route>
-              <Route path="classinfo/teacher" element={<ClassInfoPage />}>
+              <Route path="classinfo/:id/:identify/" element={<ClassInfoPage />}>
                 <Route path="chapter" element={<ChapterPage />} />
                 <Route path="exam" element={<ExamPage />} />
                 <Route path="resource" element={<ResourcePage />} />
@@ -73,7 +73,7 @@ root.render(
                 <Route path="knowledge" element={<KnowledgePage />} />
                 <Route path="questionbank" element={<QuestionBankPage />} />
               </Route>
-              <Route path="classinfo/student" element={<ClassInfoPage />}>
+              <Route path="classinfo/:id/:identify/" element={<ClassInfoPage />}>
                 <Route path="chapter" element={<ChapterPage />} />
                 <Route path="exam" element={<ExamPage />} />
                 <Route path="resource" element={<ResourcePage />} />
@@ -106,8 +106,8 @@ root.render(
             </Route>
           </Routes>
         </Router>
-      </ConfigProvider>
-    </ClassTimeDispatchContextProvider>
+      </ContextProvider>
+    </ConfigProvider>
   </QueryClientProvider>
 )
 
