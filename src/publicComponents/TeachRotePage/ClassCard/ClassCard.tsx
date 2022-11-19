@@ -1,3 +1,4 @@
+import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { PrimaryButton } from 'publicComponents/Button'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -12,8 +13,17 @@ interface ClassCard {
 
 export const ClassCard: React.FC<ClassCard> = ({ classId, to, cname, iurl }) => {
   const navigate = useNavigate()
+  const  { dispatchClassInfo } = useCurrentClassInfo()
 
-  const handleClick = () => navigate(`/classinfo/${classId}/${to}/chapter`)
+  const handleClick = () => {
+    dispatchClassInfo({
+      courseId:classId,
+      courseName:cname,
+      coursesCover:iurl,
+      courseDescribe:"没有介绍"
+    })
+    navigate(`/classinfo/${classId}/${to}/chapter`)
+  }
 
   return (
     <>

@@ -9,25 +9,15 @@ export const GlobalLayout = (props: {
   sliceCount: number
   createMapFunction: () => Map<string, string>
 }) => {
-  const context = useCurrentClassInfo()
-  let classInfo = null
-  if (context) {
-    classInfo = context?.classInfo
-  }
-  // 等后端接口之后 classInfo 就等于courseInfo
-  const courseInfo = {
-    courseId: '1518868937486368710',
-    courseName: '离散数学',
-    coursesCover: null,
-    courseDescribe: '李老师'
-  }
+  const  { classInfo } = useCurrentClassInfo()
+
 
   return (
     <HomePageWrapper>
       <LeftLayoutWrapper>
         <LogoWrapper>
-          <img src={courseInfo.coursesCover || require('assets/img/class.jpg')} />
-          <span>{courseInfo.courseName}</span>
+          <img src={classInfo.coursesCover || require('assets/img/class.jpg')} />
+          <span>{classInfo.courseName || "不在课程里面"}</span>
         </LogoWrapper>
         <NavWrapper>
           <GlobalNav
