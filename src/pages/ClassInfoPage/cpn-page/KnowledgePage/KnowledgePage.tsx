@@ -1,13 +1,14 @@
 import React from 'react'
 import { KnowledgeTree } from 'components/ClassInfoPage/KnowledgePage/KnowledgeTree/KnowledgeTree'
-import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/index'
-import { GlobalHeader } from '../../../../publicComponents/GlobalHeader/index'
-import { Link } from 'react-router-dom'
+import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
+import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
+import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { useKnowledgeUI } from 'hook/useKnowledge/useKnowledgeUI'
 
 export const KnowledgePage: React.FC = () => {
-  const editable = location.pathname.slice(11, 18) === 'teacher' ? true : false
+  const params = useParams()
+  const editable = params.identify === 'teacher' ? true : false
   const { knowledgeControl, treeData } = useKnowledgeUI(editable)
 
   return (

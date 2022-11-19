@@ -32,6 +32,7 @@ import { PaperDoing } from 'pages/PaperDoingPage/paperDoingPage'
 import { ClassTimeDispatchContextProvider } from 'context/ChapterStudyTree/ClassTimeDispatchContext'
 import { ClassMana } from 'pages/ClassInfoPage/cpn-page/ClassManaPage/ClassManaPage'
 // import { QuestionDoingPage } from 'pages/QuestionDoingPage/QuestionDoingPage'
+import { ContextProvider } from './context'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
@@ -45,9 +46,9 @@ const queryClient = new QueryClient({
 
 root.render(
   <QueryClientProvider client={queryClient}>
-    <ClassTimeDispatchContextProvider>
-      <ConfigProvider locale={zhCN}>
-        <ReactQueryDevtools initialIsOpen />
+    <ConfigProvider locale={zhCN}>
+      <ReactQueryDevtools initialIsOpen />
+      <ContextProvider>
         <Router>
           <Routes>
             <Route path="login" element={<LoginPage />} />
@@ -67,7 +68,7 @@ root.render(
                 <Route path="setting" element={<SettingPage />} />
                 <Route path="exam" element={<ExamSummary />} />
               </Route>
-              <Route path="classinfo/teacher/:courseId" element={<ClassInfoPage />}>
+              <Route path="classinfo/:id/:identify/" element={<ClassInfoPage />}>
                 <Route path="chapter" element={<ChapterPage />} />
                 <Route path="exam" element={<ExamPage />} />
                 <Route path="resource" element={<ResourcePage />} />
@@ -76,7 +77,17 @@ root.render(
                 <Route path="knowledge" element={<KnowledgePage />} />
                 <Route path="questionbank" element={<QuestionBankPage />} />
               </Route>
-              <Route path="classinfo/student/:courseId" element={<ClassInfoPage />}>
+              <Route path="classinfo/:id/:identify/" element={<ClassInfoPage />}>
+                <Route path="chapter" element={<ChapterPage />} />
+                <Route path="exam" element={<ExamPage />} />
+                <Route path="resource" element={<ResourcePage />} />
+                <Route path="discuss" element={<DiscussPage />} />
+                <Route path="class" element={<ClassMana />} />
+                <Route path="knowledge" element={<KnowledgePage />} />
+                <Route path="questionbank" element={<QuestionBankPage />} />
+              </Route>
+
+              <Route path="studentClassinfo" element={<ClassInfoPage />}>
                 <Route path="chapter" element={<ChapterPage />} />
                 <Route path="exam" element={<ExamPage />} />
                 <Route path="resource" element={<ResourcePage />} />
@@ -98,8 +109,8 @@ root.render(
             </Route>
           </Routes>
         </Router>
-      </ConfigProvider>
-    </ClassTimeDispatchContextProvider>
+      </ContextProvider>
+    </ConfigProvider>
   </QueryClientProvider>
 )
 

@@ -1,21 +1,30 @@
-import { Button } from 'antd'
+import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { PrimaryButton } from 'publicComponents/Button'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CardBodyWrapper, CardHeadWrapper, CardWrapper } from './ClassCardStyle'
 
 interface ClassCard {
-  id: string
+  classId: string
   cname: string
   iurl: string | null
-  optimistic?: boolean
   to: 'teacher' | 'student'
 }
 
-export const ClassCard: React.FC<ClassCard> = ({id, to, cname, iurl, optimistic}) => {
+export const ClassCard: React.FC<ClassCard> = ({ classId, to, cname, iurl }) => {
   const navigate = useNavigate()
+  const  { dispatchClassInfo } = useCurrentClassInfo()
 
-  const handleClick = () => navigate(`/classinfo/${to}/${id}/chapter`)
+  const handleClick = () => {
+    dispatchClassInfo({
+      courseId:classId,
+      courseName:cname,
+      coursesCover:iurl,
+      courseDescribe:"没有介绍"
+    })
+    navigate(`/classinfo/${classId}/${to}/chapter`)
+  }
+
   return (
     <>
       <CardWrapper>
@@ -24,17 +33,11 @@ export const ClassCard: React.FC<ClassCard> = ({id, to, cname, iurl, optimistic}
         </CardHeadWrapper>
         <CardBodyWrapper>
           <div className="tname">{cname}</div>
-          {optimistic ? (
-            <Button type="primary" loading>
-              Loading
-            </Button>
-          ) : (
-            <PrimaryButton
-              title="进入课程"
-              handleClick={handleClick}
-              style={{ width: '100px', marginTop: '12px' }}
-            ></PrimaryButton>
-          )}
+          <PrimaryButton
+            title="进入课程"
+            handleClick={handleClick}
+            style={{ width: '100px', marginTop: '12px' }}
+          ></PrimaryButton>
         </CardBodyWrapper>
       </CardWrapper>
     </>

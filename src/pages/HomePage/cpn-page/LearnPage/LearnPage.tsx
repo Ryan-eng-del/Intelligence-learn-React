@@ -107,8 +107,8 @@ export const LearnPage: React.FC = () => {
                         index >= i * 4 &&
                         index < (i + 1) * 4 && (
                           <ClassCard
-                            to={'teacher'}
-                            id={item.courseId}
+                            to={'student'}
+                            classId={item.courseId}
                             cname={item.courseName}
                             iurl={item.coursesCover}
                             key={index}

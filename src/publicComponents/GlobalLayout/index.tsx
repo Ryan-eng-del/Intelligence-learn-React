@@ -1,6 +1,7 @@
 import { Avatar } from 'antd'
 import { GlobalNav } from 'publicComponents/GlobalNav'
 import styled from 'styled-components'
+import { useCurrentClassInfo } from '../../context/ClassInfoContext'
 
 export const GlobalLayout = (props: {
   navItems: any
@@ -8,11 +9,13 @@ export const GlobalLayout = (props: {
   sliceCount: number
   createMapFunction: () => Map<string, string>
 }) => {
+  const  { classInfo } = useCurrentClassInfo()
   return (
     <HomePageWrapper>
       <LeftLayoutWrapper>
         <LogoWrapper>
-          <img src={require('assets/img/R.png')} style={{ width: '80%', height: '80%' }} />
+          <img src={classInfo.coursesCover || require('assets/img/class.jpg')} />
+          <span>{classInfo.courseName || "不在课程里面"}</span>
         </LogoWrapper>
         <NavWrapper>
           <GlobalNav
@@ -40,11 +43,15 @@ export const GlobalRightLayout = styled.div`
 
 const RightLayoutRouteWrapper = styled.div``
 const LogoWrapper = styled.div`
-  height: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid black;
+  flex-direction: column;
+
+  img {
+    width: 80%;
+    height: 80%;
+  }
 `
 const NavWrapper = styled.div`
   flex: 1;
@@ -59,11 +66,10 @@ const NavBottomWrapper = styled.div`
 
 const HomePageWrapper = styled.div`
   margin: 0 auto;
-  //height: 800px;
   max-width: 1504px;
   min-width: 1200px;
-  max-height: 700px;
   overflow: scroll;
+  height: 750px;
   background-color: white;
   display: flex;
   border-radius: 20px;
@@ -71,12 +77,13 @@ const HomePageWrapper = styled.div`
 `
 
 const LeftLayoutWrapper = styled.div`
+  padding-top: 30px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
   border-right: rgb(245, 245, 245) 2px solid;
-  min-width: 100px;
+  min-width: 200px;
   //width: 200px;
 `
 const RightLayoutWrapper = styled.div`
