@@ -46,12 +46,12 @@ export const TeachPage = () => {
   }
 
   const handleOk = async () => {
+    dispatch({ type: 'setModalVisible', payload: false })
     try {
       await createClass()
     } catch (e) {
     } finally {
-      dispatch({ type: 'setModalVisible', payload: false })
-      dispatch({ type: 'setClassName', payload: state.className })
+      dispatch({ type: 'setClassName', payload: '' })
       dispatch({ type: 'setClassTeacher', payload: '' })
       dispatch({ type: 'setImgUrl', payload: '' })
     }

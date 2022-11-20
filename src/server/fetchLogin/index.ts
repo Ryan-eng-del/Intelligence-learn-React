@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { client } from 'server'
@@ -9,21 +9,20 @@ export const useToken = () => {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   return useMutation(
-    (data: { name: string; password: string }) => {
-      console.log('登录信息', data.name, data.password)
+    (data: { name: string; password: string; verifyCode: string; verifyKey: string }) => {
       return client.post<{ token: string }>({
-        url: 'user/login',
+        url: '/user/login',
         data: {
           name: data.name,
-          password: data.password
+          password: data.password,
+          verifyCode: data.verifyCode,
+          verifyKey: data.verifyKey
         }
       })
     },
     {
       onSuccess: (data) => {
         if (data) {
-          // 登录失败将没有token信息
-          queryClient.setQueryData(['token'], data)
           cache.setCache('token', data)
           message.success('登录成功，欢迎回来')
           navigate('/home/teach')
@@ -72,6 +71,14 @@ export const useGetUserInfo = () => {
   return useMutation(async () => {
     return client.get({
       url: '/user/show-detail'
+    })
+  })
+}
+
+export const useGetCaptcha = () => {
+  return useMutation(async (sid: string) => {
+    return client.get({
+      url: '/user/get-code'
     })
   })
 }

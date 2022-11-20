@@ -1,5 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { message } from 'antd'
 import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
 import { CourseList } from './types'
@@ -36,7 +35,6 @@ export const useShowInvitedCourseInfo = () => {
 
 export const useJoinInvitedCourse = () => {
   return useMutation((classId: string) => {
-    console.log('idid', classId)
     return client.post<CourseList>({
       url: '/class/join',
       params: { classId }
@@ -58,8 +56,7 @@ export const useCreateClass = ({ course_cover, course_name }: { course_name: str
 
     {
       onSuccess: () => {
-        message.success('添加课程成功')
-        queryClient.invalidateQueries(['learnclass'])
+        queryClient.invalidateQueries(['teachclass'])
       }
     }
   )

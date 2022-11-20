@@ -26,6 +26,7 @@ export const useDeleteChapter = () => {
     return client.delete({ url: `/chapter/deleteChapter/${id}` })
   })
 }
+
 /*确认添加章节树根节点*/
 export const useAddChapter = (setCurNode: any) => {
   return useMutation(
@@ -46,6 +47,7 @@ export const useAddChapter = (setCurNode: any) => {
     }
   )
 }
+
 /*添加章节学习树的子目录*/
 export const useAddChildChapter = (setCurNode: any) => {
   return useMutation(
@@ -66,21 +68,15 @@ export const useAddChildChapter = (setCurNode: any) => {
     }
   )
 }
+
 /*更改章节名称*/
 export const useEditChapter = () => {
-  return useMutation(
-    async ({ chapter_id, new_name }: EditChapterParam) => {
-      return client.put({
-        url: '/chapter/updateChapterName',
-        data: { chapter_id, new_name }
-      })
-    },
-    {
-      onSuccess: () => {
-        console.log('success')
-      }
-    }
-  )
+  return useMutation(async ({ chapter_id, new_name }: EditChapterParam) => {
+    return client.put({
+      url: '/chapter/updateChapterName',
+      data: { chapter_id, new_name }
+    })
+  })
 }
 /*上传课时资源*/
 export const useAddContentResource = () => {
@@ -88,7 +84,10 @@ export const useAddContentResource = () => {
     return client.post({
       url: '/resources/upload-course',
       params: { CourseId, relatedPoints },
-      data: { file }
+      data: { file },
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
     })
   })
 }

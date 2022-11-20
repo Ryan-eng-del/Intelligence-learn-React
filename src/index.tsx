@@ -32,6 +32,7 @@ import { PaperDoing } from 'pages/PaperDoingPage/paperDoingPage'
 import { ClassMana } from 'pages/ClassInfoPage/cpn-page/ClassManaPage/ClassManaPage'
 // import { QuestionDoingPage } from 'pages/QuestionDoingPage/QuestionDoingPage'
 import ContextProvider from 'context'
+import RegisterPage from './pages/LoginPages/RegisterPage'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
@@ -50,6 +51,7 @@ root.render(
       <ContextProvider>
         <Router>
           <Routes>
+            <Route path="register" element={<RegisterPage />} />
             <Route path="login" element={<LoginPage />} />
             <Route
               path="/"

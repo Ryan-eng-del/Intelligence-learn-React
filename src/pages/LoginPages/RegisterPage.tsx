@@ -1,17 +1,18 @@
 import LoginLayout from 'publicComponents/LoginLayout'
-import { useGetCaptcha, useToken } from '../../server/fetchLogin'
-import LocalCache from 'util/cache'
+
+import { useGetCaptcha, useRegister } from '../../server/fetchLogin'
+import LocalCache from '../../util/cache'
 import { useSid } from './useSid'
 import { useEffect } from 'react'
 
-export const LoginPage = () => {
+const RegisterPage = () => {
   /* 获取验证码API */
-  const sid = useSid()
+  const sidRef = useSid()
   const { data: captchaData, mutateAsync: getCaptchaApi } = useGetCaptcha()
-  const { mutateAsync: login, isLoading: loginLoading } = useToken()
+  const { mutateAsync: login, isLoading: registerLoading, isError: loginError } = useRegister()
   useEffect(() => {
     ;(async () => {
-      if (sid) await getCaptchaApi(sid.current)
+      if (sidRef.current) await getCaptchaApi(sidRef.current)
     })()
   }, [])
 
@@ -20,19 +21,20 @@ export const LoginPage = () => {
     if (!userLoginInfo.remember) {
       LocalCache.deleteCache('UserInfo')
     }
-    console.log(userLoginInfo, 'info')
     delete userLoginInfo.remember
-    userLoginInfo.verifyKey = sid.current
+
     await login(userLoginInfo)
   }
 
   return (
     <LoginLayout
-      isLoginPage={true}
+      isLoginPage={false}
       onFinish={onFinish}
-      loading={loginLoading}
+      loading={registerLoading}
       captcha={captchaData?.codeImg}
       refresh={getCaptchaApi}
     ></LoginLayout>
   )
 }
+
+export default RegisterPage

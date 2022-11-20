@@ -1,6 +1,7 @@
 import axios from 'axios'
 import type { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios'
 import { message } from 'antd'
+import { GlobalMessage } from '../../publicComponents/GlobalMessage'
 
 const DEBUGINFO = process.env.NODE_ENV == 'development' ? '错误：' : ''
 
@@ -54,7 +55,7 @@ class Request {
           // console.log("%c%s"," color: yellow;",`发送 @URL | ${config.url}`)
           console.log(`发送 @URL | ${config.url}`)
           if (res.code != '200') {
-            message.error(`${DEBUGINFO}${res.code}  | ${res.msg}`)
+            GlobalMessage('error', `${DEBUGINFO}${res.code}  | ${res.msg}`)
             // console.log('%c%s', 'color: yellow;', `${DEBUGINFO}${res.code} | ${res.msg}`)
             console.log(`${DEBUGINFO}${res.code} | ${res.msg}`)
           } else {
@@ -64,7 +65,7 @@ class Request {
           resolve(res.data)
         })
         .catch((err) => {
-          message.error('网络错误')
+          GlobalMessage('error', '网络错误')
           reject(err)
         })
     })
