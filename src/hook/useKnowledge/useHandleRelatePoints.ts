@@ -9,10 +9,12 @@ import {
 } from '../../helper/knowledgeTree'
 import { IHandleChapterControl } from '../useChapterStudy/type'
 import { useQueryClient } from '@tanstack/react-query'
+import { useCurrentClassInfo } from '../../context/ClassInfoContext'
 
 export const useHandleRelatePoints = (props: Omit<IHandleChapterControl<IKnowledgePoint>, 'chapterState'>) => {
   const { data, dispatchChapter: dispatch } = props
   const queryClient = useQueryClient()
+  const { classInfo } = useCurrentClassInfo()
   /*关联知识点API*/
   const { mutateAsync: relatePrePointsApi } = relatePrePointsAPI()
   const { mutateAsync: relateAfterPointsApi } = relateAfterPointsAPI()
@@ -35,9 +37,16 @@ export const useHandleRelatePoints = (props: Omit<IHandleChapterControl<IKnowled
     try {
       curRelateType === '前序'
         ? await relatePrePointsApi({ pointId: curId.current, prePointId: curCheckId })
-        : await relateAfterPointsApi({ pointId: curId.current, afterPoints: curCheckId })
-      const result: PrePoint[] = generateRelatePointsObj(data, curCheckId)
-      relateAllPoints(data, curId.current, queryClient, result, curRelateType === '前序' ? 'pre' : 'after')
+        : await relateAfterPointsApi({ pointId: curId.current, afterPointId: curCheckId })
+      const result: PrePoint[] = generateRelatePointsObj(data, curCheckId, classInfo.courseId)
+      relateAllPoints(
+        data,
+        curId.current,
+        queryClient,
+        result,
+        curRelateType === '前序' ? 'pre' : 'after',
+        classInfo.courseId
+      )
     } catch (e) {
       dispatch({ type: 'setError', error: e })
     } finally {

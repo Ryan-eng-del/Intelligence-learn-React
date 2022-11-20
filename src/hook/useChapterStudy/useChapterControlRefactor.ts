@@ -12,8 +12,9 @@ export const useChapterControlRefactor = () => {
   /* ChapterNode Reducer */
   const [chapterState, dispatchChapter] = useReducer(chapterReducer, initialChapterState)
   /* Chapter TreeData */
-  const { classInfo } = useCurrentClassInfo();
-  const { data, isLoading } = useShowChapter(classInfo.courseId,dispatchChapter)
+  const { classInfo } = useCurrentClassInfo()
+
+  const { data, isLoading } = useShowChapter(classInfo.courseId, dispatchChapter)
 
   /* 添加章节 */
   const { curAddNode, handleClickAddChapter, confirmAddChapter, cancelAddChapter, handleClickAddChildChapter } =

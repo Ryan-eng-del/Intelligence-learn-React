@@ -1,4 +1,3 @@
-import { message } from 'antd'
 import { createContext, useContext, useState } from 'react'
 import { StateSetter } from 'types'
 
@@ -7,15 +6,14 @@ interface IClassInfo {
   courseName: string | null
   coursesCover: string | null
   courseDescribe: string
-  isOwner: boolean
 }
 
-const IClassInit = {    // 对应的初始化状态（消除NUll）
-  courseId: "-1",
+const IClassInit = {
+  // 对应的初始化状态（消除NUll）
+  courseId: '1594121057541861377',
   courseName: null,
   coursesCover: null,
-  courseDescribe: "string",
-  isOwner:false
+  courseDescribe: 'string'
 }
 
 interface IClassInfoContext {
@@ -24,8 +22,8 @@ interface IClassInfoContext {
 }
 
 const ClassInfo = createContext<IClassInfoContext>({
-  classInfo:IClassInit,
-  dispatchClassInfo: i=>i
+  classInfo: IClassInit,
+  dispatchClassInfo: (i) => i
 })
 
 export const ClassInfoContext = (props: any) => {
@@ -37,6 +35,6 @@ export const ClassInfoContext = (props: any) => {
 
 export const useCurrentClassInfo = () => {
   const data = useContext(ClassInfo)
-  if(data.classInfo.courseId == "-1") (message.error("课程上下文已丢失"))
+
   return data
 }

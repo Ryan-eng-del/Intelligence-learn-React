@@ -7,7 +7,7 @@ import { ChapterInitNode, ChapterTreeData, ChildChapter, ClassTimeInitNode } fro
 import React from 'react'
 import { IChapterReducerAction } from '../reducer/ChaperStudyTree/type/type'
 /* 寻找要刪除的树的章节目录节点 */
-export const deleteTreeNode = (data: any[], id: string, queryClient: QueryClient) => {
+export const deleteTreeNode = (data: any[], id: string, queryClient: QueryClient, courseId: string) => {
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: any[]) => {
     if (!data) return
@@ -17,14 +17,14 @@ export const deleteTreeNode = (data: any[], id: string, queryClient: QueryClient
       }
       if (id === d.id) {
         data.splice(index, 1)
-        queryClient.setQueryData(['chapterTree'], deepCloneData)
+        queryClient.setQueryData(['chapterTree', courseId], deepCloneData)
       }
     })
   }
   recursion(deepCloneData)
 }
 /* 删除资源 */
-export const deleteResource = (data: ChapterTreeData[], id: string, queryClient: QueryClient) => {
+export const deleteResource = (data: ChapterTreeData[], id: string, queryClient: QueryClient, courseId: string) => {
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: ChapterTreeData[]) => {
     data.forEach((d) => {
@@ -35,7 +35,7 @@ export const deleteResource = (data: ChapterTreeData[], id: string, queryClient:
             courTime.resource.forEach((resource: any, i: any) => {
               if (resource.resourceId === id) {
                 courTime.resource.splice(i, 1)
-                queryClient.setQueryData(['chapterTree'], deepCloneData)
+                queryClient.setQueryData(['chapterTree', courseId], deepCloneData)
               }
             })
           }
@@ -49,7 +49,7 @@ export const deleteResource = (data: ChapterTreeData[], id: string, queryClient:
   recursion(deepCloneData)
 }
 /* 删除课时 */
-export const deleteTreeContent = (data: ChapterTreeData[], id: string, queryClient: QueryClient) => {
+export const deleteTreeContent = (data: ChapterTreeData[], id: string, queryClient: QueryClient, courseId: string) => {
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: ChapterTreeData[]) => {
     if (!data) return
@@ -57,7 +57,7 @@ export const deleteTreeContent = (data: ChapterTreeData[], id: string, queryClie
       d.courTimes?.forEach((da, index) => {
         if (da.classTimeId === id) {
           d.courTimes?.splice(index, 1)
-          queryClient.setQueryData(['chapterTree'], deepCloneData)
+          queryClient.setQueryData(['chapterTree', courseId], deepCloneData)
         }
       })
       if (d.childChapters.length) {
@@ -67,11 +67,13 @@ export const deleteTreeContent = (data: ChapterTreeData[], id: string, queryClie
   }
   recursion(deepCloneData)
 }
+
 export const addChildChapterNode = (
   data: ChapterTreeData[],
   id: string,
   queryClient: QueryClient,
-  node: ChapterInitNode
+  node: ChapterInitNode,
+  courseId: string
 ) => {
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: ChapterTreeData[]) => {
@@ -82,27 +84,31 @@ export const addChildChapterNode = (
       }
       if (id === d.id) {
         d.childChapters = d.childChapters.concat(node)
-        queryClient.setQueryData(['chapterTree'], deepCloneData)
+        queryClient.setQueryData(['chapterTree', courseId], deepCloneData)
       }
     })
   }
   recursion(deepCloneData)
 }
+
 /* 传入参数一更新函数来更新queryData,从而使得UI更新 */
 export const updateChapterTreeQueryCache = (
   updaterFun: (Treedata: ChapterData[]) => ChapterData[],
-  queryClient: QueryClient
+  queryClient: QueryClient,
+  courseId: string
 ) => {
-  const queryTreeData: ChapterData[] | undefined = queryClient.getQueryData(['chapterTree'])
+  const queryTreeData: ChapterData[] | undefined = queryClient.getQueryData(['chapterTree', courseId])
   const newQueryTreeData = queryTreeData ? updaterFun(queryTreeData!) : 0
-  queryClient.setQueryData(['chapterTree'], newQueryTreeData)
+  queryClient.setQueryData(['chapterTree', courseId], newQueryTreeData)
 }
+
 /* 添加课时 */
 export const addChildContentNode = (
   data: ChapterTreeData[],
   id: string,
   queryClient: QueryClient,
-  node: ClassTimeInitNode
+  node: ClassTimeInitNode,
+  courseId: string
 ) => {
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: ChapterTreeData[]) => {
@@ -114,7 +120,7 @@ export const addChildContentNode = (
       }
       if (id === d.id) {
         d.courTimes = d.courTimes.concat(node)
-        queryClient.setQueryData(['chapterTree'], deepCloneData)
+        queryClient.setQueryData(['chapterTree', courseId], deepCloneData)
       }
     })
   }
@@ -136,7 +142,6 @@ export const reNameTreeNode = (
       }
       if (id === d.id) {
         setCurRenameNode(d)
-        console.log(d.id)
         dispatch({ type: 'setCurInputValue', curInputValue: d.name })
         dispatch({
           type: 'setExpandKeys',

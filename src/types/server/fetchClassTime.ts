@@ -5,8 +5,8 @@ export interface RelatePointsResource {
 }
 
 export interface AddContentResource {
-  related_points: string[]
-  course_id: string
+  relatedPoints: string[]
+  CourseId: string
   file: FormData
 }
 

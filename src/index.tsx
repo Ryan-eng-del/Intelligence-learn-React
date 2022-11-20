@@ -67,7 +67,7 @@ root.render(
                 <Route path="setting" element={<SettingPage />} />
                 <Route path="exam" element={<ExamSummary />} />
               </Route>
-              <Route path="MyTeach/:id" element={<ClassInfoPage />}>
+              <Route path=":identify/:id" element={<ClassInfoPage />}>
                 <Route path="chapter" element={<ChapterPage />} />
                 <Route path="exam" element={<ExamPage />} />
                 <Route path="resource" element={<ResourcePage />} />
@@ -76,7 +76,7 @@ root.render(
                 <Route path="knowledge" element={<KnowledgePage />} />
                 <Route path="questionbank" element={<QuestionBankPage />} />
               </Route>
-              <Route path="MyStudy/:id" element={<ClassInfoPage />}>
+              <Route path=":identify/:id" element={<ClassInfoPage />}>
                 <Route path="chapter" element={<ChapterPage />} />
                 <Route path="exam" element={<ExamPage />} />
                 <Route path="resource" element={<ResourcePage />} />

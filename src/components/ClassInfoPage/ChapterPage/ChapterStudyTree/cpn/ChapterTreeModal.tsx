@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react'
-import { Button, Drawer, Input, List, Modal, Upload } from 'antd'
+import React, { useState } from 'react'
+import { Button, Input, List, Modal, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { TreeSelected } from 'components/ClassInfoPage/KnowledgePage/KnowledgeTree/cpn/TreeSelected'
@@ -15,7 +15,6 @@ export const ChapterTreeModal: React.FC<{
   handleRelateExpand: any
   handleOk: any
 }> = ({ checkTreeData, handleRelateExpand, handleOk, relateKeys }) => {
-  const ref = useRef<any>()
   const [fileList, setFileList] = useState<any>([])
 
   /*ClassTime Reducer*/
@@ -23,7 +22,8 @@ export const ChapterTreeModal: React.FC<{
   /*上传资源，关联知识点*/
   const { handleUpload, uploading, setOpenResourceDrawer, openResourceDrawer, relatePoints, handleRelateCheck } =
     useHandleUploadClassTimeResource({
-      dispatch
+      dispatch,
+      fileList
     })
   /*Upload Props*/
   const props = uploadProps(fileList, setFileList)
@@ -44,61 +44,19 @@ export const ChapterTreeModal: React.FC<{
           id={'addResource'}
           value={classTimeState.courseTimeName}
           onChange={(e) => dispatch({ type: 'setName', name: e.target.value })}
-          style={{ position: 'relative', zIndex: '4' }}
         />
         <div style={{ marginTop: 16, display: 'flex', justifyContent: 'center' }}>
           <Button
             type="primary"
-            onClick={() => setOpenResourceDrawer(true)}
-            style={{ position: 'relative', zIndex: '4' }}
+            onClick={() => {
+              setOpenResourceDrawer(true)
+              dispatch({ type: 'setModalState', open: false })
+            }}
           >
             添加资源并且关联知识点
           </Button>
         </div>
-        <DrawerWrapper ref={ref}>
-          <Drawer
-            title="添加资源并且关联知识点"
-            placement="top"
-            closable={true}
-            onClose={() => setOpenResourceDrawer(false)}
-            visible={openResourceDrawer}
-            mask={false}
-            width={'520'}
-            getContainer={ref.current}
-            style={{ position: 'absolute' }}
-            height={'475.6'}
-          >
-            <>
-              <UploadWrapper>
-                <Upload {...props} className={'upload'}>
-                  <Button icon={<UploadOutlined />}>请选择文件，支持多个文件上传</Button>
-                </Upload>
-              </UploadWrapper>
 
-              <RelatePointsWrapper>
-                <GlobalLabel>关联知识点</GlobalLabel>
-                <TreeSelected
-                  checkTreeData={checkTreeData}
-                  relateKeys={relateKeys}
-                  handleRelateExpand={handleRelateExpand}
-                  handleRelateCheck={handleRelateCheck}
-                  curCheckId={relatePoints}
-                />
-              </RelatePointsWrapper>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Button
-                  type="primary"
-                  onClick={handleUpload}
-                  disabled={fileList.length === 0}
-                  loading={uploading}
-                  style={{ marginTop: 16 }}
-                >
-                  {fileList.length === 0 ? '请先上传视频' : '点击上传'}
-                </Button>
-              </div>
-            </>
-          </Drawer>
-        </DrawerWrapper>
         <div>
           <GlobalLabel>已经上传的资源:</GlobalLabel>
           <List
@@ -107,6 +65,47 @@ export const ChapterTreeModal: React.FC<{
             renderItem={(item: any) => <List.Item>{item.resourceName}</List.Item>}
           />
         </div>
+      </Modal>
+      <Modal
+        title="添加资源并且关联知识点"
+        visible={openResourceDrawer}
+        mask={false}
+        onOk={handleOk}
+        onCancel={() => {
+          setOpenResourceDrawer(false)
+          dispatch({ type: 'setModalState', open: true })
+        }}
+        style={{ height: '400px' }}
+      >
+        <>
+          <UploadWrapper>
+            <Upload {...props} className={'upload'}>
+              <Button icon={<UploadOutlined />}>请选择文件，支持多个文件上传</Button>
+            </Upload>
+          </UploadWrapper>
+
+          <RelatePointsWrapper>
+            <GlobalLabel>关联知识点</GlobalLabel>
+            <TreeSelected
+              checkTreeData={checkTreeData}
+              relateKeys={relateKeys}
+              handleRelateExpand={handleRelateExpand}
+              handleRelateCheck={handleRelateCheck}
+              curCheckId={relatePoints}
+            />
+          </RelatePointsWrapper>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Button
+              type="primary"
+              onClick={handleUpload}
+              disabled={fileList.length === 0}
+              loading={uploading}
+              style={{ marginTop: 16 }}
+            >
+              {fileList.length === 0 ? '请先上传视频' : '点击上传'}
+            </Button>
+          </div>
+        </>
       </Modal>
     </ChapterTreeModalWrapper>
   )
@@ -120,7 +119,7 @@ export const DrawerWrapper = styled.div`
   top: 0;
   left: 0;
   width: 520px;
-  height: 475.6px;
+  height: 500px;
 `
 export const UploadWrapper = styled.div`
   margin-bottom: 13px;
@@ -129,4 +128,6 @@ export const UploadWrapper = styled.div`
 `
 export const RelatePointsWrapper = styled.div`
   margin-top: 20px;
+  max-height: 200px;
+  overflow: scroll;
 `

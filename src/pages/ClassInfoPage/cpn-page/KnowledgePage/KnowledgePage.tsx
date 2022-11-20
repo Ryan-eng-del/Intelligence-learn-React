@@ -6,10 +6,10 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useKnowledgeUI } from 'hook/useKnowledge/useKnowledgeUI'
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
+import { isTeachAuth } from '../../../../util/isAuthTeach'
 
 export const KnowledgePage: React.FC = () => {
-  const { classInfo } = useCurrentClassInfo();
-  const editable = classInfo.isOwner
+  const editable = isTeachAuth()
   const { knowledgeControl, treeData } = useKnowledgeUI(editable)
 
   return (

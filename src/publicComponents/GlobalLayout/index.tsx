@@ -8,15 +8,15 @@ export const GlobalLayout = (props: {
   routePage: any
   sliceCount: number
   createMapFunction: () => Map<string, string>
+  logoWrapper: (param: any) => JSX.Element
 }) => {
-  const  { classInfo } = useCurrentClassInfo()
+  const { classInfo } = useCurrentClassInfo()
   return (
     <HomePageWrapper>
       <LeftLayoutWrapper>
-        <LogoWrapper>
-          <img src={ require('assets/img/class.jpg')} />
-          <span>{classInfo.courseName || "不在课程里面"}</span>
-        </LogoWrapper>
+        {/* 等后端接口 获取单门课程详情 */}
+        {props.logoWrapper((classInfo && classInfo.courseName) || '离散数学')}
+        <LogoWrapper></LogoWrapper>
         <NavWrapper>
           <GlobalNav
             items={props.navItems}

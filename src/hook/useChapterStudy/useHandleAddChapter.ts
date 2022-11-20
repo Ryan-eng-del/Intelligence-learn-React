@@ -7,6 +7,7 @@ import { AddChapterParam } from '../../types/server/fetchChapter'
 import { useQueryClient } from '@tanstack/react-query'
 import { IChapterReducerAction, IChapterReducerState } from '../../reducer/ChaperStudyTree/type/type'
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
+import { message } from 'antd'
 
 interface handleAddChapterProps {
   data: ChapterTreeData[]
@@ -40,7 +41,11 @@ export const useHandleAddChapter = (props: handleAddChapterProps) => {
     curAddId.current = '-1'
     setCurAddNode(() => chapterNode)
     /*将curNode加入根章节，修改UI*/
-    updateChapterTreeQueryCache((queryTreeData: any) => queryTreeData.concat(chapterNode), queryClient)
+    updateChapterTreeQueryCache(
+      (queryTreeData: any) => queryTreeData.concat(chapterNode),
+      queryClient,
+      classInfo.courseId
+    )
     dispatchChapter({ type: 'setFocusState', focusState: true })
   }, [data])
 
@@ -51,7 +56,7 @@ export const useHandleAddChapter = (props: handleAddChapterProps) => {
       curAddType.current = 'noRoot'
       dispatchChapter({ type: 'setFocusState', focusState: true })
       setCurAddNode(chapterNode)
-      addChildChapterNode(data, chapterId, queryClient, chapterNode)
+      addChildChapterNode(data, chapterId, queryClient, chapterNode, classInfo.courseId)
     },
     [data]
   )
@@ -63,27 +68,31 @@ export const useHandleAddChapter = (props: handleAddChapterProps) => {
       course_id: classInfo.courseId,
       pid: curAddId.current
     }
-    try {
-      setCurAddNode((pre: ChapterInitNode | null) => {
-        if (!pre) return pre
-        pre.name = curAddInputValue
-        return pre
-      })
-      if (curAddType.current === 'root') {
-        await addChapterMutate(param)
-      } else await addChildChapterMutate(param)
-    } catch (err: unknown) {
-      dispatchChapter({ type: 'setError', error: err })
-      deleteTreeNode(data, curAddId.current, queryClient)
-    } finally {
-      dispatchChapter({ type: 'setFocusState', focusState: false })
-      setCurAddNode(null)
-    }
+    const isTrim = chapterState.curAddInputValue.trim() === ''
+    if (isTrim) message.info('不能添加空字段')
+    if (!isTrim)
+      try {
+        setCurAddNode((pre: ChapterInitNode | null) => {
+          if (!pre) return pre
+          pre.name = curAddInputValue
+          return pre
+        })
+        if (curAddType.current === 'root') {
+          await addChapterMutate(param)
+        } else await addChildChapterMutate(param)
+      } catch (err: unknown) {
+        dispatchChapter({ type: 'setError', error: err })
+        deleteTreeNode(data, curAddId.current, queryClient, classInfo.courseId)
+      } finally {
+        dispatchChapter({ type: 'setFocusState', focusState: false })
+        dispatchChapter({ type: 'setCurInputValue', curInputValue: '' })
+        setCurAddNode(null)
+      }
   }, [curAddInputValue, dispatchChapter])
 
   /*取消添加章节*/
   const cancelAddChapter = useCallback(() => {
-    deleteTreeNode(data, '-1', queryClient)
+    deleteTreeNode(data, '-1', queryClient, classInfo.courseId)
   }, [data])
 
   return {

@@ -6,18 +6,21 @@ import React from 'react'
 
 export const updateKnowledgeTreeQueryCache = (
   updaterFun: (query: IKnowledgePoint[]) => IKnowledgePoint[],
-  queryClient: QueryClient
+  queryClient: QueryClient,
+  courseId: string
 ) => {
-  const queryTreeData: IKnowledgePoint[] = queryClient.getQueryData(['knowledgeTree']) ?? []
+  const queryTreeData: IKnowledgePoint[] = queryClient.getQueryData(['knowledgeTree', courseId]) || []
   const newQueryTreeData = updaterFun(queryTreeData)
-  queryClient.setQueryData(['knowledgeTree'], newQueryTreeData)
+  console.log(newQueryTreeData, 'newData')
+  queryClient.setQueryData(['knowledgeTree', courseId], newQueryTreeData)
 }
 /*添加子知识点*/
 export const addChildKnowledgeNode = (
   data: IKnowledgePoint[],
   id: string,
   queryClient: QueryClient,
-  node: IKnowledgePoint
+  node: IKnowledgePoint,
+  courseId: string
 ) => {
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: IKnowledgePoint[]) => {
@@ -28,14 +31,14 @@ export const addChildKnowledgeNode = (
       }
       if (id == d.pointId) {
         d.children = d.children.concat(node)
-        queryClient.setQueryData(['knowledgeTree'], deepCloneData)
+        queryClient.setQueryData(['knowledgeTree', courseId], deepCloneData)
       }
     })
   }
   recursion(deepCloneData)
 }
 /*删除知识点*/
-export const deleteKnowledgeNode = (data: any, id: any, queryClient: any) => {
+export const deleteKnowledgeNode = (data: any, id: any, queryClient: any, courseId: string) => {
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: any) => {
     if (!data) return
@@ -45,7 +48,7 @@ export const deleteKnowledgeNode = (data: any, id: any, queryClient: any) => {
       }
       if (id == d.pointId) {
         data.splice(index, 1)
-        queryClient.setQueryData(['knowledgeTree'], deepCloneData)
+        queryClient.setQueryData(['knowledgeTree', courseId], deepCloneData)
       }
     })
   }
@@ -56,7 +59,8 @@ export const renameKnowledgePoint = (
   data: IKnowledgePoint[],
   id: string,
   setCurRenameNode: any,
-  dispatch: React.Dispatch<IChapterReducerAction>
+  dispatch: React.Dispatch<IChapterReducerAction>,
+  courseId: string
 ) => {
   const recursion = (data: IKnowledgePoint[]) => {
     if (!data) return
@@ -92,7 +96,8 @@ export const relateAllPoints = (
   id: string,
   queryClient: QueryClient,
   node: PrePoint[],
-  mark: string
+  mark: string,
+  courseId: string
 ) => {
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: IKnowledgePoint[]) => {
@@ -104,13 +109,13 @@ export const relateAllPoints = (
       if (id == d.pointId) {
         console.log('find', id, d.pointId)
         mark === 'pre' ? (d.prePoints = node) : (d.afterPoints = node)
-        queryClient.setQueryData(['knowledgeTree'], deepCloneData)
+        queryClient.setQueryData(['knowledgeTree', courseId], deepCloneData)
       }
     })
   }
   recursion(deepCloneData)
 }
-export const generateRelatePointsObj = (data: IKnowledgePoint[], checked: string[]) => {
+export const generateRelatePointsObj = (data: IKnowledgePoint[], checked: string[], courseId: string) => {
   if (!data) return []
   const result: PrePoint[] = []
   const recursion = (data: IKnowledgePoint[]) => {

@@ -2,7 +2,7 @@ import { IKnowledgePoint } from '../type'
 
 export const initialKnowledgePoint: IKnowledgePoint = {
   pointId: '-1',
-  pointName: '新建节点',
+  pointName: '',
   pointPid: '',
   children: [],
   afterPoints: [],

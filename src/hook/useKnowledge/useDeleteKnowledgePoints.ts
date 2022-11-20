@@ -9,13 +9,14 @@ import { useCurrentClassInfo } from 'context/ClassInfoContext'
 
 export const useDeleteKnowledgePoints = (props: Omit<IHandleChapterControl<IKnowledgePoint>, 'chapterState'>) => {
   const { data, dispatchChapter: dispatch } = props
+  const { classInfo } = useCurrentClassInfo()
   const { mutateAsync: deleteKnowPointsAPI } = useDeleteKnowledgeAPI()
   const queryClient = useQueryClient()
   const deleteKnowledgePoint = useCallback(
     async (id: string) => {
       try {
         await deleteKnowPointsAPI({ pointIds: [id] })
-        deleteKnowledgeNode(data, id, queryClient)
+        deleteKnowledgeNode(data, id, queryClient, classInfo.courseId)
       } catch (err) {
         dispatch({ type: 'setError', error: err })
       }

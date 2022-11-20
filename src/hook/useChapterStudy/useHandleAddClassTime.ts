@@ -6,11 +6,14 @@ import { ClassTimeNode } from './config'
 import { cloneDeepWith } from 'lodash'
 import { addChildContentNode } from '../../helper/chapterStudyTree'
 import { useClassTimeDispatch } from '../../context/ChapterStudyTree/ClassTimeDispatchContext'
+import { useCurrentClassInfo } from '../../context/ClassInfoContext'
 
 export const useHandleAddClassTime = (props: Omit<IHandleChapterControl<ChapterTreeData>, 'chapterState'>) => {
   const { data, dispatchChapter } = props
   const curChapterId = useRef('')
   const { dispatch, classTimeState } = useClassTimeDispatch()
+  const { classInfo } = useCurrentClassInfo()
+
   /*当前课时节点*/
   const [curClassTimeNode, setCurClassTimeNode] = useState<ClassTimeInitNode | null>(null)
   const queryClient = useQueryClient()
@@ -49,7 +52,8 @@ export const useHandleAddClassTime = (props: Omit<IHandleChapterControl<ChapterT
         return pre
       })
       /* 添加课时 */
-      if (curClassTimeNode) addChildContentNode(data ?? [], addChapterId, queryClient, curClassTimeNode)
+      if (curClassTimeNode)
+        addChildContentNode(data ?? [], addChapterId, queryClient, curClassTimeNode, classInfo.courseId)
     } catch (err) {
       dispatchChapter({ type: 'setError', error: err })
     } finally {

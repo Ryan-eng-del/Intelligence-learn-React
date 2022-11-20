@@ -4,12 +4,12 @@ import { createClassNavMap } from 'util/createNavMap'
 import ClassInfoNavItems from './config'
 import { useUserInfo } from '../../context/UserInfoContext'
 import { useEffect, useMemo } from 'react'
+import { isTeachAuth } from '../../util/isAuthTeach'
 
 export const ClassInfoPage = () => {
   const userInfoContext = useUserInfo()
   const location = useLocation()
   const params = useParams()
-
   useEffect(() => {
     if (userInfoContext?.getUserInfo) {
       userInfoContext.getUserInfo()
@@ -25,10 +25,16 @@ export const ClassInfoPage = () => {
 
   return (
     <GlobalLayout
-      navItems={ClassInfoNavItems}
+      navItems={isTeachAuth() ? ClassInfoNavItems : ClassInfoNavItems.slice(1)}
       routePage={<Outlet />}
       sliceCount={len as number}
       createMapFunction={createClassNavMap}
+      logoWrapper={(name: string) => (
+        <>
+          <img src={require('assets/img/class.jpg')} />
+          <span style={{ textAlign: 'center' }}>{name}</span>
+        </>
+      )}
     />
   )
 }

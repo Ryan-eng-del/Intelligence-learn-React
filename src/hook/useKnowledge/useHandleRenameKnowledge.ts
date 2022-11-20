@@ -3,16 +3,18 @@ import { useCallback, useRef, useState } from 'react'
 import { IKnowledgePoint } from './type'
 import { renameKnowledgePoint } from '../../helper/knowledgeTree'
 import { IHandleChapterControl } from '../useChapterStudy/type'
+import { useCurrentClassInfo } from '../../context/ClassInfoContext'
 
 export const useRenameKnowledgePoints = (props: IHandleChapterControl<IKnowledgePoint>) => {
   const { dispatchChapter: dispatch, chapterState: knowledgeState, data } = props
   const { mutateAsync: renameKnowledgeAPI } = useRenameKnowledgeAPI()
   const curId = useRef('')
+  const { classInfo } = useCurrentClassInfo()
   const [curRenameNode, setCurRenameNode] = useState<IKnowledgePoint | null>()
   /* 重命名节点 */
   const renameKnowledgeNode = (id: string) => {
     dispatch({ type: 'setFocusState', focusState: true })
-    renameKnowledgePoint(data, id, setCurRenameNode, dispatch)
+    renameKnowledgePoint(data, id, setCurRenameNode, dispatch, classInfo.courseId)
   }
   /* 确认重命名 */
   const confirmRename = async () => {

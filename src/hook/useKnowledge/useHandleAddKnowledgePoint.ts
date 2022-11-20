@@ -6,6 +6,7 @@ import { addChildKnowledgeNode, deleteKnowledgeNode, updateKnowledgeTreeQueryCac
 import { IHandleChapterControl } from '../useChapterStudy/type'
 import { useQueryClient } from '@tanstack/react-query'
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
+import { message } from 'antd'
 
 export const useAddKnowledgePoints = (props: IHandleChapterControl<IKnowledgePoint>) => {
   const { data, chapterState: knowledgeState, dispatchChapter: dispatch } = props
@@ -18,10 +19,12 @@ export const useAddKnowledgePoints = (props: IHandleChapterControl<IKnowledgePoi
   const curId = useRef('')
   /*添加知识点*/
   const addKnowledgePoint = useCallback(() => {
-    setCurKnowledgeNode(() => knowledgeNode)
+    curId.current = ''
+    setCurKnowledgeNode(knowledgeNode)
     updateKnowledgeTreeQueryCache(
-      (queryTreeData: IKnowledgePoint[]) => queryTreeData.concat(knowledgeNode || []),
-      queryClient
+      (queryTreeData: IKnowledgePoint[]) => queryTreeData.concat(knowledgeNode),
+      queryClient,
+      classInfo.courseId
     )
     dispatch({ type: 'setFocusState', focusState: true })
   }, [data])
@@ -31,7 +34,7 @@ export const useAddKnowledgePoints = (props: IHandleChapterControl<IKnowledgePoi
       curId.current = id
       /*这里node保持引用，之后可以修改根据引用来创建name*/
       dispatch({ type: 'setFocusState', focusState: true })
-      addChildKnowledgeNode(data, id, queryClient, knowledgeNode)
+      addChildKnowledgeNode(data, id, queryClient, knowledgeNode, classInfo.courseId)
       setCurKnowledgeNode(knowledgeNode)
     },
     [data]
@@ -39,32 +42,42 @@ export const useAddKnowledgePoints = (props: IHandleChapterControl<IKnowledgePoi
 
   /*确认添加知识点*/
   const confirmAdd = useCallback(async () => {
-    try {
-      const knowledgeId = await addKnowledgePoints({
-        pointName: knowledgeState.curAddInputValue,
-        pointPid: curId.current ? '555' : curId.current,
-        courseId: classInfo.courseId
-      })
-      setCurKnowledgeNode((pre) => {
-        if (pre) {
-          pre.pointPid = knowledgeId
-          pre.pointName = knowledgeState.curAddInputValue
+    const isTrim = knowledgeState.curAddInputValue.trim() === ''
+    if (isTrim) message.info('不能添加空字段')
+    if (!isTrim)
+      try {
+        const knowledgeId = await addKnowledgePoints({
+          pointName: knowledgeState.curAddInputValue,
+          pointPid: !curId.current ? '555' : curId.current,
+          courseId: classInfo.courseId
+        })
+        if (knowledgeId) {
+          setCurKnowledgeNode((pre) => {
+            if (pre) {
+              pre.pointId = knowledgeId
+              pre.pointName = knowledgeState.curAddInputValue
+              pre.pointPid = curId.current
+            }
+
+            return pre
+          })
+        } else {
+          deleteKnowledgeNode(data, curKnowledgeNode?.pointId, queryClient, classInfo.courseId)
         }
-        return pre
-      })
-    } catch (err: unknown) {
-      dispatch({ type: 'setError', error: err })
-      deleteKnowledgeNode(data, curKnowledgeNode?.pointId, queryClient)
-    } finally {
-      dispatch({ type: 'setFocusState', focusState: false })
-      dispatch({ type: 'setCurInputValue', curInputValue: '' })
-      curId.current = ''
-      setCurKnowledgeNode(null)
-    }
+      } catch (err: unknown) {
+        console.log(err, 'err')
+        dispatch({ type: 'setError', error: err })
+        deleteKnowledgeNode(data, curKnowledgeNode?.pointId, queryClient, classInfo.courseId)
+      } finally {
+        dispatch({ type: 'setFocusState', focusState: false })
+        dispatch({ type: 'setCurInputValue', curInputValue: '' })
+        curId.current = ''
+        setCurKnowledgeNode(null)
+      }
   }, [data, knowledgeState])
   /*取消添加节点*/
   const cancelAdd = () => {
-    deleteKnowledgeNode(data, '-1', queryClient)
+    deleteKnowledgeNode(data, '-1', queryClient, classInfo.courseId)
     dispatch({ type: 'setFocusState', focusState: false })
   }
   return { confirmAdd, addKnowledgePoint, curKnowledgeNode, setCurKnowledgeNode, cancelAdd, addKnowledgeChildrenPoint }
