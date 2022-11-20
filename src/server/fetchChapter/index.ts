@@ -9,6 +9,8 @@ import { IChapterReducerAction } from '../../reducer/ChaperStudyTree/type/type'
 /*获取章节学习树信息*/
 export const useShowChapter = (courseId: string, dispatch: React.Dispatch<IChapterReducerAction>) => {
   return useQuery(['chapterTree', courseId], async () => {
+    if (courseId === '') return
+    console.log('发送了')
     const data: ChapterTreeData[] = await client.get({
       url: 'chapter/getChapter',
       params: { courseId }

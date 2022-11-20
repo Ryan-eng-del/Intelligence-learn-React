@@ -5,15 +5,21 @@ import ClassInfoNavItems from './config'
 import { useUserInfo } from '../../context/UserInfoContext'
 import { useEffect, useMemo } from 'react'
 import { isTeachAuth } from '../../util/isAuthTeach'
+import { useCurrentClassInfo } from '../../context/ClassInfoContext'
 
 export const ClassInfoPage = () => {
   const userInfoContext = useUserInfo()
   const location = useLocation()
+  const classInfoContext = useCurrentClassInfo()
   const params = useParams()
+
   useEffect(() => {
     if (userInfoContext?.getUserInfo) {
       userInfoContext.getUserInfo()
     }
+  }, [])
+  useEffect(() => {
+    classInfoContext.getCurCourseInfo(params.id!)
   }, [])
 
   const len = useMemo(() => {

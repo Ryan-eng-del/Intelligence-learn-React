@@ -7,14 +7,13 @@ import { chapterReducer, initialChapterState } from '../../reducer/ChaperStudyTr
 import { useHandleAddClassTime } from './useHandleAddClassTime'
 import { useHandleOnExpand } from './useHandleTreeOnExpand'
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
+import { useParams } from 'react-router-dom'
 
 export const useChapterControlRefactor = () => {
   /* ChapterNode Reducer */
   const [chapterState, dispatchChapter] = useReducer(chapterReducer, initialChapterState)
-  /* Chapter TreeData */
-  const { classInfo } = useCurrentClassInfo()
 
-  const { data, isLoading } = useShowChapter(classInfo.courseId, dispatchChapter)
+  const { data, isLoading } = useShowChapter(useParams().id!, dispatchChapter)
 
   /* 添加章节 */
   const { curAddNode, handleClickAddChapter, confirmAddChapter, cancelAddChapter, handleClickAddChildChapter } =

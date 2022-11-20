@@ -30,7 +30,7 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
       formData.append('files[]', file as RcFile)
     })
     setUploading(true)
-
+    console.log(formData.get('files[]'))
     try {
       const resourceData = await addContentResource({
         file: formData,

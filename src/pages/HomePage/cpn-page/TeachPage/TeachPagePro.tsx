@@ -17,7 +17,7 @@ export const TeachPage = () => {
   const [state, dispatch] = useReducer(TeachRoutePageReducer, initialState)
   const { data, isLoading } = useShowCreateClass()
   const { uploadLoading, modalVisible, imgUrl, className } = state
-  const { mutate: createClass } = useCreateClass({
+  const { mutateAsync: createClass } = useCreateClass({
     course_cover: imgUrl,
     course_name: className
   })
@@ -45,12 +45,16 @@ export const TeachPage = () => {
     dispatch({ type: 'setModalVisible', payload: true })
   }
 
-  const handleOk = () => {
-    createClass()
-    dispatch({ type: 'setModalVisible', payload: false })
-    dispatch({ type: 'setClassName', payload: '' })
-    dispatch({ type: 'setClassTeacher', payload: '' })
-    dispatch({ type: 'setImgUrl', payload: '' })
+  const handleOk = async () => {
+    try {
+      await createClass()
+    } catch (e) {
+    } finally {
+      dispatch({ type: 'setModalVisible', payload: false })
+      dispatch({ type: 'setClassName', payload: state.className })
+      dispatch({ type: 'setClassTeacher', payload: '' })
+      dispatch({ type: 'setImgUrl', payload: '' })
+    }
   }
 
   const handleCancel = () => {
@@ -100,17 +104,21 @@ export const TeachPage = () => {
         title="我教的课"
         tool={<PrimaryButton title="新建课程" handleClick={showModal}></PrimaryButton>}
       ></GlobalHeader>
-        <GlobalRightLayout>
-          { isLoading ? <BaseLoading /> :
-            Array.from({ length: (data?.length || 4 % 4) + 1 }).map(
-              (v, i) => <Row key={i} style={{ marginBottom: '30px' }}>
-                {data?.map((item, index) => index >= i * 4 && index < (i + 1) * 4 &&
-                  <ClassCard to='MyTeach' classInfo={item} key={item.courseId} />
-                )}
-              </Row>
-            )
-          }
-        </GlobalRightLayout>
+      <GlobalRightLayout>
+        {isLoading ? (
+          <BaseLoading />
+        ) : (
+          Array.from({ length: (data?.length || 4 % 4) + 1 }).map((v, i) => (
+            <Row key={i} style={{ marginBottom: '30px' }}>
+              {data?.map(
+                (item, index) =>
+                  index >= i * 4 &&
+                  index < (i + 1) * 4 && <ClassCard to="MyTeach" classInfo={item} key={item.courseId} />
+              )}
+            </Row>
+          ))
+        )}
+      </GlobalRightLayout>
     </>
   )
 }

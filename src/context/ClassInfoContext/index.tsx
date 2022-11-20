@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react'
-import { StateSetter } from 'types'
+import { useGetCourseInfoById } from '../../server/fetchCourse'
 
 interface IClassInfo {
   courseId: string
@@ -10,31 +10,33 @@ interface IClassInfo {
 
 const IClassInit = {
   // 对应的初始化状态（消除NUll）
-  courseId: '1594121057541861377',
+  courseId: '',
   courseName: null,
   coursesCover: null,
   courseDescribe: 'string'
 }
 
 interface IClassInfoContext {
-  dispatchClassInfo: StateSetter<IClassInfo>
+  getCurCourseInfo: (params: string) => void
   classInfo: IClassInfo
 }
 
 const ClassInfo = createContext<IClassInfoContext>({
   classInfo: IClassInit,
-  dispatchClassInfo: (i) => i
+  getCurCourseInfo: (i) => i
 })
 
 export const ClassInfoContext = (props: any) => {
   const [classInfo, setClassInfo] = useState<IClassInfo>(IClassInit)
-  return (
-    <ClassInfo.Provider value={{ dispatchClassInfo: setClassInfo, classInfo }}>{props.children}</ClassInfo.Provider>
-  )
+  const { mutateAsync } = useGetCourseInfoById()
+  const getCurCourseInfo = async (courseId: string) => {
+    const data = await mutateAsync(courseId)
+    setClassInfo(data)
+  }
+  return <ClassInfo.Provider value={{ getCurCourseInfo, classInfo }}>{props.children}</ClassInfo.Provider>
 }
 
 export const useCurrentClassInfo = () => {
   const data = useContext(ClassInfo)
-
   return data
 }

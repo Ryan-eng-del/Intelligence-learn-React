@@ -7,10 +7,10 @@ import { useHandleRelatePoints } from './useHandleRelatePoints'
 import { useHandleOnExpand } from '../useChapterStudy/useHandleTreeOnExpand'
 import { useShowKnowledgeTree } from '../../server/fetchKnowledge'
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
+import { useParams } from 'react-router-dom'
 
 export const useKnowledgeControl = () => {
-  const { classInfo } = useCurrentClassInfo()
-  const { data, isLoading } = useShowKnowledgeTree(classInfo.courseId)
+  const { data, isLoading } = useShowKnowledgeTree(useParams().id!)
   const [knowledgeState, dispatch] = useReducer(chapterReducer, initialChapterState)
   /*添加知识点*/
   const { addKnowledgePoint, confirmAdd, curKnowledgeNode, cancelAdd, addKnowledgeChildrenPoint } =

@@ -5,7 +5,6 @@ import { IAddKnowledgeParam } from './types'
 /*展示章节学习树*/
 export const useShowKnowledgeTree = (courseId: string) => {
   return useQuery(['knowledgeTree', courseId], async () => {
-    await delayFetch()
     return client.get({
       url: '/points/show',
       params: { courseId: courseId }

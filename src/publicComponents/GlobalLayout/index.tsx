@@ -14,9 +14,7 @@ export const GlobalLayout = (props: {
   return (
     <HomePageWrapper>
       <LeftLayoutWrapper>
-        {/* 等后端接口 获取单门课程详情 */}
-        {props.logoWrapper((classInfo && classInfo.courseName) || '离散数学')}
-        <LogoWrapper></LogoWrapper>
+        <LogoWrapper>{props.logoWrapper(classInfo && classInfo.courseName)}</LogoWrapper>
         <NavWrapper>
           <GlobalNav
             items={props.navItems}
