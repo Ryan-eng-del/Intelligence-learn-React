@@ -7,9 +7,8 @@ export const client = new HYRequest({
   interceptorHooks: {
     requestInterceptor: (config: any) => {
       const token = localCache.getCache('token') ?? ''
-      console.log(token, 'token')
       if (token) {
-        config.headers.token = `${JSON.parse(token)['token']}`
+        config.headers.token = token
       }
       return config
     },
