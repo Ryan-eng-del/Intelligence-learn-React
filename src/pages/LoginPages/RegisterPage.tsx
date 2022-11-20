@@ -7,12 +7,14 @@ import { useEffect } from 'react'
 
 const RegisterPage = () => {
   /* 获取验证码API */
-  const sidRef = useSid()
   const { data: captchaData, mutateAsync: getCaptchaApi } = useGetCaptcha()
   const { mutateAsync: login, isLoading: registerLoading, isError: loginError } = useRegister()
+  const { setSid } = useSid()
+
   useEffect(() => {
     ;(async () => {
-      if (sidRef.current) await getCaptchaApi(sidRef.current)
+      const s = await getCaptchaApi()
+      setSid(s.verifyKey)
     })()
   }, [])
 

@@ -85,15 +85,15 @@ const LoginLayout = (props: LoginLayoutProps) => {
               onFinish={onFinish}
             >
               <FormItem
-                filed={'username'}
+                filed={'name'}
                 placeholder={'请输入邮箱'}
                 prefix={<UserOutlined className="site-form-item-icon" />}
                 rules={[
-                  { required: true, message: '用户名/邮箱不能为空' },
-                  {
-                    type: 'email',
-                    message: '请输入正确的邮箱格式'
-                  }
+                  { required: true, message: '用户名/邮箱不能为空' }
+                  // {
+                  //   type: 'email',
+                  //   message: '请输入正确的邮箱格式'
+                  // }
                 ]}
               ></FormItem>
 

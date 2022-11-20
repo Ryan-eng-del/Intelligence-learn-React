@@ -6,7 +6,6 @@ import cache from 'util/cache'
 
 // 登录
 export const useToken = () => {
-  const queryClient = useQueryClient()
   const navigate = useNavigate()
   return useMutation(
     (data: { name: string; password: string; verifyCode: string; verifyKey: string }) => {
@@ -23,7 +22,8 @@ export const useToken = () => {
     {
       onSuccess: (data) => {
         if (data) {
-          cache.setCache('token', data)
+          cache.setCache('token', data.token)
+          console.log(data, 'data')
           message.success('登录成功，欢迎回来')
           navigate('/home/teach')
         }
@@ -34,7 +34,6 @@ export const useToken = () => {
 
 // 注册
 export const useRegister = () => {
-  const navigate = useNavigate()
   return useMutation(
     async (data: {
       name: string
@@ -76,7 +75,7 @@ export const useGetUserInfo = () => {
 }
 
 export const useGetCaptcha = () => {
-  return useMutation(async (sid: string) => {
+  return useMutation(async () => {
     return client.get({
       url: '/user/get-code'
     })

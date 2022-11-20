@@ -1,18 +1,16 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import LocalCache from '../../util/cache'
-import { v4 as uuidv4 } from 'uuid'
 
 export const useSid = () => {
   const sidRef = useRef('')
-
-  useEffect(() => {
+  const setSid = (uuid: string) => {
     const sid = LocalCache.getCache('uuid_intel')
     if (!sid) {
-      sidRef.current = uuidv4()
+      sidRef.current = uuid
       LocalCache.setCache('uuid_intel', sidRef.current)
     } else {
-      sidRef.current = sid
+      sidRef.current = uuid
     }
-  }, [])
-  return sidRef
+  }
+  return { setSid, sidRef }
 }
