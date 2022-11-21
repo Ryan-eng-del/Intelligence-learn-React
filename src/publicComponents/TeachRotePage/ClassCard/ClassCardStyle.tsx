@@ -11,6 +11,14 @@ export const CardWrapper = styled.div`
   &:hover {
     transform: translateY(-6px);
   }
+
+  .magBtn {
+    position: absolute;
+    z-index:100;
+    color: #FFF;
+    right:10px;
+    font-size:20px;
+  }
 `
 export const CardHeadWrapper = styled.div`
   height: 150px;

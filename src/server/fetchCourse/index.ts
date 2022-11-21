@@ -42,6 +42,7 @@ export const useShowInvitedCourseInfo = () => {
   })
 }
 
+//加入此班级（课程）
 export const useJoinInvitedCourse = () => {
   return useMutation((classId: string) => {
     return client.post<CourseList>({
@@ -75,5 +76,33 @@ export const useCreateClass = ({ course_cover, course_name }: { course_name: str
 export const useGetCourseInfoById = () => {
   return useMutation(async (courseId: string) => {
     return client.get({ url: '/course/get-one', params: { courseId } })
+  })
+}
+
+//删除此课程
+export const useDeleteCourse = () => {
+  const queryClient = useQueryClient()
+  return useMutation((courseId: string) => {
+    return client.delete({
+      url: `/course/delete/${courseId}`,
+    })
+  },{
+    onSuccess:()=>{
+      queryClient.invalidateQueries(['teachclass'])
+    }
+  })
+}
+
+//修改课程信息
+export const useEditCourse = () => {
+  const queryClient = useQueryClient()
+  return useMutation((data:CourseList) => {
+    return client.put({
+      url: '/course/update', data
+    })
+  },{
+    onSuccess:()=>{
+      queryClient.invalidateQueries(['teachclass'])
+    }
   })
 }

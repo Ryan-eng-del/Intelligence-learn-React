@@ -1,17 +1,21 @@
+import { CourseList } from 'server/fetchCourse/types'
 import type { TeachPageAction, TeachPageState } from '../type'
+const initialCourse: CourseList = {
+  coursesCover: '',
+  courseName: '',
+  courseDescribe: '',
+  courseId: ''
+}
 export const initialState: TeachPageState = {
   imgUrl: '',
   className: '',
   classTeacher: '',
   classList: [
-    {
-      iurl: '',
-      cname: '',
-      tname: '',
-      id: ''
-    }
+    initialCourse
   ],
   modalVisible: false,
+  EditVisible: false,
+  EditingCourse: initialCourse,
   uploadLoading: false
 }
 export const TeachRoutePageReducer = (
@@ -27,10 +31,20 @@ export const TeachRoutePageReducer = (
     case 'setClassTeacher':
       return { ...state, classTeacher: action.payload }
     case 'setClasList':
-      newClassList = [...state.classList].concat(action.payload)
+      newClassList =
+      [...state.classList.filter(i=>i.courseId!=action.payload.courseId)]
+        .concat(action.payload)
+      return { ...state, classList: newClassList }
+    case 'delClasList':
+      newClassList =
+      [...state.classList.filter(i=>i.courseId!=action.payload)]
       return { ...state, classList: newClassList }
     case 'setModalVisible':
       return { ...state, modalVisible: action.payload }
+    case 'setEditVisible':
+      return { ...state, EditVisible: action.payload }
+      case 'setEditCourse':
+        return { ...state, EditingCourse: action.payload }
     case 'setUploadLoading':
       return { ...state, uploadLoading: action.payload }
     default:

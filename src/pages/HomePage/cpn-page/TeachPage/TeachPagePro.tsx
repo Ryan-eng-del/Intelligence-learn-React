@@ -1,22 +1,25 @@
 import { useReducer } from 'react'
-import { UploadImageWrapper } from './TeachPageStyle'
+import { TeachPageWrapper, UploadImageWrapper } from './TeachPageStyle'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { Input, Modal, Row, Upload } from 'antd'
+import { Button, Input, Modal, Popconfirm, Row, Upload } from 'antd'
 import type { UploadChangeParam } from 'antd/es/upload'
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
 import { beforeUpload, getBase64 } from './config/util'
 import { initialState, TeachRoutePageReducer } from './config/reducer'
 import { ClassCard } from 'publicComponents/TeachRotePage'
-import { useCreateClass, useShowCreateClass } from 'server/fetchCourse'
+import { useCreateClass, useDeleteCourse, useEditCourse, useShowCreateClass } from 'server/fetchCourse'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { PrimaryButton } from '../../../../publicComponents/Button/index'
 import { GlobalHeader } from '../../../../publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/index'
+import { CourseList } from 'server/fetchCourse/types'
 
 export const TeachPage = () => {
   const [state, dispatch] = useReducer(TeachRoutePageReducer, initialState)
   const { data, isLoading } = useShowCreateClass()
-  const { uploadLoading, modalVisible, imgUrl, className } = state
+  const { uploadLoading, modalVisible, imgUrl, className, EditVisible, EditingCourse } = state
+  const { mutateAsync: DeleteCourse } = useDeleteCourse()
+  const { mutateAsync: EditCourse } = useEditCourse()
   const { mutateAsync: createClass } = useCreateClass({
     course_cover: imgUrl,
     course_name: className
@@ -41,10 +44,7 @@ export const TeachPage = () => {
       <div style={{ marginTop: 8 }}>Upload</div>
     </div>
   )
-  const showModal = () => {
-    dispatch({ type: 'setModalVisible', payload: true })
-  }
-
+  const showModal = () => dispatch({ type: 'setModalVisible', payload: true })
   const handleOk = async () => {
     dispatch({ type: 'setModalVisible', payload: false })
     try {
@@ -56,14 +56,36 @@ export const TeachPage = () => {
       dispatch({ type: 'setImgUrl', payload: '' })
     }
   }
+  const handleCancel = () => dispatch({ type: 'setModalVisible', payload: false })
 
-  const handleCancel = () => {
-    dispatch({ type: 'setModalVisible', payload: false })
+  // 打开编辑
+  const handleEdit =  (item: CourseList) => {
+    dispatch({ type: 'setEditCourse', payload: item })
+    dispatch({ type: 'setClassName', payload: item.courseName })
+    dispatch({ type: 'setEditVisible', payload: true })
+  }
+  // 删除
+  const handleDelete = async () => {
+    await DeleteCourse(EditingCourse.courseId)
+    dispatch({ type: 'delClasList', payload: EditingCourse.courseId })
+    dispatch({ type: 'setEditVisible', payload: false })
+  }
+  // 确认编辑
+  const confirmEdit = async () => {
+    await EditCourse({
+      courseId: EditingCourse.courseId,
+      courseName: className,
+      coursesCover: imgUrl,
+      courseDescribe: ""
+    })
+    dispatch({ type: 'setEditVisible', payload: false })
+    // 页面更新
+    dispatch({ type: 'setClasList', payload: EditingCourse })
   }
 
   return (
-    <>
-      <>
+    <TeachPageWrapper>
+      <> {/* 新建课程弹出窗 */}
         <Modal
           title="新建课程"
           visible={modalVisible}
@@ -99,6 +121,46 @@ export const TeachPage = () => {
             </Upload>
           </UploadImageWrapper>
         </Modal>
+         {/* 编辑课程弹出窗 */}
+         <Modal
+          title="管理课程"
+          visible={EditVisible}
+          onOk={confirmEdit}
+          onCancel={()=>dispatch({ type: 'setEditVisible', payload: false })}
+          okText="确认"
+          cancelText="取消"
+        >
+          <label className="classname-label" htmlFor="classname">
+            更改课程名称
+          </label>
+          <Input
+            placeholder="课程名称"
+            id="classname"
+            value={className}
+            onChange={(e) => {
+              dispatch({ type: 'setClassName', payload: e.target.value })
+            }}
+          />
+          <div className="classname-label">更新课程封面</div>
+          <UploadImageWrapper>
+            <img src={require('assets/img/class.jpg')} alt="默认课程图片" />
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              beforeUpload={beforeUpload}
+              onChange={handleChange}
+            >
+              {imgUrl ? <img src={imgUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+            </Upload>
+          </UploadImageWrapper>
+          <div className="classname-label">其他选项</div>
+          <Popconfirm onConfirm={handleDelete} title="你确定这样做吗，这将解散全部学生并删除里面的资源">
+            <Button type='primary' danger >删除课程</Button>
+          </Popconfirm>
+        </Modal>
       </>
       <GlobalHeader
         title="我教的课"
@@ -113,12 +175,18 @@ export const TeachPage = () => {
               {data?.map(
                 (item, index) =>
                   index >= i * 4 &&
-                  index < (i + 1) * 4 && <ClassCard to="MyTeach" classInfo={item} key={item.courseId} />
+                  index < (i + 1) * 4 &&
+                    <ClassCard
+                      to="MyTeach"
+                      classInfo={item}
+                      key={item.courseId}
+                      EditModal={()=>handleEdit(item)}
+                    />
               )}
             </Row>
           ))
         )}
       </GlobalRightLayout>
-    </>
+    </TeachPageWrapper>
   )
 }

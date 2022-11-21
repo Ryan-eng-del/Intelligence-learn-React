@@ -3,6 +3,9 @@ import styled from 'styled-components'
 export const TeachPageWrapper = styled.div`
   color: white;
   font-size: 18px;
+  .classname-label {
+    border-left: 10px solid #2552e3;
+  }
 `
 
 export const TeachTitleWrapper = styled.div`

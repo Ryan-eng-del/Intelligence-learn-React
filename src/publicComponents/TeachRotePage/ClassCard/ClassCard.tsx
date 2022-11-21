@@ -7,7 +7,8 @@ import { CardBodyWrapper, CardHeadWrapper, CardWrapper } from './ClassCardStyle'
 export const ClassCard: React.FC<{
   classInfo: CourseList
   to: 'MyTeach' | 'MyStudy'
-}> = ({ classInfo, to }) => {
+  EditModal?:()=>void
+}> = ({ classInfo, to, EditModal }) => {
   const navigate = useNavigate()
 
   const handleClick = () => {
@@ -17,6 +18,7 @@ export const ClassCard: React.FC<{
   return (
     <>
       <CardWrapper>
+        {to == 'MyTeach' ? <a className='magBtn' onClick={EditModal}>管理</a> : <></>}
         <CardHeadWrapper>
           <img src={classInfo.coursesCover || require('assets/img/class.jpg')} alt="课程图片" />
         </CardHeadWrapper>
