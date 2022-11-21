@@ -4,12 +4,14 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useDeleteChapter, useDeleteClassTime, useDeleteResource } from '../../server/fetchChapter'
 import { useCallback } from 'react'
 import { deleteResource, deleteTreeContent, deleteTreeNode } from '../../helper/chapterStudyTree'
-import { useCurrentClassInfo } from '../../context/ClassInfoContext'
+import { useParams } from 'react-router-dom'
 
 export const useHandleDeleteChapter = (props: Omit<IHandleChapterControl<ChapterTreeData>, 'chapterState'>) => {
   const { data, dispatchChapter } = props
   const queryClient = useQueryClient()
-  const { classInfo } = useCurrentClassInfo()
+  const classInfo = {
+    courseId: useParams().id!
+  }
 
   /*删除章节API*/
   const { mutateAsync: deleteChapterMutate } = useDeleteChapter()
@@ -19,10 +21,11 @@ export const useHandleDeleteChapter = (props: Omit<IHandleChapterControl<Chapter
   const handleDeleteTreeNode = useCallback(
     async (id: string) => {
       try {
-        await deleteChapterMutate(id)
         deleteTreeNode(data ?? [], id, queryClient, classInfo.courseId)
+        await deleteChapterMutate(id)
       } catch (err: unknown) {
         dispatchChapter({ type: 'setError', error: err })
+        await queryClient.invalidateQueries(['chapterTree', classInfo.courseId])
       }
     },
     [data]

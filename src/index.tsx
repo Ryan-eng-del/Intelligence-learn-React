@@ -33,6 +33,7 @@ import { ClassMana } from 'pages/ClassInfoPage/cpn-page/ClassManaPage/ClassManaP
 // import { QuestionDoingPage } from 'pages/QuestionDoingPage/QuestionDoingPage'
 import ContextProvider from 'context'
 import RegisterPage from './pages/LoginPages/RegisterPage'
+import { SourceImgPreview } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/IMagePreview'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
@@ -78,8 +79,15 @@ root.render(
                 <Route path="knowledge" element={<KnowledgePage />} />
                 <Route path="questionbank" element={<QuestionBankPage />} />
               </Route>
+
               <Route path=":identify/:id" element={<ClassInfoPage />}>
-                <Route path="chapter" element={<ChapterPage />} />
+                <Route path="chapter" element={<ChapterPage />}>
+                  <Route path="teacher-preview" element={<TeacherSourcePreviewPage />}>
+                    <Route path="video/:resourceId" element={<SourceVideoPreview />} />
+                    <Route path="pdf/:resourceId" element={<SourcePdfPreview />} />
+                    <Route path="img/:resourceId" element={<SourceImgPreview />} />
+                  </Route>
+                </Route>
                 <Route path="exam" element={<ExamPage />} />
                 <Route path="resource" element={<ResourcePage />} />
                 <Route path="discuss" element={<DiscussPage />} />
@@ -87,17 +95,13 @@ root.render(
                 <Route path="questionbank" element={<QuestionBankPage />} />
               </Route>
               <Route path={'k-graph'} element={<KnowledgeGraph />} />
-              <Route path={'mk-graph'} element={<MkGraph />} />
               <Route path="editpaper/:paperid" element={<CreateExamPage />} />
-              <Route path="teacher-preview" element={<TeacherSourcePreviewPage />}>
-                <Route path="video/:id" element={<SourceVideoPreview />} />
-                <Route path="pdf/:id" element={<SourcePdfPreview />} />
-              </Route>
               <Route path="createquestion" element={<CreateQuestionPage />} />
               <Route path="preview/:questionId" element={<QuestionPreviewPage />} />
               <Route path="edit/:questionId" element={<QuestionEditPage />} />
               <Route path="homeWork" element={<PaperDoing />}></Route>
             </Route>
+            <Route path={'mk-graph'} element={<MkGraph />} />
           </Routes>
         </Router>
       </ContextProvider>

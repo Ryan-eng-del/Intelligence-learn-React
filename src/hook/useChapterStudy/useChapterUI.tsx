@@ -1,5 +1,5 @@
-import { Tree } from 'antd'
-import { EditOutlined } from '@ant-design/icons'
+import { Tag, Tree } from 'antd'
+import { DeleteOutlined, EditOutlined, FileImageFilled, FilePptFilled, YoutubeFilled } from '@ant-design/icons'
 import React from 'react'
 import ChapterNodeRenameStatus from 'components/ClassInfoPage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeRenameStatus'
 import ChapterNodeFocusStatus from 'components/ClassInfoPage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeFocusStatus'
@@ -7,6 +7,10 @@ import ChapterTreeDirectory from 'components/ClassInfoPage/ChapterPage/ChapterSt
 import ChapterTreeContent from '../../components/ClassInfoPage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeContent'
 import { ChapterNodeType, ChapterResourceType, CourTimeType } from 'server/fetchChapter/types'
 import { useChapterControlRefactor } from './useChapterControlRefactor'
+import { formatResource } from '../../helper/chapterStudyTree'
+import { CustomLink } from '../../util/CustomLink'
+import styled from 'styled-components'
+import { ChapterTreeResource } from '../../components/ClassInfoPage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeResource'
 
 const { TreeNode } = Tree
 export const useChapterUI = (editable: boolean) => {
@@ -61,13 +65,19 @@ export const useChapterUI = (editable: boolean) => {
             contentId={id}
             contentName={name}
             handleDeleteTreeContent={chapterControl.handleDeleteTreeContent}
-            resource={resource}
             handleDeleteResource={chapterControl.handleDeleteResource}
           />
         }
-      ></TreeNode>
+      />
     )
   }
+
+  /*资源节点UI*/
+  const generateTreeResourceUI = (resource: ChapterResourceType) => {
+    if (!resource) return
+    return <ChapterTreeResource editable={editable} resource={resource} />
+  }
+
   const generateConfigObj = (key: any, title: any) => ({
     key,
     title
@@ -93,6 +103,7 @@ export const useChapterUI = (editable: boolean) => {
             </TreeNode>
           )
         }
+
         if (d.resource) {
           return d == chapterControl.curAddNode ? (
             <TreeNode
@@ -111,9 +122,24 @@ export const useChapterUI = (editable: boolean) => {
               )}
             />
           ) : (
-            generateTreeContentUI(d.classTimeId, d.name, d.resource)
+            <TreeNode
+              icon={<EditOutlined />}
+              key={d.classTimeId}
+              title={
+                <ChapterTreeContent
+                  editable={editable}
+                  contentId={d.classTimeId}
+                  contentName={d.name}
+                  handleDeleteTreeContent={chapterControl.handleDeleteTreeContent}
+                  handleDeleteResource={chapterControl.handleDeleteResource}
+                />
+              }
+            >
+              {recursion(d.resource)}
+            </TreeNode>
           )
         }
+
         if (d == chapterControl.curAddNode)
           return (
             <TreeNode
@@ -122,7 +148,9 @@ export const useChapterUI = (editable: boolean) => {
           )
         else if (d == chapterControl.curRenameNode)
           return <TreeNode {...generateConfigObj(d.id, renameStatusUI(d.name))} />
-        else return <TreeNode {...generateConfigObj(d.id, generateTreeNodeUI(d.id, d.name))} />
+        else if (d.resourceId) {
+          return <TreeNode {...generateConfigObj(d.resourceId, generateTreeResourceUI(d))} />
+        } else return <TreeNode {...generateConfigObj(d.id, generateTreeNodeUI(d.id, d.name))} />
       })
     }
     return recursion(data)

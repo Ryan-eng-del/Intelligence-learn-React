@@ -17,7 +17,8 @@ export type CourTimeType = {
 
 /**章节树中的课时的资源的类型 */
 export type ChapterResourceType = {
-  type: string
+  type: number
   resourceName: string
   resourceId: string
+  resourceLink: string
 }

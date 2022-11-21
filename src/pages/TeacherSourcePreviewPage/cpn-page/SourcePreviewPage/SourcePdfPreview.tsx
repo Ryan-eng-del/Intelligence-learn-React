@@ -5,16 +5,18 @@ import { Tooltip } from 'antd'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { BaseSpin } from '../../../../baseUI/BaseSpin/BaseSpin'
+import { useGetResourceById } from './util'
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
+// pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
+
 export const SourcePdfPreview = () => {
+  const { data } = useGetResourceById()
   const [numPages, setNumPages] = useState(0)
   const [pageNumber, setPageNumber] = useState(1)
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: any }) => {
     setNumPages(numPages)
   }
-
   const nextPage = () => {
     if (numPages == pageNumber) return
     setPageNumber((pre: number) => (pre += 1))
@@ -23,11 +25,12 @@ export const SourcePdfPreview = () => {
     if (pageNumber === 1) return
     setPageNumber((pre: number) => (pre -= 1))
   }
+
   return (
     <PdfViewWrapper style={{ width: '943px' }}>
       <Document
-        loading={<BaseSpin title={''} style={{ position: 'absolute', top: '300px' }} />}
-        file={require('../../../../assets/18-集合.pdf')}
+        loading={<BaseSpin title={'加载中'} style={{ position: 'absolute', top: '300px' }} />}
+        file={data && data.resourceLink}
         onLoadSuccess={onDocumentLoadSuccess}
       >
         <Page

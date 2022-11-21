@@ -1,6 +1,5 @@
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import axios from 'axios'
-import type { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios'
-import { message } from 'antd'
 import { GlobalMessage } from '../../publicComponents/GlobalMessage'
 
 const DEBUGINFO = process.env.NODE_ENV == 'development' ? '错误：' : ''
@@ -59,6 +58,7 @@ class Request {
             GlobalMessage('error', `${DEBUGINFO}${res.code}  | ${res.msg}`)
             // console.log('%c%s', 'color: yellow;', `${DEBUGINFO}${res.code} | ${res.msg}`)
             console.log(`${DEBUGINFO}${res.code} | ${res.msg}`)
+            reject(res.msg)
           } else {
             // console.log('%c%s', 'color: yellow;', JSON.stringify(res))
             console.log('color: yellow;', JSON.stringify(res))

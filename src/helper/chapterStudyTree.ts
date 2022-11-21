@@ -100,6 +100,7 @@ export const updateChapterTreeQueryCache = (
 ) => {
   const queryTreeData: ChapterData[] | undefined = queryClient.getQueryData(['chapterTree', courseId])
   const newQueryTreeData = queryTreeData ? updaterFun(queryTreeData!) : 0
+  console.log(queryTreeData, 'data')
   queryClient.setQueryData(['chapterTree', courseId], newQueryTreeData)
 }
 
@@ -113,7 +114,6 @@ export const addChildContentNode = (
 ) => {
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: ChapterTreeData[]) => {
-    console.log('come')
     if (!data) return
     data.forEach((d: ChildChapter) => {
       if (d.childChapters.length) {
@@ -170,35 +170,62 @@ export const generateExpandKeys = (data: ChapterTreeData[]) => {
   recursion(data)
   return result
 }
-/**/
+
+/* 格式化资源 */
 export const formatResource = (resource: ChapterResourceType[]) => {
   const result: ChapterResourceType[] = []
   resource.forEach((r) => {
-    if (r.type === '10') {
+    if (r.type === 10) {
       result.push(r)
     }
   })
   resource.forEach((r) => {
-    if (r.type === '20') {
+    if (r.type === 20 || r.type === 21) {
+      result.push(r)
+    }
+  })
+
+  resource.forEach((r) => {
+    if (r.type === 22) {
       result.push(r)
     }
   })
   resource.forEach((r) => {
-    if (r.type === '作业') {
+    if (r.type === 23) {
       result.push(r)
     }
   })
+
+  resource.forEach((r) => {
+    if (r.type === 40 || r.type === 41) {
+      result.push(r)
+    }
+  })
+
+  resource.forEach((r) => {
+    if (r.type === 50) {
+      result.push(r)
+    }
+  })
+
   return result
 }
+
 /* 挂载前展开所有视频 */
 export const expandOnMount = (data: ChapterTreeData[]) => {
   const result: string[] = []
   const recursion = (data: ChapterTreeData[]) => {
-    data.forEach((d: ChildChapter) => {
-      if (d.childChapters.length) {
+    data.forEach((d: any) => {
+      if (d.childChapters && d.childChapters.length) {
         recursion(d.childChapters)
+        result.push(d.id)
       }
-      result.push(d.id)
+      if (d.courTimes && d.courTimes.length) {
+        recursion(d.courTimes)
+      }
+      if (d.resource) {
+        result.push(d.classTimeId)
+      }
     })
   }
   recursion(data)

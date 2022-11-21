@@ -1,8 +1,10 @@
 import { ChapterTreeData } from './type'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { useEditChapter } from '../../server/fetchChapter'
 import { reNameTreeNode } from '../../helper/chapterStudyTree'
 import { IChapterReducerAction, IChapterReducerState } from '../../reducer/ChaperStudyTree/type/type'
+import { useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'react-router-dom'
 
 interface IHandleChapterControl {
   data: ChapterTreeData[]
@@ -13,6 +15,8 @@ interface IHandleChapterControl {
 export const useHandleRenameChapter = (props: IHandleChapterControl) => {
   const { data, dispatchChapter, chapterState } = props
   const { curAddInputValue } = chapterState
+  const queryClient = useQueryClient()
+  const courseId = useParams().id
   /*当前重命名节点*/
   const [curRenameNode, setCurRenameNode] = useState<ChapterTreeData | null>(null)
   /*编辑章节*/
@@ -27,17 +31,20 @@ export const useHandleRenameChapter = (props: IHandleChapterControl) => {
   )
   /*确认重命名*/
   const confirmRename = useCallback(async () => {
+    dispatchChapter({ type: 'setFocusState', focusState: false })
+
     try {
-      await editChapterMutate({
-        chapter_id: curRenameNode?.id ?? '',
-        new_name: curAddInputValue
-      })
       setCurRenameNode((pre: any) => {
         pre.name = curAddInputValue
         return pre
       })
+      await editChapterMutate({
+        chapter_id: curRenameNode?.id ?? '',
+        new_name: curAddInputValue
+      })
     } catch (err) {
       dispatchChapter({ type: 'setError', error: err })
+      await queryClient.invalidateQueries(['chapterTree', courseId])
     } finally {
       setCurRenameNode(null)
       dispatchChapter({ type: 'setCurInputValue', curInputValue: '' })

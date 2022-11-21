@@ -53,7 +53,7 @@ export const ChapterTreeModal: React.FC<{
               dispatch({ type: 'setModalState', open: false })
             }}
           >
-            添加资源并且关联知识点
+            添加课时资源
           </Button>
         </div>
 
@@ -80,7 +80,7 @@ export const ChapterTreeModal: React.FC<{
         <>
           <UploadWrapper>
             <Upload {...props} className={'upload'}>
-              <Button icon={<UploadOutlined />}>请选择文件，支持多个文件上传</Button>
+              <Button icon={<UploadOutlined />}>请选择文件，一次性上传一个文件</Button>
             </Upload>
           </UploadWrapper>
 

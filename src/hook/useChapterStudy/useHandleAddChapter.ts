@@ -8,6 +8,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { IChapterReducerAction, IChapterReducerState } from '../../reducer/ChaperStudyTree/type/type'
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { message } from 'antd'
+import { useParams } from 'react-router-dom'
 
 interface handleAddChapterProps {
   data: ChapterTreeData[]
@@ -17,7 +18,9 @@ interface handleAddChapterProps {
 
 /*添加章节的Hook*/
 export const useHandleAddChapter = (props: handleAddChapterProps) => {
-  const { classInfo } = useCurrentClassInfo()
+  const classInfo = {
+    courseId: useParams().id!
+  }
   const { data, chapterState, dispatchChapter } = props
   const { curAddInputValue } = chapterState
   /*正在添加的类型*/
@@ -26,7 +29,7 @@ export const useHandleAddChapter = (props: handleAddChapterProps) => {
   const curAddId = useRef('-1')
   const chapterNode = useMemo(() => Object.assign({}, ChapterNode), [data])
   /*当前交互的节点*/
-  const [curAddNode, setCurAddNode] = useState<ChapterInitNode | null>(null)
+  const [curAddNode, setCurAddNode] = useState<ChapterInitNode | null>(chapterNode)
 
   /*queryCline*/
   const queryClient = useQueryClient()
@@ -68,6 +71,8 @@ export const useHandleAddChapter = (props: handleAddChapterProps) => {
       course_id: classInfo.courseId,
       pid: curAddId.current
     }
+    dispatchChapter({ type: 'setFocusState', focusState: false })
+
     const isTrim = chapterState.curAddInputValue.trim() === ''
     if (isTrim) message.info('不能添加空字段')
     if (!isTrim)
@@ -84,7 +89,6 @@ export const useHandleAddChapter = (props: handleAddChapterProps) => {
         dispatchChapter({ type: 'setError', error: err })
         deleteTreeNode(data, curAddId.current, queryClient, classInfo.courseId)
       } finally {
-        dispatchChapter({ type: 'setFocusState', focusState: false })
         dispatchChapter({ type: 'setCurInputValue', curInputValue: '' })
         setCurAddNode(null)
       }
@@ -92,7 +96,7 @@ export const useHandleAddChapter = (props: handleAddChapterProps) => {
 
   /*取消添加章节*/
   const cancelAddChapter = useCallback(() => {
-    deleteTreeNode(data, '-1', queryClient, classInfo.courseId)
+    deleteTreeNode(data, curAddNode!.id, queryClient, classInfo.courseId)
   }, [data])
 
   return {

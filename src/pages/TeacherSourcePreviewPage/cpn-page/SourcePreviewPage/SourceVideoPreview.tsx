@@ -1,22 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
 import DPlayer from 'dplayer'
 import styled from 'styled-components'
-import { findIdResource } from '../../../../util/TeacherSourcePreviewPage'
-import { useQueryClient } from '@tanstack/react-query'
+import { useGetResourceById } from './util'
 
 export const SourceVideoPreview = () => {
-  const location = useLocation()
-  const resourceId = location.pathname.split('/')[3]
-  const [resource, setSource] = useState<any>(null)
-  const queryClient = useQueryClient()
-  console.log('video preview')
+  const [resource] = useState<any>(null)
+  const { data, resourceId } = useGetResourceById()
+
   useEffect(() => {
-    const result: any = findIdResource(
-      queryClient.getQueryData(['chapterTree']),
-      resourceId,
-      setSource
-    )
     new DPlayer({
       container: document.getElementById('dplayer'),
       autoplay: false,
@@ -28,7 +19,7 @@ export const SourceVideoPreview = () => {
       volume: 0.7,
       mutex: true,
       video: {
-        url: result?.resourceLink,
+        url: data?.resourceLink || '',
         type: 'auto'
       }
     })

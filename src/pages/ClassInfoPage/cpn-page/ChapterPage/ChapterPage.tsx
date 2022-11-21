@@ -5,6 +5,7 @@ import { PrimaryButton } from 'publicComponents/Button'
 import { useChapterUI } from 'hook/useChapterStudy/useChapterUI'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout'
 import { isTeachAuth } from '../../../../util/isAuthTeach'
+import { Outlet } from 'react-router-dom'
 
 export const ChapterPage: React.FC = () => {
   const editable = isTeachAuth()
@@ -22,6 +23,7 @@ export const ChapterPage: React.FC = () => {
       <GlobalRightLayout>
         <ChapterStudyTree treeData={treeData} chapterControl={chapterControl} />
       </GlobalRightLayout>
+      <Outlet />
     </>
   )
 }

@@ -18,34 +18,13 @@ const ChapterTreeDirectory: React.FC<{
   handleReNameTreeNode
 }) => {
   return (
-    <ChapterTreeDirectoryWrapper style={{ display: 'flex' }}>
+    <ChapterTreeDirectoryWrapper style={{ display: 'flex', position: 'relative' }}>
       <div>{nodeName}</div>
-      <EditToolWrapper
-        className={'edit-tool-wrapper'}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <Button
-          type={'primary'}
-          onClick={() => handleClickAddChildChapter(nodeId)}
-        >
-          添加子目录
-        </Button>
-        <Button
-          type={'primary'}
-          onClick={() => handleClickAddChildCourseTime(nodeId)}
-        >
-          添加课时
-        </Button>
-        <Button
-          type={'primary'}
-          danger
-          onClick={() => handleDeleteTreeNode(nodeId, 'chapterNode')}
-        >
-          删除
-        </Button>
-        <Button type={'primary'} onClick={() => handleReNameTreeNode(nodeId)}>
-          重命名
-        </Button>
+      <EditToolWrapper className={'edit-tool-wrapper'} onClick={(e) => e.stopPropagation()}>
+        <span onClick={() => handleClickAddChildChapter(nodeId)}>添加子目录</span>
+        <span onClick={() => handleClickAddChildCourseTime(nodeId)}>添加课时</span>
+        <span onClick={() => handleDeleteTreeNode(nodeId, 'chapterNode')}>删除</span>
+        <span onClick={() => handleReNameTreeNode(nodeId)}>重命名</span>
       </EditToolWrapper>
     </ChapterTreeDirectoryWrapper>
   )
@@ -54,16 +33,23 @@ const ChapterTreeDirectory: React.FC<{
 const EditToolWrapper = styled.div`
   opacity: 0;
   transition: 0.3s opacity;
+  position: absolute;
   right: 0;
+
+  span {
+    color: rgb(58, 139, 255);
+    margin-left: 20px;
+  }
+
   button {
     margin-right: 14px;
   }
 `
 const ChapterTreeDirectoryWrapper = styled.div`
-  width: 950px;
   transition: 0.3s opacity var(--easing);
+
   &:hover .edit-tool-wrapper {
-    color:var(--blue);
+    color: var(--blue);
     opacity: 1;
   }
 `

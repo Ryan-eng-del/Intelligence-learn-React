@@ -104,46 +104,31 @@ code {
   height: 37px;
 }
 
-span.ant-tree-title {
-  display: inline-block;
-  height: 100%;
+
+.ant-tree .ant-tree-node-content-wrapper {
+  width: 100%;
+  height: 38px;
+  line-height: 38px;
 }
 
-.ant-tree.ant-tree-block-node .ant-tree-list-holder-inner .ant-tree-node-content-wrapper {
-  height: 40px;
-  position: relative;
-  line-height: 40px;
+.ant-tree .ant-tree-node-content-wrapper:hover {
+  background-color: rgb(231, 239, 252);
 }
 
-.ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
-  background-color: transparent;
-}
 
-.ant-tree .ant-tree-node-content-wrapper .ant-tree-iconEle {
-  line-height: 40px;
-}
-
-.ant-tree-switcher .ant-select-tree-switcher-icon,
-.ant-tree-switcher .ant-tree-switcher-icon {
-  line-height: 40px;
-}
-
-.ant-tree-draggable-icon {
-  line-height: 40px;
+.ant-tree .ant-tree-treenode {
+  width: 100%;
 }
 
 .ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
-  background-color: transparent;
+  background-color: rgb(240, 246, 255);
 }
 
-.ant-tree.ant-tree-block-node .ant-tree-list-holder-inner .ant-tree-node-content-wrapper:hover div.tree-node-tool {
-  opacity: 1;
-}
 
-/* Modal 树形控件Modal样式覆盖*/
+/* Modal 树形控件 Modal样式覆盖 */
 .ant-tree.ant-tree-block-node .ant-tree-list-holder-inner {
   box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px,
-    rgba(17, 17, 26, 0.1) 0px 16px 56px;
+  rgba(17, 17, 26, 0.1) 0px 16px 56px;
 }
 
 .ant-modal-body .tip-delete {
@@ -184,22 +169,6 @@ span.ant-tree-title {
   border-radius: 32px;
 }
 
-.ant-tree .ant-tree-treenode {
-  align-items: center;
-}
-
-.ant-tree-list-holder-inner {
-  position: relative;
-}
-
-.ant-tree-node-content-wrapper .ant-tree-node-content-wrapper-open .ant-tree-node-selected {
-  height: 40px;
-  background-color: cyan;
-}
-
-.ant-tree .ant-tree-node-content-wrapper {
-  min-height: 32px;
-}
 
 /* table组件的设置 */
 .ant-table {

@@ -25,15 +25,17 @@ const ChapterNodeFocusStatus: React.FC<{
         style={{ marginRight: '12px' }}
         onClick={(e) => e.stopPropagation()}
       />
+
       <Button
         type={'primary'}
         onClick={(e) => stopPropagation(e, confirmAdd)}
-        style={{ marginRight: '15px',width:"3rem" }}
+        style={{ marginRight: '15px', width: '3rem' }}
         icon={<CheckOutlined />}
       />
+
       <Button
         type={'primary'}
-        style={{ marginRight: '15px',width:"3rem" }}
+        style={{ marginRight: '15px', width: '3rem' }}
         danger
         onClick={(e) => stopPropagation(e, cancelAdd)}
         icon={<CloseOutlined />}
