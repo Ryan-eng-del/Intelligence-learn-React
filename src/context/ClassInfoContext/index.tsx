@@ -28,7 +28,7 @@ const ClassInfo = createContext<IClassInfoContext>({
 
 export const ClassInfoContext = (props: any) => {
   const [classInfo, setClassInfo] = useState<IClassInfo>(IClassInit)
-  const { mutateAsync } = useGetCourseInfoById()
+  const { mutateAsync, isLoading } = useGetCourseInfoById()
   const getCurCourseInfo = async (courseId: string) => {
     const data = await mutateAsync(courseId)
     setClassInfo(data)

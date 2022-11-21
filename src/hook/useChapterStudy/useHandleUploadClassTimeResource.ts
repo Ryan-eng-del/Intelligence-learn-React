@@ -27,17 +27,18 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
     dispatch({ type: 'setModalState', open: true })
     const formData = new FormData()
     props.fileList.forEach((file) => {
-      formData.append('files[]', file as RcFile)
+      formData.append('file', file as RcFile)
     })
     setUploading(true)
-    console.log(formData.get('files[]'))
+    console.log(formData)
     try {
       const resourceData = await addContentResource({
         file: formData,
         relatedPoints: relatePoints,
         CourseId: classInfo.courseId
       })
-
+      console.log(resourceData, 'resourceData')
+      // const resourceData = undefined
       resourceData &&
         dispatch({
           type: 'setFileList',

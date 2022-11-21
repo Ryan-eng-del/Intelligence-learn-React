@@ -35,19 +35,23 @@ export const useHandleAddClassTime = (props: Omit<IHandleChapterControl<ChapterT
   const handleConfirmAddClassTime = useCallback(async () => {
     const addChapterId: string = curChapterId.current
     dispatch({ type: 'setModalState', open: false })
+    const resourceIds = classTimeState.fileList?.reduce((pre: string[], cur, arr) => {
+      return pre.concat(cur.resourceId)
+    }, [])
     try {
-      await addContentMutate({
+      const id = await addContentMutate({
         chapter_id: addChapterId,
         name: classTimeState.courseTimeName,
+        resource_ids: resourceIds,
         paper_id: '',
-        paper_name: '',
-        resource_ids: []
+        paper_name: ''
       })
       setCurClassTimeNode((pre) => {
         if (pre) {
           pre.name = classTimeState.courseTimeName
           pre.resource = cloneDeepWith(classTimeState.fileList)
           pre.chapterId = addChapterId
+          pre.classTimeId = id
         }
         return pre
       })

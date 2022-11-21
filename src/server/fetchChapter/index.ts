@@ -84,7 +84,7 @@ export const useAddContentResource = () => {
     return client.post({
       url: '/resources/upload-course',
       params: { CourseId, relatedPoints },
-      data: { file },
+      data: file,
       headers: {
         'Content-Type': 'multipart/form-data'
       }
