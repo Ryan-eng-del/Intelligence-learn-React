@@ -24,7 +24,7 @@ export const QuestionDoingPage = () => {
       questionId: data?.questionId || "0",
       questionAnswer: ans,
       questionExistType: "3",
-      questionType:data?.questionType || 0
+      questionType:data?.questionType || '0'
     })
     setIsModalOpen(true)
   }

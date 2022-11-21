@@ -5,9 +5,11 @@ import { useShowCreateQuestion } from 'server/fetchExam'
 import { GlobalHeader } from '../../../../publicComponents/GlobalHeader/index'
 import { Item, QuestionType } from 'server/fetchExam/types'
 import { config } from 'server/fetchExam/config'
+import { useCurrentClassInfo } from 'context/ClassInfoContext'
 
 export const QuestionBankPage: React.FC = () => {
-  const { data, isLoading } = useShowCreateQuestion('课程id')
+  const { classInfo } = useCurrentClassInfo()
+  const { data, isLoading } = useShowCreateQuestion(classInfo.courseId)
   const originData: Item[] = []
   const length = data?.length || 0
   const [curData, setCurData] = useState<Item[]>([])
@@ -23,8 +25,7 @@ export const QuestionBankPage: React.FC = () => {
       key: data![i].questionId,
       question: data![i].questionDescription,
       rate: handleRate[data![i].questionDifficulty as 0|1|2],
-      type: handleType(data![i].questionType),
-      creator: '莉塔',
+      type: handleType(data![i].questionType.toString() as QuestionType),
       create_time: data![i].createTime,
       questionId: data![i].questionId,
       rightAnswer: data![i].rightAnswer,

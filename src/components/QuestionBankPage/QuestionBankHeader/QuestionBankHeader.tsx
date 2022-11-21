@@ -52,7 +52,7 @@ export const QuestionBankHeader: React.FC<{
             icon={<PlusOutlined className="addicon" />}
             size="large"
             className="aqbtn"
-            onClick={() => navigate('/createquestion', { replace: true })}
+            onClick={() => navigate('../createquestion', { replace: true })}
           />
         </Tooltip>
 

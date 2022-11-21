@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Modal, Table, Typography } from 'antd'
+import { Button, Modal, Space, Table, Typography } from 'antd'
 import {
   QuestionBankTableWrapper,
   QuestionOperateWrapper,
@@ -14,6 +14,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { ShowDetailsCell } from './cpn/ShowDetailsCell'
 import { Item } from 'server/fetchExam/types'
 import styled from 'styled-components'
+import { isTeachAuth } from 'util/isAuthTeach'
 const { confirm } = Modal
 
 export const QuestionBankTable: React.FC<{
@@ -83,32 +84,12 @@ export const QuestionBankTable: React.FC<{
       render: (_: any, record: Item) => (
         <QuestionItemWrapper>
               <ShowQuestionDetails
-                onClick={() => 1
-                ? navigate(`/preview/${record.questionId}`, { replace: true })
-                : navigate(`/promote/${record.questionId}`, { replace: true })}
-              >
+                onClick={isTeachAuth()
+                ? ()=>show(record)
+                : ()=>navigate(`/promote/${record.questionId}`,)
+              }>
                 {record.question}
               </ShowQuestionDetails>
-          <QuestionOperateWrapper>
-            <Button
-              type="link"
-              className="deletebtn"
-              onClick={() => {
-                // showDeleteConfirm(data.id)
-                showDeleteConfirm(record.key)
-              }}
-            >
-              删除
-            </Button>
-            <Button
-              type="link"
-              onClick={() => {
-                navigate(`/edit/${record.questionId}`)
-              }}
-            >
-              编辑
-            </Button>
-          </QuestionOperateWrapper>
         </QuestionItemWrapper>
       )
     },
@@ -125,12 +106,6 @@ export const QuestionBankTable: React.FC<{
       width: '8%'
     },
     {
-      title: '创建者',
-      dataIndex: 'creator',
-      className: 'table-header',
-      width: '10%'
-    },
-    {
       title: '创建时间',
       width: '15%',
       className: 'table-header',
@@ -140,13 +115,12 @@ export const QuestionBankTable: React.FC<{
       title: '操作',
       className: 'table-header',
       render: (_: any, record: Item) => {
-        // record是全部数据
-        const editable = isShow(record)
-        return editable ? (
-          <Typography.Link onClick={close}>关闭详情</Typography.Link>
-        ) : (
-          <Typography.Link onClick={() => show(record)}>展开详情</Typography.Link>
-        )
+        return <QuestionOperateWrapper>
+          <Space>
+            <Button type="primary" danger onClick={()=>showDeleteConfirm(record.key)} >删除</Button>
+            <Button type="primary" onClick={()=>navigate(`/edit/${record.questionId}`)}>编辑</Button>
+          </Space>
+        </QuestionOperateWrapper>
       }
     }
   ]

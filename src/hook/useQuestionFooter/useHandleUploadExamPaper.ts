@@ -6,7 +6,7 @@ import { StateSetter } from '../../types'
 
 export const useHandleUploadExamPaper = (
   question: IQuestionType,
-  setCurEditQuestion: StateSetter<IQuestionType | null>
+  setCurEditQuestion: StateSetter<IQuestionType | undefined>
 ) => {
   /*关联的知识点*/
   const [curCheckId, setCurCheckId] = useState<string[]>([])
@@ -15,7 +15,7 @@ export const useHandleUploadExamPaper = (
   const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
 
   /*上传试题Api*/
-  const { mutateAsync: uploadPaperApi, isLoading } = useCreateQuestion()
+  const { mutateAsync: uploadQuestion, isLoading } = useCreateQuestion()
 
   /*初始化试题状态*/
   useEffect(() => {
@@ -41,19 +41,15 @@ export const useHandleUploadExamPaper = (
     },
     [question]
   )
-  /*处理上传试卷*/
-  const handleOk = async () => {
-    const result: any = {}
-    for (const k in question) {
-      if (k !== 'isStore') {
-        result[k] = question[k as keyof IQuestionType]
-      }
-    }
-
+  /*处理上传题目*/
+  const handleOk = async () => {  //
     try {
       setIsSaveModalOpen(false)
-      await uploadPaperApi({ ...result })
+      const qId = await uploadQuestion({ ...question  })
       question.isStore = true
+      // 重置为在线ID
+      // TODO: 请确定这里不会在试题编辑页面丢失导航栏引用
+      // question.questionId = qId
       setCurEditQuestion({ ...question })
     } catch (e) {
       console.log(e)

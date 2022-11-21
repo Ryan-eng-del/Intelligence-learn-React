@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { client } from 'server'
 import { message } from 'antd'
 import { delayFetch } from 'util/delayFetch'
-import { TestPaper, PostTestPaper, QuestionType, StudentPaper } from '../types'
+import { TestPaper, PostTestPaper, QuestionType, StudentPaper, QuestionConstantString } from '../types'
 import { AnyFn } from 'types'
 import { dropRight } from 'lodash'
 import { config } from '../config'
@@ -38,13 +38,8 @@ export const useAddTestPaper = (callback: AnyFn) => {
 /** 打开一张试卷 */
 export const useShowTestPaper = (paperId: string, callback: any) => {
   const Process = (data: TestPaper) => {
-    // 接下来进行数据分组
-    // get enum type value and key ,
-    // e.g.: enum { 'name1', 'name2' } => ['0','1','name1','name2']
-    const QuestionTypeList = Object.keys(QuestionType)
-    // remove:  ['0','1','name1','name2'] => [ 0, 1 ]
-    const QuestionTypeList2 = dropRight(QuestionTypeList, QuestionTypeList.length / 2).map((i) => parseInt(i))
-    return QuestionTypeList2.map((Type: QuestionType) => {
+    const QuestionTypeList2: QuestionConstantString[] = ['0' , '1' , '2' , '3' , '4']
+    return QuestionTypeList2.map((Type) => {
       // 获取类型
       // 这里是过滤了类型的WholeQuestion[]
       const thisTypeList = data.questionOfPaperVos.filter((i) => i.questionType === Type)

@@ -12,7 +12,7 @@ import { InputNumber } from 'antd'
 interface CreateExamRoutePageProps {
   curEdit: IQuestionType
   curOrder: number
-  setCurEditQuestion: StateSetter<IQuestionType | null>
+  setCurEditQuestion: StateSetter<IQuestionType|undefined>
   dispatchQuestionType: React.Dispatch<IQuestionTypeAction>
 }
 

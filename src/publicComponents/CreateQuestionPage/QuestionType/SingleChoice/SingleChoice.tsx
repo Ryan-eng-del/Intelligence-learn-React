@@ -11,8 +11,8 @@ import { QuestionFooter } from '../QuestionFooter'
 interface SingleChoiceProps {
   question: IQuestionType
   callback?: (newData: QuestionDataWithID) => void
-  setCurEditQuestion: StateSetter<IQuestionType | null>
-  dispatchQuestionType: React.Dispatch<IQuestionTypeAction>
+  setCurEditQuestion: StateSetter<IQuestionType|undefined>
+  dispatchQuestionType?: React.Dispatch<IQuestionTypeAction>
   config: 'single' | 'multiple'
 }
 

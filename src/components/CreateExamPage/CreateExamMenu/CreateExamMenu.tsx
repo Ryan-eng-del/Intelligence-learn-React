@@ -8,7 +8,6 @@ import {
   CheckSquareOutlined,
   EditOutlined,
   FormOutlined,
-  ArrowLeftOutlined,
   HddOutlined
 } from '@ant-design/icons'
 import styled from 'styled-components'
@@ -23,11 +22,10 @@ export const QuestionICON = {
 const isConstantString = (val: unknown): val is QuestionConstantString => typeof val === 'string'
 
 export const CreateExamMenu: React.FC<{
-  addQuestionType: any
+  addQuestionType: (type:QuestionConstantString)=>void
 }> = ({ addQuestionType }) => {
   return (
     <>
-      <span style={{ lineHeight: '32px', marginRight: '15px', color: '#A8A8B3' }}>添加题目</span>
       {Object.keys(QuestionICON).map((item, index) => {
         if (isConstantString(item)) {
           return (

@@ -77,6 +77,7 @@ root.render(
                 <Route path="class" element={<ClassMana />} />
                 <Route path="knowledge" element={<KnowledgePage />} />
                 <Route path="questionbank" element={<QuestionBankPage />} />
+                <Route path="createquestion" element={<CreateQuestionPage />} />
               </Route>
               <Route path=":identify/:id" element={<ClassInfoPage />}>
                 <Route path="chapter" element={<ChapterPage />} />
@@ -93,8 +94,7 @@ root.render(
                 <Route path="video/:id" element={<SourceVideoPreview />} />
                 <Route path="pdf/:id" element={<SourcePdfPreview />} />
               </Route>
-              <Route path="createquestion" element={<CreateQuestionPage />} />
-              <Route path="preview/:questionId" element={<QuestionPreviewPage />} />
+              {/* <Route path="preview/:questionId" element={<QuestionPreviewPage />} /> */}
               <Route path="edit/:questionId" element={<QuestionEditPage />} />
               <Route path="homeWork" element={<PaperDoing />}></Route>
             </Route>

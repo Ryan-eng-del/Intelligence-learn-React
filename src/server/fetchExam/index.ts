@@ -1,13 +1,13 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
-import { ExamListItem, QuestionBank, QuestionData, QuestionDataWithID, QuestionType, StudentPaperItem, WholeQuestion } from './types'
+import { ExamListItem, QuestionBank, QuestionConstantString, QuestionDataWithID, QuestionType, StudentPaperItem, WholeQuestion } from './types'
 import { message } from 'antd'
 import { paperTarget, PublishExamType, PublishHomeworkType } from 'publicComponents/ExamPage/types'
-
+import { IQuestionInfo, IQuestionType } from 'reducer/CreateExamPaper/type/type'
 /** 添加试题 */
 export const useCreateQuestion = () => {
-  return useMutation(async (QuestionItem: QuestionData) => {
+  return useMutation(async (QuestionItem: IQuestionInfo) => {
     return client.post({
       url: 'question/teacher/create',
       data: {
@@ -62,9 +62,9 @@ export const useCreateEmptyQuestion = (courseId:string) => {
       questionDescription: '',
       courseId,
       pointIds: [],
-      questionOption: 'dsadas<>fr<>ads<>dsads',
+      questionOption: '<><><>',
       questionAnswerExplain: '',
-      questionAnswerNum: 1,
+      questionAnswerNum: 4,
       questionDifficulty: 1,
       questionType: type,
       rightAnswer: 'A'
@@ -74,7 +74,6 @@ export const useCreateEmptyQuestion = (courseId:string) => {
       data: defData
     })
     console.log("在",courseId,"创建题目,题目的ids",qID);
-
     return { ...defData, questionId: qID }
   })
 }
@@ -140,7 +139,7 @@ export const useSubmitQuestion = () => {
   return useMutation(
     async (data: {
       questionId: string,
-      questionType: QuestionType,
+      questionType: QuestionConstantString,
       questionAnswer: string,
       questionExistType: string
     }) => {

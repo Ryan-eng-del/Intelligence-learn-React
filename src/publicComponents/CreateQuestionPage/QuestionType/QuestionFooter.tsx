@@ -21,7 +21,7 @@ const { Option } = Select
 
 interface QuestionFooterProps {
   question: IQuestionType
-  setCurEditQuestion: StateSetter<IQuestionType | null>
+  setCurEditQuestion: StateSetter<IQuestionType|undefined>
 }
 
 export const QuestionFooter = (props: QuestionFooterProps) => {

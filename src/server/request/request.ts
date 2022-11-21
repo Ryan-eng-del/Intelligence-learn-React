@@ -57,11 +57,10 @@ class Request {
           console.log(`发送 @URL | ${config.url}`)
           if (res.code != '200') {
             GlobalMessage('error', `${DEBUGINFO}${res.code}  | ${res.msg}`)
-            // console.log('%c%s', 'color: yellow;', `${DEBUGINFO}${res.code} | ${res.msg}`)
-            console.log(`${DEBUGINFO}${res.code} | ${res.msg}`)
+            console.log('%c%s', 'color: yellow;', `${DEBUGINFO}${res.code} | ${res.msg}`)
           } else {
             // console.log('%c%s', 'color: yellow;', JSON.stringify(res))
-            console.log('color: yellow;', JSON.stringify(res))
+            console.log(JSON.stringify(res))
           }
           resolve(res.data)
         })

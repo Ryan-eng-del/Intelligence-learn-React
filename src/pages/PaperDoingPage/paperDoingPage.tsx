@@ -4,8 +4,9 @@ import { Menu } from './Menu/Menu'
 import { QuestionList } from './QuestionList/QuestionList'
 import { Layout } from 'antd'
 import { useParams } from 'react-router-dom'
-import { QuestionType, StudentPaper} from 'server/fetchExam/types'
+import { QuestionType, StudentPaper, TestPaper} from 'server/fetchExam/types'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
+import { useShowQuestionForStudent } from 'server/fetchExam/TestPaper'
 const { Header, Sider, Content } = Layout
 
 const Questionlist: any[] = [
@@ -71,61 +72,7 @@ const Questionlist: any[] = [
 export const PaperDoing: React.FC = () => {
   // 需要路由获取参数
   const { paperId } = useParams()
-  // const { data ,isLoading } = useShowQuestionForStudent(paperId!)
-  const data = {
-    paperId: '1559401k362804965378',
-    paperName: '第一次月考',
-    questionOfPaperVos: [
-      {
-        questionId: '155834475017888r5633',
-        questionDescription: '测试用单选题',
-        questionOption: 'A:1<>B:2<>C:3<>D:4',
-        questionType: 0,
-        questionAnswerNum: 1,
-        questionScore: 1
-      },
-      {
-        questionId: '1558345138s294611969',
-        questionDescription: '测试用多选题',
-        questionOption: 'A:1<>B:2<>C:3<>D:4',
-        questionType: 1,
-        questionAnswerNum: 1,
-        questionScore: 1
-      },
-      {
-        questionId: '1558345a138s294611969',
-        questionDescription: '测试用填空',
-        questionOption: 'A:1<>B:2<>C:3<>D:4',
-        questionType: 2,
-        questionAnswerNum: 1,
-        questionScore: 1
-      },
-      {
-        questionId: '155834522a138s294611969',
-        questionDescription: '测试用填空222',
-        questionOption: '',
-        questionType: 2,
-        questionAnswerNum: 4,
-        questionScore: 1
-      },
-      {
-        questionId: '155834d5138s294611969',
-        questionDescription: '测试用简答',
-        questionOption: 'A:1<>B:2<>C:3<>D:4',
-        questionType: 3,
-        questionAnswerNum: 1,
-        questionScore: 1
-      },
-      {
-        questionId: '155834d513s24611969',
-        questionDescription: '测试用判断题',
-        questionOption: 'A:1<>B:2<>C:3<>D:4',
-        questionType: 4,
-        questionAnswerNum: 1,
-        questionScore: 1
-      }
-    ]
-  }
+  const { data ,isLoading } = useShowQuestionForStudent(paperId!)
 
   const len = (data:StudentPaper) => {
     const list = data.questionOfPaperVos
