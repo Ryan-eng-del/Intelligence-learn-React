@@ -6,17 +6,10 @@ import { useEffect, useMemo } from 'react'
 import { isTeachAuth } from '../../util/isAuthTeach'
 import { useCurrentClassInfo } from '../../context/ClassInfoContext'
 import 'lib/aliyun-upload-sdk/aliyun-upload-sdk-1.5.4.min'
-import OSS from 'lib/aliyun-upload-sdk/lib/aliyun-oss-sdk-6.17.1.min'
-import AliYunOSS from '../../util/AliYunOSS'
-
-Object.defineProperty(window, 'OSS', {
-  value: OSS
-})
 
 export const ClassInfoPage = () => {
   const { classInfo, getCurCourseInfo } = useCurrentClassInfo()
   const params = useParams()
-  const aliYunOSS = new AliYunOSS(OSS)
 
   useEffect(() => {
     getCurCourseInfo(params.id!)

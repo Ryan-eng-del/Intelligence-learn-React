@@ -119,7 +119,6 @@ const LeftLayoutWrapper = styled.div`
 `
 const RightLayoutWrapper = styled.div`
   flex: 1;
-  min-height: 100vh;
 `
 
 const UserAvatarWrapper = styled.div`

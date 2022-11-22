@@ -4,11 +4,20 @@ import { message } from 'antd'
 import { ICourseTimeReducerAction } from '../../reducer/ChaperStudyTree/type/type'
 import { useCurrentClassInfo } from '../../context/ClassInfoContext'
 import { RcFile } from 'antd/lib/upload'
+import OSS from 'lib/aliyun-upload-sdk/lib/aliyun-oss-sdk-6.17.1.min'
+import AliYunOSS from 'util/AliYunOSS'
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const AliyunUplaod = require('util/aliyun')
 
 interface IUploadClassTimeResource {
   dispatch: React.Dispatch<ICourseTimeReducerAction>
   fileList: any[]
 }
+
+Object.defineProperty(window, 'OSS', {
+  value: OSS
+})
 
 export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource) => {
   const { dispatch } = props
@@ -17,10 +26,14 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
   const [openResourceDrawer, setOpenResourceDrawer] = useState(false)
   /*添加资源loading*/
   const [uploading, setUploading] = useState(false)
+
   /*关联知识点*/
   const [relatePoints, setRelatePoints] = useState([])
   /*添加资源API*/
   const { mutateAsync: addContentResource } = useAddContentResource()
+  const uploader = new AliYunOSS(AliyunUplaod)
+
+  console.log(uploader.createUpLoader(), 'uploader')
   /* 处理上传 */
   const handleUpload = async () => {
     setOpenResourceDrawer(false)
