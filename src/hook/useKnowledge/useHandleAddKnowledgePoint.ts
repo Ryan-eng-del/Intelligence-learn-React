@@ -46,6 +46,7 @@ export const useAddKnowledgePoints = (props: IHandleChapterControl<IKnowledgePoi
     if (isTrim) message.info('不能添加空字段')
     if (!isTrim)
       try {
+        dispatch({ type: 'setFocusState', focusState: false })
         const knowledgeId = await addKnowledgePoints({
           pointName: knowledgeState.curAddInputValue,
           pointPid: !curId.current ? '555' : curId.current,
@@ -69,7 +70,6 @@ export const useAddKnowledgePoints = (props: IHandleChapterControl<IKnowledgePoi
         dispatch({ type: 'setError', error: err })
         deleteKnowledgeNode(data, curKnowledgeNode?.pointId, queryClient, classInfo.courseId)
       } finally {
-        dispatch({ type: 'setFocusState', focusState: false })
         dispatch({ type: 'setCurInputValue', curInputValue: '' })
         curId.current = ''
         setCurKnowledgeNode(null)

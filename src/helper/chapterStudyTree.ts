@@ -218,16 +218,19 @@ export const expandOnMount = (data: ChapterTreeData[]) => {
     data.forEach((d: any) => {
       if (d.childChapters && d.childChapters.length) {
         recursion(d.childChapters)
-        result.push(d.id)
       }
       if (d.courTimes && d.courTimes.length) {
         recursion(d.courTimes)
       }
-      if (d.resource) {
+      if (d.classTimeId) {
         result.push(d.classTimeId)
+      }
+      if (d.id) {
+        result.push(d.id)
       }
     })
   }
   recursion(data)
+
   return result
 }

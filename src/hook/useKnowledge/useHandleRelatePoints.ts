@@ -10,11 +10,14 @@ import {
 import { IHandleChapterControl } from '../useChapterStudy/type'
 import { useQueryClient } from '@tanstack/react-query'
 import { useCurrentClassInfo } from '../../context/ClassInfoContext'
+import { useParams } from 'react-router-dom'
 
 export const useHandleRelatePoints = (props: Omit<IHandleChapterControl<IKnowledgePoint>, 'chapterState'>) => {
   const { data, dispatchChapter: dispatch } = props
   const queryClient = useQueryClient()
-  const { classInfo } = useCurrentClassInfo()
+  const classInfo = {
+    courseId: useParams().id!
+  }
   /*关联知识点API*/
   const { mutateAsync: relatePrePointsApi } = relatePrePointsAPI()
   const { mutateAsync: relateAfterPointsApi } = relateAfterPointsAPI()
@@ -49,6 +52,7 @@ export const useHandleRelatePoints = (props: Omit<IHandleChapterControl<IKnowled
       )
     } catch (e) {
       dispatch({ type: 'setError', error: e })
+      await queryClient.invalidateQueries(['knowledgeTree', classInfo.courseId])
     } finally {
       setIsTreeSelectModalVisible(false)
     }

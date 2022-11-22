@@ -6,7 +6,6 @@ import { useDeleteKnowledgePoints } from './useDeleteKnowledgePoints'
 import { useHandleRelatePoints } from './useHandleRelatePoints'
 import { useHandleOnExpand } from '../useChapterStudy/useHandleTreeOnExpand'
 import { useShowKnowledgeTree } from '../../server/fetchKnowledge'
-import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { useParams } from 'react-router-dom'
 
 export const useKnowledgeControl = () => {
@@ -28,6 +27,7 @@ export const useKnowledgeControl = () => {
     dispatchChapter: dispatch,
     chapterState: knowledgeState
   })
+
   /*展开树节点*/
   const { handleOnExpand } = useHandleOnExpand(dispatch)
   /*关联知识点*/

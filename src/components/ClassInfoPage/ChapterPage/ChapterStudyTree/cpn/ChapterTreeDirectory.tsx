@@ -1,6 +1,6 @@
 import React from 'react'
-import { Button } from 'antd'
 import styled from 'styled-components'
+import { EditToolWrapperContent } from './ChapterTreeContent'
 
 const ChapterTreeDirectory: React.FC<{
   nodeName: string
@@ -30,7 +30,7 @@ const ChapterTreeDirectory: React.FC<{
   )
 }
 /*样式*/
-const EditToolWrapper = styled.div`
+const EditToolWrapper = styled(EditToolWrapperContent)`
   opacity: 0;
   transition: 0.3s opacity;
   position: absolute;

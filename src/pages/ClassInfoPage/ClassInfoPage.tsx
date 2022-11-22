@@ -1,5 +1,5 @@
 import { GlobalLayout } from 'publicComponents/GlobalLayout'
-import { Outlet, useLocation, useParams } from 'react-router-dom'
+import { Outlet, useParams } from 'react-router-dom'
 import { createClassNavMap } from 'util/createNavMap'
 import ClassInfoNavItems from './config'
 import { useUserInfo } from '../../context/UserInfoContext'
@@ -9,7 +9,6 @@ import { useCurrentClassInfo } from '../../context/ClassInfoContext'
 
 export const ClassInfoPage = () => {
   const userInfoContext = useUserInfo()
-  const location = useLocation()
   const classInfoContext = useCurrentClassInfo()
   const params = useParams()
 
@@ -23,18 +22,17 @@ export const ClassInfoPage = () => {
     classInfoContext.getCurCourseInfo(params.id!)
   }, [])
 
-  const len = useMemo(() => {
+  const sliceCount = useMemo(() => {
     if (params) {
-      const identify = params.identify!
-      return location.pathname.indexOf(identify) + identify?.length
+      return params.identify!.length + params.id!.length + 2
     }
-  }, [location.pathname, params.identify])
+  }, [params])
 
   return (
     <GlobalLayout
       navItems={isTeachAuth() ? ClassInfoNavItems : ClassInfoNavItems.slice(1)}
       routePage={<Outlet />}
-      sliceCount={len as number}
+      sliceCount={sliceCount as number}
       createMapFunction={createClassNavMap}
       logoWrapper={(name: string) => (
         <>

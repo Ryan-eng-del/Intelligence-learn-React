@@ -70,6 +70,7 @@ root.render(
                 <Route path="setting" element={<SettingPage />} />
                 <Route path="exam" element={<ExamSummary />} />
               </Route>
+
               <Route path=":identify/:id" element={<ClassInfoPage />}>
                 <Route path="chapter" element={<ChapterPage />} />
                 <Route path="exam" element={<ExamPage />} />

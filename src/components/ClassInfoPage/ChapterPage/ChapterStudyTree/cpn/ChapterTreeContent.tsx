@@ -1,5 +1,4 @@
 import React from 'react'
-import { Button } from 'antd'
 import styled from 'styled-components'
 
 const ChapterTreeContent: React.FC<{
@@ -8,14 +7,14 @@ const ChapterTreeContent: React.FC<{
   contentId: string
   handleDeleteResource: any
   editable: boolean
-}> = ({ editable, contentName, handleDeleteTreeContent, contentId, handleDeleteResource }) => {
+}> = ({ editable, contentName, handleDeleteTreeContent, contentId }) => {
   return (
     <>
       <ChapterTreeContentWrapper>
         <div style={{ display: 'flex' }}>
           <div>{contentName}</div>
           {editable && (
-            <EditToolWrapperContent className={'edit-content-tool-wrapper'}>
+            <EditToolWrapperContent className={'edit-content-tool-wrapper'} onClick={(e) => e.stopPropagation()}>
               <span>编辑</span>
               <span onClick={() => handleDeleteTreeContent(contentId, 'courTimes')}>删除</span>
             </EditToolWrapperContent>
@@ -26,7 +25,7 @@ const ChapterTreeContent: React.FC<{
   )
 }
 /*样式*/
-const EditToolWrapperContent = styled.div`
+export const EditToolWrapperContent = styled.div`
   opacity: 0;
   transition: 0.3s opacity var(--easing);
   position: absolute;

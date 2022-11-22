@@ -5,7 +5,6 @@ import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useKnowledgeUI } from 'hook/useKnowledge/useKnowledgeUI'
-import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { isTeachAuth } from '../../../../util/isAuthTeach'
 
 export const KnowledgePage: React.FC = () => {

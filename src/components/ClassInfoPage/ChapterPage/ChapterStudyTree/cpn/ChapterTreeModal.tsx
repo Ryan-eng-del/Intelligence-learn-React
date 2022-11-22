@@ -35,7 +35,6 @@ export const ChapterTreeModal: React.FC<{
         visible={classTimeState.courseTimeModalVisible}
         onOk={handleOk}
         onCancel={() => dispatch({ type: 'setModalState', open: false })}
-        style={{ height: '400px' }}
         className={'modal-chapter'}
       >
         <label htmlFor={'addResource'}>课时名称</label>
@@ -75,7 +74,19 @@ export const ChapterTreeModal: React.FC<{
           setOpenResourceDrawer(false)
           dispatch({ type: 'setModalState', open: true })
         }}
-        style={{ height: '400px' }}
+        footer={[
+          <div style={{ display: 'flex', justifyContent: 'center' }} key={'submit'}>
+            <Button
+              type="primary"
+              onClick={handleUpload}
+              disabled={fileList.length === 0}
+              loading={uploading}
+              style={{ marginTop: 16 }}
+            >
+              {fileList.length === 0 ? '请先上传视频' : '点击上传'}
+            </Button>
+          </div>
+        ]}
       >
         <>
           <UploadWrapper>
@@ -94,17 +105,6 @@ export const ChapterTreeModal: React.FC<{
               curCheckId={relatePoints}
             />
           </RelatePointsWrapper>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Button
-              type="primary"
-              onClick={handleUpload}
-              disabled={fileList.length === 0}
-              loading={uploading}
-              style={{ marginTop: 16 }}
-            >
-              {fileList.length === 0 ? '请先上传视频' : '点击上传'}
-            </Button>
-          </div>
         </>
       </Modal>
     </ChapterTreeModalWrapper>
