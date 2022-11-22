@@ -33,6 +33,7 @@ import { ClassMana } from 'pages/ClassInfoPage/cpn-page/ClassManaPage/ClassManaP
 // import { QuestionDoingPage } from 'pages/QuestionDoingPage/QuestionDoingPage'
 import ContextProvider from 'context'
 import RegisterPage from './pages/LoginPages/RegisterPage'
+import { QuestionDoingPage } from 'pages/QuestionDoingPage/QuestionDoingPage'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
@@ -94,7 +95,7 @@ root.render(
                 <Route path="video/:id" element={<SourceVideoPreview />} />
                 <Route path="pdf/:id" element={<SourcePdfPreview />} />
               </Route>
-              {/* <Route path="preview/:questionId" element={<QuestionPreviewPage />} /> */}
+              <Route path="promote/:questionId" element={<QuestionDoingPage />} />
               <Route path="edit/:questionId" element={<QuestionEditPage />} />
               <Route path="homeWork" element={<PaperDoing />}></Route>
             </Route>

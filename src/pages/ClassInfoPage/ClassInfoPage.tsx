@@ -18,6 +18,7 @@ export const ClassInfoPage = () => {
       userInfoContext.getUserInfo()
     }
   }, [])
+
   useEffect(() => {
     classInfoContext.getCurCourseInfo(params.id!)
   }, [])

@@ -1,6 +1,5 @@
-import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { CreateExamRoutePage } from 'components/CreateExamPage'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {useParams } from 'react-router-dom'
 import { IQuestionType } from 'reducer/CreateExamPaper/type/type'
 import { useShowQuestionDetails } from 'server/fetchExam'
@@ -10,7 +9,11 @@ export const QuestionEditPage: React.FC = () => {
 
   const { questionId } = useParams<{ questionId: string }>()
   //请求对应的数据
-  const { data, isLoading } = useShowQuestionDetails(questionId)
+  const { data } = useShowQuestionDetails(questionId)
+  useEffect(() => {
+    setCur({...data!,score:0,isStore:true})
+  }, [data])
+
   const [cur,setCur] = useState<IQuestionType|undefined>({...data!,score:0,isStore:true})
 
   return (

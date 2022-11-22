@@ -1,7 +1,7 @@
 /*处理上传试卷*/
 import { useCallback, useEffect, useState } from 'react'
 import { IQuestionType } from '../../reducer/CreateExamPaper/type/type'
-import { useCreateQuestion } from '../../server/fetchExam'
+import { useCreateQuestion, useUpadateQuestion } from '../../server/fetchExam'
 import { StateSetter } from '../../types'
 
 export const useHandleUploadExamPaper = (
@@ -16,7 +16,7 @@ export const useHandleUploadExamPaper = (
 
   /*上传试题Api*/
   const { mutateAsync: uploadQuestion, isLoading } = useCreateQuestion()
-
+  const { mutate: changeQuestion} = useUpadateQuestion()
   /*初始化试题状态*/
   useEffect(() => {
     setCurCheckId(question.pointIds)
@@ -45,12 +45,18 @@ export const useHandleUploadExamPaper = (
   const handleOk = async () => {  //
     try {
       setIsSaveModalOpen(false)
-      const qId = await uploadQuestion({ ...question  })
-      question.isStore = true
-      // 重置为在线ID
-      // TODO: 请确定这里不会在试题编辑页面丢失导航栏引用
-      // question.questionId = qId
-      setCurEditQuestion({ ...question })
+      if(question.isStore) {  // 此题目已经上传，修改题目接口
+        console.log("更新试题");
+        changeQuestion(question)
+      } else {  // 此题目未上传，新增题目接口
+        console.log("新增试题");
+        const qId = await uploadQuestion({ ...question  })
+        question.isStore = true
+        // 重置为在线ID
+        // TODO: 请确定这里不会在试题编辑页面丢失导航栏引用
+        // question.questionId = qId
+        setCurEditQuestion({ ...question })
+      }
     } catch (e) {
       console.log(e)
     }

@@ -109,7 +109,7 @@ export type QuestionBank = {
 export type Item = {
   key: string
   question: string
-  rate: string
+  rate: any
   type: string
   create_time: string
   questionId: string

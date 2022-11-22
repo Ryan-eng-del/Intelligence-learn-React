@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { client } from 'server'
 import { delayFetch } from 'util/delayFetch'
 import { ExamListItem, QuestionBank, QuestionConstantString, QuestionDataWithID, QuestionType, StudentPaperItem, WholeQuestion } from './types'
@@ -18,7 +18,8 @@ export const useCreateQuestion = () => {
 }
 
 /** 显示试题库 */
-export const useShowCreateQuestion = (id?: string) => {
+export const useShowCreateQuestion = (id: string) => {
+  console.log("正在获取题库，课程id:",id);
   return useQuery(['questionbank'], async () => {
     await delayFetch()
     return client.get<QuestionBank[]>({
@@ -103,20 +104,18 @@ export const useUpadateQuestion = () => {
 
 /** 删除试题 */
 export const useDeleteQuestion = () => {
+  const queryClient = useQueryClient()
   return useMutation(
     async (id: string) => {
-      await delayFetch()
-      return client.post({
+      console.log("正在删除：",id);
+      return client.delete({
         url: '/question/teacher/delete',
         data: { id }
       })
     },
     {
       onSuccess: () => {
-        message.success('删除成功')
-      },
-      onError: () => {
-        message.error('删除失败')
+        queryClient.invalidateQueries(['questionbank'])
       }
     }
   )
@@ -125,25 +124,21 @@ export const useDeleteQuestion = () => {
 
 /** 学生端显示题目 */
 export const useShowQuestionForStu = (id?: string) => {
+  console.log("获取题目：",id);
   return useQuery([`preview-stu-${id}`], async () => {
     return client.get<StudentPaperItem>({
-      url: `/question/stu/show/{questionId}`,
-      params: {
-        questionId: id
-      }
+      url: `/question/stu/show/${id}`
     })
   })
 }
 /** 学生提交题目 */
 export const useSubmitQuestion = () => {
-  return useMutation(
-    async (data: {
+  return useMutation((data: {
       questionId: string,
       questionType: QuestionConstantString,
       questionAnswer: string,
-      questionExistType: string
     }) => {
-      await delayFetch()
+      console.log("提交的答案是：",data.questionAnswer);
       return client.post({
         url: '/question/stu/submit',
         data: data
