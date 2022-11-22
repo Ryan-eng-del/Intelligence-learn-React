@@ -17,11 +17,15 @@ export const GlobalHeader = (props: GlobalHeaderProps) => {
 
 const RightLayoutHeaderWrapper = styled.div`
   height: 80px;
-  border-bottom: rgb(245, 245, 245) 2px solid;
+  border-bottom: rgb(230, 230, 230) 2px solid;
   display: flex;
   padding: 0 30px;
   justify-content: space-between;
   align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  background-color: white;
 `
 
 const HeaderToolWrapper = styled.div`

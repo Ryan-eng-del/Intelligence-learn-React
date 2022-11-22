@@ -1,16 +1,13 @@
 import { useEffect } from 'react'
 import * as echarts from 'echarts'
 import styled from 'styled-components'
-import {
-  getKnowPoint,
-  setNodeStyle,
-  HTMLToolTip,
-  setCategories
-} from './config'
+import { getKnowPoint, setNodeStyle, HTMLToolTip, setCategories } from './config'
 import { useShowMG } from '../../server/fetchGraph/index'
+import { useParams } from 'react-router-dom'
 
 export const MkGraph = () => {
-  const { data } = useShowMG()
+  const courseId = useParams().id!
+  const { data } = useShowMG(courseId)
 
   useEffect(() => {
     const chartDom: any = document.getElementById('chart')

@@ -1,23 +1,24 @@
 import { useQuery } from '@tanstack/react-query'
 import { client } from '../index'
-export const useShowKG = () => {
-  return useQuery(['KG'], async () => {
-    return client.get({ url: '/points/KG/show' })
+
+export const useShowKG = (courseId: string) => {
+  return useQuery(['KG', courseId], async () => {
+    return client.get({
+      url: '/points/KG/show',
+      params: {
+        courseId: courseId
+      }
+    })
   })
 }
-export const useShowMG = () => {
-  return useQuery(
-    ['MG'],
-    async () => {
-      return client.get({ url: '/points/KG/student' })
-    },
-    {
-      onSuccess(data) {
-        console.log(data, 'data')
-      },
-      onError() {
-        console.log('error')
+
+export const useShowMG = (courseId: string) => {
+  return useQuery(['MG', courseId], async () => {
+    return client.get({
+      url: '/points/KG/student',
+      params: {
+        courseId: courseId
       }
-    }
-  )
+    })
+  })
 }

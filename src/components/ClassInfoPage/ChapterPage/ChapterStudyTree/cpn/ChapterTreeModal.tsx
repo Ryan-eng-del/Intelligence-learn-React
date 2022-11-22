@@ -113,14 +113,7 @@ export const ChapterTreeModal: React.FC<{
 export const ChapterTreeModalWrapper = styled.div`
   position: relative;
 `
-export const DrawerWrapper = styled.div`
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 520px;
-  height: 500px;
-`
+
 export const UploadWrapper = styled.div`
   margin-bottom: 13px;
   display: flex;
@@ -128,6 +121,5 @@ export const UploadWrapper = styled.div`
 `
 export const RelatePointsWrapper = styled.div`
   margin-top: 20px;
-  max-height: 200px;
-  overflow: scroll;
+  height: 300px;
 `

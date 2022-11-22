@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useState } from 'react'
 import { useGetUserInfo } from '../../server/fetchLogin'
 
-interface IUserInfo {
+export interface IUserInfo {
   name: string
   sex: number
   school: string
@@ -12,11 +12,14 @@ interface IUserInfo {
 }
 
 interface IUserInfoContext {
-  getUserInfo: () => void
+  getUserInfo: any
   userInfo: IUserInfo | null
 }
 
-const UserInfoContext = createContext<IUserInfoContext | null>(null)
+const UserInfoContext = createContext<IUserInfoContext>({
+  userInfo: null,
+  getUserInfo: null
+})
 
 export const UserInfoContextProvider = (props: any) => {
   const [userInfo, setUserInfo] = useState(null)
@@ -30,10 +33,7 @@ export const UserInfoContextProvider = (props: any) => {
 }
 
 export const useUserInfo = () => {
-  const context = useContext(UserInfoContext)
+  const { userInfo, getUserInfo } = useContext(UserInfoContext)
 
-  if (context) {
-    const { getUserInfo, userInfo } = context
-    return { getUserInfo, userInfo }
-  } else return null
+  return { userInfo, getUserInfo }
 }

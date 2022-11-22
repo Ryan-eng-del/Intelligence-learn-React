@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
 // antd
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
@@ -30,7 +31,6 @@ import { QuestionEditPage } from 'publicComponents/CreateQuestionPage'
 import { MkGraph } from 'pages/MK-graphPage/MkGraph'
 import { PaperDoing } from 'pages/PaperDoingPage/paperDoingPage'
 import { ClassMana } from 'pages/ClassInfoPage/cpn-page/ClassManaPage/ClassManaPage'
-// import { QuestionDoingPage } from 'pages/QuestionDoingPage/QuestionDoingPage'
 import ContextProvider from 'context'
 import RegisterPage from './pages/LoginPages/RegisterPage'
 import { SourceImgPreview } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/IMagePreview'
@@ -79,6 +79,8 @@ root.render(
                 <Route path="class" element={<ClassMana />} />
                 <Route path="knowledge" element={<KnowledgePage />} />
                 <Route path="questionbank" element={<QuestionBankPage />} />
+                <Route path={'k-graph'} element={<KnowledgeGraph />} />
+                <Route path={'mk-graph'} element={<MkGraph />} />
               </Route>
 
               <Route path=":identify/:id" element={<ClassInfoPage />}>
@@ -94,15 +96,15 @@ root.render(
                 <Route path="discuss" element={<DiscussPage />} />
                 <Route path="knowledge" element={<KnowledgePage />} />
                 <Route path="questionbank" element={<QuestionBankPage />} />
+                <Route path={'k-graph'} element={<KnowledgeGraph />} />
+                <Route path={'mk-graph'} element={<MkGraph />} />
               </Route>
-              <Route path={'k-graph'} element={<KnowledgeGraph />} />
               <Route path="editpaper/:paperid" element={<CreateExamPage />} />
               <Route path="createquestion" element={<CreateQuestionPage />} />
               <Route path="preview/:questionId" element={<QuestionPreviewPage />} />
               <Route path="edit/:questionId" element={<QuestionEditPage />} />
               <Route path="homeWork" element={<PaperDoing />}></Route>
             </Route>
-            <Route path={'mk-graph'} element={<MkGraph />} />
           </Routes>
         </Router>
       </ContextProvider>

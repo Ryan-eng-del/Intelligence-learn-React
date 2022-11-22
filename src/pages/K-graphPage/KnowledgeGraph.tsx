@@ -4,9 +4,15 @@ import styled from 'styled-components'
 import { setNodeStyle } from './config'
 import { useShowKG } from '../../server/fetchGraph/index'
 import { setCategories2 } from './config/index'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useComputedRoute } from '../../util/computedRoute'
+import { PrimaryButton } from '../../publicComponents/Button'
 
 export const KnowledgeGraph = () => {
-  const { data } = useShowKG()
+  const courseId = useParams().id!
+  const { data } = useShowKG(courseId)
+  const computedPath = useComputedRoute('k-graph')
+  const navigate = useNavigate()
   useEffect(() => {
     const chartDom: any = document.getElementById('chart')
     const myChart = echarts.init(chartDom, 'dark')
@@ -72,12 +78,27 @@ export const KnowledgeGraph = () => {
     }
     myChart.setOption(option)
   }, [data])
-  return <KnowledgeGraphWrapper id={'chart'}></KnowledgeGraphWrapper>
+  return (
+    <Kw>
+      <KnowledgeGraphWrapper id={'chart'}></KnowledgeGraphWrapper>
+      <PrimaryButton
+        title={'返回'}
+        style={{ position: 'absolute', top: 69, left: 31, zIndex: 1 }}
+        handleClick={() => navigate(`${computedPath}knowledge`)}
+      ></PrimaryButton>
+    </Kw>
+  )
 }
+const Kw = styled.div`
+  height: 100%;
+  min-height: 750px;
+`
+
 const KnowledgeGraphWrapper = styled.div`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 750px;
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 0;
 `

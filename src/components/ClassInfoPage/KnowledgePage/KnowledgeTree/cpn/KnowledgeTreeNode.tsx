@@ -61,7 +61,7 @@ const ChapterTreeDirectoryWrapper = styled.div`
   }
 
   .tree-node-title {
-    margin-right: 50px;
+    margin-right: 30px;
   }
 `
 
@@ -74,7 +74,7 @@ const PrePointsWrapper = styled.span`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  margin-right: 50px;
+  margin-right: 20px;
 `
 const AfterPointsWrapper = styled.span`
   font-size: 13px;

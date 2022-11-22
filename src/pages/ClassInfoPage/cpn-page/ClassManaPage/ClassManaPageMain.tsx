@@ -10,7 +10,7 @@ import { useCreateNewClass, useDeleteClass, useReName } from 'server/fetchClass'
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { isTeachAuth } from '../../../../util/isAuthTeach'
 
-export const ClassManaMain: React.FC<{ classList: ClassList[] }> = ({ classList }) => {
+export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolean }> = ({ classList, isLoading }) => {
   const [input, setInput] = useState('')
   const [vis, setVis] = useState(false)
   const [show, setShow] = useState<ClassList | null>()
@@ -108,33 +108,37 @@ export const ClassManaMain: React.FC<{ classList: ClassList[] }> = ({ classList 
           tool={isTeachAuth() && <PrimaryButton handleClick={() => setadd(true)} title="新建班级" />}
         ></GlobalHeader>
         <GlobalRightLayout>
-          <Row gutter={[16, 24]}>
-            {classList &&
-              classList!.map((i) => (
-                <Col span={8} key={i.class_id}>
-                  <Card
-                    title={
-                      <Space style={{ fontSize: '24px' }}>
-                        <Typography.Text style={{ width: '220px' }} ellipsis={true}>
-                          {i.class_name}
-                        </Typography.Text>
-                        <ShareAltOutlined
-                          style={{ position: 'absolute', right: '20px', top: '25px' }}
-                          onClick={(e) => (share(i.class_invitation_code), e.stopPropagation())}
-                        />
-                      </Space>
-                    }
-                    style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
-                    onClick={() => (setShow(i), setVis(true))}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      共 {i.student_number} 位学生
-                      <Badge status="success" text="开课中" style={{ color: '#999' }} />
-                    </div>
-                  </Card>
-                </Col>
-              ))}
-          </Row>
+          {isLoading ? (
+            <BaseLoading />
+          ) : (
+            <Row gutter={[16, 24]}>
+              {classList &&
+                classList!.map((i) => (
+                  <Col span={8} key={i.class_id}>
+                    <Card
+                      title={
+                        <Space style={{ fontSize: '24px' }}>
+                          <Typography.Text style={{ width: '220px' }} ellipsis={true}>
+                            {i.class_name}
+                          </Typography.Text>
+                          <ShareAltOutlined
+                            style={{ position: 'absolute', right: '20px', top: '25px' }}
+                            onClick={(e) => (share(i.class_invitation_code), e.stopPropagation())}
+                          />
+                        </Space>
+                      }
+                      style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
+                      onClick={() => (setShow(i), setVis(true))}
+                    >
+                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        共 {i.student_number} 位学生
+                        <Badge status="success" text="开课中" style={{ color: '#999' }} />
+                      </div>
+                    </Card>
+                  </Col>
+                ))}
+            </Row>
+          )}
         </GlobalRightLayout>
       </>
     </>

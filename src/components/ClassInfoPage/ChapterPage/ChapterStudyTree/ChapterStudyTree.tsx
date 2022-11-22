@@ -45,6 +45,8 @@ export const ChapterStudyTree = (props: { treeData: any; chapterControl: Record<
   )
 }
 const ChapterStudyTreeWrapper = styled.div`
+  overflow: hidden;
+
   a.add-chapter {
     display: inline-block;
     height: 36px;

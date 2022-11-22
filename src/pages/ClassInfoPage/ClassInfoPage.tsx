@@ -2,24 +2,24 @@ import { GlobalLayout } from 'publicComponents/GlobalLayout'
 import { Outlet, useParams } from 'react-router-dom'
 import { createClassNavMap } from 'util/createNavMap'
 import ClassInfoNavItems from './config'
-import { useUserInfo } from '../../context/UserInfoContext'
 import { useEffect, useMemo } from 'react'
 import { isTeachAuth } from '../../util/isAuthTeach'
 import { useCurrentClassInfo } from '../../context/ClassInfoContext'
+import 'lib/aliyun-upload-sdk/aliyun-upload-sdk-1.5.4.min'
+import OSS from 'lib/aliyun-upload-sdk/lib/aliyun-oss-sdk-6.17.1.min'
+import AliYunOSS from '../../util/AliYunOSS'
+
+Object.defineProperty(window, 'OSS', {
+  value: OSS
+})
 
 export const ClassInfoPage = () => {
-  const userInfoContext = useUserInfo()
-  const classInfoContext = useCurrentClassInfo()
+  const { classInfo, getCurCourseInfo } = useCurrentClassInfo()
   const params = useParams()
+  const aliYunOSS = new AliYunOSS(OSS)
 
   useEffect(() => {
-    if (userInfoContext?.getUserInfo) {
-      userInfoContext.getUserInfo()
-    }
-  }, [])
-
-  useEffect(() => {
-    classInfoContext.getCurCourseInfo(params.id!)
+    getCurCourseInfo(params.id!)
   }, [])
 
   const sliceCount = useMemo(() => {
@@ -30,16 +30,12 @@ export const ClassInfoPage = () => {
 
   return (
     <GlobalLayout
+      layoutName={'classInfo'}
+      layoutData={classInfo}
       navItems={isTeachAuth() ? ClassInfoNavItems : ClassInfoNavItems.slice(1)}
       routePage={<Outlet />}
       sliceCount={sliceCount as number}
       createMapFunction={createClassNavMap}
-      logoWrapper={(name: string) => (
-        <>
-          <img src={require('assets/img/class.jpg')} />
-          <span style={{ textAlign: 'center' }}>{name}</span>
-        </>
-      )}
     />
   )
 }

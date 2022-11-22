@@ -18,7 +18,7 @@ const ChapterNodeFocusStatus: React.FC<{
     true
   )
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex', alignItems: 'center' }}>
       <Input
         autoFocus
         onChange={(e) => debounceChange(e)}

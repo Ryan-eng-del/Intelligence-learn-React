@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from 'react'
 import { useGetCourseInfoById } from '../../server/fetchCourse'
 
-interface IClassInfo {
+export interface IClassInfo {
   courseId: string
   courseName: string | null
   coursesCover: string | null

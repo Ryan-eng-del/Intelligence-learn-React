@@ -2,15 +2,17 @@ import React from 'react'
 import { KnowledgeTree } from 'components/ClassInfoPage/KnowledgePage/KnowledgeTree/KnowledgeTree'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { useKnowledgeUI } from 'hook/useKnowledge/useKnowledgeUI'
 import { isTeachAuth } from '../../../../util/isAuthTeach'
+import { useComputedRoute } from '../../../../util/computedRoute'
 
 export const KnowledgePage: React.FC = () => {
   const editable = isTeachAuth()
   const { knowledgeControl, treeData } = useKnowledgeUI(editable)
-
+  const computedPath = useComputedRoute('knowledge')
+  console.log(computedPath, 'path')
   return (
     <KnowledgePageWrapper>
       <GlobalHeader
@@ -21,10 +23,10 @@ export const KnowledgePage: React.FC = () => {
               <a className={'add-knowledge'} onClick={knowledgeControl.addKnowledgePoint}>
                 添加知识点
               </a>
-              <Link to={'/k-graph'}>
+              <Link to={`${computedPath}k-graph`}>
                 <span className={'k-graph'}>课程知识图谱</span>
               </Link>
-              <Link to={'/mk-graph'}>
+              <Link to={`${computedPath}mk-graph`}>
                 <span className={'mk-graph'}>个人知识图谱</span>
               </Link>
             </>
