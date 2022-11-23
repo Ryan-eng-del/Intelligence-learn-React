@@ -1,13 +1,14 @@
 import { client } from '../server'
 import OSS from 'lib/aliyun-upload-sdk/lib/aliyun-oss-sdk-6.17.1.min'
 import 'lib/aliyun-upload-sdk/aliyun-upload-sdk-1.5.4.min'
+import { StateSetter } from '../types'
 
 Object.defineProperty(window, 'OSS', {
   value: OSS
 })
 
 interface IUploadInfo {
-  videoId: string // videoId，由服务端返回的音/视频ID
+  videoId?: string // videoId，由服务端返回的音/视频ID
   endpoint: string // OSS对外服务的访问域名
   bucket: string // OSS存储空间
   object: string // OSS存储数据的基本单元
@@ -16,29 +17,47 @@ interface IUploadInfo {
 
 class AliYunOSS {
   OSS: any
+  setProgress: StateSetter<number>
+  startUpload: (file: IUploadInfo) => void
+  endUpload: (file: IUploadInfo) => void
+  setStatusText: StateSetter<string>
+  errUpload: (err: string) => void
   timeout = 60000
   partSize = 1048576
   parallel = 5
   retryCount = 3
   retryDuration = 2
-  region = 'cn-shanghai'
-  userId = '1111'
+  region = 'cn-shenzhen'
+  userId = '1123130372173181'
   file = null
   authProgress = 0
   uploadDisabled = true
   resumeDisabled = true
   pauseDisabled = true
-  uploader = null
   statusText = ''
 
-  constructor(oss: any) {
+  constructor(
+    oss: any,
+    setProgress: StateSetter<number>,
+    startUpload: any,
+    endUpload: () => void,
+    setStatusText: StateSetter<string>,
+    errUpload: () => void
+  ) {
     this.OSS = oss
-    // this.createUpLoader()
+    this.setProgress = setProgress
+    this.startUpload = startUpload
+    this.endUpload = endUpload
+    this.setStatusText = setStatusText
+    this.errUpload = errUpload
   }
 
-  createUpLoader() {
+  get uploader() {
+    return this.createUpLoader()
+  }
+
+  private createUpLoader() {
     const AliYunUpload = this.OSS
-    console.log(AliYunUpload, this.OSS, 'OSS')
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const _this = this
     const uploader = new AliYunUpload.Vod({
@@ -47,33 +66,32 @@ class AliYunOSS {
       parallel: this.parallel,
       retryCount: this.retryCount,
       retryDuration: this.retryDuration,
-      region: 'cn-beijing',
+      region: this.region,
       userId: this.userId,
 
-      // 添加文件成功
       addFileSuccess: function (uploadInfo: IUploadInfo) {
         _this.uploadDisabled = false
         _this.resumeDisabled = false
         _this.statusText = '添加文件成功, 等待上传...'
         console.log('addFileSuccess: ' + uploadInfo.file.name)
       },
-      // 开始上传
+
       onUploadstarted: function (uploadInfo: IUploadInfo) {
-        // 如果是 UploadAuth 上传方式, 需要调用 uploader.setUploadAuthAndAddress 方法
-        // 如果是 UploadAuth 上传方式, 需要根据 uploadInfo.videoId是否有值，调用点播的不同接口获取uploadauth和uploadAddress
-        // 如果 uploadInfo.videoId 有值，调用刷新视频上传凭证接口，否则调用创建视频上传凭证接口
-        // 注意: 这里是测试 demo 所以直接调用了获取 UploadAuth 的测试接口, 用户在使用时需要判断 uploadInfo.videoId 存在与否从而调用 openApi
-        // 如果 uploadInfo.videoId 存在, 调用 刷新视频上传凭证接口(https://help.aliyun.com/document_detail/55408.html)
-        // 如果 uploadInfo.videoId 不存在,调用 获取视频上传地址和凭证接口(https://help.aliyun.com/document_detail/55407.html)
+        _this.startUpload(uploadInfo)
+
         if (!uploadInfo.videoId) {
-          const createUrl =
-            'https://demo-vod.cn-shanghai.aliyuncs.com/voddemo/CreateUploadVideo?Title=testvod1&FileName=aa.mp4&BusinessType=vodai&TerminalType=pc&DeviceModel=iPhone9,2&UUID=59ECA-4193-4695-94DD-7E1247288&AppVersion=1.0.0&VideoId=5bfcc7864fc14b96972842172207c9e6'
-          client.get({ url: createUrl }).then(({ data }: { data: any }) => {
-            const uploadAuth = data.UploadAuth
-            const uploadAddress = data.UploadAddress
-            const videoId = data.VideoId
-            uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress, videoId)
-          })
+          client
+            .get({
+              url: '/resources/upload-video-auth',
+              params: { originName: uploadInfo.file.name }
+            })
+            .then((data) => {
+              console.log(data, 'dataServer')
+              const uploadAuth = data.uploadAuth
+              const uploadAddress = data.uploadAddress
+              const videoId = data.videoId
+              uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress, videoId)
+            })
           _this.statusText = '文件开始上传...'
 
           console.log(
@@ -87,15 +105,11 @@ class AliYunOSS {
               uploadInfo.object
           )
         } else {
-          // 如果videoId有值，根据videoId刷新上传凭证
-          // https://help.aliyun.com/document_detail/55408.html?spm=a2c4g.11186623.6.630.BoYYcY
-          const refreshUrl =
-            'https://demo-vod.cn-shanghai.aliyuncs.com/voddemo/RefreshUploadVideo?BusinessType=vodai&TerminalType=pc&DeviceModel=iPhone9,2&UUID=59ECA-4193-4695-94DD-7E1247288&AppVersion=1.0.0&Title=haha1&FileName=xxx.mp4&VideoId=' +
-            uploadInfo.videoId
-          client.get({ url: refreshUrl }).then(({ data }) => {
-            const uploadAuth = data.UploadAuth
-            const uploadAddress = data.UploadAddress
-            const videoId = data.VideoId
+          client.get({ url: '/resources/refresh-video-auth', params: { videoId: uploadInfo.videoId } }).then((data) => {
+            console.log(data, 'dataServer')
+            const uploadAuth = data.uploadAuth
+            const uploadAddress = data.uploadAddress
+            const videoId = data.videoId
             uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress, videoId)
           })
         }
@@ -103,28 +117,22 @@ class AliYunOSS {
 
       // 文件上传成功
       onUploadSucceed: function (uploadInfo: IUploadInfo) {
-        console.log(
-          'onUploadSucceed: ' +
-            uploadInfo.file.name +
-            ', endpoint:' +
-            uploadInfo.endpoint +
-            ', bucket:' +
-            uploadInfo.bucket +
-            ', object:' +
-            uploadInfo.object
-        )
         _this.statusText = '文件上传成功!'
+        _this.setStatusText(_this.statusText)
       },
+
       // 文件上传失败
       onUploadFailed: function (uploadInfo: IUploadInfo, code: number, message: string) {
-        console.log('onUploadFailed: file:' + uploadInfo.file.name + ',code:' + code + ', message:' + message)
         _this.statusText = '文件上传失败!'
+        _this.setStatusText(_this.statusText)
+        _this.errUpload(message)
       },
 
       // 取消文件上传
       onUploadCanceled: function (uploadInfo: IUploadInfo, code: number, message: string) {
         console.log('Canceled file: ' + uploadInfo.file.name + ', code: ' + code + ', message:' + message)
         _this.statusText = '文件已暂停上传'
+        _this.setStatusText(_this.statusText)
       },
 
       // 文件上传进度，单位：字节, 可以在这个函数中拿到上传进度并显示在页面上
@@ -138,8 +146,10 @@ class AliYunOSS {
             Math.ceil(progress * 100) +
             '%'
         )
+        _this.setProgress(Math.ceil(progress * 100))
         _this.authProgress = Math.ceil(progress * 100)
         _this.statusText = '文件上传中...'
+        _this.setStatusText(_this.statusText)
       },
 
       // 上传凭证超时
@@ -156,12 +166,14 @@ class AliYunOSS {
           console.log('upload expired and resume upload with uploadauth ' + uploadAuth)
         })
         _this.statusText = '文件超时...'
+        _this.setStatusText(_this.statusText)
       },
 
       // 全部文件上传结束
       onUploadEnd: function (uploadInfo: IUploadInfo) {
-        console.log('onUploadEnd: uploaded all the files')
         _this.statusText = '文件上传完毕'
+        _this.setStatusText(_this.statusText)
+        _this.endUpload(uploadInfo)
       }
     })
     return uploader

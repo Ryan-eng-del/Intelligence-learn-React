@@ -210,3 +210,8 @@ th.ant-table-selection-column {
   top: initial;
   margin: 11px 8px 0 0;
 }
+
+
+.exam-drawer .ant-drawer-body {
+  padding: 0;
+}

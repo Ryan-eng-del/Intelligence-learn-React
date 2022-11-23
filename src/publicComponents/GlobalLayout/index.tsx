@@ -25,7 +25,7 @@ export const GlobalLayout = (props: {
             <>
               <UserAvatarWrapper>
                 <Avatar
-                  src={layoutData?.headPortrait || require('assets/img/OIP.jpg')}
+                  src={layoutData?.headPortrait || require('assets/img/avatar.jpg')}
                   size="large"
                   style={{ margin: '0 auto' }}
                 />

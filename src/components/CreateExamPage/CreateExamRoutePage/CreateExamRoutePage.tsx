@@ -44,6 +44,7 @@ export const CreateExamRoutePage = (props: CreateExamRoutePageProps) => {
       }
     else return {}
   }, [props])
+
   useEffect(() => {
     setCurNumber(curEdit?.score)
   })

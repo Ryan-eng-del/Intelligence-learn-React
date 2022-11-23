@@ -91,7 +91,10 @@ root.render(
                     <Route path="img/:resourceId" element={<SourceImgPreview />} />
                   </Route>
                 </Route>
-                <Route path="exam" element={<ExamPage />} />
+
+                <Route path="exam" element={<ExamPage />}>
+                  <Route path="editpaper/" element={<CreateExamPage />} />
+                </Route>
                 <Route path="resource" element={<ResourcePage />} />
                 <Route path="discuss" element={<DiscussPage />} />
                 <Route path="knowledge" element={<KnowledgePage />} />
@@ -99,7 +102,6 @@ root.render(
                 <Route path={'k-graph'} element={<KnowledgeGraph />} />
                 <Route path={'mk-graph'} element={<MkGraph />} />
               </Route>
-              <Route path="editpaper/:paperid" element={<CreateExamPage />} />
               <Route path="createquestion" element={<CreateQuestionPage />} />
               <Route path="preview/:questionId" element={<QuestionPreviewPage />} />
               <Route path="edit/:questionId" element={<QuestionEditPage />} />

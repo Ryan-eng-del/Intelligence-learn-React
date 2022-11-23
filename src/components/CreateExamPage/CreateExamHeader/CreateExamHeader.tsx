@@ -1,10 +1,10 @@
-import React from 'react'
-import { Button, Input, notification,Space } from 'antd'
-import { useNavigate } from 'react-router-dom'
-import { ArrowLeftOutlined } from '@ant-design/icons'
+import React, { useMemo, useState } from 'react'
+import { Button, Input, notification } from 'antd'
+import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { IQuestionType, IQuestionTypeInitialState } from '../../../reducer/CreateExamPaper/type/type'
 import { QuestionActionString } from '../../../server/fetchExam/types'
+import { useUploadExamPaper } from '../../../server/fetchExam/Teacher'
 
 interface CreateExamHeaderProps {
   questionTypeState: IQuestionTypeInitialState<IQuestionType>
@@ -13,8 +13,15 @@ interface CreateExamHeaderProps {
 export const CreateExamHeader = (props: CreateExamHeaderProps) => {
   const { questionTypeState } = props
   const navigate = useNavigate()
+  const courseId = useParams().id!
+  const [paperName, setPaperName] = useState('期中试卷 xx专业 xx班')
+  const { mutateAsync: saveExamPaper, isLoading } = useUploadExamPaper(courseId)
+  const computedRoute = useMemo(() => {
+    const pathname = location.pathname
+    return pathname.slice(0, pathname.indexOf('exam') + 4)
+  }, [location])
   /*完成保存试卷*/
-  const handleOnStorePaper = () => {
+  const handleOnStorePaper = async () => {
     let countNoSave = 0
     Object.keys(questionTypeState).forEach((item) => {
       questionTypeState[item as QuestionActionString].list.forEach((qs) => {
@@ -27,43 +34,55 @@ export const CreateExamHeader = (props: CreateExamHeaderProps) => {
         知道啦
       </Button>
     )
+    if (countNoSave) {
+      notification.open({
+        message: '试卷保存👋',
+        description: (
+          <div>
+            试卷当中还有 <span style={{ fontSize: '18px', padding: '0 7px' }}>{countNoSave}</span> 道题还没有保存
+          </div>
+        ),
+        placement: 'top',
+        btn,
+        key
+      })
+    } else {
+      const questionIds: string[] = []
+      const questionsScore: number[] = []
+      Object.keys(questionTypeState).forEach((qt: string) => {
+        const typeQues = questionTypeState[qt as QuestionActionString]
+        if (typeQues.list.length > 0) {
+          typeQues.list.forEach((qs) => {
+            questionIds.push(qs.questionId)
+            questionsScore.push(qs.score)
+          })
+        }
+      })
 
-    notification.open({
-      message: '试卷保存👋',
-      description: (
-        <div>
-          试卷当中还有 <span style={{ fontSize: '18px', padding: '0 7px' }}>{countNoSave}</span> 道题还没有保存
-        </div>
-      ),
-      placement: 'top',
-      onClick: () => {
-        console.log('Notification Clicked!')
-      },
-      btn,
-      key
-    })
+      console.log(questionsScore, questionIds, paperName)
+      try {
+        await saveExamPaper({ paperName, questionIds, questionsScore })
+        navigate(computedRoute)
+      } catch (e) {}
+      console.log(questionTypeState, 'questionType')
+    }
   }
+
   return (
-    <div>
-      <Space>
-        <Button
-          type="primary"
-          shape="circle"
-          onClick={() => navigate(-1)}
-          icon={<ArrowLeftOutlined />}
-        />
+    <ExamHeader>
+      <InputWrapper>
         <label>试卷名字：</label>
-        <Input defaultValue={"2"}></Input>
-        <Button type="primary">保存试卷</Button>
-        <Button
-          type="primary"
-          onClick={() => navigate(`/previewtestpaper/dasads`)}
-        >
-          Preview
-        </Button>
-        <span>ID:11</span>
-      </Space>
-    </div>
+        <Input onChange={(e) => setPaperName(e.target.value)} value={paperName}></Input>
+        <div>
+          <Button type="primary" className={'save-exam'} onClick={() => handleOnStorePaper()} loading={isLoading}>
+            保存试卷
+          </Button>
+          <Button type="primary" onClick={() => navigate(`/previewtestpaper/dasads`)}>
+            预览试卷
+          </Button>
+        </div>
+      </InputWrapper>
+    </ExamHeader>
   )
 }
 export const ExamHeader = styled.div`
@@ -79,11 +98,19 @@ const InputWrapper = styled.div`
   flex: 1;
   text-align: center;
   margin: 0 12px;
+  display: flex;
+  justify-content: space-between;
+
+  input {
+    flex: 1;
+  }
+
+  .save-exam {
+    margin: 0 30px;
+  }
 
   label {
     min-width: 100px;
     line-height: 37px;
   }
-
-  display: flex;
 `

@@ -46,14 +46,12 @@ class Request {
   }
 
   request<T = any>(config: RequestConfig): Promise<T> {
-    console.log(config, 'config')
     return new Promise((resolve, reject) => {
       this.instance
         .request<any, Data<T>>(config)
         .then((res) => {
           ///////////////////////////////////////////////////////////////
           // console.log("%c%s"," color: yellow;",`发送 @URL | ${config.url}`)
-          console.log(`发送 @URL | ${config.url}`)
           if (res.code != '200') {
             GlobalMessage('error', `${DEBUGINFO}${res.code}  | ${res.msg}`)
             // console.log('%c%s', 'color: yellow;', `${DEBUGINFO}${res.code} | ${res.msg}`)

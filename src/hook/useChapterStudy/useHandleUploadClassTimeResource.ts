@@ -6,6 +6,7 @@ import { useCurrentClassInfo } from '../../context/ClassInfoContext'
 import { RcFile } from 'antd/lib/upload'
 import OSS from 'lib/aliyun-upload-sdk/lib/aliyun-oss-sdk-6.17.1.min'
 import AliYunOSS from 'util/AliYunOSS'
+import { upload } from '@testing-library/user-event/dist/upload'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const AliyunUplaod = require('util/aliyun')
@@ -29,27 +30,44 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
 
   /*关联知识点*/
   const [relatePoints, setRelatePoints] = useState([])
+  const [progress, setProgress] = useState(0)
+  const [statusText, setStatusText] = useState('')
   /*添加资源API*/
   const { mutateAsync: addContentResource } = useAddContentResource()
-  const uploader = new AliYunOSS(AliyunUplaod)
 
-  console.log(uploader.createUpLoader(), 'uploader')
+  const startUpload = () => {
+    console.log('start')
+  }
+
+  const finishUpload = () => {
+    console.log('start')
+  }
+
+  const errUpload = () => {
+    console.log('start')
+  }
+  const uploader = new AliYunOSS(AliyunUplaod, setProgress, startUpload, finishUpload, setStatusText, errUpload)
+    .uploader
+
   /* 处理上传 */
   const handleUpload = async () => {
-    setOpenResourceDrawer(false)
-    dispatch({ type: 'setModalState', open: true })
-    const formData = new FormData()
     props.fileList.forEach((file) => {
-      formData.append('file', file as RcFile)
+      uploader.addFile(file)
     })
-    setUploading(true)
-    console.log(formData)
+    uploader.startUpload()
+
+    // dispatch({ type: 'setModalState', open: true })
+    // setOpenResourceDrawer(false)
+
     try {
-      const resourceData = await addContentResource({
-        file: formData,
-        relatedPoints: relatePoints,
-        CourseId: classInfo.courseId
-      })
+      // const resourceData = await addContentResource({
+      //   file: formData,
+      //   relatedPoints: relatePoints,
+      //   CourseId: classInfo.courseId
+      // })
+      //
+      //
+      const resourceData = null
       console.log(resourceData, 'resourceData')
       // const resourceData = undefined
       resourceData &&
@@ -73,5 +91,14 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
     setRelatePoints(checked)
   }, [])
 
-  return { handleUpload, openResourceDrawer, uploading, relatePoints, setOpenResourceDrawer, handleRelateCheck }
+  return {
+    handleUpload,
+    openResourceDrawer,
+    uploading,
+    relatePoints,
+    setOpenResourceDrawer,
+    handleRelateCheck,
+    progress,
+    statusText
+  }
 }

@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { IQuestionType } from '../../reducer/CreateExamPaper/type/type'
 import { useCreateQuestion } from '../../server/fetchExam'
 import { StateSetter } from '../../types'
+import { GlobalMessage } from '../../publicComponents/GlobalMessage'
 
 export const useHandleUploadExamPaper = (
   question: IQuestionType,
@@ -52,7 +53,8 @@ export const useHandleUploadExamPaper = (
 
     try {
       setIsSaveModalOpen(false)
-      await uploadPaperApi({ ...result })
+      const id = await uploadPaperApi({ ...result })
+      question.questionId = id
       question.isStore = true
       setCurEditQuestion({ ...question })
     } catch (e) {

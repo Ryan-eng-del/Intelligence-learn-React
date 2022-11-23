@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Tree } from 'antd'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { ChapterTreeModal } from './cpn/ChapterTreeModal'
@@ -11,15 +11,17 @@ export const ChapterStudyTree = (props: { treeData: any; chapterControl: Record<
   const { treeData, chapterControl } = props
   const { knowledgeControl } = useKnowledgeControl()
   const { checkTreeData } = useCheckKnowledgeTreeUI(knowledgeControl.data)
-
+  const once = useRef(false)
   // 每次挂载后全部展开
   useEffect(() => {
-    chapterControl.dispatchChapter({
-      type: 'setExpandKeys',
-      expandKeys: () => expandOnMount(chapterControl.data || [])
-    })
-  }, [chapterControl.data, chapterControl.dispatchChapter])
-
+    if (chapterControl.data) {
+      chapterControl.dispatchChapter({
+        type: 'setExpandKeys',
+        expandKeys: () => expandOnMount(chapterControl.data || [])
+      })
+      once.current = true
+    }
+  }, [chapterControl.data])
   return (
     <ChapterStudyTreeWrapper>
       <ChapterTreeModal
