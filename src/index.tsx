@@ -49,8 +49,8 @@ root.render(
   <QueryClientProvider client={queryClient}>
     <ConfigProvider locale={zhCN}>
       <ReactQueryDevtools initialIsOpen />
-      <ContextProvider>
-        <Router>
+      <Router>
+        <ContextProvider>
           <Routes>
             <Route path="register" element={<RegisterPage />} />
             <Route path="login" element={<LoginPage />} />
@@ -108,8 +108,8 @@ root.render(
               <Route path="homeWork" element={<PaperDoing />}></Route>
             </Route>
           </Routes>
-        </Router>
-      </ContextProvider>
+        </ContextProvider>
+      </Router>
     </ConfigProvider>
   </QueryClientProvider>
 )

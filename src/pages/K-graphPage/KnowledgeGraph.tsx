@@ -79,24 +79,21 @@ export const KnowledgeGraph = () => {
     myChart.setOption(option)
   }, [data])
   return (
-    <Kw>
+    <>
       <KnowledgeGraphWrapper id={'chart'}></KnowledgeGraphWrapper>
       <PrimaryButton
         title={'返回'}
         style={{ position: 'absolute', top: 69, left: 31, zIndex: 1 }}
         handleClick={() => navigate(`${computedPath}knowledge`)}
       ></PrimaryButton>
-    </Kw>
+    </>
   )
 }
-const Kw = styled.div`
-  height: 100%;
-  min-height: 750px;
-`
 
 const KnowledgeGraphWrapper = styled.div`
-  width: 100%;
-  min-height: 750px;
+  min-width: 100vw;
+  min-height: 800px;
+  height: 100vh;
   position: absolute;
   top: 0;
   left: 0;

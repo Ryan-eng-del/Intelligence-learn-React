@@ -2,6 +2,7 @@ import { client } from '../server'
 import OSS from 'lib/aliyun-upload-sdk/lib/aliyun-oss-sdk-6.17.1.min'
 import 'lib/aliyun-upload-sdk/aliyun-upload-sdk-1.5.4.min'
 import { StateSetter } from '../types'
+import { MutableRefObject } from 'react'
 
 Object.defineProperty(window, 'OSS', {
   value: OSS
@@ -17,8 +18,8 @@ interface IUploadInfo {
 
 class AliYunOSS {
   OSS: any
+  videoId: MutableRefObject<string>
   setProgress: StateSetter<number>
-  startUpload: (file: IUploadInfo) => void
   endUpload: (file: IUploadInfo) => void
   setStatusText: StateSetter<string>
   errUpload: (err: string) => void
@@ -39,17 +40,17 @@ class AliYunOSS {
   constructor(
     oss: any,
     setProgress: StateSetter<number>,
-    startUpload: any,
     endUpload: () => void,
     setStatusText: StateSetter<string>,
-    errUpload: () => void
+    errUpload: () => void,
+    videoId: MutableRefObject<string>
   ) {
     this.OSS = oss
     this.setProgress = setProgress
-    this.startUpload = startUpload
     this.endUpload = endUpload
     this.setStatusText = setStatusText
     this.errUpload = errUpload
+    this.videoId = videoId
   }
 
   get uploader() {
@@ -77,8 +78,6 @@ class AliYunOSS {
       },
 
       onUploadstarted: function (uploadInfo: IUploadInfo) {
-        _this.startUpload(uploadInfo)
-
         if (!uploadInfo.videoId) {
           client
             .get({
@@ -86,10 +85,10 @@ class AliYunOSS {
               params: { originName: uploadInfo.file.name }
             })
             .then((data) => {
-              console.log(data, 'dataServer')
               const uploadAuth = data.uploadAuth
               const uploadAddress = data.uploadAddress
               const videoId = data.videoId
+              _this.videoId.current = videoId
               uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress, videoId)
             })
           _this.statusText = '文件开始上传...'
@@ -110,6 +109,7 @@ class AliYunOSS {
             const uploadAuth = data.uploadAuth
             const uploadAddress = data.uploadAddress
             const videoId = data.videoId
+            _this.videoId.current = videoId
             uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress, videoId)
           })
         }

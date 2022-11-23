@@ -1,5 +1,5 @@
-import { Tag, Tree } from 'antd'
-import { DeleteOutlined, EditOutlined, FileImageFilled, FilePptFilled, YoutubeFilled } from '@ant-design/icons'
+import { Tree } from 'antd'
+import { EditOutlined } from '@ant-design/icons'
 import React from 'react'
 import ChapterNodeRenameStatus from 'components/ClassInfoPage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeRenameStatus'
 import ChapterNodeFocusStatus from 'components/ClassInfoPage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeFocusStatus'
@@ -7,9 +7,6 @@ import ChapterTreeDirectory from 'components/ClassInfoPage/ChapterPage/ChapterSt
 import ChapterTreeContent from '../../components/ClassInfoPage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeContent'
 import { ChapterNodeType, ChapterResourceType, CourTimeType } from 'server/fetchChapter/types'
 import { useChapterControlRefactor } from './useChapterControlRefactor'
-import { formatResource } from '../../helper/chapterStudyTree'
-import { CustomLink } from '../../util/CustomLink'
-import styled from 'styled-components'
 import { ChapterTreeResource } from '../../components/ClassInfoPage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeResource'
 
 const { TreeNode } = Tree

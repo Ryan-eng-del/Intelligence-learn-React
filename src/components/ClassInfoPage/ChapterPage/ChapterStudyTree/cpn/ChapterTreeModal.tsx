@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Input, List, Modal, Upload } from 'antd'
+import { Button, Input, List, Modal, Progress, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { TreeSelected } from 'components/ClassInfoPage/KnowledgePage/KnowledgeTree/cpn/TreeSelected'
@@ -20,14 +20,23 @@ export const ChapterTreeModal: React.FC<{
   /*ClassTime Reducer*/
   const { dispatch, classTimeState } = useClassTimeDispatch()
   /*上传资源，关联知识点*/
-  const { handleUpload, uploading, setOpenResourceDrawer, openResourceDrawer, relatePoints, handleRelateCheck } =
-    useHandleUploadClassTimeResource({
-      dispatch,
-      fileList
-    })
+  const {
+    handleUpload,
+    isLoading,
+    setOpenResourceDrawer,
+    openResourceDrawer,
+    relatePoints,
+    handleRelateCheck,
+    progress,
+    statusText,
+    handleRelatePoints,
+    otherComplete
+  } = useHandleUploadClassTimeResource({
+    dispatch,
+    fileList
+  })
   /*Upload Props*/
   const props = uploadProps(fileList, setFileList)
-
   return (
     <ChapterTreeModalWrapper className={'modal-wrapper'}>
       <Modal
@@ -61,7 +70,7 @@ export const ChapterTreeModal: React.FC<{
           <List
             itemLayout="horizontal"
             dataSource={classTimeState.fileList}
-            renderItem={(item: any) => <List.Item>{item.resourceName}</List.Item>}
+            renderItem={(item: any) => <List.Item>{item.name}</List.Item>}
           />
         </div>
       </Modal>
@@ -70,30 +79,39 @@ export const ChapterTreeModal: React.FC<{
         visible={openResourceDrawer}
         mask={false}
         onOk={handleOk}
-        onCancel={() => {
-          setOpenResourceDrawer(false)
-          dispatch({ type: 'setModalState', open: true })
-        }}
+        closable={false}
         footer={[
           <div style={{ display: 'flex', justifyContent: 'center' }} key={'submit'}>
             <Button
-              type="primary"
-              onClick={handleUpload}
-              disabled={fileList.length === 0}
-              loading={uploading}
-              style={{ marginTop: 16 }}
+              type={'primary'}
+              onClick={() => {
+                dispatch({ type: 'setModalState', open: true })
+                setOpenResourceDrawer(false)
+              }}
             >
-              {fileList.length === 0 ? '请先上传视频' : '点击上传'}
+              完成并返回
             </Button>
           </div>
         ]}
       >
         <>
-          <UploadWrapper>
+          <UploadWrapper style={{ textAlign: 'center', maxHeight: '200px' }}>
             <Upload {...props} className={'upload'}>
-              <Button icon={<UploadOutlined />}>请选择文件，一次性上传一个文件</Button>
+              <Button icon={<UploadOutlined />}>请选择上传文件</Button>
             </Upload>
           </UploadWrapper>
+
+          <div>
+            {progress !== 0 && (progress === 0 ? <Progress percent={progress} /> : <Progress percent={progress} />)}
+            {statusText && <span>视频 {statusText}</span>}
+          </div>
+
+          <div>
+            {(isLoading || otherComplete.current) &&
+              (isLoading ? <Progress percent={50} /> : <Progress percent={100} />)}
+            {(isLoading || otherComplete.current) &&
+              (isLoading ? <span>非视频文件正在上传</span> : <span>非视频文件上传完毕！</span>)}
+          </div>
 
           <RelatePointsWrapper>
             <GlobalLabel>关联知识点</GlobalLabel>
@@ -104,6 +122,29 @@ export const ChapterTreeModal: React.FC<{
               handleRelateCheck={handleRelateCheck}
               curCheckId={relatePoints}
             />
+            <div
+              style={{
+                padding: '6px',
+                borderRadius: '8px',
+                backgroundColor: '#2db7f5',
+                color: 'white',
+                margin: '0 auto',
+                textAlign: 'center'
+              }}
+            >
+              Tip: 可以不关联知识点
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center' }} key={'submit'}>
+              <Button
+                type="primary"
+                onClick={handleUpload}
+                disabled={fileList.length === 0}
+                loading={isLoading}
+                style={{ marginTop: 16 }}
+              >
+                {fileList.length === 0 ? '请先上传文件' : '点击上传'}
+              </Button>
+            </div>
           </RelatePointsWrapper>
         </>
       </Modal>
@@ -122,4 +163,5 @@ export const UploadWrapper = styled.div`
 export const RelatePointsWrapper = styled.div`
   margin-top: 20px;
   height: 300px;
+  overflow: auto;
 `

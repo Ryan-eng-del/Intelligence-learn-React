@@ -29,7 +29,7 @@ export const SourcePdfPreview = () => {
   return (
     <PdfViewWrapper style={{ width: '943px' }}>
       <Document
-        loading={<BaseSpin title={'加载中'} style={{ position: 'absolute', top: '300px' }} />}
+        loading={<BaseSpin size={'large'} title={'加载中'} style={{ position: 'absolute', top: '300px' }} />}
         file={data && data.resourceLink}
         onLoadSuccess={onDocumentLoadSuccess}
       >

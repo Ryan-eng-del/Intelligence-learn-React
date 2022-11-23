@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useState } from 'react'
 import { useGetUserInfo } from '../../server/fetchLogin'
+import { useNavigate } from 'react-router-dom'
 
 export interface IUserInfo {
   name: string
@@ -24,10 +25,14 @@ const UserInfoContext = createContext<IUserInfoContext>({
 export const UserInfoContextProvider = (props: any) => {
   const [userInfo, setUserInfo] = useState(null)
   const { mutateAsync } = useGetUserInfo()
-
+  const navigate = useNavigate()
   const getUserInfo = useCallback(async () => {
-    const data = await mutateAsync()
-    setUserInfo(data)
+    try {
+      const data = await mutateAsync()
+      setUserInfo(data)
+    } catch (e) {
+      navigate('/login')
+    }
   }, [])
   return <UserInfoContext.Provider value={{ getUserInfo, userInfo }}>{props.children}</UserInfoContext.Provider>
 }

@@ -7,18 +7,18 @@ import { cloneDeepWith } from 'lodash'
 import { addChildContentNode } from '../../helper/chapterStudyTree'
 import { useClassTimeDispatch } from '../../context/ChapterStudyTree/ClassTimeDispatchContext'
 import { useCurrentClassInfo } from '../../context/ClassInfoContext'
+import { useParams } from 'react-router-dom'
 
 export const useHandleAddClassTime = (props: Omit<IHandleChapterControl<ChapterTreeData>, 'chapterState'>) => {
   const { data, dispatchChapter } = props
   const curChapterId = useRef('')
   const { dispatch, classTimeState } = useClassTimeDispatch()
-  const { classInfo } = useCurrentClassInfo()
+  const courseId = useParams().id!
 
   /*当前课时节点*/
   const [curClassTimeNode, setCurClassTimeNode] = useState<ClassTimeInitNode | null>(null)
-  const queryClient = useQueryClient()
   /* 添加课时API*/
-  const { mutateAsync: addContentMutate } = useAddContent()
+  const { mutateAsync: addContentMutate } = useAddContent(courseId)
   /*课时节点*/
   const classTimeInitNode = useMemo(() => Object.assign({}, ClassTimeNode), [data])
   /*添加课时*/
@@ -35,29 +35,15 @@ export const useHandleAddClassTime = (props: Omit<IHandleChapterControl<ChapterT
   const handleConfirmAddClassTime = useCallback(async () => {
     const addChapterId: string = curChapterId.current
     dispatch({ type: 'setModalState', open: false })
-    const resourceIds = classTimeState.fileList?.reduce((pre: string[], cur, arr) => {
-      return pre.concat(cur.resourceId)
-    }, [])
+    const resourceIds = classTimeState.ids
     try {
-      const id = await addContentMutate({
+      await addContentMutate({
         chapter_id: addChapterId,
         name: classTimeState.courseTimeName,
         resource_ids: resourceIds,
         paper_id: '',
         paper_name: ''
       })
-      setCurClassTimeNode((pre) => {
-        if (pre) {
-          pre.name = classTimeState.courseTimeName
-          pre.resource = cloneDeepWith(classTimeState.fileList)
-          pre.chapterId = addChapterId
-          pre.classTimeId = id
-        }
-        return pre
-      })
-      /* 添加课时 */
-      if (curClassTimeNode)
-        addChildContentNode(data ?? [], addChapterId, queryClient, curClassTimeNode, classInfo.courseId)
     } catch (err) {
       dispatchChapter({ type: 'setError', error: err })
     } finally {

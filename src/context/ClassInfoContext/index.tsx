@@ -30,8 +30,10 @@ export const ClassInfoContext = (props: any) => {
   const [classInfo, setClassInfo] = useState<IClassInfo>(IClassInit)
   const { mutateAsync, isLoading } = useGetCourseInfoById()
   const getCurCourseInfo = async (courseId: string) => {
-    const data = await mutateAsync(courseId)
-    setClassInfo(data)
+    try {
+      const data = await mutateAsync(courseId)
+      setClassInfo(data)
+    } catch (e) {}
   }
   return <ClassInfo.Provider value={{ getCurCourseInfo, classInfo }}>{props.children}</ClassInfo.Provider>
 }

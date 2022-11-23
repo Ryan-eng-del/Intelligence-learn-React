@@ -18,9 +18,11 @@ export type ICourseTimeReducerAction =
   | { type: 'setFileList'; fileObj: <T>(pre: T[]) => T[] }
   | { type: 'setName'; name: string }
   | { type: 'initNameAndFileList' }
+  | { type: 'pushId'; id: string }
 
 export interface ICourseTimeReducerState {
   courseTimeModalVisible: boolean
   fileList: ICurFileObj[]
   courseTimeName: string
+  ids: string[]
 }

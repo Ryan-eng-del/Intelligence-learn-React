@@ -55,6 +55,7 @@ export const useHandleRelatePoints = (props: Omit<IHandleChapterControl<IKnowled
       await queryClient.invalidateQueries(['knowledgeTree', classInfo.courseId])
     } finally {
       setIsTreeSelectModalVisible(false)
+      setCurCheckId([])
     }
   }
   /*点击选择树进行展开和收缩*/
@@ -69,7 +70,10 @@ export const useHandleRelatePoints = (props: Omit<IHandleChapterControl<IKnowled
     }
   }
   /*取消关联*/
-  const handleCancel = () => setIsTreeSelectModalVisible(false)
+  const handleCancel = () => {
+    setIsTreeSelectModalVisible(false)
+    setCurCheckId([])
+  }
   /*点击关联前序或者是关联后序按钮*/
   const relatePoints = (mark: string, nodeId: any) => {
     /*展开所有节点*/

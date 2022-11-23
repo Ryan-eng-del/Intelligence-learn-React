@@ -17,6 +17,7 @@ export const useHandleDeleteChapter = (props: Omit<IHandleChapterControl<Chapter
   const { mutateAsync: deleteChapterMutate } = useDeleteChapter()
   const { mutateAsync: deleteClassTimeMutate } = useDeleteClassTime()
   const { mutateAsync: deleteResourceMutate } = useDeleteResource()
+
   /*删除章节*/
   const handleDeleteTreeNode = useCallback(
     async (id: string) => {

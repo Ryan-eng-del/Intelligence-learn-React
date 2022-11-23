@@ -1,34 +1,36 @@
 import React, { useEffect, useState } from 'react'
-import DPlayer from 'dplayer'
 import styled from 'styled-components'
 import { useGetResourceById } from './util'
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const AliYunPlayer = require('util/aliPlayer')
+
 export const SourceVideoPreview = () => {
   const [resource] = useState<any>(null)
-  const { data, resourceId } = useGetResourceById()
-
+  const { data } = useGetResourceById()
   useEffect(() => {
-    new DPlayer({
-      container: document.getElementById('dplayer'),
-      autoplay: false,
-      loop: true,
-      lang: 'zh-cn',
-      screenshot: true,
-      hotkey: true,
-      preload: 'auto',
-      volume: 0.7,
-      mutex: true,
-      video: {
-        url: data?.resourceLink || '',
-        type: 'auto'
-      }
-    })
-  }, [resourceId])
+    if (data) {
+      new AliYunPlayer(
+        {
+          id: 'ali-player',
+          width: '700px',
+          height: '485px',
+          autoplay: true,
+          language: 'zh-cn',
+          source: data!.resourceLink
+        },
+        function (player: any) {
+          console.log(player, 'player')
+          console.log('The player is created.')
+        }
+      )
+    }
+  }, [data])
 
   return (
     <div>
       <ResourceTitle>{resource && resource.resourceName}</ResourceTitle>
-      <div id={'dplayer'} style={{ width: '943px', height: '70vh' }}></div>
+      <div id={'ali-player'} style={{ width: '943px', minHeight: '70vh' }}></div>
     </div>
   )
 }

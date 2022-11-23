@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { client } from 'server'
 import { generateExpandKeys } from '../../helper/chapterStudyTree'
 import { AddChapterParam, EditChapterParam } from '../../types/server/fetchChapter'
@@ -79,10 +79,10 @@ export const useEditChapter = () => {
 }
 /*上传课时资源*/
 export const useAddContentResource = () => {
-  return useMutation(async ({ relatedPoints, CourseId, file }: AddContentResource) => {
+  return useMutation(async ({ relatedPoints, courseId, file }: AddContentResource) => {
     return client.post({
       url: '/resources/upload-course',
-      params: { CourseId, relatedPoints },
+      params: { courseId, relatedPoints },
       data: file,
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -90,20 +90,29 @@ export const useAddContentResource = () => {
     })
   })
 }
+
 /* 添加课时 */
-export const useAddContent = () => {
-  return useMutation(async ({ chapter_id, name, resource_ids, paper_id, paper_name }: AddContent) => {
-    return client.post({
-      url: '/ctime/addClassTime',
-      data: {
-        chapter_id,
-        name,
-        resource_ids,
-        paper_id,
-        paper_name
+export const useAddContent = (courseId: string) => {
+  const queryClient = useQueryClient()
+  return useMutation(
+    async ({ chapter_id, name, resource_ids, paper_id, paper_name }: AddContent) => {
+      return client.post({
+        url: '/ctime/addClassTime',
+        data: {
+          chapter_id,
+          name,
+          resource_ids,
+          paper_id,
+          paper_name
+        }
+      })
+    },
+    {
+      onSuccess() {
+        queryClient.invalidateQueries(['chapterTree', courseId])
       }
-    })
-  })
+    }
+  )
 }
 /* 删除课时 */
 export const useDeleteClassTime = () => {

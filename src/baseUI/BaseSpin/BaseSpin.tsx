@@ -3,15 +3,15 @@ import React from 'react'
 import { SpinWrapper } from './BaseSpinStyle'
 
 interface BaseSpinProps extends React.ComponentProps<typeof Spin> {
-  title: string
+  title?: string
   style?: React.CSSProperties
 }
 
-export const BaseSpin = ({ title, style }: BaseSpinProps) => {
+export const BaseSpin = (props: BaseSpinProps) => {
   return (
-    <SpinWrapper style={style}>
-      <Spin style={{ marginBottom: '12px' }} />
-      <Typography.Text style={{ display: 'block' }}>{title}</Typography.Text>
+    <SpinWrapper style={props.style}>
+      <Spin {...props} size={'large'} />
+      <Typography.Text style={{ display: 'block', marginTop: '15px' }}>{props?.title}</Typography.Text>
     </SpinWrapper>
   )
 }

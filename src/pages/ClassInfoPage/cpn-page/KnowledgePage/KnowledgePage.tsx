@@ -12,7 +12,6 @@ export const KnowledgePage: React.FC = () => {
   const editable = isTeachAuth()
   const { knowledgeControl, treeData } = useKnowledgeUI(editable)
   const computedPath = useComputedRoute('knowledge')
-  console.log(computedPath, 'path')
   return (
     <KnowledgePageWrapper>
       <GlobalHeader
