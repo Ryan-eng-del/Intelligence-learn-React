@@ -63,10 +63,11 @@ export const TeacherSourcePreviewPage = () => {
 const TeachPreviewWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  height: 100%;
 `
 const PreviewContentWrapper = styled.div`
-  width: 30%;
+  width: 35%;
+  height: 700px;
+  overflow: auto;
   margin-right: 100px;
 `
 const ResourceWrapper = styled.div`

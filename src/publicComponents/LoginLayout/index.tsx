@@ -12,6 +12,8 @@ import LoginSpinner from 'publicComponents/LoginSpinner'
 
 import Cache from 'util/cache'
 import { Link } from 'react-router-dom'
+import { PrimaryButton } from '../Button'
+import { GlobalMessage } from '../GlobalMessage'
 
 const { Title, Text } = Typography
 
@@ -40,10 +42,12 @@ interface LoginLayoutProps {
   error?: Error
   captcha: string
   refresh: any
+  form: any
+  getEmailCode?: () => void
 }
 
 const LoginLayout = (props: LoginLayoutProps) => {
-  const { onFinish, isLoginPage, loading, captcha, refresh } = props
+  const { onFinish, isLoginPage, loading, captcha, refresh, form, getEmailCode } = props
   const userInfo = Cache.getCache('UserInfo')
   const username = isLoginPage ? userInfo?.username : ''
   const password = isLoginPage ? userInfo?.password : ''
@@ -79,28 +83,29 @@ const LoginLayout = (props: LoginLayoutProps) => {
 
           <OverrideAntInputPrefix>
             <Form
+              form={form}
               name="normal_login"
               className="login-form"
               initialValues={{ remember: true, username, password }}
               onFinish={onFinish}
             >
               <FormItem
-                filed={'name'}
-                placeholder={'请输入邮箱'}
+                filed={isLoginPage ? 'name' : 'email'}
+                placeholder={isLoginPage ? '请输入用户名/邮箱' : '请输入邮箱'}
                 prefix={<UserOutlined className="site-form-item-icon" />}
                 rules={[
-                  { required: true, message: '用户名/邮箱不能为空' }
-                  // {
-                  //   type: 'email',
-                  //   message: '请输入正确的邮箱格式'
-                  // }
+                  { required: true, message: isLoginPage ? '用户名/邮箱不能为空' : '邮箱不能为空' },
+                  !isLoginPage && {
+                    pattern: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
+                    message: '请输入正确格式的邮箱'
+                  }
                 ]}
               ></FormItem>
 
               {/* 注册时的昵称 */}
               {!isLoginPage && (
                 <FormItem
-                  filed={'nickname'}
+                  filed={'name'}
                   placeholder={'请输入昵称'}
                   prefix={<HomeOutlined className="site-form-item-icon" />}
                   rules={[
@@ -125,16 +130,28 @@ const LoginLayout = (props: LoginLayoutProps) => {
                   }
                 ]}
               ></FormItem>
-              <section style={{ display: 'flex', alignItems: 'center' }}>
+              {!isLoginPage && (
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <FormItem
+                    filed={'emailVerifyCode'}
+                    placeholder={'请输入邮箱验证码'}
+                    rules={[{ require: true, message: '邮箱验证码不能为空' }]}
+                    prefix={<></>}
+                  />
+                  <PrimaryButton
+                    title={'获取邮箱验证码'}
+                    handleClick={() => {
+                      if (getEmailCode) getEmailCode()
+                      GlobalMessage('success', '已经将验证码发送至您的邮箱 👋👋👋')
+                    }}
+                  />
+                </div>
+              )}
+              <section style={{ display: 'flex' }}>
                 {!captcha ? (
                   <div style={{ width: '130px', height: '20px' }}></div>
                 ) : (
-                  <img
-                    src={captcha}
-                    style={{ position: 'relative', top: '-10px' }}
-                    onClick={refresh}
-                    alt={'正在获取'}
-                  />
+                  <img src={captcha} style={{ height: '80%' }} onClick={refresh} alt={'正在获取'} />
                 )}
 
                 <FormItem

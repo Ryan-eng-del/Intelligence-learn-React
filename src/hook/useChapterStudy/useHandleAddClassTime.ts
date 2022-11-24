@@ -1,13 +1,10 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { ChapterTreeData, ClassTimeInitNode, IHandleChapterControl } from './type'
-import { useQueryClient } from '@tanstack/react-query'
 import { useAddContent } from '../../server/fetchChapter'
 import { ClassTimeNode } from './config'
-import { cloneDeepWith } from 'lodash'
-import { addChildContentNode } from '../../helper/chapterStudyTree'
 import { useClassTimeDispatch } from '../../context/ChapterStudyTree/ClassTimeDispatchContext'
-import { useCurrentClassInfo } from '../../context/ClassInfoContext'
 import { useParams } from 'react-router-dom'
+import { noTrim } from '../../util/noTrim'
 
 export const useHandleAddClassTime = (props: Omit<IHandleChapterControl<ChapterTreeData>, 'chapterState'>) => {
   const { data, dispatchChapter } = props
@@ -18,7 +15,7 @@ export const useHandleAddClassTime = (props: Omit<IHandleChapterControl<ChapterT
   /*当前课时节点*/
   const [curClassTimeNode, setCurClassTimeNode] = useState<ClassTimeInitNode | null>(null)
   /* 添加课时API*/
-  const { mutateAsync: addContentMutate } = useAddContent(courseId)
+  const { mutateAsync: addContentMutate, isLoading: addContentLoading } = useAddContent(courseId)
   /*课时节点*/
   const classTimeInitNode = useMemo(() => Object.assign({}, ClassTimeNode), [data])
   /*添加课时*/
@@ -34,7 +31,9 @@ export const useHandleAddClassTime = (props: Omit<IHandleChapterControl<ChapterT
   /*确认添加课时*/
   const handleConfirmAddClassTime = useCallback(async () => {
     const addChapterId: string = curChapterId.current
-    dispatch({ type: 'setModalState', open: false })
+    const isTrim = noTrim(classTimeState.courseTimeName)
+    if (isTrim) return
+
     const resourceIds = classTimeState.ids
     try {
       await addContentMutate({
@@ -47,12 +46,16 @@ export const useHandleAddClassTime = (props: Omit<IHandleChapterControl<ChapterT
     } catch (err) {
       dispatchChapter({ type: 'setError', error: err })
     } finally {
+      dispatch({ type: 'setModalState', open: false })
+      dispatch({ type: 'setName', name: '' })
+      dispatch({ type: 'setFileList', fileObj: () => [] })
       dispatch({ type: 'initNameAndFileList' })
     }
   }, [data, curClassTimeNode, classTimeState])
   return {
     handleConfirmAddClassTime,
     handleClickAddChildCourseTime,
-    classTimeState
+    classTimeState,
+    addContentLoading
   }
 }

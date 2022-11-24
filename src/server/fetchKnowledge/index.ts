@@ -4,12 +4,16 @@ import { delayFetch } from 'util/delayFetch'
 import { IAddKnowledgeParam } from './types'
 /*展示章节学习树*/
 export const useShowKnowledgeTree = (courseId: string) => {
-  return useQuery(['knowledgeTree', courseId], async () => {
-    return client.get({
-      url: '/points/show',
-      params: { courseId: courseId }
-    })
-  })
+  return useQuery(
+    ['knowledgeTree', courseId],
+    async () => {
+      return client.get({
+        url: '/points/show',
+        params: { courseId: courseId }
+      })
+    },
+    { refetchOnMount: false }
+  )
 }
 
 /* 添加根知识点 */
@@ -38,15 +42,15 @@ export const useRenameKnowledgeAPI = () => {
 }
 
 /*关联知识点*/
-export const relatePrePointsAPI = () => {
+export const relatePrePointsAPI = (courseId: string) => {
   return useMutation(async ({ pointId, prePointId }: { pointId: string; prePointId: string[] }) => {
-    return client.post({ url: '/points/pre-points', data: { pointId, prePointId } })
+    return client.post({ url: '/points/pre-points', data: { pointId, prePointId, courseId } })
   })
 }
 
 /*关联知识点*/
-export const relateAfterPointsAPI = () => {
+export const relateAfterPointsAPI = (courseId: string) => {
   return useMutation(async ({ pointId, afterPointId }: { pointId: string; afterPointId: string[] }) => {
-    return client.post({ url: '/points/after-points', data: { pointId, afterPointId } })
+    return client.post({ url: '/points/after-points', data: { pointId, afterPointId, courseId } })
   })
 }

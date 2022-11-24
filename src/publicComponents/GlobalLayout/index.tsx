@@ -103,7 +103,6 @@ const HomePageWrapper = styled.div`
   background-color: white;
   display: flex;
   justify-content: space-between;
-  //position: relative;
 `
 
 const LeftLayoutWrapper = styled.div`

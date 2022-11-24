@@ -36,10 +36,11 @@ export const useChapterControlRefactor = () => {
   })
 
   /* 添加课时 */
-  const { handleConfirmAddClassTime, handleClickAddChildCourseTime, classTimeState } = useHandleAddClassTime({
-    data: data ?? [],
-    dispatchChapter
-  })
+  const { handleConfirmAddClassTime, handleClickAddChildCourseTime, classTimeState, addContentLoading } =
+    useHandleAddClassTime({
+      data: data ?? [],
+      dispatchChapter
+    })
 
   /* 点击树节点交互 */
   const { handleOnExpand } = useHandleOnExpand(dispatchChapter)
@@ -67,7 +68,8 @@ export const useChapterControlRefactor = () => {
       isModalVisible: classTimeState.courseTimeModalVisible,
       handleOnExpand,
       handleOk: handleConfirmAddClassTime,
-      handleDeleteTreeContent
+      handleDeleteTreeContent,
+      addContentLoading
     }
   }
 }

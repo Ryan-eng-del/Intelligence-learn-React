@@ -6,7 +6,7 @@ export interface IClassInfo {
   courseId: string
   courseName: string | null
   coursesCover: string | null
-  courseDescribe: string
+  courseDescribe: string | null
 }
 
 const IClassInit = {
@@ -14,7 +14,7 @@ const IClassInit = {
   courseId: '',
   courseName: null,
   coursesCover: null,
-  courseDescribe: 'string'
+  courseDescribe: null
 }
 
 interface IClassInfoContext {

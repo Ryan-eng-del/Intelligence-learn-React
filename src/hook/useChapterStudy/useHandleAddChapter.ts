@@ -9,6 +9,8 @@ import { IChapterReducerAction, IChapterReducerState } from '../../reducer/Chape
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { message } from 'antd'
 import { useParams } from 'react-router-dom'
+import { GlobalMessage } from '../../publicComponents/GlobalMessage'
+import { noTrim } from '../../util/noTrim'
 
 interface handleAddChapterProps {
   data: ChapterTreeData[]
@@ -71,27 +73,28 @@ export const useHandleAddChapter = (props: handleAddChapterProps) => {
       course_id: classInfo.courseId,
       pid: curAddId.current
     }
+
+    const isTrim = noTrim(chapterState.curAddInputValue)
+    console.log(isTrim, 'istTrim')
+    if (isTrim) return
     dispatchChapter({ type: 'setFocusState', focusState: false })
 
-    const isTrim = chapterState.curAddInputValue.trim() === ''
-    if (isTrim) message.info('不能添加空字段')
-    if (!isTrim)
-      try {
-        setCurAddNode((pre: ChapterInitNode | null) => {
-          if (!pre) return pre
-          pre.name = curAddInputValue
-          return pre
-        })
-        if (curAddType.current === 'root') {
-          await addChapterMutate(param)
-        } else await addChildChapterMutate(param)
-      } catch (err: unknown) {
-        dispatchChapter({ type: 'setError', error: err })
-        deleteTreeNode(data, curAddId.current, queryClient, classInfo.courseId)
-      } finally {
-        dispatchChapter({ type: 'setCurInputValue', curInputValue: '' })
-        setCurAddNode(null)
-      }
+    try {
+      setCurAddNode((pre: ChapterInitNode | null) => {
+        if (!pre) return pre
+        pre.name = curAddInputValue
+        return pre
+      })
+      if (curAddType.current === 'root') {
+        await addChapterMutate(param)
+      } else await addChildChapterMutate(param)
+    } catch (err: unknown) {
+      dispatchChapter({ type: 'setError', error: err })
+      deleteTreeNode(data, curAddId.current, queryClient, classInfo.courseId)
+    } finally {
+      dispatchChapter({ type: 'setCurInputValue', curInputValue: '' })
+      setCurAddNode(null)
+    }
   }, [curAddInputValue, dispatchChapter])
 
   /*取消添加章节*/
