@@ -34,6 +34,8 @@ import { ClassMana } from 'pages/ClassInfoPage/cpn-page/ClassManaPage/ClassManaP
 import ContextProvider from 'context'
 import RegisterPage from './pages/LoginPages/RegisterPage'
 import { SourceImgPreview } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/IMagePreview'
+import { QuestionDoingPage } from 'pages/QuestionDoingPage/QuestionDoingPage'
+import { TestPaperPreview } from 'components/CreateExamPage/CreateExamPreview/TestPaperPreview'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
@@ -81,6 +83,7 @@ root.render(
                 <Route path="questionbank" element={<QuestionBankPage />} />
                 <Route path={'k-graph'} element={<KnowledgeGraph />} />
                 <Route path={'mk-graph'} element={<MkGraph />} />
+                <Route path="createquestion" element={<CreateQuestionPage />} />
               </Route>
 
               <Route path=":identify/:id" element={<ClassInfoPage />}>
@@ -91,9 +94,8 @@ root.render(
                     <Route path="img/:resourceId" element={<SourceImgPreview />} />
                   </Route>
                 </Route>
-
                 <Route path="exam" element={<ExamPage />}>
-                  <Route path="editpaper/" element={<CreateExamPage />} />
+                  <Route path="editpaper" element={<CreateExamPage />} />
                 </Route>
                 <Route path="resource" element={<ResourcePage />} />
                 <Route path="discuss" element={<DiscussPage />} />
@@ -102,9 +104,14 @@ root.render(
                 <Route path={'k-graph'} element={<KnowledgeGraph />} />
                 <Route path={'mk-graph'} element={<MkGraph />} />
               </Route>
-              <Route path="createquestion" element={<CreateQuestionPage />} />
-              <Route path="preview/:questionId" element={<QuestionPreviewPage />} />
+
+              {/* 预览试卷 */}
+              <Route path="previewtestpaper/:paperid" element={<TestPaperPreview />} />
+              {/* 刷题 */}
+              <Route path="promote/:questionId" element={<QuestionDoingPage />} />
+              {/* 编辑题目 */}
               <Route path="edit/:questionId" element={<QuestionEditPage />} />
+              {/* 做试卷 */}
               <Route path="homeWork" element={<PaperDoing />}></Route>
             </Route>
           </Routes>

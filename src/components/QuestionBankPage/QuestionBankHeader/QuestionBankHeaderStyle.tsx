@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 export const QuestionBankHeaderWrapper = styled.div`
-  height: 250px;
   .search {
     margin-left: 50px;
     // margin-top: 10px;
@@ -10,7 +9,7 @@ export const QuestionBankHeaderWrapper = styled.div`
     width: 110px;
     height: 110px;
     float: right;
-    margin-top: 60px;
+    margin-top: 30px;
     margin-right: 70px;
   }
   .choosebtn {
@@ -28,7 +27,7 @@ export const QuestionBankHeaderWrapper = styled.div`
 `
 
 export const SelectiveList = styled.div`
-  margin-top: 45px;
+  margin-top: 20px;
   margin-left: 30px;
   width: 70vw;
 `

@@ -1,38 +1,35 @@
 import React, { useState } from 'react'
 import { CreateQuestionWrapper } from './CreateQuestionPageStyle'
-import { CreateExamMenu } from 'components/CreateExamPage'
-import { QuestionDataWithID, QuestionType } from 'server/fetchExam/types'
-import { useCreateEmptyQuestion } from 'server/fetchExam'
+import { CreateExamMenu, CreateExamRoutePage } from 'components/CreateExamPage'
+import { QuestionConstantString } from 'server/fetchExam/types'
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
+import { GlobalHeader } from 'publicComponents/GlobalHeader'
+import { useNavigate } from 'react-router-dom'
+import { IQuestionType } from 'reducer/CreateExamPaper/type/type'
+import { Button } from 'antd'
+import { createQuestionObj } from 'pages/CreateExamPage/util/util'
 
 export const CreateQuestionPage: React.FC = () => {
-  const [curEdit, setCur] = useState<QuestionDataWithID>()
-  const { Provider } = React.createContext(curEdit)
+  const [curEdit, setCur] = useState<IQuestionType>()
   const { classInfo } = useCurrentClassInfo()
-  const { mutate } = useCreateEmptyQuestion(classInfo.courseId)
-
-  const RandomInt = () => Math.floor(Math.random() * 1e9)
-
-  const AddQuestion = (type: QuestionType) => {
-    mutate(type)
-    setCur({
-      questionId: RandomInt().toString(),
-      questionDescription: '',
-      courseId: '',
-      pointIds: [],
-      questionOption: 'dsadas<>fr<>ads<>dsads',
-      questionAnswerExplain: '',
-      questionAnswerNum: 1,
-      questionDifficulty: 1,
-      questionType: type,
-      rightAnswer: 'A'
-    })
+  const navigate = useNavigate()
+  const AddQuestion = async (type: QuestionConstantString) => {
+    const question = createQuestionObj(type,new Set(),classInfo.courseId)
+    setCur(question)
   }
   return (
     <>
       <CreateQuestionWrapper>
-        <CreateExamMenu addQuestionType={AddQuestion} />
-        <Provider value={curEdit}></Provider>
+        <GlobalHeader title='创建题目' tool={<>
+          <CreateExamMenu addQuestionType={AddQuestion} />
+          <Button onClick={()=>navigate('../questionbank')}>返回</Button>
+        </>}></GlobalHeader>
+          {curEdit && <CreateExamRoutePage
+            curEdit={curEdit}
+            curOrder={1}
+            setCurEditQuestion={setCur}
+            dispatchQuestionType={(v)=>console.warn("不知道什么用的函数",v)}
+          />}
       </CreateQuestionWrapper>
     </>
   )

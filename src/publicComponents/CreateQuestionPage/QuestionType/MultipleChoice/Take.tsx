@@ -11,7 +11,8 @@ type optionType = "A" | "B" | "C" | "D"
 export const Take: React.FC<{
   content: StudentPaperItem & {index?:number}
   setAns: (s: string) => void
-}> = ({ content, setAns }) => {
+  NoScore?:boolean
+}> = ({ content, setAns, NoScore }) => {
   const question = Network2Sutdent(content)
   const [ans, setANS] = useState({A:false,B:false,C:false,D:false})
   const set = (ABCD:optionType ) => {
@@ -21,7 +22,7 @@ export const Take: React.FC<{
   }
   return (
     <>
-      <Divider plain orientation='left'>{`第${content.index}题 - (${question.score}分)`}</Divider>
+      {!NoScore && <Divider plain orientation='left'>{`第${content.index}题 - (${question.score}分)`}</Divider>}
       <div style={{paddingLeft:"50px"}}>
         {str2DOM(question.content)}
       </div>

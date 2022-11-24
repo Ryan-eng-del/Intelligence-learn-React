@@ -1,11 +1,11 @@
 /* eslint-disable spaced-comment */
 /** 目前支持的题目类型 */
 export enum QuestionType {
-  'single',
-  'multiple',
-  'fillBlank',
-  'shortAnswer',
-  'judge'
+  'single'='0',
+  'multiple'='1',
+  'fillBlank'='2',
+  'shortAnswer'='3',
+  'judge'='4'
 }
 
 export enum QuestionTypeAction {
@@ -25,7 +25,7 @@ export type TestPaper = {
   paperName: string
   paperId: string
   // eslint-disable-next-line no-use-before-define
-  questionOfPaperVos: WholeQuestion[] & { score: number }
+  questionOfPaperVos: Array<WholeQuestion & { questionScore: number }>
 }
 
 /** （网络实体）发送的试卷的类型 */
@@ -45,7 +45,7 @@ export interface QuestionItem {
 
 /** （本地类型）试卷编辑导航一种题型的折叠面板(type唯一) */
 export interface QuestionList {
-  type: QuestionType // 题目类型
+  type: QuestionConstantString // 题目类型
   name: string
   defaultScore: number
   min: number
@@ -60,7 +60,7 @@ type QuestionContext = {
   questionDescription: string //解析
   questionOption: string // 选项集合
   questionDifficulty: number // 难易度
-  questionType: QuestionType // 题目类型
+  questionType: QuestionConstantString // 题目类型
   questionAnswerNum: number // 答案个数
   rightAnswer: string // 正确答案
   questionAnswerExplain: string // 答案描述
@@ -109,9 +109,8 @@ export type QuestionBank = {
 export type Item = {
   key: string
   question: string
-  rate: string
+  rate: any
   type: string
-  creator: string
   create_time: string
   questionId: string
   rightAnswer: string
@@ -128,7 +127,7 @@ export interface StudentPaper {
 export interface StudentPaperItem {
   questionId: string
   questionDescription: string
-  questionType: QuestionType
+  questionType: QuestionConstantString
   questionScore?: number
   questionAnswerNum: number
   questionOrder?: number

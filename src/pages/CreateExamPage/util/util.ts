@@ -13,12 +13,12 @@ const generateDiffId = (set: Set<number>, maxNumber: number) => {
 }
 
 /*创建试题对象*/
-export const createQuestionObj = (type: QuestionConstantString, set: Set<number>): IQuestionType => {
+export const createQuestionObj = (type: QuestionConstantString, set: Set<number>,courseId:string): IQuestionType => {
   const resultObj: IQuestionType = {
     score: 5,
     questionId: generateDiffId(set, 1000),
     questionDescription: '',
-    courseId: '',
+    courseId,
     pointIds: [],
     isStore: false,
     questionOption: '',

@@ -5,9 +5,18 @@ import { useShowCreateQuestion } from 'server/fetchExam'
 import { GlobalHeader } from '../../../../publicComponents/GlobalHeader/index'
 import { Item, QuestionType } from 'server/fetchExam/types'
 import { config } from 'server/fetchExam/config'
+import { useCurrentClassInfo } from 'context/ClassInfoContext'
+import { Input, Rate, Space } from 'antd'
+import { useNavigate, useParams } from 'react-router-dom'
+import { PrimaryButton } from 'publicComponents/Button'
+import { isTeachAuth } from 'util/isAuthTeach'
 
 export const QuestionBankPage: React.FC = () => {
-  const { data, isLoading } = useShowCreateQuestion('课程id')
+  const { classInfo, getCurCourseInfo } = useCurrentClassInfo()
+  console.log(classInfo);
+  // getCurCourseInfo(useParams()['id']!)
+  const { data, isLoading } = useShowCreateQuestion(useParams()['id']!)
+  // const { data, isLoading } = useShowCreateQuestion(classInfo.courseId)
   const originData: Item[] = []
   const length = data?.length || 0
   const [curData, setCurData] = useState<Item[]>([])
@@ -16,15 +25,14 @@ export const QuestionBankPage: React.FC = () => {
     return config[type].name
   }
 
-  const handleRate = {0:"易",1:"中",2:"难"}
+  const handleRate =(n:number)=> <Rate value={n+1} disabled count={3}/>
 
   for (let i = 0; i < length; i++) {
     originData.push({
       key: data![i].questionId,
       question: data![i].questionDescription,
-      rate: handleRate[data![i].questionDifficulty as 0|1|2],
-      type: handleType(data![i].questionType),
-      creator: '莉塔',
+      rate: handleRate(data![i].questionDifficulty),
+      type: handleType(data![i].questionType.toString() as QuestionType),
       create_time: data![i].createTime,
       questionId: data![i].questionId,
       rightAnswer: data![i].rightAnswer,
@@ -48,16 +56,26 @@ export const QuestionBankPage: React.FC = () => {
       return
     } else {
       console.log('有内容')
-      // setCurData(originData.filter((item) => item.question.indexOf(value)))
-      // setIsAll(false)
+      setCurData(originData.filter((item) => item.question.indexOf(value)))
+      setIsAll(false)
     }
   }
-
+  const id =useParams()['id']
+  const isTeacher = isTeachAuth()
+  const navigate = useNavigate()
   return (
     <>
-      <GlobalHeader title="题库"></GlobalHeader>
+      <GlobalHeader title="题库"
+        tool={ <Space>
+          <Input.Search allowClear size="large" onSearch={value=>search(value)} />
+          {isTeacher && <PrimaryButton title="添加题目"
+            handleClick={() => navigate('../createquestion', { replace: true })}
+          />}
+        </Space>}
+      ></GlobalHeader>
       <QuestionBankPageWrapper>
-        <QuestionBankHeader changeType={changeType} showAll={showAll} search={search}></QuestionBankHeader>
+        {/* <Button onClick={()=>(getCurCourseInfo(id!),console.log(classInfo.courseId))}>Magic</Button> */}
+        <QuestionBankHeader changeType={changeType} showAll={showAll} ></QuestionBankHeader>
         <QuestionBankTable
           curData={curData}
           originData={originData}

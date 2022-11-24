@@ -1,13 +1,13 @@
 /*处理上传试卷*/
 import { useCallback, useEffect, useState } from 'react'
 import { IQuestionType } from '../../reducer/CreateExamPaper/type/type'
-import { useCreateQuestion } from '../../server/fetchExam'
+import { useCreateQuestion, useUpadateQuestion } from '../../server/fetchExam'
 import { StateSetter } from '../../types'
 import { GlobalMessage } from '../../publicComponents/GlobalMessage'
 
 export const useHandleUploadExamPaper = (
   question: IQuestionType,
-  setCurEditQuestion: StateSetter<IQuestionType | null>
+  setCurEditQuestion: StateSetter<IQuestionType | undefined>
 ) => {
   /*关联的知识点*/
   const [curCheckId, setCurCheckId] = useState<string[]>([])
@@ -16,8 +16,8 @@ export const useHandleUploadExamPaper = (
   const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
 
   /*上传试题Api*/
-  const { mutateAsync: uploadPaperApi, isLoading } = useCreateQuestion()
-
+  const { mutateAsync: uploadQuestion, isLoading } = useCreateQuestion()
+  const { mutate: changeQuestion} = useUpadateQuestion()
   /*初始化试题状态*/
   useEffect(() => {
     setCurCheckId(question.pointIds)
@@ -42,21 +42,23 @@ export const useHandleUploadExamPaper = (
     },
     [question]
   )
-  /*处理上传试卷*/
-  const handleOk = async () => {
-    const result: any = {}
-    for (const k in question) {
-      if (k !== 'isStore') {
-        result[k] = question[k as keyof IQuestionType]
-      }
-    }
-
+  /*处理上传题目*/
+  const handleOk = async () => {  //
     try {
       setIsSaveModalOpen(false)
-      const id = await uploadPaperApi({ ...result })
-      question.questionId = id
-      question.isStore = true
-      setCurEditQuestion({ ...question })
+      if(question.isStore) {  // 此题目已经上传，修改题目接口
+        console.log("更新试题");
+        changeQuestion(question)
+      } else {  // 此题目未上传，新增题目接口
+        console.log("新增试题");
+        const qId = await uploadQuestion({ ...question  })
+        question.questionId = qId
+        question.isStore = true
+        // 重置为在线ID
+        // TODO: 请确定这里不会在试题编辑页面丢失导航栏引用
+        // question.questionId = qId
+        setCurEditQuestion({ ...question })
+      }
     } catch (e) {
       console.log(e)
     }

@@ -2,14 +2,14 @@ import { PlusOutlined } from '@ant-design/icons'
 import { Button, Input, Radio, Tooltip } from 'antd'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { isTeachAuth } from 'util/isAuthTeach'
 import { QuestionType } from '../../../server/fetchExam/types/index'
 import { QuestionBankHeaderWrapper, SelectiveList, KnowledgePoint } from '../QuestionBankHeader/QuestionBankHeaderStyle'
 export const QuestionBankHeader: React.FC<{
   changeType: (type: string) => void
   showAll: () => void
-  search: (value: string) => void
-}> = ({ changeType, showAll, search }) => {
-  const navigate = useNavigate()
+}> = ({ changeType, showAll}) => {
+
   const questionType = [
     {
       title: '单选题',
@@ -35,27 +35,6 @@ export const QuestionBankHeader: React.FC<{
   return (
     <>
       <QuestionBankHeaderWrapper>
-        {/* 搜索题目 */}
-        <Input.Search
-          allowClear
-          size="large"
-          onSearch={(value) => {
-            search(value)
-          }}
-          className="search"
-        />
-
-        <Tooltip title="添加题目" placement="bottom">
-          <Button
-            type="primary"
-            shape="circle"
-            icon={<PlusOutlined className="addicon" />}
-            size="large"
-            className="aqbtn"
-            onClick={() => navigate('/createquestion', { replace: true })}
-          />
-        </Tooltip>
-
         {/* 题型、知识点管理 */}
         <SelectiveList>
           <div>

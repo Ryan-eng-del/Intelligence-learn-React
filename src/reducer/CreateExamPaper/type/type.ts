@@ -23,11 +23,7 @@ export interface IQuestionTypeInitialState<T> {
     pointSum: number
   }
 }
-
-export interface IQuestionType {
-  score: number
-  isStore: boolean
-  questionId: string
+export interface IQuestionInfo {
   questionDescription: string
   courseId: string
   questionOption: string
@@ -37,6 +33,11 @@ export interface IQuestionType {
   rightAnswer: string
   pointIds: string[]
   questionAnswerExplain: string
+}
+export interface IQuestionType extends IQuestionInfo{
+  score: number
+  isStore: boolean
+  questionId: string
 }
 
 export interface IEditQuestionType {

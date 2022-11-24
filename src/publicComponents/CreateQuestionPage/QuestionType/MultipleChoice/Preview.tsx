@@ -13,10 +13,13 @@ export const Preview: React.FC<{
       <Divider plain orientation='left'>题目</Divider>
       {str2DOM(question.content)}
       <Divider plain orientation='left'>选项</Divider>
-      {question.Options.map((i: any) => (
+      {question.Options.map((i) => (
         <div key={i.optionName}>
           <Space>
-            <Button type={i.optionName == question.TrueOption ? 'primary' : 'default'} shape="circle">
+          <Button
+              type={ i.isTrue ? "primary" : 'default'}
+              style={{width:"2.5rem",height:"2.5rem"}}
+            >
               {i.optionName}
             </Button>
             {str2DOM(i.content)}

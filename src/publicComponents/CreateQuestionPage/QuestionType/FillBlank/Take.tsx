@@ -10,24 +10,25 @@ import { Network2Sutdent } from './config'
 export const Take: React.FC<{
   content: StudentPaperItem & {index?:number}
   setAns: (s: string) => void
-}> = ({ content }) => {
+  NoScore?:boolean
+}> = ({ content, NoScore, setAns }) => {
   const [ansSet,setAnsSet] = useState<string[]>([])
 
   const gen = (num: number) => {
     const child: ReactNode[] = []
     for (let i = 0; i < num; i++) {
       ansSet.push('')
-      child.push(<div style={{paddingLeft:"40px", margin:"10px"}}>
+      child.push(<div style={{paddingLeft:"40px", margin:"10px"}} key={i}>
         <Input key={i} value={ansSet[i]}
           placeholder={`第${i+1}空`}
-          onChange={(v)=>{ansSet[i] = v.target.value,setAnsSet([...ansSet])}}
+          onChange={(v)=>{
+            ansSet[i] = v.target.value,
+            setAnsSet([...ansSet]),
+            setAns(ansSet.toString().replace(',','<>'))
+          }}
         />
       </div>)
     }
-    console.log("input parmater nomber is ", num);
-
-    console.log("Re render one time and this array len is " , child);
-
     return React.createElement('div', {}, child)
   }
   const question = Network2Sutdent(content)
@@ -35,7 +36,7 @@ export const Take: React.FC<{
 
   return (
     <>
-      <Divider plain orientation='left'>{`第${content.index}题 - (${question.score}分)`}</Divider>
+      {!NoScore && <Divider plain orientation='left'>{`第${content.index}题 - (${question.score}分)`}</Divider>}
       <div style={{paddingLeft:"50px"}}>
         {str2DOM(question.content)}
       </div>

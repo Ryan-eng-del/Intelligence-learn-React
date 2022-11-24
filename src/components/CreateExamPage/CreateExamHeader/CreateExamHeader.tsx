@@ -22,6 +22,7 @@ export const CreateExamHeader = (props: CreateExamHeaderProps) => {
   }, [location])
   /*完成保存试卷*/
   const handleOnStorePaper = async () => {
+    // 检查未保存试题
     let countNoSave = 0
     Object.keys(questionTypeState).forEach((item) => {
       questionTypeState[item as QuestionActionString].list.forEach((qs) => {
