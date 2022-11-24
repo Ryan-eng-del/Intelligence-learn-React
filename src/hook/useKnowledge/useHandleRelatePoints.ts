@@ -19,8 +19,8 @@ export const useHandleRelatePoints = (props: Omit<IHandleChapterControl<IKnowled
     courseId: useParams().id!
   }
   /*关联知识点API*/
-  const { mutateAsync: relatePrePointsApi } = relatePrePointsAPI()
-  const { mutateAsync: relateAfterPointsApi } = relateAfterPointsAPI()
+  const { mutateAsync: relatePrePointsApi } = relatePrePointsAPI(classInfo.courseId)
+  const { mutateAsync: relateAfterPointsApi } = relateAfterPointsAPI(classInfo.courseId)
   /*处理选择树受控展开的key*/
   const [relateKeys, setRelateKeys] = useState([])
   const [isTreeSelectModalVisible, setIsTreeSelectModalVisible] = useState(false)

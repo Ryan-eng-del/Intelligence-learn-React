@@ -22,6 +22,7 @@ class AliYunOSS {
   setProgress: StateSetter<number>
   endUpload: (file: IUploadInfo) => void
   setStatusText: StateSetter<string>
+  setStart: StateSetter<boolean>
   errUpload: (err: string) => void
   timeout = 60000
   partSize = 1048576
@@ -43,7 +44,8 @@ class AliYunOSS {
     endUpload: () => void,
     setStatusText: StateSetter<string>,
     errUpload: () => void,
-    videoId: MutableRefObject<string>
+    videoId: MutableRefObject<string>,
+    setStart: StateSetter<boolean>
   ) {
     this.OSS = oss
     this.setProgress = setProgress
@@ -51,6 +53,7 @@ class AliYunOSS {
     this.setStatusText = setStatusText
     this.errUpload = errUpload
     this.videoId = videoId
+    this.setStart = setStart
   }
 
   get uploader() {
@@ -89,6 +92,7 @@ class AliYunOSS {
               const uploadAddress = data.uploadAddress
               const videoId = data.videoId
               _this.videoId.current = videoId
+              _this.setStart(true)
               uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress, videoId)
             })
           _this.statusText = '文件开始上传...'
@@ -110,6 +114,7 @@ class AliYunOSS {
             const uploadAddress = data.uploadAddress
             const videoId = data.videoId
             _this.videoId.current = videoId
+            _this.setStart(true)
             uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress, videoId)
           })
         }

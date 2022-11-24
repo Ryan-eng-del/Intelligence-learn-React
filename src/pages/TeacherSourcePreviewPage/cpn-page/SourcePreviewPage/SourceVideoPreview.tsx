@@ -21,7 +21,6 @@ export const SourceVideoPreview = () => {
         },
         function (player: any) {
           console.log(player, 'player')
-          console.log('The player is created.')
         }
       )
     }

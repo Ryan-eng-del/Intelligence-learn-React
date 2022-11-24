@@ -27,11 +27,6 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
   const [openResourceDrawer, setOpenResourceDrawer] = useState(false)
 
   /* 上传资源是否成功 */
-  const videoComplete = useRef(false)
-  const otherComplete = useRef(false)
-
-  /* 是否全部成功 */
-  const allOk = videoComplete.current && otherComplete.current
 
   /*关联知识点*/
   const [relatePoints, setRelatePoints] = useState([])
@@ -43,19 +38,29 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
   const [statusText, setStatusText] = useState('')
   const videoId = useRef('')
   /*添加资源API*/
-  const { mutateAsync: addContentResource, isLoading, isSuccess } = useAddContentResource()
+  const { mutateAsync: addContentResource, isSuccess } = useAddContentResource()
 
   const { mutateAsync: uploadVideo } = useUploadVideo()
-
+  const [isVideoStart, setIsVideoStart] = useState(false)
+  const [isOtherStart, setIsOtherStart] = useState(false)
+  const [otherProgress, setOtherProgress] = useState(50)
   const finishUpload = async () => {
+    setIsVideoStart(false)
     const data = await uploadVideo({ videoId: videoId.current, courseId, relatePoints })
     dispatch({ type: 'pushId', id: data.resourceId })
-    videoComplete.current = true
   }
 
   const errUpload = () => GlobalMessage('error', '视频文件上传错误')
 
-  const uploader = new AliYunOSS(AliyunUplaod, setProgress, finishUpload, setStatusText, errUpload, videoId).uploader
+  const uploader = new AliYunOSS(
+    AliyunUplaod,
+    setProgress,
+    finishUpload,
+    setStatusText,
+    errUpload,
+    videoId,
+    setIsVideoStart
+  ).uploader
 
   /* 处理文件上传 */
   const handleUpload = async () => {
@@ -71,6 +76,7 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
     otherProject.map((file: any) => {
       const formData = new FormData()
       formData.append('file', file)
+      setIsOtherStart(true)
       return addContentResource({ relatedPoints: relatePoints, courseId, file: formData }).then((data) => {
         dispatch({ type: 'pushId', id: data.resourceId })
       })
@@ -78,10 +84,12 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
 
     /* 并发上传 */
     await Promise.all(otherProject)
-      .then(() => (otherComplete.current = true))
+      .then(() => {
+        setOtherProgress(100)
+        setTimeout(() => setIsOtherStart(false), 500)
+      })
       .catch(() => {
         GlobalMessage('error', '上传非视频文件出现错误')
-        otherComplete.current = false
       })
 
     dispatch({
@@ -99,13 +107,6 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
     setRelatePoints(checked)
   }, [])
 
-  const handleRelatePoints = () => {
-    if (relatePoints.length <= 0) GlobalMessage('info', '没有绑定知识点，点击 X 退出')
-    else {
-      console.log('绑定')
-    }
-  }
-
   return {
     handleUpload,
     openResourceDrawer,
@@ -113,10 +114,11 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
     setOpenResourceDrawer,
     handleRelateCheck,
     progress,
-    isLoading,
     statusText,
-    handleRelatePoints,
     isSuccess,
-    otherComplete
+    isVideoStart,
+    isOtherStart,
+    otherProgress,
+    setRelatePoints
   }
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import { Tree } from 'antd'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { ChapterTreeModal } from './cpn/ChapterTreeModal'
@@ -28,6 +28,7 @@ export const ChapterStudyTree = (props: { treeData: any; chapterControl: Record<
         handleRelateExpand={knowledgeControl.handleRelateExpand}
         relateKeys={knowledgeControl.relateKeys}
         handleOk={chapterControl.handleOk}
+        addContentLoading={chapterControl.addContentLoading}
       />
 
       {chapterControl.isLoading ? (

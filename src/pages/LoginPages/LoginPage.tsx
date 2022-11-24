@@ -1,19 +1,18 @@
 import LoginLayout from 'publicComponents/LoginLayout'
 import { useGetCaptcha, useToken } from '../../server/fetchLogin'
 import LocalCache from 'util/cache'
-import { useSid } from './useSid'
 import { useEffect, useRef } from 'react'
+import { useForm } from 'antd/es/form/Form'
 
 export const LoginPage = () => {
   /* 获取验证码API */
-
   const { data: captchaData, mutateAsync: getCaptchaApi } = useGetCaptcha()
   const { mutateAsync: login, isLoading: loginLoading } = useToken()
+  const [form] = useForm()
   const sid = useRef()
   const refresh = async () => {
     const s = await getCaptchaApi()
     sid.current = s.verifyKey
-    console.log(sid.current, 'sid')
   }
 
   useEffect(() => {
@@ -29,13 +28,12 @@ export const LoginPage = () => {
     }
     userLoginInfo.verifyKey = sid.current
     delete userLoginInfo.remember
-    console.log(userLoginInfo, 'info')
-
     await login(userLoginInfo)
   }
 
   return (
     <LoginLayout
+      form={form}
       isLoginPage={true}
       onFinish={onFinish}
       loading={loginLoading}

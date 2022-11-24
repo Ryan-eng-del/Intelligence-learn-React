@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Input, List, Modal, Progress, Upload } from 'antd'
+import { Button, Drawer, Input, List, Modal, Progress, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { TreeSelected } from 'components/ClassInfoPage/KnowledgePage/KnowledgeTree/cpn/TreeSelected'
@@ -7,6 +7,8 @@ import { useHandleUploadClassTimeResource } from 'hook/useChapterStudy/useHandle
 import { useClassTimeDispatch } from 'context/ChapterStudyTree/ClassTimeDispatchContext'
 import { uploadProps } from 'hook/useChapterStudy/config'
 import { GlobalLabel } from 'publicComponents/GlobalLabel/globalLabel'
+import { PrimaryButton } from '../../../../../publicComponents/Button'
+import { GlobalMessage } from '../../../../../publicComponents/GlobalMessage'
 
 export const ChapterTreeModal: React.FC<{
   checkTreeData: any
@@ -14,7 +16,8 @@ export const ChapterTreeModal: React.FC<{
   relateKeys: any
   handleRelateExpand: any
   handleOk: any
-}> = ({ checkTreeData, handleRelateExpand, handleOk, relateKeys }) => {
+  addContentLoading: boolean
+}> = ({ checkTreeData, handleRelateExpand, handleOk, relateKeys, addContentLoading }) => {
   const [fileList, setFileList] = useState<any>([])
 
   /*ClassTime Reducer*/
@@ -22,132 +25,140 @@ export const ChapterTreeModal: React.FC<{
   /*上传资源，关联知识点*/
   const {
     handleUpload,
-    isLoading,
     setOpenResourceDrawer,
     openResourceDrawer,
     relatePoints,
     handleRelateCheck,
     progress,
     statusText,
-    handleRelatePoints,
-    otherComplete
+    isVideoStart,
+    isOtherStart,
+    otherProgress,
+    setRelatePoints
   } = useHandleUploadClassTimeResource({
     dispatch,
     fileList
   })
   /*Upload Props*/
   const props = uploadProps(fileList, setFileList)
+  const onCloseClassTimeDrawer = () => {
+    dispatch({ type: 'setModalState', open: false })
+    dispatch({ type: 'setFileList', fileObj: () => [] })
+    dispatch({ type: 'setName', name: '' })
+  }
+  const onCloseResourceDrawer = () => {
+    setOpenResourceDrawer(false)
+    dispatch({ type: 'setModalState', open: true })
+    setRelatePoints([])
+  }
   return (
     <ChapterTreeModalWrapper className={'modal-wrapper'}>
-      <Modal
-        title="添加课时"
-        visible={classTimeState.courseTimeModalVisible}
-        onOk={handleOk}
-        onCancel={() => dispatch({ type: 'setModalState', open: false })}
-        className={'modal-chapter'}
-      >
-        <label htmlFor={'addResource'}>课时名称</label>
-        <Input
-          placeholder={'请输入课时名称'}
-          id={'addResource'}
-          value={classTimeState.courseTimeName}
-          onChange={(e) => dispatch({ type: 'setName', name: e.target.value })}
-        />
-        <div style={{ marginTop: 16, display: 'flex', justifyContent: 'center' }}>
-          <Button
-            type="primary"
-            onClick={() => {
-              setOpenResourceDrawer(true)
-              dispatch({ type: 'setModalState', open: false })
-            }}
-          >
-            添加课时资源
-          </Button>
-        </div>
+      {classTimeState.courseTimeModalVisible && (
+        <Drawer
+          title="添加课时"
+          visible={classTimeState.courseTimeModalVisible}
+          onClose={onCloseClassTimeDrawer}
+          style={{ width: '100vw' }}
+          mask={false}
+          size={'large'}
+        >
+          <div style={{ width: '800px', margin: '0 auto' }}>
+            <GlobalLabel htmlFor={'addResource'}>课时名称</GlobalLabel>
 
-        <div>
-          <GlobalLabel>已经上传的资源:</GlobalLabel>
-          <List
-            itemLayout="horizontal"
-            dataSource={classTimeState.fileList}
-            renderItem={(item: any) => <List.Item>{item.name}</List.Item>}
-          />
-        </div>
-      </Modal>
-      <Modal
-        title="添加资源并且关联知识点"
-        visible={openResourceDrawer}
-        mask={false}
-        onOk={handleOk}
-        closable={false}
-        footer={[
-          <div style={{ display: 'flex', justifyContent: 'center' }} key={'submit'}>
-            <Button
-              type={'primary'}
-              onClick={() => {
-                dispatch({ type: 'setModalState', open: true })
-                setOpenResourceDrawer(false)
-              }}
-            >
-              完成并返回
-            </Button>
-          </div>
-        ]}
-      >
-        <>
-          <UploadWrapper style={{ textAlign: 'center', maxHeight: '200px' }}>
-            <Upload {...props} className={'upload'}>
-              <Button icon={<UploadOutlined />}>请选择上传文件</Button>
-            </Upload>
-          </UploadWrapper>
-
-          <div>
-            {progress !== 0 && (progress === 0 ? <Progress percent={progress} /> : <Progress percent={progress} />)}
-            {statusText && <span>视频 {statusText}</span>}
-          </div>
-
-          <div>
-            {(isLoading || otherComplete.current) &&
-              (isLoading ? <Progress percent={50} /> : <Progress percent={100} />)}
-            {(isLoading || otherComplete.current) &&
-              (isLoading ? <span>非视频文件正在上传</span> : <span>非视频文件上传完毕！</span>)}
-          </div>
-
-          <RelatePointsWrapper>
-            <GlobalLabel>关联知识点</GlobalLabel>
-            <TreeSelected
-              checkTreeData={checkTreeData}
-              relateKeys={relateKeys}
-              handleRelateExpand={handleRelateExpand}
-              handleRelateCheck={handleRelateCheck}
-              curCheckId={relatePoints}
+            <Input
+              placeholder={'请输入课时名称'}
+              id={'addResource'}
+              value={classTimeState.courseTimeName}
+              onChange={(e) => dispatch({ type: 'setName', name: e.target.value })}
             />
-            <div
-              style={{
-                padding: '6px',
-                borderRadius: '8px',
-                backgroundColor: '#2db7f5',
-                color: 'white',
-                margin: '0 auto',
-                textAlign: 'center'
-              }}
-            >
-              Tip: 可以不关联知识点
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center' }} key={'submit'}>
+
+            <div style={{ marginTop: 16, display: 'flex', justifyContent: 'center' }}>
               <Button
                 type="primary"
-                onClick={handleUpload}
-                disabled={fileList.length === 0}
-                loading={isLoading}
-                style={{ marginTop: 16 }}
+                onClick={() => {
+                  setOpenResourceDrawer(true)
+                  dispatch({ type: 'setModalState', open: false })
+                  setFileList([])
+                }}
               >
-                {fileList.length === 0 ? '请先上传文件' : '点击上传'}
+                添加课时资源
               </Button>
             </div>
-          </RelatePointsWrapper>
-        </>
-      </Modal>
+
+            <div>
+              <GlobalLabel>已经上传的资源:</GlobalLabel>
+              <List
+                itemLayout="horizontal"
+                dataSource={classTimeState.fileList}
+                renderItem={(item: any) => <List.Item>{item.name}</List.Item>}
+              />
+            </div>
+            <div style={{ marginTop: 16, display: 'flex', justifyContent: 'center' }}>
+              <Button size={'large'} type={'primary'} onClick={handleOk} loading={addContentLoading}>
+                完成
+              </Button>
+            </div>
+          </div>
+        </Drawer>
+      )}
+      {openResourceDrawer && (
+        <Drawer
+          title="添加资源并且关联知识点"
+          visible={openResourceDrawer}
+          mask={false}
+          width={'100vw'}
+          onClose={onCloseResourceDrawer}
+          closable={true}
+        >
+          <div style={{ width: '800px', margin: '0 auto' }}>
+            <UploadWrapper style={{ textAlign: 'center', maxHeight: '200px' }}>
+              <Upload {...props} className={'upload'}>
+                <Button icon={<UploadOutlined />}>请选择上传文件</Button>
+              </Upload>
+            </UploadWrapper>
+
+            {isVideoStart && (
+              <div>
+                <Progress percent={progress} />
+                statusText && <span>视频 {statusText}</span>
+              </div>
+            )}
+
+            <div>
+              {isOtherStart && (
+                <div>
+                  <Progress percent={otherProgress} />
+                  otherProgress === 50 ? <span>非视频文件正在上传</span> : <span>非视频文件上传完毕！</span>
+                </div>
+              )}
+            </div>
+
+            <RelatePointsWrapper>
+              <GlobalLabel>关联知识点</GlobalLabel>
+              <TreeSelected
+                checkTreeData={checkTreeData}
+                relateKeys={relateKeys}
+                handleRelateExpand={handleRelateExpand}
+                handleRelateCheck={handleRelateCheck}
+                curCheckId={relatePoints}
+              />
+
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} key={'submit'}>
+                <PrimaryButton
+                  title={'完成'}
+                  handleClick={async () => {
+                    await handleUpload()
+                    setTimeout(() => {
+                      onCloseResourceDrawer()
+                    }, 1000)
+                    GlobalMessage('success', '资源上传成功！👋👋')
+                  }}
+                />
+              </div>
+            </RelatePointsWrapper>
+          </div>
+        </Drawer>
+      )}
     </ChapterTreeModalWrapper>
   )
 }
