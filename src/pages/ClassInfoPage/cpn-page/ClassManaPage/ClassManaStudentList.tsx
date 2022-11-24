@@ -10,8 +10,8 @@ import { StudentList } from "server/fetchClass/types";
 
 
 export const ClassManaStudentList: React.FC<{ class_id: string }> = (props) => {
-  const { data: studentList, isLoading: useShowStudentIsLoading } = useShowStudent(props.class_id)
-  const { mutate: deleteStudent } = useDeleteStudent()
+  const { data: studentList, isLoading: useShowStudentIsLoading,refetch:useRefetchStudent } = useShowStudent(props.class_id)
+  const { mutate: deleteStudent } = useDeleteStudent(useRefetchStudent)
 
   const columns: ColumnsType<StudentList> = [
     {
@@ -42,7 +42,7 @@ export const ClassManaStudentList: React.FC<{ class_id: string }> = (props) => {
           <Button type='primary' onClick={() => {
             const classId = props.class_id
             const userId = record.userId
-            deleteStudent({ classId, userId })
+            deleteStudent({ classId, userId})
           }}>Delete</Button>
         </Space>
       ),

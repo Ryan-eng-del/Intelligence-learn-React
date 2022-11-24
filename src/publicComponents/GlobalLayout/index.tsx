@@ -1,12 +1,14 @@
-import { Avatar } from 'antd'
+import { Avatar, Button } from 'antd'
 import { GlobalNav } from 'publicComponents/GlobalNav'
 import styled from 'styled-components'
 import { IUserInfo } from '../../context/UserInfoContext'
 import { IClassInfo } from '../../context/ClassInfoContext'
 import styles from './index.module.css'
+import { useNavigate } from 'react-router-dom'
 
 const protectClassInfoType = (data: IUserInfo | IClassInfo | null, name: 'home' | 'classInfo'): data is IUserInfo =>
   name === 'home'
+
 
 export const GlobalLayout = (props: {
   navItems: any
@@ -17,9 +19,11 @@ export const GlobalLayout = (props: {
   layoutData: IUserInfo | IClassInfo | null
 }) => {
   const { layoutData, layoutName } = props
+  const navigate = useNavigate()
   return (
     <HomePageWrapper>
       <LeftLayoutWrapper>
+        <Button onClick={()=>navigate('/home')}>返回</Button>
         <NavBottomWrapper>
           {protectClassInfoType(layoutData, layoutName) ? (
             <>

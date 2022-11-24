@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { message } from "antd"
 import { client } from "server"
 import { delayFetch } from "util/delayFetch"
@@ -77,16 +77,20 @@ export const useShowStudent = (classId: string) => {
   })
 }
 
-export const useDeleteStudent = () => {
+export const useDeleteStudent = (useRefetchStudent:any) => {
   return useMutation((argus: { classId: string, userId: string }) => {
     return client.delete(
       {
         url: '/class/remove-student',
-        params: {
+        data: {
           classId: argus.classId,
           userId: argus.userId
         }
       }
     )
+  },{
+    onSuccess:()=>{
+      useRefetchStudent()
+    }
   })
 }
