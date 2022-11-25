@@ -1,14 +1,22 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "name": "智能导学平台",
+  "short_name": "学习平台",
+  "description": "描述",
+  "orientation": "any",
   "icons": [
     {
       "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
+    },
+    {
+      "src": "icon-380.png",
+      "sizes": "380x380",
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"

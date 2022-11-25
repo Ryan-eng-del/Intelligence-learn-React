@@ -7,7 +7,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-
 // antd
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
@@ -36,6 +35,10 @@ import RegisterPage from './pages/LoginPages/RegisterPage'
 import { SourceImgPreview } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/IMagePreview'
 import { QuestionDoingPage } from 'pages/QuestionDoingPage/QuestionDoingPage'
 import { TestPaperPreview } from 'components/CreateExamPage/CreateExamPreview/TestPaperPreview'
+// app
+import 'util/ServiceWorker'
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({

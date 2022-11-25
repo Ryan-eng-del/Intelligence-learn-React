@@ -3,6 +3,19 @@
 <head>
   <meta charset="utf-8"/>
   <link rel="icon" href="%PUBLIC_URL%/favicon.ico"/>
+  <!-- 注册ServiceWorker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      console.log("尝试注册PWA...");
+      navigator.serviceWorker.register('sw.js',{
+        scope:"/"
+      }).then(() => {
+        console.log('注册成功!')
+      }).catch(function(err) {
+          console.log('开发模式无法注册为PWA');
+      });
+    }
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="theme-color" content="#000000"/>
   <meta
@@ -24,7 +37,7 @@
     work correctly both with client-side routing and a non-root public URL.
     Learn how to configure a non-root public URL by running `npm run build`.
   -->
-  <title>React App</title>
+  <title>智能导学平台</title>
   <link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.13.2/skins/default/aliplayer-min.css"/>
 
 
