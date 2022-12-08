@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { ModalContextWrapper } from './LearnPageStyle'
-import { Input, Modal, Row } from 'antd'
+import { CardBodyWrapper, CardHeadWrapper, CardWrapper, ModalContextWrapper } from './LearnPageStyle'
+import { Button, Input, Modal, Row } from 'antd'
 import { ClassCard } from 'publicComponents/TeachRotePage'
 import { useJoinInvitedCourse, useShowInvitedCourseInfo, useShowLearnClass } from 'server/fetchCourse'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
@@ -8,6 +8,7 @@ import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
 import { PrimaryButton } from 'publicComponents/Button'
 type Class = {classId: string, courseName: string, courseCover: string, teacherName: string}
+
 export const LearnPage: React.FC = () => {
   const [invitedcode, setInvitedCode] = useState('')
   const [newCourse, setNewCourse] = useState<Class | undefined>()
@@ -15,8 +16,6 @@ export const LearnPage: React.FC = () => {
   const { data, isLoading } = useShowLearnClass()
   const { mutate: joinClass } = useJoinInvitedCourse()
 
-  const [modal2Visible, setModalVisible2] = useState(false)
-  const [confirmLoading2, setComfirmLoading2] = useState(false)
 
   // 窗口一
   const [modalVisible, setModalVisible] = useState(false)
@@ -25,54 +24,67 @@ export const LearnPage: React.FC = () => {
 
   const handleOk = async () => {
     const data = await mutateAsync(invitedcode)
+    console.log(data);
     setNewCourse(data)
-    setModalVisible2(true)
   }
 
   const handleCancel = () => {
     setModalVisible(false)
   }
 
-  const handleOk2 = () => {
-    setComfirmLoading2(true)
-    console.log("2323",newCourse);
+  const join = () => {
     newCourse ? joinClass(newCourse.classId) : console.log("没有查询到班级");
-    setComfirmLoading2(false)
-    setModalVisible2(false)
-    setModalVisible(false)
-    setInvitedCode('')
+    setModalVisible(false);
+    setNewCourse(undefined);
   }
-  const handleCancel2 = () => {
-    setModalVisible2(false)
-  }
+
 
   return (
     <>
       <>
         <Modal
+          maskTransitionName=""
+          transitionName=""
           title="加入课程"
+          width={250}
           visible={modalVisible}
-          onOk={handleOk}
           onCancel={handleCancel}
-          okText="查询"
-          cancelText="取消"
           confirmLoading={wait}
+          footer={ newCourse?[]:[
+            <Button onClick={handleOk} key='1'>查询</Button>
+          ]}
         >
           <ModalContextWrapper>
-            <label className="classname-label">输入邀请码</label>
-            <Input
-              placeholder="课程邀请码"
-              id="classname"
-              value={invitedcode}
-              style={{ margin: '3px 0 12px 0' }}
-              onChange={(e) => {
-                setInvitedCode(e.target.value)
-              }}
-            />
+            {newCourse ? <>
+              <CardWrapper>
+                <CardHeadWrapper>
+                <img src={require('assets/img/class.jpg')} alt="课程图片" />
+                </CardHeadWrapper>
+                <CardBodyWrapper>
+                  <div className="tname">{newCourse.courseName}</div>
+                  {/* <h3>{newCourse.teacherName}</h3> */}
+                  <PrimaryButton title='加入' handleClick={join}
+                    style={{ width: '100px', marginTop: '12px' }}
+                  />
+                </CardBodyWrapper>
+              </CardWrapper>
+            </> : <>
+              <label className="classname-label">输入邀请码</label>
+              <Input
+                placeholder="课程邀请码"
+                id="classname"
+                value={invitedcode}
+                style={{ margin: '3px 0 12px 0' }}
+                onChange={(e) => {
+                  setInvitedCode(e.target.value)
+                }}
+                />
+            </>}
+            {wait && <BaseLoading />}
           </ModalContextWrapper>
         </Modal>
       </>
-      <>
+      {/* <>
         <Modal
           title="正在加入这门课"
           visible={modal2Visible}
@@ -84,12 +96,10 @@ export const LearnPage: React.FC = () => {
           width={300}
         >
           <ModalContextWrapper>
-            <img src={newCourse?.courseCover || require('assets/img/class.jpg')} alt="课程图片" />
-            <h1>{newCourse?.courseName}</h1>
-            <h3>{newCourse?.courseName}</h3>
+
           </ModalContextWrapper>
         </Modal>
-      </>
+      </> */}
       <>
         <GlobalHeader
           title="我学的课"

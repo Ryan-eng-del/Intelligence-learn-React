@@ -1,10 +1,10 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { ChapterTreeData, ClassTimeInitNode, IHandleChapterControl } from './type'
-import { useAddContent } from '../../server/fetchChapter'
+import { useAddContent } from 'server/fetchChapter'
 import { ClassTimeNode } from './config'
 import { useClassTimeDispatch } from '../../context/ChapterStudyTree/ClassTimeDispatchContext'
 import { useParams } from 'react-router-dom'
-import { noTrim } from '../../util/noTrim'
+import { noTrim } from 'util/noTrim'
 
 export const useHandleAddClassTime = (props: Omit<IHandleChapterControl<ChapterTreeData>, 'chapterState'>) => {
   const { data, dispatchChapter } = props

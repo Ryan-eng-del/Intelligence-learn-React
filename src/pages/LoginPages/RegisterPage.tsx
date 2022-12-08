@@ -1,12 +1,12 @@
 import LoginLayout from 'publicComponents/LoginLayout'
 
-import { useGetCaptcha, useGetEmailCode, useRegister } from '../../server/fetchLogin'
-import LocalCache from '../../util/cache'
+import { useGetCaptcha, useGetEmailCode, useRegister } from 'server/fetchLogin'
+import LocalCache from 'util/cache'
 import { useSid } from './useSid'
 import { useEffect } from 'react'
 import { useForm, useWatch } from 'antd/es/form/Form'
 import { useNavigate } from 'react-router-dom'
-import { GlobalMessage } from '../../publicComponents/GlobalMessage'
+import { GlobalMessage } from 'publicComponents/GlobalMessage'
 
 const RegisterPage = () => {
   /* 获取验证码API */

@@ -1,6 +1,6 @@
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import axios from 'axios'
-import { GlobalMessage } from '../../publicComponents/GlobalMessage'
+import { GlobalMessage } from 'publicComponents/GlobalMessage'
 
 const DEBUGINFO = process.env.NODE_ENV == 'development' ? '错误：' : ''
 
@@ -51,7 +51,7 @@ class Request {
         .request<any, Data<T>>(config)
         .then((res) => {
           ///////////////////////////////////////////////////////////////
-          // console.log("%c%s"," color: yellow;",`发送 @URL | ${config.url}`)
+          console.log("%c%s"," color: yellow;",`发送 @URL | ${config.url}`)
           if (res.code != '200') {
             GlobalMessage('error', `${DEBUGINFO}${res.code}  | ${res.msg}`)
             console.log('%c%s', 'color: yellow;', `${DEBUGINFO}${res.code} | ${res.msg}`)

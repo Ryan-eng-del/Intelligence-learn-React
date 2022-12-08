@@ -4,7 +4,7 @@ import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
 import { Tooltip } from 'antd'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
-import { BaseSpin } from '../../../../baseUI/BaseSpin/BaseSpin'
+import { BaseSpin } from 'baseUI/BaseSpin/BaseSpin'
 import { useGetResourceById } from './util'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`

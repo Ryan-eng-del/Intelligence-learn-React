@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Button, Table } from 'antd'
+import { Button, Segmented, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { useNavigate } from 'react-router-dom'
 
@@ -18,7 +18,7 @@ type TableType = {
 
 export const StudentExamPage: React.FC<{
   classId: string
-}> = (classId) => {
+}> = ({classId}) => {
   const navigate = useNavigate()
   const columns: ColumnsType<TableType> = [
     {
@@ -38,7 +38,9 @@ export const StudentExamPage: React.FC<{
       dataIndex: 'status',
       render: (_: any, record: TableType) =>
         typeof record.status === 'number' ? (
-          <Button>查看详情</Button>
+          <Button onClick={() => {
+            navigate(`/previewtestpaper/${record.id}`, { replace: true })
+          }}>查看详情</Button>
         ) : record.status === statusType.undone ? (
           <Button
             type="primary"
@@ -49,7 +51,9 @@ export const StudentExamPage: React.FC<{
             去完成
           </Button>
         ) : record.status === statusType.Correcting ? (
-          <Button>去修改</Button>
+          <Button onClick={() => {
+            navigate(`/homework/${record.id}`, { replace: true })
+          }}>去修改</Button>
         ) : (
           <></>
         )
@@ -78,7 +82,8 @@ export const StudentExamPage: React.FC<{
 
   return (
     <>
-      <div className="page-title">我的作业 & 考试</div>
+      <Segmented options={['全部', '考试', '作业']} size='large'/>
+      <Segmented options={['全部', '已完成', '未完成']} size='large'/>
       <Table columns={columns} dataSource={data} />
     </>
   )

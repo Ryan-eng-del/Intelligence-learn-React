@@ -3,7 +3,7 @@ import { Button, Input, Radio, Tooltip } from 'antd'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { isTeachAuth } from 'util/isAuthTeach'
-import { QuestionType } from '../../../server/fetchExam/types/index'
+import { QuestionType } from 'server/fetchExam/types/index'
 import { QuestionBankHeaderWrapper, SelectiveList, KnowledgePoint } from '../QuestionBankHeader/QuestionBankHeaderStyle'
 export const QuestionBankHeader: React.FC<{
   changeType: (type: string) => void

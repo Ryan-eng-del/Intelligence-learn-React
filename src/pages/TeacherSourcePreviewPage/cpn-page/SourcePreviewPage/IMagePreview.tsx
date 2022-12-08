@@ -1,6 +1,6 @@
 import React from 'react'
 import { useGetResourceById } from './util'
-import { BaseSpin } from '../../../../baseUI/BaseSpin/BaseSpin'
+import { BaseSpin } from 'baseUI/BaseSpin/BaseSpin'
 
 export const SourceImgPreview = () => {
   const { data, isLoading } = useGetResourceById()

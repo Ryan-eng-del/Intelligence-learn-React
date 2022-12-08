@@ -15,7 +15,7 @@ import { last } from 'lodash'
 import { Button, Space, Modal, Input, Popconfirm } from 'antd'
 import { ResourceType } from 'server/fetchCourseResource/types'
 import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
-import { GlobalLabel } from '../../../../publicComponents/GlobalLabel/globalLabel'
+import { GlobalLabel } from 'publicComponents/GlobalLabel/globalLabel'
 import { useNavigate } from 'react-router-dom'
 
 export const ResourceListItem: React.FC<{

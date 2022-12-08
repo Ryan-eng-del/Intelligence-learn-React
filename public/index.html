@@ -5,16 +5,16 @@
   <link rel="icon" href="%PUBLIC_URL%/favicon.ico"/>
   <!-- 注册ServiceWorker -->
   <script>
-    if ('serviceWorker' in navigator) {
-      console.log("尝试注册PWA...");
-      navigator.serviceWorker.register('sw.js',{
-        scope:"/"
-      }).then(() => {
-        console.log('注册成功!')
-      }).catch(function(err) {
-          console.log('开发模式无法注册为PWA');
-      });
-    }
+    // if ('serviceWorker' in navigator) {
+    //   console.log("尝试注册PWA...");
+    //   navigator.serviceWorker.register('sw.js',{
+    //     scope:"/"
+    //   }).then(() => {
+    //     console.log('注册成功!')
+    //   }).catch(function(err) {
+    //       console.log('开发模式无法注册为PWA');
+    //   });
+    // }
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="theme-color" content="#000000"/>

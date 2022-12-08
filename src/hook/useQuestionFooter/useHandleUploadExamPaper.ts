@@ -1,9 +1,9 @@
 /*处理上传试卷*/
 import { useCallback, useEffect, useState } from 'react'
-import { IQuestionType } from '../../reducer/CreateExamPaper/type/type'
-import { useCreateQuestion, useUpadateQuestion } from '../../server/fetchExam'
+import { IQuestionType } from 'reducer/CreateExamPaper/type/type'
+import { useCreateQuestion, useUpadateQuestion } from 'server/fetchExam'
 import { StateSetter } from '../../types'
-import { GlobalMessage } from '../../publicComponents/GlobalMessage'
+import { GlobalMessage } from 'publicComponents/GlobalMessage'
 
 export const useHandleUploadExamPaper = (
   question: IQuestionType,

@@ -1,7 +1,7 @@
 /*删除章节和课时*/
 import { ChapterTreeData, IHandleChapterControl } from './type'
 import { useQueryClient } from '@tanstack/react-query'
-import { useDeleteChapter, useDeleteClassTime, useDeleteResource } from '../../server/fetchChapter'
+import { useDeleteChapter, useDeleteClassTime, useDeleteResource } from 'server/fetchChapter'
 import { useCallback } from 'react'
 import { deleteResource, deleteTreeContent, deleteTreeNode } from '../../helper/chapterStudyTree'
 import { useParams } from 'react-router-dom'

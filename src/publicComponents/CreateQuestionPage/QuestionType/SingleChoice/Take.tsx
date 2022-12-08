@@ -14,6 +14,8 @@ export const Take: React.FC<{
 }> = ({ content, setAns, NoScore }) => {
   const question = Network2Sutdent(content)
   const [TrueOption, setTrueOption] = useState('')
+  const color = (i:any)=>i.optionName == TrueOption ? "linear-gradient(140deg, #6cc7ff 0%, #5a33ff 100%)":undefined
+
   return (
     <>
       {!NoScore && <Divider plain orientation='left'>{`第${content.index}题 - (${question.score}分)`}</Divider>}
@@ -30,7 +32,8 @@ export const Take: React.FC<{
               onClick={() => (
                 setAns(i.optionName), setTrueOption(i.optionName)
               )}
-              style={{width:"2.5rem",height:"2.5rem"}}
+              style={{width:"2.5rem",height:"2.5rem",
+              background:color(i) }}
             >
               {i.optionName}
             </Button>

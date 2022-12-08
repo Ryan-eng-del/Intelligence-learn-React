@@ -1,7 +1,7 @@
-import { GlobalLayout } from '../../publicComponents/GlobalLayout/index'
+import { GlobalLayout } from 'publicComponents/GlobalLayout/index'
 import { Outlet } from 'react-router-dom'
 import HomeItems from './config'
-import { createHomeNavMap } from '../../util/createNavMap'
+import { createHomeNavMap } from 'util/createNavMap'
 import { useUserInfo } from '../../context/UserInfoContext'
 import { useEffect } from 'react'
 

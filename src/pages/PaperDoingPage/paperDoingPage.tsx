@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom'
 import { QuestionType, StudentPaper, TestPaper} from 'server/fetchExam/types'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { useShowQuestionForStudent } from 'server/fetchExam/TestPaper'
+import { time } from 'console'
 const { Header, Sider, Content } = Layout
 
 const Questionlist: any[] = [
@@ -85,9 +86,10 @@ export const PaperDoing: React.FC = () => {
     ]
   }
 
+  const Time = Date.now()
   return (
     <>{
-      data == undefined ? <BaseLoading/>:
+      data === undefined ? <BaseLoading/>:
       <Layout style={{ backgroundColor: 'white' }}>
         <Header
           style={{
@@ -98,7 +100,12 @@ export const PaperDoing: React.FC = () => {
             zIndex: 100
           }}
         >
-          <Title paperName={data!.paperName} />
+          <Title
+            paperName={data!.paperName}
+            num={data.questionOfPaperVos.length}
+            time={Time}
+            score={data.questionOfPaperVos.reduce((p,c)=>p+(c.questionScore?c.questionScore:0),0)}
+          />
         </Header>
         <Layout>
           <Sider

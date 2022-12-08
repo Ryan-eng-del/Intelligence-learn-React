@@ -11,12 +11,7 @@ export const useToken = () => {
     (data: { name: string; password: string; verifyCode: string; verifyKey: string }) => {
       return client.post<{ token: string }>({
         url: '/user/login',
-        data: {
-          name: data.name,
-          password: data.password,
-          verifyCode: data.verifyCode,
-          verifyKey: data.verifyKey
-        }
+        data
       })
     },
     {

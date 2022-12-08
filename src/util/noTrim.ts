@@ -1,4 +1,4 @@
-import { GlobalMessage } from '../publicComponents/GlobalMessage'
+import { GlobalMessage } from 'publicComponents/GlobalMessage'
 
 export const noTrim = (value: string) => {
   const isTrim = value.trim() === ''

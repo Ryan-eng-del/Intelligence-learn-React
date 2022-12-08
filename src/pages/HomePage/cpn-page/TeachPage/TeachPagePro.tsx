@@ -9,9 +9,9 @@ import { initialState, TeachRoutePageReducer } from './config/reducer'
 import { ClassCard } from 'publicComponents/TeachRotePage'
 import { useCreateClass, useDeleteCourse, useEditCourse, useShowCreateClass } from 'server/fetchCourse'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
-import { PrimaryButton } from '../../../../publicComponents/Button/index'
-import { GlobalHeader } from '../../../../publicComponents/GlobalHeader/index'
-import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/index'
+import { PrimaryButton } from 'publicComponents/Button/index'
+import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
+import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
 import { CourseList } from 'server/fetchCourse/types'
 
 export const TeachPage = () => {

@@ -20,6 +20,7 @@ export const Take: React.FC<{
     setANS({...ans})
     setAns(ABCD)
   }
+  const color = (i:any)=>ans[i.optionName as optionType] ? "linear-gradient(140deg, #6cc7ff 0%, #5a33ff 100%)":undefined
   return (
     <>
       {!NoScore && <Divider plain orientation='left'>{`第${content.index}题 - (${question.score}分)`}</Divider>}
@@ -33,7 +34,8 @@ export const Take: React.FC<{
             <Button
               type={ans[i.optionName as optionType] ? 'primary' : 'default'}
               onClick={() => set(i.optionName as optionType)}
-              style={{width:"2.5rem",height:"2.5rem"}}
+              style={{width:"2.5rem",height:"2.5rem",
+              background:color(i) }}
             >
               {i.optionName}
             </Button>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Modal, Space, Table, Typography } from 'antd'
+import { Button, Popconfirm, Space, Table } from 'antd'
 import {
   QuestionBankTableWrapper,
   QuestionOperateWrapper,
@@ -10,11 +10,9 @@ import {
 import { useDeleteQuestion } from 'server/fetchExam'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { useNavigate } from 'react-router-dom'
-import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { ShowDetailsCell } from './cpn/ShowDetailsCell'
 import { Item } from 'server/fetchExam/types'
 import { isTeachAuth } from 'util/isAuthTeach'
-const { confirm } = Modal
 
 export const QuestionBankTable: React.FC<{
   originData: Item[]
@@ -26,7 +24,6 @@ export const QuestionBankTable: React.FC<{
   // 页面状态
   const [pageSize] = useState(20)
   const [currentPage] = useState(1)
-  const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([])
   const [showDetailsKey, setKey] = useState('')
   const isTeacher = isTeachAuth()
   // 网络请求
@@ -34,42 +31,6 @@ export const QuestionBankTable: React.FC<{
 
   // 操作函数
   const isShow = (record: Item) => record.key === showDetailsKey
-
-  const show = (record: Partial<Item> & { key: React.Key }) => {
-    setKey(record.key)
-  }
-
-  const close = () => {
-    setKey('')
-  }
-
-  const onSelectChange = (newSelectedRowKeys: React.SetStateAction<any[]>) => {
-    setSelectedRowKeys(newSelectedRowKeys)
-  }
-
-  const showDeleteConfirm = (id: string) => {
-    confirm({
-      title: '您确定要删除这道题吗？',
-      icon: <ExclamationCircleOutlined />,
-      content: '删除以后，您可以在回收站中找回这道题',
-      okText: '是',
-      okType: 'danger',
-      cancelText: '否',
-      width: '35vw',
-      centered: true,
-      onOk() {
-        mutate(id)
-      },
-      onCancel() {
-        console.log('Cancel')
-      }
-    })
-  }
-
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange
-  }
 
   // 表格配置
   const columns = [
@@ -84,7 +45,7 @@ export const QuestionBankTable: React.FC<{
         <QuestionItemWrapper>
               <ShowQuestionDetails
                 onClick={isTeacher
-                ? ()=>show(record)
+                ? ()=>setKey(record.key)
                 : ()=>navigate(`/promote/${record.questionId}`,)
               }>
                 {record.question}
@@ -116,8 +77,10 @@ export const QuestionBankTable: React.FC<{
       render: (_: any, record: Item) => {
         return isTeacher ?<QuestionOperateWrapper>
           <Space>
-            <Button type="primary" danger onClick={()=>showDeleteConfirm(record.questionId)} >删除</Button>
-            <Button type="primary" onClick={()=>navigate(`/edit/${record.questionId}`)}>编辑</Button>
+            <Popconfirm onConfirm={()=>mutate(record.questionId)} title="确认删除？">
+              <Button type="text" danger>删除</Button>
+            </Popconfirm>
+            <Button type="text" onClick={()=>navigate(`/edit/${record.questionId}`)}>编辑</Button>
           </Space>
         </QuestionOperateWrapper> : <></>
       }
@@ -148,7 +111,6 @@ export const QuestionBankTable: React.FC<{
             <TotalQuestionWrapper>共计{originData?.length}题</TotalQuestionWrapper>
             <Table
               style={{fontWeight:'bold'}}
-              rowSelection={rowSelection}
               columns={mergedColumns}
               dataSource={isAll ? originData : curData}
               components={{

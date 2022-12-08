@@ -3,7 +3,7 @@ import { Outlet, useParams } from 'react-router-dom'
 import { createClassNavMap } from 'util/createNavMap'
 import ClassInfoNavItems from './config'
 import { useEffect, useMemo } from 'react'
-import { isTeachAuth } from '../../util/isAuthTeach'
+import { isTeachAuth } from 'util/isAuthTeach'
 import { useCurrentClassInfo } from '../../context/ClassInfoContext'
 import 'lib/aliyun-upload-sdk/aliyun-upload-sdk-1.5.4.min'
 

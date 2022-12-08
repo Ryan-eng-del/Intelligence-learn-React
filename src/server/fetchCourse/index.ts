@@ -49,6 +49,10 @@ export const useJoinInvitedCourse = () => {
       url: '/class/join',
       params: { classId }
     })
+  },{
+    onMutate() {
+      useQueryClient().invalidateQueries(['learnclass'])
+    },
   })
 }
 

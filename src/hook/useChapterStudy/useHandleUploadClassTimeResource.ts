@@ -1,12 +1,12 @@
 import React, { useCallback, useRef, useState } from 'react'
-import { useAddContentResource } from '../../server/fetchChapter'
-import { ICourseTimeReducerAction } from '../../reducer/ChaperStudyTree/type/type'
+import { useAddContentResource } from 'server/fetchChapter'
+import { ICourseTimeReducerAction } from 'reducer/ChaperStudyTree/type/type'
 import OSS from 'lib/aliyun-upload-sdk/lib/aliyun-oss-sdk-6.17.1.min'
 import AliYunOSS from 'util/AliYunOSS'
-import { GlobalMessage } from '../../publicComponents/GlobalMessage'
+import { GlobalMessage } from 'publicComponents/GlobalMessage'
 import { createVideoAndOtherArr } from './util'
 import { useParams } from 'react-router-dom'
-import { useUploadVideo } from '../../server/fetchResource'
+import { useUploadVideo } from 'server/fetchResource'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const AliyunUplaod = require('util/aliyun')

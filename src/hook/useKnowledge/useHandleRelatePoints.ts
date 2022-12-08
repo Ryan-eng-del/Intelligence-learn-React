@@ -1,4 +1,4 @@
-import { relateAfterPointsAPI, relatePrePointsAPI } from '../../server/fetchKnowledge'
+import { relateAfterPointsAPI, relatePrePointsAPI } from 'server/fetchKnowledge'
 import { Key, useRef, useState } from 'react'
 import { IKnowledgePoint, PrePoint } from './type'
 import {

@@ -35,8 +35,7 @@ import RegisterPage from './pages/LoginPages/RegisterPage'
 import { SourceImgPreview } from './pages/TeacherSourcePreviewPage/cpn-page/SourcePreviewPage/IMagePreview'
 import { QuestionDoingPage } from 'pages/QuestionDoingPage/QuestionDoingPage'
 import { TestPaperPreview } from 'components/CreateExamPage/CreateExamPreview/TestPaperPreview'
-// app
-import 'util/ServiceWorker'
+
 
 
 
@@ -114,7 +113,7 @@ root.render(
               {/* 编辑题目 */}
               <Route path="edit/:questionId" element={<QuestionEditPage />} />
               {/* 做试卷 */}
-              <Route path="homeWork" element={<PaperDoing />}></Route>
+              <Route path="homeWork/:paperid" element={<PaperDoing />}></Route>
             </Route>
           </Routes>
         </ContextProvider>

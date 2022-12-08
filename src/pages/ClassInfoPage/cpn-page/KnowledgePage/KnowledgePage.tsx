@@ -5,8 +5,8 @@ import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { useKnowledgeUI } from 'hook/useKnowledge/useKnowledgeUI'
-import { isTeachAuth } from '../../../../util/isAuthTeach'
-import { useComputedRoute } from '../../../../util/computedRoute'
+import { isTeachAuth } from 'util/isAuthTeach'
+import { useComputedRoute } from 'util/computedRoute'
 
 export const KnowledgePage: React.FC = () => {
   const editable = isTeachAuth()

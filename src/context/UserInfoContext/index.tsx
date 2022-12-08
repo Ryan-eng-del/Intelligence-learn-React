@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useState } from 'react'
-import { useGetUserInfo } from '../../server/fetchLogin'
+import { useGetUserInfo } from 'server/fetchLogin'
 import { useNavigate } from 'react-router-dom'
+import { message } from 'antd/es'
 
 export interface IUserInfo {
   name: string
@@ -31,6 +32,7 @@ export const UserInfoContextProvider = (props: any) => {
       const data = await mutateAsync()
       setUserInfo(data)
     } catch (e) {
+      message.error("你似乎没有登录")
       navigate('/login')
     }
   }, [])

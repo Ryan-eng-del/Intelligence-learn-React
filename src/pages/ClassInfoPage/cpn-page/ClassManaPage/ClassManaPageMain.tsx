@@ -8,7 +8,7 @@ import { PrimaryButton } from 'publicComponents/Button'
 import { ClassList } from 'server/fetchClass/types'
 import { useCreateNewClass, useDeleteClass, useReName } from 'server/fetchClass'
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
-import { isTeachAuth } from '../../../../util/isAuthTeach'
+import { isTeachAuth } from 'util/isAuthTeach'
 
 export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolean }> = ({ classList, isLoading }) => {
   const [input, setInput] = useState('')

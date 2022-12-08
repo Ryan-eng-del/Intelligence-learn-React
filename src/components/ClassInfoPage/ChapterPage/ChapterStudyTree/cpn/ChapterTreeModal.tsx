@@ -7,8 +7,8 @@ import { useHandleUploadClassTimeResource } from 'hook/useChapterStudy/useHandle
 import { useClassTimeDispatch } from 'context/ChapterStudyTree/ClassTimeDispatchContext'
 import { uploadProps } from 'hook/useChapterStudy/config'
 import { GlobalLabel } from 'publicComponents/GlobalLabel/globalLabel'
-import { PrimaryButton } from '../../../../../publicComponents/Button'
-import { GlobalMessage } from '../../../../../publicComponents/GlobalMessage'
+import { PrimaryButton } from 'publicComponents/Button'
+import { GlobalMessage } from 'publicComponents/GlobalMessage'
 
 export const ChapterTreeModal: React.FC<{
   checkTreeData: any

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Tabs, Badge, List, Button, Modal, Typography } from 'antd'
+import { Tabs, Badge, List, Button, Typography } from 'antd'
 
 const { TabPane } = Tabs
 const { Paragraph } = Typography
@@ -13,8 +13,8 @@ import {
 } from '@ant-design/icons'
 import { ReadOnlyModal } from './Contact/ReadOnlyModal'
 import { ContactModal } from './Contact/ContactModal'
-import { GlobalHeader } from '../../../../publicComponents/GlobalHeader/index'
-import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/index'
+import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
+import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
 
 type msgItem = {
   tag: string

@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useGetCourseInfoById } from '../../server/fetchCourse'
+import { useGetCourseInfoById } from 'server/fetchCourse'
 
 export interface IClassInfo {
   courseId: string

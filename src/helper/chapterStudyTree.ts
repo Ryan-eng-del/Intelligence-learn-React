@@ -5,7 +5,7 @@ import { StateSetter } from 'types'
 import { ChapterData } from '../types/server/fetchChapter'
 import { ChapterInitNode, ChapterTreeData, ChildChapter, ClassTimeInitNode } from '../hook/useChapterStudy/type'
 import React from 'react'
-import { IChapterReducerAction } from '../reducer/ChaperStudyTree/type/type'
+import { IChapterReducerAction } from 'reducer/ChaperStudyTree/type/type'
 /* 寻找要刪除的树的章节目录节点 */
 export const deleteTreeNode = (data: any[], id: string, queryClient: QueryClient, courseId: string) => {
   const deepCloneData = cloneDeepWith(data)

@@ -1,5 +1,5 @@
 import React, { Key, useCallback } from 'react'
-import { IChapterReducerAction } from '../../reducer/ChaperStudyTree/type/type'
+import { IChapterReducerAction } from 'reducer/ChaperStudyTree/type/type'
 
 export const useHandleOnExpand = (dispatch: React.Dispatch<IChapterReducerAction>) => {
   const handleOnExpand = useCallback((id: Key[], info: any) => {

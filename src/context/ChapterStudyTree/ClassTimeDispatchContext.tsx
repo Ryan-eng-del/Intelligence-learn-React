@@ -1,6 +1,6 @@
 import React, { useContext, useReducer } from 'react'
-import { courseTimeReducer, initialCourseTimeState } from '../../reducer/ChaperStudyTree/courseTimeReducer'
-import { ICourseTimeReducerAction, ICourseTimeReducerState } from '../../reducer/ChaperStudyTree/type/type'
+import { courseTimeReducer, initialCourseTimeState } from 'reducer/ChaperStudyTree/courseTimeReducer'
+import { ICourseTimeReducerAction, ICourseTimeReducerState } from 'reducer/ChaperStudyTree/type/type'
 
 interface IClassTimeContext {
   dispatch: React.Dispatch<ICourseTimeReducerAction>

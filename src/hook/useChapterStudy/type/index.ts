@@ -1,5 +1,5 @@
 import React from 'react'
-import { IChapterReducerAction, IChapterReducerState } from '../../../reducer/ChaperStudyTree/type/type'
+import { IChapterReducerAction, IChapterReducerState } from 'reducer/ChaperStudyTree/type/type'
 
 export interface ChapterTreeData {
   chapterOrder: number

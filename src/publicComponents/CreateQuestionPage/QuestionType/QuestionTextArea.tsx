@@ -1,5 +1,5 @@
 import { Input } from 'antd/es'
-import { IQuestionType } from '../../../reducer/CreateExamPaper/type/type'
+import { IQuestionType } from 'reducer/CreateExamPaper/type/type'
 import React, { useEffect, useState } from 'react'
 
 interface QuestionTextAreaProps {

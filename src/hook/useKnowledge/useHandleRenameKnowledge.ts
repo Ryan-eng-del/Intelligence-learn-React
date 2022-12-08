@@ -1,4 +1,4 @@
-import { useRenameKnowledgeAPI } from '../../server/fetchKnowledge'
+import { useRenameKnowledgeAPI } from 'server/fetchKnowledge'
 import { useCallback, useRef, useState } from 'react'
 import { IKnowledgePoint } from './type'
 import { renameKnowledgePoint } from '../../helper/knowledgeTree'

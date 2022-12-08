@@ -1,4 +1,4 @@
-import { client } from '../server'
+import { client } from 'server'
 import OSS from 'lib/aliyun-upload-sdk/lib/aliyun-oss-sdk-6.17.1.min'
 import 'lib/aliyun-upload-sdk/aliyun-upload-sdk-1.5.4.min'
 import { StateSetter } from '../types'

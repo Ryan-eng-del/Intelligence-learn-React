@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import * as echarts from 'echarts'
 import styled from 'styled-components'
 import { getKnowPoint, setNodeStyle, HTMLToolTip, setCategories } from './config'
-import { useShowMG } from '../../server/fetchGraph/index'
+import { useShowMG } from 'server/fetchGraph/index'
 import { useParams } from 'react-router-dom'
 
 export const MkGraph = () => {

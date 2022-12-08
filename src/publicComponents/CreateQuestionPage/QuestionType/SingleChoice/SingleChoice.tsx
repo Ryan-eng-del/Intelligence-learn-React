@@ -4,8 +4,8 @@ import { QuestionTextArea } from '../QuestionTextArea'
 import { QuestionDataWithID } from 'server/fetchExam/types'
 import styled from 'styled-components'
 import { QuestionTitleArea } from '../../../QuestionTitleArea/QuestionTitleArea'
-import { StateSetter } from '../../../../types'
-import { IQuestionType, IQuestionTypeAction } from '../../../../reducer/CreateExamPaper/type/type'
+import { StateSetter } from 'types'
+import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
 import { QuestionFooter } from '../QuestionFooter'
 
 interface SingleChoiceProps {

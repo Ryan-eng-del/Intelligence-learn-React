@@ -11,9 +11,9 @@ import {
   CreateExamPageWrapper,
   CreateExamQuestion
 } from './CreateExamPageStyle'
-import { initialQuestionTypeState, questionTypeReducer } from '../../reducer/CreateExamPaper/questionTypeReducer'
+import { initialQuestionTypeState, questionTypeReducer } from 'reducer/CreateExamPaper/questionTypeReducer'
 import { createQuestionObj } from './util/util'
-import { IQuestionType } from '../../reducer/CreateExamPaper/type/type'
+import { IQuestionType } from 'reducer/CreateExamPaper/type/type'
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { Drawer } from 'antd'
 import styled from 'styled-components'
