@@ -28,7 +28,11 @@ export const LoginPage = () => {
     }
     userLoginInfo.verifyKey = sid.current
     delete userLoginInfo.remember
-    await login(userLoginInfo)
+    try {
+      await login(userLoginInfo)
+    } catch (e) {
+      await refresh()
+    }
   }
 
   return (
