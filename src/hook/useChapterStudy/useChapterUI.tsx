@@ -150,8 +150,10 @@ export const useChapterUI = (editable: boolean) => {
         } else return <TreeNode {...generateConfigObj(d.id, generateTreeNodeUI(d.id, d.name))} />
       })
     }
+
     return recursion(data)
   }
+
   return {
     treeData: generateTreeNode(chapterControl.data ?? []),
     chapterControl

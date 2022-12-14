@@ -11,6 +11,7 @@ export const ChapterStudyTree = (props: { treeData: any; chapterControl: Record<
   const { treeData, chapterControl } = props
   const { knowledgeControl } = useKnowledgeControl()
   const { checkTreeData } = useCheckKnowledgeTreeUI(knowledgeControl.data)
+
   // 每次挂载后全部展开
   useEffect(() => {
     if (chapterControl.data) {
@@ -20,6 +21,8 @@ export const ChapterStudyTree = (props: { treeData: any; chapterControl: Record<
       })
     }
   }, [chapterControl.data])
+  console.log(treeData, 'data')
+
   return (
     <ChapterStudyTreeWrapper>
       <ChapterTreeModal

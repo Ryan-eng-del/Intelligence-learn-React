@@ -22,6 +22,7 @@ export const ChapterTreeModal: React.FC<{
 
   /*ClassTime Reducer*/
   const { dispatch, classTimeState } = useClassTimeDispatch()
+
   /*上传资源，关联知识点*/
   const {
     handleUpload,

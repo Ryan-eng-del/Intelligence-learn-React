@@ -31,6 +31,9 @@ body {
   background-color: rgb(250, 250, 250);
 }
 
+html, body, .App, #root {
+  min-height: 100vh;
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
@@ -128,7 +131,7 @@ code {
 /* Modal 树形控件 Modal样式覆盖 */
 .ant-tree.ant-tree-block-node .ant-tree-list-holder-inner {
   box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px,
-    rgba(17, 17, 26, 0.1) 0px 16px 56px;
+  rgba(17, 17, 26, 0.1) 0px 16px 56px;
 }
 
 .ant-modal-body .tip-delete {
