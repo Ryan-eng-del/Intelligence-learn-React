@@ -22,7 +22,7 @@ export const useToken = () => {
     {
       onSuccess: (data) => {
         if (data) {
-          cache.setCache('token', data.token)
+          cache.setCache('token_intel', data.token)
           message.success('登录成功，欢迎回来')
           navigate('/home/teach')
         }

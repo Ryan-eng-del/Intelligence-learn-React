@@ -1,9 +1,9 @@
 import React from 'react'
-import { Button, Space, Table, Tag } from 'antd'
+import { Button, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { useDeleteStudent, useShowStudent } from 'server/fetchClass'
 import { StudentList } from 'server/fetchClass/types'
-import Skeletons from '../../../../publicComponents/Skeleton/index'
+import Skeletons from 'publicComponents/Skeleton/index'
 
 export const ClassManaStudentList: React.FC<{ class_id: string }> = (props) => {
   const { data: studentList, isLoading: useShowStudentIsLoading } = useShowStudent(props.class_id)
