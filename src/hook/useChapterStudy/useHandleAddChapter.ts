@@ -1,7 +1,7 @@
 import { ChapterInitNode, ChapterTreeData } from './type'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { ChapterNode } from './config'
-import { useAddChapter, useAddChildChapter } from '../../server/fetchChapter'
+import { useAddChapter, useAddChildChapter } from '../../server/fetch3rd/fetchChapter'
 import { addChildChapterNode, deleteTreeNode, updateChapterTreeQueryCache } from '../../helper/chapterStudyTree'
 import { AddChapterParam } from '../../types/server/fetchChapter'
 import { useQueryClient } from '@tanstack/react-query'

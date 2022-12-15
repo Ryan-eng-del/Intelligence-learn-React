@@ -8,7 +8,7 @@ import { useKnowledgeUI } from 'hook/useKnowledge/useKnowledgeUI'
 import { isTeachAuth } from '../../../../util/isAuthTeach'
 import { useComputedRoute } from '../../../../util/computedRoute'
 
-export const KnowledgePage: React.FC = () => {
+const KnowledgePage: React.FC = () => {
   const editable = isTeachAuth()
   const { knowledgeControl, treeData } = useKnowledgeUI(editable)
   const computedPath = useComputedRoute('knowledge')
@@ -81,3 +81,5 @@ const KnowledgePageWrapper = styled.div`
     margin-left: 8px;
   }
 `
+
+export default KnowledgePage

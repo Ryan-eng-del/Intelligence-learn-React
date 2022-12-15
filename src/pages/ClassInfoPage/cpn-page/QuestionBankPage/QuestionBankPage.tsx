@@ -11,9 +11,9 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { PrimaryButton } from 'publicComponents/Button'
 import { isTeachAuth } from 'util/isAuthTeach'
 
-export const QuestionBankPage: React.FC = () => {
+const QuestionBankPage: React.FC = () => {
   const { classInfo, getCurCourseInfo } = useCurrentClassInfo()
-  console.log(classInfo);
+  console.log(classInfo)
   // getCurCourseInfo(useParams()['id']!)
   const { data, isLoading } = useShowCreateQuestion(useParams()['id']!)
   // const { data, isLoading } = useShowCreateQuestion(classInfo.courseId)
@@ -25,7 +25,7 @@ export const QuestionBankPage: React.FC = () => {
     return config[type].name
   }
 
-  const handleRate =(n:number)=> <Rate value={n+1} disabled count={3}/>
+  const handleRate = (n: number) => <Rate value={n + 1} disabled count={3} />
 
   for (let i = 0; i < length; i++) {
     originData.push({
@@ -60,22 +60,25 @@ export const QuestionBankPage: React.FC = () => {
       setIsAll(false)
     }
   }
-  const id =useParams()['id']
+  const id = useParams()['id']
   const isTeacher = isTeachAuth()
   const navigate = useNavigate()
   return (
     <>
-      <GlobalHeader title="题库"
-        tool={ <Space>
-          <Input.Search allowClear size="large" onSearch={value=>search(value)} />
-          {isTeacher && <PrimaryButton title="添加题目"
-            handleClick={() => navigate('../createquestion', { replace: true })}
-          />}
-        </Space>}
+      <GlobalHeader
+        title="题库"
+        tool={
+          <Space>
+            <Input.Search allowClear size="large" onSearch={(value) => search(value)} />
+            {isTeacher && (
+              <PrimaryButton title="添加题目" handleClick={() => navigate('../createquestion', { replace: true })} />
+            )}
+          </Space>
+        }
       ></GlobalHeader>
       <QuestionBankPageWrapper>
         {/* <Button onClick={()=>(getCurCourseInfo(id!),console.log(classInfo.courseId))}>Magic</Button> */}
-        <QuestionBankHeader changeType={changeType} showAll={showAll} ></QuestionBankHeader>
+        <QuestionBankHeader changeType={changeType} showAll={showAll}></QuestionBankHeader>
         <QuestionBankTable
           curData={curData}
           originData={originData}
@@ -86,3 +89,5 @@ export const QuestionBankPage: React.FC = () => {
     </>
   )
 }
+
+export default QuestionBankPage

@@ -1,6 +1,6 @@
 import { QueryClient } from '@tanstack/react-query'
 import { cloneDeepWith } from 'lodash'
-import { ChapterResourceType } from 'server/fetchChapter/types'
+import { ChapterResourceType } from 'server/fetch3rd/fetchChapter/types'
 import { StateSetter } from 'types'
 import { ChapterData } from '../types/server/fetchChapter'
 import { ChapterInitNode, ChapterTreeData, ChildChapter, ClassTimeInitNode } from '../hook/useChapterStudy/type'

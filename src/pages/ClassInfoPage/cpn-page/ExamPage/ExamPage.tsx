@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { ExamList } from './Teacher'
 
-export const ExamPage: React.FC = () => {
+const ExamPage: React.FC = () => {
   const navigate = useNavigate()
   return (
     <>
@@ -20,3 +20,5 @@ export const ExamPage: React.FC = () => {
     </>
   )
 }
+
+export default ExamPage

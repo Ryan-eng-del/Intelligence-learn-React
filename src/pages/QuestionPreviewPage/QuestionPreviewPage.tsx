@@ -4,7 +4,8 @@ import { QuestionPreviewPageWrapper } from './QuestionPreviewPageStyle'
 import { Button } from 'antd'
 import { ShowDetails } from 'publicComponents/CreateQuestionPage'
 import { useShowQuestionDetails } from 'server/fetchExam'
-export const QuestionPreviewPage: React.FC = () => {
+
+const QuestionPreviewPage: React.FC = () => {
   const navigate = useNavigate()
   const { questionId } = useParams<{ questionId?: string }>()
   //网络请求
@@ -48,3 +49,4 @@ export const QuestionPreviewPage: React.FC = () => {
     </>
   )
 }
+export default QuestionPreviewPage

@@ -9,6 +9,7 @@ import { ClassList } from 'server/fetchClass/types'
 import { useCreateNewClass, useDeleteClass, useReName } from 'server/fetchClass'
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { isTeachAuth } from '../../../../util/isAuthTeach'
+import Skeletons from 'publicComponents/Skeleton'
 
 export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolean }> = ({ classList, isLoading }) => {
   const [input, setInput] = useState('')
@@ -109,7 +110,7 @@ export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolea
         ></GlobalHeader>
         <GlobalRightLayout>
           {isLoading ? (
-            <BaseLoading />
+            <Skeletons size="middle" />
           ) : (
             <Row gutter={[16, 24]}>
               {classList &&

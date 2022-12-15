@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react'
-import { useAddContentResource } from '../../server/fetchChapter'
+import { useAddContentResource } from '../../server/fetch3rd/fetchChapter'
 import { ICourseTimeReducerAction } from '../../reducer/ChaperStudyTree/type/type'
 import OSS from 'lib/aliyun-upload-sdk/lib/aliyun-oss-sdk-6.17.1.min'
 import AliYunOSS from 'util/AliYunOSS'

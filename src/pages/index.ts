@@ -1,7 +1,0 @@
-export { HomePage } from './HomePage/HomePage'
-export { LoginPage } from './LoginPages/LoginPage'
-export { ClassInfoPage } from './ClassInfoPage/ClassInfoPage'
-export { CreateExamPage } from './CreateExamPage/CreateExamPage'
-export { QuestionBankPage } from './ClassInfoPage/cpn-page/QuestionBankPage/QuestionBankPage'
-export { CreateQuestionPage } from './CreateQuestionPage/CreateQuestionPage'
-export { QuestionPreviewPage } from './QuestionPreviewPage/QuestionPreviewPage'

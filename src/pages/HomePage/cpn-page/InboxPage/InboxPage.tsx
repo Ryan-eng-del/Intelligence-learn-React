@@ -27,7 +27,7 @@ type msgItem = {
   content: string
 }
 
-export const InboxPage: React.FC = () => {
+const InboxPage: React.FC = () => {
   const [chosen, setChosen] = useState<string>('All')
   const [showModal, setShowModal] = useState(false)
   const [Contact, setContact] = useState(false)
@@ -153,3 +153,5 @@ export const InboxPage: React.FC = () => {
     </>
   )
 }
+
+export default InboxPage

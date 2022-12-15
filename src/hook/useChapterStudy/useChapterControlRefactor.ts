@@ -1,7 +1,7 @@
 import { useReducer } from 'react'
 import { useHandleAddChapter } from './useHandleAddChapter'
 import { useHandleRenameChapter } from './useHandleRenameNode'
-import { useShowChapter } from '../../server/fetchChapter'
+import { useShowChapter } from '../../server/fetch3rd/fetchChapter'
 import { useHandleDeleteChapter } from './useHandleDeleteChapter'
 import { chapterReducer, initialChapterState } from '../../reducer/ChaperStudyTree/chapterReducer'
 import { useHandleAddClassTime } from './useHandleAddClassTime'

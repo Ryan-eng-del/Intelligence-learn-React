@@ -1,6 +1,6 @@
 import { ChapterTreeData } from './type'
 import React, { useCallback, useRef, useState } from 'react'
-import { useEditChapter } from '../../server/fetchChapter'
+import { useEditChapter } from '../../server/fetch3rd/fetchChapter'
 import { reNameTreeNode } from '../../helper/chapterStudyTree'
 import { IChapterReducerAction, IChapterReducerState } from '../../reducer/ChaperStudyTree/type/type'
 import { useQueryClient } from '@tanstack/react-query'

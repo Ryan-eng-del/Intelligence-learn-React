@@ -1,14 +1,16 @@
+import { Suspense } from 'react'
 import { Avatar } from 'antd'
 import { GlobalNav } from 'publicComponents/GlobalNav'
 import styled from 'styled-components'
 import { IUserInfo } from '../../context/UserInfoContext'
 import { IClassInfo } from '../../context/ClassInfoContext'
 import styles from './index.module.css'
+import Skeletons from '../Skeleton'
 
 const protectClassInfoType = (data: IUserInfo | IClassInfo | null, name: 'home' | 'classInfo'): data is IUserInfo =>
   name === 'home'
 
-export const GlobalLayout = (props: {
+const GlobalLayout = (props: {
   navItems: any
   routePage: any
   sliceCount: number
@@ -71,7 +73,9 @@ export const GlobalLayout = (props: {
         </NavWrapper>
       </LeftLayoutWrapper>
       <RightLayoutWrapper>
-        <RightLayoutRouteWrapper>{props.routePage}</RightLayoutRouteWrapper>
+        <Suspense fallback={<Skeletons size={'middle'} />}>
+          <RightLayoutRouteWrapper>{props.routePage}</RightLayoutRouteWrapper>
+        </Suspense>
       </RightLayoutWrapper>
     </HomePageWrapper>
   )
@@ -125,3 +129,5 @@ const UserAvatarWrapper = styled.div`
   border-radius: 50%;
   border: 3px solid rgb(230, 230, 230);
 `
+
+export default GlobalLayout

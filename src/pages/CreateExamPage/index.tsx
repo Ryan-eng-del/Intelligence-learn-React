@@ -1,1 +1,0 @@
-export { CreateExamPage } from './CreateExamPage'

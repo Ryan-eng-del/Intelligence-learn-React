@@ -8,13 +8,13 @@ import { beforeUpload, getBase64 } from './config/util'
 import { initialState, TeachRoutePageReducer } from './config/reducer'
 import { ClassCard } from 'publicComponents/TeachRotePage'
 import { useCreateClass, useDeleteCourse, useEditCourse, useShowCreateClass } from 'server/fetchCourse'
-import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { PrimaryButton } from '../../../../publicComponents/Button/index'
 import { GlobalHeader } from '../../../../publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/index'
 import { CourseList } from 'server/fetchCourse/types'
+import Skeletons from '../../../../publicComponents/Skeleton/index'
 
-export const TeachPage = () => {
+const TeachPage = () => {
   const [state, dispatch] = useReducer(TeachRoutePageReducer, initialState)
   const { data, isLoading } = useShowCreateClass()
   const { uploadLoading, modalVisible, imgUrl, className, EditVisible, EditingCourse } = state
@@ -29,6 +29,7 @@ export const TeachPage = () => {
       dispatch({ type: 'setUploadLoading', payload: true })
       return
     }
+
     if (info.file.status === 'done') {
       // Get this url from response in real world.
       getBase64(info.file.originFileObj as RcFile, (url) => {
@@ -59,7 +60,7 @@ export const TeachPage = () => {
   const handleCancel = () => dispatch({ type: 'setModalVisible', payload: false })
 
   // 打开编辑
-  const handleEdit =  (item: CourseList) => {
+  const handleEdit = (item: CourseList) => {
     dispatch({ type: 'setEditCourse', payload: item })
     dispatch({ type: 'setClassName', payload: item.courseName })
     dispatch({ type: 'setEditVisible', payload: true })
@@ -76,7 +77,7 @@ export const TeachPage = () => {
       courseId: EditingCourse.courseId,
       courseName: className,
       coursesCover: imgUrl,
-      courseDescribe: ""
+      courseDescribe: ''
     })
     dispatch({ type: 'setEditVisible', payload: false })
     // 页面更新
@@ -85,7 +86,9 @@ export const TeachPage = () => {
 
   return (
     <TeachPageWrapper>
-      <> {/* 新建课程弹出窗 */}
+      <>
+        {' '}
+        {/* 新建课程弹出窗 */}
         <Modal
           title="新建课程"
           visible={modalVisible}
@@ -121,12 +124,12 @@ export const TeachPage = () => {
             </Upload>
           </UploadImageWrapper>
         </Modal>
-         {/* 编辑课程弹出窗 */}
-         <Modal
+        {/* 编辑课程弹出窗 */}
+        <Modal
           title="管理课程"
           visible={EditVisible}
           onOk={confirmEdit}
-          onCancel={()=>dispatch({ type: 'setEditVisible', payload: false })}
+          onCancel={() => dispatch({ type: 'setEditVisible', payload: false })}
           okText="确认"
           cancelText="取消"
         >
@@ -158,7 +161,9 @@ export const TeachPage = () => {
           </UploadImageWrapper>
           <div className="classname-label">其他选项</div>
           <Popconfirm onConfirm={handleDelete} title="你确定这样做吗，这将解散全部学生并删除里面的资源">
-            <Button type='primary' danger >删除课程</Button>
+            <Button type="primary" danger>
+              删除课程
+            </Button>
           </Popconfirm>
         </Modal>
       </>
@@ -168,20 +173,16 @@ export const TeachPage = () => {
       ></GlobalHeader>
       <GlobalRightLayout>
         {isLoading ? (
-          <BaseLoading />
+          <Skeletons size="middle" />
         ) : (
           Array.from({ length: (data?.length || 4 % 4) + 1 }).map((v, i) => (
             <Row key={i} style={{ marginBottom: '30px' }}>
               {data?.map(
                 (item, index) =>
                   index >= i * 4 &&
-                  index < (i + 1) * 4 &&
-                    <ClassCard
-                      to="MyTeach"
-                      classInfo={item}
-                      key={item.courseId}
-                      EditModal={()=>handleEdit(item)}
-                    />
+                  index < (i + 1) * 4 && (
+                    <ClassCard to="MyTeach" classInfo={item} key={item.courseId} EditModal={() => handleEdit(item)} />
+                  )
               )}
             </Row>
           ))
@@ -190,3 +191,5 @@ export const TeachPage = () => {
     </TeachPageWrapper>
   )
 }
+
+export default TeachPage

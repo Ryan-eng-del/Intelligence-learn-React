@@ -9,7 +9,7 @@ import { useGetResourceById } from './util'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
-export const SourcePdfPreview = () => {
+const SourcePdfPreview = () => {
   const { data } = useGetResourceById()
   const [numPages, setNumPages] = useState(0)
   const [pageNumber, setPageNumber] = useState(1)
@@ -88,3 +88,5 @@ const PdfNums = styled.div`
   flex: 1;
   margin: 0 auto;
 `
+
+export default SourcePdfPreview

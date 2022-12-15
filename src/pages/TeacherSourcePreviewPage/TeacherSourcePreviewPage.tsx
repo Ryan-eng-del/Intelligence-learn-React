@@ -7,7 +7,7 @@ import { useChapterUI } from '../../hook/useChapterStudy/useChapterUI'
 import { Drawer } from 'antd'
 import { expandOnMount } from '../../helper/chapterStudyTree'
 
-export const TeacherSourcePreviewPage = () => {
+const TeacherSourcePreviewPage = () => {
   const { treeData, chapterControl } = useChapterUI(false)
   const [open, setOpen] = useState(true)
   const navigate = useNavigate()
@@ -73,3 +73,5 @@ const PreviewContentWrapper = styled.div`
 const ResourceWrapper = styled.div`
   width: 60%;
 `
+
+export default TeacherSourcePreviewPage

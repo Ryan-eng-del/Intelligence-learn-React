@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { ChapterTreeData, ClassTimeInitNode, IHandleChapterControl } from './type'
-import { useAddContent } from '../../server/fetchChapter'
+import { useAddContent } from '../../server/fetch3rd/fetchChapter'
 import { ClassTimeNode } from './config'
 import { useClassTimeDispatch } from '../../context/ChapterStudyTree/ClassTimeDispatchContext'
 import { useParams } from 'react-router-dom'

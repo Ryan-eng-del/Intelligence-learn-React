@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Modal, Space, Table, Typography } from 'antd'
+import { Button, Modal, Space, Table } from 'antd'
 import {
   QuestionBankTableWrapper,
   QuestionOperateWrapper,
@@ -8,12 +8,12 @@ import {
   TotalQuestionWrapper
 } from './QuestionBankTableStyle'
 import { useDeleteQuestion } from 'server/fetchExam'
-import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { useNavigate } from 'react-router-dom'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { ShowDetailsCell } from './cpn/ShowDetailsCell'
 import { Item } from 'server/fetchExam/types'
 import { isTeachAuth } from 'util/isAuthTeach'
+import Skeletons from '../../../publicComponents/Skeleton/index'
 const { confirm } = Modal
 
 export const QuestionBankTable: React.FC<{
@@ -82,13 +82,11 @@ export const QuestionBankTable: React.FC<{
       className: 'table-header',
       render: (_: any, record: Item) => (
         <QuestionItemWrapper>
-              <ShowQuestionDetails
-                onClick={isTeacher
-                ? ()=>show(record)
-                : ()=>navigate(`/promote/${record.questionId}`,)
-              }>
-                {record.question}
-              </ShowQuestionDetails>
+          <ShowQuestionDetails
+            onClick={isTeacher ? () => show(record) : () => navigate(`/promote/${record.questionId}`)}
+          >
+            {record.question}
+          </ShowQuestionDetails>
         </QuestionItemWrapper>
       )
     },
@@ -114,12 +112,20 @@ export const QuestionBankTable: React.FC<{
       title: '操作',
       className: 'table-header',
       render: (_: any, record: Item) => {
-        return isTeacher ?<QuestionOperateWrapper>
-          <Space>
-            <Button type="primary" danger onClick={()=>showDeleteConfirm(record.questionId)} >删除</Button>
-            <Button type="primary" onClick={()=>navigate(`/edit/${record.questionId}`)}>编辑</Button>
-          </Space>
-        </QuestionOperateWrapper> : <></>
+        return isTeacher ? (
+          <QuestionOperateWrapper>
+            <Space>
+              <Button type="primary" danger onClick={() => showDeleteConfirm(record.questionId)}>
+                删除
+              </Button>
+              <Button type="primary" onClick={() => navigate(`/edit/${record.questionId}`)}>
+                编辑
+              </Button>
+            </Space>
+          </QuestionOperateWrapper>
+        ) : (
+          <></>
+        )
       }
     }
   ]
@@ -142,12 +148,12 @@ export const QuestionBankTable: React.FC<{
     <>
       <QuestionBankTableWrapper>
         {isLoading ? (
-          <BaseLoading />
+          <Skeletons size="middle" />
         ) : (
           <>
             <TotalQuestionWrapper>共计{originData?.length}题</TotalQuestionWrapper>
             <Table
-              style={{fontWeight:'bold'}}
+              style={{ fontWeight: 'bold' }}
               rowSelection={rowSelection}
               columns={mergedColumns}
               dataSource={isAll ? originData : curData}

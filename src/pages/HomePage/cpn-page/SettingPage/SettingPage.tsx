@@ -1,12 +1,8 @@
 import React from 'react'
 import { Tabs } from 'antd'
+
 const { TabPane } = Tabs
-import {
-  UserOutlined,
-  LockOutlined,
-  MessageOutlined,
-  BgColorsOutlined
-} from '@ant-design/icons'
+import { UserOutlined, LockOutlined, MessageOutlined, BgColorsOutlined } from '@ant-design/icons'
 import { AccountSecurity } from './AccountSecurity/AccountSecurity'
 import { BasicInformation } from './BasicInformation/BasicInformation'
 import { Notification } from './Notification/Notification'
@@ -15,12 +11,10 @@ import { ProfileWapper } from './SettingPageStyle'
 import { GlobalLabel } from 'publicComponents/GlobalLabel/globalLabel'
 import { GlobalHeader } from 'publicComponents/GlobalHeader'
 
-export const SettingPage: React.FC = () => {
+const SettingPage: React.FC = () => {
   return (
     <>
-    <GlobalHeader title="设置" tool={
-      <></>
-    }></GlobalHeader>
+      <GlobalHeader title="设置" tool={<></>}></GlobalHeader>
       <ProfileWapper>
         <Tabs tabPosition="left" centered>
           <TabPane
@@ -72,3 +66,5 @@ export const SettingPage: React.FC = () => {
     </>
   )
 }
+
+export default SettingPage

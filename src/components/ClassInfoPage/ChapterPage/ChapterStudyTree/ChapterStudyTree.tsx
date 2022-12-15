@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import { Tree } from 'antd'
-import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { ChapterTreeModal } from './cpn/ChapterTreeModal'
 import { expandOnMount } from 'helper/chapterStudyTree'
 import styled from 'styled-components'
 import { useKnowledgeControl } from '../../../../hook/useKnowledge/useKnowledgeControl'
 import { useCheckKnowledgeTreeUI } from '../../../../hook/useKnowledge/useCheckKnowledgeTreeUI'
+import Skeletons from '../../../../publicComponents/Skeleton/index'
 
 export const ChapterStudyTree = (props: { treeData: any; chapterControl: Record<string, any> }) => {
   const { treeData, chapterControl } = props
@@ -21,7 +21,6 @@ export const ChapterStudyTree = (props: { treeData: any; chapterControl: Record<
       })
     }
   }, [chapterControl.data])
-  console.log(treeData, 'data')
 
   return (
     <ChapterStudyTreeWrapper>
@@ -35,7 +34,7 @@ export const ChapterStudyTree = (props: { treeData: any; chapterControl: Record<
       />
 
       {chapterControl.isLoading ? (
-        <BaseLoading />
+        <Skeletons size="middle" />
       ) : (
         <Tree
           expandedKeys={chapterControl.expandKeys}
