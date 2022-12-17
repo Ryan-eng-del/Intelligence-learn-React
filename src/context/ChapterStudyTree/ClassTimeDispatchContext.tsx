@@ -29,4 +29,5 @@ export const ClassTimeDispatchContextProvider = (props: any) => {
     </ClassTimeDispatchContext.Provider>
   )
 }
+
 export const useClassTimeDispatch: () => IClassTimeContext = () => useContext(ClassTimeDispatchContext)

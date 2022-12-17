@@ -6,6 +6,7 @@ export const initialChapterState: IChapterReducerState = {
   focusState: false,
   ChapterError: null
 }
+
 export const chapterReducer = (state: IChapterReducerState, action: IChapterReducerAction) => {
   const { expandKeys: lastExpandKeys } = state
   switch (action.type) {

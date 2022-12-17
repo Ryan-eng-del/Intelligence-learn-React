@@ -1,24 +1,21 @@
-import {useEffect, lazy} from 'react'
-import {Outlet} from 'react-router-dom'
+import { useEffect } from 'react'
+import { Outlet } from 'react-router-dom'
 import HomeItems from './config'
-import {createHomeNavMap} from '../../util/createNavMap'
-import {useUserInfo} from '../../context/UserInfoContext'
-
-const GlobalLayout = lazy(() => import("publicComponents/GlobalLayout/index"))
-
+import { createHomeNavMap } from '../../util/createNavMap'
+import { useUserInfo } from '../../context/UserInfoContext'
+import GlobalLayout from 'publicComponents/GlobalLayout/index'
 
 const HomePage = () => {
-  const {userInfo, getUserInfo} = useUserInfo()
+  const { userInfo, getUserInfo } = useUserInfo()
   useEffect(() => {
     getUserInfo()
   }, [])
-
 
   return (
     <>
       <GlobalLayout
         navItems={HomeItems}
-        routePage={<Outlet/>}
+        routePage={<Outlet />}
         sliceCount={5}
         layoutName={'home'}
         layoutData={userInfo}

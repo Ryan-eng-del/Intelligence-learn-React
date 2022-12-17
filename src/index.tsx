@@ -11,9 +11,9 @@ import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 import { RequireAuth } from 'util/requireAuth'
 import ContextProvider from 'context'
-import HomePage from 'pages/HomePage/HomePage'
 import Skeletons from 'publicComponents/Skeleton'
 
+const HomePage = lazy(() => import('pages/HomePage/HomePage'))
 const RegisterPage = lazy(() => import('pages/LoginPages/RegisterPage'))
 const ClassInfoPage = lazy(() => import('pages/ClassInfoPage/ClassInfoPage'))
 const QuestionBankPage = lazy(() => import('pages/QuestionPreviewPage/QuestionPreviewPage'))
@@ -45,7 +45,6 @@ const ResourcePage = lazy(() => import('pages/ClassInfoPage/cpn-page/ResourcePag
 const TeacherSourcePreviewPage = lazy(() => import('pages/TeacherSourcePreviewPage/TeacherSourcePreviewPage'))
 const PaperDoing = lazy(() => import('pages/PaperDoingPage/paperDoingPage'))
 const ClassMana = lazy(() => import('pages/ClassInfoPage/cpn-page/ClassManaPage/ClassManaPage'))
-
 const QuestionEditPage = lazy(
   () => import('publicComponents/CreateQuestionPage/QuestionPreview/QuestionEdit/QuestionEditPage')
 )
