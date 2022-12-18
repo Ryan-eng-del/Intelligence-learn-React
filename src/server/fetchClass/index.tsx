@@ -1,13 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { message } from "antd"
 import { client } from "server"
-import { delayFetch } from "util/delayFetch"
 import { ClassList } from "./types"
 
 export const useToGetClassList = (courseId: string) => {
   return useQuery([`classList-${courseId}`], async () => {
-    await delayFetch()
-    return client.get<ClassList[]>({
+        return client.get<ClassList[]>({
       url: '/class/show',
       params: {courseId}
     })

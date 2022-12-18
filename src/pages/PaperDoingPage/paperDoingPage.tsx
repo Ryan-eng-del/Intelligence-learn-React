@@ -72,8 +72,8 @@ const Questionlist: any[] = [
 
 export const PaperDoing: React.FC = () => {
   // 需要路由获取参数
-  const { paperId } = useParams()
-  const { data ,isLoading } = useShowQuestionForStudent(paperId!)
+  const { paperid } = useParams()
+  const { data ,isLoading } = useShowQuestionForStudent(paperid!)
 
   const len = (data:StudentPaper) => {
     const list = data.questionOfPaperVos

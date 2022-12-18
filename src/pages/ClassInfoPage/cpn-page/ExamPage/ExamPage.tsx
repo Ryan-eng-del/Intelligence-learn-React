@@ -13,7 +13,7 @@ export const ExamPage: React.FC = () => {
     <>
       <GlobalHeader
         title="考试作业"
-        tool={isTeachAuth() ?? <PrimaryButton title="添加考试" handleClick={() => navigate('editpaper')}></PrimaryButton>}
+        tool={isTeachAuth() ? <PrimaryButton title="添加考试" handleClick={() => navigate('editpaper')}></PrimaryButton>:<></>}
       ></GlobalHeader>
       <GlobalRightLayout>
         {isTeachAuth()

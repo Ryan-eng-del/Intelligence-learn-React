@@ -50,7 +50,9 @@ export const LearnPage: React.FC = () => {
           visible={modalVisible}
           onCancel={handleCancel}
           confirmLoading={wait}
-          footer={ newCourse?[]:[
+          footer={ newCourse?[
+            <Button onClick={()=>setNewCourse(undefined)} danger key='2'>重新输入</Button>
+          ]:[
             <Button onClick={handleOk} key='1'>查询</Button>
           ]}
         >
@@ -84,22 +86,6 @@ export const LearnPage: React.FC = () => {
           </ModalContextWrapper>
         </Modal>
       </>
-      {/* <>
-        <Modal
-          title="正在加入这门课"
-          visible={modal2Visible}
-          onOk={handleOk2}
-          onCancel={handleCancel2}
-          okText="确认"
-          cancelText="取消"
-          confirmLoading={confirmLoading2}
-          width={300}
-        >
-          <ModalContextWrapper>
-
-          </ModalContextWrapper>
-        </Modal>
-      </> */}
       <>
         <GlobalHeader
           title="我学的课"
@@ -110,7 +96,7 @@ export const LearnPage: React.FC = () => {
             Array.from({ length: (data?.length || 4 % 4) + 1 }).map(
               (v, i) => <Row key={i} style={{ marginBottom: '30px' }}>
                 {data?.map((item, index) => index >= i * 4 && index < (i + 1) * 4 &&
-                  <ClassCard to='MyStudy' classInfo={item} key={item.courseId} />
+                  <ClassCard to='MyStudy' classInfo={item} key={index} />
                 )}
               </Row>
             )
