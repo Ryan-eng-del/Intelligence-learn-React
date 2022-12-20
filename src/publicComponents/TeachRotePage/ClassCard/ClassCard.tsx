@@ -3,11 +3,12 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CourseList } from 'server/fetchCourse/types'
 import { CardBodyWrapper, CardHeadWrapper, CardWrapper } from './ClassCardStyle'
+import classPicUrl from 'assets/img/class.jpg'
 
 export const ClassCard: React.FC<{
   classInfo: CourseList
   to: 'MyTeach' | 'MyStudy'
-  EditModal?:()=>void
+  EditModal?: () => void
 }> = ({ classInfo, to, EditModal }) => {
   const navigate = useNavigate()
 
@@ -18,9 +19,15 @@ export const ClassCard: React.FC<{
   return (
     <>
       <CardWrapper>
-        {to == 'MyTeach' ? <a className='magBtn' onClick={EditModal}>管理</a> : <></>}
+        {to == 'MyTeach' ? (
+          <a className="magBtn" onClick={EditModal}>
+            管理
+          </a>
+        ) : (
+          <></>
+        )}
         <CardHeadWrapper>
-          <img src={classInfo.coursesCover || require('assets/img/class.jpg')} alt="课程图片" />
+          <img src={classInfo.coursesCover || classPicUrl} alt="课程图片" />
         </CardHeadWrapper>
         <CardBodyWrapper>
           <div className="tname">{classInfo.courseName}</div>

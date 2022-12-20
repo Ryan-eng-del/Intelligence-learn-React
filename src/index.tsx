@@ -1,14 +1,14 @@
-import React, { lazy, Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
-import 'index.css'
-import App from 'App'
+import './index.css'
+import App from './App'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ConfigProvider } from 'antd'
-
 import zhCN from 'antd/es/locale/zh_CN'
+
 import { RequireAuth } from 'util/requireAuth'
 import ContextProvider from 'context'
 import Skeletons from 'publicComponents/Skeleton'

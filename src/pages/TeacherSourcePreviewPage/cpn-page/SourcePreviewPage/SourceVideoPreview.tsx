@@ -1,17 +1,15 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {useGetResourceById} from './util'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import Aliplayer from "Aliplayer";
+import { useGetResourceById } from './util'
 
+import Aliplayer from 'Aliplayer'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 // const AliYunPlayer = require('util/aliPlayer')
 
 const SourceVideoPreview = () => {
   const [resource] = useState<any>(null)
-  const {data} = useGetResourceById()
+  const { data } = useGetResourceById()
   useEffect(() => {
     if (data && Aliplayer) {
       new Aliplayer(
@@ -33,7 +31,7 @@ const SourceVideoPreview = () => {
   return (
     <div>
       <ResourceTitle>{resource && resource.resourceName}</ResourceTitle>
-      <div id={'ali-player'} style={{width: '943px', minHeight: '70vh'}}></div>
+      <div id={'ali-player'} style={{ width: '943px', minHeight: '70vh' }}></div>
     </div>
   )
 }

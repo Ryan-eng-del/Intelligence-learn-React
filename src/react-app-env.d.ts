@@ -46,6 +46,9 @@ declare module '*.webp' {
 
 declare module '*.svg' {
   import * as React from 'react'
+  import Aliplayer from 'Aliplayer'
+  import AliYunOSS from 'util/AliYunOSS'
+  import AliyunUplaod from 'AliyunUpload'
 
   export const ReactComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement> & { title?: string }>
 

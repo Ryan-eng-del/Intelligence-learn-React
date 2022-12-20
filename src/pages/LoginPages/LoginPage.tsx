@@ -1,7 +1,7 @@
 import LoginLayout from 'publicComponents/LoginLayout'
 import { useGetCaptcha, useToken } from '../../server/fetchLogin'
 import LocalCache from 'util/cache'
-import React, { Suspense, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useForm } from 'antd/es/form/Form'
 import Skeletons from '../../publicComponents/Skeleton'
 

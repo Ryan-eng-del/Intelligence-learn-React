@@ -1,12 +1,6 @@
 import { client } from '../server'
-import OSS from 'lib/aliyun-upload-sdk/lib/aliyun-oss-sdk-6.17.1.min'
-import 'lib/aliyun-upload-sdk/aliyun-upload-sdk-1.5.4.min'
 import { StateSetter } from '../types'
 import { MutableRefObject } from 'react'
-
-Object.defineProperty(window, 'OSS', {
-  value: OSS
-})
 
 interface IUploadInfo {
   videoId?: string // videoId，由服务端返回的音/视频ID
@@ -62,6 +56,7 @@ class AliYunOSS {
 
   private createUpLoader() {
     const AliYunUpload = this.OSS
+    console.log(this.OSS, 'OSS')
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const _this = this
     const uploader = new AliYunUpload.Vod({

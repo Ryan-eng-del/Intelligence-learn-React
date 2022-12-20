@@ -6,7 +6,8 @@ import { IUserInfo } from '../../context/UserInfoContext'
 import { IClassInfo } from '../../context/ClassInfoContext'
 import styles from './index.module.css'
 import Skeletons from '../Skeleton'
-
+import AvatarPic from 'assets/img/avatar.jpg'
+import classPic from 'assets/img/class.jpg'
 const protectClassInfoType = (data: IUserInfo | IClassInfo | null, name: 'home' | 'classInfo'): data is IUserInfo =>
   name === 'home'
 
@@ -26,11 +27,7 @@ const GlobalLayout = (props: {
           {protectClassInfoType(layoutData, layoutName) ? (
             <>
               <UserAvatarWrapper>
-                <Avatar
-                  src={layoutData?.headPortrait || require('assets/img/avatar.jpg')}
-                  size="large"
-                  style={{ margin: '0 auto' }}
-                />
+                <Avatar src={layoutData?.headPortrait || AvatarPic} size="large" style={{ margin: '0 auto' }} />
               </UserAvatarWrapper>
               <div className={styles['nickname']}>{layoutData?.name || '游客'}</div>
               <div className={styles['signature']}>
@@ -47,7 +44,7 @@ const GlobalLayout = (props: {
           ) : (
             <>
               <div style={{ width: '198px', display: 'flex', justifyContent: 'center' }}>
-                <img src={require('assets/img/class.jpg')} style={{ width: '90%' }} />
+                <img src={classPic} style={{ width: '90%' }} />
               </div>
               <div className={styles['nickname']}>{layoutData?.courseName}</div>
               <div className={styles['signature']}>
@@ -60,7 +57,6 @@ const GlobalLayout = (props: {
                   {layoutData?.courseDescribe || '课程暂无描述'}
                 </span>
               </div>
-              <div></div>
             </>
           )}
         </NavBottomWrapper>
@@ -117,11 +113,10 @@ const LeftLayoutWrapper = styled.div`
   height: 100vh;
   border-right: rgb(230, 230, 230) 2px solid;
   width: 200px;
-  position: sticky;
-  top: 0;
 `
 const RightLayoutWrapper = styled.div`
   flex: 1;
+  height: 100vh;
 `
 
 const UserAvatarWrapper = styled.div`

@@ -7,6 +7,7 @@ import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
 import { PrimaryButton } from 'publicComponents/Button'
 import Skeletons from '../../../../publicComponents/Skeleton/index'
+import ClassDefaultPic from 'assets/img/class.jpg'
 
 type Class = { classId: string; courseName: string; courseCover: string; teacherName: string }
 const LearnPage: React.FC = () => {
@@ -85,7 +86,7 @@ const LearnPage: React.FC = () => {
           width={300}
         >
           <ModalContextWrapper>
-            <img src={newCourse?.courseCover || require('assets/img/class.jpg')} alt="课程图片" />
+            <img src={newCourse?.courseCover || ClassDefaultPic} alt="课程图片" />
             <h1>{newCourse?.courseName}</h1>
             <h3>{newCourse?.courseName}</h3>
           </ModalContextWrapper>

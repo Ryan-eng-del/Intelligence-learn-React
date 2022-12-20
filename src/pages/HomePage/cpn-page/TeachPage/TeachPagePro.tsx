@@ -13,6 +13,7 @@ import { GlobalHeader } from '../../../../publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/index'
 import { CourseList } from 'server/fetchCourse/types'
 import Skeletons from '../../../../publicComponents/Skeleton/index'
+import ClassDefaultPic from 'assets/img/class.jpg'
 
 const TeachPage = () => {
   const [state, dispatch] = useReducer(TeachRoutePageReducer, initialState)
@@ -110,7 +111,7 @@ const TeachPage = () => {
           />
           <div className="classname-label">请上传课程图片</div>
           <UploadImageWrapper>
-            <img src={require('assets/img/class.jpg')} alt="默认课程图片" />
+            <img src={ClassDefaultPic} alt="默认课程图片" />
             <Upload
               name="avatar"
               listType="picture-card"
@@ -146,7 +147,7 @@ const TeachPage = () => {
           />
           <div className="classname-label">更新课程封面</div>
           <UploadImageWrapper>
-            <img src={require('assets/img/class.jpg')} alt="默认课程图片" />
+            <img src={ClassDefaultPic} alt="默认课程图片" />
             <Upload
               name="avatar"
               listType="picture-card"

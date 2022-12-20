@@ -7,7 +7,7 @@ export const client = new HYRequest({
   timeout: TIME_OUT,
   interceptorHooks: {
     requestInterceptor: (config: any) => {
-      const token = localCache.getCache('token') ?? ''
+      const token = localCache.getCache('token_intel') ?? ''
       const urlArray = config.url.split('/')
 
       if (urlArray[urlArray.length - 1] !== 'get-code')

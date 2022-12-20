@@ -194,7 +194,9 @@ module.exports = function (webpackEnv) {
     entry: paths.appIndexJs,
 
     externals: {
-      Aliplayer: 'Aliplayer'
+      Aliplayer: 'Aliplayer',
+      OSS: 'OSS',
+      AliyunUpload: 'AliyunUpload'
     },
 
     output: {
@@ -277,6 +279,7 @@ module.exports = function (webpackEnv) {
               // https://github.com/terser-js/terser/issues/120
               inline: 2
             },
+
             mangle: {
               safari10: true
             },
@@ -294,8 +297,7 @@ module.exports = function (webpackEnv) {
         }),
         // This is only used in production mode
         new CssMinimizerPlugin()
-      ],
-      runtimeChunk: (entryPoint) => `runTime-${entryPoint}`
+      ]
     },
     resolve: {
       // This allows you to set a fallback for where webpack should look for modules.
