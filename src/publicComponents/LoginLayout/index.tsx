@@ -4,6 +4,9 @@ import { LockOutlined, UserOutlined, HomeOutlined, CodeOutlined } from '@ant-des
 import { Button, Checkbox, Form } from 'antd'
 import classnames from 'classnames'
 
+import loginPicUrl from 'assets/img/back-authForm.png'
+import registerPicUrl from 'assets/img/back-authForm.png'
+
 import style from './index.module.css'
 
 import { FormItem } from 'publicComponents/FormItem'
@@ -57,11 +60,11 @@ const LoginLayout = (props: LoginLayoutProps) => {
       <div className={style['auth-wrapper']}>
         {isLoginPage ? (
           <section className={style['auth-left-wrapper-login']}>
-            <img src={require('assets/img/back-authForm.png')} style={{ width: '100%' }} />
+            <img src={loginPicUrl} style={{ width: '100%' }} />
           </section>
         ) : (
           <section className={style['auth-left-wrapper-register']}>
-            <img src={require('assets/img/back-authRegister.png')} style={{ width: '100%' }} />
+            <img src={registerPicUrl} style={{ width: '100%' }} />
           </section>
         )}
         <section className={style['auth-right-wrapper']}>

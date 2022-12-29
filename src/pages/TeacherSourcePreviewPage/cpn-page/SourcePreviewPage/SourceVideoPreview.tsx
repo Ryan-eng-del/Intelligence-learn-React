@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useGetResourceById } from './util'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const AliYunPlayer = require('util/aliPlayer')
+import Aliplayer from 'Aliplayer'
 
-export const SourceVideoPreview = () => {
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+// const AliYunPlayer = require('util/aliPlayer')
+
+const SourceVideoPreview = () => {
   const [resource] = useState<any>(null)
   const { data } = useGetResourceById()
   useEffect(() => {
-    if (data) {
-      new AliYunPlayer(
+    if (data && Aliplayer) {
+      new Aliplayer(
         {
           id: 'ali-player',
           width: '700px',
@@ -24,7 +26,7 @@ export const SourceVideoPreview = () => {
         }
       )
     }
-  }, [data])
+  }, [data, Aliplayer])
 
   return (
     <div>
@@ -37,3 +39,5 @@ const ResourceTitle = styled.div`
   font-size: 29px;
   margin-bottom: 12px;
 `
+
+export default SourceVideoPreview

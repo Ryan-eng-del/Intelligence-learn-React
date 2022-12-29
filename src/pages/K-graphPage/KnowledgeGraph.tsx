@@ -8,7 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useComputedRoute } from '../../util/computedRoute'
 import { PrimaryButton } from '../../publicComponents/Button'
 
-export const KnowledgeGraph = () => {
+const KnowledgeGraph = () => {
   const courseId = useParams().id!
   const { data } = useShowKG(courseId)
   const computedPath = useComputedRoute('k-graph')
@@ -99,3 +99,5 @@ const KnowledgeGraphWrapper = styled.div`
   left: 0;
   z-index: 0;
 `
+
+export default KnowledgeGraph

@@ -5,7 +5,7 @@ import ChapterNodeRenameStatus from 'components/ClassInfoPage/ChapterPage/Chapte
 import ChapterNodeFocusStatus from 'components/ClassInfoPage/ChapterPage/ChapterStudyTree/cpn/ChapterNodeFocusStatus'
 import ChapterTreeDirectory from 'components/ClassInfoPage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeDirectory'
 import ChapterTreeContent from '../../components/ClassInfoPage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeContent'
-import { ChapterNodeType, ChapterResourceType, CourTimeType } from 'server/fetchChapter/types'
+import { ChapterNodeType, ChapterResourceType, CourTimeType } from 'server/fetch3rd/fetchChapter/types'
 import { useChapterControlRefactor } from './useChapterControlRefactor'
 import { ChapterTreeResource } from '../../components/ClassInfoPage/ChapterPage/ChapterStudyTree/cpn/ChapterTreeResource'
 
@@ -150,8 +150,10 @@ export const useChapterUI = (editable: boolean) => {
         } else return <TreeNode {...generateConfigObj(d.id, generateTreeNodeUI(d.id, d.name))} />
       })
     }
+
     return recursion(data)
   }
+
   return {
     treeData: generateTreeNode(chapterControl.data ?? []),
     chapterControl

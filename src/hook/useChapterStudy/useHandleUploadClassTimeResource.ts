@@ -1,24 +1,18 @@
 import React, { useCallback, useRef, useState } from 'react'
-import { useAddContentResource } from '../../server/fetchChapter'
+import { useAddContentResource } from '../../server/fetch3rd/fetchChapter'
 import { ICourseTimeReducerAction } from '../../reducer/ChaperStudyTree/type/type'
-import OSS from 'lib/aliyun-upload-sdk/lib/aliyun-oss-sdk-6.17.1.min'
 import AliYunOSS from 'util/AliYunOSS'
 import { GlobalMessage } from '../../publicComponents/GlobalMessage'
 import { createVideoAndOtherArr } from './util'
 import { useParams } from 'react-router-dom'
 import { useUploadVideo } from '../../server/fetchResource'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const AliyunUplaod = require('util/aliyun')
+import AliyunUpload from 'AliyunUpload'
 
 interface IUploadClassTimeResource {
   dispatch: React.Dispatch<ICourseTimeReducerAction>
   fileList: any[]
 }
-
-Object.defineProperty(window, 'OSS', {
-  value: OSS
-})
 
 export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource) => {
   const { dispatch } = props
@@ -27,7 +21,6 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
   const [openResourceDrawer, setOpenResourceDrawer] = useState(false)
 
   /* 上传资源是否成功 */
-
   /*关联知识点*/
   const [relatePoints, setRelatePoints] = useState([])
 
@@ -39,7 +32,6 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
   const videoId = useRef('')
   /*添加资源API*/
   const { mutateAsync: addContentResource, isSuccess } = useAddContentResource()
-
   const { mutateAsync: uploadVideo } = useUploadVideo()
   const [isVideoStart, setIsVideoStart] = useState(false)
   const [isOtherStart, setIsOtherStart] = useState(false)
@@ -53,7 +45,7 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
   const errUpload = () => GlobalMessage('error', '视频文件上传错误')
 
   const uploader = new AliYunOSS(
-    AliyunUplaod,
+    AliyunUpload,
     setProgress,
     finishUpload,
     setStatusText,

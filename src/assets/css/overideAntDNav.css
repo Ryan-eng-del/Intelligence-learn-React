@@ -1,6 +1,7 @@
 /* 覆盖nav导航栏样式 */
 
-.ant-menu-inline.ant-menu-root .ant-menu-item, .ant-menu-inline.ant-menu-root .ant-menu-submenu-title {
+.ant-menu-inline.ant-menu-root .ant-menu-item,
+.ant-menu-inline.ant-menu-root .ant-menu-submenu-title {
   margin: 24px 0px;
 }
 
@@ -8,6 +9,7 @@
   background-color: transparent;
 }
 
-.ant-menu-item:active, .ant-menu-submenu-title:active {
+.ant-menu-item:active,
+.ant-menu-submenu-title:active {
   background-color: transparent;
 }

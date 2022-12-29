@@ -1,28 +1,30 @@
 import LoginLayout from 'publicComponents/LoginLayout'
 
-import { useGetCaptcha, useGetEmailCode, useRegister } from '../../server/fetchLogin'
+import {useGetCaptcha, useGetEmailCode, useRegister} from '../../server/fetchLogin'
 import LocalCache from '../../util/cache'
-import { useSid } from './useSid'
-import { useEffect } from 'react'
-import { useForm, useWatch } from 'antd/es/form/Form'
-import { useNavigate } from 'react-router-dom'
-import { GlobalMessage } from '../../publicComponents/GlobalMessage'
+import {useEffect, useRef} from 'react'
+import {useForm, useWatch} from 'antd/es/form/Form'
+import {useNavigate} from 'react-router-dom'
+import {GlobalMessage} from '../../publicComponents/GlobalMessage'
 
 const RegisterPage = () => {
   /* 获取验证码API */
-  const { data: captchaData, mutateAsync: getCaptchaApi } = useGetCaptcha()
-  const { mutateAsync: register, isLoading: registerLoading, isError: loginError } = useRegister()
-  const { setSid, sidRef } = useSid()
+  const {data: captchaData, mutateAsync: getCaptchaApi} = useGetCaptcha()
+  const {mutateAsync: register, isLoading: registerLoading, isError: loginError} = useRegister()
   const navigate = useNavigate()
-  const { mutateAsync: getEmailCodeApi } = useGetEmailCode()
+  const {mutateAsync: getEmailCodeApi} = useGetEmailCode()
 
   const [form] = useForm()
   const email = useWatch('email', form)
+  const sid = useRef()
 
+  const refresh = async () => {
+    const s = await getCaptchaApi()
+    sid.current = s.verifyKey
+  }
   useEffect(() => {
     ;(async () => {
-      const s = await getCaptchaApi()
-      setSid(s.verifyKey)
+      await refresh()
     })()
   }, [])
 
@@ -31,9 +33,8 @@ const RegisterPage = () => {
     if (!userLoginInfo.remember) {
       LocalCache.deleteCache('UserInfo')
     }
-    userLoginInfo.verifyKey = sidRef.current
+    userLoginInfo.verifyKey = sid.current
     delete userLoginInfo.remember
-
     try {
       await register(userLoginInfo)
       GlobalMessage('success', '注册成功！！👋')

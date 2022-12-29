@@ -4,6 +4,7 @@ import type { ColumnsType } from 'antd/es/table'
 import { useNavigate } from 'react-router-dom'
 import { GlobalHeader } from '../../../../publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout'
+
 const statusType = {
   undone: '未提交',
   Correcting: '待批改'
@@ -16,7 +17,7 @@ type TableType = {
   deadline: string
 }
 
-export const ExamSummary: React.FC = () => {
+const ExamSummary: React.FC = () => {
   const navigate = useNavigate()
   const columns: ColumnsType<TableType> = [
     {
@@ -42,9 +43,14 @@ export const ExamSummary: React.FC = () => {
         typeof record.status === 'number' ? (
           <Button>查看详情</Button>
         ) : record.status === statusType.undone ? (
-          <Button type="primary" onClick={() => {
-            navigate(`/homework/${record.key}`, { replace: true })
-          }}>去完成</Button>
+          <Button
+            type="primary"
+            onClick={() => {
+              navigate(`/homework/${record.key}`, { replace: true })
+            }}
+          >
+            去完成
+          </Button>
         ) : record.status === statusType.Correcting ? (
           <Button>去修改</Button>
         ) : (
@@ -80,8 +86,10 @@ export const ExamSummary: React.FC = () => {
     <>
       <GlobalHeader title="作业和考试"></GlobalHeader>
       <GlobalRightLayout>
-        <Table columns={columns} dataSource={data} pagination={false}/>
+        <Table columns={columns} dataSource={data} pagination={false} />
       </GlobalRightLayout>
     </>
   )
 }
+
+export default ExamSummary

@@ -1,13 +1,12 @@
-import { GlobalLayout } from 'publicComponents/GlobalLayout'
+import GlobalLayout from 'publicComponents/GlobalLayout'
 import { Outlet, useParams } from 'react-router-dom'
 import { createClassNavMap } from 'util/createNavMap'
 import ClassInfoNavItems from './config'
 import { useEffect, useMemo } from 'react'
 import { isTeachAuth } from '../../util/isAuthTeach'
 import { useCurrentClassInfo } from '../../context/ClassInfoContext'
-import 'lib/aliyun-upload-sdk/aliyun-upload-sdk-1.5.4.min'
 
-export const ClassInfoPage = () => {
+const ClassInfoPage = () => {
   const { classInfo, getCurCourseInfo } = useCurrentClassInfo()
   const params = useParams()
 
@@ -32,3 +31,5 @@ export const ClassInfoPage = () => {
     />
   )
 }
+
+export default ClassInfoPage

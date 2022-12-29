@@ -20,7 +20,7 @@ export const ProfileWrapper = styled.div`
     }
   }
 `
-export const ProfilePage: React.FC = () => {
+const ProfilePage: React.FC = () => {
   return (
     <ProfileWrapper>
       <Row gutter={17}>
@@ -60,3 +60,5 @@ export const ProfilePage: React.FC = () => {
     </ProfileWrapper>
   )
 }
+
+export default ProfilePage

@@ -26,7 +26,6 @@ const PrimaryButtonWrapper = styled.div`
     color: white;
     font-size: 14px;
     line-height: 36px;
-
     background: linear-gradient(140deg, #6cc7ff 0%, #5a33ff 100%);
 
     &:hover {

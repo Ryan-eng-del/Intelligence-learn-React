@@ -27,7 +27,12 @@ body {
   height: 300px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(233, 238, 250);
+  /*background-color: rgb(233, 238, 250);*/
+  background-color: rgb(250, 250, 250);
+}
+
+html, body, .App, #root {
+  min-height: 100vh;
 }
 
 code {
@@ -100,7 +105,6 @@ code {
   height: 37px;
 }
 
-
 .ant-tree .ant-tree-node-content-wrapper {
   width: 100%;
   height: 38px;
@@ -112,7 +116,6 @@ code {
   background-color: rgb(231, 239, 252);
 }
 
-
 .ant-tree-treenode {
   width: 100%;
 }
@@ -121,11 +124,9 @@ code {
   width: 0;
 }
 
-
 .ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
   background-color: rgb(240, 246, 255);
 }
-
 
 /* Modal 树形控件 Modal样式覆盖 */
 .ant-tree.ant-tree-block-node .ant-tree-list-holder-inner {
@@ -150,7 +151,6 @@ code {
 .ant-tabs-tab-remove {
   color: white;
 }
-
 
 /* table组件的设置 */
 .ant-table {
@@ -189,17 +189,14 @@ th.ant-table-selection-column {
   font-size: 22px;
 }
 
-
 /* modal 章节学习 */
 .modal-wrapper .ant-modal-content {
   min-height: 500px;
 }
 
-
 .modal-chapter .ant-modal-footer {
   text-align: center;
 }
-
 
 .modal-wrapper .ant-modal-footer {
   border-top: none;
@@ -211,8 +208,6 @@ th.ant-table-selection-column {
   margin: 11px 8px 0 0;
 }
 
-
 .exam-drawer .ant-drawer-body {
   padding: 0;
 }
-

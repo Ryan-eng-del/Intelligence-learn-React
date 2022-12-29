@@ -10,7 +10,7 @@ function App() {
   const location = useLocation()
 
   useMount(() => {
-    !cache.getCache('token')
+    !cache.getCache('token_intel')
       ? navigate('/login')
       : location.pathname === '/'
       ? navigate('/home/teach')

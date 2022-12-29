@@ -1,10 +1,11 @@
 import LoginLayout from 'publicComponents/LoginLayout'
 import { useGetCaptcha, useToken } from '../../server/fetchLogin'
 import LocalCache from 'util/cache'
-import { useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useForm } from 'antd/es/form/Form'
+import Skeletons from '../../publicComponents/Skeleton'
 
-export const LoginPage = () => {
+const LoginPage = () => {
   /* 获取验证码API */
   const { data: captchaData, mutateAsync: getCaptchaApi } = useGetCaptcha()
   const { mutateAsync: login, isLoading: loginLoading } = useToken()
@@ -28,7 +29,11 @@ export const LoginPage = () => {
     }
     userLoginInfo.verifyKey = sid.current
     delete userLoginInfo.remember
-    await login(userLoginInfo)
+    try {
+      await login(userLoginInfo)
+    } catch (e) {
+      await refresh()
+    }
   }
 
   return (
@@ -39,6 +44,8 @@ export const LoginPage = () => {
       loading={loginLoading}
       captcha={captchaData?.codeImg}
       refresh={refresh}
-    ></LoginLayout>
+    />
   )
 }
+
+export default LoginPage

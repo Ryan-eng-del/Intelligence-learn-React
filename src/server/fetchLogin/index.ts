@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { client } from 'server'
@@ -22,8 +22,7 @@ export const useToken = () => {
     {
       onSuccess: (data) => {
         if (data) {
-          cache.setCache('token', data.token)
-          console.log(data, 'data')
+          cache.setCache('token_intel', data.token)
           message.success('登录成功，欢迎回来')
           navigate('/home/teach')
         }

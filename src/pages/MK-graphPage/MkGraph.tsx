@@ -5,7 +5,7 @@ import { getKnowPoint, setNodeStyle, HTMLToolTip, setCategories } from './config
 import { useShowMG } from '../../server/fetchGraph/index'
 import { useParams } from 'react-router-dom'
 
-export const MkGraph = () => {
+const MkGraph = () => {
   const courseId = useParams().id!
   const { data } = useShowMG(courseId)
 
@@ -88,3 +88,5 @@ const KnowledgeGraphWrapper = styled.div`
   top: 0;
   left: 0;
 `
+
+export default MkGraph

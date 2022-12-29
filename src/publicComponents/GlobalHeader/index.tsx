@@ -22,8 +22,6 @@ const RightLayoutHeaderWrapper = styled.div`
   padding: 0 30px;
   justify-content: space-between;
   align-items: center;
-  position: sticky;
-  top: 0;
   z-index: 500;
   background-color: white;
 `

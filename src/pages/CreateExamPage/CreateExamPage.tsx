@@ -18,7 +18,7 @@ import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { Drawer } from 'antd'
 import styled from 'styled-components'
 
-export const CreateExamPage: React.FC = () => {
+const CreateExamPage: React.FC = () => {
   const idSet = useRef<Set<number>>(new Set())
   /*当前正在编辑的题目*/
   const [curEditQuestion, setCurEditQuestion] = useState<undefined | IQuestionType>()
@@ -39,7 +39,7 @@ export const CreateExamPage: React.FC = () => {
   /*添加考试题目*/
   const addQuestionType = (type: QuestionConstantString) => {
     const actionType = QuestionTypeAction[type] as any
-    dispatchQuestionType({ type: actionType, payload: createQuestionObj(type, idSet.current,classInfo.courseId)})
+    dispatchQuestionType({ type: actionType, payload: createQuestionObj(type, idSet.current, classInfo.courseId) })
   }
 
   const onClose = () => {
@@ -92,3 +92,5 @@ export const CreateExamPage: React.FC = () => {
   )
 }
 const CreateExamRouteWrapper = styled.div``
+
+export default CreateExamPage

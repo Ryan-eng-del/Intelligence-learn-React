@@ -1,6 +1,0 @@
-export { LearnPage } from './LearnPage/LearnPage'
-export { TeachPage } from './TeachPage/TeachPagePro'
-export { InboxPage } from './InboxPage/InboxPage'
-export { SettingPage } from './SettingPage/SettingPage'
-export { ExamSummary } from './ExamPage/ExamSummary'
-export { ProfilePage } from './ProfilePage/ProfilePage'

@@ -1,11 +1,11 @@
-import { GlobalLayout } from '../../publicComponents/GlobalLayout/index'
+import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import HomeItems from './config'
 import { createHomeNavMap } from '../../util/createNavMap'
 import { useUserInfo } from '../../context/UserInfoContext'
-import { useEffect } from 'react'
+import GlobalLayout from 'publicComponents/GlobalLayout/index'
 
-export const HomePage = () => {
+const HomePage = () => {
   const { userInfo, getUserInfo } = useUserInfo()
   useEffect(() => {
     getUserInfo()
@@ -24,3 +24,5 @@ export const HomePage = () => {
     </>
   )
 }
+
+export default HomePage

@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { Avatar, Button } from 'antd'
 import { GlobalNav } from 'publicComponents/GlobalNav'
 import styled from 'styled-components'
@@ -5,12 +6,14 @@ import { IUserInfo } from '../../context/UserInfoContext'
 import { IClassInfo } from '../../context/ClassInfoContext'
 import styles from './index.module.css'
 import { useNavigate } from 'react-router-dom'
-
+import Skeletons from '../Skeleton'
+import AvatarPic from 'assets/img/avatar.jpg'
+import classPic from 'assets/img/class.jpg'
 const protectClassInfoType = (data: IUserInfo | IClassInfo | null, name: 'home' | 'classInfo'): data is IUserInfo =>
   name === 'home'
 
 
-export const GlobalLayout = (props: {
+const GlobalLayout = (props: {
   navItems: any
   routePage: any
   sliceCount: number
@@ -28,11 +31,7 @@ export const GlobalLayout = (props: {
           {protectClassInfoType(layoutData, layoutName) ? (
             <>
               <UserAvatarWrapper>
-                <Avatar
-                  src={layoutData?.headPortrait || require('assets/img/avatar.jpg')}
-                  size="large"
-                  style={{ margin: '0 auto' }}
-                />
+                <Avatar src={layoutData?.headPortrait || AvatarPic} size="large" style={{ margin: '0 auto' }} />
               </UserAvatarWrapper>
               <div className={styles['nickname']}>{layoutData?.name || '游客'}</div>
               <div className={styles['signature']}>
@@ -49,7 +48,7 @@ export const GlobalLayout = (props: {
           ) : (
             <>
               <div style={{ width: '198px', display: 'flex', justifyContent: 'center' }}>
-                <img src={require('assets/img/class.jpg')} style={{ width: '90%' }} />
+                <img src={classPic} style={{ width: '90%' }} />
               </div>
               <div className={styles['nickname']}>{layoutData?.courseName}</div>
               <div className={styles['signature']}>
@@ -62,7 +61,6 @@ export const GlobalLayout = (props: {
                   {layoutData?.courseDescribe || '课程暂无描述'}
                 </span>
               </div>
-              <div></div>
             </>
           )}
         </NavBottomWrapper>
@@ -75,7 +73,9 @@ export const GlobalLayout = (props: {
         </NavWrapper>
       </LeftLayoutWrapper>
       <RightLayoutWrapper>
-        <RightLayoutRouteWrapper>{props.routePage}</RightLayoutRouteWrapper>
+        <Suspense fallback={<Skeletons size={'middle'} />}>
+          <RightLayoutRouteWrapper>{props.routePage}</RightLayoutRouteWrapper>
+        </Suspense>
       </RightLayoutWrapper>
     </HomePageWrapper>
   )
@@ -117,11 +117,10 @@ const LeftLayoutWrapper = styled.div`
   height: 100vh;
   border-right: rgb(230, 230, 230) 2px solid;
   width: 200px;
-  position: sticky;
-  top: 0;
 `
 const RightLayoutWrapper = styled.div`
   flex: 1;
+  height: 100vh;
 `
 
 const UserAvatarWrapper = styled.div`
@@ -129,3 +128,5 @@ const UserAvatarWrapper = styled.div`
   border-radius: 50%;
   border: 3px solid rgb(230, 230, 230);
 `
+
+export default GlobalLayout
