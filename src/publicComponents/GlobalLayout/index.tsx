@@ -117,6 +117,7 @@ const LeftLayoutWrapper = styled.div`
 const RightLayoutWrapper = styled.div`
   flex: 1;
   height: 100vh;
+  position: relative;
 `
 
 const UserAvatarWrapper = styled.div`
