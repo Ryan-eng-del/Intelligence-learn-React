@@ -38,6 +38,7 @@ const babelRuntimeEntry = require.resolve('babel-preset-react-app')
 const babelRuntimeEntryHelpers = require.resolve('@babel/runtime/helpers/esm/assertThisInitialized', {
   paths: [babelRuntimeEntry]
 })
+
 const babelRuntimeRegenerator = require.resolve('@babel/runtime/regenerator', {
   paths: [babelRuntimeEntry]
 })
