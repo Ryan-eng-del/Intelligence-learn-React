@@ -9,6 +9,7 @@ export interface TeachPageState {
   EditVisible: boolean
   EditingCourse: CourseList
   uploadLoading: boolean
+  courseDescribe:string
 }
 export type TeachPageAction =
   | { type: 'setImgUrl'; payload: string }
@@ -20,3 +21,5 @@ export type TeachPageAction =
   | { type: 'setEditVisible'; payload: boolean }
   | { type: 'setEditCourse'; payload: CourseList }
   | { type: 'setUploadLoading'; payload: boolean }
+  | { type: 'setCourseDescribe'; payload: string }
+

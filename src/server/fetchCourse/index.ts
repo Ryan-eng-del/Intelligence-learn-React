@@ -53,15 +53,14 @@ export const useJoinInvitedCourse = () => {
 }
 
 // 添加课程
-export const useCreateClass = ({ course_cover, course_name }: { course_name: string; course_cover: string | null }) => {
+export const useCreateClass = ({ course_cover, course_name, course_describe }: { course_name: string; course_cover: string | null, course_describe: string | null }) => {
   const queryClient = useQueryClient()
-  console.log(course_name, 'name')
   return useMutation(
     async () => {
       await delayFetch()
       return client.post({
         url: '/course/create',
-        data: { course_cover, course_name }
+        data: { course_cover, course_name,course_describe }
       })
     },
 
@@ -86,8 +85,8 @@ export const useDeleteCourse = () => {
     return client.delete({
       url: `/course/delete/${courseId}`,
     })
-  },{
-    onSuccess:()=>{
+  }, {
+    onSuccess: () => {
       queryClient.invalidateQueries(['teachclass'])
     }
   })
@@ -96,12 +95,12 @@ export const useDeleteCourse = () => {
 //修改课程信息
 export const useEditCourse = () => {
   const queryClient = useQueryClient()
-  return useMutation((data:CourseList) => {
+  return useMutation((data: CourseList) => {
     return client.put({
       url: '/course/update', data
     })
-  },{
-    onSuccess:()=>{
+  }, {
+    onSuccess: () => {
       queryClient.invalidateQueries(['teachclass'])
     }
   })

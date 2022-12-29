@@ -15,14 +15,16 @@ import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/ind
 import { CourseList } from 'server/fetchCourse/types'
 
 export const TeachPage = () => {
+  const { TextArea } = Input;
   const [state, dispatch] = useReducer(TeachRoutePageReducer, initialState)
   const { data, isLoading } = useShowCreateClass()
-  const { uploadLoading, modalVisible, imgUrl, className, EditVisible, EditingCourse } = state
+  const { uploadLoading, modalVisible, imgUrl, className, EditVisible, EditingCourse, courseDescribe } = state
   const { mutateAsync: DeleteCourse } = useDeleteCourse()
   const { mutateAsync: EditCourse } = useEditCourse()
   const { mutateAsync: createClass } = useCreateClass({
     course_cover: imgUrl,
-    course_name: className
+    course_name: className,
+    course_describe:courseDescribe
   })
   const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
     if (info.file.status === 'uploading') {
@@ -44,7 +46,12 @@ export const TeachPage = () => {
       <div style={{ marginTop: 8 }}>Upload</div>
     </div>
   )
-  const showModal = () => dispatch({ type: 'setModalVisible', payload: true })
+  const showModal = () => {
+    dispatch({ type: 'setClassName', payload: '' })
+    dispatch({ type: 'setCourseDescribe', payload: '' })
+    dispatch({ type: 'setModalVisible', payload: true })
+  }
+
   const handleOk = async () => {
     dispatch({ type: 'setModalVisible', payload: false })
     try {
@@ -59,10 +66,11 @@ export const TeachPage = () => {
   const handleCancel = () => dispatch({ type: 'setModalVisible', payload: false })
 
   // 打开编辑
-  const handleEdit =  (item: CourseList) => {
+  const handleEdit = (item: CourseList) => {
     dispatch({ type: 'setEditCourse', payload: item })
     dispatch({ type: 'setClassName', payload: item.courseName })
     dispatch({ type: 'setEditVisible', payload: true })
+    dispatch({ type: 'setCourseDescribe', payload: item.courseDescribe })
   }
   // 删除
   const handleDelete = async () => {
@@ -76,7 +84,7 @@ export const TeachPage = () => {
       courseId: EditingCourse.courseId,
       courseName: className,
       coursesCover: imgUrl,
-      courseDescribe: ""
+      courseDescribe: courseDescribe
     })
     dispatch({ type: 'setEditVisible', payload: false })
     // 页面更新
@@ -120,13 +128,18 @@ export const TeachPage = () => {
               {imgUrl ? <img src={imgUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
             </Upload>
           </UploadImageWrapper>
+          <TextArea rows={4} value={courseDescribe}
+          placeholder={'请输入课程描述'}
+            onChange={(e) => {
+              dispatch({ type: 'setCourseDescribe', payload: e.target.value })
+            }} />
         </Modal>
-         {/* 编辑课程弹出窗 */}
-         <Modal
+        {/* 编辑课程弹出窗 */}
+        <Modal
           title="管理课程"
           visible={EditVisible}
           onOk={confirmEdit}
-          onCancel={()=>dispatch({ type: 'setEditVisible', payload: false })}
+          onCancel={() => dispatch({ type: 'setEditVisible', payload: false })}
           okText="确认"
           cancelText="取消"
         >
@@ -156,6 +169,11 @@ export const TeachPage = () => {
               {imgUrl ? <img src={imgUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
             </Upload>
           </UploadImageWrapper>
+          <div className="classname-label">修改课程描述</div>
+          <TextArea rows={4} value={courseDescribe}
+            onChange={(e) => {
+              dispatch({ type: 'setCourseDescribe', payload: e.target.value })
+            }} />
           <div className="classname-label">其他选项</div>
           <Popconfirm onConfirm={handleDelete} title="你确定这样做吗，这将解散全部学生并删除里面的资源">
             <Button type='primary' danger >删除课程</Button>
@@ -176,12 +194,12 @@ export const TeachPage = () => {
                 (item, index) =>
                   index >= i * 4 &&
                   index < (i + 1) * 4 &&
-                    <ClassCard
-                      to="MyTeach"
-                      classInfo={item}
-                      key={item.courseId}
-                      EditModal={()=>handleEdit(item)}
-                    />
+                  <ClassCard
+                    to="MyTeach"
+                    classInfo={item}
+                    key={item.courseId}
+                    EditModal={() => handleEdit(item)}
+                  />
               )}
             </Row>
           ))

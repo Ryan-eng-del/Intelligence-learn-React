@@ -1,5 +1,7 @@
+import { EditOutlined } from '@ant-design/icons'
+import { Button, Form, Input, Modal } from 'antd'
 import { PrimaryButton } from 'publicComponents/Button'
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CourseList } from 'server/fetchCourse/types'
 import { CardBodyWrapper, CardHeadWrapper, CardWrapper } from './ClassCardStyle'
@@ -7,9 +9,19 @@ import { CardBodyWrapper, CardHeadWrapper, CardWrapper } from './ClassCardStyle'
 export const ClassCard: React.FC<{
   classInfo: CourseList
   to: 'MyTeach' | 'MyStudy'
-  EditModal?:()=>void
+  EditModal?: () => void
 }> = ({ classInfo, to, EditModal }) => {
+  const [showCardEdit, setShowCardEdit] = useState(false)
+
   const navigate = useNavigate()
+
+  const handleOk = () => {
+    setShowCardEdit(false)
+  }
+
+  const handleCancel = () => {
+    setShowCardEdit(false)
+  }
 
   const handleClick = () => {
     navigate(`/${to}/${classInfo.courseId}/chapter`)
@@ -17,18 +29,39 @@ export const ClassCard: React.FC<{
 
   return (
     <>
+    {/* 这个弹窗在上一层TeachPagePro.tsx */}
+      {/* <Modal title="管理课程" visible={showCardEdit} onOk={handleOk} onCancel={handleCancel}>
+        <Form>
+          <Form.Item>
+            <label>更改课程名称</label>
+            <Input></Input>
+          </Form.Item>
+          <Form.Item>
+            <label>更新课程封面</label>
+          </Form.Item>
+          <Form.Item>
+            <label>修改课程描述</label>
+          </Form.Item>
+          <Form.Item>
+            <label>其他选项 </label>
+            <Button type='primary' danger></Button>
+          </Form.Item>
+        </Form>
+      </Modal> */}
       <CardWrapper>
-        {to == 'MyTeach' ? <a className='magBtn' onClick={EditModal}>管理</a> : <></>}
         <CardHeadWrapper>
           <img src={classInfo.coursesCover || require('assets/img/class.jpg')} alt="课程图片" />
         </CardHeadWrapper>
         <CardBodyWrapper>
           <div className="tname">{classInfo.courseName}</div>
-          <PrimaryButton
-            title="进入课程"
-            handleClick={handleClick}
-            style={{ width: '100px', marginTop: '12px' }}
-          ></PrimaryButton>
+          <div style={{ display: "flex", flexDirection: "row",position:'relative'}}>
+            <PrimaryButton
+              title="进入课程"
+              handleClick={handleClick}
+              style={{ width: '100px', marginTop: '12px' }}
+            ></PrimaryButton>
+            {to == 'MyTeach' ? <a className='magBtn' onClick={EditModal}>管理</a> : <></>}
+          </div>
         </CardBodyWrapper>
       </CardWrapper>
     </>

@@ -16,7 +16,8 @@ export const initialState: TeachPageState = {
   modalVisible: false,
   EditVisible: false,
   EditingCourse: initialCourse,
-  uploadLoading: false
+  uploadLoading: false,
+  courseDescribe: ''
 }
 export const TeachRoutePageReducer = (
   state: TeachPageState,
@@ -32,21 +33,23 @@ export const TeachRoutePageReducer = (
       return { ...state, classTeacher: action.payload }
     case 'setClasList':
       newClassList =
-      [...state.classList.filter(i=>i.courseId!=action.payload.courseId)]
-        .concat(action.payload)
+        [...state.classList.filter(i => i.courseId != action.payload.courseId)]
+          .concat(action.payload)
       return { ...state, classList: newClassList }
     case 'delClasList':
       newClassList =
-      [...state.classList.filter(i=>i.courseId!=action.payload)]
+        [...state.classList.filter(i => i.courseId != action.payload)]
       return { ...state, classList: newClassList }
     case 'setModalVisible':
       return { ...state, modalVisible: action.payload }
     case 'setEditVisible':
       return { ...state, EditVisible: action.payload }
-      case 'setEditCourse':
-        return { ...state, EditingCourse: action.payload }
+    case 'setEditCourse':
+      return { ...state, EditingCourse: action.payload }
     case 'setUploadLoading':
       return { ...state, uploadLoading: action.payload }
+    case 'setCourseDescribe':
+      return { ...state, courseDescribe: action.payload }
     default:
       throw new Error()
   }
