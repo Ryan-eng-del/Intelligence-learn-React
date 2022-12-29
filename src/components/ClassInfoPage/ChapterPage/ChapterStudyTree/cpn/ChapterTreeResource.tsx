@@ -1,4 +1,4 @@
-import { CustomLink } from '../../../../../util/CustomLink'
+import { CustomLink } from 'util/CustomLink'
 import { Tag } from 'antd'
 import { DeleteOutlined, FileImageFilled, FilePptFilled, YoutubeFilled } from '@ant-design/icons'
 import React, { useMemo } from 'react'

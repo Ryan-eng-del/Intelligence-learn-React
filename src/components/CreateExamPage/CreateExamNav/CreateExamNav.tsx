@@ -3,7 +3,7 @@ import { Collapse } from 'antd'
 import { QuestionActionString } from 'server/fetchExam/types'
 import styled from 'styled-components'
 import { getQuestionHeader } from '../../../pages/CreateExamPage/util/util'
-import { IQuestionType, IQuestionTypeInitialState } from '../../../reducer/CreateExamPaper/type/type'
+import { IQuestionType, IQuestionTypeInitialState } from 'reducer/CreateExamPaper/type/type'
 
 const { Panel } = Collapse
 

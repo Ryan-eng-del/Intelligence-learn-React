@@ -1,11 +1,11 @@
 import React, { useCallback, useRef, useState } from 'react'
-import { useAddContentResource } from '../../server/fetch3rd/fetchChapter'
-import { ICourseTimeReducerAction } from '../../reducer/ChaperStudyTree/type/type'
+import { useAddContentResource } from 'server/fetch3rd/fetchChapter'
+import { ICourseTimeReducerAction } from 'reducer/ChaperStudyTree/type/type'
 import AliYunOSS from 'util/AliYunOSS'
-import { GlobalMessage } from '../../publicComponents/GlobalMessage'
+import { GlobalMessage } from 'publicComponents/GlobalMessage'
 import { createVideoAndOtherArr } from './util'
 import { useParams } from 'react-router-dom'
-import { useUploadVideo } from '../../server/fetchResource'
+import { useUploadVideo } from 'server/fetchResource'
 
 import AliyunUpload from 'AliyunUpload'
 

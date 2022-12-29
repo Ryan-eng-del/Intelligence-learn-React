@@ -1,7 +1,6 @@
 import HYRequest from './request/request'
 import { baseURL, TIME_OUT } from './request/config'
-import localCache from '../util/cache'
-
+import localCache from 'util/cache'
 export const client = new HYRequest({
   baseURL: baseURL,
   timeout: TIME_OUT,

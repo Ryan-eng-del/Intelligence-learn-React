@@ -1,5 +1,5 @@
 import LoginLayout from 'publicComponents/LoginLayout'
-import { useGetCaptcha, useToken } from '../../server/fetchLogin'
+import { useGetCaptcha, useToken } from 'server/fetchLogin'
 import LocalCache from 'util/cache'
 import React, { useEffect, useRef } from 'react'
 import { useForm } from 'antd/es/form/Form'
@@ -17,13 +17,12 @@ const LoginPage = () => {
   }
 
   useEffect(() => {
-    ;(async () => {
-      await refresh()
-    })()
+    refresh()
   }, [])
 
   /* 登录逻辑处理 */
   const onFinish = async (userLoginInfo: any) => {
+
     if (!userLoginInfo.remember) {
       LocalCache.deleteCache('UserInfo')
     }

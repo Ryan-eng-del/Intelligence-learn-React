@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import HomeItems from './config'
-import { createHomeNavMap } from '../../util/createNavMap'
+import { createHomeNavMap } from 'util/createNavMap'
 import { useUserInfo } from '../../context/UserInfoContext'
 import GlobalLayout from 'publicComponents/GlobalLayout/index'
 

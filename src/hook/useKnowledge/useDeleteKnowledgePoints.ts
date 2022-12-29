@@ -1,5 +1,5 @@
 /*删除知识点*/
-import { useDeleteKnowledgeAPI } from '../../server/fetchKnowledge'
+import { useDeleteKnowledgeAPI } from 'server/fetchKnowledge'
 import { useCallback } from 'react'
 import { deleteKnowledgeNode } from '../../helper/knowledgeTree'
 import { IKnowledgePoint } from './type'

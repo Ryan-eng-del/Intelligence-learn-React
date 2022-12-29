@@ -1,4 +1,4 @@
-import { IQuestionType } from '../../../reducer/CreateExamPaper/type/type'
+import { IQuestionType } from 'reducer/CreateExamPaper/type/type'
 
 export const isCouldSaveQuestion = (question: IQuestionType): { message: string; isError: boolean } => {
   const { questionDescription, questionType, questionAnswerExplain, rightAnswer } = question

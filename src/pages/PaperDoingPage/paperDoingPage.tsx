@@ -10,64 +10,6 @@ import Skeletons from '../../publicComponents/Skeleton/index'
 
 const { Header, Sider, Content } = Layout
 
-const Questionlist: any[] = [
-  {
-    questionName: '555555555555555555555555555',
-    answerA: '1',
-    answerB: '2',
-    answerC: '3',
-    answerD: '4',
-    score: 1
-  },
-  {
-    questionName: '2+1=?',
-    answerA: '1',
-    answerB: '2',
-    answerC: '3',
-    answerD: '4',
-    score: 2
-  },
-  {
-    questionName: '3+1=?',
-    answerA: '1',
-    answerB: '2',
-    answerC: '3',
-    answerD: '4',
-    score: 3
-  },
-  {
-    questionName: '3+1=?',
-    answerA: '1',
-    answerB: '2',
-    answerC: '3',
-    answerD: '4',
-    score: 3
-  },
-  {
-    questionName: '3+1=?',
-    answerA: '1',
-    answerB: '2',
-    answerC: '3',
-    answerD: '4',
-    score: 3
-  },
-  {
-    questionName: '3+1=?',
-    answerA: '1',
-    answerB: '2',
-    answerC: '3',
-    answerD: '4',
-    score: 3
-  },
-  {
-    questionName: '3+1=?',
-    answerA: '1',
-    answerB: '2',
-    answerC: '3',
-    answerD: '4',
-    score: 3
-  }
-]
 
 const PaperDoing: React.FC = () => {
   // 需要路由获取参数
@@ -85,6 +27,7 @@ const PaperDoing: React.FC = () => {
     ]
   }
 
+  const Time = Date.now()
   return (
     <>
       {data == undefined ? (
@@ -100,7 +43,12 @@ const PaperDoing: React.FC = () => {
               zIndex: 100
             }}
           >
-            <Title paperName={data!.paperName} />
+            <Title
+              paperName={data!.paperName}
+              num={data.questionOfPaperVos.length}
+              time={Time}
+              score={data.questionOfPaperVos.reduce((p,c)=>p+(c.questionScore?c.questionScore:0),0)}
+            />
           </Header>
           <Layout>
             <Sider

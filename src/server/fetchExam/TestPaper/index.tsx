@@ -1,14 +1,11 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { client } from 'server'
-import { message } from 'antd'
-import { delayFetch } from 'util/delayFetch'
-import { TestPaper, PostTestPaper, StudentPaper, QuestionConstantString } from '../types'
-import { config } from '../config'
+
+import { TestPaper, PostTestPaper, StudentPaper,  ExamListItem } from '../types'
 import { MutationMsg } from 'util/MutationMsg'
 
 /** 打开一张试卷 */
 export const useShowTestPaper = (paperId: string) => {
-
   return useQuery([`TestPaper-${paperId}`], () => {
     return client.get<TestPaper>({
       url: `/paper/teacher/paper-preview`,
@@ -21,8 +18,7 @@ export const useShowTestPaper = (paperId: string) => {
 export const useSaveTestPaper = () => {
   return useMutation(
     async (paper: PostTestPaper) => {
-      await delayFetch()
-      return client.post({
+            return client.post({
         url: '/paper/teacher/update',
         data: paper
       })
@@ -43,12 +39,35 @@ export const useSaveTestPaper = () => {
 //   )
 // }
 
+/** 学生获取到试卷列表 */
+export const useShowExamListPublished = (courseID: string) => {
+  return useQuery([`ExamListS-${courseID}`], async () => {
+    return client.get<ExamListItem[]>({
+      url: `/paper/stu/exams`,
+      params: {
+        courseId: courseID
+      }
+    })
+  })
+}
+
+/** 学生获取到作业列表 */
+export const useHomeWorkListPublished = (courseID: string) => {
+  return useQuery([`ExamListS-${courseID}`], async () => {
+    return client.get<any[]>({
+      url: `/paper/stu/homeworks`,
+      params: {
+        courseId: courseID
+      }
+    })
+  })
+}
+
 /** 学生获取到试卷 */
 export const useShowQuestionForStudent = (id: string) => {
   return useQuery([`paperdoing-${id}`], () => {
     return client.get<StudentPaper>({
       url: `/paper/stu/paper-detail/${id}`,
-      params: { paperId:id }
     })
   })
 }
@@ -57,7 +76,6 @@ export const useShowQuestionForStudent = (id: string) => {
 export const useSubmitTestPaper = () => {
   return useMutation(
     async (paper: {questionId:string,studentAnswer:string}[]) => {
-      await delayFetch()
       return client.post({
         url: '/paper/stu/submit',
         data: paper

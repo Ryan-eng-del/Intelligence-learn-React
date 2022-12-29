@@ -1,4 +1,4 @@
-import { ICurFileObj } from '../../../server/fetchClassTime/type'
+import { ICurFileObj } from 'server/fetchClassTime/type'
 
 export interface IChapterReducerState {
   expandKeys: string[]

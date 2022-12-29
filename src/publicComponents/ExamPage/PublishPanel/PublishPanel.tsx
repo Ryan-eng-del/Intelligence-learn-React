@@ -22,8 +22,13 @@ export const PublishPanel: React.FC<{
   const [value, setValue] = useState(['0-0'])
 
   const [publishPanelState, setpublishPanelState] = useState<PublishExamType | PublishHomeworkType>({
-    student_ids: []
+    paperId,
+    studentIds:[]
   }) //存取了所有发送网络请求需要的参数
+  // 必须这个不然上面对象内的paperId 不更新
+  useEffect(()=>{
+    setpublishPanelState({ ...publishPanelState,paperId })
+  },[paperId])
 
   // setpublishPanelState({...publishPanelState,paper_id:paperId})
   const { mutate: releaseExam } = useReleaseExam()
@@ -63,10 +68,8 @@ export const PublishPanel: React.FC<{
         studentsTemp.push(studentTree.classList[parseInt(temp[0])].studentList[parseInt(temp[1])].studentId)
       }
     })
-    setpublishPanelState({ ...publishPanelState, student_ids: studentsTemp })
+    setpublishPanelState({ ...publishPanelState, studentIds: studentsTemp })
   } //学生选择树改变时触发
-
-  // console.log(value);
 
   const tProps = {
     treeData,
@@ -80,8 +83,6 @@ export const PublishPanel: React.FC<{
     }
   } //树的参数
 
-  console.log(publishPanelState)
-
   const translateTimeToNumber = (time: string) => {
     const timearr = time.split(':')
     return parseInt(timearr[0]) * 60 + parseInt(timearr[1])
@@ -89,7 +90,7 @@ export const PublishPanel: React.FC<{
 
   return (
     <Modal
-      title={`发布${'试卷'}`}
+      title={`发布${isExam ? '考试' : '作业'} TODO：这里每个都选一遍才会有数据！！`}
       visible={visible}
       onCancel={close}
       footer={[
@@ -100,8 +101,8 @@ export const PublishPanel: React.FC<{
           key="publish"
           type="primary"
           onClick={() => {
-            isExam ? releaseExam(publishPanelState) : releaseHomework({ ...publishPanelState, paper_id: paperId })
-            close
+            isExam ? releaseExam(publishPanelState) : releaseHomework(publishPanelState)
+            close()
           }}
           icon={<ArrowRightOutlined />}
         >
@@ -122,7 +123,8 @@ export const PublishPanel: React.FC<{
             format={dateFormat}
             disabled={[!isTiming, false]}
             onChange={(value, d) => {
-              setpublishPanelState({ ...publishPanelState, start_time: d[0], end_time: d[1] })
+              console.log(d);
+              setpublishPanelState({ ...publishPanelState, startTime: d[0], endTime: d[1] })
             }}
           />
         </Form.Item>
@@ -143,7 +145,7 @@ export const PublishPanel: React.FC<{
                 showNow={false}
                 format={'HH:mm'}
                 onChange={(v, d) => {
-                  setpublishPanelState({ ...publishPanelState, limit_time: translateTimeToNumber(d) })
+                  setpublishPanelState({ ...publishPanelState, limitTime: translateTimeToNumber(d) })
                 }}
               />
               开考几分钟后不允许进入:
@@ -153,7 +155,7 @@ export const PublishPanel: React.FC<{
                 onChange={(v, d) =>
                   setpublishPanelState({
                     ...publishPanelState,
-                    limit_enter_time: translateTimeToNumber(d)
+                    limitEnterTime: translateTimeToNumber(d)
                   })
                 }
               />
@@ -164,7 +166,7 @@ export const PublishPanel: React.FC<{
                 onChange={(v, d) =>
                   setpublishPanelState({
                     ...publishPanelState,
-                    limit_submit_time: translateTimeToNumber(d)
+                    limitSubmitTime: translateTimeToNumber(d)
                   })
                 }
               />
@@ -175,13 +177,13 @@ export const PublishPanel: React.FC<{
                 max={100}
                 defaultValue={60}
                 onChange={(value) => {
-                  setpublishPanelState({ ...publishPanelState, pass_score: value })
+                  setpublishPanelState({ ...publishPanelState, passScore: value })
                 }}
               />
               是否区分大小写:
               <Switch
                 onChange={(value) => {
-                  setpublishPanelState({ ...publishPanelState, is_distinguish_case: value ? 1 : 0 })
+                  setpublishPanelState({ ...publishPanelState, isDistinguishCase: value ? 1 : 0 })
                 }}
               />
               重做次数:
@@ -191,31 +193,31 @@ export const PublishPanel: React.FC<{
                 max={10}
                 defaultValue={0}
                 onChange={(value) => {
-                  setpublishPanelState({ ...publishPanelState, remake_time: value })
+                  setpublishPanelState({ ...publishPanelState, remakeTime: value })
                 }}
               />
               是否可以查看分数:
               <Switch
                 onChange={(value) => {
-                  setpublishPanelState({ ...publishPanelState, is_show_score: value ? 1 : 0 })
+                  setpublishPanelState({ ...publishPanelState, isShowScore: value ? 1 : 0 })
                 }}
               />
               是否可以查看试卷:
               <Switch
                 onChange={(value) => {
-                  setpublishPanelState({ ...publishPanelState, is_allow_show_paper: value ? 1 : 0 })
+                  setpublishPanelState({ ...publishPanelState, isAllowShowPaper: value ? 1 : 0 })
                 }}
               />
               是否取多次最高成绩:
               <Switch
                 onChange={(value) => {
-                  setpublishPanelState({ ...publishPanelState, is_get_high_score: value ? 1 : 0 })
+                  setpublishPanelState({ ...publishPanelState, isGetHighScore: value ? 1 : 0 })
                 }}
               />
               是否可以查看排名:
               <Switch
                 onChange={(value) => {
-                  setpublishPanelState({ ...publishPanelState, is_show_rank: value ? 1 : 0 })
+                  setpublishPanelState({ ...publishPanelState, isShowRank: value ? 1 : 0 })
                 }}
               />
             </>
@@ -225,7 +227,7 @@ export const PublishPanel: React.FC<{
               允许重做:
               <Switch
                 onChange={(value) => {
-                  setIsAllowRedo(value), setpublishPanelState({ ...publishPanelState, is_allow_make_up: value ? 1 : 0 })
+                  setIsAllowRedo(value), setpublishPanelState({ ...publishPanelState, isAllowMakeUp: value ? 1 : 0 })
                 }}
               />
               <br></br>
@@ -233,7 +235,15 @@ export const PublishPanel: React.FC<{
               <Switch
                 disabled={!isAllowRedo}
                 onChange={(value) => {
-                  setpublishPanelState({ ...publishPanelState, is_get_high_score: value ? 1 : 0 })
+                  setpublishPanelState({ ...publishPanelState, isGetHighScore: value ? 1 : 0 })
+                }}
+              />
+              <br></br>
+              是否多选题未选全给一半分:
+              <Switch
+                disabled={!isAllowRedo}
+                onChange={(value) => {
+                  setpublishPanelState({ ...publishPanelState, isMultiHalfScore: value ? 1 : 0 })
                 }}
               />
               <br></br>
@@ -242,7 +252,7 @@ export const PublishPanel: React.FC<{
                 disabled={!isAllowRedo}
                 style={{ width: '6em' }}
                 onChange={(value: number) => {
-                  setpublishPanelState({ ...publishPanelState, remake_time: value })
+                  setpublishPanelState({ ...publishPanelState, remakeTime: value })
                 }}
               >
                 <Option value={999}>不限制</Option>

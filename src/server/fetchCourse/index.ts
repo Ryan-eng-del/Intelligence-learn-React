@@ -49,6 +49,10 @@ export const useJoinInvitedCourse = () => {
       url: '/class/join',
       params: { classId }
     })
+  },{
+    onMutate() {
+      useQueryClient().invalidateQueries(['learnclass'])
+    },
   })
 }
 
@@ -58,8 +62,7 @@ export const useCreateClass = ({ course_cover, course_name }: { course_name: str
   console.log(course_name, 'name')
   return useMutation(
     async () => {
-      await delayFetch()
-      return client.post({
+            return client.post({
         url: '/course/create',
         data: { course_cover, course_name }
       })

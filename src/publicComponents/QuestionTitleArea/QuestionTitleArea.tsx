@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { LabelArea, QuestionContentWrapper } from '../CreateQuestionPage/QuestionType/SingleChoice/SingleChoice'
 import TextArea from 'antd/es/input/TextArea'
-import { IQuestionType } from '../../reducer/CreateExamPaper/type/type'
+import { IQuestionType } from 'reducer/CreateExamPaper/type/type'
 
 interface QuestionTitleAreaProps {
   question: IQuestionType

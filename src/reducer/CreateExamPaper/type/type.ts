@@ -1,4 +1,4 @@
-import { QuestionConstantString } from '../../../server/fetchExam/types'
+import { QuestionConstantString } from 'server/fetchExam/types'
 
 export interface IQuestionTypeInitialState<T> {
   singleChoice: {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { OptionPreviewWrapper } from '../QuestionFooter'
-import { IQuestionType } from '../../../../reducer/CreateExamPaper/type/type'
+import { IQuestionType } from 'reducer/CreateExamPaper/type/type'
 
 interface SingleChoiceProps {
   question: IQuestionType
