@@ -49,9 +49,6 @@ const QuestionEditPage = lazy(
   () => import('publicComponents/CreateQuestionPage/QuestionPreview/QuestionEdit/QuestionEditPage')
 )
 
-
-
-
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -70,7 +67,7 @@ root.render(
           <Suspense
             fallback={
               (window.location.pathname === '/login' || window.location.pathname === '/') && (
-                <Skeletons size={'small'} />
+                <Skeletons size={'small'} absolute={true} />
               )
             }
           >

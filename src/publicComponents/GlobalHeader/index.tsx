@@ -1,32 +1,41 @@
 import styled from 'styled-components'
 import { Breadcrumb, Space } from 'antd'
 import { HomeOutlined } from '@ant-design/icons'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 interface GlobalHeaderProps {
   title: string
-
   tool?: JSX.Element | boolean
+  transparent?: boolean
 }
 
 export const GlobalHeader = (props: GlobalHeaderProps) => {
   const prefix = useParams()
+  const navigate = useNavigate()
   return (
     <RightLayoutHeaderWrapper>
-      <Breadcrumb separator="/">
-        <Breadcrumb.Item href="/home/teach">
-          <HomeOutlined />
-        </Breadcrumb.Item>
-        {prefix.identify
-        ? prefix.identify == "MyTeach"
-          ? <Breadcrumb.Item> 我教的课 </Breadcrumb.Item>
-          : <Breadcrumb.Item> 我学的课 </Breadcrumb.Item>
-        : <></>}
-        <Breadcrumb.Item>
-          <b>{props.title}</b>
-        </Breadcrumb.Item>
-      </Breadcrumb>
-      <HeaderToolWrapper>{props?.tool}</HeaderToolWrapper>
+      {!props.transparent && (
+        <>
+          <Breadcrumb separator="/">
+            <Breadcrumb.Item onClick={() => navigate('/home/teach')}>
+              <HomeOutlined />
+            </Breadcrumb.Item>
+            {prefix.identify ? (
+              prefix.identify == 'MyTeach' ? (
+                <Breadcrumb.Item onClick={() => navigate('/home/teach')}> 我教的课 </Breadcrumb.Item>
+              ) : (
+                <Breadcrumb.Item onClick={() => navigate('/home/learn')}> 我学的课 </Breadcrumb.Item>
+              )
+            ) : (
+              <></>
+            )}
+            <Breadcrumb.Item>
+              <b>{props.title}</b>
+            </Breadcrumb.Item>
+          </Breadcrumb>
+          <HeaderToolWrapper>{props?.tool}</HeaderToolWrapper>
+        </>
+      )}
     </RightLayoutHeaderWrapper>
   )
 }

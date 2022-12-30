@@ -34,7 +34,7 @@ export interface IQuestionInfo {
   pointIds: string[]
   questionAnswerExplain: string
 }
-export interface IQuestionType extends IQuestionInfo{
+export interface IQuestionType extends IQuestionInfo {
   score: number
   isStore: boolean
   questionId: string
@@ -45,7 +45,13 @@ export interface IEditQuestionType {
   editQuestion: IQuestionType
 }
 
-export type IQuestionTypeAction = IQuestionTypeAddAction | IQuestionTypeEditAction
+export type IQuestionTypeAction =
+  | IQuestionTypeAddAction
+  | IQuestionTypeEditAction
+  | IQuestionTypeDeleteAction
+  | IQuestionTypeSaveAction
+  | IQuestionTypePreviewAction
+  | IQuestionTypeSaveStateAction
 
 /*添加题目的action*/
 export type IQuestionTypeAddAction =
@@ -58,5 +64,34 @@ export type IQuestionTypeAddAction =
 /*编辑题目的action*/
 export type IQuestionTypeEditAction = {
   type: 'editQuestion'
-  payload: IEditQuestionType
+  payload: { content: string | number; id: string; target: keyof IQuestionType; index?: number }
+}
+
+/* 删除题目的action */
+export type IQuestionTypeDeleteAction = {
+  type: 'deleteQuestion'
+  id: string
+}
+
+/* 保存试题的action */
+export type IQuestionTypeSaveAction = {
+  type: 'saveQuestion'
+  id: string
+  setModalOpen: any
+  setEditQuestion: any
+  isPreview?: boolean
+}
+/* 保存试题的action */
+export type IQuestionTypePreviewAction = {
+  type: 'previewQuestion'
+  id: string
+  setModalOpen: any
+  setEditQuestion: any
+}
+
+/* 保存试题状态的action */
+export type IQuestionTypeSaveStateAction = {
+  type: 'saveQuestionState'
+  id: string
+  oldId: string
 }

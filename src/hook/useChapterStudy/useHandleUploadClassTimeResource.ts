@@ -30,12 +30,14 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
   /* 上传状态文字 */
   const [statusText, setStatusText] = useState('')
   const videoId = useRef('')
+
   /*添加资源API*/
   const { mutateAsync: addContentResource, isSuccess } = useAddContentResource()
   const { mutateAsync: uploadVideo } = useUploadVideo()
   const [isVideoStart, setIsVideoStart] = useState(false)
   const [isOtherStart, setIsOtherStart] = useState(false)
   const [otherProgress, setOtherProgress] = useState(50)
+
   const finishUpload = async () => {
     setIsVideoStart(false)
     const data = await uploadVideo({ videoId: videoId.current, courseId, relatePoints })
@@ -62,6 +64,7 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
     videoProject.forEach((file: File) => {
       uploader.addFile(file)
     })
+
     uploader.startUpload()
 
     /* 非视频文件上传 */

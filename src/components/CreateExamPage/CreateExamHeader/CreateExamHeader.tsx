@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { IQuestionType, IQuestionTypeInitialState } from 'reducer/CreateExamPaper/type/type'
 import { QuestionActionString } from 'server/fetchExam/types'
 import { useUploadExamPaper } from 'server/fetchExam/Teacher'
+import { BaseSpin } from 'baseUI/BaseSpin/BaseSpin'
 
 interface CreateExamHeaderProps {
   questionTypeState: IQuestionTypeInitialState<IQuestionType>
@@ -60,17 +61,16 @@ export const CreateExamHeader = (props: CreateExamHeaderProps) => {
         }
       })
 
-      console.log(questionsScore, questionIds, paperName)
       try {
         await saveExamPaper({ paperName, questionIds, questionsScore })
         navigate(computedRoute)
       } catch (e) {}
-      console.log(questionTypeState, 'questionType')
     }
   }
 
   return (
     <ExamHeader>
+      {isLoading && <BaseSpin tip={'正在创建试卷……'} />}
       <InputWrapper>
         <label>试卷名字：</label>
         <Input onChange={(e) => setPaperName(e.target.value)} value={paperName}></Input>

@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { client } from 'server'
 
-import { TestPaper, PostTestPaper, StudentPaper,  ExamListItem } from '../types'
+import { TestPaper, PostTestPaper, StudentPaper, ExamListItem } from '../types'
 import { MutationMsg } from 'util/MutationMsg'
 
 /** 打开一张试卷 */
@@ -16,14 +16,12 @@ export const useShowTestPaper = (paperId: string) => {
 
 /** 保存这张试卷 */
 export const useSaveTestPaper = () => {
-  return useMutation(
-    async (paper: PostTestPaper) => {
-            return client.post({
-        url: '/paper/teacher/update',
-        data: paper
-      })
-    },MutationMsg("试卷保存")
-  )
+  return useMutation(async (paper: PostTestPaper) => {
+    return client.post({
+      url: '/paper/teacher/update',
+      data: paper
+    })
+  }, MutationMsg('试卷保存'))
 }
 
 // TODO: 后端没有接口
@@ -67,19 +65,17 @@ export const useHomeWorkListPublished = (courseID: string) => {
 export const useShowQuestionForStudent = (id: string) => {
   return useQuery([`paperdoing-${id}`], () => {
     return client.get<StudentPaper>({
-      url: `/paper/stu/paper-detail/${id}`,
+      url: `/paper/stu/paper-detail/${id}`
     })
   })
 }
 
 /** 学生提交试卷 */
 export const useSubmitTestPaper = () => {
-  return useMutation(
-    async (paper: {questionId:string,studentAnswer:string}[]) => {
-      return client.post({
-        url: '/paper/stu/submit',
-        data: paper
-      })
-    },MutationMsg("提交")
-  )
+  return useMutation(async (paper: { questionId: string; studentAnswer: string }[]) => {
+    return client.post({
+      url: '/paper/stu/submit',
+      data: paper
+    })
+  }, MutationMsg('提交'))
 }

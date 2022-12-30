@@ -3,7 +3,8 @@ import { Collapse } from 'antd'
 import { QuestionActionString } from 'server/fetchExam/types'
 import styled from 'styled-components'
 import { getQuestionHeader } from '../../../pages/CreateExamPage/util/util'
-import { IQuestionType, IQuestionTypeInitialState } from 'reducer/CreateExamPaper/type/type'
+import { IQuestionType, IQuestionTypeAction, IQuestionTypeInitialState } from 'reducer/CreateExamPaper/type/type'
+import { CheckOutlined, DeleteOutlined, ExclamationOutlined } from '@ant-design/icons'
 
 const { Panel } = Collapse
 
@@ -12,10 +13,11 @@ export interface CreateExamNavProps {
   questionTypeState: IQuestionTypeInitialState<IQuestionType>
   setCurOrder: (curOrder: number) => void
   curEditQuestion: IQuestionType
+  dispatchQuestionType: React.Dispatch<IQuestionTypeAction>
 }
 
 export const CreateExamNav = (props: CreateExamNavProps) => {
-  const { questionTypeState, setCurEdit, setCurOrder, curEditQuestion } = props
+  const { questionTypeState, setCurEdit, setCurOrder, curEditQuestion, dispatchQuestionType } = props
   const [curId, setCurId] = useState('')
 
   /*编辑试卷类型*/
@@ -23,6 +25,10 @@ export const CreateExamNav = (props: CreateExamNavProps) => {
     setCurEdit(question)
     setCurId(question.questionId)
     setCurOrder(index)
+  }
+
+  const deleteQuestion = (id: string) => {
+    dispatchQuestionType({ type: 'deleteQuestion', id })
   }
 
   /*试卷总题量*/
@@ -50,6 +56,7 @@ export const CreateExamNav = (props: CreateExamNavProps) => {
         <span style={{ marginRight: '12px' }}>总题量：{allQuestionCount}</span>
         <span>总分数：{allQuestionPoint}</span>
       </ExamNavHeader>
+
       <Collapse
         bordered={false}
         expandIconPosition="end"
@@ -58,7 +65,7 @@ export const CreateExamNav = (props: CreateExamNavProps) => {
         defaultActiveKey={Object.keys(questionTypeState).map((_, index) => index)}
       >
         {Object.keys(questionTypeState).map((type, index) => {
-          const questionTypeKey:any = questionTypeState[type as QuestionActionString]
+          const questionTypeKey: any = questionTypeState[type as QuestionActionString]
           return (
             questionTypeKey.list.length && (
               <Panel
@@ -68,7 +75,7 @@ export const CreateExamNav = (props: CreateExamNavProps) => {
                     <span style={{ marginRight: '7px' }}>{getQuestionHeader(index)}</span>（共
                     {questionTypeKey.list.length}题
                     <span>
-                      {questionTypeKey.list.reduce((pre:any, now:any) => {
+                      {questionTypeKey.list.reduce((pre: any, now: any) => {
                         return (pre += now.score)
                       }, 0)}
                       分）
@@ -76,7 +83,7 @@ export const CreateExamNav = (props: CreateExamNavProps) => {
                   </PanelHeader>
                 }
               >
-                {questionTypeKey.list.map((question:any, index:any) => {
+                {questionTypeKey.list.map((question: IQuestionType, index: any) => {
                   return (
                     <QuestionTypeWrapper
                       className={curId === question.questionId ? 'active' : 'noActive'}
@@ -85,8 +92,16 @@ export const CreateExamNav = (props: CreateExamNavProps) => {
                         editQuestionType(question, index + 1)
                       }}
                     >
-                      <span style={{ marginRight: '3px' }}>{index + 1}</span>
-                      <span>({question.score}分)</span>
+                      <div>
+                        <span style={{ marginRight: '3px' }}>{index + 1}</span>
+                        <span>({question.score}分)</span>
+                        <span style={{ paddingLeft: '12px' }} className="check">
+                          {question.isStore && <CheckOutlined />}
+                        </span>
+                      </div>
+                      <span onClick={() => deleteQuestion(question.questionId)} className="tool">
+                        <DeleteOutlined />
+                      </span>
                     </QuestionTypeWrapper>
                   )
                 })}
@@ -99,8 +114,13 @@ export const CreateExamNav = (props: CreateExamNavProps) => {
   )
 }
 
+export const QuestionIntroduce = styled.div``
 export const QuestionTypeWrapper = styled.div`
   height: 32px;
+  display: flex;
+  padding-right: 10px;
+  justify-content: space-between;
+  align-items: center;
   cursor: pointer;
   font-size: 12px;
   overflow: hidden;
@@ -109,9 +129,18 @@ export const QuestionTypeWrapper = styled.div`
   color: ${(props) => (props.className === 'active' ? '#3a8bff' : '#646873')};
   position: relative;
   background: ${(props) => (props.className === 'active' ? '#f0f6ff' : 'white')};
-
+  .check svg {
+    color: green;
+  }
   &:hover {
     background-color: rgb(247, 250, 252);
+  }
+  &:hover span.tool {
+    opacity: 1;
+  }
+  .tool {
+    opacity: 0;
+    transition: opacity 330ms ease;
   }
 `
 export const PanelHeader = styled.div`

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useReducer, useState } from 'react'
 import { Button, message, Modal, Select } from 'antd'
 import { QuestionTitleArea } from '../../QuestionTitleArea/QuestionTitleArea'
-import { IQuestionType } from 'reducer/CreateExamPaper/type/type'
+import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
 import { useShowKnowledgeTree } from 'server/fetchKnowledge'
 import { TreeSelected } from '../../../components/ClassInfoPage/KnowledgePage/KnowledgeTree/cpn/TreeSelected'
 import { useCheckKnowledgeTreeUI } from '../../../hook/useKnowledge/useCheckKnowledgeTreeUI'
@@ -12,23 +12,25 @@ import { BaseSpin } from '../../../baseUI/BaseSpin/BaseSpin'
 import { GlobalLabel } from '../../GlobalLabel/globalLabel'
 import { useHandleUploadExamPaper } from '../../../hook/useQuestionFooter/useHandleUploadExamPaper'
 import { StateSetter } from '../../../types'
-import { isCouldSaveQuestion } from './util'
 import styled from 'styled-components'
 import { SingleChoicePreview } from './SingleChoice/SingleChoicePreview'
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
+import produce, { original } from 'immer'
 
 const { Option } = Select
 
 interface QuestionFooterProps {
   question: IQuestionType
-  setCurEditQuestion: StateSetter<IQuestionType|undefined>
+  setCurEditQuestion: StateSetter<IQuestionType | undefined>
+  dispatchQuestionType: React.Dispatch<IQuestionTypeAction>
 }
 
 export const QuestionFooter = (props: QuestionFooterProps) => {
-  const { question, setCurEditQuestion } = props
+  const { question, setCurEditQuestion, dispatchQuestionType } = props
   const { classInfo } = useCurrentClassInfo()
   const { data, isLoading: KnowledgeTreeLoading } = useShowKnowledgeTree(classInfo.courseId)
   const { checkTreeData } = useCheckKnowledgeTreeUI(data)
+
   /* 两个弹框的开闭状态 */
   const [isModalOpen, setIsModalOpen] = useState(false)
   /* 知识点选择树的UI层 */
@@ -45,30 +47,26 @@ export const QuestionFooter = (props: QuestionFooterProps) => {
       expandKeys: () => generateKnowledgeKeys(data)
     })
   }, [data])
+
   /* 处理预览试卷 */
   const handlePreviewPaper = () => {
-    const { isError, msg } = handleFormDataIsValid()
-    if (!isError) {
-      setIsModalOpen(true)
-    } else {
-      message.warning(msg, 0.5)
-    }
+    dispatchQuestionType({
+      type: 'saveQuestion',
+      id: question.questionId,
+      setModalOpen: setIsModalOpen,
+      setEditQuestion: (q: IQuestionType) => setCurEditQuestion(q),
+      isPreview: true
+    })
   }
-  /* 处理试题表单校验 */
-  const handleFormDataIsValid = useCallback(() => {
-    /* 检测表单选项进行提示 */
-    const { isError, message: msg } = isCouldSaveQuestion(question)
-    return { isError, msg }
-  }, [question])
 
   /* 处理保存试题 */
-  const handleSaveQuestion = () => {
-    const { isError, msg } = handleFormDataIsValid()
-    if (!isError) {
-      setIsSaveModalOpen(true)
-    } else {
-      message.warning(msg, 0.5)
-    }
+  const handleSaveQuestion = async () => {
+    dispatchQuestionType({
+      type: 'saveQuestion',
+      id: question.questionId,
+      setModalOpen: setIsSaveModalOpen,
+      setEditQuestion: (q: IQuestionType) => setCurEditQuestion(q)
+    })
   }
 
   /* 处理上传试卷 */
@@ -81,11 +79,11 @@ export const QuestionFooter = (props: QuestionFooterProps) => {
     handleOk,
     setIsSaveModalOpen,
     isLoading
-  } = useHandleUploadExamPaper(question, setCurEditQuestion)
+  } = useHandleUploadExamPaper(question, setCurEditQuestion, dispatchQuestionType)
 
   /* 编辑题目解析 */
-  const handleQuestionAnswerExplain = (content: string) => {
-    question.questionAnswerExplain = content
+  const handleQuestionAnswerExplain = (content: string, id: string) => {
+    dispatchQuestionType({ type: 'editQuestion', payload: { content, id, target: 'questionAnswerExplain' } })
   }
 
   return (
@@ -124,7 +122,7 @@ export const QuestionFooter = (props: QuestionFooterProps) => {
 
       <QuestionTitleArea
         question={question}
-        handleEdit={handleQuestionAnswerExplain}
+        handleEdit={(content) => handleQuestionAnswerExplain(content, question.questionId)}
         label={'解析'}
         questionOf={'questionAnswerExplain'}
       />

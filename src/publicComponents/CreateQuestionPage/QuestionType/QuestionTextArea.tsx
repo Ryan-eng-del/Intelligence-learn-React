@@ -12,6 +12,7 @@ interface QuestionTextAreaProps {
 export const QuestionTextArea = (props: QuestionTextAreaProps) => {
   const { question, setContent, option } = props
   const [textAreaValue, setTextAreaValue] = useState('')
+
   const handleOnChange = (value: string) => {
     setContent(value)
     setTextAreaValue(value)

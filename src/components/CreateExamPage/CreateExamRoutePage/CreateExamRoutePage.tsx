@@ -12,7 +12,7 @@ import { InputNumber } from 'antd'
 interface CreateExamRoutePageProps {
   curEdit: IQuestionType
   curOrder: number
-  setCurEditQuestion: StateSetter<IQuestionType|undefined>
+  setCurEditQuestion: StateSetter<IQuestionType | undefined>
   dispatchQuestionType: React.Dispatch<IQuestionTypeAction>
 }
 
@@ -47,19 +47,13 @@ export const CreateExamRoutePage = (props: CreateExamRoutePageProps) => {
 
   useEffect(() => {
     setCurNumber(curEdit?.score)
-  })
+  }, [curEdit])
 
   const onChangeScore = (e: number) => {
-    curEdit.score = e
-    setCurEditQuestion((pre) => {
-      if (pre) {
-        pre.score = e
-      }
-      return pre
-    })
     setCurNumber(e)
-    dispatchQuestionType({ type: 'editQuestion', payload: { editType: '0', editQuestion: curEdit } })
+    dispatchQuestionType({ type: 'editQuestion', payload: { id: curEdit.questionId, target: 'score', content: e } })
   }
+
   return (
     <CreateExamRoutePageWrapper>
       <ExamRouteHeader>

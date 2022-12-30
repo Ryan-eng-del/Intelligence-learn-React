@@ -3,11 +3,15 @@ import * as echarts from 'echarts'
 import styled from 'styled-components'
 import { getKnowPoint, setNodeStyle, HTMLToolTip, setCategories } from './config'
 import { useShowMG } from 'server/fetchGraph/index'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import { PrimaryButton } from 'publicComponents/Button'
+import { useComputedRoute } from 'util/computedRoute'
 
 const MkGraph = () => {
   const courseId = useParams().id!
   const { data } = useShowMG(courseId)
+  const navigate = useNavigate()
+  const computedPath = useComputedRoute('mk-graph')
 
   useEffect(() => {
     const chartDom: any = document.getElementById('chart')
@@ -78,6 +82,11 @@ const MkGraph = () => {
   return (
     <>
       <KnowledgeGraphWrapper id={'chart'}></KnowledgeGraphWrapper>
+      <PrimaryButton
+        title={'返回'}
+        style={{ position: 'absolute', top: 69, left: 31, zIndex: 1 }}
+        handleClick={() => navigate(`${computedPath}knowledge`)}
+      ></PrimaryButton>
     </>
   )
 }
