@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { IKnowledgePoint } from './type'
-import { useAddKnowledgePointsAPI } from '../../server/fetchKnowledge'
+import { useAddKnowledgePointsAPI } from 'server/fetchKnowledge'
 import { initialKnowledgePoint } from './config'
 import { addChildKnowledgeNode, deleteKnowledgeNode, updateKnowledgeTreeQueryCache } from '../../helper/knowledgeTree'
 import { IHandleChapterControl } from '../useChapterStudy/type'

@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import LocalCache from '../../util/cache'
+import LocalCache from 'util/cache'
 
 export const useSid = () => {
   const sidRef = useRef('')

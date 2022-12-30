@@ -2,11 +2,11 @@ import React, { useEffect } from 'react'
 import * as echarts from 'echarts'
 import styled from 'styled-components'
 import { setNodeStyle } from './config'
-import { useShowKG } from '../../server/fetchGraph/index'
+import { useShowKG } from 'server/fetchGraph/index'
 import { setCategories2 } from './config/index'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useComputedRoute } from '../../util/computedRoute'
-import { PrimaryButton } from '../../publicComponents/Button'
+import { useComputedRoute } from 'util/computedRoute'
+import { PrimaryButton } from 'publicComponents/Button'
 
 const KnowledgeGraph = () => {
   const courseId = useParams().id!
@@ -91,12 +91,11 @@ const KnowledgeGraph = () => {
 }
 
 const KnowledgeGraphWrapper = styled.div`
-  min-width: 100vw;
-  min-height: 800px;
-  height: 100vh;
   position: absolute;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 0;
 `
 

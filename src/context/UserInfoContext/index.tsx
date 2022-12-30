@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useState } from 'react'
-import { useGetUserInfo } from '../../server/fetchLogin'
+import { useGetUserInfo } from 'server/fetchLogin'
 import { useNavigate } from 'react-router-dom'
 import { GlobalMessage } from '../../publicComponents/GlobalMessage'
 

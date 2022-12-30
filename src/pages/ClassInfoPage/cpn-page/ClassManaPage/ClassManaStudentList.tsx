@@ -22,29 +22,25 @@ export const ClassManaStudentList: React.FC<{ class_id: string }> = (props) => {
     },
     {
       title: '课程名称',
-      dataIndex: 'class_name',
-      key: 'class_name'
+      dataIndex: 'className',
+      key: 'className',
     },
     {
       title: '加入时间',
-      dataIndex: 'join_time',
-      key: 'join_time'
+      dataIndex: 'joinTime',
+      key: 'joinTime',
     },
     {
       title: 'Action',
       key: 'action',
-      render: (_, record, index) => (
+      render: (_, record) => (
         <Space size="middle">
-          <Button
-            type="primary"
-            onClick={() => {
-              const classId = props.class_id
-              const userId = record.userId
-              deleteStudent({ classId, userId })
-            }}
-          >
-            Delete
-          </Button>
+          <Button type='primary' danger onClick={() => {
+            const classId = props.class_id
+            const userId = record.userId
+            deleteStudent({ classId, userId })
+          }}>Delete</Button>
+          <Button type='primary'>设为助教</Button>
         </Space>
       )
     }
@@ -58,7 +54,8 @@ export const ClassManaStudentList: React.FC<{ class_id: string }> = (props) => {
       size="small"
       columns={columns}
       dataSource={studentList}
-      rowKey={(record) => record.userId}
+      rowKey={record => record.userId}
+      pagination={false}
     />
   )
 }

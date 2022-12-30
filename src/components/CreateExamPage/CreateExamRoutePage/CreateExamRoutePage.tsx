@@ -2,17 +2,17 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { CreateExamRoutePageWrapper } from './CreateExamRoutePageStyle'
 import { FillBlank, Judge, ShortAnswer, SingleChoice } from 'publicComponents/CreateQuestionPage'
 import { QuestionDataWithID, QuestionType } from 'server/fetchExam/types'
-import { IQuestionType, IQuestionTypeAction } from '../../../reducer/CreateExamPaper/type/type'
+import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
 import styled from 'styled-components'
 import { getQuestionHeader } from '../../../pages/CreateExamPage/util/util'
 import { StateSetter } from '../../../types'
-import { QuestionStatus } from '../../../publicComponents/CreateQuestionPage/QuestionType/QuestionStatus'
+import { QuestionStatus } from 'publicComponents/CreateQuestionPage/QuestionType/QuestionStatus'
 import { InputNumber } from 'antd'
 
 interface CreateExamRoutePageProps {
   curEdit: IQuestionType
   curOrder: number
-  setCurEditQuestion: StateSetter<IQuestionType|undefined>
+  setCurEditQuestion: StateSetter<IQuestionType | undefined>
   dispatchQuestionType: React.Dispatch<IQuestionTypeAction>
 }
 
@@ -47,19 +47,13 @@ export const CreateExamRoutePage = (props: CreateExamRoutePageProps) => {
 
   useEffect(() => {
     setCurNumber(curEdit?.score)
-  })
+  }, [curEdit])
 
   const onChangeScore = (e: number) => {
-    curEdit.score = e
-    setCurEditQuestion((pre) => {
-      if (pre) {
-        pre.score = e
-      }
-      return pre
-    })
     setCurNumber(e)
-    dispatchQuestionType({ type: 'editQuestion', payload: { editType: '0', editQuestion: curEdit } })
+    dispatchQuestionType({ type: 'editQuestion', payload: { id: curEdit.questionId, target: 'score', content: e } })
   }
+
   return (
     <CreateExamRoutePageWrapper>
       <ExamRouteHeader>

@@ -21,7 +21,7 @@ export const QuestionItemWrapper = styled.div`
 `
 export const QuestionOperateWrapper = styled.div`
   width: 18%;
-  opacity: 0;
+  /* opacity: 0; */
   margin-left: 10px;
   &:hover {
     opacity: 1;

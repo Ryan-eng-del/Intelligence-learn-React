@@ -1,5 +1,5 @@
 import { Input } from 'antd/es'
-import { IQuestionType } from '../../../reducer/CreateExamPaper/type/type'
+import { IQuestionType } from 'reducer/CreateExamPaper/type/type'
 import React, { useEffect, useState } from 'react'
 
 interface QuestionTextAreaProps {
@@ -12,6 +12,7 @@ interface QuestionTextAreaProps {
 export const QuestionTextArea = (props: QuestionTextAreaProps) => {
   const { question, setContent, option } = props
   const [textAreaValue, setTextAreaValue] = useState('')
+
   const handleOnChange = (value: string) => {
     setContent(value)
     setTextAreaValue(value)

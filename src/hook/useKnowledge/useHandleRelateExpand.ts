@@ -1,6 +1,6 @@
 /*受控展开树节点*/
 import React, { Key } from 'react'
-import { IChapterReducerAction } from '../../reducer/ChaperStudyTree/type/type'
+import { IChapterReducerAction } from 'reducer/ChaperStudyTree/type/type'
 
 export const useHandleRelateExpand = ({ dispatch }: { dispatch: React.Dispatch<IChapterReducerAction> }) => {
   /*点击知识点树节点进行展开*/

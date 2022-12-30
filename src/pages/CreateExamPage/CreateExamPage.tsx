@@ -11,9 +11,9 @@ import {
   CreateExamPageWrapper,
   CreateExamQuestion
 } from './CreateExamPageStyle'
-import { initialQuestionTypeState, questionTypeReducer } from '../../reducer/CreateExamPaper/questionTypeReducer'
+import { initialQuestionTypeState, questionTypeReducer } from 'reducer/CreateExamPaper/questionTypeReducer'
 import { createQuestionObj } from './util/util'
-import { IQuestionType } from '../../reducer/CreateExamPaper/type/type'
+import { IQuestionType } from 'reducer/CreateExamPaper/type/type'
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { Drawer } from 'antd'
 import styled from 'styled-components'
@@ -26,6 +26,7 @@ const CreateExamPage: React.FC = () => {
   const [curOrder, setCurOrder] = useState(1)
   const [questionTypeState, dispatchQuestionType] = useReducer(questionTypeReducer, initialQuestionTypeState)
   const navigate = useNavigate()
+
   const computedRoute = useMemo(() => {
     const index = location.pathname.indexOf('exam')
     return location.pathname.slice(0, index + 4)
@@ -34,8 +35,10 @@ const CreateExamPage: React.FC = () => {
   const handleOnEdit = (edit: IQuestionType) => {
     setCurEditQuestion(edit)
   }
+
   const { classInfo } = useCurrentClassInfo()
   const [open, setOpen] = useState(true)
+
   /*添加考试题目*/
   const addQuestionType = (type: QuestionConstantString) => {
     const actionType = QuestionTypeAction[type] as any
@@ -69,6 +72,7 @@ const CreateExamPage: React.FC = () => {
                   setCurEdit={(curEdit: IQuestionType) => handleOnEdit(curEdit)}
                   setCurOrder={(curOrder: number) => setCurOrder(curOrder)}
                   curEditQuestion={curEditQuestion!}
+                  dispatchQuestionType={dispatchQuestionType}
                 />
               </CreateExamBodyLeftWrapper>
               <CreateExamBodyRightWrapper>

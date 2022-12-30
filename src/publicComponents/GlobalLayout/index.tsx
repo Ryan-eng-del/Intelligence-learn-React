@@ -1,4 +1,3 @@
-import { Suspense } from 'react'
 import { Avatar, Button } from 'antd'
 import { GlobalNav } from 'publicComponents/GlobalNav'
 import styled from 'styled-components'
@@ -6,9 +5,10 @@ import { IUserInfo } from '../../context/UserInfoContext'
 import { IClassInfo } from '../../context/ClassInfoContext'
 import styles from './index.module.css'
 import { useNavigate } from 'react-router-dom'
-import Skeletons from '../Skeleton'
 import AvatarPic from 'assets/img/avatar.jpg'
 import classPic from 'assets/img/class.jpg'
+import { Suspense } from 'react'
+import { GlobalHeader } from 'publicComponents/GlobalHeader'
 const protectClassInfoType = (data: IUserInfo | IClassInfo | null, name: 'home' | 'classInfo'): data is IUserInfo =>
   name === 'home'
 
@@ -33,7 +33,7 @@ const GlobalLayout = (props: {
               <UserAvatarWrapper>
                 <Avatar src={layoutData?.headPortrait || AvatarPic} size="large" style={{ margin: '0 auto' }} />
               </UserAvatarWrapper>
-              <div className={styles['nickname']}>{layoutData?.name || '游客'}</div>
+              <div className={styles['nickname']}>{layoutData?.name || '正在加载中……'}</div>
               <div className={styles['signature']}>
                 <span
                   style={{
@@ -58,7 +58,7 @@ const GlobalLayout = (props: {
                     paddingBottom: '8px'
                   }}
                 >
-                  {layoutData?.courseDescribe || '课程暂无描述'}
+                  {layoutData?.courseDescribe || '正在加载中……'}
                 </span>
               </div>
             </>
@@ -72,8 +72,9 @@ const GlobalLayout = (props: {
           ></GlobalNav>
         </NavWrapper>
       </LeftLayoutWrapper>
+
       <RightLayoutWrapper>
-        <Suspense fallback={<Skeletons size={'middle'} />}>
+        <Suspense fallback={<GlobalHeader title="" transparent={true} />}>
           <RightLayoutRouteWrapper>{props.routePage}</RightLayoutRouteWrapper>
         </Suspense>
       </RightLayoutWrapper>
@@ -83,6 +84,7 @@ const GlobalLayout = (props: {
 
 export const GlobalRightLayout = styled.div`
   padding: 30px;
+  height: 720px;
 `
 
 const RightLayoutRouteWrapper = styled.div``
@@ -121,6 +123,7 @@ const LeftLayoutWrapper = styled.div`
 const RightLayoutWrapper = styled.div`
   flex: 1;
   height: 100vh;
+  min-height: 800px;
 `
 
 const UserAvatarWrapper = styled.div`

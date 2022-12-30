@@ -29,6 +29,7 @@ const QuestionDoingPage = () => {
     setModal(result)
     setIsModalOpen(true)
   }
+
   const mapper = {
     [QuestionType.single]: (data: T) => <P1 content={data} setAns={setAns} NoScore />,
     [QuestionType.multiple]: (data: T) => <P2 content={data} setAns={setAns} NoScore />,

@@ -3,6 +3,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import './App.css'
 import cache from './util/cache'
 import { registerFormulaModule } from 'util/registerEditor'
+import { TOKEN_NAME } from 'global/varible'
 
 function App() {
   const navigate = useNavigate()
@@ -10,7 +11,7 @@ function App() {
   const location = useLocation()
 
   useMount(() => {
-    !cache.getCache('token_intel')
+    !cache.getCache(TOKEN_NAME)
       ? navigate('/login')
       : location.pathname === '/'
       ? navigate('/home/teach')

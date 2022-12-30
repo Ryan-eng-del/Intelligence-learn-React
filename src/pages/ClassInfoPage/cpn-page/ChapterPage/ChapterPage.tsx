@@ -4,9 +4,9 @@ import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { PrimaryButton } from 'publicComponents/Button'
 import { useChapterUI } from 'hook/useChapterStudy/useChapterUI'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout'
-import { isTeachAuth } from '../../../../util/isAuthTeach'
+import { isTeachAuth } from 'util/isAuthTeach'
 import { Outlet } from 'react-router-dom'
-import Skeletons from '../../../../publicComponents/Skeleton/index'
+import Skeletons from 'publicComponents/Skeleton/index'
 
 const ChapterPage: React.FC = () => {
   const editable = isTeachAuth()

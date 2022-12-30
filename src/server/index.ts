@@ -1,13 +1,14 @@
 import HYRequest from './request/request'
 import { baseURL, TIME_OUT } from './request/config'
-import localCache from '../util/cache'
+import localCache from 'util/cache'
+import { TOKEN_NAME } from '../global/varible'
 
 export const client = new HYRequest({
   baseURL: baseURL,
   timeout: TIME_OUT,
   interceptorHooks: {
     requestInterceptor: (config: any) => {
-      const token = localCache.getCache('token_intel') ?? ''
+      const token = localCache.getCache(TOKEN_NAME) ?? ''
       const urlArray = config.url.split('/')
 
       if (urlArray[urlArray.length - 1] !== 'get-code')

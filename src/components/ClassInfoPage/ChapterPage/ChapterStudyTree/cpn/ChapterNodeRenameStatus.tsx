@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 import { Button, Input } from 'antd'
 import { stopPropagation } from 'util/stopPropagation'
 import { debounce } from 'util/debounece'
-import { IChapterReducerAction } from '../../../../../reducer/ChaperStudyTree/type/type'
+import { IChapterReducerAction } from 'reducer/ChaperStudyTree/type/type'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 
 const ChapterNodeRenameStatus: React.FC<{

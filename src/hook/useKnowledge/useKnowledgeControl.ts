@@ -1,11 +1,11 @@
 import { useReducer } from 'react'
-import { chapterReducer, initialChapterState } from '../../reducer/ChaperStudyTree/chapterReducer'
+import { chapterReducer, initialChapterState } from 'reducer/ChaperStudyTree/chapterReducer'
 import { useAddKnowledgePoints } from './useHandleAddKnowledgePoint'
 import { useRenameKnowledgePoints } from './useHandleRenameKnowledge'
 import { useDeleteKnowledgePoints } from './useDeleteKnowledgePoints'
 import { useHandleRelatePoints } from './useHandleRelatePoints'
 import { useHandleOnExpand } from '../useChapterStudy/useHandleTreeOnExpand'
-import { useShowKnowledgeTree } from '../../server/fetchKnowledge'
+import { useShowKnowledgeTree } from 'server/fetchKnowledge'
 import { useParams } from 'react-router-dom'
 
 export const useKnowledgeControl = () => {

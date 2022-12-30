@@ -16,7 +16,7 @@ import Skeletons from 'publicComponents/Skeleton'
 const HomePage = lazy(() => import('pages/HomePage/HomePage'))
 const RegisterPage = lazy(() => import('pages/LoginPages/RegisterPage'))
 const ClassInfoPage = lazy(() => import('pages/ClassInfoPage/ClassInfoPage'))
-const QuestionBankPage = lazy(() => import('pages/QuestionPreviewPage/QuestionPreviewPage'))
+const QuestionBankPage = lazy(() => import('pages/ClassInfoPage/cpn-page/QuestionBankPage/QuestionBankPage'))
 const CreateQuestionPage = lazy(() => import('pages/CreateQuestionPage/CreateQuestionPage'))
 const CreateExamPage = lazy(() => import('pages/CreateExamPage/CreateExamPage'))
 const KnowledgeGraph = lazy(() => import('pages/K-graphPage/KnowledgeGraph'))
@@ -67,7 +67,7 @@ root.render(
           <Suspense
             fallback={
               (window.location.pathname === '/login' || window.location.pathname === '/') && (
-                <Skeletons size={'small'} />
+                <Skeletons size={'small'} absolute={true} />
               )
             }
           >

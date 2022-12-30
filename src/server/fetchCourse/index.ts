@@ -44,20 +44,29 @@ export const useShowInvitedCourseInfo = () => {
 
 //加入此班级（课程）
 export const useJoinInvitedCourse = () => {
-  return useMutation((classId: string) => {
-    return client.post<CourseList>({
-      url: '/class/join',
-      params: { classId }
-    })
-  })
+  const queryClient = useQueryClient()
+  return useMutation(
+    (classId: string) => {
+      return client.post<CourseList>({
+        url: '/class/join',
+        params: { classId }
+      })
+    },
+
+    {
+      onMutate() {
+        queryClient.invalidateQueries(['learnclass'])
+      }
+    }
+  )
 }
 
 // 添加课程
 export const useCreateClass = ({ course_cover, course_name, course_describe }: { course_name: string; course_cover: string | null, course_describe: string | null }) => {
   const queryClient = useQueryClient()
+
   return useMutation(
     async () => {
-      await delayFetch()
       return client.post({
         url: '/course/create',
         data: { course_cover, course_name,course_describe }

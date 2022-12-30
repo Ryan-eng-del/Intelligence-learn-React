@@ -1,13 +1,14 @@
 /*处理上传试卷*/
+import produce from 'immer'
 import { useCallback, useEffect, useState } from 'react'
-import { IQuestionType } from '../../reducer/CreateExamPaper/type/type'
-import { useCreateQuestion, useUpadateQuestion } from '../../server/fetchExam'
+import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
+import { useCreateQuestion, useUpadateQuestion } from 'server/fetchExam'
 import { StateSetter } from '../../types'
-import { GlobalMessage } from '../../publicComponents/GlobalMessage'
 
 export const useHandleUploadExamPaper = (
   question: IQuestionType,
-  setCurEditQuestion: StateSetter<IQuestionType | undefined>
+  setCurEditQuestion: StateSetter<IQuestionType | undefined>,
+  dispatchQuestionType: React.Dispatch<IQuestionTypeAction>
 ) => {
   /*关联的知识点*/
   const [curCheckId, setCurCheckId] = useState<string[]>([])
@@ -17,18 +18,22 @@ export const useHandleUploadExamPaper = (
 
   /*上传试题Api*/
   const { mutateAsync: uploadQuestion, isLoading } = useCreateQuestion()
-  const { mutate: changeQuestion} = useUpadateQuestion()
+  const { mutate: changeQuestion } = useUpadateQuestion()
+
   /*初始化试题状态*/
   useEffect(() => {
     setCurCheckId(question.pointIds)
     setCurDifficulty(String(question.questionDifficulty))
-  }, [question.questionId])
+  }, [question])
 
   /*处理难度的选择*/
   const handleChange = useCallback(
     (value: string) => {
       setCurDifficulty(value)
-      question.questionDifficulty = Number(value)
+      dispatchQuestionType({
+        type: 'editQuestion',
+        payload: { id: question.questionId, target: 'questionDifficulty', content: Number(value) }
+      })
     },
     [question]
   )
@@ -38,29 +43,42 @@ export const useHandleUploadExamPaper = (
     (checkInfo: any) => {
       const { checked } = checkInfo
       setCurCheckId(checked)
-      question.pointIds = checked
+      dispatchQuestionType({
+        type: 'editQuestion',
+        payload: { id: question.questionId, target: 'pointIds', content: checked }
+      })
     },
     [question]
   )
+
   /*处理上传题目*/
-  const handleOk = async () => {  //
-    try {
-      setIsSaveModalOpen(false)
-      if(question.isStore) {  // 此题目已经上传，修改题目接口
-        console.log("更新试题");
+  const handleOk = async () => {
+    setIsSaveModalOpen(false)
+    if (question.isStore) {
+      try {
         changeQuestion(question)
-      } else {  // 此题目未上传，新增题目接口
-        console.log("新增试题");
-        const qId = await uploadQuestion({ ...question  })
-        question.questionId = qId
-        question.isStore = true
-        // 重置为在线ID
-        // TODO: 请确定这里不会在试题编辑页面丢失导航栏引用
-        // question.questionId = qId
-        setCurEditQuestion({ ...question })
+      } catch {}
+    } else {
+      try {
+        const questionId = await uploadQuestion(question)
+        dispatchQuestionType({
+          type: 'saveQuestionState',
+          id: questionId,
+          oldId: question.questionId
+        })
+
+        setCurEditQuestion(
+          produce((draft) => {
+            if (draft) draft.isStore = true
+          })
+        )
+      } catch {
+        setCurEditQuestion(
+          produce((draft) => {
+            draft!.isStore = false
+          })
+        )
       }
-    } catch (e) {
-      console.log(e)
     }
   }
 

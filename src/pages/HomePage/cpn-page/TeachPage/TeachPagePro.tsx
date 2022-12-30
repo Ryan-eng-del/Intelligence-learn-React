@@ -8,11 +8,11 @@ import { beforeUpload, getBase64 } from './config/util'
 import { initialState, TeachRoutePageReducer } from './config/reducer'
 import { ClassCard } from 'publicComponents/TeachRotePage'
 import { useCreateClass, useDeleteCourse, useEditCourse, useShowCreateClass } from 'server/fetchCourse'
-import { PrimaryButton } from '../../../../publicComponents/Button/index'
-import { GlobalHeader } from '../../../../publicComponents/GlobalHeader/index'
-import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/index'
+import { PrimaryButton } from 'publicComponents/Button/index'
+import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
+import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
 import { CourseList } from 'server/fetchCourse/types'
-import Skeletons from '../../../../publicComponents/Skeleton/index'
+import Skeletons from 'publicComponents/Skeleton/index'
 import ClassDefaultPic from 'assets/img/class.jpg'
 
 export const TeachPage = () => {
@@ -191,28 +191,30 @@ export const TeachPage = () => {
           title="我教的课"
           tool={<PrimaryButton title="新建课程" handleClick={showModal}></PrimaryButton>}
         ></GlobalHeader>
-        <GlobalRightLayout>
           {isLoading ? (
-            <Skeletons size="middle" />
-          ) : (
-            Array.from({ length: (data?.length || 4 % 4) + 1 }).map((v, i) => (
-              <Row key={i} style={{ marginBottom: '30px' }}>
-                {data?.map(
-                  (item, index) =>
-                    index >= i * 4 &&
-                    index < (i + 1) * 4 &&
-                    <ClassCard
+          <Skeletons size="middle" />
+        ) : (
+        <>
+          <GlobalRightLayout className="globalLayout">
+              {Array.from({ length: (data?.length || 4 % 4) + 1 }).map((v, i) => (
+                <Row key={i} style={{ marginBottom: '30px' }}>
+                  {data?.map(
+                    (item, index) =>
+                      index >= i * 4 &&
+                      index < (i + 1) * 4 &&
+                      <ClassCard
                       to="MyTeach"
                       classInfo={item}
                       key={item.courseId}
                       EditModal={() => handleEdit(item)}
-                    />
-                )}
-              </Row>
-            ))
-          )}
-        </GlobalRightLayout>
-      </TeachPageWrapper>
+                      />
+                  )}
+                </Row>
+              ))}
+          </GlobalRightLayout>
+        </>
+        )}
+        </TeachPageWrapper>
     )
   }
 }

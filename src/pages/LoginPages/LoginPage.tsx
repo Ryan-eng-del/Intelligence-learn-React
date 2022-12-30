@@ -1,9 +1,8 @@
 import LoginLayout from 'publicComponents/LoginLayout'
-import { useGetCaptcha, useToken } from '../../server/fetchLogin'
+import { useGetCaptcha, useToken } from 'server/fetchLogin'
 import LocalCache from 'util/cache'
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useForm } from 'antd/es/form/Form'
-import Skeletons from '../../publicComponents/Skeleton'
 
 const LoginPage = () => {
   /* 获取验证码API */
@@ -17,9 +16,7 @@ const LoginPage = () => {
   }
 
   useEffect(() => {
-    ;(async () => {
-      await refresh()
-    })()
+    refresh()
   }, [])
 
   /* 登录逻辑处理 */

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Modal, Space, Table } from 'antd'
+import { Button, Modal, Popconfirm, Space, Table } from 'antd'
 import {
   QuestionBankTableWrapper,
   QuestionOperateWrapper,
@@ -9,11 +9,11 @@ import {
 } from './QuestionBankTableStyle'
 import { useDeleteQuestion } from 'server/fetchExam'
 import { useNavigate } from 'react-router-dom'
-import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { ShowDetailsCell } from './cpn/ShowDetailsCell'
 import { Item } from 'server/fetchExam/types'
 import { isTeachAuth } from 'util/isAuthTeach'
 import Skeletons from '../../../publicComponents/Skeleton/index'
+import { ExclamationCircleOutlined } from '@ant-design/icons'
 const { confirm } = Modal
 
 export const QuestionBankTable: React.FC<{
@@ -22,30 +22,23 @@ export const QuestionBankTable: React.FC<{
   isLoading: boolean
   isAll: boolean
 }> = ({ originData, isLoading, curData, isAll }) => {
+  const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([])
   const navigate = useNavigate()
   // 页面状态
   const [pageSize] = useState(20)
   const [currentPage] = useState(1)
-  const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([])
   const [showDetailsKey, setKey] = useState('')
   const isTeacher = isTeachAuth()
   // 网络请求
   const { mutate } = useDeleteQuestion()
-
-  // 操作函数
-  const isShow = (record: Item) => record.key === showDetailsKey
-
-  const show = (record: Partial<Item> & { key: React.Key }) => {
-    setKey(record.key)
-  }
-
-  const close = () => {
-    setKey('')
-  }
-
   const onSelectChange = (newSelectedRowKeys: React.SetStateAction<any[]>) => {
     setSelectedRowKeys(newSelectedRowKeys)
   }
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange
+  }
+
 
   const showDeleteConfirm = (id: string) => {
     confirm({
@@ -65,11 +58,8 @@ export const QuestionBankTable: React.FC<{
       }
     })
   }
-
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange
-  }
+  // 操作函数
+  const isShow = (record: Item) => record.key === showDetailsKey
 
   // 表格配置
   const columns = [
@@ -82,11 +72,13 @@ export const QuestionBankTable: React.FC<{
       className: 'table-header',
       render: (_: any, record: Item) => (
         <QuestionItemWrapper>
-          <ShowQuestionDetails
-            onClick={isTeacher ? () => show(record) : () => navigate(`/promote/${record.questionId}`)}
-          >
-            {record.question}
-          </ShowQuestionDetails>
+              <ShowQuestionDetails
+                onClick={isTeacher
+                ? ()=>setKey(record.key)
+                : ()=>navigate(`/promote/${record.questionId}`,)
+              }>
+                {record.question}
+              </ShowQuestionDetails>
         </QuestionItemWrapper>
       )
     },
