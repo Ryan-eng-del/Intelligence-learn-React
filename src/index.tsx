@@ -64,7 +64,6 @@ root.render(
       <ReactQueryDevtools initialIsOpen />
       <Router>
         <ContextProvider>
-          <Skeletons size={'large'} absolute={true} />
           <Suspense fallback={<Skeletons size={'large'} absolute={true} />}>
             <Suspense fallback={<Skeletons size={'small'} absolute={true} />}>
               <Routes>
