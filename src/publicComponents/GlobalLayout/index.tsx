@@ -12,7 +12,6 @@ import { GlobalHeader } from 'publicComponents/GlobalHeader'
 const protectClassInfoType = (data: IUserInfo | IClassInfo | null, name: 'home' | 'classInfo'): data is IUserInfo =>
   name === 'home'
 
-
 const GlobalLayout = (props: {
   navItems: any
   routePage: any
@@ -26,7 +25,6 @@ const GlobalLayout = (props: {
   return (
     <HomePageWrapper>
       <LeftLayoutWrapper>
-        <Button onClick={()=>navigate('/home')}>返回</Button>
         <NavBottomWrapper>
           {protectClassInfoType(layoutData, layoutName) ? (
             <>

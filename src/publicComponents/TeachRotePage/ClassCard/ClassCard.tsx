@@ -10,7 +10,7 @@ import classPicUrl from 'assets/img/class.jpg'
 export const ClassCard: React.FC<{
   classInfo: CourseList
   to: 'MyTeach' | 'MyStudy'
-  EditModal?:  ()  =>  void
+  EditModal?: () => void
 }> = ({ classInfo, to, EditModal }) => {
   const [showCardEdit, setShowCardEdit] = useState(false)
 
@@ -30,7 +30,7 @@ export const ClassCard: React.FC<{
 
   return (
     <>
-    {/* 这个弹窗在上一层TeachPagePro.tsx */}
+      {/* 这个弹窗在上一层TeachPagePro.tsx */}
       {/* <Modal title="管理课程" visible={showCardEdit} onOk={handleOk} onCancel={handleCancel}>
         <Form>
           <Form.Item>
@@ -50,25 +50,24 @@ export const ClassCard: React.FC<{
         </Form>
       </Modal> */}
       <CardWrapper>
-        {to == 'MyTeach' ? (
-          <a className="magBtn" onClick={EditModal}>
-            管理
-          </a>
-        ) : (
-          <></>
-        )}
         <CardHeadWrapper>
           <img src={classInfo.coursesCover || classPicUrl} alt="课程图片" />
         </CardHeadWrapper>
         <CardBodyWrapper>
           <div className="tname">{classInfo.courseName}</div>
-          <div style={{ display: "flex", flexDirection: "row",position:'relative'}}>
+          <div style={{ display: 'flex', flexDirection: 'row', position: 'relative' }}>
             <PrimaryButton
               title="进入课程"
               handleClick={handleClick}
               style={{ width: '100px', marginTop: '12px' }}
             ></PrimaryButton>
-            {to == 'MyTeach' ? <a className='magBtn' onClick={EditModal}>管理</a> : <></>}
+            {to == 'MyTeach' ? (
+              <a className="magBtn" onClick={EditModal}>
+                管理
+              </a>
+            ) : (
+              <></>
+            )}
           </div>
         </CardBodyWrapper>
       </CardWrapper>
