@@ -1,4 +1,4 @@
-import { Avatar, Button } from 'antd'
+import { Avatar, Button, Skeleton } from 'antd'
 import { GlobalNav } from 'publicComponents/GlobalNav'
 import styled from 'styled-components'
 import { IUserInfo } from '../../context/UserInfoContext'
@@ -9,6 +9,7 @@ import AvatarPic from 'assets/img/avatar.jpg'
 import classPic from 'assets/img/class.jpg'
 import { Suspense } from 'react'
 import { GlobalHeader } from 'publicComponents/GlobalHeader'
+import Skeletons from 'publicComponents/Skeleton'
 const protectClassInfoType = (data: IUserInfo | IClassInfo | null, name: 'home' | 'classInfo'): data is IUserInfo =>
   name === 'home'
 
@@ -72,7 +73,14 @@ const GlobalLayout = (props: {
       </LeftLayoutWrapper>
 
       <RightLayoutWrapper>
-        <Suspense fallback={<GlobalHeader title="" transparent={true} />}>
+        <Suspense
+          fallback={
+            <>
+              <GlobalHeader title="" transparent={true} />
+              <Skeletons size={'middle'} />
+            </>
+          }
+        >
           <RightLayoutRouteWrapper>{props.routePage}</RightLayoutRouteWrapper>
         </Suspense>
       </RightLayoutWrapper>

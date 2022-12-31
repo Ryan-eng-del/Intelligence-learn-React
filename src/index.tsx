@@ -64,16 +64,15 @@ root.render(
       <ReactQueryDevtools initialIsOpen />
       <Router>
         <ContextProvider>
-          <Suspense
-            fallback={
-              (window.location.pathname === '/login' || window.location.pathname === '/') && (
-                <Skeletons size={'small'} absolute={true} />
-              )
-            }
-          >
+          <Suspense fallback={<Skeletons size={'large'} absolute={true} />}>
+            <Suspense fallback={<Skeletons size={'small'} absolute={true} />}>
+              <Routes>
+                <Route path="register" element={<RegisterPage />} />
+                <Route path="login" element={<LoginPage />} />
+              </Routes>
+            </Suspense>
+
             <Routes>
-              <Route path="register" element={<RegisterPage />} />
-              <Route path="login" element={<LoginPage />} />
               <Route
                 path="/"
                 element={
