@@ -1,4 +1,4 @@
-import { Avatar, Button } from 'antd'
+import { Avatar, Button, Skeleton } from 'antd'
 import { GlobalNav } from 'publicComponents/GlobalNav'
 import styled from 'styled-components'
 import { IUserInfo } from '../../context/UserInfoContext'
@@ -77,7 +77,7 @@ const GlobalLayout = (props: {
           fallback={
             <>
               <GlobalHeader title="" transparent={true} />
-              <Skeletons size="middle"></Skeletons>
+              <Skeletons size={'middle'} />
             </>
           }
         >
