@@ -1,4 +1,5 @@
 import { useReducer } from 'react'
+import React from 'react'
 import { TeachPageWrapper, UploadImageWrapper } from './TeachPageStyle'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, Input, Modal, Popconfirm, Row, Upload } from 'antd'
@@ -15,7 +16,7 @@ import { CourseList } from 'server/fetchCourse/types'
 import Skeletons from 'publicComponents/Skeleton/index'
 import ClassDefaultPic from 'assets/img/class.jpg'
 
-export const TeachPage = () => {
+export const TeachPage: React.FC = () => {
   const { TextArea } = Input;
   const [state, dispatch] = useReducer(TeachRoutePageReducer, initialState)
   const { data, isLoading } = useShowCreateClass()
@@ -69,32 +70,32 @@ export const TeachPage = () => {
 
   // 打开编辑
   const handleEdit = (item: CourseList) => {
-    const handleEdit = (item: CourseList) => {
-      dispatch({ type: 'setEditCourse', payload: item })
-      dispatch({ type: 'setClassName', payload: item.courseName })
-      dispatch({ type: 'setEditVisible', payload: true })
-      dispatch({ type: 'setCourseDescribe', payload: item.courseDescribe })
-    }
-    // 删除
-    const handleDelete = async () => {
-      await DeleteCourse(EditingCourse.courseId)
-      dispatch({ type: 'delClasList', payload: EditingCourse.courseId })
-      dispatch({ type: 'setEditVisible', payload: false })
-    }
-    // 确认编辑
-    const confirmEdit = async () => {
-      await EditCourse({
-        courseId: EditingCourse.courseId,
-        courseName: className,
-        coursesCover: imgUrl,
-        courseDescribe: courseDescribe
-      })
-      dispatch({ type: 'setEditVisible', payload: false })
-      // 页面更新
-      dispatch({ type: 'setClasList', payload: EditingCourse })
-    }
+    dispatch({ type: 'setEditCourse', payload: item })
+    dispatch({ type: 'setClassName', payload: item.courseName })
+    dispatch({ type: 'setEditVisible', payload: true })
+    dispatch({ type: 'setCourseDescribe', payload: item.courseDescribe })
+  }
+  // 删除
+  const handleDelete = async () => {
+    await DeleteCourse(EditingCourse.courseId)
+    dispatch({ type: 'delClasList', payload: EditingCourse.courseId })
+    dispatch({ type: 'setEditVisible', payload: false })
+  }
+  // 确认编辑
+  const confirmEdit = async () => {
+    await EditCourse({
+      courseId: EditingCourse.courseId,
+      courseName: className,
+      coursesCover: imgUrl,
+      courseDescribe: courseDescribe
+    })
+    dispatch({ type: 'setEditVisible', payload: false })
+    // 页面更新
+    dispatch({ type: 'setClasList', payload: EditingCourse })
+  }
 
-    return (
+  return (
+    <>
       <TeachPageWrapper>
         <>
           {' '}
@@ -191,11 +192,11 @@ export const TeachPage = () => {
           title="我教的课"
           tool={<PrimaryButton title="新建课程" handleClick={showModal}></PrimaryButton>}
         ></GlobalHeader>
-          {isLoading ? (
+        {isLoading ? (
           <Skeletons size="middle" />
         ) : (
-        <>
-          <GlobalRightLayout className="globalLayout">
+          <>
+            <GlobalRightLayout className="globalLayout">
               {Array.from({ length: (data?.length || 4 % 4) + 1 }).map((v, i) => (
                 <Row key={i} style={{ marginBottom: '30px' }}>
                   {data?.map(
@@ -203,20 +204,20 @@ export const TeachPage = () => {
                       index >= i * 4 &&
                       index < (i + 1) * 4 &&
                       <ClassCard
-                      to="MyTeach"
-                      classInfo={item}
-                      key={item.courseId}
-                      EditModal={() => handleEdit(item)}
+                        to="MyTeach"
+                        classInfo={item}
+                        key={item.courseId}
+                        EditModal={() => handleEdit(item)}
                       />
                   )}
                 </Row>
               ))}
-          </GlobalRightLayout>
-        </>
+            </GlobalRightLayout>
+          </>
         )}
-        </TeachPageWrapper>
-    )
-  }
+      </TeachPageWrapper>
+    </>
+  )
 }
 
 export default TeachPage
