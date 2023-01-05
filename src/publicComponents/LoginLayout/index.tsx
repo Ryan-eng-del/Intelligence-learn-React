@@ -5,8 +5,7 @@ import { Button, Checkbox, Form } from 'antd'
 import classnames from 'classnames'
 
 import loginPicUrl from 'assets/img/back-authForm.png'
-import registerPicUrl from 'assets/img/back-authForm.png'
-
+import registerPicUrl from 'assets/img/back-authRegister.png'
 import style from './index.module.css'
 
 import { FormItem } from 'publicComponents/FormItem'

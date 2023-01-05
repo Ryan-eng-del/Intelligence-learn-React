@@ -37,6 +37,7 @@ const QuestionDoingPage = () => {
     [QuestionType.shortAnswer]: (data: T) => <P4 content={data} setAns={setAns} NoScore />,
     [QuestionType.judge]: (data: T) => <P5 content={data} setAns={setAns} NoScore />
   }
+
   const [modal, setModal] = useState<{
     answerIsRight: boolean
     nextQuestionId: string

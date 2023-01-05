@@ -4,12 +4,14 @@ import styled from 'styled-components'
 import { IUserInfo } from '../../context/UserInfoContext'
 import { IClassInfo } from '../../context/ClassInfoContext'
 import styles from './index.module.css'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import AvatarPic from 'assets/img/avatar.jpg'
 import classPic from 'assets/img/class.jpg'
 import { Suspense } from 'react'
 import { GlobalHeader } from 'publicComponents/GlobalHeader'
 import Skeletons from 'publicComponents/Skeleton'
+import { is } from 'immer/dist/internal'
+import { BaseSpin } from 'baseUI/BaseSpin/BaseSpin'
 const protectClassInfoType = (data: IUserInfo | IClassInfo | null, name: 'home' | 'classInfo'): data is IUserInfo =>
   name === 'home'
 
@@ -21,8 +23,12 @@ const GlobalLayout = (props: {
   layoutName: 'home' | 'classInfo'
   layoutData: IUserInfo | IClassInfo | null
 }) => {
+  const location = useLocation()
+
+  const isGraph = location.pathname.slice(-5) === 'graph'
+  console.log(isGraph, 'isGraph')
   const { layoutData, layoutName } = props
-  const navigate = useNavigate()
+
   return (
     <HomePageWrapper>
       <LeftLayoutWrapper>
@@ -73,16 +79,22 @@ const GlobalLayout = (props: {
       </LeftLayoutWrapper>
 
       <RightLayoutWrapper>
-        <Suspense
-          fallback={
-            <>
-              <GlobalHeader title="" transparent={true} />
-              <Skeletons size={'middle'} />
-            </>
-          }
-        >
-          <RightLayoutRouteWrapper>{props.routePage}</RightLayoutRouteWrapper>
-        </Suspense>
+        {isGraph ? (
+          <Suspense fallback={<BaseSpin size="large" />}>
+            <RightLayoutRouteWrapper>{props.routePage}</RightLayoutRouteWrapper>
+          </Suspense>
+        ) : (
+          <Suspense
+            fallback={
+              <>
+                <GlobalHeader title="" transparent={true} />
+                <Skeletons size={'middle'} />
+              </>
+            }
+          >
+            <RightLayoutRouteWrapper>{props.routePage}</RightLayoutRouteWrapper>
+          </Suspense>
+        )}
       </RightLayoutWrapper>
     </HomePageWrapper>
   )
@@ -91,6 +103,7 @@ const GlobalLayout = (props: {
 export const GlobalRightLayout = styled.div`
   padding: 30px;
   height: 720px;
+  overflow-y: auto;
 `
 
 const RightLayoutRouteWrapper = styled.div``

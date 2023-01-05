@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { QuestionBankHeader, QuestionBankTable } from 'components/QuestionBankPage'
-import { QuestionBankPageWrapper } from './QuestionBankPageStyle'
 import { useShowCreateQuestion } from 'server/fetchExam'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { Item, QuestionType } from 'server/fetchExam/types'
@@ -10,6 +9,7 @@ import { Input, Rate, Space } from 'antd'
 import { useNavigate, useParams } from 'react-router-dom'
 import { PrimaryButton } from 'publicComponents/Button'
 import { isTeachAuth } from 'util/isAuthTeach'
+import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/index'
 
 const QuestionBankPage: React.FC = () => {
   const { classInfo, getCurCourseInfo } = useCurrentClassInfo()
@@ -76,7 +76,7 @@ const QuestionBankPage: React.FC = () => {
           </Space>
         }
       ></GlobalHeader>
-      <QuestionBankPageWrapper>
+      <GlobalRightLayout>
         {/* <Button onClick={()=>(getCurCourseInfo(id!),console.log(classInfo.courseId))}>Magic</Button> */}
         <QuestionBankHeader changeType={changeType} showAll={showAll}></QuestionBankHeader>
         <QuestionBankTable
@@ -85,7 +85,7 @@ const QuestionBankPage: React.FC = () => {
           isLoading={isLoading}
           isAll={isAll}
         ></QuestionBankTable>
-      </QuestionBankPageWrapper>
+      </GlobalRightLayout>
     </>
   )
 }

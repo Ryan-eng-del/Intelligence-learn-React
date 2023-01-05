@@ -14,6 +14,7 @@ import { Item } from 'server/fetchExam/types'
 import { isTeachAuth } from 'util/isAuthTeach'
 import Skeletons from '../../../publicComponents/Skeleton/index'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
+import { GlobalRightLayout } from '../../../publicComponents/GlobalLayout/index'
 const { confirm } = Modal
 
 export const QuestionBankTable: React.FC<{
@@ -38,7 +39,6 @@ export const QuestionBankTable: React.FC<{
     selectedRowKeys,
     onChange: onSelectChange
   }
-
 
   const showDeleteConfirm = (id: string) => {
     confirm({
@@ -72,13 +72,11 @@ export const QuestionBankTable: React.FC<{
       className: 'table-header',
       render: (_: any, record: Item) => (
         <QuestionItemWrapper>
-              <ShowQuestionDetails
-                onClick={isTeacher
-                ? ()=>setKey(record.key)
-                : ()=>navigate(`/promote/${record.questionId}`,)
-              }>
-                {record.question}
-              </ShowQuestionDetails>
+          <ShowQuestionDetails
+            onClick={isTeacher ? () => setKey(record.key) : () => navigate(`/promote/${record.questionId}`)}
+          >
+            {record.question}
+          </ShowQuestionDetails>
         </QuestionItemWrapper>
       )
     },
@@ -137,39 +135,37 @@ export const QuestionBankTable: React.FC<{
   })
 
   return (
-    <>
-      <QuestionBankTableWrapper>
-        {isLoading ? (
-          <Skeletons size="middle" />
-        ) : (
-          <>
-            <TotalQuestionWrapper>共计{originData?.length}题</TotalQuestionWrapper>
-            <Table
-              style={{ fontWeight: 'bold' }}
-              rowSelection={rowSelection}
-              columns={mergedColumns}
-              dataSource={isAll ? originData : curData}
-              components={{
-                body: {
-                  cell: ShowDetailsCell
-                }
-              }}
-              pagination={{
-                position: ['bottomCenter'],
-                showSizeChanger: true,
-                pageSize: pageSize,
-                style: {
-                  paddingBottom: '10px',
-                  fontSize: '17px'
-                },
-                current: currentPage,
-                pageSizeOptions: ['20', '30', '50', '100']
-              }}
-              rowClassName="rowStyle"
-            />
-          </>
-        )}
-      </QuestionBankTableWrapper>
-    </>
+    <QuestionBankTableWrapper>
+      {isLoading ? (
+        <Skeletons size="middle" />
+      ) : (
+        <>
+          <TotalQuestionWrapper>共计{originData?.length}题</TotalQuestionWrapper>
+          <Table
+            style={{ fontWeight: 'bold' }}
+            rowSelection={rowSelection}
+            columns={mergedColumns}
+            dataSource={isAll ? originData : curData}
+            components={{
+              body: {
+                cell: ShowDetailsCell
+              }
+            }}
+            pagination={{
+              position: ['bottomCenter'],
+              showSizeChanger: true,
+              pageSize: pageSize,
+              style: {
+                paddingBottom: '10px',
+                fontSize: '17px'
+              },
+              current: currentPage,
+              pageSizeOptions: ['20', '30', '50', '100']
+            }}
+            rowClassName="rowStyle"
+          />
+        </>
+      )}
+    </QuestionBankTableWrapper>
   )
 }

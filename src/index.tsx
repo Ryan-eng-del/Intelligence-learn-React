@@ -111,9 +111,11 @@ root.render(
                       <Route path="img/:resourceId" element={<SourceImgPreview />} />
                     </Route>
                   </Route>
+
                   <Route path="exam" element={<ExamPage />}>
                     <Route path="editpaper" element={<CreateExamPage />} />
                   </Route>
+
                   <Route path="resource" element={<ResourcePage />} />
                   <Route path="discuss" element={<DiscussPage />} />
                   <Route path="knowledge" element={<KnowledgePage />} />
