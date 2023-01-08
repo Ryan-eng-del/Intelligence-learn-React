@@ -1,11 +1,11 @@
 /* eslint-disable spaced-comment */
 /** 目前支持的题目类型 */
 export enum QuestionType {
-  'single'='0',
-  'multiple'='1',
-  'fillBlank'='2',
-  'shortAnswer'='3',
-  'judge'='4'
+  'single' = '0',
+  'multiple' = '1',
+  'fillBlank' = '2',
+  'shortAnswer' = '3',
+  'judge' = '4'
 }
 
 export enum QuestionTypeAction {
@@ -64,7 +64,7 @@ type QuestionContext = {
   questionAnswerNum: number // 答案个数
   rightAnswer: string // 正确答案
   questionAnswerExplain: string // 答案描述
-  pointIds: string[] // 关联知识点
+  points: string[] // 关联知识点
 }
 
 /** （网络实体）发送的题目数据 */

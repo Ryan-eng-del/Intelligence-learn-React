@@ -32,7 +32,6 @@ const CreateQuestionPage: React.FC = () => {
         {curEdit && (
           <CreateExamRoutePage
             curEdit={curEdit}
-            curOrder={1}
             setCurEditQuestion={setCur}
             dispatchQuestionType={(v) => console.warn('不知道什么用的函数', v)}
           />

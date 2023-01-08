@@ -1,42 +1,64 @@
 import React, { useState } from 'react'
 import { Button, Form, Input } from 'antd'
-import { QuestionDataWithID } from 'server/fetchExam/types/index'
+import { QuestionDataWithID, QuestionType } from 'server/fetchExam/types/index'
+import { join } from 'lodash'
+import { IQuestionType, IQuestionTypeAction, IQuestionTypeConstructor } from 'reducer/CreateExamPaper/type/type'
+import { StateSetter } from 'types'
+import { QuestionFooter } from '../QuestionFooter'
+import { QuestionTitleArea } from 'publicComponents/QuestionTitleArea/QuestionTitleArea'
 
 export const FillBlank: React.FC<{
-  content: QuestionDataWithID
-}> = () => {
-  // 序列化为题目数据
-  const [question, setQuestion] = useState<any>()
+  question: IQuestionType
+  callback?: (newData: QuestionDataWithID) => void
+  setCurEditQuestion: StateSetter<IQuestionType | undefined>
+  dispatchQuestionType: React.Dispatch<IQuestionTypeAction>
+}> = ({ setCurEditQuestion, dispatchQuestionType }) => {
+  /** 使用rightAnswer存储主客观 */
+  const [question, setQuestion] = useState<IQuestionType>(IQuestionTypeConstructor(QuestionType.fillBlank))
 
+  const handleEditTitle = (content: string, id: string) => {
+    dispatchQuestionType({ type: 'editQuestion', payload: { content, id, target: 'questionDescription' } })
+  }
+  /** 添加空位 */
   const addBlank = () => {
-    question.Options.push({ id: Math.random(), content: '' })
-    setQuestion({ ...question })
+    const opts = question.questionOption.split('<>')
+    opts.push(' ')
+    setQuestion({ ...question, questionOption: join(opts, '<>') })
   }
 
+  /** 删除空位 */
   const delBlank = () => {
-    question.Options.length -= 1
+    const opts = question.questionOption.split('<>')
+    if (opts.length > 0) opts.slice(0, -1)
     setQuestion({ ...question })
   }
 
-  const changeAnswer = (item: { id: number; content: string }) => (value: any) => {
-    item.content = value
-    setQuestion({ ...question })
+  /** 编辑正确答案 */
+  const changeAnswer = (index: number) => (value: string) => {
+    const opts = question.questionOption.split('<>')
+    opts[index] = value
+    setQuestion({ ...question, questionOption: join(opts, '<>') })
   }
 
   return (
     <>
       <Form>
-        {question.Options.map((item: any, index: any) => (
-          <Form.Item key={item.id} label={`第${index + 1}空`}>
+        <QuestionTitleArea
+          question={question}
+          handleEdit={(content: string) => handleEditTitle(content, question.questionId)}
+          label={'题干'}
+          questionOf={'questionDescription'}
+        />
+        {question.questionOption.split('<>').map((item, index) => (
+          <Form.Item key={index} label={`第${index + 1}空`}>
             <Input
-              placeholder={question.isSubjective ? '答案' : '考试后评定'}
-              disabled={question.isSubjective}
-              value={item.content}
-              onChange={(value) => changeAnswer(item)(value.target.value)}
+              placeholder={question.rightAnswer ? '答案' : '考试后评定'}
+              disabled={question.rightAnswer == '1'}
+              value={item}
+              onChange={(value) => changeAnswer(index)(value.target.value)}
             />
           </Form.Item>
         ))}
-        {/* </Form.Item> */}
         <Button onClick={addBlank} type="primary">
           添加更多空位
         </Button>
@@ -45,6 +67,11 @@ export const FillBlank: React.FC<{
           删除空位
         </Button>
         &nbsp;&nbsp;&nbsp; *请确保空位与题干中的数量匹配
+        <QuestionFooter
+          question={question}
+          setCurEditQuestion={setCurEditQuestion}
+          dispatchQuestionType={dispatchQuestionType}
+        />
       </Form>
     </>
   )

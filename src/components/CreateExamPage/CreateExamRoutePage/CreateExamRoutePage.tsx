@@ -11,9 +11,10 @@ import { InputNumber } from 'antd'
 
 interface CreateExamRoutePageProps {
   curEdit: IQuestionType
-  curOrder: number
+  curOrder?: number
   setCurEditQuestion: StateSetter<IQuestionType | undefined>
   dispatchQuestionType: React.Dispatch<IQuestionTypeAction>
+  disableHeader?: boolean
 }
 
 export const CreateExamRoutePage = (props: CreateExamRoutePageProps) => {
@@ -24,7 +25,6 @@ export const CreateExamRoutePage = (props: CreateExamRoutePageProps) => {
       return {
         [QuestionType.single]: (
           <SingleChoice
-            config={'single'}
             question={curEdit}
             setCurEditQuestion={setCurEditQuestion}
             dispatchQuestionType={dispatchQuestionType}
@@ -32,15 +32,32 @@ export const CreateExamRoutePage = (props: CreateExamRoutePageProps) => {
         ),
         [QuestionType.multiple]: (
           <SingleChoice
-            config={'multiple'}
             question={curEdit}
             setCurEditQuestion={setCurEditQuestion}
             dispatchQuestionType={dispatchQuestionType}
           />
         ),
-        [QuestionType.shortAnswer]: <ShortAnswer content={curEdit as any as QuestionDataWithID} />,
-        [QuestionType.judge]: <Judge content={curEdit as any as QuestionDataWithID} />,
-        [QuestionType.fillBlank]: <FillBlank content={curEdit as any as QuestionDataWithID} />
+        [QuestionType.shortAnswer]: (
+          <ShortAnswer
+            question={curEdit}
+            setCurEditQuestion={setCurEditQuestion}
+            dispatchQuestionType={dispatchQuestionType}
+          />
+        ),
+        [QuestionType.judge]: (
+          <Judge
+            question={curEdit}
+            setCurEditQuestion={setCurEditQuestion}
+            dispatchQuestionType={dispatchQuestionType}
+          />
+        ),
+        [QuestionType.fillBlank]: (
+          <FillBlank
+            question={curEdit}
+            setCurEditQuestion={setCurEditQuestion}
+            dispatchQuestionType={dispatchQuestionType}
+          />
+        )
       }
     else return {}
   }, [props])
@@ -59,20 +76,24 @@ export const CreateExamRoutePage = (props: CreateExamRoutePageProps) => {
       <ExamRouteHeader>
         {curEdit && (
           <>
-            <span style={{ marginRight: '16px', color: 'black', fontSize: '18px' }}>{curOrder}</span>
+            <span style={{ marginRight: '16px', color: 'black', fontSize: '18px' }}>{curOrder || ''}</span>
             <span style={{ fontSize: '16px', color: '#646873', marginRight: '12px' }}>
               {getQuestionHeader(parseInt(curEdit.questionType))}
             </span>
-            <span style={{ marginRight: '8px' }}>
-              <InputNumber
-                size="middle"
-                min={1}
-                max={100}
-                defaultValue={5}
-                onChange={onChangeScore}
-                value={curNumber}
-              />
-            </span>
+            {curOrder ? (
+              <span style={{ marginRight: '8px' }}>
+                <InputNumber
+                  size="middle"
+                  min={1}
+                  max={100}
+                  defaultValue={5}
+                  onChange={onChangeScore}
+                  value={curNumber}
+                />
+              </span>
+            ) : (
+              <></>
+            )}
             <QuestionStatus
               config={curEdit.isStore ? 'success' : 'processing'}
               title={curEdit.isStore ? '题目已经保存' : '题目未保存'}

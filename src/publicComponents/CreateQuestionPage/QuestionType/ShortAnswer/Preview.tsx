@@ -6,10 +6,12 @@ import { Network2Data } from './config'
 
 export const Preview: React.FC<{
   content: QuestionDataWithID
-}> = ({ content }) => {
+  No?: number
+}> = ({ content, No }) => {
   const question = Network2Data(content)
   return (
     <>
+      {No ? <h1>{No.toString()}.</h1> : <></>}
       <h2>题目</h2>
       {str2DOM(question.content)}
 

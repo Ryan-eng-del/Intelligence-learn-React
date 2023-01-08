@@ -11,6 +11,7 @@ import { ItemWrapper, TestPaperPreviewWrapper, TitleWrapper } from './TestPaperP
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { Button, Empty, Space } from 'antd'
 import { ArrowLeftOutlined } from '@ant-design/icons'
+import { PrimaryButton } from 'publicComponents/Button'
 
 const TestPaperPreview: React.FC = () => {
   const { paperid } = useParams()
@@ -23,11 +24,11 @@ const TestPaperPreview: React.FC = () => {
   const navigate = useNavigate()
   type T = QuestionDataWithID
   const mapper = {
-    [QuestionType.single]: (data: T) => <P1 content={data} />,
-    [QuestionType.multiple]: (data: T) => <P2 content={data} />,
-    [QuestionType.fillBlank]: (data: T) => <P3 content={data} />,
-    [QuestionType.shortAnswer]: (data: T) => <P4 content={data} />,
-    [QuestionType.judge]: (data: T) => <P5 content={data} />
+    [QuestionType.single]: (data: T, No: number) => <P1 content={data} No={No} />,
+    [QuestionType.multiple]: (data: T, No: number) => <P2 content={data} No={No} />,
+    [QuestionType.fillBlank]: (data: T, No: number) => <P3 content={data} No={No} />,
+    [QuestionType.shortAnswer]: (data: T, No: number) => <P4 content={data} No={No} />,
+    [QuestionType.judge]: (data: T, No: number) => <P5 content={data} No={No} />
   }
   return (
     <>
@@ -37,12 +38,10 @@ const TestPaperPreview: React.FC = () => {
             <BaseLoading />
           ) : (
             <Space align="center" size={24}>
-              <Button icon={<ArrowLeftOutlined />} shape="circle" onClick={() => navigate(-1)} />
+              <Button icon={<ArrowLeftOutlined />} shape="circle" size="large" onClick={() => navigate(-1)} />
               <h1> {data?.paperName} </h1>
-              <Button onClick={() => navigate(`/editpaper/${paperid}`)} type="primary">
-                编辑
-              </Button>
-              <Button type="primary" danger>
+              <PrimaryButton title="编辑" handleClick={() => navigate(`/editpaper/${paperid}`)} />
+              <Button type="primary" danger size="large" shape="round">
                 删除
               </Button>
             </Space>
@@ -52,7 +51,7 @@ const TestPaperPreview: React.FC = () => {
           <ItemWrapper key={d}>
             {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
             {/* @ts-ignore: 数字id? */}
-            {mapper[i.questionType.toString()](i)}
+            {mapper[i.questionType.toString()](i, d + 1)}
           </ItemWrapper>
         ))}
         {(data && data.questionOfPaperVos.length) || <Empty />}

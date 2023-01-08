@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Modal, Popconfirm, Space, Table } from 'antd'
+import { Button, Modal, Space, Table } from 'antd'
 import {
   QuestionBankTableWrapper,
   QuestionOperateWrapper,
@@ -12,9 +12,8 @@ import { useNavigate } from 'react-router-dom'
 import { ShowDetailsCell } from './cpn/ShowDetailsCell'
 import { Item } from 'server/fetchExam/types'
 import { isTeachAuth } from 'util/isAuthTeach'
-import Skeletons from '../../../publicComponents/Skeleton/index'
+import Skeletons from 'publicComponents/Skeleton/index'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
-import { GlobalRightLayout } from '../../../publicComponents/GlobalLayout/index'
 const { confirm } = Modal
 
 export const QuestionBankTable: React.FC<{
