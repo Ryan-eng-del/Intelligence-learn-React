@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
 import { Button, Form, Input } from 'antd'
-import { QuestionDataWithID, QuestionType } from 'server/fetchExam/types/index'
 import { join } from 'lodash'
+import { QuestionTitleArea } from 'publicComponents/QuestionTitleArea/QuestionTitleArea'
+import React, { useState } from 'react'
 import { IQuestionType, IQuestionTypeAction, IQuestionTypeConstructor } from 'reducer/CreateExamPaper/type/type'
+import { QuestionDataWithID, QuestionType } from 'server/fetchExam/types/index'
 import { StateSetter } from 'types'
 import { QuestionFooter } from '../QuestionFooter'
-import { QuestionTitleArea } from 'publicComponents/QuestionTitleArea/QuestionTitleArea'
 
 export const FillBlank: React.FC<{
   question: IQuestionType

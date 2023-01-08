@@ -17,7 +17,7 @@ export const GlobalNav = (props: NavMapProps) => {
   const handleOnSelect = (selectInfo: any) => setCurSelect(selectInfo.key)
   console.log(map, props.sliceCount, 'nav', map.get(pathname.slice(props.sliceCount))!)
   return (
-    <Menu   
+    <Menu
       mode="inline"
       inlineCollapsed={false}
       items={props.items}

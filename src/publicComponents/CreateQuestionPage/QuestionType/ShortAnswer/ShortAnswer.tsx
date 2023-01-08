@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
 import { Form } from 'antd'
-import { QuestionDataWithID } from 'server/fetchExam/types/index'
-import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
-import { StateSetter } from 'types'
 import { QuestionTitleArea } from 'publicComponents/QuestionTitleArea/QuestionTitleArea'
+import React from 'react'
+import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
+import { QuestionDataWithID } from 'server/fetchExam/types/index'
+import { StateSetter } from 'types'
 import { QuestionFooter } from '../QuestionFooter'
 
 export const ShortAnswer: React.FC<{

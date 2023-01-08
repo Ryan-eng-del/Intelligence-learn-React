@@ -1,8 +1,8 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { client } from 'server'
 
-import { TestPaper, PostTestPaper, StudentPaper, ExamListItem } from '../types'
 import { MutationMsg } from 'util/MutationMsg'
+import { ExamListItem, PostTestPaper, StudentPaper, TestPaper } from '../types'
 
 /** 打开一张试卷 */
 export const useShowTestPaper = (paperId: string) => {

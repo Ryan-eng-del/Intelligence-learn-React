@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
 import { Form, Switch } from 'antd'
-import { QuestionDataWithID, QuestionType } from 'server/fetchExam/types/index'
-import { IQuestionType, IQuestionTypeAction, IQuestionTypeConstructor } from 'reducer/CreateExamPaper/type/type'
 import { QuestionTitleArea } from 'publicComponents/QuestionTitleArea/QuestionTitleArea'
+import React from 'react'
+import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
+import { QuestionDataWithID } from 'server/fetchExam/types/index'
 import { StateSetter } from 'types'
 import { QuestionFooter } from '../QuestionFooter'
 

@@ -1,9 +1,9 @@
-import React, { memo } from 'react'
-import { Button, Input } from 'antd'
-import { stopPropagation } from 'util/stopPropagation'
-import { debounce } from 'util/debounece'
-import { IChapterReducerAction } from 'reducer/ChaperStudyTree/type/type'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
+import { Button, Input } from 'antd'
+import React, { memo } from 'react'
+import { IChapterReducerAction } from 'reducer/ChaperStudyTree/type/type'
+import { debounce } from 'util/debounece'
+import { stopPropagation } from 'util/stopPropagation'
 
 const ChapterNodeRenameStatus: React.FC<{
   dispatchChapter: React.Dispatch<IChapterReducerAction>
@@ -31,12 +31,12 @@ const ChapterNodeRenameStatus: React.FC<{
       <Button
         type={'primary'}
         onClick={(e) => stopPropagation(e, confirmRename)}
-        style={{ marginRight: '15px',width:"3rem" }}
+        style={{ marginRight: '15px', width: '3rem' }}
         icon={<CheckOutlined />}
       />
       <Button
         type={'primary'}
-        style={{ marginRight: '15px',width:"3rem" }}
+        style={{ marginRight: '15px', width: '3rem' }}
         danger
         onClick={(e) => stopPropagation(e, cancelRename)}
         icon={<CloseOutlined />}

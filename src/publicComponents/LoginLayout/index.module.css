@@ -6,8 +6,6 @@
   min-height: 40.125rem;
   background-color: rgb(240 244 249);
   padding-top: 20px;
-
-
 }
 
 .auth-wrapper {
@@ -49,7 +47,6 @@
     transition: opacity 300ms var(--easing), transform 300ms var(--easing);
   }
 }
-
 
 .auth-left-wrapper-login {
   width: 31.25rem;

@@ -1,13 +1,12 @@
-import { GlobalHeader } from 'publicComponents/GlobalHeader'
 import { PrimaryButton } from 'publicComponents/Button/index'
+import { GlobalHeader } from 'publicComponents/GlobalHeader'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
-import { Suspense, useState } from 'react'
+import { Suspense } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
-import { ExamList } from './Teacher'
 import { isTeachAuth } from 'util/isAuthTeach'
-import { StudentExamPage } from './Student'
-import Skeletons from 'publicComponents/Skeleton'
 import { BaseSpin } from '../../../../baseUI/BaseSpin/BaseSpin'
+import { StudentExamPage } from './Student'
+import { ExamList } from './Teacher'
 
 const ExamPage: React.FC = () => {
   const navigate = useNavigate()

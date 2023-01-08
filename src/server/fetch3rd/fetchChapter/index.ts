@@ -1,11 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import React from 'react'
 import { client } from 'server'
 import { generateExpandKeys } from '../../../helper/chapterStudyTree'
+import { ChapterTreeData } from '../../../hook/useChapterStudy/type'
+import { IChapterReducerAction } from '../../../reducer/ChaperStudyTree/type/type'
 import { AddChapterParam, EditChapterParam } from '../../../types/server/fetchChapter'
 import { AddContent, AddContentResource, EditContent } from '../../../types/server/fetchClassTime'
-import { ChapterTreeData } from '../../../hook/useChapterStudy/type'
-import React from 'react'
-import { IChapterReducerAction } from '../../../reducer/ChaperStudyTree/type/type'
 /*获取章节学习树信息*/
 export const useShowChapter = (courseId: string, dispatch: React.Dispatch<IChapterReducerAction>) => {
   return useQuery(

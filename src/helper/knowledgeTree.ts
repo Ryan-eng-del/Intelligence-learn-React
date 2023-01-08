@@ -1,8 +1,8 @@
 import { QueryClient } from '@tanstack/react-query'
 import { cloneDeepWith } from 'lodash'
-import { IKnowledgePoint, PrePoint } from '../hook/useKnowledge/type'
-import { IChapterReducerAction } from 'reducer/ChaperStudyTree/type/type'
 import React from 'react'
+import { IChapterReducerAction } from 'reducer/ChaperStudyTree/type/type'
+import { IKnowledgePoint, PrePoint } from '../hook/useKnowledge/type'
 
 export const updateKnowledgeTreeQueryCache = (
   updaterFun: (query: IKnowledgePoint[]) => IKnowledgePoint[],

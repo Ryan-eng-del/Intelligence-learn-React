@@ -1,5 +1,5 @@
 import { Divider, Input } from 'antd'
-import React, { useState } from 'react'
+import React from 'react'
 import { StudentPaperItem } from 'server/fetchExam/types'
 import { str2DOM } from 'util/str2DOM'
 

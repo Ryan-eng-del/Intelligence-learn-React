@@ -1,12 +1,12 @@
+import { Radio } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { Checkbox, Radio } from 'antd'
-import { QuestionTextArea } from '../QuestionTextArea'
+import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
 import { QuestionDataWithID } from 'server/fetchExam/types'
 import styled from 'styled-components'
-import { QuestionTitleArea } from '../../../QuestionTitleArea/QuestionTitleArea'
 import { StateSetter } from 'types'
-import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
+import { QuestionTitleArea } from '../../../QuestionTitleArea/QuestionTitleArea'
 import { QuestionFooter } from '../QuestionFooter'
+import { QuestionTextArea } from '../QuestionTextArea'
 
 interface SingleChoiceProps {
   question: IQuestionType

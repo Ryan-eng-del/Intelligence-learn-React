@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { AreaChartOutlined, ArrowRightOutlined, DeliveredProcedureOutlined } from '@ant-design/icons'
 import { Button, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import { ArrowRightOutlined, AreaChartOutlined, DeliveredProcedureOutlined } from '@ant-design/icons'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
+import { PublishPanel } from 'publicComponents/ExamPage/PublishPanel/PublishPanel'
+import { StatisticsPanel } from 'publicComponents/ExamPage/StatisticsPanel/StatisticsPanel'
 import { useGetPaperTarget, useShowExamList } from 'server/fetchExam'
 import { ExamListItem } from 'server/fetchExam/types'
-import { StatisticsPanel } from 'publicComponents/ExamPage/StatisticsPanel/StatisticsPanel'
-import { PublishPanel } from 'publicComponents/ExamPage/PublishPanel/PublishPanel'
 import Skeletons from '../../../../../publicComponents/Skeleton/index'
 
 export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {

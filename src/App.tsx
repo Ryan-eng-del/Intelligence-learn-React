@@ -1,9 +1,9 @@
+import { TOKEN_NAME } from 'global/varible'
 import { useMount } from 'hook/useMount'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { registerFormulaModule } from 'util/registerEditor'
 import './App.css'
 import cache from './util/cache'
-import { registerFormulaModule } from 'util/registerEditor'
-import { TOKEN_NAME } from 'global/varible'
 
 function App() {
   const navigate = useNavigate()

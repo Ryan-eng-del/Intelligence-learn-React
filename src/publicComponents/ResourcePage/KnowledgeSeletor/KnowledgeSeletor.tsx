@@ -1,4 +1,4 @@
-import { Button, Tree, TreeSelect } from 'antd'
+import { TreeSelect } from 'antd'
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import React, { useState } from 'react'
 import { useShowKnowledgeTree } from 'server/fetchKnowledge'

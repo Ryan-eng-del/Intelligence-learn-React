@@ -1,11 +1,9 @@
-import React, { useState } from 'react'
 import { InboxOutlined } from '@ant-design/icons'
-import { Modal, Upload, message } from 'antd'
+import { message, Modal, Upload } from 'antd'
 import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
 
 export const Header = (props: { reflush: () => void; upLoadModalVisible: boolean; setUpLoadModalVisible: any }) => {
   const { upLoadModalVisible, setUpLoadModalVisible, reflush } = props
-
 
   const UploadModalOK = () => {
     setUpLoadModalVisible(false)

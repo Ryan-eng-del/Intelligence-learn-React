@@ -1,16 +1,13 @@
-import { ChapterInitNode, ChapterTreeData } from './type'
+import { useQueryClient } from '@tanstack/react-query'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
-import { ChapterNode } from './config'
+import { useParams } from 'react-router-dom'
+import { IChapterReducerAction, IChapterReducerState } from 'reducer/ChaperStudyTree/type/type'
 import { useAddChapter, useAddChildChapter } from 'server/fetch3rd/fetchChapter'
+import { noTrim } from 'util/noTrim'
 import { addChildChapterNode, deleteTreeNode, updateChapterTreeQueryCache } from '../../helper/chapterStudyTree'
 import { AddChapterParam } from '../../types/server/fetchChapter'
-import { useQueryClient } from '@tanstack/react-query'
-import { IChapterReducerAction, IChapterReducerState } from 'reducer/ChaperStudyTree/type/type'
-import { useCurrentClassInfo } from 'context/ClassInfoContext'
-import { message } from 'antd'
-import { useParams } from 'react-router-dom'
-import { GlobalMessage } from 'publicComponents/GlobalMessage'
-import { noTrim } from 'util/noTrim'
+import { ChapterNode } from './config'
+import { ChapterInitNode, ChapterTreeData } from './type'
 
 interface handleAddChapterProps {
   data: ChapterTreeData[]

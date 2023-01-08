@@ -1,19 +1,19 @@
-import React, { useState } from 'react'
+import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { Button, Modal, Space, Table } from 'antd'
+import Skeletons from 'publicComponents/Skeleton/index'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useDeleteQuestion } from 'server/fetchExam'
+import { Item } from 'server/fetchExam/types'
+import { isTeachAuth } from 'util/isAuthTeach'
+import { ShowDetailsCell } from './cpn/ShowDetailsCell'
 import {
   QuestionBankTableWrapper,
-  QuestionOperateWrapper,
   QuestionItemWrapper,
+  QuestionOperateWrapper,
   ShowQuestionDetails,
   TotalQuestionWrapper
 } from './QuestionBankTableStyle'
-import { useDeleteQuestion } from 'server/fetchExam'
-import { useNavigate } from 'react-router-dom'
-import { ShowDetailsCell } from './cpn/ShowDetailsCell'
-import { Item } from 'server/fetchExam/types'
-import { isTeachAuth } from 'util/isAuthTeach'
-import Skeletons from 'publicComponents/Skeleton/index'
-import { ExclamationCircleOutlined } from '@ant-design/icons'
 const { confirm } = Modal
 
 export const QuestionBankTable: React.FC<{

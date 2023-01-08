@@ -1,13 +1,13 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { CreateExamRoutePageWrapper } from './CreateExamRoutePageStyle'
+import { InputNumber } from 'antd'
 import { FillBlank, Judge, ShortAnswer, SingleChoice } from 'publicComponents/CreateQuestionPage'
-import { QuestionDataWithID, QuestionType } from 'server/fetchExam/types'
+import { QuestionStatus } from 'publicComponents/CreateQuestionPage/QuestionType/QuestionStatus'
+import React, { useEffect, useMemo, useState } from 'react'
 import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
+import { QuestionType } from 'server/fetchExam/types'
 import styled from 'styled-components'
 import { getQuestionHeader } from '../../../pages/CreateExamPage/util/util'
 import { StateSetter } from '../../../types'
-import { QuestionStatus } from 'publicComponents/CreateQuestionPage/QuestionType/QuestionStatus'
-import { InputNumber } from 'antd'
+import { CreateExamRoutePageWrapper } from './CreateExamRoutePageStyle'
 
 interface CreateExamRoutePageProps {
   curEdit: IQuestionType

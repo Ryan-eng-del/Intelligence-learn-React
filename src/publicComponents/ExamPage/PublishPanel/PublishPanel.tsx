@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
 import { ArrowRightOutlined, CloseOutlined } from '@ant-design/icons'
+import { Button, DatePicker, Form, InputNumber, Modal, Select, Space, Switch, TimePicker, TreeSelect } from 'antd'
 import moment from 'moment'
-import { Modal, Button, Form, Switch, DatePicker, TreeSelect, Space, Select, InputNumber, TimePicker } from 'antd'
+import React, { useEffect, useState } from 'react'
 
-import { Childen, paperTarget, PublishExamType, PublishHomeworkType, TreeData } from '../types'
 import { useReleaseExam, useReleaseHomework } from 'server/fetchExam'
+import { Childen, paperTarget, PublishExamType, PublishHomeworkType, TreeData } from '../types'
 
 const { RangePicker } = DatePicker
 const { SHOW_PARENT } = TreeSelect
@@ -23,12 +23,12 @@ export const PublishPanel: React.FC<{
 
   const [publishPanelState, setpublishPanelState] = useState<PublishExamType | PublishHomeworkType>({
     paperId,
-    studentIds:[]
+    studentIds: []
   }) //存取了所有发送网络请求需要的参数
   // 必须这个不然上面对象内的paperId 不更新
-  useEffect(()=>{
-    setpublishPanelState({ ...publishPanelState,paperId })
-  },[paperId])
+  useEffect(() => {
+    setpublishPanelState({ ...publishPanelState, paperId })
+  }, [paperId])
 
   // setpublishPanelState({...publishPanelState,paper_id:paperId})
   const { mutate: releaseExam } = useReleaseExam()
@@ -123,7 +123,7 @@ export const PublishPanel: React.FC<{
             format={dateFormat}
             disabled={[!isTiming, false]}
             onChange={(value, d) => {
-              console.log(d);
+              console.log(d)
               setpublishPanelState({ ...publishPanelState, startTime: d[0], endTime: d[1] })
             }}
           />

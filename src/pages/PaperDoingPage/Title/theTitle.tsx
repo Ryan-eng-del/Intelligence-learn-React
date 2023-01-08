@@ -26,8 +26,8 @@ export const Title: React.FC<{
         <ArrowLeftOutlined />
         返回
       </div>
-      <div style={{display: 'flex', flexDirection: 'row',alignItems:"center", justifyContent:"space-around" }} >
-        <div style={{ paddingLeft: 20, display: 'flex', flexDirection: 'column' }} >
+      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
+        <div style={{ paddingLeft: 20, display: 'flex', flexDirection: 'column' }}>
           <div
             style={{
               marginTop: 2,
@@ -50,9 +50,8 @@ export const Title: React.FC<{
             {`共${props.num}题，${props.score}分。`}
           </div>
         </div>
-        <Statistic.Countdown value={Date.now()} title="时间" format="mm:ss"/>
+        <Statistic.Countdown value={Date.now()} title="时间" format="mm:ss" />
       </div>
-
     </div>
   )
 }

@@ -1,8 +1,7 @@
-import { client } from 'server'
-import OSS from 'lib/aliyun-upload-sdk/lib/aliyun-oss-sdk-6.17.1.min'
 import 'lib/aliyun-upload-sdk/aliyun-upload-sdk-1.5.4.min'
-import { StateSetter } from '../types'
 import { MutableRefObject } from 'react'
+import { client } from 'server'
+import { StateSetter } from '../types'
 
 interface IUploadInfo {
   videoId?: string // videoId，由服务端返回的音/视频ID

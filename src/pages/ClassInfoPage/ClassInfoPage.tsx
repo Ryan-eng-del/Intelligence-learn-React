@@ -1,10 +1,10 @@
 import GlobalLayout from 'publicComponents/GlobalLayout'
+import { useEffect, useMemo } from 'react'
 import { Outlet, useParams } from 'react-router-dom'
 import { createClassNavMap } from 'util/createNavMap'
-import ClassInfoNavItems from './config'
-import { useEffect, useMemo } from 'react'
 import { isTeachAuth } from 'util/isAuthTeach'
 import { useCurrentClassInfo } from '../../context/ClassInfoContext'
+import ClassInfoNavItems from './config'
 
 const ClassInfoPage = () => {
   const { classInfo, getCurCourseInfo } = useCurrentClassInfo()

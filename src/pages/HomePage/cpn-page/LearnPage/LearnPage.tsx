@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
-import { CardBodyWrapper, CardHeadWrapper, CardWrapper, ModalContextWrapper } from './LearnPageStyle'
-import { Button, Input, Modal, Row, message } from 'antd'
-import { ClassCard } from 'publicComponents/TeachRotePage'
-import { useJoinInvitedCourse, useShowInvitedCourseInfo, useShowLearnClass } from 'server/fetchCourse'
+import { Button, Input, message, Modal, Row } from 'antd'
+import classPicUrl from 'assets/img/class.jpg'
+import { PrimaryButton } from 'publicComponents/Button'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
-import { PrimaryButton } from 'publicComponents/Button'
 import Skeletons from 'publicComponents/Skeleton/index'
-import classPicUrl from 'assets/img/class.jpg'
+import { ClassCard } from 'publicComponents/TeachRotePage'
+import React, { useState } from 'react'
+import { useJoinInvitedCourse, useShowInvitedCourseInfo, useShowLearnClass } from 'server/fetchCourse'
+import { CardBodyWrapper, CardHeadWrapper, CardWrapper, ModalContextWrapper } from './LearnPageStyle'
 
 type Class = { classId: string; courseName: string; courseCover: string; teacherName: string }
 const LearnPage: React.FC = () => {

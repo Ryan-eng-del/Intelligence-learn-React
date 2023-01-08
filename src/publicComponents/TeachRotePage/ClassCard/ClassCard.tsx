@@ -1,11 +1,9 @@
-import { EditOutlined } from '@ant-design/icons'
-import { Button, Form, Input, Modal } from 'antd'
+import classPicUrl from 'assets/img/class.jpg'
 import { PrimaryButton } from 'publicComponents/Button'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CourseList } from 'server/fetchCourse/types'
 import { CardBodyWrapper, CardHeadWrapper, CardWrapper } from './ClassCardStyle'
-import classPicUrl from 'assets/img/class.jpg'
 
 export const ClassCard: React.FC<{
   classInfo: CourseList

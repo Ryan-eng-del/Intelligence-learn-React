@@ -1,7 +1,6 @@
 import { GithubOutlined, WechatOutlined, WeiboCircleOutlined } from '@ant-design/icons'
 import { Avatar, Tooltip } from 'antd'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
-import React, { useEffect } from 'react'
 import { useGetContributor } from 'server/fetch3rd'
 
 type dataType = {

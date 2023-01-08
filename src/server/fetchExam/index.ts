@@ -1,5 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { paperTarget, PublishExamType, PublishHomeworkType } from 'publicComponents/ExamPage/types'
+import { IQuestionInfo } from 'reducer/CreateExamPaper/type/type'
 import { client } from 'server'
+import { MutationMsg } from 'util/MutationMsg'
 import {
   ExamListItem,
   QuestionBank,
@@ -8,9 +11,6 @@ import {
   StudentPaperItem,
   WholeQuestion
 } from './types'
-import { paperTarget, PublishExamType, PublishHomeworkType } from 'publicComponents/ExamPage/types'
-import { IQuestionInfo } from 'reducer/CreateExamPaper/type/type'
-import { MutationMsg } from 'util/MutationMsg'
 
 /** 添加试题 */
 export const useCreateQuestion = () => {

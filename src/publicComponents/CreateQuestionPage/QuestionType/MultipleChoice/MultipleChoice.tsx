@@ -1,5 +1,4 @@
-import { Radio, Checkbox } from 'antd'
-import { config } from 'process'
+import { Checkbox } from 'antd'
 import { QuestionTitleArea } from 'publicComponents/QuestionTitleArea/QuestionTitleArea'
 import React, { useEffect, useState } from 'react'
 import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
@@ -7,7 +6,7 @@ import { QuestionDataWithID } from 'server/fetchExam/types'
 import { StateSetter } from 'types'
 import { QuestionFooter } from '../QuestionFooter'
 import { QuestionTextArea } from '../QuestionTextArea'
-import { OptionWrapper, LabelArea } from '../SingleChoice/SingleChoice'
+import { OptionWrapper } from '../SingleChoice/SingleChoice'
 
 export const MultipleChoice: React.FC<{
   question: IQuestionType

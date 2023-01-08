@@ -1,7 +1,7 @@
-import { IQuestionType, IQuestionTypeAction, IQuestionTypeInitialState, IQuestionInfo } from './type/type'
+import { message } from 'antd'
 import produce, { original } from 'immer'
 import { isCouldSaveQuestion } from 'publicComponents/CreateQuestionPage/QuestionType/util'
-import { message } from 'antd'
+import { IQuestionType, IQuestionTypeAction, IQuestionTypeInitialState } from './type/type'
 
 export const initialQuestionTypeState: IQuestionTypeInitialState<IQuestionType> = {
   singleChoice: {
