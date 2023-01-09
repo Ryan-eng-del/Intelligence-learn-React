@@ -1,6 +1,6 @@
 import { Form, Switch } from 'antd'
 import { QuestionTitleArea } from 'publicComponents/QuestionTitleArea/QuestionTitleArea'
-import React from 'react'
+import React, { useState } from 'react'
 import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
 import { QuestionDataWithID } from 'server/fetchExam/types/index'
 import { StateSetter } from 'types'
@@ -17,11 +17,17 @@ export const Judge: React.FC<{
     dispatchQuestionType({ type: 'editQuestion', payload: { content, id, target: 'questionDescription' } })
   }
 
-  const setQuestion = (e: boolean) => {
-    // 这里不知道用什么事件更新
-    // dispatchQuestionType({ type: 'editQuestion', payload: { target: 'rightAnswer' } })
-    console.log(e)
+  const [check, setCheck] = useState(true)
+
+  const setQuestion = (id: string) => {
+    setCheck(!check)
+    dispatchQuestionType({
+      type: 'editQuestion',
+      payload: { target: 'rightAnswer', content: check ? '0' : '1', id }
+    })
   }
+
+  console.log(question, 'qs')
   return (
     <>
       <Form>
@@ -35,8 +41,8 @@ export const Judge: React.FC<{
           <Switch
             checkedChildren="对"
             unCheckedChildren="错"
-            checked={question.rightAnswer == '1'}
-            onChange={setQuestion}
+            checked={check}
+            onChange={() => setQuestion(question.questionId)}
           />
         </Form.Item>
         <QuestionFooter

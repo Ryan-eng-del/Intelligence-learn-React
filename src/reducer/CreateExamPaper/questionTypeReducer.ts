@@ -35,6 +35,13 @@ const generateNewOption = (questionDescription: string, content: string, index: 
   return arr.join('<>')
 }
 
+const generateFillBankOption = (tempCount: number, curIndex: number, content: string) => {
+  const questionOption = '<>'.repeat(tempCount - 1)
+  const arr = questionOption.split('<>')
+  arr[curIndex] = content
+  return arr.join('<>')
+}
+
 /* 处理试题表单校验 */
 const handleFormDataIsValid = (question: IQuestionType) => {
   /* 检测表单选项进行提示 */
@@ -61,7 +68,8 @@ export const questionTypeReducer = produce(
         for (const typeQuestion of keys) {
           draftState[typeQuestion as questionType].list.forEach((q: any) => {
             if (q.questionId === action.payload.id) {
-              if (action.payload.index) {
+              if (action.payload.index || action.payload.index === 0) {
+                console.log(action.payload, '')
                 q[action.payload.target] = generateNewOption(
                   q.questionOption,
                   action.payload.content as string,
@@ -69,6 +77,7 @@ export const questionTypeReducer = produce(
                 )
               } else {
                 q[action.payload.target] = action.payload.content as any
+                console.log(q[action.payload.target], action.payload.content)
               }
             }
           })

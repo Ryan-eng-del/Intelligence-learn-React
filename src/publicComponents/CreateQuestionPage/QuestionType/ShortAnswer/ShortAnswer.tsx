@@ -16,6 +16,7 @@ export const ShortAnswer: React.FC<{
   const handleEditTitle = (content: string, id: string) => {
     dispatchQuestionType({ type: 'editQuestion', payload: { content, id, target: 'questionDescription' } })
   }
+
   return (
     <>
       <Form>
@@ -25,6 +26,7 @@ export const ShortAnswer: React.FC<{
           label={'题干'}
           questionOf={'questionDescription'}
         />
+
         <QuestionFooter
           question={question}
           setCurEditQuestion={setCurEditQuestion}

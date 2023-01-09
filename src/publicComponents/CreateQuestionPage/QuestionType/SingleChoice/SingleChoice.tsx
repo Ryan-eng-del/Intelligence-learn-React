@@ -24,7 +24,6 @@ export const SingleChoice = (props: SingleChoiceProps) => {
   const handleEditTitle = (content: string, id: string) => {
     dispatchQuestionType({ type: 'editQuestion', payload: { content, id, target: 'questionDescription' } })
   }
-
   /* 处理编辑题目选项 */
   const handleEditOption = (content: string, optionName: string, id: string) => {
     dispatchQuestionType({

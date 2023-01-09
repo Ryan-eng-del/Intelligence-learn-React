@@ -1,5 +1,4 @@
-import { useCurrentClassInfo } from 'context/ClassInfoContext'
-import { QuestionConstantString, QuestionType } from 'server/fetchExam/types'
+import { QuestionConstantString } from 'server/fetchExam/types'
 
 export interface IQuestionTypeInitialState<T> {
   singleChoice: {
@@ -39,23 +38,6 @@ export interface IQuestionType extends IQuestionInfo {
   score: number
   isStore: boolean
   questionId: string
-}
-
-export function IQuestionTypeConstructor(type: QuestionType) {
-  return {
-    questionId: crypto.randomUUID(),
-    score: 1,
-    isStore: false,
-    courseId: useCurrentClassInfo().classInfo.courseId,
-    questionDescription: '',
-    questionOption: '',
-    questionDifficulty: 0,
-    questionType: type,
-    questionAnswerNum: 1,
-    rightAnswer: '',
-    questionAnswerExplain: '',
-    pointIds: []
-  }
 }
 
 export interface IEditQuestionType {

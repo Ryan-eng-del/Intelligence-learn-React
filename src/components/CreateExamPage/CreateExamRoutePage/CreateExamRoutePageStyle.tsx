@@ -9,4 +9,5 @@ export const CreateExamRoutePageWrapper = styled.div`
   margin-left: 10px;
   padding: 25px 20px 10px 20px;
   border-radius: 5px;
+  overflow: auto;
 `

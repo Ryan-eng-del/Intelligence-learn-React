@@ -25,7 +25,7 @@ export const createQuestionObj = (type: QuestionConstantString, set: Set<number>
     questionAnswerExplain: '',
     questionDifficulty: 0,
     questionType: type,
-    rightAnswer: '',
+    rightAnswer: '1',
     questionAnswerNum: 1
   }
   if (type === '0') resultObj.questionOption = '<><><>'
