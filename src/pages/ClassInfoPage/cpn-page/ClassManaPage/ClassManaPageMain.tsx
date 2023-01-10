@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Card, Col, Row, Button, Input, Modal, Space, message, Badge, Typography, Popconfirm } from 'antd'
+import { Card, Col, Row, Button, Input, Modal, Space, message, Badge, Typography, Popconfirm, List } from 'antd'
 import { ShareAltOutlined } from '@ant-design/icons'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { GlobalHeader } from 'publicComponents/GlobalHeader'
@@ -11,7 +11,7 @@ import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { isTeachAuth } from 'util/isAuthTeach'
 import Skeletons from 'publicComponents/Skeleton'
 import { ClassManaStudentList } from './ClassManaStudentList'
-
+import "./ClassManaPageMainStyle.css"
 export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolean }> = ({ classList, isLoading }) => {
   const [input, setInput] = useState('')
   const [vis, setVis] = useState(false)
@@ -100,8 +100,8 @@ export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolea
           >
             {/* 等到接口上了之后再打开 */}
             <div style={{ padding: 0, margin: 0 }}>
-             <ClassManaStudentList class_id={show.class_id} />
-          </div>
+              <ClassManaStudentList class_id={show.class_id} />
+            </div>
           </Modal>
         )}
         {/* 主体内容 */}
@@ -113,33 +113,27 @@ export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolea
           {isLoading ? (
             <Skeletons size="middle" />
           ) : (
-            <Row gutter={[16, 24]}>
-              {classList &&
-                classList!.map((i) => (
-                  <Col span={8} key={i.class_id}>
-                    <Card
-                      title={
-                        <Space style={{ fontSize: '24px' }}>
-                          <Typography.Text style={{ width: '220px' }} ellipsis={true}>
-                            {i.class_name}
-                          </Typography.Text>
-                          <ShareAltOutlined
-                            style={{ position: 'absolute', right: '20px', top: '25px' }}
-                            onClick={(e) => (share(i.class_invitation_code), e.stopPropagation())}
-                          />
-                        </Space>
-                      }
-                      style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
-                      onClick={() => (setShow(i), setVis(true))}
-                    >
-                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        共 {i.student_number} 位学生
-                        <Badge status="success" text="开课中" style={{ color: '#999' }} />
-                      </div>
-                    </Card>
-                  </Col>
-                ))}
-            </Row>
+            <List
+              size="large"
+              dataSource={classList}
+              renderItem={(item) => <List.Item className='ClassListItem'>
+                <div>
+                  <div style={{ fontWeight: "bold", fontSize: "large" }}>
+                    {item.class_name}
+                  </div>
+                  <div style={{ fontSize: 'small', fontWeight: 'bold', color: 'gray' }}>
+                    学生人数:{item.student_number}
+                  </div>
+                </div>
+                <div style={{ position: 'absolute', display: 'flex', flexDirection: 'row', left: '50%' }}>
+                  <div className='operate' onClick={() => { setShow(item), setVis(true) }}>管理班级</div>
+                  <div className='operate' onClick={() => { share(item.class_invitation_code) }}>复制邀请码</div>
+                </div>
+                <div style={{ color: 'gray', fontWeight: 'bold' }}>
+                  邀请码:{item.class_invitation_code}
+                </div>
+              </List.Item>}
+            />
           )}
         </GlobalRightLayout>
       </>

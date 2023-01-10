@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { StudentPaperItem } from 'server/fetchExam/types'
 import { str2DOM } from 'util/str2DOM'
 import { Network2Sutdent } from './config'
+import "../QuestionStyle.css"
 
 // 以此为例，
 // 需要展示 题目 选项 分值
@@ -20,12 +21,12 @@ export const Take: React.FC<{
   return (
     <>
       {!NoScore && <Divider plain orientation="left">{`第${content.index}题 - (${question.score}分)`}</Divider>}
-      <div style={{ paddingLeft: '50px' }}>{str2DOM(question.content)}</div>
-      <Divider plain orientation="left">
+      <div className='questionTitle'>{str2DOM(question.content)}</div>
+      {/* <Divider plain orientation="left">
         选项
-      </Divider>
+      </Divider> */}
       {question.Options.map((i) => (
-        <div key={i.optionName} style={{ paddingLeft: '40px', margin: '10px' }}>
+        <div key={i.optionName} style={{ margin: '10px' }}>
           <Space>
             <Button
               type={i.optionName == TrueOption ? 'primary' : 'default'}

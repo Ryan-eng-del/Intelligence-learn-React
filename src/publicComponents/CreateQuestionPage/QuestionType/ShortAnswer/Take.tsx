@@ -13,7 +13,7 @@ export const Take: React.FC<{
   return (
     <>
       {!NoScore && <Divider plain orientation='left'>{`第${content.index}题 - (${question.score}分)`}</Divider>}
-      <div style={{paddingLeft:"50px"}}>
+      <div className='questionTitle'>
         {str2DOM(question.content)}
       </div>
       <Divider plain orientation='left'>回答</Divider>
