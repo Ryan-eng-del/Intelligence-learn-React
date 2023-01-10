@@ -1,8 +1,9 @@
-import { Button, Divider, Space, Tag } from 'antd'
+import { Button, Space } from 'antd'
 import React from 'react'
 import { QuestionDataWithID } from 'server/fetchExam/types'
 import { str2DOM } from 'util/str2DOM'
-import { FooterWapper, QuestionWapper } from '../style'
+import { PreviewFooter } from '../PreviewFooter'
+import { QuestionWapper } from '../style'
 
 export const Preview: React.FC<{
   content: QuestionDataWithID
@@ -16,33 +17,34 @@ export const Preview: React.FC<{
       </div>
       {content.questionOption
         .split('<>')
-        .map((i, x) => ({
-          optionName: String.fromCharCode(x + 65),
-          content: i,
-          isTrue: true
-        }))
+        .map((i, x) => {
+          const optionName = String.fromCharCode(x + 65)
+          const isTrue = content.rightAnswer.split('').includes(optionName)
+          return {
+            optionName,
+            content: i,
+            isTrue
+          }
+        })
         .map((i) => (
-          <div key={i.optionName}>
-            <Space>
-              <Button type={i.isTrue ? 'primary' : 'default'} style={{ width: '2.5rem', height: '2.5rem' }}>
+          <div key={i.optionName} style={{ margin: '5px' }}>
+            <Space size="large">
+              <Button
+                shape="circle"
+                type={i.isTrue ? 'primary' : 'default'}
+                style={{
+                  // width: '2.5rem',
+                  // height: '2.5rem',
+                  background: i.isTrue ? 'linear-gradient(140deg, #6cc7ff 0%, #5a33ff 100%)' : undefined
+                }}
+              >
                 {i.optionName}
               </Button>
               {str2DOM(i.content)}
             </Space>
           </div>
         ))}
-      <FooterWapper>
-        <div className="d">解析：{str2DOM(content.questionAnswerExplain)}</div>
-        <div className="p">
-          相关知识点：
-          {content.points.map((i: any) => (
-            <Tag color="rgb(150, 151, 164)" key={i}>
-              {i}
-            </Tag>
-          ))}
-        </div>
-        <div className="r">难易度：{['简单', '中等', '困难'][content.questionDifficulty]}</div>
-      </FooterWapper>
+      <PreviewFooter content={content} />
     </>
   )
 }

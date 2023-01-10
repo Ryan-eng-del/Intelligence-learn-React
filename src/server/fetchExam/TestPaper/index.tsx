@@ -26,16 +26,14 @@ export const useSaveTestPaper = () => {
 
 // TODO: 后端没有接口
 /** 删除这张试卷 */
-// export const useDeleteTestPaper = () => {
-//   return useMutation(
-//     async (paperId: string) => {
-//       return client.post({
-//         url: '/paper/teacher/update',
-//         data: paperId
-//       })
-//     },MutationMsg("试卷删除")
-//   )
-// }
+export const useDeleteTestPaper = () => {
+  return useMutation(async (paperId: string) => {
+    return client.post({
+      url: '/paper/teacher/update',
+      data: paperId
+    })
+  }, MutationMsg('试卷删除'))
+}
 
 /** 学生获取到试卷列表 */
 export const useShowExamListPublished = (courseID: string) => {

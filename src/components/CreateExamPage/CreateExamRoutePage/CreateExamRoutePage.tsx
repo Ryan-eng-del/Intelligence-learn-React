@@ -5,9 +5,9 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
 import { QuestionType } from 'server/fetchExam/types'
 import styled from 'styled-components'
-import { getQuestionHeader } from '../../../pages/CreateExamPage/util/util'
-import { MultipleChoice } from '../../../publicComponents/CreateQuestionPage/QuestionType/MultipleChoice/MultipleChoice'
-import { StateSetter } from '../../../types'
+import { getQuestionHeader } from 'pages/CreateExamPage/util/util'
+import { MultipleChoice } from 'publicComponents/CreateQuestionPage/QuestionType/MultipleChoice/MultipleChoice'
+import { StateSetter } from 'types'
 import { CreateExamRoutePageWrapper } from './CreateExamRoutePageStyle'
 
 interface CreateExamRoutePageProps {

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const QuestionWapper = styled.div`
-  font-size: 24px;
+  font-size: 20px;
   vertical-align: text-bottom;
   /* background-color: #eee; */
   /* padding: 5px; */
@@ -11,6 +11,7 @@ export const FooterWapper = styled.div`
   /* display: grid; */
   div {
     margin: 10px;
+    margin-left: 0px;
   }
   grid-template-areas:
     'E E E E E R'
