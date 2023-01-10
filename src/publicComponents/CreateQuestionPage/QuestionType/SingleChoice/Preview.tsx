@@ -22,7 +22,7 @@ export const Preview: React.FC<{
         <QuestionWapper>{str2DOM(content.questionDescription)}</QuestionWapper>
       </div>
       {Opt.map((i: any) => (
-        <div key={i.optionName} style={{ margin: '5px' }}>
+        <div key={i.optionName} style={{ marginBottom: '15px' }}>
           <Space>
             <Button
               type={i.optionName == content.rightAnswer ? 'primary' : 'default'}
@@ -35,7 +35,7 @@ export const Preview: React.FC<{
             >
               {i.optionName}
             </Button>
-            {str2DOM(i.content)}
+            <div>{str2DOM(i.content)}</div>
           </Space>
         </div>
       ))}

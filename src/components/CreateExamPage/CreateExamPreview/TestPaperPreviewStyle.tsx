@@ -1,14 +1,11 @@
 import styled from 'styled-components'
 
 export const TestPaperPreviewWrapper = styled.div`
-  min-width: 800px;
+  width: 1200px;
   background-color: #fff;
-  /* border-top: 10px solid rgb(22, 119, 255);
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px; */
-  margin: 50px;
-  margin-top: 10px;
+  margin: 0 auto;
+  margin-top: 20px;
   padding: 40px;
-  margin-bottom: 100px;
 `
 
 export const TitleWrapper = styled.div`
@@ -21,7 +18,7 @@ export const TitleWrapper = styled.div`
     justify-content: space-between;
   }
   .paperName {
-    font-size: 48px;
+    font-size: 32px;
     font-weight: bold;
   }
 `

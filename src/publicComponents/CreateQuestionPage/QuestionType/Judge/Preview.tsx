@@ -10,17 +10,17 @@ export const Preview: React.FC<{
 }> = ({ content, No }) => {
   return (
     <>
-      <div style={{ display: 'flex', marginBottom: '15px' }}>
+      <div style={{ display: 'flex', marginBottom: '10px' }}>
         {No ? <b style={{ fontSize: '20px' }}> {No.toString()}.</b> : <></>}&nbsp;&nbsp;
         <QuestionWapper>{str2DOM(content.questionDescription)}</QuestionWapper>
       </div>
       {content.rightAnswer == '1' ? (
         <div>
-          答案：<span style={{ color: 'green' }}>正确</span>
+          答案：<span>正确</span>
         </div>
       ) : (
         <div>
-          答案：<span style={{ color: 'red' }}>错误</span>
+          答案：<span>错误</span>
         </div>
       )}
       <PreviewFooter content={content} />

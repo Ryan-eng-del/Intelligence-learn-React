@@ -27,7 +27,7 @@ export const Preview: React.FC<{
           }
         })
         .map((i) => (
-          <div key={i.optionName} style={{ margin: '5px' }}>
+          <div key={i.optionName} style={{ marginBottom: '15px' }}>
             <Space size="large">
               <Button
                 shape="circle"
