@@ -23,7 +23,7 @@ export interface PublishExamType {
   /**
    * 结束时间
    */
-  endTime?: string
+  endTime?: any
   /**
    * 是否允许补交
    */
@@ -75,7 +75,7 @@ export interface PublishExamType {
   /**
    * 开始时间
    */
-  startTime?: string
+  startTime?: any
   /**
    * 发放学生
    */

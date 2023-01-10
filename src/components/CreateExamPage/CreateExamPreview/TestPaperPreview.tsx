@@ -1,5 +1,5 @@
 import { ArrowLeftOutlined } from '@ant-design/icons'
-import { Button, Empty, Space } from 'antd'
+import { Button, Space } from 'antd'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { PrimaryButton } from 'publicComponents/Button'
 import { Preview as P3 } from 'publicComponents/CreateQuestionPage/QuestionType/FillBlank/Preview'
@@ -22,39 +22,62 @@ const TestPaperPreview: React.FC = () => {
   }, [data])
 
   const navigate = useNavigate()
-  type T = QuestionDataWithID
+
+  type T = { content: QuestionDataWithID; No: number }
   const mapper = {
-    [QuestionType.single]: (data: T, No: number) => <P1 content={data} No={No} />,
-    [QuestionType.multiple]: (data: T, No: number) => <P2 content={data} No={No} />,
-    [QuestionType.fillBlank]: (data: T, No: number) => <P3 content={data} No={No} />,
-    [QuestionType.shortAnswer]: (data: T, No: number) => <P4 content={data} No={No} />,
-    [QuestionType.judge]: (data: T, No: number) => <P5 content={data} No={No} />
+    [QuestionType.single]: (args: T) => <P1 {...args} />,
+    [QuestionType.multiple]: (args: T) => <P2 {...args} />,
+    [QuestionType.fillBlank]: (args: T) => <P3 {...args} />,
+    [QuestionType.shortAnswer]: (args: T) => <P4 {...args} />,
+    [QuestionType.judge]: (args: T) => <P5 {...args} />
   }
+  const zhCN_number = ['一', '二', '三', '四', '五']
+  Object.keys(mapper)
   return (
     <>
       <TestPaperPreviewWrapper>
+        {/* 试卷头 */}
         <TitleWrapper>
           {isLoading ? (
             <BaseLoading />
           ) : (
-            <Space align="center" size={24}>
+            <div className="title">
               <Button icon={<ArrowLeftOutlined />} shape="circle" size="large" onClick={() => navigate(-1)} />
-              <h1> {data?.paperName} </h1>
-              <PrimaryButton title="编辑" handleClick={() => navigate(`/editpaper/${paperid}`)} />
-              <Button type="primary" danger size="large" shape="round">
-                删除
-              </Button>
-            </Space>
+              <div className="paperName"> {data?.paperName}</div>
+              <Space>
+                <PrimaryButton title="编辑" handleClick={() => navigate(`/editpaper/${paperid}`)} />
+                <Button type="primary" danger size="large" shape="round">
+                  删除
+                </Button>
+              </Space>
+            </div>
           )}
         </TitleWrapper>
-        {dataList.map((i, d) => (
-          <ItemWrapper key={d}>
-            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-            {/* @ts-ignore: 数字id? */}
-            {mapper[i.questionType.toString()](i, d + 1)}
-          </ItemWrapper>
-        ))}
-        {(data && data.questionOfPaperVos.length) || <Empty />}
+        {/* 其他信息 */}
+        <div>{`试卷总分：${dataList.reduce(
+          (p, c) => p + c.questionScore,
+          0
+        )} 分 | 及格分数：60 分 | 允许重做 | 重做次数：${3} 次 | 取最高分 `}</div>
+        <br />
+        {/* 题目列表 */}
+        {Object.keys(mapper).map((Type, index) => {
+          const filtered = dataList.filter((q) => q.questionType == Type)
+          return filtered.length != 0 ? (
+            <>
+              <h1>
+                <b>{`${zhCN_number[index]}、单选题（共${filtered.length}道，${filtered.reduce(
+                  (p, c) => p + c.questionScore,
+                  0
+                )}分）`}</b>
+              </h1>
+              {filtered.map((i, d) => (
+                <ItemWrapper key={d}>{mapper[i.questionType]({ content: i, No: d + 1 })}</ItemWrapper>
+              ))}
+            </>
+          ) : (
+            <></>
+          )
+        })}
       </TestPaperPreviewWrapper>
     </>
   )

@@ -105,7 +105,7 @@ export const ChapterTreeModal: React.FC<{
         title="添加资源并且关联知识点"
         visible={openResourceDrawer}
         mask={false}
-        width={'100vw'}
+        width="100vw"
         onClose={onCloseResourceDrawer}
         closable={true}
       >
@@ -122,7 +122,6 @@ export const ChapterTreeModal: React.FC<{
               statusText && <span>视频 {statusText}</span>
             </div>
           )}
-
           <div>
             {isOtherStart && (
               <div>
@@ -131,7 +130,6 @@ export const ChapterTreeModal: React.FC<{
               </div>
             )}
           </div>
-
           <RelatePointsWrapper>
             <GlobalLabel>关联知识点</GlobalLabel>
             <TreeSelected
@@ -141,7 +139,6 @@ export const ChapterTreeModal: React.FC<{
               handleRelateCheck={handleRelateCheck}
               curCheckId={relatePoints}
             />
-
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} key={'submit'}>
               <PrimaryButton
                 title={'完成'}

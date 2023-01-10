@@ -1,9 +1,9 @@
-import { Button, Divider, Rate, Space, Tag } from 'antd'
+import { Button, Space, Tag } from 'antd'
 import React from 'react'
 import { QuestionDataWithID } from 'server/fetchExam/types'
 import styled from 'styled-components'
 import { str2DOM } from 'util/str2DOM'
-import { QuestionWapper } from '../style'
+import { FooterWapper, QuestionWapper } from '../style'
 
 export const Preview: React.FC<{
   content: QuestionDataWithID
@@ -29,40 +29,19 @@ export const Preview: React.FC<{
           </Space>
         </div>
       ))}
-      <Divider plain orientation="left">
-        解析
-      </Divider>
+
       <FooterWapper>
-        <div className="d">{str2DOM(content.questionAnswerExplain)}</div>
+        <div className="d">解析：{str2DOM(content.questionAnswerExplain)}</div>
         <div className="p">
           相关知识点：
           {content.points.map((i: any) => (
-            <Tag color="red" key={i}>
+            <Tag color="rgb(150, 151, 164)" key={i}>
               {i}
             </Tag>
           ))}
         </div>
-        <div className="r">
-          难易度：
-          <Rate value={content.questionDifficulty + 1} disabled count={3} />
-        </div>
+        <div className="r">难易度：{['简单', '中等', '困难'][content.questionDifficulty]}</div>
       </FooterWapper>
     </>
   )
 }
-
-const FooterWapper = styled.div`
-  display: grid;
-  grid-template-areas:
-    'E E E E E R'
-    'E E E E E P';
-  .d {
-    grid-area: E;
-  }
-  .p {
-    grid-area: P;
-  }
-  .r {
-    grid-area: R;
-  }
-`
