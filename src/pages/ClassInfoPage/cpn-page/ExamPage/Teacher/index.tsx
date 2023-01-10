@@ -8,7 +8,7 @@ import { PublishPanel } from 'publicComponents/ExamPage/PublishPanel/PublishPane
 import { StatisticsPanel } from 'publicComponents/ExamPage/StatisticsPanel/StatisticsPanel'
 import { useGetPaperTarget, useShowExamList } from 'server/fetchExam'
 import { ExamListItem } from 'server/fetchExam/types'
-import Skeletons from '../../../../../publicComponents/Skeleton/index'
+import Skeletons from 'publicComponents/Skeleton/index'
 
 export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
   const { data, isLoading } = useShowExamList(courseId)
