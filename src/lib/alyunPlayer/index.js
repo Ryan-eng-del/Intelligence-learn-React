@@ -1555,7 +1555,6 @@
                   t = this.detectPrototype() || this.detectNativeFn()
                 return (
                   (t || this.detectDeperateVideo()) &&
-                    (console.log('isMediaSourceModified', t),
                     this.clearTimer(),
                     this.displayError(),
                     this.setupErrorStyle(),

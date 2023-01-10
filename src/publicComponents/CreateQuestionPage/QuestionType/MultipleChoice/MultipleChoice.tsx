@@ -1,6 +1,6 @@
 import { Checkbox } from 'antd'
 import { QuestionTitleArea } from 'publicComponents/QuestionTitleArea/QuestionTitleArea'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
 import { QuestionDataWithID } from 'server/fetchExam/types'
 import { StateSetter } from 'types'
@@ -15,11 +15,15 @@ export const MultipleChoice: React.FC<{
   dispatchQuestionType: React.Dispatch<IQuestionTypeAction>
 }> = ({ question, setCurEditQuestion, dispatchQuestionType }) => {
   /* 当前多选选择的选项 */
-  const [curSelects, setCurSelects] = useState<string[]>([])
+  const [curSelect, setCurSelects] = useState<string[]>([])
+
+  const questionRef = useRef({ len: 0, rightAnswer: '' })
+
   /* 处理单选题编辑题干 */
   const handleEditTitle = (content: string, id: string) => {
     dispatchQuestionType({ type: 'editQuestion', payload: { content, id, target: 'questionDescription' } })
   }
+
   /* 处理编辑题目选项 */
   const handleEditOption = (content: string, optionName: string, id: string) => {
     dispatchQuestionType({
@@ -27,24 +31,39 @@ export const MultipleChoice: React.FC<{
       payload: { content, id, target: 'questionOption', index: optionName.charCodeAt(0) - 65 }
     })
   }
+
   /* 处理多选题编辑选项 */
   const handleEditRightMultipleOption = (optionName: string) => {
-    setCurSelects((pre) => {
-      const index = pre.indexOf(optionName)
-      if (index < 0) {
-        pre = pre.concat(optionName)
-      } else {
-        pre = pre.filter((option) => option !== optionName)
-      }
-      question.rightAnswer = pre.slice(1).join(',')
-      question.questionAnswerNum = pre.length
-      return pre
+    const index = curSelect.find((i) => i === optionName)
+    let newSelect: any
+    if (!index) {
+      newSelect = curSelect.concat(optionName)
+    } else {
+      newSelect = curSelect.filter((option) => option !== optionName)
+    }
+
+    questionRef.current.len = newSelect.length
+    questionRef.current.rightAnswer = newSelect.join('')
+
+    setCurSelects(newSelect)
+
+    dispatchQuestionType({
+      type: 'editQuestion',
+      payload: { target: 'rightAnswer', content: questionRef.current.rightAnswer, id: question.questionId }
     })
-    setCurEditQuestion(question)
+
+    dispatchQuestionType({
+      type: 'editQuestion',
+      payload: { target: 'questionAnswerNum', content: questionRef.current.len, id: question.questionId }
+    })
   }
 
   useEffect(() => {
-    setCurSelects(question.rightAnswer.split(','))
+    if (question.rightAnswer) {
+      setCurSelects(question.rightAnswer.split(''))
+    } else {
+      setCurSelects([])
+    }
   }, [question.questionId])
 
   return (
@@ -63,9 +82,12 @@ export const MultipleChoice: React.FC<{
         }))
         .map((item, index) => (
           <OptionWrapper key={index}>
-            <Checkbox.Group onChange={() => handleEditRightMultipleOption(item.optionName)} value={curSelects}>
-              <Checkbox value={item.optionName}>{item.optionName}</Checkbox>
-            </Checkbox.Group>
+            <Checkbox
+              checked={curSelect[index] === item.optionName}
+              onChange={() => handleEditRightMultipleOption(item.optionName)}
+            >
+              {item.optionName}
+            </Checkbox>
             <QuestionTextArea
               question={question}
               option={item}

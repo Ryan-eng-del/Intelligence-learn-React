@@ -23,9 +23,6 @@ const BlogPage: React.FC = () => (
     itemLayout="vertical"
     size="large"
     pagination={{
-      onChange: (page) => {
-        console.log(page)
-      },
       pageSize: 3
     }}
     dataSource={data}

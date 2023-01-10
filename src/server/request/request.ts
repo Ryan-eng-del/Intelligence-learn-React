@@ -50,8 +50,6 @@ class Request {
       this.instance
         .request<any, Data<T>>(config)
         .then((res) => {
-          ///////////////////////////////////////////////////////////////
-          console.log('%c%s', ' color: yellow;', `发送 @URL | ${config.url}`)
           if (res.code != '200') {
             GlobalMessage('info', `${DEBUGINFO}${res.code}  | ${res.msg}`)
             reject(res.msg)

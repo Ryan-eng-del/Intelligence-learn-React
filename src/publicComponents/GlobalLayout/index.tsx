@@ -25,7 +25,6 @@ const GlobalLayout = (props: {
   const location = useLocation()
 
   const isGraph = location.pathname.slice(-5) === 'graph'
-  console.log(isGraph, 'isGraph')
   const { layoutData, layoutName } = props
 
   return (

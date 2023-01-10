@@ -27,7 +27,6 @@ export const Judge: React.FC<{
     })
   }
 
-  console.log(question, 'qs')
   return (
     <>
       <Form>

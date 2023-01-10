@@ -11,7 +11,6 @@ export const updateKnowledgeTreeQueryCache = (
 ) => {
   const queryTreeData: IKnowledgePoint[] = queryClient.getQueryData(['knowledgeTree', courseId]) || []
   const newQueryTreeData = updaterFun(queryTreeData)
-  console.log(newQueryTreeData, 'newData')
   queryClient.setQueryData(['knowledgeTree', courseId], newQueryTreeData)
 }
 /*添加子知识点*/
@@ -107,7 +106,6 @@ export const relateAllPoints = (
         recursion(d.children)
       }
       if (id == d.pointId) {
-        console.log('find', id, d.pointId)
         mark === 'pre' ? (d.prePoints = node) : (d.afterPoints = node)
         queryClient.setQueryData(['knowledgeTree', courseId], deepCloneData)
       }

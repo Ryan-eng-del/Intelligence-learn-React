@@ -1,6 +1,7 @@
 import { Button, Form, Input } from 'antd'
+import produce from 'immer'
 import { QuestionTitleArea } from 'publicComponents/QuestionTitleArea/QuestionTitleArea'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
 import { QuestionDataWithID } from 'server/fetchExam/types/index'
@@ -14,9 +15,15 @@ export const FillBlank: React.FC<{
   dispatchQuestionType: React.Dispatch<IQuestionTypeAction>
 }> = ({ setCurEditQuestion, dispatchQuestionType, question }) => {
   const [temp, setTemp] = useState(1)
+  const [value, setValue] = useState<string[]>([])
+
   const handleEditTitle = (content: string, id: string) => {
     dispatchQuestionType({ type: 'editQuestion', payload: { content, id, target: 'questionDescription' } })
   }
+
+  useEffect(() => {
+    setValue(question.questionOption.split('<>'))
+  }, [question.questionId])
 
   /** 添加空位 */
   const addBlank = () => {
@@ -30,10 +37,17 @@ export const FillBlank: React.FC<{
 
   /** 编辑正确答案 */
   const changeAnswer = (content: string, optionName: number, id: string) => {
-    console.log(question, 'qs')
+    setValue(
+      produce((draft) => {
+        draft[optionName] = content
+      })
+    )
+
     dispatchQuestionType({
       type: 'editQuestion',
-      payload: { content, id, target: 'questionOption', index: optionName }
+      payload: { content, id, target: 'questionOption', index: optionName },
+      isFillBank: true,
+      tempNum: temp
     })
   }
 
@@ -51,7 +65,8 @@ export const FillBlank: React.FC<{
             <CSSTransition key={index} timeout={330} classNames="answer">
               <Form.Item key={index} label={`第${index + 1}空`}>
                 <Input
-                  placeholder={question.rightAnswer ? '答案' : '考试后评定'}
+                  value={value[index]}
+                  placeholder={'答案'}
                   onChange={(e) => changeAnswer(e.target.value, index, question.questionId)}
                 />
               </Form.Item>

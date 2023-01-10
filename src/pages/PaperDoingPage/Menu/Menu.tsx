@@ -11,8 +11,7 @@ export const Menu: React.FC<{ num: number[] }> = ({ num }) => {
       j--
     }
   })
-  console.log('导航栏重载')
-  console.log(temp)
+
   let indey1 = 0
   let yiweixunhuan = 0
 

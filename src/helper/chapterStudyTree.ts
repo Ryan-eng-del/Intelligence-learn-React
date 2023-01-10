@@ -50,7 +50,6 @@ export const deleteResource = (data: ChapterTreeData[], id: string, queryClient:
 }
 /* 删除课时 */
 export const deleteTreeContent = (data: ChapterTreeData[], id: string, queryClient: QueryClient, courseId: string) => {
-  console.log(courseId, 'Id')
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: ChapterTreeData[]) => {
     if (!data) return
@@ -100,7 +99,6 @@ export const updateChapterTreeQueryCache = (
 ) => {
   const queryTreeData: ChapterData[] | undefined = queryClient.getQueryData(['chapterTree', courseId])
   const newQueryTreeData = queryTreeData ? updaterFun(queryTreeData!) : 0
-  console.log(queryTreeData, 'data')
   queryClient.setQueryData(['chapterTree', courseId], newQueryTreeData)
 }
 

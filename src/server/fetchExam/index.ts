@@ -77,7 +77,6 @@ export const useDeleteQuestion = () => {
   const queryClient = useQueryClient()
   return useMutation(
     async (id: string) => {
-      console.log('正在删除：', id)
       return client.delete({
         url: '/question/teacher/delete',
         data: { id }
@@ -93,7 +92,6 @@ export const useDeleteQuestion = () => {
 
 /** 学生端显示题目 */
 export const useShowQuestionForStu = (id?: string) => {
-  console.log('获取题目：', id)
   return useQuery([`preview-stu-${id}`], async () => {
     return client.get<StudentPaperItem>({
       url: `/question/stu/show/${id}`
@@ -103,7 +101,6 @@ export const useShowQuestionForStu = (id?: string) => {
 /** 学生提交题目 */
 export const useSubmitQuestion = () => {
   return useMutation((data: { questionId: string; questionType: QuestionConstantString; questionAnswer: string }) => {
-    console.log('提交的答案是：', data.questionAnswer)
     return client.post({
       url: '/question/stu/submit',
       data: data
@@ -126,8 +123,6 @@ export const useGetPaperTarget = (courseId: string) => {
 /** 发布试卷 */
 export const useReleaseExam = () => {
   return useMutation((data: PublishExamType) => {
-    console.log('试卷中包含如下属性')
-    console.log(data)
     return client.post({
       url: '/paper/teacher/release-exam',
       data
@@ -136,8 +131,6 @@ export const useReleaseExam = () => {
 }
 export const useReleaseHomework = () => {
   return useMutation((data: PublishHomeworkType) => {
-    console.log('作业中包含如下属性')
-    console.log(data)
     return client.post({
       url: '/paper/teacher/release-homework',
       data

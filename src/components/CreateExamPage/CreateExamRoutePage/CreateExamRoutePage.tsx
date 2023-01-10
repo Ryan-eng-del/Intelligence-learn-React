@@ -6,6 +6,7 @@ import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type
 import { QuestionType } from 'server/fetchExam/types'
 import styled from 'styled-components'
 import { getQuestionHeader } from '../../../pages/CreateExamPage/util/util'
+import { MultipleChoice } from '../../../publicComponents/CreateQuestionPage/QuestionType/MultipleChoice/MultipleChoice'
 import { StateSetter } from '../../../types'
 import { CreateExamRoutePageWrapper } from './CreateExamRoutePageStyle'
 
@@ -31,7 +32,7 @@ export const CreateExamRoutePage = (props: CreateExamRoutePageProps) => {
           />
         ),
         [QuestionType.multiple]: (
-          <SingleChoice
+          <MultipleChoice
             question={curEdit}
             setCurEditQuestion={setCurEditQuestion}
             dispatchQuestionType={dispatchQuestionType}

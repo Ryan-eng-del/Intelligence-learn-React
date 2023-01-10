@@ -10,7 +10,6 @@ class WebpackAssetsPlugin {
     compiler.hooks.compilation.tap('WebpackAssetsPlugin', (compilation) => {
       //每次根据chunk创建一个新的文件后会触发一次chunkAsset
       compilation.hooks.chunkAsset.tap('WebpackAssetsPlugin', (chunk, filename) => {
-        console.log(chunk.id, filename)
         fs.writeFileSync('./chuck.txt', JSON.stringify({ id: chunk.id, filename }))
       })
     })

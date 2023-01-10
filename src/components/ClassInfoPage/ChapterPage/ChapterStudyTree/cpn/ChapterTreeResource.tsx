@@ -12,7 +12,6 @@ export const ChapterTreeResource = (props: { resource: any; editable: boolean })
     const pathname = location.pathname
     return pathname.slice(0, pathname.indexOf('chapter') + 7)
   }, [location])
-  console.log(computedRoute, 'router')
   return (
     <ResourcePageWrapper>
       <ResourceWrapper key={resource.resourceId}>

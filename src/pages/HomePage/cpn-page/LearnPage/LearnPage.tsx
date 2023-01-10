@@ -29,7 +29,6 @@ const LearnPage: React.FC = () => {
   }
 
   const join = (classId: string) => {
-    debugger
     setModalVisible(false)
     setNewCourse(undefined)
     joinClass(classId)

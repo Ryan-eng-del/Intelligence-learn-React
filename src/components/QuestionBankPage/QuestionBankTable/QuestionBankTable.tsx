@@ -51,9 +51,6 @@ export const QuestionBankTable: React.FC<{
       centered: true,
       onOk() {
         mutate(id)
-      },
-      onCancel() {
-        console.log('Cancel')
       }
     })
   }

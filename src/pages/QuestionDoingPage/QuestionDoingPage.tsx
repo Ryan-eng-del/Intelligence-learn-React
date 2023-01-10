@@ -5,7 +5,7 @@ import { Take as P5 } from 'publicComponents/CreateQuestionPage/QuestionType/Jud
 import { Take as P2 } from 'publicComponents/CreateQuestionPage/QuestionType/MultipleChoice/Take'
 import { Take as P4 } from 'publicComponents/CreateQuestionPage/QuestionType/ShortAnswer/Take'
 import { Take as P1 } from 'publicComponents/CreateQuestionPage/QuestionType/SingleChoice/Take'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useShowQuestionForStu, useSubmitQuestion } from 'server/fetchExam'
 import { QuestionType, StudentPaperItem } from 'server/fetchExam/types'
@@ -52,7 +52,6 @@ const QuestionDoingPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const handleCancel = () => setIsModalOpen(false)
   const { classInfo } = useCurrentClassInfo()
-  useEffect(() => console.log(data), [data])
   return (
     <QuestionDoingPageWrapper>
       {data && mapper[data.questionType] ? mapper[data.questionType](data) : <></>}

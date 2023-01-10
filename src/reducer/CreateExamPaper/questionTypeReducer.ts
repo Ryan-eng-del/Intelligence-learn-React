@@ -35,9 +35,13 @@ const generateNewOption = (questionDescription: string, content: string, index: 
   return arr.join('<>')
 }
 
-const generateFillBankOption = (tempCount: number, curIndex: number, content: string) => {
-  const questionOption = '<>'.repeat(tempCount - 1)
+const generateFillBankOption = (tempCount: number, curIndex: number, content: string, oldOption: string) => {
+  const questionOption = '<>'.repeat(tempCount)
   const arr = questionOption.split('<>')
+  const oldArr = oldOption.split('<>')
+  for (let i = 0; i < arr.length; i++) {
+    arr[i] = oldArr[i]
+  }
   arr[curIndex] = content
   return arr.join('<>')
 }
@@ -68,8 +72,14 @@ export const questionTypeReducer = produce(
         for (const typeQuestion of keys) {
           draftState[typeQuestion as questionType].list.forEach((q: any) => {
             if (q.questionId === action.payload.id) {
-              if (action.payload.index || action.payload.index === 0) {
-                console.log(action.payload, '')
+              if (action.isFillBank && (action.payload.index || action.payload.index === 0)) {
+                q[action.payload.target] = generateFillBankOption(
+                  action.tempNum!,
+                  action.payload.index,
+                  action.payload.content as string,
+                  q.questionOption
+                )
+              } else if (action.payload.index || action.payload.index === 0) {
                 q[action.payload.target] = generateNewOption(
                   q.questionOption,
                   action.payload.content as string,
@@ -77,7 +87,6 @@ export const questionTypeReducer = produce(
                 )
               } else {
                 q[action.payload.target] = action.payload.content as any
-                console.log(q[action.payload.target], action.payload.content)
               }
             }
           })

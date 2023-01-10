@@ -72,7 +72,6 @@ export const useHandleAddChapter = (props: handleAddChapterProps) => {
     }
 
     const isTrim = noTrim(chapterState.curAddInputValue)
-    console.log(isTrim, 'istTrim')
     if (isTrim) return
     dispatchChapter({ type: 'setFocusState', focusState: false })
 

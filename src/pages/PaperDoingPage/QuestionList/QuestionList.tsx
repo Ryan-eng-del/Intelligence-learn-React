@@ -37,8 +37,6 @@ export const QuestionList: React.FC<{
       <div>
         <form>
           {questions.map((data, i) => {
-            console.log(`item${data.questionType}${i}`)
-
             return (
               <div
                 key={data.questionId}

@@ -17,6 +17,11 @@ export const ShortAnswer: React.FC<{
     dispatchQuestionType({ type: 'editQuestion', payload: { content, id, target: 'questionDescription' } })
   }
 
+  /* 处理单选题编辑答案 */
+  const handleEditAnswer = (content: string, id: string) => {
+    dispatchQuestionType({ type: 'editQuestion', payload: { content, id, target: 'questionOption' } })
+  }
+
   return (
     <>
       <Form>
@@ -25,6 +30,12 @@ export const ShortAnswer: React.FC<{
           handleEdit={(content: string) => handleEditTitle(content, question.questionId)}
           label={'题干'}
           questionOf={'questionDescription'}
+        />
+        <QuestionTitleArea
+          question={question}
+          handleEdit={(content: string) => handleEditAnswer(content, question.questionId)}
+          label={'答案'}
+          questionOf={'questionOption'}
         />
 
         <QuestionFooter

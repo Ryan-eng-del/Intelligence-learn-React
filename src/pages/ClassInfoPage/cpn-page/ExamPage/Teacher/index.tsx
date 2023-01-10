@@ -41,7 +41,6 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
             <Button
               icon={<DeliveredProcedureOutlined />}
               onClick={() => {
-                // console.log(paperId);
                 setPaperId(record.paperId)
                 setPublish(true)
               }}

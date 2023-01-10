@@ -15,7 +15,6 @@ export const GlobalNav = (props: NavMapProps) => {
   const map = useMemo(() => props.createMapFunction(), [])
   useEffect(() => setCurSelect(map.get(pathname.slice(props.sliceCount))!), [props.sliceCount])
   const handleOnSelect = (selectInfo: any) => setCurSelect(selectInfo.key)
-  console.log(map, props.sliceCount, 'nav', map.get(pathname.slice(props.sliceCount))!)
   return (
     <Menu
       mode="inline"

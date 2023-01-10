@@ -66,7 +66,6 @@ export const useAddKnowledgePoints = (props: IHandleChapterControl<IKnowledgePoi
           deleteKnowledgeNode(data, curKnowledgeNode?.pointId, queryClient, classInfo.courseId)
         }
       } catch (err: unknown) {
-        console.log(err, 'err')
         dispatch({ type: 'setError', error: err })
         deleteKnowledgeNode(data, curKnowledgeNode?.pointId, queryClient, classInfo.courseId)
       } finally {

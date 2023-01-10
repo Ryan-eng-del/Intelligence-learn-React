@@ -65,6 +65,9 @@ export type IQuestionTypeAddAction =
 export type IQuestionTypeEditAction = {
   type: 'editQuestion'
   payload: { content: string | number; id: string; target: keyof IQuestionType; index?: number }
+  isFillBank?: boolean
+  tempNum?: number
+  isMultiple?: boolean
 }
 
 /* 删除题目的action */
@@ -81,6 +84,7 @@ export type IQuestionTypeSaveAction = {
   setEditQuestion: any
   isPreview?: boolean
 }
+
 /* 保存试题的action */
 export type IQuestionTypePreviewAction = {
   type: 'previewQuestion'
