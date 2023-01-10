@@ -34,18 +34,20 @@ export const MultipleChoice: React.FC<{
 
   /* 处理多选题编辑选项 */
   const handleEditRightMultipleOption = (optionName: string) => {
-    const index = curSelect.find((i) => i === optionName)
+    const select = curSelect
+    const index = select.find((i) => i === optionName)
     let newSelect: any
+    debugger
     if (!index) {
-      newSelect = curSelect.concat(optionName)
+      newSelect = select.concat(optionName)
     } else {
-      newSelect = curSelect.filter((option) => option !== optionName)
+      newSelect = select.filter((option) => option !== optionName)
     }
 
-    questionRef.current.len = newSelect.length
-    questionRef.current.rightAnswer = newSelect.join('')
-
     setCurSelects(newSelect)
+
+    questionRef.current.len = newSelect.length
+    questionRef.current.rightAnswer = newSelect.join(',')
 
     dispatchQuestionType({
       type: 'editQuestion',
@@ -59,8 +61,9 @@ export const MultipleChoice: React.FC<{
   }
 
   useEffect(() => {
+    debugger
     if (question.rightAnswer) {
-      setCurSelects(question.rightAnswer.split(''))
+      setCurSelects(question.rightAnswer.split(','))
     } else {
       setCurSelects([])
     }
@@ -80,21 +83,24 @@ export const MultipleChoice: React.FC<{
           optionName: String.fromCharCode(index + 65),
           content: item
         }))
-        .map((item, index) => (
-          <OptionWrapper key={index}>
-            <Checkbox
-              checked={curSelect[index] === item.optionName}
-              onChange={() => handleEditRightMultipleOption(item.optionName)}
-            >
-              {item.optionName}
-            </Checkbox>
-            <QuestionTextArea
-              question={question}
-              option={item}
-              setContent={(content: string) => handleEditOption(content, item.optionName, question.questionId)}
-            />
-          </OptionWrapper>
-        ))}
+        .map((item, index) => {
+          console.log(curSelect[index])
+          return (
+            <OptionWrapper key={index}>
+              <Checkbox
+                checked={curSelect.includes(item.optionName)}
+                onChange={() => handleEditRightMultipleOption(item.optionName)}
+              >
+                {item.optionName}
+              </Checkbox>
+              <QuestionTextArea
+                question={question}
+                option={item}
+                setContent={(content: string) => handleEditOption(content, item.optionName, question.questionId)}
+              />
+            </OptionWrapper>
+          )
+        })}
       <QuestionFooter
         question={question}
         setCurEditQuestion={setCurEditQuestion}
