@@ -29,7 +29,7 @@ export const QuestionFooter = (props: QuestionFooterProps) => {
   const { classInfo } = useCurrentClassInfo()
   const { data, isLoading: KnowledgeTreeLoading } = useShowKnowledgeTree(classInfo.courseId)
   const { checkTreeData } = useCheckKnowledgeTreeUI(data)
-
+  console.log(data, 'data')
   /* 两个弹框的开闭状态 */
   const [isModalOpen, setIsModalOpen] = useState(false)
   /* 知识点选择树的UI层 */
@@ -47,27 +47,6 @@ export const QuestionFooter = (props: QuestionFooterProps) => {
     })
   }, [data])
 
-  /* 处理预览试卷 */
-  const handlePreviewPaper = () => {
-    dispatchQuestionType({
-      type: 'saveQuestion',
-      id: question.questionId,
-      setModalOpen: setIsModalOpen,
-      setEditQuestion: (q: IQuestionType) => setCurEditQuestion(q),
-      isPreview: true
-    })
-  }
-
-  /* 处理保存试题 */
-  const handleSaveQuestion = async () => {
-    dispatchQuestionType({
-      type: 'saveQuestion',
-      id: question.questionId,
-      setModalOpen: setIsSaveModalOpen,
-      setEditQuestion: (q: IQuestionType) => setCurEditQuestion(q)
-    })
-  }
-
   /* 处理上传试卷 */
   const {
     handleChange,
@@ -79,6 +58,27 @@ export const QuestionFooter = (props: QuestionFooterProps) => {
     setIsSaveModalOpen,
     isLoading
   } = useHandleUploadExamPaper(question, setCurEditQuestion, dispatchQuestionType)
+  /* 处理预览试卷 */
+  const handlePreviewPaper = () => {
+    setIsModalOpen(true)
+
+    dispatchQuestionType({
+      type: 'saveQuestion',
+      id: question.questionId,
+      setEditQuestion: (q: IQuestionType) => setCurEditQuestion(q),
+      isPreview: true
+    })
+  }
+
+  /* 处理保存试题 */
+  const handleSaveQuestion = async () => {
+    setIsSaveModalOpen(true)
+    dispatchQuestionType({
+      type: 'saveQuestion',
+      id: question.questionId,
+      setEditQuestion: (q: IQuestionType) => setCurEditQuestion(q)
+    })
+  }
 
   /* 编辑题目解析 */
   const handleQuestionAnswerExplain = (content: string, id: string) => {

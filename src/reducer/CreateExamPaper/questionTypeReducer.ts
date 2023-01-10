@@ -116,7 +116,7 @@ export const questionTypeReducer = produce(
               const { isError, msg } = handleFormDataIsValid(q)
               if (!isError) {
                 action.setEditQuestion(original(q))
-                action.setModalOpen(true)
+                // action.setModalOpen(true)
               } else {
                 message.warning(msg, 0.5)
               }

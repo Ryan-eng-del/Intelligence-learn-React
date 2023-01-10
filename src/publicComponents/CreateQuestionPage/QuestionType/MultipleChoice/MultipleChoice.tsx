@@ -37,7 +37,6 @@ export const MultipleChoice: React.FC<{
     const select = curSelect
     const index = select.find((i) => i === optionName)
     let newSelect: any
-    debugger
     if (!index) {
       newSelect = select.concat(optionName)
     } else {
@@ -61,7 +60,6 @@ export const MultipleChoice: React.FC<{
   }
 
   useEffect(() => {
-    debugger
     if (question.rightAnswer) {
       setCurSelects(question.rightAnswer.split(','))
     } else {
