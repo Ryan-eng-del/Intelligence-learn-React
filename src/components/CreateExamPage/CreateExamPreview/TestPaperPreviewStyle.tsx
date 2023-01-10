@@ -6,6 +6,7 @@ export const TestPaperPreviewWrapper = styled.div`
   /* border-top: 10px solid rgb(22, 119, 255);
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px; */
   margin: 50px;
+  margin-top: 10px;
   padding: 40px;
   margin-bottom: 100px;
 `

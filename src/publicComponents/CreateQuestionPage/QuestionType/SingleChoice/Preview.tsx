@@ -1,14 +1,16 @@
-import { Button, Space, Tag } from 'antd'
+import { Button, Space } from 'antd'
 import React from 'react'
 import { QuestionDataWithID } from 'server/fetchExam/types'
-import styled from 'styled-components'
 import { str2DOM } from 'util/str2DOM'
-import { FooterWapper, QuestionWapper } from '../style'
+import { PreviewFooter } from '../PreviewFooter'
+import { QuestionWapper } from '../style'
 
 export const Preview: React.FC<{
   content: QuestionDataWithID
   No?: number
 }> = ({ content, No }) => {
+  const color = (i: any) =>
+    i.optionName == content.rightAnswer ? 'linear-gradient(140deg, #6cc7ff 0%, #5a33ff 100%)' : undefined
   const Opt = content.questionOption.split('<>').map((i, x) => ({
     optionName: String.fromCharCode(x + 65),
     content: i
@@ -22,26 +24,22 @@ export const Preview: React.FC<{
       {Opt.map((i: any) => (
         <div key={i.optionName} style={{ margin: '5px' }}>
           <Space>
-            <Button type={i.optionName == content.rightAnswer ? 'primary' : 'default'} shape="circle">
+            <Button
+              type={i.optionName == content.rightAnswer ? 'primary' : 'default'}
+              shape="circle"
+              style={{
+                // width: '2.5rem',
+                // height: '2.5rem',
+                background: color(i)
+              }}
+            >
               {i.optionName}
             </Button>
             {str2DOM(i.content)}
           </Space>
         </div>
       ))}
-
-      <FooterWapper>
-        <div className="d">解析：{str2DOM(content.questionAnswerExplain)}</div>
-        <div className="p">
-          相关知识点：
-          {content.points.map((i: any) => (
-            <Tag color="rgb(150, 151, 164)" key={i}>
-              {i}
-            </Tag>
-          ))}
-        </div>
-        <div className="r">难易度：{['简单', '中等', '困难'][content.questionDifficulty]}</div>
-      </FooterWapper>
+      <PreviewFooter content={content} />
     </>
   )
 }
