@@ -18,14 +18,15 @@ const TestPaperPreview: React.FC = () => {
   const { paperid } = useParams()
   const [dataList, setData] = useState<Array<WholeQuestion & { questionScore: number }>>([])
   const { data, isLoading } = useShowTestPaper(paperid!) // 打开试卷
+  console.log(data, 'data')
   useEffect(() => {
     data && setData(data.questionOfPaperVos)
   }, [data])
 
   const navigate = useNavigate()
   const { mutate: del } = useDeleteTestPaper()
-
   type T = { content: QuestionDataWithID; No: number }
+
   const mapper = {
     [QuestionType.single]: (args: T) => <P1 {...args} />,
     [QuestionType.multiple]: (args: T) => <P2 {...args} />,

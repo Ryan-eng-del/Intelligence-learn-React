@@ -56,7 +56,6 @@ export const QuestionBankTable: React.FC<{
   }
   // 操作函数
   const isShow = (record: Item) => record.key === showDetailsKey
-
   // 表格配置
   const columns = [
     {
@@ -69,7 +68,7 @@ export const QuestionBankTable: React.FC<{
       render: (_: any, record: Item) => (
         <QuestionItemWrapper>
           <ShowQuestionDetails
-            onClick={isTeacher ? () => setKey(record.key) : () => navigate(`/promote/${record.questionId}`)}
+            onClick={isTeacher ? () => setKey(record.key) : () => window.open(`/promote/stu/${record.questionId}`)}
           >
             {record.question}
           </ShowQuestionDetails>

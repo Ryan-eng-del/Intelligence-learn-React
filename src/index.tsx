@@ -71,7 +71,6 @@ root.render(
                 <Route path="login" element={<LoginPage />} />
               </Routes>
             </Suspense>
-
             <Routes>
               <Route
                 path="/"
@@ -80,59 +79,65 @@ root.render(
                     <App />
                   </RequireAuth>
                 }
-              >
-                <Route path="home" element={<HomePage />}>
-                  <Route path="teach" element={<TeachPage />} />
-                  <Route path="learn" element={<LearnPage />} />
-                  <Route path="inbox" element={<InboxPage />} />
-                  <Route path="profile" element={<ProfilePage />} />
-                  <Route path="setting" element={<SettingPage />} />
-                  <Route path="exam" element={<ExamSummary />} />
-                </Route>
+              ></Route>
+            </Routes>
 
-                <Route path=":identify/:id" element={<ClassInfoPage />}>
-                  <Route path="chapter" element={<ChapterPage />} />
-                  <Route path="exam" element={<ExamPage />} />
-                  <Route path="resource" element={<ResourcePage />} />
-                  <Route path="discuss" element={<DiscussPage />} />
-                  <Route path="class" element={<ClassMana />} />
-                  <Route path="knowledge" element={<KnowledgePage />} />
-                  <Route path="questionbank" element={<QuestionBankPage />} />
-                  <Route path={'k-graph'} element={<KnowledgeGraph />} />
-                  <Route path={'mk-graph'} element={<MkGraph />} />
-                  <Route path="createquestion" element={<CreateQuestionPage />} />
-                </Route>
-
-                <Route path=":identify/:id" element={<ClassInfoPage />}>
-                  <Route path="chapter" element={<ChapterPage />}>
-                    <Route path="teacher-preview" element={<TeacherSourcePreviewPage />}>
-                      <Route path="video/:resourceId" element={<SourceVideoPreview />} />
-                      <Route path="pdf/:resourceId" element={<SourcePdfPreview />} />
-                      <Route path="img/:resourceId" element={<SourceImgPreview />} />
-                    </Route>
-                  </Route>
-
-                  <Route path="exam" element={<ExamPage />}>
-                    <Route path="editpaper" element={<CreateExamPage />} />
-                  </Route>
-
-                  <Route path="resource" element={<ResourcePage />} />
-                  <Route path="discuss" element={<DiscussPage />} />
-                  <Route path="knowledge" element={<KnowledgePage />} />
-                  <Route path="questionbank" element={<QuestionBankPage />} />
-                  <Route path={'k-graph'} element={<KnowledgeGraph />} />
-                  <Route path={'mk-graph'} element={<MkGraph />} />
-                </Route>
-
-                {/* 预览试卷 */}
-                <Route path="previewtestpaper/:paperid" element={<TestPaperPreview />} />
-                {/* 刷题 */}
-                <Route path="promote/:questionId" element={<QuestionDoingPage />} />
-                {/* 编辑题目 */}
-                <Route path="edit/:questionId" element={<QuestionEditPage />} />
-                {/* 做试卷 */}
-                <Route path="homeWork" element={<PaperDoing />}></Route>
+            <Routes>
+              <Route path="home" element={<HomePage />}>
+                <Route path="teach" element={<TeachPage />} />
+                <Route path="learn" element={<LearnPage />} />
+                <Route path="inbox" element={<InboxPage />} />
+                <Route path="profile" element={<ProfilePage />} />
+                <Route path="setting" element={<SettingPage />} />
+                <Route path="exam" element={<ExamSummary />} />
               </Route>
+            </Routes>
+
+            <Suspense fallback={<Skeletons size={'small'} absolute={true} />}>
+              <Routes>
+                <Route>
+                  <Route path="promote/stu/:questionId" element={<QuestionDoingPage />} />
+                </Route>
+              </Routes>
+            </Suspense>
+
+            <Routes>
+              <Route path="classInfo/:identify/:id" element={<ClassInfoPage />}>
+                <Route path="chapter" element={<ChapterPage />}>
+                  <Route path="teacher-preview" element={<TeacherSourcePreviewPage />}>
+                    <Route path="video/:resourceId" element={<SourceVideoPreview />} />
+                    <Route path="pdf/:resourceId" element={<SourcePdfPreview />} />
+                    <Route path="img/:resourceId" element={<SourceImgPreview />} />
+                  </Route>
+                </Route>
+                <Route path="exam" element={<ExamPage />}>
+                  <Route path="editpaper" element={<CreateExamPage />} />
+                </Route>
+
+                <Route path="resource" element={<ResourcePage />} />
+                <Route path="discuss" element={<DiscussPage />} />
+                <Route path="class" element={<ClassMana />} />
+                <Route path="knowledge" element={<KnowledgePage />} />
+                <Route path="questionbank" element={<QuestionBankPage />}></Route>
+                <Route path={'k-graph'} element={<KnowledgeGraph />} />
+                <Route path={'mk-graph'} element={<MkGraph />} />
+                <Route path="createquestion" element={<CreateQuestionPage />} />
+              </Route>
+            </Routes>
+
+            <Routes>
+              {/* 预览试卷 */}
+              <Route path="previewtestpaper/:paperid" element={<TestPaperPreview />} />
+            </Routes>
+
+            <Routes>
+              {/* 编辑题目 */}
+              <Route path="edit/:questionId" element={<QuestionEditPage />} />
+            </Routes>
+
+            <Routes>
+              {/* 做试卷 */}
+              <Route path="homeWork" element={<PaperDoing />} />
             </Routes>
           </Suspense>
         </ContextProvider>

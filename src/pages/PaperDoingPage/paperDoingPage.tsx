@@ -1,5 +1,5 @@
 import { Layout } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useShowQuestionForStudent } from 'server/fetchExam/TestPaper'
 import { QuestionType, StudentPaper } from 'server/fetchExam/types'
@@ -24,6 +24,11 @@ const PaperDoing: React.FC = () => {
       list.filter((i) => i.questionType == QuestionType.shortAnswer).length,
       list.filter((i) => i.questionType == QuestionType.judge).length
     ]
+  }
+  const [open, setOpen] = useState(true)
+
+  const onClose = () => {
+    setOpen(false)
   }
 
   const Time = Date.now()

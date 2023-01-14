@@ -23,7 +23,7 @@ export const ClassCard: React.FC<{
   }
 
   const handleClick = () => {
-    navigate(`/${to}/${classInfo.courseId}/chapter`)
+    navigate(`/classInfo/${to}/${classInfo.courseId}/chapter`)
   }
 
   return (

@@ -4,7 +4,7 @@ import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { PrimaryButton } from 'publicComponents/Button'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import React, { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { useShowCreateQuestion } from 'server/fetchExam'
 import { config } from 'server/fetchExam/config'
 import { Item, QuestionType } from 'server/fetchExam/types'
@@ -21,7 +21,7 @@ const QuestionBankPage: React.FC = () => {
   const [curData, setCurData] = useState<Item[]>([])
   const [isAll, setIsAll] = useState(true)
   const handleType = (type: QuestionType): string => {
-    return config[type].name
+    return config[type]?.name
   }
 
   const handleRate = (n: number) => <Rate value={n + 1} disabled count={3} />
@@ -82,6 +82,7 @@ const QuestionBankPage: React.FC = () => {
           isAll={isAll}
         ></QuestionBankTable>
       </GlobalRightLayout>
+      <Outlet />
     </>
   )
 }
