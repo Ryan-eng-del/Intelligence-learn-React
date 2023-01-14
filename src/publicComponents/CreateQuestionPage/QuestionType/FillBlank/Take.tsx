@@ -32,12 +32,12 @@ export const Take: React.FC<{
 
   return (
     <>
-      {!NoScore && <Divider plain orientation='left'>{`第${content.index}题 - (${question.score}分)`}</Divider>}
+      {!NoScore && <Divider plain orientation='left'>{`第${content.index}题 - (${content.questionScore}分)`}</Divider>}
       <div className='questionTitle'>
-        {str2DOM(question.content)}
+        {str2DOM(content.questionDescription)}
       </div>
       <Divider plain orientation='left'>回答</Divider>
-      {gen(question.AnsNum)}
+      {gen(content.questionAnswerNum)}
     </>
   )
 }

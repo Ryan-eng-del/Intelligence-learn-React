@@ -48,7 +48,7 @@ export const ShowDetails: React.FC<{ questionId: string | undefined }> = ({ ques
         <br />
         <PreviewItemWrapperKnowledge>
           知识点：
-          {data?.pointIds}
+          {data?.points}
         </PreviewItemWrapperKnowledge>
       </ShowDetailsWrapper>
     </>

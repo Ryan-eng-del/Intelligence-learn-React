@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Space, Table } from 'antd'
+import { Avatar, Button, List, Popconfirm, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import Skeletons from 'publicComponents/Skeleton/index'
 

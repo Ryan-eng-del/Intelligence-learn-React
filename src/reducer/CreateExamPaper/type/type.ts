@@ -28,10 +28,10 @@ export interface IQuestionInfo {
   courseId: string
   questionOption: string
   questionAnswerNum: number
-  questionDifficulty: string
+  questionDifficulty: number
   questionType: QuestionConstantString
   rightAnswer: string
-  pointIds: string[]
+  pointIds?: string[]
   questionAnswerExplain: string
 }
 export interface IQuestionType extends IQuestionInfo {

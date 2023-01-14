@@ -2,7 +2,6 @@ import { Button, Divider, Space } from 'antd'
 import React, { useState } from 'react'
 import { StudentPaperItem } from 'server/fetchExam/types'
 import { str2DOM } from 'util/str2DOM'
-import { Network2Sutdent } from './config'
 import "../QuestionStyle.css"
 
 // 以此为例，
@@ -22,12 +21,12 @@ export const Take: React.FC<{
   }))
   return (
     <>
-      {!NoScore && <Divider plain orientation="left">{`第${content.index}题 - (${question.score}分)`}</Divider>}
-      <div className='questionTitle'>{str2DOM(question.content)}</div>
+      {!NoScore && <Divider plain orientation="left">{`第${content.index}题 - (${content.questionScore}分)`}</Divider>}
+      <div className='questionTitle'>{str2DOM(content.questionDescription)}</div>
       {/* <Divider plain orientation="left">
         选项
       </Divider> */}
-      {question.Options.map((i) => (
+      {Opt.map((i) => (
         <div key={i.optionName} style={{ margin: '10px' }}>
           <Space>
             <Button

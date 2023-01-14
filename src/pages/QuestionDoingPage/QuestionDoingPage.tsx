@@ -8,7 +8,7 @@ import { Take as P2 } from 'publicComponents/CreateQuestionPage/QuestionType/Mul
 import { Take as P3 } from 'publicComponents/CreateQuestionPage/QuestionType/FillBlank/Take'
 import { Take as P4 } from 'publicComponents/CreateQuestionPage/QuestionType/ShortAnswer/Take'
 import { Take as P5 } from 'publicComponents/CreateQuestionPage/QuestionType/Judge/Take'
-import { Button, Modal, Result } from 'antd'
+import { Button, Modal, Result, Tag } from 'antd'
 import { QuestionDoingPageWrapper, BackButton } from './QuestionDoingPageStyle'
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import Skeletons from '../../publicComponents/Skeleton/index'

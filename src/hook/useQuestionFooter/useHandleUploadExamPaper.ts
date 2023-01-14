@@ -22,7 +22,7 @@ export const useHandleUploadExamPaper = (
 
   /*初始化试题状态*/
   useEffect(() => {
-    setCurCheckId(question.pointIds)
+    setCurCheckId(question.pointIds!)
     setCurDifficulty(String(question.questionDifficulty))
   }, [question])
 
@@ -31,7 +31,7 @@ export const useHandleUploadExamPaper = (
     (value: string) => {
       setCurDifficulty(value)
 
-      setCurEditQuestion({ ...question, questionDifficulty: value })
+      setCurEditQuestion({ ...question, questionDifficulty: parseInt(value) })
       dispatchQuestionType({
         isSave: true,
         type: 'editQuestion',
