@@ -122,7 +122,9 @@ code {
   color: white;
   margin-bottom: 10px;
 }
-
+.ant-modal-body {
+  padding: 15px;
+}
 .ant-modal-body input {
   margin: 8px 0 15px 0;
 }

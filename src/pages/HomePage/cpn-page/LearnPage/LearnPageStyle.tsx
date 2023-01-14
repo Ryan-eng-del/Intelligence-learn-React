@@ -3,7 +3,6 @@ import styled from 'styled-components'
 export const LearnRoutePageWrapper = styled.div``
 
 export const ModalContextWrapper = styled.div`
-  padding: 10px;
   .classname-label {
     color: #cfd2cf;
     letter-spacing: 2px;

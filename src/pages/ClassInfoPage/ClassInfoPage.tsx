@@ -16,7 +16,7 @@ const ClassInfoPage = () => {
 
   const sliceCount = useMemo(() => {
     if (params) {
-      return params.identify!.length + params.id!.length + 2
+      return params.identify!.length + params.id!.length + 12
     }
   }, [params])
 
