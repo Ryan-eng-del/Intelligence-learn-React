@@ -1,10 +1,9 @@
-import { useQuery } from "@tanstack/react-query"
+import { useQuery } from '@tanstack/react-query'
 import AXIOS from '../request/request'
 
 export const client = new AXIOS({
-  baseURL: "https://api.github.com",
-  timeout: 100000,
-
+  baseURL: 'https://api.github.com',
+  timeout: 100000
 })
 
 export const useGetContributor = () => {

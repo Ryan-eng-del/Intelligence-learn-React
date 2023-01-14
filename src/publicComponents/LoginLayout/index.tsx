@@ -1,8 +1,7 @@
-import styled from 'styled-components'
-import { Typography } from 'antd'
-import { LockOutlined, UserOutlined, HomeOutlined, CodeOutlined } from '@ant-design/icons'
-import { Button, Checkbox, Form } from 'antd'
+import { CodeOutlined, HomeOutlined, LockOutlined, UserOutlined } from '@ant-design/icons'
+import { Button, Checkbox, Form, Typography } from 'antd'
 import classnames from 'classnames'
+import styled from 'styled-components'
 
 import loginPicUrl from 'assets/img/back-authForm.png'
 import registerPicUrl from 'assets/img/back-authRegister.png'
@@ -12,8 +11,8 @@ import { FormItem } from 'publicComponents/FormItem'
 
 import LoginSpinner from 'publicComponents/LoginSpinner'
 
-import Cache from 'util/cache'
 import { Link } from 'react-router-dom'
+import Cache from 'util/cache'
 import { PrimaryButton } from '../Button'
 import { GlobalMessage } from '../GlobalMessage'
 

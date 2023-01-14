@@ -1,12 +1,12 @@
-import React from 'react'
 import { KnowledgeTree } from 'components/ClassInfoPage/KnowledgePage/KnowledgeTree/KnowledgeTree'
-import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
-import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
-import { Link, useLocation, useParams } from 'react-router-dom'
-import styled from 'styled-components'
 import { useKnowledgeUI } from 'hook/useKnowledge/useKnowledgeUI'
-import { isTeachAuth } from 'util/isAuthTeach'
+import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
+import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 import { useComputedRoute } from 'util/computedRoute'
+import { isTeachAuth } from 'util/isAuthTeach'
 
 const KnowledgePage: React.FC = () => {
   const editable = isTeachAuth()

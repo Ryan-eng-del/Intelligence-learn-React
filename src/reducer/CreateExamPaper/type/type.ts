@@ -28,7 +28,7 @@ export interface IQuestionInfo {
   courseId: string
   questionOption: string
   questionAnswerNum: number
-  questionDifficulty: number
+  questionDifficulty: string
   questionType: QuestionConstantString
   rightAnswer: string
   pointIds: string[]
@@ -64,7 +64,12 @@ export type IQuestionTypeAddAction =
 /*编辑题目的action*/
 export type IQuestionTypeEditAction = {
   type: 'editQuestion'
-  payload: { content: string | number; id: string; target: keyof IQuestionType; index?: number }
+  payload: { content: any; id: string; target: keyof IQuestionType; index?: number }
+  isFillBank?: boolean
+  tempNum?: number
+  isMultiple?: boolean
+  isSave?: boolean
+  setEditQuestion?: any
 }
 
 /* 删除题目的action */
@@ -77,10 +82,10 @@ export type IQuestionTypeDeleteAction = {
 export type IQuestionTypeSaveAction = {
   type: 'saveQuestion'
   id: string
-  setModalOpen: any
   setEditQuestion: any
   isPreview?: boolean
 }
+
 /* 保存试题的action */
 export type IQuestionTypePreviewAction = {
   type: 'previewQuestion'

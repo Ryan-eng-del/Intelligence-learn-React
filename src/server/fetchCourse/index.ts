@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { client } from 'server'
-import { delayFetch } from 'util/delayFetch'
 import { CourseList } from './types'
 
 // 显示课程
@@ -62,14 +61,22 @@ export const useJoinInvitedCourse = () => {
 }
 
 // 添加课程
-export const useCreateClass = ({ course_cover, course_name, course_describe }: { course_name: string; course_cover: string | null, course_describe: string | null }) => {
+export const useCreateClass = ({
+  course_cover,
+  course_name,
+  course_describe
+}: {
+  course_name: string
+  course_cover: string | null
+  course_describe: string | null
+}) => {
   const queryClient = useQueryClient()
 
   return useMutation(
     async () => {
       return client.post({
         url: '/course/create',
-        data: { course_cover, course_name,course_describe }
+        data: { course_cover, course_name, course_describe }
       })
     },
 

@@ -2,20 +2,16 @@ import React from 'react'
 import { useShowQuestionDetails } from 'server/fetchExam'
 import {
   PreviewItemWrapperAnswer,
+  PreviewItemWrapperExplain,
   PreviewItemWrapperKnowledge,
   PreviewItemWrapperOption,
-  PreviewItemWrapperExplain,
   PreviewItemWrapperQuestion,
   PreviewItemWrapperRate,
   ShowDetailsWrapper
 } from './ShowDetailsStyle'
-export const ShowDetails: React.FC<{ questionId: string | undefined }> = ({
-  questionId
-}) => {
-  console.log(questionId)
+export const ShowDetails: React.FC<{ questionId: string | undefined }> = ({ questionId }) => {
   //这个数据没有更新，函数没有重新调用
   const { data } = useShowQuestionDetails(questionId)
-  console.log(data)
 
   return (
     <>

@@ -13,11 +13,13 @@ export const Take: React.FC<{
   setAns: (s: string) => void
   NoScore?: boolean
 }> = ({ content, setAns, NoScore }) => {
-  const question = Network2Sutdent(content)
   const [TrueOption, setTrueOption] = useState('')
   const color = (i: any) =>
     i.optionName == TrueOption ? 'linear-gradient(140deg, #6cc7ff 0%, #5a33ff 100%)' : undefined
-
+  const Opt = content.questionOption.split('<>').map((i, x) => ({
+    optionName: String.fromCharCode(x + 65),
+    content: i
+  }))
   return (
     <>
       {!NoScore && <Divider plain orientation="left">{`第${content.index}题 - (${question.score}分)`}</Divider>}

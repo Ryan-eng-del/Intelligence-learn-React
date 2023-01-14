@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { client } from '../index'
 import { ChapterResourceType } from '../fetch3rd/fetchChapter/types'
+import { client } from '../index'
 
 export const useGetResource = (resourceId: string) => {
   return useQuery<ChapterResourceType>(['resource', resourceId], async () => {

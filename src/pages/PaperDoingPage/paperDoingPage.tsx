@@ -1,15 +1,14 @@
+import { Layout } from 'antd'
 import React from 'react'
-import { Title } from './Title/theTitle'
+import { useParams } from 'react-router-dom'
+import { useShowQuestionForStudent } from 'server/fetchExam/TestPaper'
+import { QuestionType, StudentPaper } from 'server/fetchExam/types'
+import Skeletons from '../../publicComponents/Skeleton/index'
 import { Menu } from './Menu/Menu'
 import { QuestionList } from './QuestionList/QuestionList'
-import { Layout } from 'antd'
-import { useParams } from 'react-router-dom'
-import { QuestionType, StudentPaper } from 'server/fetchExam/types'
-import { useShowQuestionForStudent } from 'server/fetchExam/TestPaper'
-import Skeletons from '../../publicComponents/Skeleton/index'
+import { Title } from './Title/theTitle'
 
 const { Header, Sider, Content } = Layout
-
 
 const PaperDoing: React.FC = () => {
   // 需要路由获取参数
@@ -47,7 +46,7 @@ const PaperDoing: React.FC = () => {
               paperName={data!.paperName}
               num={data.questionOfPaperVos.length}
               time={Time}
-              score={data.questionOfPaperVos.reduce((p,c)=>p+(c.questionScore?c.questionScore:0),0)}
+              score={data.questionOfPaperVos.reduce((p, c) => p + (c.questionScore ? c.questionScore : 0), 0)}
             />
           </Header>
           <Layout>

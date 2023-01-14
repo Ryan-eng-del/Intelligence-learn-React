@@ -1,19 +1,18 @@
-import React, { useState } from 'react'
-import { QuestionBankHeader, QuestionBankTable } from 'components/QuestionBankPage'
-import { useShowCreateQuestion } from 'server/fetchExam'
-import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
-import { Item, QuestionType } from 'server/fetchExam/types'
-import { config } from 'server/fetchExam/config'
-import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { Input, Rate, Space } from 'antd'
-import { useNavigate, useParams } from 'react-router-dom'
+import { QuestionBankHeader, QuestionBankTable } from 'components/QuestionBankPage'
+import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { PrimaryButton } from 'publicComponents/Button'
+import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
+import React, { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useShowCreateQuestion } from 'server/fetchExam'
+import { config } from 'server/fetchExam/config'
+import { Item, QuestionType } from 'server/fetchExam/types'
 import { isTeachAuth } from 'util/isAuthTeach'
 import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/index'
 
 const QuestionBankPage: React.FC = () => {
   const { classInfo, getCurCourseInfo } = useCurrentClassInfo()
-  console.log(classInfo)
   // getCurCourseInfo(useParams()['id']!)
   const { data, isLoading } = useShowCreateQuestion(useParams()['id']!)
   // const { data, isLoading } = useShowCreateQuestion(classInfo.courseId)
@@ -52,10 +51,8 @@ const QuestionBankPage: React.FC = () => {
 
   const search = (value: string) => {
     if (value === '') {
-      console.log('内容为空')
       return
     } else {
-      console.log('有内容')
       setCurData(originData.filter((item) => item.question.indexOf(value)))
       setIsAll(false)
     }
@@ -77,7 +74,6 @@ const QuestionBankPage: React.FC = () => {
         }
       ></GlobalHeader>
       <GlobalRightLayout>
-        {/* <Button onClick={()=>(getCurCourseInfo(id!),console.log(classInfo.courseId))}>Magic</Button> */}
         <QuestionBankHeader changeType={changeType} showAll={showAll}></QuestionBankHeader>
         <QuestionBankTable
           curData={curData}

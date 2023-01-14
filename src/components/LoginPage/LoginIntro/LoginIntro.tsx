@@ -1,5 +1,4 @@
-import React from 'react'
-import { LoginPageIntro, IntroLineOne, IntroLineTwo } from './LoginIntroStyle'
+import { IntroLineOne, IntroLineTwo, LoginPageIntro } from './LoginIntroStyle'
 
 export const LoginIntro = () => {
   return (
@@ -7,9 +6,7 @@ export const LoginIntro = () => {
       <IntroLineOne>
         <div className="small-intro">This is a platform about</div>
 
-        <div className="en-line-two">
-          Discrete Mathematics,Intelligent Guide Learning.
-        </div>
+        <div className="en-line-two">Discrete Mathematics,Intelligent Guide Learning.</div>
       </IntroLineOne>
       <IntroLineTwo>
         <div className="small-intro">这是一个平台关于---</div>

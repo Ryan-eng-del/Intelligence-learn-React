@@ -1,7 +1,7 @@
-import styled from 'styled-components'
-import { Breadcrumb, Space } from 'antd'
 import { HomeOutlined } from '@ant-design/icons'
-import { useParams, useNavigate } from 'react-router-dom'
+import { Breadcrumb } from 'antd'
+import { useNavigate, useParams } from 'react-router-dom'
+import styled from 'styled-components'
 
 interface GlobalHeaderProps {
   title: string

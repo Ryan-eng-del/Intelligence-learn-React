@@ -1,9 +1,9 @@
-import React from 'react'
 import { Button, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import { useNavigate } from 'react-router-dom'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const statusType = {
   undone: '未提交',

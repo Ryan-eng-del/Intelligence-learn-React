@@ -1,14 +1,13 @@
-import React, { useState } from 'react'
-import { CardBodyWrapper, CardHeadWrapper, CardWrapper, ModalContextWrapper } from './LearnPageStyle'
-import { Button, Input, Modal, Row } from 'antd'
-import { ClassCard } from 'publicComponents/TeachRotePage'
-import { useJoinInvitedCourse, useShowInvitedCourseInfo, useShowLearnClass } from 'server/fetchCourse'
+import { Button, Input, message, Modal, Row } from 'antd'
+import classPicUrl from 'assets/img/class.jpg'
+import { PrimaryButton } from 'publicComponents/Button'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
-import { PrimaryButton } from 'publicComponents/Button'
-import Skeletons from '../../../../publicComponents/Skeleton/index'
-import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
-import styled from 'styled-components'
+import Skeletons from 'publicComponents/Skeleton/index'
+import { ClassCard } from 'publicComponents/TeachRotePage'
+import React, { useState } from 'react'
+import { useJoinInvitedCourse, useShowInvitedCourseInfo, useShowLearnClass } from 'server/fetchCourse'
+import { CardBodyWrapper, CardHeadWrapper, CardWrapper, ModalContextWrapper } from './LearnPageStyle'
 
 type Class = { classId: string; courseName: string; courseCover: string; teacherName: string }
 const LearnPage: React.FC = () => {
@@ -20,6 +19,7 @@ const LearnPage: React.FC = () => {
   const { mutateAsync, isLoading: wait } = useShowInvitedCourseInfo()
 
   const handleOk = async () => {
+    if (invitedcode == '') message.error('请输入邀请码')
     const data = await mutateAsync(invitedcode)
     setNewCourse(data)
   }
@@ -29,7 +29,6 @@ const LearnPage: React.FC = () => {
   }
 
   const join = (classId: string) => {
-    debugger
     setModalVisible(false)
     setNewCourse(undefined)
     joinClass(classId)
@@ -37,65 +36,57 @@ const LearnPage: React.FC = () => {
 
   return (
     <>
-      <>
-        <Modal
-          maskTransitionName=""
-          transitionName=""
-          title="加入课程"
-          width={250}
-          visible={modalVisible}
-          onCancel={handleCancel}
-          confirmLoading={wait}
-          footer={
-            newCourse
-              ? [
-                  <Button onClick={() => setNewCourse(undefined)} danger key="2">
-                    重新输入
-                  </Button>
-                ]
-              : [
-                  <Button onClick={handleOk} key="1">
-                    查询
-                  </Button>
-                ]
-          }
-        >
-          <ModalContextWrapper>
-            {newCourse ? (
-              <>
-                <CardWrapper>
-                  <CardHeadWrapper>
-                    {/* <img src={require('assets/img/class.jpg')} alt="课程图片" /> */}
-                  </CardHeadWrapper>
-                  <CardBodyWrapper>
-                    <div className="tname">{newCourse.courseName}</div>
+      <Modal
+        maskTransitionName=""
+        transitionName=""
+        title="加入课程"
+        width={400}
+        bodyStyle={{ height: 380 }}
+        visible={modalVisible}
+        onCancel={handleCancel}
+        confirmLoading={wait}
+        footer={
+          newCourse
+            ? [
+                <Button onClick={() => (setNewCourse(undefined), setInvitedCode(''))} danger key="2">
+                  重新输入
+                </Button>
+              ]
+            : [
+                <Button onClick={handleOk} key="1">
+                  查询
+                </Button>
+              ]
+        }
+      >
+        <ModalContextWrapper>
+          <label className="classname-label">输入邀请码</label>
+          <Input
+            placeholder="课程邀请码"
+            id="classname"
+            value={invitedcode}
+            onChange={(e) => {
+              setInvitedCode(e.target.value)
+            }}
+          />
+          {newCourse && (
+            <CardWrapper>
+              <CardHeadWrapper>
+                <img src={newCourse.courseCover || classPicUrl} alt="课程图片" />
+              </CardHeadWrapper>
+              <CardBodyWrapper>
+                <div className="tname">{newCourse.courseName}</div>
 
-                    <PrimaryButton
-                      title="加入"
-                      handleClick={() => join(newCourse.classId)}
-                      style={{ width: '100px', marginTop: '12px' }}
-                    />
-                  </CardBodyWrapper>
-                </CardWrapper>
-              </>
-            ) : (
-              <>
-                <label className="classname-label">输入邀请码</label>
-                <Input
-                  placeholder="课程邀请码"
-                  id="classname"
-                  value={invitedcode}
-                  style={{ margin: '3px 0 12px 0' }}
-                  onChange={(e) => {
-                    setInvitedCode(e.target.value)
-                  }}
+                <PrimaryButton
+                  title="加入"
+                  handleClick={() => join(newCourse.classId)}
+                  style={{ width: '100px', marginTop: '12px' }}
                 />
-              </>
-            )}
-            {wait && <BaseLoading />}
-          </ModalContextWrapper>
-        </Modal>
-      </>
+              </CardBodyWrapper>
+            </CardWrapper>
+          )}
+        </ModalContextWrapper>
+      </Modal>
       <>
         <GlobalHeader
           title="我学的课"

@@ -1,22 +1,22 @@
-import React, { useState } from 'react'
 import {
-  FileUnknownOutlined,
-  FileImageOutlined,
-  PlaySquareOutlined,
-  FileExcelOutlined,
-  FilePptOutlined,
-  FilePdfOutlined,
-  FileWordOutlined,
-  EyeOutlined,
   DownloadOutlined,
-  EditOutlined
+  EditOutlined,
+  EyeOutlined,
+  FileExcelOutlined,
+  FileImageOutlined,
+  FilePdfOutlined,
+  FilePptOutlined,
+  FileUnknownOutlined,
+  FileWordOutlined,
+  PlaySquareOutlined
 } from '@ant-design/icons'
+import { Button, Input, Modal, Popconfirm, Space } from 'antd'
 import { last } from 'lodash'
-import { Button, Space, Modal, Input, Popconfirm } from 'antd'
-import { ResourceType } from 'server/fetchCourseResource/types'
-import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
 import { GlobalLabel } from 'publicComponents/GlobalLabel/globalLabel'
+import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { ResourceType } from 'server/fetchCourseResource/types'
 
 export const ResourceListItem: React.FC<{
   item: ResourceType

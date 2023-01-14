@@ -1,11 +1,11 @@
-import React, { useMemo, useRef, useState } from 'react'
+import { CheckOutlined, DeleteOutlined } from '@ant-design/icons'
 import { Collapse } from 'antd'
+import React, { useMemo, useState } from 'react'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { IQuestionType, IQuestionTypeAction, IQuestionTypeInitialState } from 'reducer/CreateExamPaper/type/type'
 import { QuestionActionString } from 'server/fetchExam/types'
 import styled from 'styled-components'
 import { getQuestionHeader } from '../../../pages/CreateExamPage/util/util'
-import { IQuestionType, IQuestionTypeAction, IQuestionTypeInitialState } from 'reducer/CreateExamPaper/type/type'
-import { CheckOutlined, DeleteOutlined, ExclamationOutlined } from '@ant-design/icons'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import './index.css'
 

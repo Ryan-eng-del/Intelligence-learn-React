@@ -1,17 +1,17 @@
-import { lazy, Suspense } from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
-import App from './App'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import reportWebVitals from './reportWebVitals'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
+import { lazy, Suspense } from 'react'
+import ReactDOM from 'react-dom/client'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import App from './App'
+import './index.css'
+import reportWebVitals from './reportWebVitals'
 
-import { RequireAuth } from 'util/requireAuth'
 import ContextProvider from 'context'
 import Skeletons from 'publicComponents/Skeleton'
+import { RequireAuth } from 'util/requireAuth'
 
 const HomePage = lazy(() => import('pages/HomePage/HomePage'))
 const RegisterPage = lazy(() => import('pages/LoginPages/RegisterPage'))

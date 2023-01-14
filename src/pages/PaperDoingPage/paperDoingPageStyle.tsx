@@ -10,6 +10,6 @@ export const SiderWrapper = styled.div`
     border: '1px solid';
     border-radius: 5;
     height: 600;
-    width: 300
+    width: 300;
   }
 `

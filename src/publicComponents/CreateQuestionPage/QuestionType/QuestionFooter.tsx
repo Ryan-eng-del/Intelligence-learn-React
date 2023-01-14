@@ -1,21 +1,20 @@
-import { useCallback, useEffect, useMemo, useReducer, useState } from 'react'
-import { Button, message, Modal, Select } from 'antd'
-import { QuestionTitleArea } from '../../QuestionTitleArea/QuestionTitleArea'
+import { Button, Modal, Select } from 'antd'
+import { useCurrentClassInfo } from 'context/ClassInfoContext'
+import { useEffect, useMemo, useReducer, useState } from 'react'
+import { chapterReducer, initialChapterState } from 'reducer/ChaperStudyTree/chapterReducer'
 import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
 import { useShowKnowledgeTree } from 'server/fetchKnowledge'
+import styled from 'styled-components'
+import { BaseSpin } from '../../../baseUI/BaseSpin/BaseSpin'
 import { TreeSelected } from '../../../components/ClassInfoPage/KnowledgePage/KnowledgeTree/cpn/TreeSelected'
-import { useCheckKnowledgeTreeUI } from '../../../hook/useKnowledge/useCheckKnowledgeTreeUI'
-import { chapterReducer, initialChapterState } from 'reducer/ChaperStudyTree/chapterReducer'
 import { generateKnowledgeKeys } from '../../../helper/knowledgeTree'
 import { useHandleOnExpand } from '../../../hook/useChapterStudy/useHandleTreeOnExpand'
-import { BaseSpin } from '../../../baseUI/BaseSpin/BaseSpin'
-import { GlobalLabel } from '../../GlobalLabel/globalLabel'
+import { useCheckKnowledgeTreeUI } from '../../../hook/useKnowledge/useCheckKnowledgeTreeUI'
 import { useHandleUploadExamPaper } from '../../../hook/useQuestionFooter/useHandleUploadExamPaper'
 import { StateSetter } from '../../../types'
-import styled from 'styled-components'
+import { GlobalLabel } from '../../GlobalLabel/globalLabel'
+import { QuestionTitleArea } from '../../QuestionTitleArea/QuestionTitleArea'
 import { SingleChoicePreview } from './SingleChoice/SingleChoicePreview'
-import { useCurrentClassInfo } from 'context/ClassInfoContext'
-import produce, { original } from 'immer'
 
 const { Option } = Select
 
@@ -30,7 +29,7 @@ export const QuestionFooter = (props: QuestionFooterProps) => {
   const { classInfo } = useCurrentClassInfo()
   const { data, isLoading: KnowledgeTreeLoading } = useShowKnowledgeTree(classInfo.courseId)
   const { checkTreeData } = useCheckKnowledgeTreeUI(data)
-
+  console.log(data, 'data')
   /* 两个弹框的开闭状态 */
   const [isModalOpen, setIsModalOpen] = useState(false)
   /* 知识点选择树的UI层 */
@@ -48,27 +47,6 @@ export const QuestionFooter = (props: QuestionFooterProps) => {
     })
   }, [data])
 
-  /* 处理预览试卷 */
-  const handlePreviewPaper = () => {
-    dispatchQuestionType({
-      type: 'saveQuestion',
-      id: question.questionId,
-      setModalOpen: setIsModalOpen,
-      setEditQuestion: (q: IQuestionType) => setCurEditQuestion(q),
-      isPreview: true
-    })
-  }
-
-  /* 处理保存试题 */
-  const handleSaveQuestion = async () => {
-    dispatchQuestionType({
-      type: 'saveQuestion',
-      id: question.questionId,
-      setModalOpen: setIsSaveModalOpen,
-      setEditQuestion: (q: IQuestionType) => setCurEditQuestion(q)
-    })
-  }
-
   /* 处理上传试卷 */
   const {
     handleChange,
@@ -80,6 +58,27 @@ export const QuestionFooter = (props: QuestionFooterProps) => {
     setIsSaveModalOpen,
     isLoading
   } = useHandleUploadExamPaper(question, setCurEditQuestion, dispatchQuestionType)
+  /* 处理预览试卷 */
+  const handlePreviewPaper = () => {
+    setIsModalOpen(true)
+
+    dispatchQuestionType({
+      type: 'saveQuestion',
+      id: question.questionId,
+      setEditQuestion: (q: IQuestionType) => setCurEditQuestion(q),
+      isPreview: true
+    })
+  }
+
+  /* 处理保存试题 */
+  const handleSaveQuestion = async () => {
+    setIsSaveModalOpen(true)
+    dispatchQuestionType({
+      type: 'saveQuestion',
+      id: question.questionId,
+      setEditQuestion: (q: IQuestionType) => setCurEditQuestion(q)
+    })
+  }
 
   /* 编辑题目解析 */
   const handleQuestionAnswerExplain = (content: string, id: string) => {

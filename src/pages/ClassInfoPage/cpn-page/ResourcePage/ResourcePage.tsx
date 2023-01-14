@@ -1,11 +1,11 @@
-import { Header } from './Header'
-import { ResourceList } from './ResourceList'
-import React, { useState } from 'react'
-import { useShowResourceList } from 'server/fetchCourseResource'
-import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
 import { PrimaryButton } from 'publicComponents/Button'
 import { GlobalHeader } from 'publicComponents/GlobalHeader'
+import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
+import React, { useState } from 'react'
+import { useShowResourceList } from 'server/fetchCourseResource'
 import Skeletons from '../../../../publicComponents/Skeleton/index'
+import { Header } from './Header'
+import { ResourceList } from './ResourceList'
 
 const ResourcePage: React.FC = () => {
   const { data, isLoading } = useShowResourceList()

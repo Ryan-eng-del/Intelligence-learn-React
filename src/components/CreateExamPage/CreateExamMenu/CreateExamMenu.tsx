@@ -1,5 +1,5 @@
-import React from 'react'
 import { Button } from 'antd'
+import React from 'react'
 import { QuestionConstantString, QuestionType } from 'server/fetchExam/types'
 
 import {
@@ -22,7 +22,7 @@ export const QuestionICON = {
 const isConstantString = (val: unknown): val is QuestionConstantString => typeof val === 'string'
 
 export const CreateExamMenu: React.FC<{
-  addQuestionType: (type:QuestionConstantString)=>void
+  addQuestionType: (type: QuestionConstantString) => void
 }> = ({ addQuestionType }) => {
   return (
     <>

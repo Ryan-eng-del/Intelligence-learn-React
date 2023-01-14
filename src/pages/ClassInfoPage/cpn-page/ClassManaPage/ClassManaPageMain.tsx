@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
-import { Card, Col, Row, Button, Input, Modal, Space, message, Badge, Typography, Popconfirm, List } from 'antd'
+
 import { ShareAltOutlined } from '@ant-design/icons'
+import { Badge, Button, Card, Col, Input, message, Modal, Popconfirm, Row, Space, Typography } from 'antd'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
+import { useCurrentClassInfo } from 'context/ClassInfoContext'
+import { PrimaryButton } from 'publicComponents/Button'
 import { GlobalHeader } from 'publicComponents/GlobalHeader'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout'
-import { PrimaryButton } from 'publicComponents/Button'
-import { ClassList } from 'server/fetchClass/types'
-import { useCreateNewClass, useDeleteClass, useReName } from 'server/fetchClass'
-import { useCurrentClassInfo } from 'context/ClassInfoContext'
-import { isTeachAuth } from 'util/isAuthTeach'
 import Skeletons from 'publicComponents/Skeleton'
+import React, { useState } from 'react'
+import { useCreateNewClass, useDeleteClass, useReName } from 'server/fetchClass'
+import { ClassList } from 'server/fetchClass/types'
+import { isTeachAuth } from 'util/isAuthTeach'
 import { ClassManaStudentList } from './ClassManaStudentList'
 import "./ClassManaPageMainStyle.css"
 export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolean }> = ({ classList, isLoading }) => {

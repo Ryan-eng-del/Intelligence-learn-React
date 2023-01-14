@@ -1,17 +1,16 @@
-import { Avatar, Button, Skeleton } from 'antd'
-import { GlobalNav } from 'publicComponents/GlobalNav'
-import styled from 'styled-components'
-import { IUserInfo } from '../../context/UserInfoContext'
-import { IClassInfo } from '../../context/ClassInfoContext'
-import styles from './index.module.css'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { Avatar } from 'antd'
 import AvatarPic from 'assets/img/avatar.jpg'
 import classPic from 'assets/img/class.jpg'
-import { Suspense } from 'react'
-import { GlobalHeader } from 'publicComponents/GlobalHeader'
-import Skeletons from 'publicComponents/Skeleton'
-import { is } from 'immer/dist/internal'
 import { BaseSpin } from 'baseUI/BaseSpin/BaseSpin'
+import { GlobalHeader } from 'publicComponents/GlobalHeader'
+import { GlobalNav } from 'publicComponents/GlobalNav'
+import Skeletons from 'publicComponents/Skeleton'
+import { Suspense } from 'react'
+import { useLocation } from 'react-router-dom'
+import styled from 'styled-components'
+import { IClassInfo } from '../../context/ClassInfoContext'
+import { IUserInfo } from '../../context/UserInfoContext'
+import styles from './index.module.css'
 const protectClassInfoType = (data: IUserInfo | IClassInfo | null, name: 'home' | 'classInfo'): data is IUserInfo =>
   name === 'home'
 
@@ -26,7 +25,6 @@ const GlobalLayout = (props: {
   const location = useLocation()
 
   const isGraph = location.pathname.slice(-5) === 'graph'
-  console.log(isGraph, 'isGraph')
   const { layoutData, layoutName } = props
 
   return (

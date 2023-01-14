@@ -1,13 +1,12 @@
-import React, { Suspense } from 'react'
 import { ChapterStudyTree } from 'components/ClassInfoPage/ChapterPage/ChapterStudyTree/ChapterStudyTree'
-import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
-import { PrimaryButton } from 'publicComponents/Button'
 import { useChapterUI } from 'hook/useChapterStudy/useChapterUI'
+import { PrimaryButton } from 'publicComponents/Button'
+import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout'
-import { isTeachAuth } from 'util/isAuthTeach'
-import { Outlet } from 'react-router-dom'
 import Skeletons from 'publicComponents/Skeleton/index'
-import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
+import React, { Suspense } from 'react'
+import { Outlet } from 'react-router-dom'
+import { isTeachAuth } from 'util/isAuthTeach'
 import { BaseSpin } from '../../../../baseUI/BaseSpin/BaseSpin'
 
 const ChapterPage: React.FC = () => {

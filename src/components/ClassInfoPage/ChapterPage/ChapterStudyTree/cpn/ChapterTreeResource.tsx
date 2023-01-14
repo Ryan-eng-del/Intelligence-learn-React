@@ -1,9 +1,9 @@
-import { CustomLink } from 'util/CustomLink'
-import { Tag } from 'antd'
 import { DeleteOutlined, FileImageFilled, FilePptFilled, YoutubeFilled } from '@ant-design/icons'
-import React, { useMemo } from 'react'
-import styled from 'styled-components'
+import { Tag } from 'antd'
+import { useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
+import styled from 'styled-components'
+import { CustomLink } from 'util/CustomLink'
 
 export const ChapterTreeResource = (props: { resource: any; editable: boolean }) => {
   const { resource } = props
@@ -12,7 +12,6 @@ export const ChapterTreeResource = (props: { resource: any; editable: boolean })
     const pathname = location.pathname
     return pathname.slice(0, pathname.indexOf('chapter') + 7)
   }, [location])
-  console.log(computedRoute, 'router')
   return (
     <ResourcePageWrapper>
       <ResourceWrapper key={resource.resourceId}>

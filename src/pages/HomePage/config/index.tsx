@@ -1,12 +1,12 @@
-import React from 'react'
 import {
-  ContainerOutlined,
   BellOutlined,
+  ContainerOutlined,
+  SettingOutlined,
   TagOutlined,
   TagsOutlined,
-  UserOutlined,
-  SettingOutlined
+  UserOutlined
 } from '@ant-design/icons'
+import React from 'react'
 
 import type { MenuProps } from 'antd'
 import { Link } from 'react-router-dom'

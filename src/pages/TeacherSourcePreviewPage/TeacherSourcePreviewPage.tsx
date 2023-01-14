@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
-import styled from 'styled-components'
-import { Tree } from 'antd/es'
-import { useChapterUI } from '../../hook/useChapterStudy/useChapterUI'
 import { Drawer } from 'antd'
+import { Tree } from 'antd/es'
+import styled from 'styled-components'
 import { expandOnMount } from '../../helper/chapterStudyTree'
+import { useChapterUI } from '../../hook/useChapterStudy/useChapterUI'
 
 const TeacherSourcePreviewPage = () => {
   const { treeData, chapterControl } = useChapterUI(false)

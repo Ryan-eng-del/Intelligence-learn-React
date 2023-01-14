@@ -1,7 +1,12 @@
-import React, { useMemo, useReducer, useRef, useState } from 'react'
+import { Drawer } from 'antd'
 import { CreateExamHeader, CreateExamMenu, CreateExamNav, CreateExamRoutePage } from 'components/CreateExamPage'
+import { useCurrentClassInfo } from 'context/ClassInfoContext'
+import React, { useMemo, useReducer, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { initialQuestionTypeState, questionTypeReducer } from 'reducer/CreateExamPaper/questionTypeReducer'
+import { IQuestionType } from 'reducer/CreateExamPaper/type/type'
 import { QuestionConstantString, QuestionTypeAction } from 'server/fetchExam/types'
+import styled from 'styled-components'
 import {
   CreateExamBodyLeftWrapper,
   CreateExamBodyRightWrapper,
@@ -11,12 +16,7 @@ import {
   CreateExamPageWrapper,
   CreateExamQuestion
 } from './CreateExamPageStyle'
-import { initialQuestionTypeState, questionTypeReducer } from 'reducer/CreateExamPaper/questionTypeReducer'
 import { createQuestionObj } from './util/util'
-import { IQuestionType } from 'reducer/CreateExamPaper/type/type'
-import { useCurrentClassInfo } from 'context/ClassInfoContext'
-import { Drawer } from 'antd'
-import styled from 'styled-components'
 
 const CreateExamPage: React.FC = () => {
   const idSet = useRef<Set<number>>(new Set())

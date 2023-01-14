@@ -1,9 +1,9 @@
-import React, { memo } from 'react'
-import { Button, Input } from 'antd'
-import { stopPropagation } from 'util/stopPropagation'
-import { debounce } from 'util/debounece'
-import { IChapterReducerAction } from 'reducer/ChaperStudyTree/type/type'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
+import { Button, Input } from 'antd'
+import React, { memo } from 'react'
+import { IChapterReducerAction } from 'reducer/ChaperStudyTree/type/type'
+import { debounce } from 'util/debounece'
+import { stopPropagation } from 'util/stopPropagation'
 
 const ChapterNodeFocusStatus: React.FC<{
   dispatchChapter: React.Dispatch<IChapterReducerAction>

@@ -1,19 +1,21 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { CreateExamRoutePageWrapper } from './CreateExamRoutePageStyle'
-import { FillBlank, Judge, ShortAnswer, SingleChoice } from 'publicComponents/CreateQuestionPage'
-import { QuestionDataWithID, QuestionType } from 'server/fetchExam/types'
-import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
-import styled from 'styled-components'
-import { getQuestionHeader } from '../../../pages/CreateExamPage/util/util'
-import { StateSetter } from '../../../types'
-import { QuestionStatus } from 'publicComponents/CreateQuestionPage/QuestionType/QuestionStatus'
 import { InputNumber } from 'antd'
+import { FillBlank, Judge, ShortAnswer, SingleChoice } from 'publicComponents/CreateQuestionPage'
+import { QuestionStatus } from 'publicComponents/CreateQuestionPage/QuestionType/QuestionStatus'
+import React, { useEffect, useMemo, useState } from 'react'
+import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
+import { QuestionType } from 'server/fetchExam/types'
+import styled from 'styled-components'
+import { getQuestionHeader } from 'pages/CreateExamPage/util/util'
+import { MultipleChoice } from 'publicComponents/CreateQuestionPage/QuestionType/MultipleChoice/MultipleChoice'
+import { StateSetter } from 'types'
+import { CreateExamRoutePageWrapper } from './CreateExamRoutePageStyle'
 
 interface CreateExamRoutePageProps {
   curEdit: IQuestionType
-  curOrder: number
+  curOrder?: number
   setCurEditQuestion: StateSetter<IQuestionType | undefined>
   dispatchQuestionType: React.Dispatch<IQuestionTypeAction>
+  disableHeader?: boolean
 }
 
 export const CreateExamRoutePage = (props: CreateExamRoutePageProps) => {
@@ -24,23 +26,39 @@ export const CreateExamRoutePage = (props: CreateExamRoutePageProps) => {
       return {
         [QuestionType.single]: (
           <SingleChoice
-            config={'single'}
             question={curEdit}
             setCurEditQuestion={setCurEditQuestion}
             dispatchQuestionType={dispatchQuestionType}
           />
         ),
         [QuestionType.multiple]: (
-          <SingleChoice
-            config={'multiple'}
+          <MultipleChoice
             question={curEdit}
             setCurEditQuestion={setCurEditQuestion}
             dispatchQuestionType={dispatchQuestionType}
           />
         ),
-        [QuestionType.shortAnswer]: <ShortAnswer content={curEdit as any as QuestionDataWithID} />,
-        [QuestionType.judge]: <Judge content={curEdit as any as QuestionDataWithID} />,
-        [QuestionType.fillBlank]: <FillBlank content={curEdit as any as QuestionDataWithID} />
+        [QuestionType.shortAnswer]: (
+          <ShortAnswer
+            question={curEdit}
+            setCurEditQuestion={setCurEditQuestion}
+            dispatchQuestionType={dispatchQuestionType}
+          />
+        ),
+        [QuestionType.judge]: (
+          <Judge
+            question={curEdit}
+            setCurEditQuestion={setCurEditQuestion}
+            dispatchQuestionType={dispatchQuestionType}
+          />
+        ),
+        [QuestionType.fillBlank]: (
+          <FillBlank
+            question={curEdit}
+            setCurEditQuestion={setCurEditQuestion}
+            dispatchQuestionType={dispatchQuestionType}
+          />
+        )
       }
     else return {}
   }, [props])
@@ -59,20 +77,24 @@ export const CreateExamRoutePage = (props: CreateExamRoutePageProps) => {
       <ExamRouteHeader>
         {curEdit && (
           <>
-            <span style={{ marginRight: '16px', color: 'black', fontSize: '18px' }}>{curOrder}</span>
+            <span style={{ marginRight: '16px', color: 'black', fontSize: '18px' }}>{curOrder || ''}</span>
             <span style={{ fontSize: '16px', color: '#646873', marginRight: '12px' }}>
               {getQuestionHeader(parseInt(curEdit.questionType))}
             </span>
-            <span style={{ marginRight: '8px' }}>
-              <InputNumber
-                size="middle"
-                min={1}
-                max={100}
-                defaultValue={5}
-                onChange={onChangeScore}
-                value={curNumber}
-              />
-            </span>
+            {curOrder ? (
+              <span style={{ marginRight: '8px' }}>
+                <InputNumber
+                  size="middle"
+                  min={1}
+                  max={100}
+                  defaultValue={5}
+                  onChange={onChangeScore}
+                  value={curNumber}
+                />
+              </span>
+            ) : (
+              <></>
+            )}
             <QuestionStatus
               config={curEdit.isStore ? 'success' : 'processing'}
               title={curEdit.isStore ? '题目已经保存' : '题目未保存'}

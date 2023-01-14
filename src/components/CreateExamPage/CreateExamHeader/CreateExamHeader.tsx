@@ -1,11 +1,11 @@
-import React, { useMemo, useState } from 'react'
 import { Button, Input, notification } from 'antd'
-import { useNavigate, useParams } from 'react-router-dom'
-import styled from 'styled-components'
-import { IQuestionType, IQuestionTypeInitialState } from 'reducer/CreateExamPaper/type/type'
-import { QuestionActionString } from 'server/fetchExam/types'
-import { useUploadExamPaper } from 'server/fetchExam/Teacher'
 import { BaseSpin } from 'baseUI/BaseSpin/BaseSpin'
+import { useMemo, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { IQuestionType, IQuestionTypeInitialState } from 'reducer/CreateExamPaper/type/type'
+import { useUploadExamPaper } from 'server/fetchExam/Teacher'
+import { QuestionActionString } from 'server/fetchExam/types'
+import styled from 'styled-components'
 
 interface CreateExamHeaderProps {
   questionTypeState: IQuestionTypeInitialState<IQuestionType>

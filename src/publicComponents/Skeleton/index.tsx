@@ -1,5 +1,4 @@
 import { Skeleton } from 'antd'
-import { abort } from 'process'
 import styled from 'styled-components'
 
 const Skeletons = (props: {

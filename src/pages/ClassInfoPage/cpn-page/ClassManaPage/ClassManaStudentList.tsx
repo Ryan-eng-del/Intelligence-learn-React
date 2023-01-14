@@ -1,13 +1,14 @@
 import React from 'react'
-import { Avatar, Button, List, Popconfirm, Space, Table } from 'antd'
+import { Button, Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
+import Skeletons from 'publicComponents/Skeleton/index'
+
 import { useDeleteStudent, useShowStudent } from 'server/fetchClass'
 import { StudentList } from 'server/fetchClass/types'
-import Skeletons from 'publicComponents/Skeleton/index'
-import './ClassManaPageMainStyle.css'
+
 
 export const ClassManaStudentList: React.FC<{ class_id: string }> = (props) => {
-  const { data: studentList, isLoading: useShowStudentIsLoading, refetch: useRefetchStudent } = useShowStudent(props.class_id)
+  const { data: studentList, isLoading: useShowStudentIsLoading,refetch:useRefetchStudent } = useShowStudent(props.class_id)
   const { mutate: deleteStudent } = useDeleteStudent(useRefetchStudent)
 
   // const columns: ColumnsType<StudentList> = [

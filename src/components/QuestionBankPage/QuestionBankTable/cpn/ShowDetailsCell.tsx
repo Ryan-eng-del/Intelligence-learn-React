@@ -1,5 +1,5 @@
-import React from 'react'
 import { ShowDetailsCellProps } from 'components/QuestionBankPage/type'
+import React from 'react'
 import { QuestionDetailsWrapper } from '../QuestionBankTableStyle'
 
 export const ShowDetailsCell: React.FC<ShowDetailsCellProps> = ({ editing, record, children, ...restProps }) => {

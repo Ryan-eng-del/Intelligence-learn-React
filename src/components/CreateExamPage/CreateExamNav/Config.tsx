@@ -1,9 +1,7 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { Button, Form, InputNumber, Modal, Popconfirm } from 'antd'
 import React, { useState } from 'react'
-import {
-  QuestionList,
-} from 'server/fetchExam/types'
+import { QuestionList } from 'server/fetchExam/types'
 
 export const Config: React.FC<{
   config: QuestionList[]

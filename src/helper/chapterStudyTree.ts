@@ -1,11 +1,11 @@
 import { QueryClient } from '@tanstack/react-query'
 import { cloneDeepWith } from 'lodash'
-import { ChapterResourceType } from 'server/fetch3rd/fetchChapter/types'
-import { StateSetter } from 'types'
-import { ChapterData } from '../types/server/fetchChapter'
-import { ChapterInitNode, ChapterTreeData, ChildChapter, ClassTimeInitNode } from '../hook/useChapterStudy/type'
 import React from 'react'
 import { IChapterReducerAction } from 'reducer/ChaperStudyTree/type/type'
+import { ChapterResourceType } from 'server/fetch3rd/fetchChapter/types'
+import { StateSetter } from 'types'
+import { ChapterInitNode, ChapterTreeData, ChildChapter, ClassTimeInitNode } from '../hook/useChapterStudy/type'
+import { ChapterData } from '../types/server/fetchChapter'
 /* 寻找要刪除的树的章节目录节点 */
 export const deleteTreeNode = (data: any[], id: string, queryClient: QueryClient, courseId: string) => {
   const deepCloneData = cloneDeepWith(data)
@@ -50,7 +50,6 @@ export const deleteResource = (data: ChapterTreeData[], id: string, queryClient:
 }
 /* 删除课时 */
 export const deleteTreeContent = (data: ChapterTreeData[], id: string, queryClient: QueryClient, courseId: string) => {
-  console.log(courseId, 'Id')
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: ChapterTreeData[]) => {
     if (!data) return
@@ -100,7 +99,6 @@ export const updateChapterTreeQueryCache = (
 ) => {
   const queryTreeData: ChapterData[] | undefined = queryClient.getQueryData(['chapterTree', courseId])
   const newQueryTreeData = queryTreeData ? updaterFun(queryTreeData!) : 0
-  console.log(queryTreeData, 'data')
   queryClient.setQueryData(['chapterTree', courseId], newQueryTreeData)
 }
 
