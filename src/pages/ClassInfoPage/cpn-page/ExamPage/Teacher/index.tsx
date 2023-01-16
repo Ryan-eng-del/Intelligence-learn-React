@@ -1,22 +1,52 @@
-import { AreaChartOutlined, ArrowRightOutlined, DeliveredProcedureOutlined } from '@ant-design/icons'
-import { Button, Space, Table } from 'antd'
+import { AreaChartOutlined, ArrowRightOutlined, DeliveredProcedureOutlined, UserAddOutlined } from '@ant-design/icons'
+import { Button, DatePicker, Drawer, Modal, Radio, Space, Table, Tree } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-
-import { PublishPanel } from 'publicComponents/ExamPage/PublishPanel/PublishPanel'
+import { TreeSelected } from 'components/ClassInfoPage/KnowledgePage/KnowledgeTree/cpn/TreeSelected'
+import dayjs from 'dayjs'
 import { StatisticsPanel } from 'publicComponents/ExamPage/StatisticsPanel/StatisticsPanel'
-import { useGetPaperTarget, useShowExamList } from 'server/fetchExam'
-import { ExamListItem } from 'server/fetchExam/types'
 import Skeletons from 'publicComponents/Skeleton/index'
+import React, { Key, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useGetPaperTarget, useReleaseExam, useReleaseHomework, useShowExamList } from 'server/fetchExam'
+import { ExamListItem } from 'server/fetchExam/types'
+import styled from 'styled-components'
+import { useImmer } from 'use-immer'
+import { ClassList } from '../../../../../publicComponents/ExamPage/types/index'
+const { TreeNode } = Tree
+const { RangePicker } = DatePicker
+const StudentListWrapper = styled.div`
+  height: 427px;
+`
+const ExamListWrapper = styled.div``
 
 export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
   const { data, isLoading } = useShowExamList(courseId)
-  const { data: paperTarget } = useGetPaperTarget(courseId)
+  const { data: publishTarget } = useGetPaperTarget(courseId)
+  console.log(publishTarget, 'data_stu')
+
   const navigate = useNavigate()
   const [statistics, setStatistics] = useState(false)
-  const [publish, setPublish] = useState(false)
-  const [paper_id, setPaperId] = useState('')
+  const initialExamPublish = {
+    publishModalVisible: false,
+    paperId: '',
+    stuLen: 0,
+    stuListModalVisible: false,
+    distributeWay: 1,
+    paperName: '',
+    startTime: '',
+    endTime: ''
+  }
+  const initialStuTreeSelect = { expandKeys: [], checkedKeys: [] }
+
+  const [examPublish, setExamPublish] = useImmer(initialExamPublish)
+
+  const [stuTreeSelect, setStuTreeSelect] = useImmer<{ expandKeys: string[]; checkedKeys: string[] }>(
+    initialStuTreeSelect
+  )
+
+  const { mutate: releaseExam } = useReleaseExam()
+
+  const { mutate: releaseHomework } = useReleaseHomework()
 
   const columns: ColumnsType<ExamListItem> = [
     {
@@ -41,8 +71,11 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
             <Button
               icon={<DeliveredProcedureOutlined />}
               onClick={() => {
-                setPaperId(record.paperId)
-                setPublish(true)
+                setExamPublish((draft) => {
+                  draft.paperId = record.paperId
+                  draft.publishModalVisible = true
+                  draft.paperName = record.paperName
+                })
               }}
             >
               发布
@@ -56,20 +89,179 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
     }
   ]
 
+  const checkStudent = (e: any) => {
+    setStuTreeSelect((draft) => {
+      draft.checkedKeys = [...e.checked]
+    })
+  }
+
+  const onClose = () => {
+    setExamPublish((draft) => {
+      draft.publishModalVisible = false
+    })
+  }
+
+  const completeChooseStu = () => {
+    setExamPublish((draft) => {
+      draft.stuListModalVisible = false
+      draft.stuLen = stuTreeSelect.checkedKeys.length
+    })
+  }
+
+  const changeDistributeWay = (e: any) => {
+    setExamPublish((draft) => {
+      draft.distributeWay = e.target.value
+    })
+  }
+
+  /*点击选择树进行展开和收缩*/
+  const handleRelateExpand = (id: Key[], info: any) => {
+    let key = info.node.key
+    if (!info.node.expanded) {
+      key = info.node.key
+      setStuTreeSelect((draft) => {
+        draft.expandKeys.push(key)
+      })
+    } else {
+      key = info.node.key
+      setStuTreeSelect((draft) => {
+        draft.expandKeys = draft.expandKeys.filter((v) => v != key)
+      })
+    }
+  }
+
+  const dateFormat = 'YYYY-MM-DD HH:mm:ss'
+
+  const confirmPublish = () => {
+    const isImmediate = examPublish.distributeWay === 1
+
+    try {
+      releaseExam({
+        paper_id: examPublish.paperId,
+        student_ids: stuTreeSelect.checkedKeys,
+        start_time: isImmediate ? dayjs(new Date()).format(dateFormat) : examPublish.startTime,
+        end_time: examPublish.endTime
+      })
+    } catch (err) {
+    } finally {
+      setExamPublish(initialExamPublish)
+      setStuTreeSelect(initialStuTreeSelect)
+    }
+  }
+
+  const getStudentListTreeData = () => {
+    return publishTarget?.classList.map((classList: ClassList, index) => {
+      let stuList
+      if (classList.studentList && classList.studentList.length) {
+        stuList = classList.studentList.map((stu) => {
+          return <TreeNode title={stu.studentName} key={stu.studentId}></TreeNode>
+        })
+      }
+      return (
+        <TreeNode title={classList.className} key={index} checkable={false}>
+          {stuList}
+        </TreeNode>
+      )
+    })
+  }
+
   return isLoading ? (
     <Skeletons size="middle" />
   ) : (
-    <>
+    <ExamListWrapper>
       <Table columns={columns} dataSource={data!} rowKey="paperId" />
       <StatisticsPanel visible={statistics} close={() => setStatistics(false)} />
-      <PublishPanel
-        visible={publish}
+
+      <Drawer
+        title={`${examPublish.paperName}`}
+        placement="right"
+        size={'large'}
+        onClose={onClose}
+        visible={examPublish.publishModalVisible}
+        mask={false}
+        extra={
+          <Button type="primary" onClick={confirmPublish}>
+            点击发布
+          </Button>
+        }
+      >
+        <div>
+          <Button
+            icon={<UserAddOutlined />}
+            onClick={() =>
+              setExamPublish((draft) => {
+                draft.stuListModalVisible = true
+              })
+            }
+          >
+            发放对象
+          </Button>
+          <span style={{ marginLeft: '12px ' }}>已经选择了 {examPublish.stuLen} 位学生</span>
+        </div>
+        <div style={{ margin: '12px 0' }}>
+          <span>发放时间：</span>
+          <Radio.Group onChange={changeDistributeWay} value={examPublish.distributeWay}>
+            <Radio value={1}>立即发放</Radio>
+            <Radio value={2}>定时发放</Radio>
+          </Radio.Group>
+
+          <DatePicker
+            format={dateFormat}
+            onChange={(_, d) => {
+              setExamPublish((draft) => {
+                draft.startTime = d
+              })
+            }}
+            showTime
+            style={{ opacity: examPublish.distributeWay === 1 ? 0 : 1 }}
+          />
+        </div>
+
+        <div style={{ margin: '12px 0' }}>
+          <span>截至时间：</span>
+          <DatePicker
+            format={dateFormat}
+            onChange={(_, d) => {
+              setExamPublish((draft) => {
+                draft.endTime = d
+              })
+            }}
+            showTime
+          />
+        </div>
+      </Drawer>
+
+      <Modal
+        visible={examPublish.stuListModalVisible}
+        onCancel={() =>
+          setExamPublish((draft) => {
+            draft.stuListModalVisible = false
+          })
+        }
+        title="学生列表"
+        onOk={completeChooseStu}
+      >
+        <StudentListWrapper>
+          <TreeSelected
+            checkTreeData={getStudentListTreeData()}
+            relateKeys={stuTreeSelect.expandKeys}
+            handleRelateCheck={checkStudent}
+            handleRelateExpand={handleRelateExpand}
+            curCheckId={stuTreeSelect.checkedKeys}
+          />
+        </StudentListWrapper>
+      </Modal>
+
+      {/* <PublishPanel
+        visible={examPublish.publishModalVisible}
         close={() => {
-          setPublish(false)
+          setExamPublish((draft) => {
+            draft.publishModalVisible = false
+          })
         }}
         studentTree={paperTarget!}
-        paperId={paper_id}
-      />
-    </>
+        paperId={examPublish.paperId}
+      /> */}
+    </ExamListWrapper>
   )
 }

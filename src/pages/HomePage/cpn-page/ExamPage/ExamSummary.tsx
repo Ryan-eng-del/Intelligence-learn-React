@@ -1,14 +1,17 @@
-import { Button, Table } from 'antd'
+import { Button } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
+import { useUserInfo } from 'context/UserInfoContext'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useGetStuExam } from 'server/fetchExam'
 
 const statusType = {
   undone: '未提交',
   Correcting: '待批改'
 }
+
 type TableType = {
   key: string
   Course: string
@@ -58,36 +61,25 @@ const ExamSummary: React.FC = () => {
         )
     }
   ]
-  const data: TableType[] = [
-    {
-      key: '1',
-      Course: '马原',
-      name: '期末论文',
-      status: 0,
-      deadline: '2022-9-10 00:00'
-    },
-    {
-      key: '2',
-      Course: '毛概',
-      name: '期中考试',
-      status: 1,
-      deadline: '2022-9-10 00:00'
-    },
-    {
-      key: '3',
-      Course: '离散数学',
-      name: '第一章作业',
-      status: 70,
-      deadline: '2022-9-10 00:00'
-    }
-  ]
+
+  const { userInfo } = useUserInfo()
+
+  const { data } = useGetStuExam(userInfo?.name || 'userName_refresh')
+
+  // const data = useGetExam()
+
+  console.log(data, 'data')
+
+  /* 撤销发布试卷 */
+  // client.delete({ url: '/paper/teacher/revoke/1559401362804965379' }).then(() => {
+  //   console.log('success')
+  // })
 
   return (
     <>
       <GlobalHeader title="作业和考试"></GlobalHeader>
-      <GlobalRightLayout>
-        <Table columns={columns} dataSource={data} pagination={false} />
-      </GlobalRightLayout>
+
+      <GlobalRightLayout>{/* <Table columns={columns} dataSource={data} pagination={false} /> */}</GlobalRightLayout>
     </>
   )
 }

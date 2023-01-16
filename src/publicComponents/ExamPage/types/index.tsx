@@ -1,10 +1,12 @@
 export interface paperTarget {
-  classList: {
-    className: string
-    studentList: {
-      studentId: string
-      studentName: string
-    }[]
+  classList: ClassList[]
+}
+
+export interface ClassList {
+  className: string
+  studentList: {
+    studentId: string
+    studentName: string
   }[]
 }
 
@@ -23,7 +25,7 @@ export interface PublishExamType {
   /**
    * 结束时间
    */
-  endTime?: any
+  end_time?: any
   /**
    * 是否允许补交
    */
@@ -63,7 +65,7 @@ export interface PublishExamType {
   /**
    * 试卷id
    */
-  paperId: string
+  paper_id: string
   /**
    * 及格分数
    */
@@ -75,18 +77,18 @@ export interface PublishExamType {
   /**
    * 开始时间
    */
-  startTime?: any
+  start_time?: any
   /**
    * 发放学生
    */
-  studentIds: string[]
+  student_ids: string[]
 }
 
 export interface PublishHomeworkType {
   /**
    * 结束时间
    */
-  endTime?: string
+  end_time?: string
   /**
    * 是否允许重做
    */
@@ -102,7 +104,7 @@ export interface PublishHomeworkType {
   /**
    * 试卷id
    */
-  paperId: string
+  paper_id: string
   /**
    * 重做次数
    */
@@ -110,9 +112,9 @@ export interface PublishHomeworkType {
   /**
    * 开始时间
    */
-  startTime?: string
+  start_time?: string
   /**
    * 学生id集合
    */
-  studentIds: string[]
+  student_ids: string[]
 }

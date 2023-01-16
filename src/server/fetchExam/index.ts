@@ -123,12 +123,14 @@ export const useGetPaperTarget = (courseId: string) => {
 /** 发布试卷 */
 export const useReleaseExam = () => {
   return useMutation((data: PublishExamType) => {
+    debugger
     return client.post({
       url: '/paper/teacher/release-exam',
       data
     })
-  }, MutationMsg('提交'))
+  }, MutationMsg('发布试卷'))
 }
+
 export const useReleaseHomework = () => {
   return useMutation((data: PublishHomeworkType) => {
     return client.post({
@@ -136,4 +138,13 @@ export const useReleaseHomework = () => {
       data
     })
   }, MutationMsg('发布试卷'))
+}
+
+/* 获取学生考试 */
+export const useGetStuExam = (id: string) => {
+  return useQuery(['stu/exams', id], () => {
+    return client.get({
+      url: '/paper/stu/exams'
+    })
+  })
 }
