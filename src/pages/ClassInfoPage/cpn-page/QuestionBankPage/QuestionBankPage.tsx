@@ -9,7 +9,7 @@ import { useShowCreateQuestion } from 'server/fetchExam'
 import { config } from 'server/fetchExam/config'
 import { Item, QuestionType } from 'server/fetchExam/types'
 import { isTeachAuth } from 'util/isAuthTeach'
-import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/index'
+import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/style'
 
 const QuestionBankPage: React.FC = () => {
   const { classInfo, getCurCourseInfo } = useCurrentClassInfo()

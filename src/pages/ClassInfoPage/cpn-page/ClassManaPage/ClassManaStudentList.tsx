@@ -1,16 +1,18 @@
-import React from 'react'
-import { Avatar, Button, List, Popconfirm, Space, Table } from 'antd'
-import type { ColumnsType } from 'antd/es/table'
+import { Avatar, Button, List, Popconfirm } from 'antd'
+import { useUserInfo } from 'context/UserInfoContext'
 import Skeletons from 'publicComponents/Skeleton/index'
+import React from 'react'
 
 import { useDeleteStudent, useShowStudent } from 'server/fetchClass'
-import { StudentList } from 'server/fetchClass/types'
-
 
 export const ClassManaStudentList: React.FC<{ class_id: string }> = (props) => {
-  const { data: studentList, isLoading: useShowStudentIsLoading,refetch:useRefetchStudent } = useShowStudent(props.class_id)
+  const {
+    data: studentList,
+    isLoading: useShowStudentIsLoading,
+    refetch: useRefetchStudent
+  } = useShowStudent(props.class_id)
   const { mutate: deleteStudent } = useDeleteStudent(useRefetchStudent)
-
+  const { showUserCard } = useUserInfo()
   // const columns: ColumnsType<StudentList> = [
   //   {
   //     title: '姓名',
@@ -53,13 +55,13 @@ export const ClassManaStudentList: React.FC<{ class_id: string }> = (props) => {
   ) : (
     <List
       itemLayout="horizontal"
-      size='small'
+      size="small"
       dataSource={studentList}
       renderItem={(item) => (
-        <List.Item className='listItem' style={{ padding: '0px' }}>
-          <div className='listItemDiv'>
-            <div className='listItemDivHead'>
-              <Avatar size={65} src='\src\assets\img\pyy.png' style={{ marginLeft: '30px', margin: '10px' }} />
+        <List.Item className="listItem" style={{ padding: '0px' }}>
+          <div className="listItemDiv">
+            <div className="listItemDivHead" onClick={showUserCard!}>
+              <Avatar size={65} src="\src\assets\img\pyy.png" style={{ marginLeft: '30px', margin: '10px' }} />
               <div>
                 <h2 style={{ marginBottom: '0px', marginTop: '20px', fontWeight: 'bold' }}>{item.name}</h2>
                 <p style={{ alignItems: 'baseline' }}>联系方式:{item.mobile}</p>
@@ -69,14 +71,15 @@ export const ClassManaStudentList: React.FC<{ class_id: string }> = (props) => {
               placement="top"
               title="确认删除吗"
               okText="确定"
-              onConfirm={() => {
+              onConfirm={(e) => {
+                e?.stopPropagation()
                 const classId = props.class_id
                 const userId = item.userId
                 deleteStudent({ classId, userId })
               }}
               cancelText="取消"
             >
-              <Button type='primary' danger className='deleteStudentButton'>
+              <Button type="primary" danger className="deleteStudentButton">
                 删除
               </Button>
             </Popconfirm>

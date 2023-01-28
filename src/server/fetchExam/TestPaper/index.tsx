@@ -37,7 +37,7 @@ export const useDeleteTestPaper = () => {
 
 /** 学生获取到试卷列表 */
 export const useShowExamListPublished = (courseID: string) => {
-  return useQuery([`ExamListS-${courseID}`], async () => {
+  return useQuery([`ExamListStuExam-${courseID}`], async () => {
     return client.get<ExamListItem[]>({
       url: `/paper/stu/exams`,
       params: {
@@ -49,7 +49,7 @@ export const useShowExamListPublished = (courseID: string) => {
 
 /** 学生获取到作业列表 */
 export const useHomeWorkListPublished = (courseID: string) => {
-  return useQuery([`ExamListS-${courseID}`], async () => {
+  return useQuery([`ExamListStuHomework-${courseID}`], async () => {
     return client.get<any[]>({
       url: `/paper/stu/homeworks`,
       params: {
@@ -62,8 +62,15 @@ export const useHomeWorkListPublished = (courseID: string) => {
 /** 学生获取到试卷 */
 export const useShowQuestionForStudent = (id: string) => {
   return useQuery([`paperdoing-${id}`], () => {
+    console.log('zzz')
     return client.get<StudentPaper>({
-      url: `/paper/stu/paper-detail/${id}`
+      url: `/paper/stu/paper-detail/${id}`,
+      params: {
+        paperId: id
+      },
+      data: {
+        paperId: id
+      }
     })
   })
 }

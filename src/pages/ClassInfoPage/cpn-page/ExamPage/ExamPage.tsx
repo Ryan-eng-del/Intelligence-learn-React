@@ -1,6 +1,6 @@
 import { PrimaryButton } from 'publicComponents/Button/index'
 import { GlobalHeader } from 'publicComponents/GlobalHeader'
-import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
+import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
 import { Suspense } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { isTeachAuth } from 'util/isAuthTeach'

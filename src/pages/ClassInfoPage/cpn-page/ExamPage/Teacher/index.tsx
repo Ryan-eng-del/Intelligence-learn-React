@@ -1,9 +1,11 @@
 import { AreaChartOutlined, ArrowRightOutlined, DeliveredProcedureOutlined, UserAddOutlined } from '@ant-design/icons'
 import { Button, DatePicker, Drawer, Modal, Radio, Space, Table, Tree } from 'antd'
+import { message } from 'antd/es'
 import type { ColumnsType } from 'antd/es/table'
 import { TreeSelected } from 'components/ClassInfoPage/KnowledgePage/KnowledgeTree/cpn/TreeSelected'
 import dayjs from 'dayjs'
 import { StatisticsPanel } from 'publicComponents/ExamPage/StatisticsPanel/StatisticsPanel'
+import { ClassList } from 'publicComponents/ExamPage/types/index'
 import Skeletons from 'publicComponents/Skeleton/index'
 import React, { Key, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -12,8 +14,9 @@ import { ExamListItem } from 'server/fetchExam/types'
 import styled from 'styled-components'
 import { useImmer } from 'use-immer'
 import { BaseSpin } from '../../../../../baseUI/BaseSpin/BaseSpin'
-import { ClassList } from '../../../../../publicComponents/ExamPage/types/index'
+
 const { TreeNode } = Tree
+
 const StudentListWrapper = styled.div`
   height: 427px;
 `
@@ -137,12 +140,16 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
     const isImmediate = examPublish.distributeWay === 1
 
     try {
-      releaseExam({
-        paper_id: examPublish.paperId,
-        student_ids: stuTreeSelect.checkedKeys,
-        start_time: isImmediate ? dayjs(new Date()).format(dateFormat) : examPublish.startTime,
-        end_time: examPublish.endTime
-      })
+      if (stuTreeSelect.checkedKeys.length > 0) {
+        releaseExam({
+          paper_id: examPublish.paperId,
+          student_ids: stuTreeSelect.checkedKeys,
+          start_time: isImmediate ? dayjs(new Date()).format(dateFormat) : examPublish.startTime,
+          end_time: examPublish.endTime
+        })
+      } else {
+        message.error('请选择学生')
+      }
     } catch (err) {
     } finally {
       setExamPublish(initialExamPublish)

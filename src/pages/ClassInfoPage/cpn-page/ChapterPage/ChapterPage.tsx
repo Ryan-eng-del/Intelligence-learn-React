@@ -2,7 +2,7 @@ import { ChapterStudyTree } from 'components/ClassInfoPage/ChapterPage/ChapterSt
 import { useChapterUI } from 'hook/useChapterStudy/useChapterUI'
 import { PrimaryButton } from 'publicComponents/Button'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
-import { GlobalRightLayout } from 'publicComponents/GlobalLayout'
+import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
 import Skeletons from 'publicComponents/Skeleton/index'
 import React, { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'

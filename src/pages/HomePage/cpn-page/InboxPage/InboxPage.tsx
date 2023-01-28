@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons'
 import { Badge, Button, List, Tabs, Typography } from 'antd'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
-import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
+import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
 import React, { useState } from 'react'
 import { ContactModal } from './Contact/ContactModal'
 import { ReadOnlyModal } from './Contact/ReadOnlyModal'

@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import { Button, Segmented, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { useNavigate } from 'react-router-dom'
-import { useHomeWorkListPublished } from 'server/fetchExam/TestPaper'
+import { useHomeWorkListPublished, useShowExamListPublished } from 'server/fetchExam/TestPaper'
 
 enum statusType {
   'undone' = '未提交',
@@ -24,7 +24,9 @@ export const StudentExamPage: React.FC<{
   classId: string
 }> = ({ classId }) => {
   const navigate = useNavigate()
-  const { data } = useHomeWorkListPublished(classId)
+  const { data: dataH } = useHomeWorkListPublished(classId)
+  const { data: dataE } = useShowExamListPublished(classId)
+  const data = useMemo(() => (dataH && dataE ? [...dataE!, ...dataH!] : []), [dataH, dataE])
   const columns: ColumnsType<TableType> = [
     {
       key: '1',

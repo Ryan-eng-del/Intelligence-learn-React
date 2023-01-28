@@ -51,7 +51,7 @@ class Request {
         .request<any, Data<T>>(config)
         .then((res) => {
           if (res.code != '200') {
-            GlobalMessage('info', `${DEBUGINFO}${res.code}  | ${res.msg}`)
+            GlobalMessage('error', `${DEBUGINFO}${res.code}  | ${res.msg}`)
             reject(res.msg)
           } else {
           }

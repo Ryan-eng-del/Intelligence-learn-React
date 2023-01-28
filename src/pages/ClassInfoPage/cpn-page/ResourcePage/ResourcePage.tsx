@@ -1,6 +1,6 @@
 import { PrimaryButton } from 'publicComponents/Button'
 import { GlobalHeader } from 'publicComponents/GlobalHeader'
-import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
+import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
 import React, { useState } from 'react'
 import { useShowResourceList } from 'server/fetchCourseResource'
 import Skeletons from '../../../../publicComponents/Skeleton/index'
