@@ -7,6 +7,7 @@ export interface ClassList {
   studentList: {
     studentId: string
     studentName: string
+    isReleased: 0 | 1
   }[]
 }
 

@@ -1,6 +1,6 @@
 export let baseURL = ''
 if (process.env.NODE_ENV === 'production') {
-  baseURL = 'http://43.139.104.227:8089'
+  baseURL = 'http://43.139.194.209:8088'
 } else if (process.env.NODE_ENV === 'development') {
   // baseURL = 'http://10.0.11.88:8089' // 内部测试环境
   // baseURL = 'https://mock.apifox.cn/m1/792185-0-default'

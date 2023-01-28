@@ -11,9 +11,9 @@ import { useGetPaperTarget, useReleaseExam, useReleaseHomework, useShowExamList 
 import { ExamListItem } from 'server/fetchExam/types'
 import styled from 'styled-components'
 import { useImmer } from 'use-immer'
+import { BaseSpin } from '../../../../../baseUI/BaseSpin/BaseSpin'
 import { ClassList } from '../../../../../publicComponents/ExamPage/types/index'
 const { TreeNode } = Tree
-const { RangePicker } = DatePicker
 const StudentListWrapper = styled.div`
   height: 427px;
 `
@@ -21,8 +21,8 @@ const ExamListWrapper = styled.div``
 
 export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
   const { data, isLoading } = useShowExamList(courseId)
-  const { data: publishTarget } = useGetPaperTarget(courseId)
-  console.log(publishTarget, 'data_stu')
+
+  const { data: publishTarget, mutateAsync: getPublishTarget } = useGetPaperTarget(courseId)
 
   const navigate = useNavigate()
   const [statistics, setStatistics] = useState(false)
@@ -43,7 +43,7 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
   const [stuTreeSelect, setStuTreeSelect] = useImmer<{ expandKeys: string[]; checkedKeys: string[] }>(
     initialStuTreeSelect
   )
-
+  console.log(publishTarget, 'target')
   const { mutate: releaseExam } = useReleaseExam()
 
   const { mutate: releaseHomework } = useReleaseHomework()
@@ -71,6 +71,7 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
             <Button
               icon={<DeliveredProcedureOutlined />}
               onClick={() => {
+                getPublishTarget(record.paperId)
                 setExamPublish((draft) => {
                   draft.paperId = record.paperId
                   draft.publishModalVisible = true
@@ -154,7 +155,7 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
       let stuList
       if (classList.studentList && classList.studentList.length) {
         stuList = classList.studentList.map((stu) => {
-          return <TreeNode title={stu.studentName} key={stu.studentId}></TreeNode>
+          return <TreeNode checkable={!stu.isReleased} title={stu.studentName} key={stu.studentId}></TreeNode>
         })
       }
       return (
@@ -242,13 +243,17 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
         onOk={completeChooseStu}
       >
         <StudentListWrapper>
-          <TreeSelected
-            checkTreeData={getStudentListTreeData()}
-            relateKeys={stuTreeSelect.expandKeys}
-            handleRelateCheck={checkStudent}
-            handleRelateExpand={handleRelateExpand}
-            curCheckId={stuTreeSelect.checkedKeys}
-          />
+          {publishTarget ? (
+            <TreeSelected
+              checkTreeData={getStudentListTreeData()}
+              relateKeys={stuTreeSelect.expandKeys}
+              handleRelateCheck={checkStudent}
+              handleRelateExpand={handleRelateExpand}
+              curCheckId={stuTreeSelect.checkedKeys}
+            />
+          ) : (
+            <BaseSpin size="large" />
+          )}
         </StudentListWrapper>
       </Modal>
 

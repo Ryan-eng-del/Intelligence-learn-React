@@ -110,11 +110,12 @@ export const useSubmitQuestion = () => {
 
 /** 发布页面获取学生列表 */
 export const useGetPaperTarget = (courseId: string) => {
-  return useQuery([`paperTarget-${courseId}`], () => {
+  return useMutation([`paperTarget-${courseId}`], (paperId: string) => {
     return client.get<paperTarget>({
       url: `/paper/teacher/get-target`,
       params: {
-        courseId
+        courseId,
+        paperId
       }
     })
   })
