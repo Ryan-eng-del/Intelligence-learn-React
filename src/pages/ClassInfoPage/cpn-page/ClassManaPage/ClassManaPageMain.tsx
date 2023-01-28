@@ -1,18 +1,16 @@
-
-import { ShareAltOutlined } from '@ant-design/icons'
-import { Badge, Button, Card, Col, Input, List, message, Modal, Popconfirm, Row, Space, Typography } from 'antd'
+import { Button, Input, List, message, Modal, Popconfirm, Typography } from 'antd'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { PrimaryButton } from 'publicComponents/Button'
 import { GlobalHeader } from 'publicComponents/GlobalHeader'
-import { GlobalRightLayout } from 'publicComponents/GlobalLayout'
+import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
 import Skeletons from 'publicComponents/Skeleton'
 import React, { useState } from 'react'
 import { useCreateNewClass, useDeleteClass, useReName } from 'server/fetchClass'
 import { ClassList } from 'server/fetchClass/types'
 import { isTeachAuth } from 'util/isAuthTeach'
+import './ClassManaPageMainStyle.css'
 import { ClassManaStudentList } from './ClassManaStudentList'
-import "./ClassManaPageMainStyle.css"
 export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolean }> = ({ classList, isLoading }) => {
   const [input, setInput] = useState('')
   const [vis, setVis] = useState(false)
@@ -50,6 +48,7 @@ export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolea
         {/* 班级详情 */}
         {show && (
           <Modal
+          zIndex={1}
             title={
               renameState ? (
                 <BaseLoading />
@@ -117,23 +116,35 @@ export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolea
             <List
               size="large"
               dataSource={classList}
-              renderItem={(item) => <List.Item className='ClassListItem'>
-                <div>
-                  <div style={{ fontWeight: "bold", fontSize: "large" }}>
-                    {item.class_name}
+              renderItem={(item) => (
+                <List.Item className="ClassListItem">
+                  <div>
+                    <div style={{ fontWeight: 'bold', fontSize: 'large' }}>{item.class_name}</div>
+                    <div style={{ fontSize: 'small', fontWeight: 'bold', color: 'gray' }}>
+                      学生人数:{item.student_number}
+                    </div>
                   </div>
-                  <div style={{ fontSize: 'small', fontWeight: 'bold', color: 'gray' }}>
-                    学生人数:{item.student_number}
+                  <div style={{ position: 'absolute', display: 'flex', flexDirection: 'row', left: '50%' }}>
+                    <div
+                      className="operate"
+                      onClick={() => {
+                        setShow(item), setVis(true)
+                      }}
+                    >
+                      管理班级
+                    </div>
+                    <div
+                      className="operate"
+                      onClick={() => {
+                        share(item.class_invitation_code)
+                      }}
+                    >
+                      复制邀请码
+                    </div>
                   </div>
-                </div>
-                <div style={{ position: 'absolute', display: 'flex', flexDirection: 'row', left: '50%' }}>
-                  <div className='operate' onClick={() => { setShow(item), setVis(true) }}>管理班级</div>
-                  <div className='operate' onClick={() => { share(item.class_invitation_code) }}>复制邀请码</div>
-                </div>
-                <div style={{ color: 'gray', fontWeight: 'bold' }}>
-                  邀请码:{item.class_invitation_code}
-                </div>
-              </List.Item>}
+                  <div style={{ color: 'gray', fontWeight: 'bold' }}>邀请码:{item.class_invitation_code}</div>
+                </List.Item>
+              )}
             />
           )}
         </GlobalRightLayout>

@@ -18,7 +18,7 @@ export const GlobalHeader = (props: GlobalHeaderProps) => {
         <>
           <Breadcrumb separator="/">
             <Breadcrumb.Item onClick={() => navigate('/home/teach')}>
-              <HomeOutlined />
+              <HomeOutlined className="cursor" />
             </Breadcrumb.Item>
             {prefix.identify ? (
               prefix.identify == 'MyTeach' ? (
@@ -41,6 +41,10 @@ export const GlobalHeader = (props: GlobalHeaderProps) => {
 }
 
 const RightLayoutHeaderWrapper = styled.div`
+  .cursor {
+    cursor: pointer;
+  }
+  user-select: none;
   height: 80px;
   border-bottom: rgb(230, 230, 230) 2px solid;
   display: flex;

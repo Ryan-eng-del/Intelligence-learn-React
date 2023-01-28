@@ -123,7 +123,6 @@ export const useGetPaperTarget = (courseId: string) => {
 /** 发布试卷 */
 export const useReleaseExam = () => {
   return useMutation((data: PublishExamType) => {
-    debugger
     return client.post({
       url: '/paper/teacher/release-exam',
       data

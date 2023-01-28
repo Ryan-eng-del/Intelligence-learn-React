@@ -1,7 +1,7 @@
 import { KnowledgeTree } from 'components/ClassInfoPage/KnowledgePage/KnowledgeTree/KnowledgeTree'
 import { useKnowledgeUI } from 'hook/useKnowledge/useKnowledgeUI'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
-import { GlobalRightLayout } from 'publicComponents/GlobalLayout/index'
+import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
