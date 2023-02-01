@@ -62,7 +62,7 @@ export interface PublishExamType {
   /**
    * 限制时间
    */
-  limitTime?: number
+  limit_time?: number
   /**
    * 试卷id
    */

@@ -1,5 +1,5 @@
 import { AreaChartOutlined, ArrowRightOutlined, DeliveredProcedureOutlined, UserAddOutlined } from '@ant-design/icons'
-import { Button, DatePicker, Drawer, Modal, Radio, Space, Table, Tree } from 'antd'
+import { Button, DatePicker, Drawer, InputNumber, Modal, Radio, Space, Table, Tree } from 'antd'
 import { message } from 'antd/es'
 import type { ColumnsType } from 'antd/es/table'
 import { TreeSelected } from 'components/ClassInfoPage/KnowledgePage/KnowledgeTree/cpn/TreeSelected'
@@ -37,7 +37,8 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
     distributeWay: 1,
     paperName: '',
     startTime: '',
-    endTime: ''
+    endTime: '',
+    limitTime: 45
   }
   const initialStuTreeSelect = { expandKeys: [], checkedKeys: [] }
 
@@ -139,16 +140,21 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
   const confirmPublish = () => {
     const isImmediate = examPublish.distributeWay === 1
 
+    const isPass = () => {
+      return stuTreeSelect.checkedKeys.length > 0 && examPublish.endTime && examPublish.limitTime && examPublish.stuLen
+    }
+
     try {
-      if (stuTreeSelect.checkedKeys.length > 0) {
+      if (isPass()) {
         releaseExam({
           paper_id: examPublish.paperId,
           student_ids: stuTreeSelect.checkedKeys,
           start_time: isImmediate ? dayjs(new Date()).format(dateFormat) : examPublish.startTime,
-          end_time: examPublish.endTime
+          end_time: examPublish.endTime,
+          limit_time: examPublish.limitTime
         })
       } else {
-        message.error('请选择学生')
+        message.info('请填写完所有必填的信息！')
       }
     } catch (err) {
     } finally {
@@ -171,6 +177,10 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
         </TreeNode>
       )
     })
+  }
+
+  const changeExamNumber = (e: number) => {
+    setExamPublish((draft) => (draft.limitTime = e))
   }
 
   return isLoading ? (
@@ -221,7 +231,7 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
               })
             }}
             showTime
-            style={{ opacity: examPublish.distributeWay === 1 ? 0 : 1 }}
+            style={{ display: examPublish.distributeWay === 1 ? 'none' : 'block' }}
           />
         </div>
 
@@ -236,6 +246,18 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
             }}
             showTime
           />
+        </div>
+
+        <div style={{ margin: '12px 0' }}>
+          <span>考试时间：</span>
+          <InputNumber
+            size="large"
+            min={1}
+            max={100000}
+            defaultValue={examPublish.limitTime}
+            onChange={changeExamNumber}
+          />
+          <span style={{ marginLeft: '12px' }}>分钟</span>
         </div>
       </Drawer>
 
@@ -263,17 +285,6 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
           )}
         </StudentListWrapper>
       </Modal>
-
-      {/* <PublishPanel
-        visible={examPublish.publishModalVisible}
-        close={() => {
-          setExamPublish((draft) => {
-            draft.publishModalVisible = false
-          })
-        }}
-        studentTree={paperTarget!}
-        paperId={examPublish.paperId}
-      /> */}
     </ExamListWrapper>
   )
 }
