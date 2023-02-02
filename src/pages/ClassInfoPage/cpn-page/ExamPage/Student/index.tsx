@@ -1,7 +1,9 @@
 import React, { useMemo } from 'react'
 
-import { Button, Segmented, Table } from 'antd'
+import { Button, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
+import dayjs from 'dayjs'
+import Skeletons from 'publicComponents/Skeleton/index'
 import { useNavigate } from 'react-router-dom'
 import { useHomeWorkListPublished, useShowExamListPublished } from 'server/fetchExam/TestPaper'
 
@@ -25,8 +27,10 @@ export const StudentExamPage: React.FC<{
 }> = ({ classId }) => {
   const navigate = useNavigate()
   const { data: dataH } = useHomeWorkListPublished(classId)
-  const { data: dataE } = useShowExamListPublished(classId)
+  const { data: dataE, isLoading } = useShowExamListPublished(classId)
+  console.log(dataH, dataE, 'dataH', 'dataE')
   const data = useMemo(() => (dataH && dataE ? [...dataE!, ...dataH!] : []), [dataH, dataE])
+
   const columns: ColumnsType<TableType> = [
     {
       key: '1',
@@ -36,52 +40,31 @@ export const StudentExamPage: React.FC<{
     {
       key: '2',
       title: '完成状态',
-      dataIndex: 'isDone'
+      dataIndex: 'isDone',
+      render: (_: any, record: TableType) => {
+        return <>{record.isDone ? '已完成' : '未完成'}</>
+      }
     },
+
     {
       key: '3',
       title: '截至日期',
-      dataIndex: 'endTime'
+      dataIndex: 'endTime',
+      render: (_: any, record: TableType) => {
+        return <>{record.endTime?.split('T')?.join(' ')}</>
+      }
     },
+
     {
       key: '4',
       title: '操作',
       dataIndex: 'status',
-      render: (_: any, record: TableType) =>
-        +record.endTime > Date.now() ? (
-          <Button
-            onClick={() => {
-              navigate(`/previewtestpaper/${record.paperId}`, { replace: true })
-            }}
-          >
-            查看详情
-          </Button>
-        ) : record.isDone ? (
-          <Button
-            onClick={() => {
-              navigate(`/homework/${record.paperId}`, { replace: true })
-            }}
-          >
-            去修改
-          </Button>
-        ) : (
-          <Button
-            type="primary"
-            onClick={() => {
-              navigate(`/homework/${record.paperId}`, { replace: true })
-            }}
-          >
-            去完成
-          </Button>
-        )
+      render: (_: any, record: TableType) => {
+        const isExpiration = dayjs().isAfter(dayjs(record?.endTime?.split('T')?.join(' ')))
+        return <>{isExpiration ? <Button disabled>已过期</Button> : <Button type="primary">开始考试</Button>}</>
+      }
     }
   ]
 
-  return (
-    <>
-      <Segmented options={['全部', '考试', '作业']} size="large" />
-      <Segmented options={['全部', '已完成', '未完成']} size="large" />
-      <Table columns={columns} dataSource={data} />
-    </>
-  )
+  return <>{isLoading ? <Skeletons size="middle" /> : <Table columns={columns} dataSource={data} />}</>
 }
