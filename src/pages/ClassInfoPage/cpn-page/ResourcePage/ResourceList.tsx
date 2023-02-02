@@ -1,13 +1,19 @@
 import { List, Space } from 'antd'
 import React, { useState } from 'react'
 import { ResourceType } from 'server/fetchCourseResource/types'
+import { useDeleteResource } from 'server/fetchResource'
 import { ResourceListItem } from './ResourceListItem'
 
 export const ResourceList: React.FC<{
   resourceItems: ResourceType[]
 }> = ({ resourceItems }) => {
   const [data, setData] = useState(resourceItems)
+  const { mutateAsync } = useDeleteResource()
 
+  const del = async (i: ResourceType) => {
+    await mutateAsync(i.resourceId)
+    setData(data.filter((item) => i !== item))
+  }
   return (
     <>
       <List
@@ -29,7 +35,7 @@ export const ResourceList: React.FC<{
                 i.resourceName = name
                 setData([...data])
               }}
-              deleteFile={() => setData(data.filter((item) => i !== item))}
+              deleteFile={() => del(i)}
             />
           </List.Item>
         )}

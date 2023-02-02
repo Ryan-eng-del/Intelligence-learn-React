@@ -2,10 +2,13 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { client } from 'server'
 import { ResourceType } from './types'
 // 显示资源列表
-export const useShowResourceList = () => {
-  return useQuery(['resources'], async () => {
+export const useShowResourceList = (courseId: string) => {
+  return useQuery([`resources-${courseId}`], async () => {
     return client.get<ResourceType[]>({
-      url: 'resources/list-resources'
+      url: '/resources/list-resources',
+      params: {
+        courseId: courseId
+      }
     })
   })
 }

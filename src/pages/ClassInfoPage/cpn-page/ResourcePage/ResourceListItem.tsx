@@ -2,21 +2,18 @@ import {
   DownloadOutlined,
   EditOutlined,
   EyeOutlined,
-  FileExcelOutlined,
   FileImageOutlined,
-  FilePdfOutlined,
   FilePptOutlined,
   FileUnknownOutlined,
-  FileWordOutlined,
   PlaySquareOutlined
 } from '@ant-design/icons'
 import { Button, Input, Modal, Popconfirm, Space } from 'antd'
-import { last } from 'lodash'
 import { GlobalLabel } from 'publicComponents/GlobalLabel/globalLabel'
 import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useCallback, useState } from 'react'
 import { ResourceType } from 'server/fetchCourseResource/types'
+import styled from 'styled-components'
+import { isTeachAuth } from 'util/isAuthTeach'
 
 export const ResourceListItem: React.FC<{
   item: ResourceType
@@ -26,31 +23,23 @@ export const ResourceListItem: React.FC<{
   const [hover, setHover] = useState(false)
   const [newName, setNewName] = useState(item.resourceName)
 
-  const fileType = last(item.resourceName?.split('.'))
-  const icon =
-    fileType === undefined ? (
-      <FileUnknownOutlined />
-    ) : ['png', 'jpg'].includes(fileType) ? (
-      <FileImageOutlined />
-    ) : ['mp4'].includes(fileType) ? (
-      <PlaySquareOutlined />
-    ) : ['xla', 'xlsx'].includes(fileType) ? (
-      <FileExcelOutlined />
-    ) : ['ppt', 'pptx'].includes(fileType) ? (
-      <FilePptOutlined />
-    ) : ['pdf'].includes(fileType) ? (
-      <FilePdfOutlined />
-    ) : ['doc', 'docx'].includes(fileType) ? (
-      <FileWordOutlined />
-    ) : (
-      <FileUnknownOutlined />
-    )
-
+  const getIcon = useCallback((type: number) => {
+    switch (type) {
+      case 10:
+        return <PlaySquareOutlined />
+      case 20:
+        return <FilePptOutlined />
+      case 40:
+      case 41:
+        return <FileImageOutlined />
+      default:
+        ;<FileUnknownOutlined />
+    }
+  }, [])
+  const isTeacher = isTeachAuth()
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const navigate = useNavigate()
 
-  const handleOk = () => {
-    // 发送修改信息的请求
+  const handleRename = () => {
     rename(newName)
     setIsModalVisible(false)
   }
@@ -61,7 +50,7 @@ export const ResourceListItem: React.FC<{
   }
 
   return (
-    <>
+    <Wapper>
       {/* 编辑弹窗 */}
       <Modal
         title={`修改文件信息-${item.resourceName}`}
@@ -73,7 +62,7 @@ export const ResourceListItem: React.FC<{
               删除这个文件
             </Button>
           </Popconfirm>,
-          <Button key="save" type="primary" onClick={handleOk}>
+          <Button key="save" type="primary" onClick={handleRename}>
             保存
           </Button>
         ]}
@@ -86,27 +75,47 @@ export const ResourceListItem: React.FC<{
 
       <div className="flex" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
         {/* 文件名及图标 */}
-        <Space style={{ width: '20vw' }}>
-          <div style={{ fontSize: '30px' }}>{icon}</div>
+        <Space className="elis">
+          {item.type == 40 || item.type == 41 ? (
+            <img src={item.resourceLink} className="img" />
+          ) : (
+            <div style={{ fontSize: '30px' }}>{getIcon(item.type)}</div>
+          )}
           <div>{item.resourceName}</div>
         </Space>
-
         {/* 创建时间 */}
         <div>{item.createTime}</div>
-
         {/* 操作区域 */}
         <Space size="middle" style={{ visibility: hover ? 'visible' : 'hidden' }}>
           <Button type="primary" icon={<EyeOutlined />}>
             预览
           </Button>
-          <Button type="primary" icon={<DownloadOutlined />}>
+          <Button type="primary" icon={<DownloadOutlined />} href={item.resourceLink}>
             下载
           </Button>
-          <Button type="primary" icon={<EditOutlined />} onClick={() => setIsModalVisible(true)}>
-            编辑
-          </Button>
+          {isTeacher && (
+            <Button type="primary" icon={<EditOutlined />} onClick={() => setIsModalVisible(true)}>
+              编辑
+            </Button>
+          )}
         </Space>
       </div>
-    </>
+    </Wapper>
   )
 }
+
+const Wapper = styled.div`
+  width: 100%;
+  .flex {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .elis {
+    width: 40vw;
+  }
+  .img {
+    width: 30px;
+  }
+`

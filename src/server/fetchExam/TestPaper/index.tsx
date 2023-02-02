@@ -36,8 +36,8 @@ export const useDeleteTestPaper = () => {
 }
 
 /** 学生获取到试卷列表 */
-export const useShowExamListPublished = (courseID: string) => {
-  return useQuery([`ExamListStuExam-${courseID}`], async () => {
+export const useShowExamListPublished = (courseID?: string) => {
+  return useQuery([`ExamListStuExam-${courseID || 'all'}`], async () => {
     return client.get<ExamListItem[]>({
       url: `/paper/stu/exams`,
       params: {
