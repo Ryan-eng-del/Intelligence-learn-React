@@ -149,3 +149,14 @@ export const useGetStuExam = (id: string) => {
     })
   })
 }
+
+export const submitPaper = (paperId: string) => {
+  return useMutation(() => {
+    return client.post({
+      url: '/paper/stu/submit-exam',
+      data: {
+        paperId
+      }
+    })
+  })
+}

@@ -122,6 +122,11 @@ export interface StudentPaper {
   paperId: string
   paperName: string
   questionOfPaperVOS: StudentPaperItem[]
+  remainTime: number
+  startTime: string
+  endTime: string
+  studentName: string
+  submitVersion: number
 }
 
 export interface StudentPaperItem {
