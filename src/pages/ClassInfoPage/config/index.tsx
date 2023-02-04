@@ -18,7 +18,7 @@ function getItem(
   key: React.Key,
   icon?: React.ReactNode,
   children?: MenuItem[],
-  type?: 'group'
+  type?:string
 ): MenuItem {
   return {
     key,

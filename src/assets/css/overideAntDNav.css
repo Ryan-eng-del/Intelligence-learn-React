@@ -4,9 +4,11 @@
 .ant-menu-inline.ant-menu-root .ant-menu-submenu-title {
   margin: 10px 0px;
 }
+
 .ant-menu-item {
-  padding: 28px !important;
+  padding: 27px !important;
 }
+
 .ant-menu-item:active,
 .ant-menu-submenu-title:active {
   background-color: transparent;
