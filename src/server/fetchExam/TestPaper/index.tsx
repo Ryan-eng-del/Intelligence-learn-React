@@ -61,14 +61,10 @@ export const useHomeWorkListPublished = (courseID: string) => {
 
 /** 学生获取到试卷 */
 export const useShowQuestionForStudent = (id: string) => {
-  return useQuery([`paperdoing-${id}`], () => {
-    console.log('zzz')
+  return useQuery([`paperdoing-${id}`], async () => {
     return client.get<StudentPaper>({
       url: `/paper/stu/paper-detail/${id}`,
       params: {
-        paperId: id
-      },
-      data: {
         paperId: id
       }
     })

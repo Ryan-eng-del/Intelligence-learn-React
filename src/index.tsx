@@ -139,6 +139,11 @@ root.render(
               {/* 做试卷 */}
               <Route path="homework/:paperId" element={<PaperDoing />} />
             </Routes>
+
+            <Routes>
+              {/* 做试卷 */}
+              <Route path="exam/:paperId" element={<PaperDoing />} />
+            </Routes>
           </Suspense>
         </ContextProvider>
       </Router>

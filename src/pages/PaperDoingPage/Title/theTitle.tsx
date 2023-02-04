@@ -5,10 +5,10 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export const Title: React.FC<{
-  paperName: string
-  num: number
-  time: number
-  score: number
+  paperName: string | undefined
+  num: number | undefined
+  time: number | undefined
+  score: number | undefined
 }> = (props) => {
   const navigate = useNavigate()
   const { classInfo } = useCurrentClassInfo()

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useShowQuestionForStudent } from 'server/fetchExam/TestPaper'
 import { QuestionType, StudentPaper } from 'server/fetchExam/types'
-import Skeletons from '../../publicComponents/Skeleton/index'
+import { BaseSpin } from '../../baseUI/BaseSpin/BaseSpin'
 import { Menu } from './Menu/Menu'
 import { QuestionList } from './QuestionList/QuestionList'
 import { Title } from './Title/theTitle'
@@ -14,16 +14,21 @@ const PaperDoing: React.FC = () => {
   // 需要路由获取参数
   const { paperId } = useParams()
   const { data, isLoading } = useShowQuestionForStudent(paperId!)
+  console.log(data, paperId, 'data')
 
   const len = (data: StudentPaper) => {
-    const list = data.questionOfPaperVos
-    return [
-      list.filter((i) => i.questionType == QuestionType.single).length,
-      list.filter((i) => i.questionType == QuestionType.multiple).length,
-      list.filter((i) => i.questionType == QuestionType.fillBlank).length,
-      list.filter((i) => i.questionType == QuestionType.shortAnswer).length,
-      list.filter((i) => i.questionType == QuestionType.judge).length
-    ]
+    if (data) {
+      const list = data.questionOfPaperVOS
+      return [
+        list.filter((i) => i.questionType == QuestionType.single).length,
+        list.filter((i) => i.questionType == QuestionType.multiple).length,
+        list.filter((i) => i.questionType == QuestionType.fillBlank).length,
+        list.filter((i) => i.questionType == QuestionType.shortAnswer).length,
+        list.filter((i) => i.questionType == QuestionType.judge).length
+      ]
+    } else {
+      return []
+    }
   }
   const [open, setOpen] = useState(true)
 
@@ -34,8 +39,8 @@ const PaperDoing: React.FC = () => {
   const Time = Date.now()
   return (
     <>
-      {data == undefined ? (
-        <Skeletons size="middle" />
+      {isLoading ? (
+        <BaseSpin size="large" />
       ) : (
         <Layout style={{ backgroundColor: 'white' }}>
           <Header
@@ -48,10 +53,10 @@ const PaperDoing: React.FC = () => {
             }}
           >
             <Title
-              paperName={data!.paperName}
-              num={data.questionOfPaperVos.length}
+              paperName={data?.paperName || '试卷'}
+              num={data?.questionOfPaperVOS?.length}
               time={Time}
-              score={data.questionOfPaperVos.reduce((p, c) => p + (c.questionScore ? c.questionScore : 0), 0)}
+              score={data?.questionOfPaperVOS?.reduce((p, c) => p + (c.questionScore ? c.questionScore : 0), 0)}
             />
           </Header>
           <Layout>
@@ -65,10 +70,10 @@ const PaperDoing: React.FC = () => {
                 width: 400
               }}
             >
-              <Menu num={len(data)} />
+              <Menu num={len(data!)} />
             </Sider>
             <Content style={{ fontSize: 'large', backgroundColor: 'white' }}>
-              <QuestionList Questionlist={data.questionOfPaperVos} />
+              <QuestionList Questionlist={data?.questionOfPaperVOS} />
             </Content>
           </Layout>
         </Layout>

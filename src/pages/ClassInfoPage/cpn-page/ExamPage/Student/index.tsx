@@ -31,6 +31,10 @@ export const StudentExamPage: React.FC<{
   console.log(dataH, dataE, 'dataH', 'dataE')
   const data = useMemo(() => (dataH && dataE ? [...dataE!, ...dataH!] : []), [dataH, dataE])
 
+  const startExam = (paperId: string) => {
+    window.open(`/exam/${paperId}`)
+  }
+
   const columns: ColumnsType<TableType> = [
     {
       key: '1',
@@ -61,7 +65,17 @@ export const StudentExamPage: React.FC<{
       dataIndex: 'status',
       render: (_: any, record: TableType) => {
         const isExpiration = dayjs().isAfter(dayjs(record?.endTime?.split('T')?.join(' ')))
-        return <>{isExpiration ? <Button disabled>已过期</Button> : <Button type="primary">开始考试</Button>}</>
+        return (
+          <>
+            {isExpiration ? (
+              <Button disabled>已过期</Button>
+            ) : (
+              <Button type="primary" onClick={() => startExam(record.paperId)}>
+                开始考试
+              </Button>
+            )}
+          </>
+        )
       }
     }
   ]

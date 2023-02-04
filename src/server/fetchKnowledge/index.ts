@@ -1,5 +1,6 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { client } from 'server'
+import { GlobalMessage } from '../../publicComponents/GlobalMessage/index'
 import { IAddKnowledgeParam } from './types'
 /*展示章节学习树*/
 export const useShowKnowledgeTree = (courseId: string) => {
@@ -52,4 +53,28 @@ export const relateAfterPointsAPI = (courseId: string) => {
   return useMutation(async ({ pointId, afterPointId }: { pointId: string; afterPointId: string[] }) => {
     return client.post({ url: '/points/after-points', data: { pointId, afterPointId, courseId } })
   })
+}
+
+export const importKnowledgePoints = (courseId: string) => {
+  const queryClient = useQueryClient()
+  return useMutation(
+    async (excelFile: FormData) => {
+      return client.post({
+        url: '/points/excel/import',
+        data: excelFile,
+        params: {
+          courseId
+        },
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+    },
+    {
+      onSuccess() {
+        queryClient.invalidateQueries(['knowledgeTree', courseId])
+        GlobalMessage('success', '知识点更新成功！！')
+      }
+    }
+  )
 }

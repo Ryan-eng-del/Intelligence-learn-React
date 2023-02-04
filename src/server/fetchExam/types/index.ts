@@ -121,7 +121,7 @@ export type Item = {
 export interface StudentPaper {
   paperId: string
   paperName: string
-  questionOfPaperVos: StudentPaperItem[]
+  questionOfPaperVOS: StudentPaperItem[]
 }
 
 export interface StudentPaperItem {

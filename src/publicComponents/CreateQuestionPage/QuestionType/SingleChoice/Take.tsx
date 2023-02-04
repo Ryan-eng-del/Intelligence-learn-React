@@ -2,7 +2,7 @@ import { Button, Divider, Space } from 'antd'
 import React, { useState } from 'react'
 import { StudentPaperItem } from 'server/fetchExam/types'
 import { str2DOM } from 'util/str2DOM'
-import "../QuestionStyle.css"
+import '../QuestionStyle.css'
 
 // 以此为例，
 // 需要展示 题目 选项 分值
@@ -13,8 +13,10 @@ export const Take: React.FC<{
   NoScore?: boolean
 }> = ({ content, setAns, NoScore }) => {
   const [TrueOption, setTrueOption] = useState('')
+
   const color = (i: any) =>
     i.optionName == TrueOption ? 'linear-gradient(140deg, #6cc7ff 0%, #5a33ff 100%)' : undefined
+
   const Opt = content.questionOption.split('<>').map((i, x) => ({
     optionName: String.fromCharCode(x + 65),
     content: i
@@ -22,7 +24,7 @@ export const Take: React.FC<{
   return (
     <>
       {!NoScore && <Divider plain orientation="left">{`第${content.index}题 - (${content.questionScore}分)`}</Divider>}
-      <div className='questionTitle'>{str2DOM(content.questionDescription)}</div>
+      <div className="questionTitle">{str2DOM(content.questionDescription)}</div>
       {/* <Divider plain orientation="left">
         选项
       </Divider> */}

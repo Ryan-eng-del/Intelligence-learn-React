@@ -22,11 +22,11 @@ export const Take: React.FC<{
     ans[i.optionName as optionType] ? 'linear-gradient(140deg, #6cc7ff 0%, #5a33ff 100%)' : undefined
   return (
     <>
-      {!NoScore && <Divider plain orientation='left'>{`第${content.index}题 - (${content.questionScore}分)`}</Divider>}
-      <div className='questionTitle'>
-        {str2DOM(content.questionDescription)}
-      </div>
-      <Divider plain orientation='left'>选项</Divider>
+      {!NoScore && <Divider plain orientation="left">{`第${content.index}题 - (${content.questionScore}分)`}</Divider>}
+      <div className="questionTitle">{str2DOM(content.questionDescription)}</div>
+      <Divider plain orientation="left">
+        选项
+      </Divider>
       {content.questionOption
         .split('<>')
         .map((i, x) => ({
@@ -35,20 +35,20 @@ export const Take: React.FC<{
           isTrue: true
         }))
         .map((i) => (
-        <div key={i.optionName} style={{paddingLeft:"40px", margin:"10px"}}>
-          <Space>
-            <Button
-              type={ans[i.optionName as optionType] ? 'primary' : 'default'}
-              onClick={() => set(i.optionName as optionType)}
-              style={{width:"2.5rem",height:"2.5rem",
-              background:color(i) }}
-            >
-              {i.optionName}
-            </Button>
-            {str2DOM(i.content)}
-          </Space>
-        </div>
-      ))}
+          <div key={i.optionName} style={{ paddingLeft: '40px', margin: '10px' }}>
+            <Space>
+              <Button
+                type={ans[i.optionName as optionType] ? 'primary' : 'default'}
+                onClick={() => set(i.optionName as optionType)}
+                style={{ width: '2.5rem', height: '2.5rem', background: color(i) }}
+                shape="circle"
+              >
+                {i.optionName}
+              </Button>
+              {str2DOM(i.content)}
+            </Space>
+          </div>
+        ))}
     </>
   )
 }

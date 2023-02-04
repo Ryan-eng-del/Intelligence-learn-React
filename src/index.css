@@ -193,3 +193,7 @@ th.ant-table-selection-column {
 .exam-drawer .ant-drawer-body {
   padding: 0;
 }
+
+/* .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: rgb(230, 247, 255);
+} */

@@ -9,11 +9,10 @@ import { useSubmitTestPaper } from 'server/fetchExam/TestPaper'
 import { QuestionType, StudentPaperItem } from 'server/fetchExam/types'
 
 export const QuestionList: React.FC<{
-  Questionlist: StudentPaperItem[]
+  Questionlist: StudentPaperItem[] | undefined
 }> = ({ Questionlist }) => {
   const questions = Questionlist || []
   type T = StudentPaperItem & { index?: number }
-  console.log(questions)
   // 这是没有必要的，setAns数据不返回到页面
   const [ansSet, setAnsSet] = useState(questions.map((i) => ({ questionId: i.questionId, studentAnswer: '' })))
   const setAns = (id: string, ans: string) => {
@@ -32,6 +31,7 @@ export const QuestionList: React.FC<{
     [QuestionType.shortAnswer]: (data: T) => <P4 content={data} setAns={(ans) => setAns(data.questionId!, ans)} />,
     [QuestionType.judge]: (data: T) => <P5 content={data} setAns={(ans) => setAns(data.questionId!, ans)} />
   }
+
   return (
     <>
       <div>
