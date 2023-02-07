@@ -18,7 +18,7 @@ export enum QuestionTypeAction {
 
 export type QuestionActionString = 'singleChoice' | 'multipleChoice' | 'fillBlankData' | 'judgeChoice' | 'shortAnswer'
 
-export type QuestionConstantString = '0' | '1' | '2' | '3' | '4'
+export type QuestionConstantString = 0 | 1 | 2 | 3 | 4
 
 /** （网络实体）获取的试卷的类型 */
 export type TestPaper = {

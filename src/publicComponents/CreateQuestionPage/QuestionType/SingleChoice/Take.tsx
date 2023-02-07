@@ -1,4 +1,4 @@
-import { Button, Divider, Space } from 'antd'
+import { Button, Space } from 'antd'
 import React, { useState } from 'react'
 import { StudentPaperItem } from 'server/fetchExam/types'
 import { str2DOM } from 'util/str2DOM'
@@ -9,9 +9,9 @@ import '../QuestionStyle.css'
 // 请更改传入类型
 export const Take: React.FC<{
   content: StudentPaperItem & { index?: number }
-  setAns: (s: string) => void
   NoScore?: boolean
-}> = ({ content, setAns, NoScore }) => {
+  order: number
+}> = ({ content, NoScore, order }) => {
   const [TrueOption, setTrueOption] = useState('')
 
   const color = (i: any) =>
@@ -23,18 +23,18 @@ export const Take: React.FC<{
   }))
   return (
     <>
-      {!NoScore && <Divider plain orientation="left">{`第${content.index}题 - (${content.questionScore}分)`}</Divider>}
-      <div className="questionTitle">{str2DOM(content.questionDescription)}</div>
-      {/* <Divider plain orientation="left">
-        选项
-      </Divider> */}
+      <div className="questionTitle">
+        {`${order}.`}
+        {str2DOM(content.questionDescription)}
+      </div>
+
       {Opt.map((i) => (
         <div key={i.optionName} style={{ margin: '10px' }}>
           <Space>
             <Button
               type={i.optionName == TrueOption ? 'primary' : 'default'}
               shape="circle"
-              onClick={() => (setAns(i.optionName), setTrueOption(i.optionName))}
+              // onClick={() => (setAns(i.optionName), setTrueOption(i.optionName))}
               style={{ width: '2.5rem', height: '2.5rem', background: color(i) }}
             >
               {i.optionName}
