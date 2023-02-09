@@ -19,7 +19,8 @@ export const ResourceListItem: React.FC<{
   item: ResourceType
   rename: (newName: string) => void
   deleteFile: () => void
-}> = ({ item, rename, deleteFile }) => {
+  preview: () => void
+}> = ({ item, rename, deleteFile, preview }) => {
   const [hover, setHover] = useState(false)
   const [newName, setNewName] = useState(item.resourceName)
 
@@ -33,7 +34,7 @@ export const ResourceListItem: React.FC<{
       case 41:
         return <FileImageOutlined />
       default:
-        ;<FileUnknownOutlined />
+        return <FileUnknownOutlined />
     }
   }, [])
   const isTeacher = isTeachAuth()
@@ -87,7 +88,7 @@ export const ResourceListItem: React.FC<{
         <div>{item.createTime}</div>
         {/* 操作区域 */}
         <Space size="middle" style={{ visibility: hover ? 'visible' : 'hidden' }}>
-          <Button type="primary" icon={<EyeOutlined />}>
+          <Button type="primary" icon={<EyeOutlined />} onClick={preview}>
             预览
           </Button>
           <Button type="primary" icon={<DownloadOutlined />} href={item.resourceLink}>

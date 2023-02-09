@@ -33,7 +33,7 @@ const GlobalLayout = (props: {
 
   const isGraph = location.pathname.slice(-5) === 'graph'
   const { layoutData, layoutName } = props
-  const {showUserCard } = useUserInfo()
+  const { showUserCard } = useUserInfo()
   return (
     <HomePageWrapper>
       <LeftLayoutWrapper>

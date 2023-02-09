@@ -6,7 +6,8 @@ import { ResourceListItem } from './ResourceListItem'
 
 export const ResourceList: React.FC<{
   resourceItems: ResourceType[]
-}> = ({ resourceItems }) => {
+  preview: (...args: any[]) => any
+}> = ({ resourceItems, preview }) => {
   const [data, setData] = useState(resourceItems)
   const { mutateAsync } = useDeleteResource()
 
@@ -36,6 +37,7 @@ export const ResourceList: React.FC<{
                 setData([...data])
               }}
               deleteFile={() => del(i)}
+              preview={() => preview(i.type, i.resourceLink)}
             />
           </List.Item>
         )}

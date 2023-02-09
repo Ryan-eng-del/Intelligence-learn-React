@@ -8,8 +8,9 @@ import { PrimaryButton } from 'publicComponents/Button'
 import { GlobalHeader } from 'publicComponents/GlobalHeader'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
 import Skeletons from 'publicComponents/Skeleton/index'
-import React from 'react'
+import React, { useState } from 'react'
 import { useShowResourceList } from 'server/fetchCourseResource'
+import { PreviewDrawer } from './PreviewDrawer'
 import { ResourceList } from './ResourceList'
 
 const ResourcePage: React.FC = () => {
@@ -34,6 +35,21 @@ const ResourcePage: React.FC = () => {
     Uploadprops
   } = useUploadResource({ dispatch })
 
+  const [open, setOpen] = useState(false)
+  const [URL, setURL] = useState('')
+  const [openType, setOpenType] = useState('img')
+  const openPreview = (type: number, url: string) => {
+    const typeMapper = {
+      40: 'img',
+      41: 'img',
+      10: 'video',
+      20: 'pdf'
+    }
+    setOpen(true)
+    setURL(url)
+    setOpenType(typeMapper[type as unknown as keyof typeof typeMapper])
+  }
+
   return (
     <>
       <GlobalHeader
@@ -41,7 +57,7 @@ const ResourcePage: React.FC = () => {
         tool={<PrimaryButton title="上传资源" handleClick={onOpenResourceDrawer}></PrimaryButton>}
       ></GlobalHeader>
       <GlobalRightLayout>
-        {isLoading ? <Skeletons size="middle" /> : <ResourceList resourceItems={data!} />}
+        {isLoading ? <Skeletons size="middle" /> : <ResourceList resourceItems={data!} preview={openPreview} />}
       </GlobalRightLayout>
 
       <ResourceDrawer
@@ -67,6 +83,7 @@ const ResourcePage: React.FC = () => {
         // FIXME: 更换这里的uploadprops
         Uploadprops={Uploadprops}
       />
+      <PreviewDrawer open={open} close={() => setOpen(false)} showType={openType as any} url={URL} />
     </>
   )
 }

@@ -14,7 +14,8 @@ const LearnPage: React.FC = () => {
   const [invitedcode, setInvitedCode] = useState('')
   const [newCourse, setNewCourse] = useState<Class | undefined>()
   const [modalVisible, setModalVisible] = useState(false)
-  const { data, isLoading } = useShowLearnClass()
+  const { data: raw, isLoading } = useShowLearnClass()
+  const [data, setData] = useState(raw)
   const { mutate: joinClass } = useJoinInvitedCourse()
   const { mutateAsync, isLoading: wait } = useShowInvitedCourseInfo()
 
@@ -28,10 +29,19 @@ const LearnPage: React.FC = () => {
     setModalVisible(false)
   }
 
-  const join = (classId: string) => {
+  const join = async (classId: string) => {
     setModalVisible(false)
+    await joinClass(classId)
+    data &&
+      newCourse &&
+      data.push({
+        courseId: newCourse.classId,
+        courseName: newCourse.courseName,
+        coursesCover: newCourse.courseCover,
+        courseDescribe: newCourse.teacherName
+      })
+    setData([...data!])
     setNewCourse(undefined)
-    joinClass(classId)
   }
 
   return (
