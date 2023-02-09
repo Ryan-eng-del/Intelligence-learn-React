@@ -3,6 +3,7 @@ import { QuestionBankHeader, QuestionBankTable } from 'components/QuestionBankPa
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { PrimaryButton } from 'publicComponents/Button'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
+import Skeletons from 'publicComponents/Skeleton'
 import React, { useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { useShowCreateQuestion } from 'server/fetchExam'
@@ -25,7 +26,7 @@ const QuestionBankPage: React.FC = () => {
   }
 
   const handleRate = (n: number) => <Rate value={n + 1} disabled count={3} />
-
+  // TODO:奇怪的类型映射。应该修改
   for (let i = 0; i < length; i++) {
     originData.push({
       key: data![i].questionId,
@@ -75,12 +76,18 @@ const QuestionBankPage: React.FC = () => {
       ></GlobalHeader>
       <GlobalRightLayout>
         <QuestionBankHeader changeType={changeType} showAll={showAll}></QuestionBankHeader>
-        <QuestionBankTable
-          curData={curData}
-          originData={originData}
-          isLoading={isLoading}
-          isAll={isAll}
-        ></QuestionBankTable>
+        {isLoading ? (
+          <Skeletons size="middle" />
+        ) : (
+          <QuestionBankTable
+            // 选中展开的数据
+            curData={curData}
+            // 全部数据
+            originData={originData}
+            // 搜索控制
+            isAll={isAll}
+          ></QuestionBankTable>
+        )}
       </GlobalRightLayout>
       <Outlet />
     </>

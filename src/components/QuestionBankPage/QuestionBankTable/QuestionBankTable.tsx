@@ -1,6 +1,5 @@
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { Button, Modal, Space, Table } from 'antd'
-import Skeletons from 'publicComponents/Skeleton/index'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDeleteQuestion } from 'server/fetchExam'
@@ -19,9 +18,9 @@ const { confirm } = Modal
 export const QuestionBankTable: React.FC<{
   originData: Item[]
   curData: Item[]
-  isLoading: boolean
   isAll: boolean
-}> = ({ originData, isLoading, curData, isAll }) => {
+  select?: (i: string) => void
+}> = ({ originData, curData, isAll, select }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([])
   const navigate = useNavigate()
   // 页面状态
@@ -99,14 +98,22 @@ export const QuestionBankTable: React.FC<{
       render: (_: any, record: Item) => {
         return isTeacher ? (
           <QuestionOperateWrapper>
-            <Space>
-              <Button type="primary" danger onClick={() => showDeleteConfirm(record.questionId)}>
-                删除
-              </Button>
-              <Button type="primary" onClick={() => navigate(`/edit/${record.questionId}`)}>
-                编辑
-              </Button>
-            </Space>
+            {select ? (
+              <Space>
+                <Button type="primary" onClick={() => select(record.questionId)}>
+                  选择
+                </Button>
+              </Space>
+            ) : (
+              <Space>
+                <Button type="primary" danger onClick={() => showDeleteConfirm(record.questionId)}>
+                  删除
+                </Button>
+                <Button type="primary" onClick={() => navigate(`../edit/${record.questionId}`)}>
+                  编辑
+                </Button>
+              </Space>
+            )}
           </QuestionOperateWrapper>
         ) : (
           <></>
@@ -131,36 +138,30 @@ export const QuestionBankTable: React.FC<{
 
   return (
     <QuestionBankTableWrapper>
-      {isLoading ? (
-        <Skeletons size="middle" />
-      ) : (
-        <>
-          <TotalQuestionWrapper>共计{originData?.length}题</TotalQuestionWrapper>
-          <Table
-            style={{ fontWeight: 'bold' }}
-            rowSelection={rowSelection}
-            columns={mergedColumns}
-            dataSource={isAll ? originData : curData}
-            components={{
-              body: {
-                cell: ShowDetailsCell
-              }
-            }}
-            pagination={{
-              position: ['bottomCenter'],
-              showSizeChanger: true,
-              pageSize: pageSize,
-              style: {
-                paddingBottom: '10px',
-                fontSize: '17px'
-              },
-              current: currentPage,
-              pageSizeOptions: ['20', '30', '50', '100']
-            }}
-            rowClassName="rowStyle"
-          />
-        </>
-      )}
+      <TotalQuestionWrapper>共计{originData?.length}题</TotalQuestionWrapper>
+      <Table
+        style={{ fontWeight: 'bold' }}
+        rowSelection={rowSelection}
+        columns={mergedColumns}
+        dataSource={isAll ? originData : curData}
+        components={{
+          body: {
+            cell: ShowDetailsCell
+          }
+        }}
+        pagination={{
+          position: ['bottomCenter'],
+          showSizeChanger: true,
+          pageSize: pageSize,
+          style: {
+            paddingBottom: '10px',
+            fontSize: '17px'
+          },
+          current: currentPage,
+          pageSizeOptions: ['20', '30', '50', '100']
+        }}
+        rowClassName="rowStyle"
+      />
     </QuestionBankTableWrapper>
   )
 }

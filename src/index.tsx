@@ -122,17 +122,14 @@ root.render(
                 <Route path={'k-graph'} element={<KnowledgeGraph />} />
                 <Route path={'mk-graph'} element={<MkGraph />} />
                 <Route path="createquestion" element={<CreateQuestionPage />} />
+                {/* 编辑题目 */}
+                <Route path="edit/:questionId" element={<QuestionEditPage />} />
               </Route>
             </Routes>
 
             <Routes>
               {/* 预览试卷 */}
               <Route path="previewtestpaper/:paperid" element={<TestPaperPreview />} />
-            </Routes>
-
-            <Routes>
-              {/* 编辑题目 */}
-              <Route path="edit/:questionId" element={<QuestionEditPage />} />
             </Routes>
 
             <Routes>

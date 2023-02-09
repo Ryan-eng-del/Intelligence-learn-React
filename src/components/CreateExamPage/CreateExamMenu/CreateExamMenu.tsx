@@ -1,6 +1,7 @@
-import { Button } from 'antd'
-import React from 'react'
-import { QuestionConstantString, QuestionType } from 'server/fetchExam/types'
+import { Button, Drawer, Rate } from 'antd'
+import React, { useState } from 'react'
+import { config } from 'server/fetchExam/config'
+import { QuestionConstantString, QuestionType, QuestionTypeAction } from 'server/fetchExam/types'
 
 import {
   CheckCircleOutlined,
@@ -10,6 +11,11 @@ import {
   FormOutlined,
   HddOutlined
 } from '@ant-design/icons'
+import { QuestionBankTable } from 'components/QuestionBankPage'
+import { useCurrentClassInfo } from 'context/ClassInfoContext'
+import Skeletons from 'publicComponents/Skeleton'
+import { IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
+import { useShowCreateQuestion, useShowQuestionDetails } from 'server/fetchExam'
 import styled from 'styled-components'
 
 export const QuestionICON = {
@@ -23,7 +29,30 @@ const isConstantString = (val: unknown): val is QuestionConstantString => typeof
 
 export const CreateExamMenu: React.FC<{
   addQuestionType: (type: QuestionConstantString) => void
-}> = ({ addQuestionType }) => {
+  // 用于在题库中选择题目
+  dispatchQuestionType?: React.Dispatch<IQuestionTypeAction>
+}> = ({ addQuestionType, dispatchQuestionType }) => {
+  const courseId = useCurrentClassInfo().classInfo.courseId
+  const { data } = useShowCreateQuestion(courseId)
+  const [open, setOpen] = useState(false)
+  const select = (id: string) => {
+    //    <h1>这里报invalid hook</h1>
+    const { data } = useShowQuestionDetails(id)
+    setOpen(false)
+    if (data && dispatchQuestionType) {
+      const actionType = QuestionTypeAction[data.questionType] as any
+      dispatchQuestionType({
+        type: actionType,
+        payload: {
+          ...data,
+          score: 5,
+          courseId,
+          isStore: true
+        }
+      })
+    }
+  }
+
   return (
     <>
       {Object.keys(QuestionICON).map((item, index) => {
@@ -40,16 +69,37 @@ export const CreateExamMenu: React.FC<{
           )
         }
       })}
-      <Button type="primary" icon={<HddOutlined />} style={{ marginLeft: '10px' }}>
+      <Button type="primary" icon={<HddOutlined />} style={{ marginLeft: '10px' }} onClick={() => setOpen(true)}>
         从题库中选择
       </Button>
+      <Drawer width="80vw" visible={open} onClose={() => setOpen(false)}>
+        <h1>这里报invalid hook</h1>
+        {data ? (
+          <QuestionBankTable // TODO:奇怪的类型映射。应该修改
+            curData={[]}
+            originData={data.map((i) => ({
+              key: i.questionId,
+              question: i.questionDescription,
+              rate: <Rate value={i.questionDifficulty + 1} disabled count={3} />,
+              type: config[i.questionType as 1 | 2 | 3 | 4 | 0]?.name,
+              create_time: i.createTime,
+              questionId: i.questionId,
+              rightAnswer: i.rightAnswer,
+              questionOption: i.questionOption
+            }))}
+            isAll={true}
+            select={select}
+          />
+        ) : (
+          <Skeletons size="middle" />
+        )}
+      </Drawer>
     </>
   )
 }
 
 export const SelectQuestionTypeButton = styled.span`
   display: inline-block;
-  float: left;
   width: auto;
   min-width: 60px;
   height: 32px;

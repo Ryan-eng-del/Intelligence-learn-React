@@ -32,10 +32,6 @@ const CreateExamPage: React.FC = () => {
     return location.pathname.slice(0, index + 4)
   }, [location.pathname])
 
-  const handleOnEdit = (edit: IQuestionType) => {
-    setCurEditQuestion(edit)
-  }
-
   const { classInfo } = useCurrentClassInfo()
   const [open, setOpen] = useState(true)
 
@@ -69,7 +65,7 @@ const CreateExamPage: React.FC = () => {
               <CreateExamBodyLeftWrapper>
                 <CreateExamNav
                   questionTypeState={questionTypeState}
-                  setCurEdit={(curEdit: IQuestionType) => handleOnEdit(curEdit)}
+                  setCurEdit={setCurEditQuestion}
                   setCurOrder={(curOrder: number) => setCurOrder(curOrder)}
                   curEditQuestion={curEditQuestion!}
                   dispatchQuestionType={dispatchQuestionType}
@@ -77,7 +73,7 @@ const CreateExamPage: React.FC = () => {
               </CreateExamBodyLeftWrapper>
               <CreateExamBodyRightWrapper>
                 <CreateExamNavWrapper>
-                  <CreateExamMenu addQuestionType={addQuestionType} />
+                  <CreateExamMenu addQuestionType={addQuestionType} dispatchQuestionType={dispatchQuestionType} />
                 </CreateExamNavWrapper>
                 <CreateExamQuestion>
                   <CreateExamRoutePage

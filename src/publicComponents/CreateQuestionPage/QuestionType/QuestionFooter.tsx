@@ -29,7 +29,6 @@ export const QuestionFooter = (props: QuestionFooterProps) => {
   const { classInfo } = useCurrentClassInfo()
   const { data, isLoading: KnowledgeTreeLoading } = useShowKnowledgeTree(classInfo.courseId)
   const { checkTreeData } = useCheckKnowledgeTreeUI(data)
-  console.log(data, 'data')
   /* 两个弹框的开闭状态 */
   const [isModalOpen, setIsModalOpen] = useState(false)
   /* 知识点选择树的UI层 */

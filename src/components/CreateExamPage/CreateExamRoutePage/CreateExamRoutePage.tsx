@@ -1,21 +1,22 @@
 import { InputNumber } from 'antd'
+import { getQuestionHeader } from 'pages/CreateExamPage/util/util'
 import { FillBlank, Judge, ShortAnswer, SingleChoice } from 'publicComponents/CreateQuestionPage'
+import { MultipleChoice } from 'publicComponents/CreateQuestionPage/QuestionType/MultipleChoice/MultipleChoice'
 import { QuestionStatus } from 'publicComponents/CreateQuestionPage/QuestionType/QuestionStatus'
 import React, { useEffect, useMemo, useState } from 'react'
 import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
 import { QuestionType } from 'server/fetchExam/types'
 import styled from 'styled-components'
-import { getQuestionHeader } from 'pages/CreateExamPage/util/util'
-import { MultipleChoice } from 'publicComponents/CreateQuestionPage/QuestionType/MultipleChoice/MultipleChoice'
 import { StateSetter } from 'types'
 import { CreateExamRoutePageWrapper } from './CreateExamRoutePageStyle'
 
-interface CreateExamRoutePageProps {
+type CreateExamRoutePageProps = {
   curEdit: IQuestionType
-  curOrder?: number
   setCurEditQuestion: StateSetter<IQuestionType | undefined>
   dispatchQuestionType: React.Dispatch<IQuestionTypeAction>
   disableHeader?: boolean
+} & {
+  curOrder?: number
 }
 
 export const CreateExamRoutePage = (props: CreateExamRoutePageProps) => {
