@@ -1,4 +1,4 @@
-import { Button, Divider, Space } from 'antd'
+import { Button, Space } from 'antd'
 import React, { useState } from 'react'
 import { StudentPaperItem } from 'server/fetchExam/types'
 import { str2DOM } from 'util/str2DOM'
@@ -9,24 +9,25 @@ import { str2DOM } from 'util/str2DOM'
 type optionType = 'A' | 'B' | 'C' | 'D'
 export const Take: React.FC<{
   content: StudentPaperItem & { index?: number }
-  setAns: (s: string) => void
   NoScore?: boolean
-}> = ({ content, setAns, NoScore }) => {
+  order: number
+}> = ({ content, NoScore, order }) => {
   const [ans, setANS] = useState({ A: false, B: false, C: false, D: false })
   const set = (ABCD: optionType) => {
     ans[ABCD] = !ans[ABCD]
     setANS({ ...ans })
-    setAns(ABCD)
+    // setAns(ABCD)
   }
   const color = (i: any) =>
     ans[i.optionName as optionType] ? 'linear-gradient(140deg, #6cc7ff 0%, #5a33ff 100%)' : undefined
+
   return (
     <>
-      {!NoScore && <Divider plain orientation='left'>{`第${content.index}题 - (${content.questionScore}分)`}</Divider>}
-      <div className='questionTitle'>
+      <div className="questionTitle">
+        {`${order}.`}
         {str2DOM(content.questionDescription)}
       </div>
-      <Divider plain orientation='left'>选项</Divider>
+
       {content.questionOption
         .split('<>')
         .map((i, x) => ({
@@ -35,20 +36,20 @@ export const Take: React.FC<{
           isTrue: true
         }))
         .map((i) => (
-        <div key={i.optionName} style={{paddingLeft:"40px", margin:"10px"}}>
-          <Space>
-            <Button
-              type={ans[i.optionName as optionType] ? 'primary' : 'default'}
-              onClick={() => set(i.optionName as optionType)}
-              style={{width:"2.5rem",height:"2.5rem",
-              background:color(i) }}
-            >
-              {i.optionName}
-            </Button>
-            {str2DOM(i.content)}
-          </Space>
-        </div>
-      ))}
+          <div key={i.optionName} style={{ margin: '10px' }}>
+            <Space>
+              <Button
+                type={ans[i.optionName as optionType] ? 'primary' : 'default'}
+                onClick={() => set(i.optionName as optionType)}
+                style={{ width: '2.5rem', height: '2.5rem', background: color(i) }}
+                shape="circle"
+              >
+                {i.optionName}
+              </Button>
+              {str2DOM(i.content)}
+            </Space>
+          </div>
+        ))}
     </>
   )
 }

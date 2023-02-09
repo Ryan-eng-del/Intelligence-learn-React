@@ -5,9 +5,9 @@ import { str2DOM } from 'util/str2DOM'
 
 export const Take: React.FC<{
   content: StudentPaperItem & { index?: number }
-  setAns: (s: string) => void
   NoScore?: boolean
-}> = ({ content, NoScore, setAns }) => {
+  order: number
+}> = ({ content, NoScore, order }) => {
   const [ansSet, setAnsSet] = useState<string[]>([])
 
   const gen = (num: number) => {
@@ -20,9 +20,9 @@ export const Take: React.FC<{
             key={i}
             value={ansSet[i]}
             placeholder={`第${i + 1}空`}
-            onChange={(v) => {
-              ;(ansSet[i] = v.target.value), setAnsSet([...ansSet]), setAns(ansSet.toString().replace(',', '<>'))
-            }}
+            // onChange={(v) => {
+            //   (ansSet[i] = v.target.value), setAnsSet([...ansSet]), setAns(ansSet.toString().replace(',', '<>'))
+            // }}
           />
         </div>
       )
@@ -32,11 +32,13 @@ export const Take: React.FC<{
 
   return (
     <>
-      {!NoScore && <Divider plain orientation='left'>{`第${content.index}题 - (${content.questionScore}分)`}</Divider>}
-      <div className='questionTitle'>
+      <div className="questionTitle">
+        {`${order}.`}
         {str2DOM(content.questionDescription)}
       </div>
-      <Divider plain orientation='left'>回答</Divider>
+      <Divider plain orientation="left">
+        回答
+      </Divider>
       {gen(content.questionAnswerNum)}
     </>
   )

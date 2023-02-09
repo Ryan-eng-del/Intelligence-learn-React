@@ -18,7 +18,7 @@ function getItem(
   key: React.Key,
   icon?: React.ReactNode,
   children?: MenuItem[],
-  type?: 'group'
+  type?: string
 ): MenuItem {
   return {
     key,
@@ -37,4 +37,5 @@ const HomeItems: MenuItem[] = [
   getItem(<Link to={'profile'}>社区</Link>, '5', <UserOutlined />),
   getItem(<Link to={'setting'}>设置</Link>, '0', <SettingOutlined />)
 ]
+
 export default HomeItems

@@ -56,7 +56,7 @@ const GlobalLayout = (props: {
               </div>
               <div className="nickname">{layoutData?.courseName}</div>
               <div className="signature">
-                <span>{layoutData?.courseDescribe || '正在加载中……'}</span>
+                <span>{layoutData?.courseDescribe || '该课程暂无描述'}</span>
               </div>
             </>
           )}
