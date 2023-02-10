@@ -15,8 +15,7 @@ const LearnPage: React.FC = () => {
   const [newCourse, setNewCourse] = useState<Class | undefined>()
   const [modalVisible, setModalVisible] = useState(false)
   const { data: raw, isLoading } = useShowLearnClass()
-  const [data, setData] = useState(raw)
-  const { mutate: joinClass } = useJoinInvitedCourse()
+  const { mutateAsync: joinClass } = useJoinInvitedCourse()
   const { mutateAsync, isLoading: wait } = useShowInvitedCourseInfo()
 
   const handleOk = async () => {
@@ -32,16 +31,6 @@ const LearnPage: React.FC = () => {
   const join = async (classId: string) => {
     setModalVisible(false)
     await joinClass(classId)
-    data &&
-      newCourse &&
-      data.push({
-        courseId: newCourse.classId,
-        courseName: newCourse.courseName,
-        coursesCover: newCourse.courseCover,
-        courseDescribe: newCourse.teacherName
-      })
-    setData([...data!])
-    setNewCourse(undefined)
   }
 
   return (
@@ -106,14 +95,16 @@ const LearnPage: React.FC = () => {
           <Skeletons size="middle"></Skeletons>
         ) : (
           <GlobalRightLayout>
-            {Array.from({ length: (data?.length || 4 % 4) + 1 }).map((v, i) => (
-              <Row key={i} style={{ marginBottom: '30px' }}>
-                {data?.map(
-                  (item, index) =>
-                    index >= i * 4 && index < (i + 1) * 4 && <ClassCard to="MyStudy" classInfo={item} key={index} />
-                )}
-              </Row>
-            ))}
+            {Array.from({ length: (raw?.length || 4 % 4) + 1 }).map((v, i) => {
+              return (
+                <Row key={i} style={{ marginBottom: '30px' }}>
+                  {raw?.map(
+                    (item, index) =>
+                      index >= i * 4 && index < (i + 1) * 4 && <ClassCard to="MyStudy" classInfo={item} key={index} />
+                  )}
+                </Row>
+              )
+            })}
           </GlobalRightLayout>
         )}
       </>

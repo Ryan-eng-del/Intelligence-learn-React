@@ -38,6 +38,7 @@ const ResourcePage: React.FC = () => {
   const [open, setOpen] = useState(false)
   const [URL, setURL] = useState('')
   const [openType, setOpenType] = useState('img')
+
   const openPreview = (type: number, url: string) => {
     const typeMapper = {
       40: 'img',

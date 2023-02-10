@@ -87,7 +87,7 @@ export const ResourceListItem: React.FC<{
         {/* 创建时间 */}
         <div>{item.createTime}</div>
         {/* 操作区域 */}
-        <Space size="middle" style={{ visibility: hover ? 'visible' : 'hidden' }}>
+        <Space size="middle" style={{ opacity: hover ? 1 : 0, transition: 'all ease 330ms' }}>
           <Button type="primary" icon={<EyeOutlined />} onClick={preview}>
             预览
           </Button>

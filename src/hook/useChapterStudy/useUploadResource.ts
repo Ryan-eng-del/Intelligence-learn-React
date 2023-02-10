@@ -30,7 +30,7 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
   const [statusText, setStatusText] = useState('')
   const videoId = useRef('')
   /*添加资源API*/
-  const { mutateAsync: addContentResource, isSuccess } = useAddContentResource()
+  const { mutateAsync: addContentResource, isSuccess } = useAddContentResource(courseId)
   const { mutateAsync: uploadVideo } = useUploadVideo()
   const [isVideoStart, setIsVideoStart] = useState(false)
   const [isOtherStart, setIsOtherStart] = useState(false)

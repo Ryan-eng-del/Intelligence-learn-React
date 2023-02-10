@@ -4,22 +4,11 @@ import { CourseList } from './types'
 
 // 显示课程
 export const useShowCreateClass = () => {
-  return useQuery(
-    ['teachclass'],
-    async () => {
-      return client.get<CourseList[]>({
-        url: '/course/show-create'
-      })
-    },
-    {
-      onSuccess: (data) => {
-        console.log(data, 'data')
-      },
-      onError: (err) => {
-        console.log(err, 'err')
-      }
-    }
-  )
+  return useQuery(['teachclass'], async () => {
+    return client.get<CourseList[]>({
+      url: '/course/show-create'
+    })
+  })
 }
 
 //显示我学的课程
@@ -51,9 +40,8 @@ export const useJoinInvitedCourse = () => {
         params: { classId }
       })
     },
-
     {
-      onMutate() {
+      onSuccess() {
         queryClient.invalidateQueries(['learnclass'])
       }
     }
@@ -87,6 +75,7 @@ export const useCreateClass = ({
     }
   )
 }
+
 /* 获取课程 */
 export const useGetCourseInfoById = () => {
   return useMutation(async (courseId: string) => {
