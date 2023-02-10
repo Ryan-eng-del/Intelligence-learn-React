@@ -7,6 +7,7 @@ import Skeletons from 'publicComponents/Skeleton/index'
 import { ClassCard } from 'publicComponents/TeachRotePage'
 import React, { useState } from 'react'
 import { useJoinInvitedCourse, useShowInvitedCourseInfo, useShowLearnClass } from 'server/fetchCourse'
+import { BaseSpin } from '../../../../baseUI/BaseSpin/BaseSpin'
 import { CardBodyWrapper, CardHeadWrapper, CardWrapper, ModalContextWrapper } from './LearnPageStyle'
 
 type Class = { classId: string; courseName: string; courseCover: string; teacherName: string }
@@ -15,7 +16,7 @@ const LearnPage: React.FC = () => {
   const [newCourse, setNewCourse] = useState<Class | undefined>()
   const [modalVisible, setModalVisible] = useState(false)
   const { data: raw, isLoading } = useShowLearnClass()
-  const { mutateAsync: joinClass } = useJoinInvitedCourse()
+  const { mutateAsync: joinClass, isLoading: isJoin } = useJoinInvitedCourse()
   const { mutateAsync, isLoading: wait } = useShowInvitedCourseInfo()
 
   const handleOk = async () => {
@@ -68,21 +69,25 @@ const LearnPage: React.FC = () => {
               setInvitedCode(e.target.value)
             }}
           />
-          {newCourse && (
-            <CardWrapper>
-              <CardHeadWrapper>
-                <img src={newCourse.courseCover || classPicUrl} alt="课程图片" />
-              </CardHeadWrapper>
-              <CardBodyWrapper>
-                <div className="tname">{newCourse.courseName}</div>
+          {isJoin ? (
+            <BaseSpin size="large" />
+          ) : (
+            newCourse && (
+              <CardWrapper>
+                <CardHeadWrapper>
+                  <img src={newCourse!.courseCover || classPicUrl} alt="课程图片" />
+                </CardHeadWrapper>
+                <CardBodyWrapper>
+                  <div className="tname">{newCourse!.courseName}</div>
 
-                <PrimaryButton
-                  title="加入"
-                  handleClick={() => join(newCourse.classId)}
-                  style={{ width: '100px', marginTop: '12px' }}
-                />
-              </CardBodyWrapper>
-            </CardWrapper>
+                  <PrimaryButton
+                    title="加入"
+                    handleClick={() => join(newCourse!.classId)}
+                    style={{ width: '100px', marginTop: '12px' }}
+                  />
+                </CardBodyWrapper>
+              </CardWrapper>
+            )
           )}
         </ModalContextWrapper>
       </Modal>
