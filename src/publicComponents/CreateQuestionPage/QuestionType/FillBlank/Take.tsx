@@ -1,45 +1,26 @@
-import { Divider, Input } from 'antd'
-import React, { ReactNode, useState } from 'react'
-import { StudentPaperItem } from 'server/fetchExam/types'
+import { Input } from 'antd'
+import React from 'react'
+import { QuestionOfPaperVO } from 'server/fetchExam/types'
+import { debounce } from 'util/debounece'
 import { str2DOM } from 'util/str2DOM'
+import { DispatchQs } from '../SingleChoice/Take'
 
 export const Take: React.FC<{
-  content: StudentPaperItem & { index?: number }
+  content: QuestionOfPaperVO
   NoScore?: boolean
   order: number
-}> = ({ content, NoScore, order }) => {
-  const [ansSet, setAnsSet] = useState<string[]>([])
-
-  const gen = (num: number) => {
-    const child: ReactNode[] = []
-    for (let i = 0; i < num; i++) {
-      ansSet.push('')
-      child.push(
-        <div style={{ paddingLeft: '40px', margin: '10px' }} key={i}>
-          <Input
-            key={i}
-            value={ansSet[i]}
-            placeholder={`第${i + 1}空`}
-            // onChange={(v) => {
-            //   (ansSet[i] = v.target.value), setAnsSet([...ansSet]), setAns(ansSet.toString().replace(',', '<>'))
-            // }}
-          />
-        </div>
-      )
-    }
-    return React.createElement('div', {}, child)
-  }
-
+  dispatch: DispatchQs
+}> = ({ content, dispatch }) => {
+  const debounceDispatch = debounce(dispatch, 2000, false)
   return (
     <>
-      <div className="questionTitle">
-        {`${order}.`}
+      <div className="questionTitle" style={{ marginBottom: '12px' }}>
         {str2DOM(content.questionDescription)}
       </div>
-      <Divider plain orientation="left">
-        回答
-      </Divider>
-      {gen(content.questionAnswerNum)}
+      <Input
+        defaultValue={content.studentAnswer}
+        onChange={(e) => debounceDispatch(e.target.value, { qsType: content.questionType, id: content.questionId })}
+      />
     </>
   )
 }

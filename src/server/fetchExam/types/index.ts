@@ -3,9 +3,9 @@
 export enum QuestionType {
   'single' = '0',
   'multiple' = '1',
-  'fillBlank' = '2',
-  'shortAnswer' = '3',
-  'judge' = '4'
+  'fillBlank' = '3',
+  'shortAnswer' = '4',
+  'judge' = '2'
 }
 
 export enum QuestionTypeAction {
@@ -121,7 +121,7 @@ export type Item = {
 export interface StudentPaper {
   paperId: string
   paperName: string
-  questionOfPaperVOS: StudentPaperItem[]
+  questionOfPaperVOS: QuestionOfPaperVO[]
   remainTime: number
   startTime: string
   endTime: string
@@ -137,4 +137,15 @@ export interface StudentPaperItem {
   questionAnswerNum: number
   questionOrder?: number
   questionOption: string
+}
+
+export interface QuestionOfPaperVO {
+  questionDescription: string
+  questionDifficulty: number
+  questionId: string
+  questionOption: string
+  questionOrder: number
+  questionScore: number
+  questionType: number
+  studentAnswer: any
 }

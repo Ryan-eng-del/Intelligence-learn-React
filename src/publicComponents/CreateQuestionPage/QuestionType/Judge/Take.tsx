@@ -1,36 +1,41 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
-import { Divider, Radio, Space } from 'antd'
+import { Radio, Space } from 'antd'
 import React from 'react'
-import { StudentPaperItem } from 'server/fetchExam/types'
+import { QuestionOfPaperVO } from 'server/fetchExam/types'
 import { str2DOM } from 'util/str2DOM'
+import { DispatchQs } from '../SingleChoice/Take'
 
 export const Take: React.FC<{
-  content: StudentPaperItem & { index?: number }
+  content: QuestionOfPaperVO
   NoScore?: boolean
   order: number
-}> = ({ content, NoScore, order }) => {
+  dispatch: DispatchQs
+}> = ({ content, dispatch }) => {
+  const buttonStyle = {
+    width: '40px',
+    height: '40px',
+    borderRadius: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
   return (
     <>
-      <div className="questionTitle">
-        {`${order}.`}
+      <div className="questionTitle">{str2DOM(content.questionDescription)}</div>
 
-        {str2DOM(content.questionDescription)}
-      </div>
-      <Divider plain orientation="left">
-        回答
-      </Divider>
       <Radio.Group
         buttonStyle="solid"
-        // onChange={(b) => {
-        //   setAns(b.target.value)
-        // }}
+        value={content.studentAnswer}
+        onChange={(e) => {
+          dispatch(e.target.value, { qsType: content.questionType, id: content.questionId })
+        }}
       >
-        <Space direction="horizontal" style={{ paddingLeft: '40px', margin: '10px' }}>
-          <Radio.Button value={true}>
-            <CheckOutlined /> 正确
+        <Space direction="horizontal" style={{ margin: '10px', display: 'flex', flexDirection: 'column' }}>
+          <Radio.Button value={'1'} style={buttonStyle}>
+            <CheckOutlined />
           </Radio.Button>
-          <Radio.Button value={false}>
-            <CloseOutlined /> 错误
+          <Radio.Button value={'0'} style={buttonStyle}>
+            <CloseOutlined />
           </Radio.Button>
         </Space>
       </Radio.Group>

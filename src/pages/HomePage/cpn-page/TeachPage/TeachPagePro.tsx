@@ -48,6 +48,7 @@ export const TeachPage: React.FC = () => {
       <div style={{ marginTop: 8 }}>Upload</div>
     </div>
   )
+
   const showModal = () => {
     dispatch({ type: 'setClassName', payload: '' })
     dispatch({ type: 'setCourseDescribe', payload: '' })

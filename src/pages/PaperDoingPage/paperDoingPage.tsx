@@ -1,17 +1,19 @@
 import { ClockCircleOutlined } from '@ant-design/icons'
-import { Button, Typography } from 'antd'
+import { Button, Modal, Typography } from 'antd'
 import Countdown from 'antd/lib/statistic/Countdown'
+import { original } from 'immer'
 import { Take as FillBlank } from 'publicComponents/CreateQuestionPage/QuestionType/FillBlank/Take'
 import { Take as Judge } from 'publicComponents/CreateQuestionPage/QuestionType/Judge/Take'
 import { Take as MultipleChoice } from 'publicComponents/CreateQuestionPage/QuestionType/MultipleChoice/Take'
 import { Take as ShortAnswer } from 'publicComponents/CreateQuestionPage/QuestionType/ShortAnswer/Take'
-import { Take as Single } from 'publicComponents/CreateQuestionPage/QuestionType/SingleChoice/Take'
-import React, { ReactNode } from 'react'
+import { DispatchQs, Take as Single } from 'publicComponents/CreateQuestionPage/QuestionType/SingleChoice/Take'
+import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { submitPaper } from 'server/fetchExam'
 import { useShowQuestionForStudent } from 'server/fetchExam/TestPaper'
-import { QuestionType, StudentPaperItem } from 'server/fetchExam/types'
+import { QuestionConstantString, QuestionOfPaperVO, QuestionType } from 'server/fetchExam/types'
 import styled from 'styled-components'
+import { GlobalMessage } from '../../publicComponents/GlobalMessage/index'
+import { useSaveExam, useSaveSingleQs } from '../../server/fetchExam/Student/index'
 import { useExamInfo } from './hook/useExamInfo'
 import { ExamPaper, useExamQsData } from './hook/useExamQsData'
 import { usePaperMap } from './hook/usePaperMap'
@@ -127,16 +129,17 @@ const HeaderWrapper = styled.div`
   }
 `
 
-const QuestionBlock = styled.div`
+const QuestionBlock = styled.div<{ bg: boolean }>`
   width: 30px;
   height: 30px;
   border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #0284c7;
+  color: ${(props) => (props.bg ? '#fff' : '#0284c7')};
   cursor: pointer;
   border: 1px solid #0284c7;
+  background-color: ${(props) => (props.bg ? '#0284c7' : undefined)};
 `
 
 const QuestionTypeWrapperStatus = styled.div`
@@ -151,38 +154,86 @@ const QuestionStatusHeader = styled.div`
 const PaperDoing: React.FC = () => {
   const { paperId } = useParams()
   const { data: PaperData } = useShowQuestionForStudent(paperId!)
-  const { mutate: submitExam } = submitPaper(paperId!)
-  const { numberMap, paperNameMap } = usePaperMap()
-  const examQuestionData = useExamQsData(PaperData)
+  const { mutateAsync: saveQs } = useSaveSingleQs()
+  const { numberMap, paperNameMap, paperMap } = usePaperMap()
+  const qsRef = useRef<{ submitVersion: undefined | number }>({
+    submitVersion: undefined
+  })
+  const { mutateAsync: saveExam, isLoading } = useSaveExam()
+  const [examData, setExamData] = useExamQsData(PaperData)
   const { score, startTime, endTime } = useExamInfo(PaperData)
-
+  const [open, setOpen] = useState(false)
   const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30 // Moment is also OK
 
-  const clickSubmit = () => {
-    submitExam()
+  useEffect(() => {
+    qsRef.current.submitVersion = PaperData?.submitVersion
+  }, [PaperData])
+
+  const clickSubmit = async () => {
+    try {
+      await saveExam(paperId!)
+    } catch {
+      GlobalMessage('success', '提交失败请重试')
+    }
+  }
+
+  const convertMultiplyAns = (ans: string, oldAns: string | null | undefined) => {
+    return function (type: typeof paperMap[number]): string | null {
+      if (type !== 'multiple') return ans
+      if (!oldAns) return null
+
+      const oldAnsArr = oldAns.split('#')
+      const isInclude = oldAnsArr.includes(ans)
+      if (isInclude) {
+        return oldAnsArr
+          .filter((oldAns) => {
+            return oldAns !== ans
+          })
+          .join('#')
+      } else {
+        return oldAnsArr.concat(ans).join('#')
+      }
+    }
+  }
+
+  const dispatchQuestion: DispatchQs = (studentAnswer, qs) => {
+    const type = paperMap[qs.qsType]
+    const ans = convertMultiplyAns(studentAnswer, qs.oldAns)(type)
+
+    setExamData((draft) => {
+      const originData = original<QuestionOfPaperVO[]>(draft[type])!
+      const index = originData?.findIndex((q) => {
+        return q.questionId === qs.id
+      })
+      draft[type][index].studentAnswer = ans
+    })
+
+    saveQs({ studentAnswer: ans, submitVersion: qsRef.current.submitVersion, questionId: qs.id, paperId: paperId! })
   }
 
   const Mapper = {
-    [QuestionType.single]: <T extends StudentPaperItem>(data: T, order: number) => (
-      <Single content={data} order={order} />
+    [QuestionType.single]: <T extends QuestionOfPaperVO>(data: T, order: number) => (
+      <Single content={data} order={order} dispatch={dispatchQuestion} />
     ),
-    [QuestionType.multiple]: <T extends StudentPaperItem>(data: T, order: number) => (
-      <MultipleChoice content={data} order={order} />
+    [QuestionType.multiple]: <T extends QuestionOfPaperVO>(data: T, order: number) => (
+      <MultipleChoice content={data} order={order} dispatch={dispatchQuestion} />
     ),
-    [QuestionType.fillBlank]: <T extends StudentPaperItem>(data: T, order: number) => (
-      <FillBlank content={data} order={order} />
+    [QuestionType.fillBlank]: <T extends QuestionOfPaperVO>(data: T, order: number) => (
+      <FillBlank content={data} order={order} dispatch={dispatchQuestion} />
     ),
-    [QuestionType.shortAnswer]: <T extends StudentPaperItem>(data: T, order: number) => (
-      <ShortAnswer content={data} order={order} />
+    [QuestionType.shortAnswer]: <T extends QuestionOfPaperVO>(data: T, order: number) => (
+      <ShortAnswer content={data} order={order} dispatch={dispatchQuestion} />
     ),
-    [QuestionType.judge]: <T extends StudentPaperItem>(data: T, order: number) => <Judge content={data} order={order} />
+    [QuestionType.judge]: <T extends QuestionOfPaperVO>(data: T, order: number) => (
+      <Judge content={data} order={order} dispatch={dispatchQuestion} />
+    )
   }
 
   const QuestionCpn = ({ examMap, type }: { examMap?: typeof Mapper; type: 'nav' | 'content' }): ReactNode => {
     return (
       <>
-        {Object.keys(examQuestionData)?.map((k) => {
-          return examQuestionData[k as keyof ExamPaper]?.map((exam, index) => {
+        {Object.keys(examData)?.map((k) => {
+          return examData[k as keyof ExamPaper]?.map((exam, index) => {
             return (
               <QuestionTypeWrapperStatus key={index}>
                 <>
@@ -192,17 +243,21 @@ const PaperDoing: React.FC = () => {
                       {paperNameMap[exam.questionType]}
                       <span style={{ padding: '0 3px' }}></span>
                       <span>
-                        {`(${examQuestionData[k as keyof ExamPaper].reduce((pre, now) => {
+                        {`(${examData[k as keyof ExamPaper].reduce((pre, now) => {
                           return pre + (now.questionScore || 0)
                         }, 0)}分)`}
                       </span>
                     </Typography.Title>
                   </QuestionStatusHeader>
-                  {examMap?.[exam.questionType]?.(exam, index + 1)}
+                  {examMap?.[exam.questionType as QuestionConstantString]?.(exam, index + 1)}
                   {type === 'nav' && (
                     <div>
-                      {examQuestionData[k as keyof ExamPaper]?.map((_, index) => {
-                        return <QuestionBlock key={index}>{index + 1}</QuestionBlock>
+                      {examData[k as keyof ExamPaper]?.map((_, index) => {
+                        return (
+                          <QuestionBlock key={index} bg={!!_.studentAnswer}>
+                            {index + 1}
+                          </QuestionBlock>
+                        )
                       })}
                     </div>
                   )}
@@ -218,10 +273,22 @@ const PaperDoing: React.FC = () => {
   return (
     <ExamWrapper>
       <HeaderWrapper>
-        <Button type="primary" className="button-submit" onClick={clickSubmit}>
+        <Button type="primary" loading={isLoading} className="button-submit" onClick={() => setOpen(true)}>
           交卷
         </Button>
       </HeaderWrapper>
+
+      <Modal
+        title="交卷"
+        visible={open}
+        onOk={clickSubmit}
+        onCancel={() => setOpen(false)}
+        okText="确认"
+        cancelText="取消"
+      >
+        确认要交卷吗？💯💯💯
+      </Modal>
+
       <LayoutWrapper>
         <LeftExamWrapper>
           <Typography.Title level={4} className="paperName">
@@ -249,7 +316,6 @@ const PaperDoing: React.FC = () => {
             <div className="already-answer">已经作答</div>
             <div className="no-answer">未作答</div>
           </div>
-
           {QuestionCpn({ type: 'nav' })}
         </RightExamWrapper>
       </LayoutWrapper>
