@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 import Skeletons from 'publicComponents/Skeleton/index'
 import { useNavigate } from 'react-router-dom'
 import { useHomeWorkListPublished, useShowExamListPublished } from 'server/fetchExam/TestPaper'
+import { GlobalMessage } from '../../../../../publicComponents/GlobalMessage/index'
 
 enum statusType {
   'undone' = '未提交',
@@ -70,8 +71,17 @@ export const StudentExamPage: React.FC<{
             {isExpiration ? (
               <Button disabled>已过期</Button>
             ) : (
-              <Button type="primary" onClick={() => startExam(record.paperId)}>
-                开始考试
+              <Button
+                type="primary"
+                onClick={() => {
+                  if (record.isDone) {
+                    GlobalMessage('info', '不能重新考试')
+                    return
+                  }
+                  startExam(record.paperId)
+                }}  
+              >
+                {record.isDone ? '已经提交' : '开始考试'}
               </Button>
             )}
           </>

@@ -172,6 +172,10 @@ const PaperDoing: React.FC = () => {
   const clickSubmit = async () => {
     try {
       await saveExam(paperId!)
+      GlobalMessage('loading', '提交成功，等待2秒自动退出界面')
+      setTimeout(() => {
+        window.close()
+      }, 2000)
     } catch {
       GlobalMessage('success', '提交失败请重试')
     }
@@ -281,10 +285,14 @@ const PaperDoing: React.FC = () => {
       <Modal
         title="交卷"
         visible={open}
-        onOk={clickSubmit}
         onCancel={() => setOpen(false)}
         okText="确认"
         cancelText="取消"
+        footer={
+          <Button loading={isLoading} type="primary" onClick={clickSubmit}>
+            确定
+          </Button>
+        }
       >
         确认要交卷吗？💯💯💯
       </Modal>
