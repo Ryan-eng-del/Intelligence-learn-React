@@ -79,7 +79,7 @@ export const StudentExamPage: React.FC<{
                     return
                   }
                   startExam(record.paperId)
-                }}  
+                }}
               >
                 {record.isDone ? '已经提交' : '开始考试'}
               </Button>

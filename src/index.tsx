@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { ConfigProvider } from 'antd'
-import zhCN from 'antd/es/locale/zh_CN'
 import { lazy, Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
@@ -60,7 +59,7 @@ const queryClient = new QueryClient({
 
 root.render(
   <QueryClientProvider client={queryClient}>
-    <ConfigProvider locale={zhCN}>
+    <ConfigProvider>
       <ReactQueryDevtools initialIsOpen />
       <Router>
         <ContextProvider>

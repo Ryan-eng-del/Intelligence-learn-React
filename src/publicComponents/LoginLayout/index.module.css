@@ -70,6 +70,7 @@
   justify-content: center;
   animation: fade-left 1s;
   position: relative;
+  box-sizing: border-box;
 }
 
 .tool-tip {
