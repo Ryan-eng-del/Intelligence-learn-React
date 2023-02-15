@@ -22,3 +22,11 @@ export const useUploadVideo = () => {
     }
   )
 }
+
+export const useDeleteResource = () => {
+  return useMutation(async (id: string) => {
+    return client.delete({
+      url: `/resources/delete/${id}`
+    })
+  })
+}

@@ -8,31 +8,29 @@ import AliYunOSS from 'util/AliYunOSS'
 import { createVideoAndOtherArr } from './util'
 
 import AliyunUpload from 'AliyunUpload'
+import { uploadProps } from './config'
 
 interface IUploadClassTimeResource {
   dispatch: React.Dispatch<ICourseTimeReducerAction>
-  fileList: any[]
 }
 
-export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource) => {
+export const useUploadResource = (props: IUploadClassTimeResource) => {
   const { dispatch } = props
-  /* 添加资源抽屉开启和关闭 */
   const courseId: string = useParams().id!
-  const [openResourceDrawer, setOpenResourceDrawer] = useState(false)
+  const [fileList, setFileList] = useState<any>([]) // 在章节部分上传资源时才用到
+  const Uploadprops = uploadProps(fileList, setFileList)
 
-  /* 上传资源是否成功 */
+  /* 添加资源抽屉开启和关闭 */
+  const [openResourceDrawer, setOpenResourceDrawer] = useState(false)
   /*关联知识点*/
   const [relatePoints, setRelatePoints] = useState([])
-
   /* 进度条 */
   const [progress, setProgress] = useState(0)
-
   /* 上传状态文字 */
   const [statusText, setStatusText] = useState('')
   const videoId = useRef('')
-
   /*添加资源API*/
-  const { mutateAsync: addContentResource, isSuccess } = useAddContentResource()
+  const { mutateAsync: addContentResource, isSuccess } = useAddContentResource(courseId)
   const { mutateAsync: uploadVideo } = useUploadVideo()
   const [isVideoStart, setIsVideoStart] = useState(false)
   const [isOtherStart, setIsOtherStart] = useState(false)
@@ -58,15 +56,12 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
 
   /* 处理文件上传 */
   const handleUpload = async () => {
-    const { videoProject, otherProject } = createVideoAndOtherArr(props.fileList)
-
+    const { videoProject, otherProject } = createVideoAndOtherArr(fileList)
     /* 视频文件上传 */
     videoProject.forEach((file: File) => {
       uploader.addFile(file)
     })
-
     uploader.startUpload()
-
     /* 非视频文件上传 */
     otherProject.map((file: any) => {
       const formData = new FormData()
@@ -76,7 +71,6 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
         dispatch({ type: 'pushId', id: data.resourceId })
       })
     })
-
     /* 并发上传 */
     await Promise.all(otherProject)
       .then(() => {
@@ -90,7 +84,7 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
     dispatch({
       type: 'setFileList',
       fileObj: <T>(pre: T[]) => {
-        pre = pre.concat(props.fileList)
+        pre = pre.concat(fileList)
         return pre
       }
     })
@@ -102,11 +96,21 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
     setRelatePoints(checked)
   }, [])
 
+  const onCloseResourceDrawer = () => {
+    setOpenResourceDrawer(false)
+    dispatch({ type: 'setModalState', open: true })
+    setRelatePoints([])
+  }
+  const onOpenResourceDrawer = () => {
+    setOpenResourceDrawer(true)
+    dispatch({ type: 'setModalState', open: false })
+    setFileList([])
+  }
   return {
     handleUpload,
     openResourceDrawer,
+    onCloseResourceDrawer,
     relatePoints,
-    setOpenResourceDrawer,
     handleRelateCheck,
     progress,
     statusText,
@@ -114,6 +118,8 @@ export const useHandleUploadClassTimeResource = (props: IUploadClassTimeResource
     isVideoStart,
     isOtherStart,
     otherProgress,
-    setRelatePoints
+    setRelatePoints,
+    Uploadprops,
+    onOpenResourceDrawer
   }
 }

@@ -1,11 +1,10 @@
-/* eslint-disable spaced-comment */
 /** 目前支持的题目类型 */
 export enum QuestionType {
-  'single' = '0',
-  'multiple' = '1',
-  'fillBlank' = '2',
-  'shortAnswer' = '3',
-  'judge' = '4'
+  'single' = 0,
+  'multiple' = 1,
+  'fillBlank' = 3,
+  'shortAnswer' = 4,
+  'judge' = 2
 }
 
 export enum QuestionTypeAction {
@@ -18,7 +17,7 @@ export enum QuestionTypeAction {
 
 export type QuestionActionString = 'singleChoice' | 'multipleChoice' | 'fillBlankData' | 'judgeChoice' | 'shortAnswer'
 
-export type QuestionConstantString = '0' | '1' | '2' | '3' | '4'
+export type QuestionConstantString = 0 | 1 | 2 | 3 | 4
 
 /** （网络实体）获取的试卷的类型 */
 export type TestPaper = {
@@ -102,7 +101,7 @@ export type QuestionBank = {
   questionDifficulty: number
   questionId: string
   questionOption: string
-  questionType: number
+  questionType: QuestionConstantString
   rightAnswer: string
 }
 
@@ -121,15 +120,21 @@ export type Item = {
 export interface StudentPaper {
   paperId: string
   paperName: string
-  questionOfPaperVos: StudentPaperItem[]
+  questionOfPaperVOS: QuestionOfPaperVO[]
+  remainTime: number
+  startTime: string
+  endTime: string
+  studentName: string
+  submitVersion: number
 }
 
-export interface StudentPaperItem {
-  questionId: string
+export interface QuestionOfPaperVO {
   questionDescription: string
-  questionType: QuestionConstantString
-  questionScore?: number
-  questionAnswerNum: number
-  questionOrder?: number
+  questionDifficulty: number
+  questionId: string
   questionOption: string
+  questionOrder: number
+  questionScore: number
+  questionType: QuestionConstantString
+  studentAnswer: any
 }

@@ -82,17 +82,25 @@ export const useEditChapter = () => {
   })
 }
 /*上传课时资源*/
-export const useAddContentResource = () => {
-  return useMutation(async ({ relatedPoints, courseId, file }: AddContentResource) => {
-    return client.post({
-      url: '/resources/upload-course',
-      params: { courseId, relatedPoints },
-      data: file,
-      headers: {
-        'Content-Type': 'multipart/form-data'
+export const useAddContentResource = (courseId: string) => {
+  const queryClient = useQueryClient()
+  return useMutation(
+    async ({ relatedPoints, courseId, file }: AddContentResource) => {
+      return client.post({
+        url: '/resources/upload-course',
+        params: { courseId, relatedPoints },
+        data: file,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+    },
+    {
+      onSuccess() {
+        queryClient.invalidateQueries(['resources', courseId])
       }
-    })
-  })
+    }
+  )
 }
 
 /* 添加课时 */

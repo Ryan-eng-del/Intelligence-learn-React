@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { ConfigProvider } from 'antd'
-import zhCN from 'antd/es/locale/zh_CN'
 import { lazy, Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
@@ -60,7 +59,7 @@ const queryClient = new QueryClient({
 
 root.render(
   <QueryClientProvider client={queryClient}>
-    <ConfigProvider locale={zhCN}>
+    <ConfigProvider>
       <ReactQueryDevtools initialIsOpen />
       <Router>
         <ContextProvider>
@@ -122,22 +121,21 @@ root.render(
                 <Route path={'k-graph'} element={<KnowledgeGraph />} />
                 <Route path={'mk-graph'} element={<MkGraph />} />
                 <Route path="createquestion" element={<CreateQuestionPage />} />
+                {/* 编辑题目 */}
+                <Route path="edit/:questionId" element={<QuestionEditPage />} />
               </Route>
             </Routes>
-
             <Routes>
               {/* 预览试卷 */}
               <Route path="previewtestpaper/:paperid" element={<TestPaperPreview />} />
             </Routes>
-
-            <Routes>
-              {/* 编辑题目 */}
-              <Route path="edit/:questionId" element={<QuestionEditPage />} />
-            </Routes>
-
             <Routes>
               {/* 做试卷 */}
               <Route path="homework/:paperId" element={<PaperDoing />} />
+            </Routes>
+            <Routes>
+              {/* 做试卷 */}
+              <Route path="exam/:paperId" element={<PaperDoing />} />
             </Routes>
           </Suspense>
         </ContextProvider>

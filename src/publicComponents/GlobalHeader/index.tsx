@@ -44,6 +44,10 @@ const RightLayoutHeaderWrapper = styled.div`
   .cursor {
     cursor: pointer;
   }
+
+  .ant-breadcrumb-link {
+    cursor: pointer;
+  }
   user-select: none;
   height: 80px;
   border-bottom: rgb(230, 230, 230) 2px solid;

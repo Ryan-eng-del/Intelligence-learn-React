@@ -31,14 +31,14 @@ const TeacherSourcePreviewPage = () => {
   }, [chapterControl.dispatchChapter, chapterControl.data])
 
   return (
-    <div>
+    <TeachPageWrapper>
       <Drawer
         title={`章节学习资源`}
         placement="right"
-        size={'large'}
+        className="drawer-wrapper"
         style={{ width: '100vw' }}
         onClose={onClose}
-        visible={open}
+        open={open}
         mask={false}
       >
         <TeachPreviewWrapper>
@@ -57,9 +57,15 @@ const TeacherSourcePreviewPage = () => {
           </ResourceWrapper>
         </TeachPreviewWrapper>
       </Drawer>
-    </div>
+    </TeachPageWrapper>
   )
 }
+
+const TeachPageWrapper = styled.div`
+  .ant-drawer-content-wrapper {
+    width: 100%;
+  }
+`
 const TeachPreviewWrapper = styled.div`
   display: flex;
   justify-content: space-between;

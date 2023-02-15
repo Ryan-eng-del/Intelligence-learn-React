@@ -7,6 +7,7 @@ import Skeletons from 'publicComponents/Skeleton/index'
 import { ClassCard } from 'publicComponents/TeachRotePage'
 import React, { useState } from 'react'
 import { useJoinInvitedCourse, useShowInvitedCourseInfo, useShowLearnClass } from 'server/fetchCourse'
+import { BaseSpin } from '../../../../baseUI/BaseSpin/BaseSpin'
 import { CardBodyWrapper, CardHeadWrapper, CardWrapper, ModalContextWrapper } from './LearnPageStyle'
 
 type Class = { classId: string; courseName: string; courseCover: string; teacherName: string }
@@ -14,8 +15,8 @@ const LearnPage: React.FC = () => {
   const [invitedcode, setInvitedCode] = useState('')
   const [newCourse, setNewCourse] = useState<Class | undefined>()
   const [modalVisible, setModalVisible] = useState(false)
-  const { data, isLoading } = useShowLearnClass()
-  const { mutate: joinClass } = useJoinInvitedCourse()
+  const { data: raw, isLoading } = useShowLearnClass()
+  const { mutateAsync: joinClass, isLoading: isJoin } = useJoinInvitedCourse()
   const { mutateAsync, isLoading: wait } = useShowInvitedCourseInfo()
 
   const handleOk = async () => {
@@ -28,10 +29,9 @@ const LearnPage: React.FC = () => {
     setModalVisible(false)
   }
 
-  const join = (classId: string) => {
+  const join = async (classId: string) => {
     setModalVisible(false)
-    setNewCourse(undefined)
-    joinClass(classId)
+    await joinClass(classId)
   }
 
   return (
@@ -42,7 +42,7 @@ const LearnPage: React.FC = () => {
         title="加入课程"
         width={400}
         bodyStyle={{ height: 380 }}
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={handleCancel}
         confirmLoading={wait}
         footer={
@@ -69,21 +69,25 @@ const LearnPage: React.FC = () => {
               setInvitedCode(e.target.value)
             }}
           />
-          {newCourse && (
-            <CardWrapper>
-              <CardHeadWrapper>
-                <img src={newCourse.courseCover || classPicUrl} alt="课程图片" />
-              </CardHeadWrapper>
-              <CardBodyWrapper>
-                <div className="tname">{newCourse.courseName}</div>
+          {isJoin ? (
+            <BaseSpin size="large" />
+          ) : (
+            newCourse && (
+              <CardWrapper>
+                <CardHeadWrapper>
+                  <img src={newCourse!.courseCover || classPicUrl} alt="课程图片" />
+                </CardHeadWrapper>
+                <CardBodyWrapper>
+                  <div className="tname">{newCourse!.courseName}</div>
 
-                <PrimaryButton
-                  title="加入"
-                  handleClick={() => join(newCourse.classId)}
-                  style={{ width: '100px', marginTop: '12px' }}
-                />
-              </CardBodyWrapper>
-            </CardWrapper>
+                  <PrimaryButton
+                    title="加入"
+                    handleClick={() => join(newCourse!.classId)}
+                    style={{ width: '100px', marginTop: '12px' }}
+                  />
+                </CardBodyWrapper>
+              </CardWrapper>
+            )
           )}
         </ModalContextWrapper>
       </Modal>
@@ -96,14 +100,16 @@ const LearnPage: React.FC = () => {
           <Skeletons size="middle"></Skeletons>
         ) : (
           <GlobalRightLayout>
-            {Array.from({ length: (data?.length || 4 % 4) + 1 }).map((v, i) => (
-              <Row key={i} style={{ marginBottom: '30px' }}>
-                {data?.map(
-                  (item, index) =>
-                    index >= i * 4 && index < (i + 1) * 4 && <ClassCard to="MyStudy" classInfo={item} key={index} />
-                )}
-              </Row>
-            ))}
+            {Array.from({ length: (raw?.length || 4 % 4) + 1 }).map((v, i) => {
+              return (
+                <Row key={i} style={{ marginBottom: '30px' }}>
+                  {raw?.map(
+                    (item, index) =>
+                      index >= i * 4 && index < (i + 1) * 4 && <ClassCard to="MyStudy" classInfo={item} key={index} />
+                  )}
+                </Row>
+              )
+            })}
           </GlobalRightLayout>
         )}
       </>

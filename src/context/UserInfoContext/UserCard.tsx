@@ -15,7 +15,7 @@ export const UserCard: React.FC<{
     <Modal
       zIndex={200}
       title=""
-      visible={open}
+      open={open}
       onOk={close}
       onCancel={close}
       modalRender={(modal) => <div>{modal}</div>}

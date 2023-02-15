@@ -1,21 +1,21 @@
 import { InputNumber } from 'antd'
+import { usePaperMap } from 'pages/PaperDoingPage/hook/usePaperMap'
 import { FillBlank, Judge, ShortAnswer, SingleChoice } from 'publicComponents/CreateQuestionPage'
+import { MultipleChoice } from 'publicComponents/CreateQuestionPage/QuestionType/MultipleChoice/MultipleChoice'
 import { QuestionStatus } from 'publicComponents/CreateQuestionPage/QuestionType/QuestionStatus'
 import React, { useEffect, useMemo, useState } from 'react'
 import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
 import { QuestionType } from 'server/fetchExam/types'
-import styled from 'styled-components'
-import { getQuestionHeader } from 'pages/CreateExamPage/util/util'
-import { MultipleChoice } from 'publicComponents/CreateQuestionPage/QuestionType/MultipleChoice/MultipleChoice'
 import { StateSetter } from 'types'
-import { CreateExamRoutePageWrapper } from './CreateExamRoutePageStyle'
+import { CreateExamRoutePageWrapper, ExamRouteHeader } from './CreateExamRoutePageStyle'
 
-interface CreateExamRoutePageProps {
+type CreateExamRoutePageProps = {
   curEdit: IQuestionType
-  curOrder?: number
   setCurEditQuestion: StateSetter<IQuestionType | undefined>
   dispatchQuestionType: React.Dispatch<IQuestionTypeAction>
   disableHeader?: boolean
+} & {
+  curOrder?: number
 }
 
 export const CreateExamRoutePage = (props: CreateExamRoutePageProps) => {
@@ -67,22 +67,21 @@ export const CreateExamRoutePage = (props: CreateExamRoutePageProps) => {
     setCurNumber(curEdit?.score)
   }, [curEdit])
 
-  const onChangeScore = (e: number) => {
-    setCurNumber(e)
+  const onChangeScore = (e: number | null) => {
+    setCurNumber(e || 0)
     dispatchQuestionType({ type: 'editQuestion', payload: { id: curEdit.questionId, target: 'score', content: e } })
   }
 
+  const { paperNameMap } = usePaperMap()
   return (
     <CreateExamRoutePageWrapper>
       <ExamRouteHeader>
         {curEdit && (
           <>
-            <span style={{ marginRight: '16px', color: 'black', fontSize: '18px' }}>{curOrder || ''}</span>
-            <span style={{ fontSize: '16px', color: '#646873', marginRight: '12px' }}>
-              {getQuestionHeader(parseInt(curEdit.questionType))}
-            </span>
+            <span className="order">{curOrder || ' '}</span> .
+            <span className="typeName">{paperNameMap[curEdit.questionType]}</span>
             {curOrder ? (
-              <span style={{ marginRight: '8px' }}>
+              <span className="input">
                 <InputNumber
                   size="middle"
                   min={1}
@@ -106,10 +105,3 @@ export const CreateExamRoutePage = (props: CreateExamRoutePageProps) => {
     </CreateExamRoutePageWrapper>
   )
 }
-export const ExamRouteHeader = styled.div`
-  margin-bottom: 20px;
-
-  .ant-input-number {
-    width: 65px;
-  }
-`

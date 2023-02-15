@@ -49,7 +49,7 @@ export const StatisticsPanel: React.FC<{
   return (
     <Modal
       title={`${'试卷'}统计情况`}
-      visible={visible}
+      open={visible}
       onCancel={close}
       footer={[
         <Button key="submit" type="primary" onClick={handleOk} icon={<ArrowRightOutlined />}>

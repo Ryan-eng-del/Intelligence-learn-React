@@ -3,8 +3,6 @@ import { Button, Input, Modal } from 'antd'
 import React, { useState } from 'react'
 import { ChatBubble } from './ChatBubble'
 
-const RandomInt = () => Math.floor(Math.random() * 1e9)
-
 export const ContactModal: React.FC<{
   visible: boolean
   close: () => void
@@ -30,7 +28,7 @@ export const ContactModal: React.FC<{
   const test = document.getElementById('test')
 
   const 模拟对面回复 = (msg?: string) => {
-    const id = RandomInt().toString()
+    const id = crypto.randomUUID()
     data.push({ id, isMe: false, msg: msg || '狗再叫!' })
     setData([...data])
     setTimeout(() => {
@@ -39,7 +37,7 @@ export const ContactModal: React.FC<{
   }
 
   const handleSend = () => {
-    const id = RandomInt().toString()
+    const id = crypto.randomUUID()
     data.push({ id, isMe: true, msg: send })
     setTimeout(() => {
       模拟对面回复()
@@ -52,7 +50,7 @@ export const ContactModal: React.FC<{
   }
 
   return (
-    <Modal visible={visible} footer={null} onCancel={close} title={`与 ${from} 的对话`}>
+    <Modal open={visible} footer={null} onCancel={close} title={`与 ${from} 的对话`}>
       <div style={{ maxHeight: '200px', overflow: 'scroll' }} id="test">
         {data.map((i) => (
           <ChatBubble right={i.isMe} msg={i.msg} key={i.id} />

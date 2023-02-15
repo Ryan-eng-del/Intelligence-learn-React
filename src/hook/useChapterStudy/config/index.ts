@@ -3,7 +3,7 @@ import { GlobalMessage } from 'publicComponents/GlobalMessage'
 import { ChapterInitNode, ClassTimeInitNode } from '../type'
 
 export const ChapterNode: ChapterInitNode = {
-  id: Math.random() * 1000 + Math.random() * 10 + '',
+  id: crypto.randomUUID(),
   name: '新建节点',
   chapterOrder: 1,
   courTimes: [],
@@ -11,7 +11,7 @@ export const ChapterNode: ChapterInitNode = {
   pid: ''
 }
 export const ClassTimeNode: ClassTimeInitNode = {
-  classTimeId: Math.random() * 1000 + Math.random() * 10 + '',
+  classTimeId: crypto.randomUUID(),
   name: '新建节点',
   resource: [],
   paperName: '',

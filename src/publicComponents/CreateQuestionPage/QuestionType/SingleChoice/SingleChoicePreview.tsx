@@ -20,7 +20,7 @@ export const SingleChoicePreview = (props: SingleChoiceProps) => {
         .map((option) => {
           const isRightAnswer = option.option === question.rightAnswer
           return (
-            <div style={{ display: 'flex', marginBottom: '12px', alignItems: 'center' }} key={option.optionContent}>
+            <div style={{ display: 'flex', marginBottom: '12px', alignItems: 'center' }} key={option.option}>
               <OptionPreviewWrapper
                 style={{
                   color: isRightAnswer ? 'white' : 'black',

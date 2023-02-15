@@ -10,7 +10,7 @@ import { Preview as P1 } from 'publicComponents/CreateQuestionPage/QuestionType/
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDeleteTestPaper, useShowTestPaper } from 'server/fetchExam/TestPaper'
-import { QuestionDataWithID, QuestionType, WholeQuestion } from 'server/fetchExam/types'
+import { QuestionConstantString, QuestionDataWithID, QuestionType, WholeQuestion } from 'server/fetchExam/types'
 import styled from 'styled-components'
 import { ItemWrapper, TestPaperPreviewWrapper, TitleWrapper } from './TestPaperPreviewStyle'
 
@@ -46,7 +46,7 @@ const TestPaperPreview: React.FC = () => {
             <BaseLoading />
           ) : (
             <div className="title">
-              <Button icon={<ArrowLeftOutlined />} shape="circle" size="large" onClick={() => navigate(-1)} />
+              <Button icon={<ArrowLeftOutlined />} shape="circle" onClick={() => navigate(-1)}></Button>
               <div className="paperName"> {data?.paperName}</div>
               <Space>
                 <PrimaryButton title="编辑" handleClick={() => navigate(`/editpaper/${paperid}`)} />
@@ -64,7 +64,8 @@ const TestPaperPreview: React.FC = () => {
         <br /> */}
         {/* 题目列表 */}
         {Object.keys(mapper).map((Type, index) => {
-          const filtered = dataList.filter((q) => q.questionType == Type)
+          const T = Number(Type) as QuestionConstantString
+          const filtered = dataList.filter((q) => q.questionType == T)
           return filtered.length != 0 ? (
             <PaperBodyWrapper>
               <QuestionTypeWrapper>

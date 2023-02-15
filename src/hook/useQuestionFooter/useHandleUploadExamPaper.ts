@@ -1,4 +1,5 @@
 /*处理上传试卷*/
+import { message } from 'antd'
 import produce from 'immer'
 import { useCallback, useEffect, useState } from 'react'
 import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
@@ -63,18 +64,23 @@ export const useHandleUploadExamPaper = (
     setIsSaveModalOpen(false)
 
     try {
-      const questionId = await uploadQuestion(question)
-      dispatchQuestionType({
-        type: 'saveQuestionState',
-        id: questionId,
-        oldId: question.questionId
-      })
-
-      setCurEditQuestion(
-        produce((draft) => {
-          if (draft) draft.isStore = true
+      if (question.isStore) {
+        await changeQuestion(question)
+        message.success('修改成功')
+      } else {
+        const questionId = await uploadQuestion(question)
+        dispatchQuestionType({
+          type: 'saveQuestionState',
+          id: questionId,
+          oldId: question.questionId
         })
-      )
+
+        setCurEditQuestion(
+          produce((draft) => {
+            if (draft) draft.isStore = true
+          })
+        )
+      }
     } catch {
       setCurEditQuestion(
         produce((draft) => {
