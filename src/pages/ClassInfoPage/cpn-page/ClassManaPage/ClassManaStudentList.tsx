@@ -1,6 +1,8 @@
-import { Avatar, Button, List, Popconfirm } from 'antd'
+import { Avatar, Button, List, Popconfirm, Skeleton } from 'antd'
 import { useUserInfo } from 'context/UserInfoContext'
-import Skeletons from 'publicComponents/Skeleton/index'
+import { size } from 'lodash'
+// import Skeletons from 'publicComponents/Skeleton/index'
+
 import React from 'react'
 
 import { useDeleteStudent, useShowStudent } from 'server/fetchClass'
@@ -51,7 +53,13 @@ export const ClassManaStudentList: React.FC<{ class_id: string }> = (props) => {
   // ]
 
   return useShowStudentIsLoading ? (
-    <Skeletons size="middle" />
+    <>
+      <Skeleton avatar={{size:'large'}} active paragraph={{ rows: 0 }} title={{width:'90%'}} style={{ marginLeft: '30px',marginTop:'2%',marginBottom:'3%',position:'absolute'}} />
+      <Skeleton avatar={{size:'large'}} active paragraph={{ rows: 0 }} title={{width:'90%'}} style={{ marginLeft: '30px',marginTop:'11%',marginBottom:'3%',position:'absolute'}} />
+      <Skeleton avatar={{size:'large'}} active paragraph={{ rows: 0 }} title={{width:'90%'}} style={{ marginLeft: '30px',marginTop:'20%',marginBottom:'3%',position:'absolute'}} />
+      <Skeleton avatar={{size:'large'}} active paragraph={{ rows: 0 }} title={{width:'90%'}} style={{ marginLeft: '30px',marginTop:'29%',marginBottom:'3%',position:'absolute'}} />
+      <Skeleton avatar={{size:'large'}} active paragraph={{ rows: 0 }} title={{width:'90%'}} style={{ marginLeft: '30px',marginTop:'38%',marginBottom:'3%',position:'absolute'}} />
+    </>
   ) : (
     <List
       itemLayout="horizontal"

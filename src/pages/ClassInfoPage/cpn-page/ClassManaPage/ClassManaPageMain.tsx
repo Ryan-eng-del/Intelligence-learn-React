@@ -99,7 +99,7 @@ export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolea
             onCancel={() => setVis(false)}
           >
             {/* 等到接口上了之后再打开 */}
-            <div style={{ padding: 0, margin: 0 }}>
+            <div style={{ padding: 0, margin: 0,height:'600px' }}>
               <ClassManaStudentList class_id={show.class_id} />
             </div>
           </Modal>
