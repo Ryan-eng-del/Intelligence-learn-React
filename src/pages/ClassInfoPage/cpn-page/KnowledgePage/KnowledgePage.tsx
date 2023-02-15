@@ -64,7 +64,7 @@ const KnowledgePage: React.FC = () => {
 
   return (
     <KnowledgePageWrapper>
-      <Modal visible={show} title="导入excel" onCancel={() => setShow(false)} onOk={() => setShow(false)}>
+      <Modal open={show} title="导入excel" onCancel={() => setShow(false)} onOk={() => setShow(false)}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Upload {...uploadProps(fileList, setFileList)}>
             <div>

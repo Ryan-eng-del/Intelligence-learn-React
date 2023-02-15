@@ -29,7 +29,7 @@ export const ClassCard: React.FC<{
   return (
     <>
       {/* 这个弹窗在上一层TeachPagePro.tsx */}
-      {/* <Modal title="管理课程" visible={showCardEdit} onOk={handleOk} onCancel={handleCancel}>
+      {/* <Modal title="管理课程" open={showCardEdit} onOk={handleOk} onCancel={handleCancel}>
         <Form>
           <Form.Item>
             <label>更改课程名称</label>

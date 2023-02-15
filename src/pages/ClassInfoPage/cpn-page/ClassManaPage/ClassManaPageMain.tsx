@@ -42,13 +42,13 @@ export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolea
   return (
     <>
       <>
-        <Modal title="请输入班级名称" centered visible={add} onOk={AddClass} onCancel={() => setadd(false)}>
+        <Modal title="请输入班级名称" centered open={add} onOk={AddClass} onCancel={() => setadd(false)}>
           <Input placeholder="班级名称" id="classname" value={input} onChange={(e) => setInput(e.target.value)} />
         </Modal>
         {/* 班级详情 */}
         {show && (
           <Modal
-          zIndex={1}
+            zIndex={1}
             title={
               renameState ? (
                 <BaseLoading />
@@ -71,7 +71,7 @@ export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolea
               )
             }
             centered
-            visible={vis}
+            open={vis}
             width="1000px"
             footer={
               <>

@@ -14,12 +14,12 @@ export const MultipleChoice: React.FC<{
   setCurEditQuestion: StateSetter<IQuestionType | undefined>
   dispatchQuestionType: React.Dispatch<IQuestionTypeAction>
 }> = ({ question, setCurEditQuestion, dispatchQuestionType }) => {
-  /* 当前多选选择的选项 */
+  /* 当前选择的选项 */
   const [curSelect, setCurSelects] = useState<string[]>([])
 
   const questionRef = useRef({ len: 0, rightAnswer: '' })
 
-  /* 处理单选题编辑题干 */
+  /* 处理编辑题干 */
   const handleEditTitle = (content: string, id: string) => {
     dispatchQuestionType({ type: 'editQuestion', payload: { content, id, target: 'questionDescription' } })
   }
@@ -32,7 +32,7 @@ export const MultipleChoice: React.FC<{
     })
   }
 
-  /* 处理多选题编辑选项 */
+  /* 处理题编辑选项 */
   const handleEditRightMultipleOption = (optionName: string) => {
     const select = curSelect
     const index = select.find((i) => i === optionName)

@@ -42,7 +42,7 @@ const LearnPage: React.FC = () => {
         title="加入课程"
         width={400}
         bodyStyle={{ height: 380 }}
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={handleCancel}
         confirmLoading={wait}
         footer={

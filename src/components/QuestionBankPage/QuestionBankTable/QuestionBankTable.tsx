@@ -67,7 +67,7 @@ export const QuestionBankTable: React.FC<{
       render: (_: any, record: Item) => (
         <QuestionItemWrapper>
           <ShowQuestionDetails
-            onClick={isTeacher ? () => setKey(record.key) : () => window.open(`/promote/stu/${record.questionId}`)}
+            onClick={isTeacher ? () => setKey(record.key) : () => navigate(`/promote/stu/${record.questionId}`)}
           >
             {record.question}
           </ShowQuestionDetails>

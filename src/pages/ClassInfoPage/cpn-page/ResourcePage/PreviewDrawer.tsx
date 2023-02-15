@@ -11,7 +11,7 @@ export const PreviewDrawer: FC<{
   url: string
 }> = ({ open, close, showType, url }) => {
   return (
-    <Drawer closable={true} width="100vw" visible={open} onClose={close}>
+    <Drawer closable={true} width="100vw" open={open} onClose={close}>
       <Wapper>
         {showType == 'img' ? (
           <img src={url} style={{ maxHeight: '90vh', maxWidth: '90vw' }}></img>

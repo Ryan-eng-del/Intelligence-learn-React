@@ -10,146 +10,25 @@ import { DispatchQs, Take as Single } from 'publicComponents/CreateQuestionPage/
 import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useShowQuestionForStudent } from 'server/fetchExam/TestPaper'
-import { QuestionConstantString, QuestionOfPaperVO, QuestionType } from 'server/fetchExam/types'
-import styled from 'styled-components'
+import { QuestionOfPaperVO, QuestionType } from 'server/fetchExam/types'
 import { GlobalMessage } from '../../publicComponents/GlobalMessage/index'
 import { useSaveExam, useSaveSingleQs } from '../../server/fetchExam/Student/index'
 import { useExamInfo } from './hook/useExamInfo'
 import { ExamPaper, useExamQsData } from './hook/useExamQsData'
 import { usePaperMap } from './hook/usePaperMap'
-
-const LeftExamWrapper = styled.div`
-  width: 300px;
-  background-color: #e2e8f0;
-  padding: 15px;
-  display: flex;
-  box-sizing: border-box;
-  flex-direction: column;
-  align-items: center;
-  height: calc(100vh - 43px);
-  .paperName {
-    margin-bottom: 35px;
-  }
-`
-
-const CenterExamWrapper = styled.div`
-  flex: 1;
-  background-color: #3b82f6;
-  overflow: auto;
-  height: calc(100vh - 43px);
-  background-color: #fff;
-`
-
-const RightExamWrapper = styled.div`
-  width: 280px;
-  padding: 15px;
-  .status-bar {
-    display: flex;
-    margin-bottom: 13px;
-  }
-
-  .already-answer {
-    display: flex;
-    align-items: center;
-    margin-right: 30px;
-    &::before {
-      content: '';
-      border-radius: 3px;
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      background-color: #0ea5e9;
-      margin-right: 10px;
-    }
-  }
-
-  .no-answer {
-    display: flex;
-    align-items: center;
-    &::before {
-      content: '';
-      border-radius: 3px;
-      display: inline-block;
-      width: 20px;
-      border: 1px solid #0284c7;
-      height: 20px;
-      background-color: #fff;
-      margin-right: 10px;
-    }
-  }
-`
-
-const LayoutWrapper = styled.div`
-  display: flex;
-`
-
-const CountDownWrapper = styled.div`
-  background-color: #fff;
-  width: 100%;
-  color: #000;
-  padding: 8px 25px;
-  border-radius: 10px;
-  font-size: 25px;
-
-  .count-num {
-    padding-left: 10px;
-  }
-`
-
-const InfoWrapper = styled.div`
-  display: flex;
-  margin-top: 20px;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-  background-color: #fff;
-  width: 100%;
-  color: rgba(0, 0, 0, 0.7);
-  padding: 8px 25px;
-  border-radius: 10px;
-  .info-item:not(div:last-of-type) {
-    margin-bottom: 13px;
-  }
-`
-const ExamWrapper = styled.div`
-  position: relative;
-  min-width: 1280px;
-`
-
-const HeaderWrapper = styled.div`
-  height: 43px;
-  background-color: #475569;
-  position: sticky;
-  top: 0;
-  display: flex;
-  justify-content: flex-end;
-  .button-submit {
-    height: 100%;
-    width: 100px;
-  }
-`
-
-const QuestionBlock = styled.div<{ bg: boolean }>`
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: ${(props) => (props.bg ? '#fff' : '#0284c7')};
-  cursor: pointer;
-  border: 1px solid #0284c7;
-  background-color: ${(props) => (props.bg ? '#0284c7' : undefined)};
-`
-
-const QuestionTypeWrapperStatus = styled.div`
-  padding: 10px;
-`
-
-const QuestionStatusHeader = styled.div`
-  display: flex;
-  margin-bottom: 15px;
-`
+import {
+  CenterExamWrapper,
+  CountDownWrapper,
+  ExamWrapper,
+  HeaderWrapper,
+  InfoWrapper,
+  LayoutWrapper,
+  LeftExamWrapper,
+  QuestionBlock,
+  QuestionStatusHeader,
+  QuestionTypeWrapperStatus,
+  RightExamWrapper
+} from './paperDoingPageStyle'
 
 const PaperDoing: React.FC = () => {
   const { paperId } = useParams()
@@ -233,7 +112,8 @@ const PaperDoing: React.FC = () => {
     )
   }
 
-  const QuestionCpn = ({ examMap, type }: { examMap?: typeof Mapper; type: 'nav' | 'content' }): ReactNode => {
+  type T = { examMap?: typeof Mapper; type: 'nav' | 'content' }
+  const QuestionCpn = ({ examMap, type }: T): ReactNode => {
     return (
       <>
         {Object.keys(examData)?.map((k) => {
@@ -253,7 +133,7 @@ const PaperDoing: React.FC = () => {
                       </span>
                     </Typography.Title>
                   </QuestionStatusHeader>
-                  {examMap?.[exam.questionType as QuestionConstantString]?.(exam, index + 1)}
+                  {examMap?.[exam.questionType]?.(exam, index + 1)}
                   {type === 'nav' && (
                     <div>
                       {examData[k as keyof ExamPaper]?.map((_, index) => {
@@ -284,7 +164,7 @@ const PaperDoing: React.FC = () => {
 
       <Modal
         title="交卷"
-        visible={open}
+        open={open}
         onCancel={() => setOpen(false)}
         okText="确认"
         cancelText="取消"

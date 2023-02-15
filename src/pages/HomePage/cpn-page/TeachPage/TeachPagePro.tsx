@@ -102,7 +102,7 @@ export const TeachPage: React.FC = () => {
           {/* 新建课程弹出窗 */}
           <Modal
             title="新建课程"
-            visible={modalVisible}
+            open={modalVisible}
             onOk={handleOk}
             onCancel={handleCancel}
             okText="确认"
@@ -146,7 +146,7 @@ export const TeachPage: React.FC = () => {
           {/* 编辑课程弹出窗 */}
           <Modal
             title="管理课程"
-            visible={EditVisible}
+            open={EditVisible}
             onOk={confirmEdit}
             onCancel={() => dispatch({ type: 'setEditVisible', payload: false })}
             okText="确认"

@@ -86,11 +86,11 @@ export const QuestionFooter = (props: QuestionFooterProps) => {
 
   return (
     <>
-      <Modal title={'试题预览'} visible={isModalOpen} onCancel={() => setIsModalOpen(false)} footer={[]}>
+      <Modal title={'试题预览'} open={isModalOpen} onCancel={() => setIsModalOpen(false)} footer={[]}>
         <QuestionTitleWrapper>{question.questionDescription}</QuestionTitleWrapper>
         <SingleChoicePreview question={question} />
       </Modal>
-      <Modal title="保存题目" visible={isSaveModalOpen} onOk={handleOk} onCancel={() => setIsSaveModalOpen(false)}>
+      <Modal title="保存题目" open={isSaveModalOpen} onOk={handleOk} onCancel={() => setIsSaveModalOpen(false)}>
         <GlobalLabel>选择难易度：</GlobalLabel>
         <Select style={{ width: 120 }} onChange={handleChange} value={String(curDifficulty)}>
           {optionDifficulty.map((optionDiff, index) => {

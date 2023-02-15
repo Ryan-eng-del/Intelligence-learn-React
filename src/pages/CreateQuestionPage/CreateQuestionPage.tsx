@@ -8,7 +8,8 @@ import { useNavigate } from 'react-router-dom'
 import { initialQuestionTypeState, questionTypeReducer } from 'reducer/CreateExamPaper/questionTypeReducer'
 import { IQuestionType } from 'reducer/CreateExamPaper/type/type'
 import { QuestionConstantString, QuestionTypeAction } from 'server/fetchExam/types'
-import { CreateQuestionWrapper } from './CreateQuestionPageStyle'
+import styled from 'styled-components'
+export const CreateQuestionWrapper = styled.div``
 
 const CreateQuestionPage: React.FC = () => {
   const { classInfo } = useCurrentClassInfo()

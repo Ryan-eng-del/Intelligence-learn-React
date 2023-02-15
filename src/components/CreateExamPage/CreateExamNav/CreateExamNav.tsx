@@ -1,11 +1,11 @@
 import { CheckOutlined, DeleteOutlined } from '@ant-design/icons'
 import { Collapse } from 'antd'
+import { usePaperMap } from 'pages/PaperDoingPage/hook/usePaperMap'
 import React, { useMemo, useState } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { IQuestionType, IQuestionTypeAction, IQuestionTypeInitialState } from 'reducer/CreateExamPaper/type/type'
 import { QuestionActionString } from 'server/fetchExam/types'
 import styled from 'styled-components'
-import { getQuestionHeader } from '../../../pages/CreateExamPage/util/util'
 
 import './index.css'
 
@@ -52,7 +52,7 @@ export const CreateExamNav = (props: CreateExamNavProps) => {
       )
     }, 0)
   }, [questionTypeState, curEditQuestion])
-
+  const { paperNameMap } = usePaperMap()
   return (
     <>
       <ExamNavHeader>
@@ -75,7 +75,7 @@ export const CreateExamNav = (props: CreateExamNavProps) => {
                 key={index}
                 header={
                   <PanelHeader>
-                    <span style={{ marginRight: '7px' }}>{getQuestionHeader(index)}</span>（共
+                    <span style={{ marginRight: '7px' }}>{paperNameMap[index]}</span>（共
                     {questionTypeKey.list.length}题
                     <span>
                       {questionTypeKey.list.reduce((pre: any, now: any) => {

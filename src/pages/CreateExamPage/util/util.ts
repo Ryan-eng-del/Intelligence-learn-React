@@ -28,12 +28,7 @@ export const createQuestionObj = (type: QuestionConstantString, set: Set<number>
     rightAnswer: '',
     questionAnswerNum: 1
   }
-  if (type === '0') resultObj.questionOption = '<><><>'
-  else if (type === '1') resultObj.questionOption = '<><><><>'
+  if (type === 0) resultObj.questionOption = '<><><>'
+  else if (type === 1) resultObj.questionOption = '<><><><>'
   return resultObj
-}
-
-/*得到题目名称*/
-export const getQuestionHeader = (index: number) => {
-  return { 0: '单选题', 1: '多选题', 2: '填空题', 3: '简答题', 4: '判断题' }[index]
 }

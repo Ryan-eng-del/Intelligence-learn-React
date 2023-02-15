@@ -50,7 +50,7 @@ export const ContactModal: React.FC<{
   }
 
   return (
-    <Modal visible={visible} footer={null} onCancel={close} title={`与 ${from} 的对话`}>
+    <Modal open={visible} footer={null} onCancel={close} title={`与 ${from} 的对话`}>
       <div style={{ maxHeight: '200px', overflow: 'scroll' }} id="test">
         {data.map((i) => (
           <ChatBubble right={i.isMe} msg={i.msg} key={i.id} />
