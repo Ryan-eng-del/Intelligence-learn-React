@@ -87,7 +87,7 @@ const CountDownWrapper = styled.div`
   background-color: #fff;
   width: 100%;
   color: #000;
-  padding: 8px 25px;
+  padding: 8px;
   border-radius: 10px;
   font-size: 25px;
 
@@ -105,7 +105,7 @@ const InfoWrapper = styled.div`
   background-color: #fff;
   width: 100%;
   color: rgba(0, 0, 0, 0.7);
-  padding: 8px 25px;
+  padding: 8px;
   border-radius: 10px;
   .info-item:not(div:last-of-type) {
     margin-bottom: 13px;
@@ -134,6 +134,8 @@ const QuestionBlock = styled.div<{ bg: boolean }>`
   height: 30px;
   border-radius: 8px;
   display: flex;
+  overflow: hidden;
+  margin: 5px;
   justify-content: center;
   align-items: center;
   color: ${(props) => (props.bg ? '#fff' : '#0284c7')};
@@ -255,7 +257,7 @@ const PaperDoing: React.FC = () => {
                   </QuestionStatusHeader>
                   {examMap?.[exam.questionType as QuestionConstantString]?.(exam, index + 1)}
                   {type === 'nav' && (
-                    <div>
+                    <div style={{ display: 'flex' }}>
                       {examData[k as keyof ExamPaper]?.map((_, index) => {
                         return (
                           <QuestionBlock key={index} bg={!!_.studentAnswer}>
