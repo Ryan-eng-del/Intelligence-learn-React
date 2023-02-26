@@ -33,7 +33,7 @@ export const useHandleAddClassTime = (props: Omit<IHandleChapterControl<ChapterT
     const addChapterId: string = curChapterId.current
     const isTrim = noTrim(classTimeState.courseTimeName)
     if (isTrim) return
-    debugger
+
     const resourceIds = classTimeState.ids
     try {
       await addContentMutate({
