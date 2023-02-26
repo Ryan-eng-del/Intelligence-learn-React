@@ -17,6 +17,7 @@ export type ICourseTimeReducerAction =
   | { type: 'setName'; name: string }
   | { type: 'initNameAndFileList' }
   | { type: 'pushId'; id: string }
+  | { type: 'clearId' }
 
 export interface ICourseTimeReducerState {
   courseTimeModalVisible: boolean

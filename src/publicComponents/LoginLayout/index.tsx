@@ -79,7 +79,7 @@ const LoginLayout = (props: LoginLayoutProps) => {
           >
             欢迎
             <span style={{ color: 'rgb(64, 169, 255)', padding: '0 3px' }}>{isLoginPage ? '登录' : '注册'}</span>
-            智能学习社区 !
+            学习者个性化推荐系统 !
           </Text>
 
           <OverrideAntInputPrefix>

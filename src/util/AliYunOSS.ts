@@ -24,8 +24,8 @@ class AliYunOSS {
   parallel = 5
   retryCount = 3
   retryDuration = 2
-  region = 'cn-shenzhen'
-  userId = '1123130372173181'
+  region = 'cn-shanghai'
+  userId = '279346877251780943'
   file = null
   authProgress = 0
   uploadDisabled = true

@@ -57,11 +57,13 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
   /* 处理文件上传 */
   const handleUpload = async () => {
     const { videoProject, otherProject } = createVideoAndOtherArr(fileList)
+
     /* 视频文件上传 */
     videoProject.forEach((file: File) => {
       uploader.addFile(file)
     })
     uploader.startUpload()
+
     /* 非视频文件上传 */
     otherProject.map((file: any) => {
       const formData = new FormData()
@@ -71,23 +73,26 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
         dispatch({ type: 'pushId', id: data.resourceId })
       })
     })
+
     /* 并发上传 */
     await Promise.all(otherProject)
       .then(() => {
         setOtherProgress(100)
         setTimeout(() => setIsOtherStart(false), 500)
+        dispatch({
+          type: 'setFileList',
+          fileObj: <T>(pre: T[]) => {
+            pre = pre.concat(fileList)
+            return pre
+          }
+        })
       })
       .catch(() => {
         GlobalMessage('error', '上传非视频文件出现错误')
       })
-
-    dispatch({
-      type: 'setFileList',
-      fileObj: <T>(pre: T[]) => {
-        pre = pre.concat(fileList)
-        return pre
-      }
-    })
+      .finally(() => {
+        setFileList([])
+      })
   }
 
   /* 选择树来触发 */
@@ -101,11 +106,13 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
     dispatch({ type: 'setModalState', open: true })
     setRelatePoints([])
   }
+
   const onOpenResourceDrawer = () => {
     setOpenResourceDrawer(true)
     dispatch({ type: 'setModalState', open: false })
     setFileList([])
   }
+
   return {
     handleUpload,
     openResourceDrawer,

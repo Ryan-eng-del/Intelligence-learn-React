@@ -108,6 +108,8 @@ export const useAddContent = (courseId: string) => {
   const queryClient = useQueryClient()
   return useMutation(
     async ({ chapter_id, name, resource_ids, paper_id, paper_name }: AddContent) => {
+      debugger
+      console.log(resource_ids, 'ids')
       return client.post({
         url: '/ctime/addClassTime',
         data: {
