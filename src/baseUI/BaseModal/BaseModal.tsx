@@ -28,7 +28,7 @@ export const BaseModal: React.FC<{
       <Modal
         title={title}
         okText="确认"
-        visible={modalVisible}
+        open={modalVisible}
         onOk={confirmModal}
         onCancel={() => dispatch({ type: 'showAddModal', payload: false })}
         cancelText="取消"

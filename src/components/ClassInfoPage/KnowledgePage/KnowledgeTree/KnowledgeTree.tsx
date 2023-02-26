@@ -16,7 +16,7 @@ export const KnowledgeTree = (props: { treeData: any; knowledgeControl: Record<s
     <div>
       <Modal
         title={knowledgeControl.curOrder}
-        visible={knowledgeControl.isModalVisible}
+        open={knowledgeControl.isModalVisible}
         onOk={knowledgeControl.handleOk}
         onCancel={knowledgeControl.handleCancel}
       >

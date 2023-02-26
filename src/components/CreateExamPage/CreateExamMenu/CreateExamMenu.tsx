@@ -25,7 +25,6 @@ export const QuestionICON = {
   [QuestionType.shortAnswer]: { title: '简答题', icon: <FormOutlined /> },
   [QuestionType.judge]: { title: '判断题', icon: <CheckOutlined /> }
 }
-const isConstantString = (val: unknown): val is QuestionConstantString => typeof val === 'string'
 
 export const CreateExamMenu: React.FC<{
   addQuestionType: (type: QuestionConstantString) => void
@@ -56,44 +55,49 @@ export const CreateExamMenu: React.FC<{
   return (
     <>
       {Object.keys(QuestionICON).map((item, index) => {
-        if (isConstantString(item)) {
-          return (
-            <SelectQuestionTypeButton
-              key={index}
-              onClick={() => {
-                addQuestionType(item)
-              }}
-            >
-              {QuestionICON[item].title}
-            </SelectQuestionTypeButton>
-          )
-        }
+        const key: QuestionConstantString = Number(item) as QuestionConstantString
+        return (
+          <SelectQuestionTypeButton
+            key={index}
+            onClick={() => {
+              addQuestionType(key)
+            }}
+          >
+            {QuestionICON[key].icon} {QuestionICON[key].title}
+          </SelectQuestionTypeButton>
+        )
       })}
-      <Button type="primary" icon={<HddOutlined />} style={{ marginLeft: '10px' }} onClick={() => setOpen(true)}>
-        从题库中选择
-      </Button>
-      <Drawer width="80vw" visible={open} onClose={() => setOpen(false)}>
-        <h1>这里报invalid hook</h1>
-        {data ? (
-          <QuestionBankTable // TODO:奇怪的类型映射。应该修改
-            curData={[]}
-            originData={data.map((i) => ({
-              key: i.questionId,
-              question: i.questionDescription,
-              rate: <Rate value={i.questionDifficulty + 1} disabled count={3} />,
-              type: config[i.questionType as 1 | 2 | 3 | 4 | 0]?.name,
-              create_time: i.createTime,
-              questionId: i.questionId,
-              rightAnswer: i.rightAnswer,
-              questionOption: i.questionOption
-            }))}
-            isAll={true}
-            select={select}
-          />
-        ) : (
-          <Skeletons size="middle" />
-        )}
-      </Drawer>
+      {dispatchQuestionType ? (
+        <>
+          <Button type="primary" icon={<HddOutlined />} style={{ marginLeft: '10px' }} onClick={() => setOpen(true)}>
+            从题库中选择
+          </Button>
+          <Drawer width="80vw" open={open} onClose={() => setOpen(false)}>
+            <h1>这里报invalid hook</h1>
+            {data ? (
+              <QuestionBankTable // TODO:奇怪的类型映射。应该修改
+                curData={[]}
+                originData={data.map((i) => ({
+                  key: i.questionId,
+                  question: i.questionDescription,
+                  rate: <Rate value={i.questionDifficulty + 1} disabled count={3} />,
+                  type: config[i.questionType as QuestionConstantString]?.name,
+                  create_time: i.createTime,
+                  questionId: i.questionId,
+                  rightAnswer: i.rightAnswer,
+                  questionOption: i.questionOption
+                }))}
+                isAll={true}
+                select={select}
+              />
+            ) : (
+              <Skeletons size="middle" />
+            )}
+          </Drawer>
+        </>
+      ) : (
+        <></>
+      )}
     </>
   )
 }
@@ -121,15 +125,4 @@ export const SelectQuestionTypeButton = styled.span`
     border: 1px solid #94c1ff;
     color: #3a8bff;
   }
-`
-
-export const CreateExamMenuWrapper = styled.div`
-  //background-color: white;
-  //margin: 10px 0 10px 10px;
-  //height: 60px;
-  //padding: 10px;
-  //animation: 0.7s fadeleft ease forwards;
-  //border-top: 3px solid var(--border);
-  //box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
-  //rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 `

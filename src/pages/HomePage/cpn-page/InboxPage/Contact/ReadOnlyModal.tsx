@@ -9,7 +9,7 @@ export const ReadOnlyModal: React.FC<{
   content: string
 }> = ({ visible, close, title, content }) => {
   return (
-    <Modal visible={visible} footer={null} onCancel={close} title={title}>
+    <Modal open={visible} footer={null} onCancel={close} title={title}>
       {str2DOM(content)}
     </Modal>
   )

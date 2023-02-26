@@ -1,14 +1,16 @@
 import { Button, Modal, Result, Tag } from 'antd'
-import { useCurrentClassInfo } from 'context/ClassInfoContext'
-import { Take as P3 } from 'publicComponents/CreateQuestionPage/QuestionType/FillBlank/Take'
-import { Take as P5 } from 'publicComponents/CreateQuestionPage/QuestionType/Judge/Take'
-import { Take as P2 } from 'publicComponents/CreateQuestionPage/QuestionType/MultipleChoice/Take'
-import { Take as P4 } from 'publicComponents/CreateQuestionPage/QuestionType/ShortAnswer/Take'
-import { Take as P1 } from 'publicComponents/CreateQuestionPage/QuestionType/SingleChoice/Take'
+import { usePaperMap } from 'pages/PaperDoingPage/hook/usePaperMap'
+import { PrimaryButton } from 'publicComponents/Button'
+import { Take as FillBlank } from 'publicComponents/CreateQuestionPage/QuestionType/FillBlank/Take'
+import { Take as Judge } from 'publicComponents/CreateQuestionPage/QuestionType/Judge/Take'
+import { Take as MultipleChoice } from 'publicComponents/CreateQuestionPage/QuestionType/MultipleChoice/Take'
+import { Take as ShortAnswer } from 'publicComponents/CreateQuestionPage/QuestionType/ShortAnswer/Take'
+import { DispatchQs, Take as Single } from 'publicComponents/CreateQuestionPage/QuestionType/SingleChoice/Take'
+import { GlobalMessage } from 'publicComponents/GlobalMessage'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useShowQuestionForStu, useSubmitQuestion } from 'server/fetchExam'
-import { QuestionType, StudentPaperItem } from 'server/fetchExam/types'
+import { QuestionOfPaperVO, QuestionType } from 'server/fetchExam/types'
 import Skeletons from '../../publicComponents/Skeleton/index'
 import { BackButton, QuestionDoingPageWrapper } from './QuestionDoingPageStyle'
 
@@ -17,30 +19,49 @@ const QuestionDoingPage = () => {
   const { questionId } = useParams<{ questionId?: string }>()
   const { data, isLoading: showLoading } = useShowQuestionForStu(questionId)
   const { mutateAsync, isLoading } = useSubmitQuestion()
-  type T = StudentPaperItem
+  type T = QuestionOfPaperVO
   const [ans, setAns] = useState('')
 
   const submit = async () => {
     const result = await mutateAsync({
       questionId: questionId!,
       questionAnswer: ans,
-      questionType: data?.questionType || '0'
+      questionType: data?.questionType || 0
     })
     setModal(result)
     setIsModalOpen(true)
   }
 
-  // export type QuestionActionString = 'singleChoice' | 'multipleChoice' | 'fillBlankData' | 'judgeChoice' | 'shortAnswer'
-  // export type QuestionConstantString = '0' | '1' | '2' | '3' | '4'
-
-  const mapper = {
-    [QuestionType.single]: (data: T) => <P1 content={data} setAns={setAns} NoScore />,
-    [QuestionType.multiple]: (data: T) => <P2 content={data} setAns={setAns} NoScore />,
-    [QuestionType.fillBlank]: (data: T) => <P3 content={data} setAns={setAns} NoScore />,
-    [QuestionType.shortAnswer]: (data: T) => <P4 content={data} setAns={setAns} NoScore />,
-    [QuestionType.judge]: (data: T) => <P5 content={data} setAns={setAns} NoScore />
+  const { paperNameMap } = usePaperMap()
+  const dispatchQuestion: DispatchQs = (studentAnswer, qs) => {
+    if (qs.qsType !== QuestionType.multiple) {
+      setAns(studentAnswer)
+    } else {
+      if (ans === '') {
+        setAns('###')
+      }
+      GlobalMessage('error', '多选题还没做好')
+      setAns(studentAnswer)
+    }
   }
 
+  const Mapper = {
+    [QuestionType.single]: <T extends QuestionOfPaperVO>(data: T, order: number) => (
+      <Single content={data} order={order} dispatch={dispatchQuestion} />
+    ),
+    [QuestionType.multiple]: <T extends QuestionOfPaperVO>(data: T, order: number) => (
+      <MultipleChoice content={data} order={order} dispatch={dispatchQuestion} />
+    ),
+    [QuestionType.fillBlank]: <T extends QuestionOfPaperVO>(data: T, order: number) => (
+      <FillBlank content={data} order={order} dispatch={dispatchQuestion} />
+    ),
+    [QuestionType.shortAnswer]: <T extends QuestionOfPaperVO>(data: T, order: number) => (
+      <ShortAnswer content={data} order={order} dispatch={dispatchQuestion} />
+    ),
+    [QuestionType.judge]: <T extends QuestionOfPaperVO>(data: T, order: number) => (
+      <Judge content={data} order={order} dispatch={dispatchQuestion} />
+    )
+  }
   const [modal, setModal] = useState<{
     answerIsRight: boolean
     nextQuestionId: string
@@ -54,10 +75,7 @@ const QuestionDoingPage = () => {
   }>()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const handleCancel = () => setIsModalOpen(false)
-  const { classInfo, getCurCourseInfo } = useCurrentClassInfo()
 
-  const cId = classInfo.courseId
-  console.log(cId, 'id')
   return (
     <>
       {showLoading ? (
@@ -65,46 +83,23 @@ const QuestionDoingPage = () => {
       ) : (
         <QuestionDoingPageWrapper>
           <BackButton>
-            {data?.questionType == '0' ? (
+            {data && (
               <Tag color="processing" style={{ height: '1.5rem' }}>
-                单选题
+                {paperNameMap[data.questionType]}
               </Tag>
-            ) : data?.questionType == '1' ? (
-              <Tag color="processing" style={{ height: '1.5rem' }}>
-                多选题
-              </Tag>
-            ) : data?.questionType == '2' ? (
-              <Tag color="processing" style={{ height: '1.5rem' }}>
-                填空题
-              </Tag>
-            ) : data?.questionType == '3' ? (
-              <Tag color="processing" style={{ height: '1.5rem' }}>
-                判断题
-              </Tag>
-            ) : data?.questionType == '4' ? (
-              <Tag color="processing" style={{ height: '1.5rem' }}>
-                简答题
-              </Tag>
-            ) : (
-              <></>
             )}
           </BackButton>
-          {data && mapper[data.questionType] ? mapper[data.questionType](data) : <></>}
 
-          {/* {data && mapper[data.questionType] ? mapper[data.questionType](data) : <></>} */}
+          {/* 题目正文 */}
+          {data && Mapper[data.questionType](data, 0)}
+
           {
             <p style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Button
-                type="primary"
-                onClick={submit}
-                style={{ background: 'linear-gradient(140deg, #6cc7ff 0%, #5a33ff 100%)' }}
-              >
-                提交
-              </Button>
+              <PrimaryButton title="提交" handleClick={submit} />
             </p>
           }
 
-          <Modal title="回答结果" visible={isModalOpen} onCancel={handleCancel} footer={[]}>
+          <Modal title="回答结果" open={isModalOpen} onCancel={handleCancel} footer={[]}>
             {' '}
             {modal ? (
               <>

@@ -38,7 +38,7 @@ const TeacherSourcePreviewPage = () => {
         className="drawer-wrapper"
         style={{ width: '100vw' }}
         onClose={onClose}
-        visible={open}
+        open={open}
         mask={false}
       >
         <TeachPreviewWrapper>

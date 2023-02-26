@@ -8,8 +8,9 @@ import { initialQuestionTypeState, questionTypeReducer } from 'reducer/CreateExa
 import { IQuestionType } from 'reducer/CreateExamPaper/type/type'
 import { useShowQuestionDetails } from 'server/fetchExam'
 import { QuestionTypeAction } from 'server/fetchExam/types'
-import { QuestionEditPageWrapper } from './QuestionEditPageStyle'
+import styled from 'styled-components'
 
+const QuestionEditPageWrapper = styled.div``
 const QuestionEditPage: React.FC = () => {
   const { questionId } = useParams<{ questionId: string }>()
   //请求对应的数据

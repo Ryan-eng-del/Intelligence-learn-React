@@ -43,7 +43,7 @@ export const ChapterTreeModal: React.FC<{
     <ChapterTreeModalWrapper>
       <Drawer
         title="添加课时"
-        visible={classTimeState?.courseTimeModalVisible}
+        open={classTimeState?.courseTimeModalVisible}
         onClose={onCloseClassTimeDrawer}
         size={'large'}
         mask={false}

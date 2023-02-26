@@ -90,7 +90,7 @@ export const PublishPanel: React.FC<{
   return (
     <Modal
       title={`发布${isExam ? '考试' : '作业'} FIXME 这里每个都选一遍才会有数据 `}
-      visible={visible}
+      open={visible}
       onCancel={close}
       footer={[
         <Button key="cancel" onClick={close} icon={<CloseOutlined />}>

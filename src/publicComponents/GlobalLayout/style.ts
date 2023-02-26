@@ -2,11 +2,26 @@ import styled from 'styled-components'
 
 export const GlobalRightLayout = styled.div`
   padding: 30px;
-  height: 720px;
-  overflow-y: auto;
+  overflow-y: scroll;
+  flex-grow: 1;
 `
 
-export const RightLayoutRouteWrapper = styled.div``
+export const RightLayoutRouteWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  // 加了这个，刷新的时候不会闪一下
+  transform: translateX(-100vw);
+  @keyframes slideInX {
+    0% {
+      transform: translateX(-100vw);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  animation: 0.2s ease-out 0.3s slideInX forwards;
+`
 
 export const NavWrapper = styled.div`
   flex: 1;
@@ -22,9 +37,8 @@ export const NavBottomWrapper = styled.div`
 
 export const HomePageWrapper = styled.div`
   margin: 0 auto;
-  max-width: 1504px;
-  min-width: 1200px;
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
   background-color: white;
   display: flex;
   justify-content: space-between;
@@ -40,10 +54,27 @@ export const HomePageWrapper = styled.div`
 
 export const LeftLayoutWrapper = styled.div`
   padding-top: 30px;
+  z-index: 1;
+  backdrop-filter: blur(10px);
+  @keyframes slideIn {
+    0% {
+      transform: translateY(-100vh);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  animation: 0.3s ease-in slideIn forwards;
+
+  box-sizing: border-box;
+  ::-webkit-scrollbar {
+    width: 0;
+  }
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
+  overflow: scroll;
   border-right: rgb(230, 230, 230) 2px solid;
   width: 200px;
   .signature {
@@ -81,8 +112,6 @@ export const LeftLayoutWrapper = styled.div`
 `
 export const RightLayoutWrapper = styled.div`
   flex: 1;
-  height: 100vh;
-  min-height: 800px;
 `
 
 export const UserAvatarWrapper = styled.div`

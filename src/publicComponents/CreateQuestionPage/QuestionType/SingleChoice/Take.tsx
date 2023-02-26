@@ -1,9 +1,12 @@
 import { Button, Space } from 'antd'
 import React from 'react'
-import { QuestionOfPaperVO } from 'server/fetchExam/types'
+import { QuestionConstantString, QuestionOfPaperVO } from 'server/fetchExam/types'
 import { str2DOM } from 'util/str2DOM'
 import '../QuestionStyle.css'
-export type DispatchQs = (opt: string, qs: { id: string; qsType: number; oldAns?: string | null }) => void
+export type DispatchQs = (
+  opt: string,
+  qs: { id: string; qsType: QuestionConstantString; oldAns?: string | null }
+) => void
 export const Take: React.FC<{
   content: QuestionOfPaperVO
   order: number

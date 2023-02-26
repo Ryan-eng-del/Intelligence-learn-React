@@ -55,7 +55,7 @@ export const ResourceListItem: React.FC<{
       {/* 编辑弹窗 */}
       <Modal
         title={`修改文件信息-${item.resourceName}`}
-        visible={isModalVisible}
+        open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={[
           <Popconfirm key="delete" title="你确定要删除这个文件吗" onConfirm={handleDelete} okText="是" cancelText="否">

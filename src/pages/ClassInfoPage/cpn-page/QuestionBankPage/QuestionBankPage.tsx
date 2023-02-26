@@ -1,6 +1,5 @@
 import { Input, Rate, Space } from 'antd'
 import { QuestionBankHeader, QuestionBankTable } from 'components/QuestionBankPage'
-import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { PrimaryButton } from 'publicComponents/Button'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import Skeletons from 'publicComponents/Skeleton'
@@ -13,10 +12,7 @@ import { isTeachAuth } from 'util/isAuthTeach'
 import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/style'
 
 const QuestionBankPage: React.FC = () => {
-  const { classInfo, getCurCourseInfo } = useCurrentClassInfo()
-  // getCurCourseInfo(useParams()['id']!)
   const { data, isLoading } = useShowCreateQuestion(useParams()['id']!)
-  // const { data, isLoading } = useShowCreateQuestion(classInfo.courseId)
   const originData: Item[] = []
   const length = data?.length || 0
   const [curData, setCurData] = useState<Item[]>([])
@@ -32,7 +28,7 @@ const QuestionBankPage: React.FC = () => {
       key: data![i].questionId,
       question: data![i].questionDescription,
       rate: handleRate(data![i].questionDifficulty),
-      type: handleType(data![i].questionType.toString() as QuestionType),
+      type: handleType(data![i].questionType),
       create_time: data![i].createTime,
       questionId: data![i].questionId,
       rightAnswer: data![i].rightAnswer,

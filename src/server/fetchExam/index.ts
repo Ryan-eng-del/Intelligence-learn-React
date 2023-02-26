@@ -3,7 +3,7 @@ import { paperTarget, PublishExamType, PublishHomeworkType } from 'publicCompone
 import { IQuestionInfo, IQuestionType } from 'reducer/CreateExamPaper/type/type'
 import { client } from 'server'
 import { MutationMsg } from 'util/MutationMsg'
-import { ExamListItem, QuestionBank, QuestionConstantString, StudentPaperItem, WholeQuestion } from './types'
+import { ExamListItem, QuestionBank, QuestionConstantString, QuestionOfPaperVO, WholeQuestion } from './types'
 
 /** 添加试题 */
 export const useCreateQuestion = () => {
@@ -96,7 +96,7 @@ export const useDeleteQuestion = () => {
 /** 学生端显示题目 */
 export const useShowQuestionForStu = (id?: string) => {
   return useQuery([`preview-stu-${id}`], async () => {
-    return client.get<StudentPaperItem>({
+    return client.get<QuestionOfPaperVO>({
       url: `/question/stu/show/${id}`
     })
   })

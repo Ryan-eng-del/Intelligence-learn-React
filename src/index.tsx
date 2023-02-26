@@ -125,17 +125,14 @@ root.render(
                 <Route path="edit/:questionId" element={<QuestionEditPage />} />
               </Route>
             </Routes>
-
             <Routes>
               {/* 预览试卷 */}
               <Route path="previewtestpaper/:paperid" element={<TestPaperPreview />} />
             </Routes>
-
             <Routes>
               {/* 做试卷 */}
               <Route path="homework/:paperId" element={<PaperDoing />} />
             </Routes>
-
             <Routes>
               {/* 做试卷 */}
               <Route path="exam/:paperId" element={<PaperDoing />} />

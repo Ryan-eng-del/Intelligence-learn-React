@@ -1,11 +1,10 @@
-/* eslint-disable spaced-comment */
 /** 目前支持的题目类型 */
 export enum QuestionType {
-  'single' = '0',
-  'multiple' = '1',
-  'fillBlank' = '3',
-  'shortAnswer' = '4',
-  'judge' = '2'
+  'single' = 0,
+  'multiple' = 1,
+  'fillBlank' = 3,
+  'shortAnswer' = 4,
+  'judge' = 2
 }
 
 export enum QuestionTypeAction {
@@ -102,7 +101,7 @@ export type QuestionBank = {
   questionDifficulty: number
   questionId: string
   questionOption: string
-  questionType: number
+  questionType: QuestionConstantString
   rightAnswer: string
 }
 
@@ -129,16 +128,6 @@ export interface StudentPaper {
   submitVersion: number
 }
 
-export interface StudentPaperItem {
-  questionId: string
-  questionDescription: string
-  questionType: QuestionConstantString
-  questionScore?: number
-  questionAnswerNum: number
-  questionOrder?: number
-  questionOption: string
-}
-
 export interface QuestionOfPaperVO {
   questionDescription: string
   questionDifficulty: number
@@ -146,6 +135,6 @@ export interface QuestionOfPaperVO {
   questionOption: string
   questionOrder: number
   questionScore: number
-  questionType: number
+  questionType: QuestionConstantString
   studentAnswer: any
 }

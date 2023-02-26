@@ -179,8 +179,8 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
     })
   }
 
-  const changeExamNumber = (e: number) => {
-    setExamPublish((draft) => (draft.limitTime = e))
+  const changeExamNumber = (value: number | null) => {
+    setExamPublish((draft) => (draft.limitTime = value || Number.MAX_VALUE))
   }
 
   return isLoading ? (
@@ -195,7 +195,7 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
         placement="right"
         size={'large'}
         onClose={onClose}
-        visible={examPublish.publishModalVisible}
+        open={examPublish.publishModalVisible}
         mask={false}
         extra={
           <Button type="primary" onClick={confirmPublish}>
@@ -262,7 +262,7 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
       </Drawer>
 
       <Modal
-        visible={examPublish.stuListModalVisible}
+        open={examPublish.stuListModalVisible}
         onCancel={() =>
           setExamPublish((draft) => {
             draft.stuListModalVisible = false

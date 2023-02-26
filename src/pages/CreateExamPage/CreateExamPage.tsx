@@ -54,7 +54,7 @@ const CreateExamPage: React.FC = () => {
         size={'large'}
         style={{ width: '100vw' }}
         onClose={onClose}
-        visible={open}
+        open={open}
         mask={false}
         className={'exam-drawer'}
       >
