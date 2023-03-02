@@ -135,7 +135,7 @@ const PaperDoing: React.FC = () => {
                   </QuestionStatusHeader>
                   {examMap?.[exam.questionType]?.(exam, index + 1)}
                   {type === 'nav' && (
-                    <div>
+                    <div style={{ display: 'flex' }}>
                       {examData[k as keyof ExamPaper]?.map((_, index) => {
                         return (
                           <QuestionBlock key={index} bg={!!_.studentAnswer}>

@@ -48,6 +48,7 @@ export const useHandleAddClassTime = (props: Omit<IHandleChapterControl<ChapterT
     } finally {
       dispatch({ type: 'setModalState', open: false })
       dispatch({ type: 'setName', name: '' })
+      dispatch({ type: 'clearId' })
       dispatch({ type: 'setFileList', fileObj: () => [] })
       dispatch({ type: 'initNameAndFileList' })
     }
