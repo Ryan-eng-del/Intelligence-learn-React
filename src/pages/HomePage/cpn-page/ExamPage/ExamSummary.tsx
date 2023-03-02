@@ -3,21 +3,14 @@ import type { ColumnsType } from 'antd/es/table'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useShowExamListPublished } from 'server/fetchExam/TestPaper'
+import { useShowExamListPublished } from 'server/fetchExam'
 import { ExamListItem } from 'server/fetchExam/types'
-
-const statusType = {
-  undone: '未提交',
-  Correcting: '待批改'
-}
 
 type TableType = ExamListItem & {
   Course?: string
 }
 
 const ExamSummary: React.FC = () => {
-  const navigate = useNavigate()
   const columns: ColumnsType<TableType> = [
     {
       title: '来源课程',

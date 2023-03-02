@@ -1,9 +1,10 @@
 import { Button, Input, Radio } from 'antd'
 import { usePaperMap } from 'pages/PaperDoingPage/hook/usePaperMap'
 import React from 'react'
+import { QuestionType } from 'server/fetchExam/types'
 import { QuestionBankHeaderWrapper, SelectiveList } from '../QuestionBankHeader/QuestionBankHeaderStyle'
 export const QuestionBankHeader: React.FC<{
-  changeType: (type: string) => void
+  changeType: (type: QuestionType) => void
   showAll: () => void
   search: (value: string) => any
 }> = ({ changeType, showAll, search }) => {
@@ -25,7 +26,7 @@ export const QuestionBankHeader: React.FC<{
                 className="choosebtn"
                 type="primary"
                 onClick={() => {
-                  changeType(paperNameMap[index])
+                  changeType(index)
                 }}
               >
                 {paperNameMap[index]}

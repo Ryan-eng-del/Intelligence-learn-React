@@ -9,7 +9,7 @@ import { Preview as P4 } from 'publicComponents/CreateQuestionPage/QuestionType/
 import { Preview as P1 } from 'publicComponents/CreateQuestionPage/QuestionType/SingleChoice/Preview'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useDeleteTestPaper, useShowTestPaper } from 'server/fetchExam/TestPaper'
+import { useDeleteTestPaper, useShowTestPaper } from 'server/fetchExam'
 import { QuestionConstantString, QuestionDataWithID, QuestionType, WholeQuestion } from 'server/fetchExam/types'
 import styled from 'styled-components'
 import { ItemWrapper, TestPaperPreviewWrapper, TitleWrapper } from './TestPaperPreviewStyle'

@@ -1,38 +1,17 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { client } from 'server'
+import { ExamListItem, StudentPaper } from '../types'
 
-import { MutationMsg } from 'util/MutationMsg'
-import { ExamListItem, PostTestPaper, StudentPaper, TestPaper } from '../types'
-
-/** 打开一张试卷 */
-export const useShowTestPaper = (paperId: string) => {
-  return useQuery([`TestPaper-${paperId}`], () => {
-    return client.get<TestPaper>({
-      url: `/paper/teacher/paper-preview`,
-      params: { id: paperId }
-    })
-  })
-}
-
-/** 保存这张试卷 */
-export const useSaveTestPaper = () => {
-  return useMutation(async (paper: PostTestPaper) => {
-    return client.post({
-      url: '/paper/teacher/update',
-      data: paper
-    })
-  }, MutationMsg('试卷保存'))
-}
-
-// TODO: 后端没有接口
-/** 删除这张试卷 */
-export const useDeleteTestPaper = () => {
+/** 提交试卷 */
+export const useSaveExam = () => {
   return useMutation(async (paperId: string) => {
     return client.post({
-      url: '/paper/teacher/update',
-      data: paperId
+      url: '/paper/stu/submit-exam',
+      data: {
+        paperId
+      }
     })
-  }, MutationMsg('试卷删除'))
+  })
 }
 
 /** 学生获取到试卷列表 */
@@ -71,12 +50,11 @@ export const useShowQuestionForStudent = (id: string) => {
   })
 }
 
-/** 学生提交试卷 */
-export const useSubmitTestPaper = () => {
-  return useMutation(async (paper: { questionId: string; studentAnswer: string }[]) => {
-    return client.post({
-      url: '/paper/stu/submit',
-      data: paper
+/* 获取学生考试 */
+export const useGetStuExam = (id: string) => {
+  return useQuery(['stu/exams', id], () => {
+    return client.get({
+      url: '/paper/stu/exams'
     })
-  }, MutationMsg('提交'))
+  })
 }

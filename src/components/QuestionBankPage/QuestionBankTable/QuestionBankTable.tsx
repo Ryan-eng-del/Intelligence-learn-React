@@ -1,9 +1,10 @@
 import { ExclamationCircleOutlined } from '@ant-design/icons'
-import { Button, Modal, Space, Table } from 'antd'
+import { Button, Modal, Rate, Space, Table } from 'antd'
+import { usePaperMap } from 'pages/PaperDoingPage/hook/usePaperMap'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDeleteQuestion } from 'server/fetchExam'
-import { Item } from 'server/fetchExam/types'
+import { QuestionBank } from 'server/fetchExam/types'
 import { isTeachAuth } from 'util/isAuthTeach'
 import { ShowDetailsCell } from './cpn/ShowDetailsCell'
 import {
@@ -16,8 +17,8 @@ import {
 const { confirm } = Modal
 
 export const QuestionBankTable: React.FC<{
-  originData: Item[]
-  curData: Item[]
+  originData: QuestionBank[]
+  curData: QuestionBank[]
   isAll: boolean
   select?: (i: string) => void
 }> = ({ originData, curData, isAll, select }) => {
@@ -37,6 +38,9 @@ export const QuestionBankTable: React.FC<{
     selectedRowKeys,
     onChange: onSelectChange
   }
+  const { paperNameMap } = usePaperMap()
+
+  const handleRate = (n: number) => <Rate value={n + 1} disabled count={3} />
 
   const showDeleteConfirm = (id: string) => {
     confirm({
@@ -54,48 +58,50 @@ export const QuestionBankTable: React.FC<{
     })
   }
   // 操作函数
-  const isShow = (record: Item) => record.key === showDetailsKey
+  const isShow = (record: QuestionBank) => record.questionId === showDetailsKey
   // 表格配置
   const columns = [
     {
       title: '题目',
-      dataIndex: 'question',
+      dataIndex: 'questionDescription',
       width: '40%',
       ellipsis: true,
       showing: true,
       className: 'table-header',
-      render: (_: any, record: Item) => (
+      render: (_: any, record: QuestionBank) => (
         <QuestionItemWrapper>
           <ShowQuestionDetails
-            onClick={isTeacher ? () => setKey(record.key) : () => navigate(`/promote/stu/${record.questionId}`)}
+            onClick={isTeacher ? () => setKey(record.questionId) : () => navigate(`/promote/stu/${record.questionId}`)}
           >
-            {record.question}
+            {record.questionDescription}
           </ShowQuestionDetails>
         </QuestionItemWrapper>
       )
     },
     {
       title: '难易度',
-      dataIndex: 'rate',
+      dataIndex: 'questionDifficulty',
       className: 'table-header',
-      width: '12%'
+      width: '12%',
+      render: (_: any, record: QuestionBank) => handleRate(record.questionType)
     },
     {
       title: '类型',
-      dataIndex: 'type',
+      dataIndex: 'questionType',
       className: 'table-header',
-      width: '8%'
+      width: '8%',
+      render: (_: any, record: QuestionBank) => paperNameMap[record.questionType]
     },
     {
       title: '创建时间',
       width: '20%',
       className: 'table-header',
-      dataIndex: 'create_time'
+      dataIndex: 'createTime'
     },
     {
       title: '操作',
       className: 'table-header',
-      render: (_: any, record: Item) => {
+      render: (_: any, record: QuestionBank) => {
         return isTeacher ? (
           <QuestionOperateWrapper>
             {select ? (
@@ -128,7 +134,7 @@ export const QuestionBankTable: React.FC<{
     }
     return {
       ...col,
-      onCell: (record: Item) => ({
+      onCell: (record: QuestionBank) => ({
         record,
         title: col.title,
         editing: isShow(record)
