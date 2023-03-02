@@ -49,7 +49,7 @@ const RightLayoutHeaderWrapper = styled.div`
     cursor: pointer;
   }
   user-select: none;
-  height: 80px;
+  min-height: 60px;
   border-bottom: rgb(230, 230, 230) 2px solid;
   display: flex;
   padding: 0 30px;

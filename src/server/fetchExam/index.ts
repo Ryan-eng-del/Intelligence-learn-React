@@ -163,3 +163,15 @@ export const submitPaper = (paperId: string) => {
     })
   })
 }
+
+export const useRecommendQuestion = (courseId: string) => {
+  return useMutation((pointId: string) => {
+    return client.get({
+      url: '/recommend/pointRecommend',
+      params: {
+        pointId,
+        courseId
+      }
+    })
+  })
+}

@@ -1,91 +1,52 @@
-import { Input, Rate, Space } from 'antd'
-import { QuestionBankHeader, QuestionBankTable } from 'components/QuestionBankPage'
+import { Space } from 'antd'
 import { PrimaryButton } from 'publicComponents/Button'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
-import Skeletons from 'publicComponents/Skeleton'
-import React, { useState } from 'react'
-import { Outlet, useNavigate, useParams } from 'react-router-dom'
-import { useShowCreateQuestion } from 'server/fetchExam'
-import { config } from 'server/fetchExam/config'
-import { Item, QuestionType } from 'server/fetchExam/types'
+import React, { useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import { isTeachAuth } from 'util/isAuthTeach'
-import { GlobalRightLayout } from '../../../../publicComponents/GlobalLayout/style'
+import { PointRecommend } from './PointRecommend'
+import { ContentWapper } from './QuestionBankPageStyle'
+import { QuestionDashbroad } from './QuestionDashbroad'
+import { QuestionList } from './QuestionList'
 
 const QuestionBankPage: React.FC = () => {
-  const { data, isLoading } = useShowCreateQuestion(useParams()['id']!)
-  const originData: Item[] = []
-  const length = data?.length || 0
-  const [curData, setCurData] = useState<Item[]>([])
-  const [isAll, setIsAll] = useState(true)
-  const handleType = (type: QuestionType): string => {
-    return config[type]?.name
-  }
-
-  const handleRate = (n: number) => <Rate value={n + 1} disabled count={3} />
-  // TODO:奇怪的类型映射。应该修改
-  for (let i = 0; i < length; i++) {
-    originData.push({
-      key: data![i].questionId,
-      question: data![i].questionDescription,
-      rate: handleRate(data![i].questionDifficulty),
-      type: handleType(data![i].questionType),
-      create_time: data![i].createTime,
-      questionId: data![i].questionId,
-      rightAnswer: data![i].rightAnswer,
-      questionOption: data![i].questionOption
-    })
-  }
-
-  const changeType = (type: string) => {
-    setCurData(originData.filter((item) => item.type === type))
-    setIsAll(false)
-  }
-
-  const showAll = () => {
-    setCurData([...originData])
-    setIsAll(true)
-  }
-
-  const search = (value: string) => {
-    if (value === '') {
-      return
-    } else {
-      setCurData(originData.filter((item) => item.question.indexOf(value)))
-      setIsAll(false)
-    }
-  }
-  const id = useParams()['id']
+  const tableRef = useRef<null | HTMLDivElement>(null)
+  const DashbroadRef = useRef<null | HTMLDivElement>(null)
+  const [open, setOpen] = useState(false)
   const isTeacher = isTeachAuth()
   const navigate = useNavigate()
+  const AnchorBottom = () => tableRef.current!.scrollIntoView({ behavior: 'smooth' })
+  const scrollIntoView = (Ref: React.MutableRefObject<HTMLDivElement | null>) => {
+    //缩放锚定
+    if (Ref === tableRef) window.addEventListener('resize', AnchorBottom)
+    else window.removeEventListener('resize', AnchorBottom)
+    Ref.current?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
     <>
       <GlobalHeader
         title="题库"
         tool={
           <Space>
-            <Input.Search allowClear size="large" onSearch={(value) => search(value)} />
             {isTeacher && (
               <PrimaryButton title="添加题目" handleClick={() => navigate('../createquestion', { replace: true })} />
             )}
           </Space>
         }
       ></GlobalHeader>
-      <GlobalRightLayout>
-        <QuestionBankHeader changeType={changeType} showAll={showAll}></QuestionBankHeader>
-        {isLoading ? (
-          <Skeletons size="middle" />
-        ) : (
-          <QuestionBankTable
-            // 选中展开的数据
-            curData={curData}
-            // 全部数据
-            originData={originData}
-            // 搜索控制
-            isAll={isAll}
-          ></QuestionBankTable>
+      <ContentWapper>
+        {!isTeacher && (
+          <QuestionDashbroad
+            TargetRef={DashbroadRef}
+            move={() => scrollIntoView(tableRef)}
+            selectPoint={() => setOpen(true)}
+          />
         )}
-      </GlobalRightLayout>
-      <Outlet />
+        <QuestionList TargetRef={tableRef} move={() => scrollIntoView(DashbroadRef)} />
+      </ContentWapper>
+      <PointRecommend open={open} close={() => setOpen(false)} />
     </>
   )
 }
