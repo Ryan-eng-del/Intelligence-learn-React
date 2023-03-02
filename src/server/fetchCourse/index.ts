@@ -34,10 +34,10 @@ export const useShowInvitedCourseInfo = () => {
 export const useJoinInvitedCourse = () => {
   const queryClient = useQueryClient()
   return useMutation(
-    (classId: string) => {
+    (props: { classId: string, ability: string, expect: string }) => {
       return client.post<CourseList>({
         url: '/class/join',
-        params: { classId }
+        params: { ...props }
       })
     },
     {
