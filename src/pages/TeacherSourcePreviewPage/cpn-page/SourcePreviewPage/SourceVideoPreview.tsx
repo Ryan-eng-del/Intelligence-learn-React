@@ -14,6 +14,7 @@ const SourceVideoPreview: FC<{
   // 如果resURL有传入，则不必调用此函数
   const { data } = useGetResourceById()
   useEffect(() => {
+    console.log(data, 'data')
     if ((resURL || data) && Aliplayer) {
       new Aliplayer(
         {

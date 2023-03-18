@@ -193,7 +193,6 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
       <Drawer
         title={`${examPublish.paperName}`}
         placement="right"
-        size={'large'}
         onClose={onClose}
         open={examPublish.publishModalVisible}
         mask={false}
