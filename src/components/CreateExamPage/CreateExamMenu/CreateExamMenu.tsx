@@ -1,6 +1,5 @@
-import { Button, Drawer, Rate } from 'antd'
+import { Button } from 'antd'
 import React, { useState } from 'react'
-import { config } from 'server/fetchExam/config'
 import { QuestionConstantString, QuestionType, QuestionTypeAction } from 'server/fetchExam/types'
 
 import {
@@ -11,9 +10,7 @@ import {
   FormOutlined,
   HddOutlined
 } from '@ant-design/icons'
-import { QuestionBankTable } from 'components/QuestionBankPage'
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
-import Skeletons from 'publicComponents/Skeleton'
 import { IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
 import { useShowCreateQuestion, useShowQuestionDetails } from 'server/fetchExam'
 import styled from 'styled-components'
@@ -72,7 +69,8 @@ export const CreateExamMenu: React.FC<{
           <Button type="primary" icon={<HddOutlined />} style={{ marginLeft: '10px' }} onClick={() => setOpen(true)}>
             从题库中选择
           </Button>
-          <Drawer width="80vw" open={open} onClose={() => setOpen(false)}>
+
+          {/* <Drawer width="80vw" open={open} onClose={() => setOpen(false)}>
             <h1>这里报invalid hook</h1>
             {data ? (
               <QuestionBankTable // TODO:奇怪的类型映射。应该修改
@@ -93,7 +91,7 @@ export const CreateExamMenu: React.FC<{
             ) : (
               <Skeletons size="middle" />
             )}
-          </Drawer>
+          </Drawer> */}
         </>
       ) : (
         <></>
