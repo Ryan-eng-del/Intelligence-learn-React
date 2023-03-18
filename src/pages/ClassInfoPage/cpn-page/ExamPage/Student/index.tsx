@@ -3,10 +3,10 @@ import React, { useMemo } from 'react'
 import { Button, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
+import { GlobalMessage } from 'publicComponents/GlobalMessage/index'
 import Skeletons from 'publicComponents/Skeleton/index'
 import { useNavigate } from 'react-router-dom'
-import { useHomeWorkListPublished, useShowExamListPublished } from 'server/fetchExam/TestPaper'
-import { GlobalMessage } from '../../../../../publicComponents/GlobalMessage/index'
+import { useHomeWorkListPublished, useShowExamListPublished } from 'server/fetchExam'
 
 enum statusType {
   'undone' = '未提交',

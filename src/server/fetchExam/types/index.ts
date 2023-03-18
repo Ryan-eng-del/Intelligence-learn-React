@@ -96,22 +96,11 @@ export type ExamListItem = {
 
 // 试题库
 export type QuestionBank = {
-  createTime: string
+  questionId: string
   questionDescription: string
   questionDifficulty: number
-  questionId: string
-  questionOption: string
   questionType: QuestionConstantString
-  rightAnswer: string
-}
-
-export type Item = {
-  key: string
-  question: string
-  rate: any
-  type: string
-  create_time: string
-  questionId: string
+  createTime: string
   rightAnswer: string
   questionOption: string
 }
@@ -137,4 +126,17 @@ export interface QuestionOfPaperVO {
   questionScore: number
   questionType: QuestionConstantString
   studentAnswer: any
+}
+// 试卷中的题目
+export interface SaveQs {
+  paperId: string
+  questionId: string
+  studentAnswer: string | null
+  submitVersion: number | undefined
+}
+// 上传试卷的类型
+export interface IUploadExamPaper {
+  paperName: string
+  questionsScore: number[]
+  questionIds: string[]
 }

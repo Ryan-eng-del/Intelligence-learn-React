@@ -3,7 +3,7 @@ import { BaseSpin } from 'baseUI/BaseSpin/BaseSpin'
 import { useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { IQuestionType, IQuestionTypeInitialState } from 'reducer/CreateExamPaper/type/type'
-import { useUploadExamPaper } from 'server/fetchExam/Teacher'
+import { useUploadExamPaper } from 'server/fetchExam'
 import { QuestionActionString } from 'server/fetchExam/types'
 import styled from 'styled-components'
 
@@ -32,7 +32,7 @@ export const CreateExamHeader = (props: CreateExamHeaderProps) => {
     })
     const key = `open${Date.now()}`
     const btn = (
-      <Button type="primary" size="middle" onClick={() => notification.close(key)}>
+      <Button type="primary" size="middle" onClick={() => notification.destroy(key)}>
         知道啦
       </Button>
     )

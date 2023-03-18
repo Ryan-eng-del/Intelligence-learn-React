@@ -4,7 +4,7 @@ import { QuestionTitleArea } from 'publicComponents/QuestionTitleArea/QuestionTi
 import React, { useEffect, useState } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { IQuestionType, IQuestionTypeAction } from 'reducer/CreateExamPaper/type/type'
-import { QuestionDataWithID } from 'server/fetchExam/types/index'
+import { QuestionDataWithID } from 'server/fetchExam/types'
 import { StateSetter } from 'types'
 import { QuestionFooter } from '../QuestionFooter'
 import './index.css'
