@@ -1,8 +1,9 @@
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Input, Modal, Popconfirm, Row, Upload } from 'antd'
+import { Button, Input, Modal, Popconfirm, Row, Switch, Upload } from 'antd'
 import type { UploadChangeParam } from 'antd/es/upload'
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
 import ClassDefaultPic from 'assets/img/class.jpg'
+import { EmptyPage } from 'pages/EmptyPages/EmptyPage'
 import { PrimaryButton } from 'publicComponents/Button/index'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
@@ -134,6 +135,8 @@ export const TeachPage: React.FC = () => {
                 {imgUrl ? <img src={imgUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
               </Upload>
             </UploadImageWrapper>
+            <div className="classname-label">公开此课程</div>
+            <Switch></Switch>
             <TextArea
               rows={4}
               value={courseDescribe}
@@ -178,6 +181,8 @@ export const TeachPage: React.FC = () => {
                 {imgUrl ? <img src={imgUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
               </Upload>
             </UploadImageWrapper>
+            <div className="classname-label">公开此课程</div>
+            <Switch></Switch>
             <div className="classname-label">修改课程描述</div>
             <TextArea
               rows={4}
@@ -203,22 +208,26 @@ export const TeachPage: React.FC = () => {
         ) : (
           <>
             <GlobalRightLayout className="globalLayout">
-              {Array.from({ length: (data?.length || 4 % 4) + 1 }).map((v, i) => (
-                <Row key={i} style={{ marginBottom: '30px' }}>
-                  {data?.map(
-                    (item, index) =>
-                      index >= i * 4 &&
-                      index < (i + 1) * 4 && (
-                        <ClassCard
-                          to="MyTeach"
-                          classInfo={item}
-                          key={item.courseId}
-                          EditModal={() => handleEdit(item)}
-                        />
-                      )
-                  )}
-                </Row>
-              ))}
+              {data?.length == 0 ? (
+                <EmptyPage description="你没有教授任何课程，点击右上角创建课程" />
+              ) : (
+                Array.from({ length: (data?.length || 4 % 4) + 1 }).map((v, i) => (
+                  <Row key={i} style={{ marginBottom: '30px' }}>
+                    {data?.map(
+                      (item, index) =>
+                        index >= i * 4 &&
+                        index < (i + 1) * 4 && (
+                          <ClassCard
+                            to="MyTeach"
+                            classInfo={item}
+                            key={item.courseId}
+                            EditModal={() => handleEdit(item)}
+                          />
+                        )
+                    )}
+                  </Row>
+                ))
+              )}
             </GlobalRightLayout>
           </>
         )}

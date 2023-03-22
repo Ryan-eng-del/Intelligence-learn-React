@@ -19,7 +19,7 @@ const SettingPage: React.FC = () => {
   const navigate = useNavigate()
 
   const logout = () => {
-    navigate('/login')
+    navigate('/')
     LocalCache.deleteCache(TOKEN_NAME)
   }
 

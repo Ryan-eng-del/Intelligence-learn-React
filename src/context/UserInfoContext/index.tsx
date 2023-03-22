@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useGetUserInfo } from 'server/fetchLogin'
 import { GlobalMessage } from '../../publicComponents/GlobalMessage'
+import { RequireLogin } from './RequireLogin'
 import { UserCard } from './UserCard'
 
 export interface IUserInfo {
@@ -18,16 +19,19 @@ interface IUserInfoContext {
   getUserInfo: any
   userInfo: IUserInfo | null
   showUserCard: null | (() => void)
+  requireLogin: () => void
 }
 
 const UserInfoContext = createContext<IUserInfoContext>({
   userInfo: null,
   getUserInfo: null,
-  showUserCard: null
+  showUserCard: null,
+  requireLogin: () => ({})
 })
 
 export const UserInfoContextProvider = (props: any) => {
   const [userInfo, setUserInfo] = useState(null)
+  const [loginModal, serLoginModal] = useState(false)
   const [open, setOpen] = useState(false) // 社区模块： 全局的用户信息卡片
   const { mutateAsync } = useGetUserInfo()
   const navigate = useNavigate()
@@ -45,10 +49,12 @@ export const UserInfoContextProvider = (props: any) => {
   const showUserCard = (id?: string) => {
     setOpen(true)
   }
+  const requireLogin = () => serLoginModal(true)
   return (
-    <UserInfoContext.Provider value={{ getUserInfo, userInfo, showUserCard }}>
+    <UserInfoContext.Provider value={{ getUserInfo, userInfo, showUserCard, requireLogin }}>
       {props.children}
       <UserCard open={open} close={() => setOpen(false)} showing={userInfo} />
+      <RequireLogin open={loginModal} close={() => serLoginModal(false)} />
     </UserInfoContext.Provider>
   )
 }

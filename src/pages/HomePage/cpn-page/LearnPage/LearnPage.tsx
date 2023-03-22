@@ -1,6 +1,7 @@
 import { Button, Input, message, Modal, Popconfirm, Row } from 'antd'
 import Slider, { SliderMarks } from 'antd/es/slider'
 import classPicUrl from 'assets/img/class.jpg'
+import { EmptyPage } from 'pages/EmptyPages/EmptyPage'
 import { PrimaryButton } from 'publicComponents/Button'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
@@ -60,25 +61,23 @@ const LearnPage: React.FC = () => {
     let expect
     if (abilityNum < 100) {
       ability = '一般'
-    } else
-      ability = '较好'
+    } else ability = '较好'
     if (expectNum < 50) {
       expect = '合格'
     } else if (expectNum < 100) {
       expect = '良好'
-    } else
-      expect = '优秀'
+    } else expect = '优秀'
     await joinClass({ classId, ability, expect })
   }
   const marks1: SliderMarks = {
     0: '一般',
-    100: '较好',
-  };
+    100: '较好'
+  }
   const marks2: SliderMarks = {
     0: '合格',
     50: '良好',
-    100: '优秀',
-  };
+    100: '优秀'
+  }
 
   return (
     <>
@@ -94,15 +93,15 @@ const LearnPage: React.FC = () => {
         footer={
           newCourse
             ? [
-              <Button onClick={() => (setNewCourse(undefined), setInvitedCode(''))} danger key="2">
-                重新输入
-              </Button>
-            ]
+                <Button onClick={() => (setNewCourse(undefined), setInvitedCode(''))} danger key="2">
+                  重新输入
+                </Button>
+              ]
             : [
-              <Button onClick={handleOk} key="1">
-                查询
-              </Button>
-            ]
+                <Button onClick={handleOk} key="1">
+                  查询
+                </Button>
+              ]
         }
       >
         <ModalContextWrapper>
@@ -132,19 +131,31 @@ const LearnPage: React.FC = () => {
                     description={
                       <>
                         <p>你认为你的学习能力如何</p>
-                        <Slider onChange={(v) => setAbilityNum(v)} marks={marks1} tooltip={{ open: false }} step={null} defaultValue={0} />
+                        <Slider
+                          onChange={(v) => setAbilityNum(v)}
+                          marks={marks1}
+                          tooltip={{ open: false }}
+                          step={null}
+                          defaultValue={0}
+                        />
                         <p>你希望在这门课取得什么样的高度</p>
-                        <Slider onChange={(v) => setExpectNum(v)} marks={marks2} tooltip={{ open: false }} step={null} defaultValue={0} />
+                        <Slider
+                          onChange={(v) => setExpectNum(v)}
+                          marks={marks2}
+                          tooltip={{ open: false }}
+                          step={null}
+                          defaultValue={0}
+                        />
                       </>
                     }
-                    onConfirm={() => { join(newCourse!.classId) }}
+                    onConfirm={() => {
+                      join(newCourse!.classId)
+                    }}
                     okText="Yes"
                     cancelText="No"
                   >
                     <PrimaryButtonWrapper>
-                      <a className="add-chapter">
-                        加入
-                      </a>
+                      <a className="add-chapter">加入</a>
                     </PrimaryButtonWrapper>
                     {/* <PrimaryButton
                       title="加入"
@@ -154,7 +165,6 @@ const LearnPage: React.FC = () => {
                       style={{ width: '100px', marginTop: '12px' }}
                     /> */}
                   </Popconfirm>
-
                 </CardBodyWrapper>
               </CardWrapper>
             )
@@ -170,16 +180,20 @@ const LearnPage: React.FC = () => {
           <Skeletons size="middle"></Skeletons>
         ) : (
           <GlobalRightLayout>
-            {Array.from({ length: (raw?.length || 4 % 4) + 1 }).map((v, i) => {
-              return (
-                <Row key={i} style={{ marginBottom: '30px' }}>
-                  {raw?.map(
-                    (item, index) =>
-                      index >= i * 4 && index < (i + 1) * 4 && <ClassCard to="MyStudy" classInfo={item} key={index} />
-                  )}
-                </Row>
-              )
-            })}
+            {raw?.length == 0 ? (
+              <EmptyPage description="你还没有加入任何课程，点击右上角加入课程" />
+            ) : (
+              Array.from({ length: (raw?.length || 4 % 4) + 1 }).map((v, i) => {
+                return (
+                  <Row key={i} style={{ marginBottom: '30px' }}>
+                    {raw?.map(
+                      (item, index) =>
+                        index >= i * 4 && index < (i + 1) * 4 && <ClassCard to="MyStudy" classInfo={item} key={index} />
+                    )}
+                  </Row>
+                )
+              })
+            )}
           </GlobalRightLayout>
         )}
       </>
@@ -188,4 +202,3 @@ const LearnPage: React.FC = () => {
 }
 
 export default LearnPage
-

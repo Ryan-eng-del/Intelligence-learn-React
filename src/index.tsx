@@ -10,7 +10,6 @@ import reportWebVitals from './reportWebVitals'
 
 import ContextProvider from 'context'
 import Skeletons from 'publicComponents/Skeleton'
-import { RequireAuth } from 'util/requireAuth'
 
 const HomePage = lazy(() => import('pages/HomePage/HomePage'))
 const RegisterPage = lazy(() => import('pages/LoginPages/RegisterPage'))
@@ -70,15 +69,9 @@ root.render(
                 <Route path="login" element={<LoginPage />} />
               </Routes>
             </Suspense>
+
             <Routes>
-              <Route
-                path="/"
-                element={
-                  <RequireAuth>
-                    <App />
-                  </RequireAuth>
-                }
-              ></Route>
+              <Route path="/" element={<App />}></Route>
             </Routes>
 
             <Routes>
