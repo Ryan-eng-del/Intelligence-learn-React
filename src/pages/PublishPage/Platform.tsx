@@ -1,5 +1,5 @@
 import { UserOutlined } from '@ant-design/icons'
-import { Avatar, Input, Layout, Menu } from 'antd'
+import { Avatar, Button, Col, Input, Layout, Menu, Row } from 'antd'
 import { Content, Footer } from 'antd/es/layout/layout'
 import { useUserInfo } from 'context/UserInfoContext'
 import { useState } from 'react'
@@ -19,11 +19,15 @@ export const Platform = () => {
       <Header>
         <Flex>
           <Title onClick={() => navigate('/')}>在线智能导学平台</Title>
-          <MenuWapper>
-            <Menu
-              style={{ minWidth: 0, flex: 'auto' }}
+          <Row justify={'space-around'} style={{ width: '350px', backgroundColor: '#001529', height: '60px', alignItems: 'center', textAlign: 'center' }}>
+            <Col className='colClass' span={8} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => setNav('course')}  >课程</Col>
+            <Col className='colClass' span={8} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => setNav('school')} >学校</Col>
+            <Col className='colClass' span={8} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => setNav('about')}>平台优势</Col>
+          </Row>
+          {/* <Menu
               theme="dark"
               mode="horizontal"
+              style={{height:"60px",width:'600px',display:'flex',justifyContent:'space-between',alignItems:'center'}}
               selectable={false}
               items={[
                 { key: 'course', label: '课程' },
@@ -31,12 +35,12 @@ export const Platform = () => {
                 { key: 'about', label: '平台优势' }
               ]}
               onClick={(e) => setNav(e.key)}
-            />
-          </MenuWapper>
+            /> */}
+
         </Flex>
         <Flex>
           <InputWapper>
-            <Search placeholder="搜索课程" onSearch={(v) => console.log(v)} enterButton />
+            <Search placeholder="搜索课程" allowClear enterButton="Search" onSearch={(v) => console.log(v)} style={{ padding:'0px'}} />
           </InputWapper>
           <UserWapper>
             {userInfo ? (
@@ -65,6 +69,7 @@ export const Platform = () => {
   )
 }
 
+
 const Header = styled.div`
   position: sticky;
   top: 0;
@@ -76,6 +81,13 @@ const Header = styled.div`
   background-color: #112240;
   align-items: center;
   justify-content: space-between;
+  color:white;
+  .colClass{
+    :hover{
+      background-color:#1890ff
+    }
+  }
+
 `
 
 const InputWapper = styled.div``
