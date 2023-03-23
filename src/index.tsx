@@ -46,6 +46,11 @@ const ClassMana = lazy(() => import('pages/ClassInfoPage/cpn-page/ClassManaPage/
 const QuestionEditPage = lazy(
   () => import('publicComponents/CreateQuestionPage/QuestionPreview/QuestionEdit/QuestionEditPage')
 )
+const CourseInfo = lazy(() => import('pages/PublishPage/CourseInfo'))
+const About = lazy(() => import('pages/PublishPage/About'))
+const Course = lazy(() => import('pages/PublishPage/Course'))
+const School = lazy(() => import('pages/PublishPage/School'))
+const Community = lazy(() => import('pages/Community/BlogPage/BlogPage'))
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const queryClient = new QueryClient({
@@ -71,7 +76,13 @@ root.render(
             </Suspense>
 
             <Routes>
-              <Route path="/" element={<App />}></Route>
+              <Route path="/" element={<App />}>
+                <Route path="" element={<Course />}></Route>
+                <Route path="course/:courseId" element={<CourseInfo />}></Route>
+                <Route path="about" element={<About />}></Route>
+                <Route path="school" element={<School />}></Route>
+                <Route path="community" element={<Community />}></Route>
+              </Route>
             </Routes>
 
             <Routes>
@@ -104,8 +115,8 @@ root.render(
                 </Route>
                 <Route path="exam" element={<ExamPage />}>
                   <Route path="editpaper" element={<CreateExamPage />} />
+                  <Route path=":paperId" element={<PaperDoing />} />
                 </Route>
-
                 <Route path="resource" element={<ResourcePage />} />
                 <Route path="discuss" element={<DiscussPage />} />
                 <Route path="class" element={<ClassMana />} />
@@ -121,14 +132,8 @@ root.render(
             <Routes>
               {/* 预览试卷 */}
               <Route path="previewtestpaper/:paperid" element={<TestPaperPreview />} />
-            </Routes>
-            <Routes>
               {/* 做试卷 */}
               <Route path="homework/:paperId" element={<PaperDoing />} />
-            </Routes>
-            <Routes>
-              {/* 做试卷 */}
-              <Route path="exam/:paperId" element={<PaperDoing />} />
             </Routes>
           </Suspense>
         </ContextProvider>

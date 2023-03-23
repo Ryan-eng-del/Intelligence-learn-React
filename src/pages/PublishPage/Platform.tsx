@@ -2,17 +2,12 @@ import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Input, Layout, Menu } from 'antd'
 import { Content, Footer } from 'antd/es/layout/layout'
 import { useUserInfo } from 'context/UserInfoContext'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import About from './About'
-import Course from './Course'
-import { School } from './School'
 const { Search } = Input
 
 export const Platform = () => {
   const { userInfo } = useUserInfo()
-  const [nav, setNav] = useState('course')
   const navigate = useNavigate()
   return (
     <Layout>
@@ -26,11 +21,11 @@ export const Platform = () => {
               mode="horizontal"
               selectable={false}
               items={[
-                { key: 'course', label: '课程' },
+                { key: '', label: '课程' },
                 { key: 'school', label: '学校' },
                 { key: 'about', label: '平台优势' }
               ]}
-              onClick={(e) => setNav(e.key)}
+              onClick={(e) => navigate(`/${e.key}`)}
             />
           </MenuWapper>
         </Flex>
@@ -55,7 +50,7 @@ export const Platform = () => {
 
       <Content className="site-layout" style={{ padding: '0 50px' }}>
         <div style={{ padding: 24, minHeight: 380, background: '#fff' }}>
-          {nav == 'course' ? <Course /> : nav == 'school' ? <School /> : nav == 'about' ? <About /> : <></>}
+          <Outlet />
         </div>
       </Content>
       <Footer style={{ textAlign: 'center' }}>

@@ -53,7 +53,7 @@ const Wapper = styled.div`
   }
   .name {
     font-size: 48px;
-    transform: translateY(-72px) translateX(180px);
+    transform: translateY(-128px) translateX(180px);
     font-weight: bold;
     color: #fff;
     mix-blend-mode: difference;
@@ -68,13 +68,13 @@ const Wapper = styled.div`
   }
   .infoText {
     margin-left: 20px;
-    margin-top: 40px;
+    margin-top: 30px;
     .gray {
       color: #999;
     }
   }
   .action {
-    & > div {
+    & > .ant-space-item {
       cursor: pointer;
     }
     font-size: 24px;

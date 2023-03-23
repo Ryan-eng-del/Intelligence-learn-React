@@ -9,6 +9,7 @@ import {
 import { Badge, Button, List, Tabs, Typography } from 'antd'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
+import { Unaccomplished } from 'publicComponents/Unaccomplished'
 import React, { useState } from 'react'
 import { ContactModal } from './Contact/ContactModal'
 import { ReadOnlyModal } from './Contact/ReadOnlyModal'
@@ -118,6 +119,7 @@ const InboxPage: React.FC = () => {
         }
       ></GlobalHeader>
       <GlobalRightLayout>
+        <Unaccomplished>等待接口</Unaccomplished>
         <List
           itemLayout="horizontal"
           dataSource={msgList.filter((item) => {

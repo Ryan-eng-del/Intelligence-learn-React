@@ -1,5 +1,6 @@
 import { CaretDownOutlined, OrderedListOutlined, SnippetsOutlined, ZoomInOutlined } from '@ant-design/icons'
 import { Progress } from 'antd'
+import { Unaccomplished } from 'publicComponents/Unaccomplished'
 import React from 'react'
 import { ActionWapper, DashbroadWapper } from './QuestionBankPageStyle'
 
@@ -29,6 +30,8 @@ export const QuestionDashbroad: React.FC<{
         />
       </div>
       <ActionWapper>
+        <Unaccomplished>做题功能不可用</Unaccomplished>
+        <Unaccomplished>智能推荐无接口</Unaccomplished>
         <div className="action">
           <SnippetsOutlined /> &nbsp; 重练错题
         </div>
