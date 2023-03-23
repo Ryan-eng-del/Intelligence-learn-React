@@ -1,6 +1,7 @@
 import { Modal } from 'antd'
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { KnowledgeSeletor } from 'publicComponents/ResourcePage'
+import { Unaccomplished } from 'publicComponents/Unaccomplished'
 import React from 'react'
 import { useRecommendQuestion } from 'server/fetchExam'
 
@@ -19,6 +20,7 @@ export const PointRecommend: React.FC<{
         close
       }}
     >
+      <Unaccomplished>页面无接口</Unaccomplished>
       <KnowledgeSeletor
         related={[]}
         callback={(e) => {

@@ -1,5 +1,6 @@
 import { ArrowRightOutlined, CloseOutlined } from '@ant-design/icons'
 import { Button, Modal, Progress, Segmented, Space, Table, Tooltip } from 'antd'
+import { Unaccomplished } from 'publicComponents/Unaccomplished'
 import React from 'react'
 
 export const StatisticsPanel: React.FC<{
@@ -61,6 +62,8 @@ export const StatisticsPanel: React.FC<{
       ]}
     >
       <Space align="center">
+        <Unaccomplished>页面无设计 | 接口</Unaccomplished>
+
         <Segmented
           options={[
             {

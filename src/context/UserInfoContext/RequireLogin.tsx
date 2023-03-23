@@ -1,4 +1,5 @@
-import { Button, Modal } from 'antd'
+import { Modal } from 'antd'
+import { PrimaryButton } from 'publicComponents/Button'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
@@ -20,7 +21,7 @@ export const RequireLogin: React.FC<{
       closable={false}
     >
       <Wapper>
-        你现在还没有登录
+        <b>你现在还没有登录</b>
         <br />
         登录立即享受
         <br />
@@ -30,7 +31,13 @@ export const RequireLogin: React.FC<{
         <br />
         + 体验智能阅卷系统
         <br />
-        <Button onClick={() => navigate('/login')}>立即登录</Button>
+        <PrimaryButton
+          title="立即登录"
+          handleClick={() => {
+            navigate('/login')
+            close()
+          }}
+        />
       </Wapper>
     </Modal>
   )

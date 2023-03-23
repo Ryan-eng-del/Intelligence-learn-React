@@ -2,17 +2,12 @@ import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Button, Col, Input, Layout, Menu, Row } from 'antd'
 import { Content, Footer } from 'antd/es/layout/layout'
 import { useUserInfo } from 'context/UserInfoContext'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import About from './About'
-import Course from './Course'
-import { School } from './School'
 const { Search } = Input
 
 export const Platform = () => {
   const { userInfo } = useUserInfo()
-  const [nav, setNav] = useState('course')
   const navigate = useNavigate()
   return (
     <Layout>
@@ -20,27 +15,15 @@ export const Platform = () => {
         <Flex>
           <Title onClick={() => navigate('/')}>在线智能导学平台</Title>
           <Row justify={'space-around'} style={{ width: '350px', backgroundColor: '#001529', height: '60px', alignItems: 'center', textAlign: 'center' }}>
-            <Col className='colClass' span={8} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => setNav('course')}  >课程</Col>
-            <Col className='colClass' span={8} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => setNav('school')} >学校</Col>
-            <Col className='colClass' span={8} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => setNav('about')}>平台优势</Col>
+            <Col className='colClass' span={8} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => navigate('/course')}  >课程</Col>
+            <Col className='colClass' span={8} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => navigate('/community')}  >社区</Col>
+            <Col className='colClass' span={8} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => navigate('/school')} >学校</Col>
+            <Col className='colClass' span={8} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => navigate('/about')}>平台优势</Col>
           </Row>
-          {/* <Menu
-              theme="dark"
-              mode="horizontal"
-              style={{height:"60px",width:'600px',display:'flex',justifyContent:'space-between',alignItems:'center'}}
-              selectable={false}
-              items={[
-                { key: 'course', label: '课程' },
-                { key: 'school', label: '学校' },
-                { key: 'about', label: '平台优势' }
-              ]}
-              onClick={(e) => setNav(e.key)}
-            /> */}
-
         </Flex>
         <Flex>
           <InputWapper>
-            <Search placeholder="搜索课程" allowClear enterButton="Search" onSearch={(v) => console.log(v)} style={{ padding:'0px'}} />
+            <Search placeholder="搜索课程" onSearch={(v) => console.log(v)} enterButton />
           </InputWapper>
           <UserWapper>
             {userInfo ? (
@@ -59,7 +42,7 @@ export const Platform = () => {
 
       <Content className="site-layout" style={{ padding: '0 50px' }}>
         <div style={{ padding: 24, minHeight: 380, background: '#fff' }}>
-          {nav == 'course' ? <Course /> : nav == 'school' ? <School /> : nav == 'about' ? <About /> : <></>}
+          <Outlet />
         </div>
       </Content>
       <Footer style={{ textAlign: 'center' }}>

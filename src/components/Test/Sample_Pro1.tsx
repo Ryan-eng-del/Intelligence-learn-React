@@ -1,6 +1,6 @@
 import { Tag } from 'antd'
 
-export const Sample_Pro1 = () => {
+export default () => {
   return (
     <div
       style={{ lineHeight: '2rem', borderRadius: '10px', border: '1px solid #000', padding: '10px', margin: '10px' }}

@@ -1,5 +1,7 @@
 import { Carousel, Tag } from 'antd'
 import classPicUrl from 'assets/img/class.jpg'
+import { Unaccomplished } from 'publicComponents/Unaccomplished'
+import { useNavigate } from 'react-router-dom'
 
 const contentStyle: React.CSSProperties = {
   margin: 0,
@@ -14,6 +16,7 @@ const Course = () => {
   const onChange = (currentSlide: number) => {
     console.log(currentSlide)
   }
+  const navigate = useNavigate()
   return (
     <div>
       <Carousel afterChange={onChange} autoplay>
@@ -28,7 +31,7 @@ const Course = () => {
           { n: '课程名字', o: '其他描述', r: '推荐原因' },
           { n: '离散数学', o: '跨入数学的大门', r: '热门课程' }
         ].map((i) => (
-          <CardWrapper key={i.n}>
+          <CardWrapper key={i.n} onClick={() => navigate(`/course/${i.n}`)}>
             <CardHeadWrapper>
               <img src={classPicUrl} alt="课程图片" />
             </CardHeadWrapper>
@@ -41,6 +44,7 @@ const Course = () => {
         ))}
       </Flex>
       <h1>大家都在学</h1>
+      <Unaccomplished>页面无设计 | 接口</Unaccomplished>
     </div>
   )
 }

@@ -2,6 +2,7 @@ import { Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
+import { Unaccomplished } from 'publicComponents/Unaccomplished'
 import React from 'react'
 import { useShowExamListPublished } from 'server/fetchExam'
 import { ExamListItem } from 'server/fetchExam/types'
@@ -63,6 +64,7 @@ const ExamSummary: React.FC = () => {
       <GlobalHeader title="作业和考试"></GlobalHeader>
 
       <GlobalRightLayout>
+        <Unaccomplished>这个页面的接口没有返回考试是属于哪个课程的</Unaccomplished>
         <Table columns={columns} dataSource={data} pagination={false} />
       </GlobalRightLayout>
     </>

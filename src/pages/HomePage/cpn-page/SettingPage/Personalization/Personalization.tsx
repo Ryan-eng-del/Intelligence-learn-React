@@ -1,8 +1,7 @@
 import { GithubOutlined, WechatOutlined, WeiboCircleOutlined } from '@ant-design/icons'
 import { Avatar, Tooltip } from 'antd'
-import axios from 'axios'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
-import { useState } from 'react'
+import { Unaccomplished } from 'publicComponents/Unaccomplished'
 import { useGetContributor } from 'server/fetch3rd'
 
 export type dataType = {
@@ -12,13 +11,13 @@ export type dataType = {
 }
 
 export const Personalization = () => {
-
   // const [data, setData] = useState<dataType[]>()
 
   const { data, isLoading } = useGetContributor()
 
   return (
     <>
+      <Unaccomplished>无接口</Unaccomplished>
       设置主题色
       <br />
       自定义首页
