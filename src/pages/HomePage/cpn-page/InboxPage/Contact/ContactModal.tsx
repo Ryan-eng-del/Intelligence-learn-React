@@ -28,7 +28,7 @@ export const ContactModal: React.FC<{
   const test = document.getElementById('test')
 
   const 模拟对面回复 = (msg?: string) => {
-    const id = crypto.randomUUID()
+    const id = Math.random() * 10000 + ''
     data.push({ id, isMe: false, msg: msg || '狗再叫!' })
     setData([...data])
     setTimeout(() => {
@@ -37,7 +37,7 @@ export const ContactModal: React.FC<{
   }
 
   const handleSend = () => {
-    const id = crypto.randomUUID()
+    const id = Math.random() * 10000 + ''
     data.push({ id, isMe: true, msg: send })
     setTimeout(() => {
       模拟对面回复()
