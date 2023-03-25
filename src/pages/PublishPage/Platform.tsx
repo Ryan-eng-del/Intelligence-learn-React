@@ -15,10 +15,10 @@ export const Platform = () => {
         <Flex>
           <Title onClick={() => navigate('/')}>在线智能导学平台</Title>
           <Row justify={'space-around'} style={{ width: '350px', backgroundColor: '#001529', height: '60px', alignItems: 'center', textAlign: 'center' }}>
-            <Col className='colClass' span={8} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => navigate('/course')}  >课程</Col>
-            <Col className='colClass' span={8} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => navigate('/community')}  >社区</Col>
-            <Col className='colClass' span={8} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => navigate('/school')} >学校</Col>
-            <Col className='colClass' span={8} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => navigate('/about')}>平台优势</Col>
+            <Col className='colClass' span={6} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => navigate('/')}  >课程</Col>
+            <Col className='colClass' span={6} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => navigate('/community')}  >社区</Col>
+            <Col className='colClass' span={6} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => navigate('/school')} >学校</Col>
+            <Col className='colClass' span={6} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => navigate('/about')}>平台优势</Col>
           </Row>
         </Flex>
         <Flex>
@@ -66,14 +66,18 @@ const Header = styled.div`
   justify-content: space-between;
   color:white;
   .colClass{
-    :hover{
+    &:hover{
       background-color:#1890ff
     }
   }
 
 `
 
-const InputWapper = styled.div``
+const InputWapper = styled.div`
+  input {
+    height:31px;
+  }
+`
 const MenuWapper = styled.div`
   width: 500px;
 `

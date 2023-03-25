@@ -1,5 +1,10 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { RcFile } from 'antd/es/upload'
+import axios from 'axios'
+import { dataTool } from 'echarts'
+import { url } from 'inspector'
 import { client } from 'server'
+import { baseURL } from 'server/request/config'
 import { CourseList } from './types'
 
 // 显示课程
@@ -48,26 +53,47 @@ export const useJoinInvitedCourse = () => {
   )
 }
 
-// 添加课程
-export const useCreateClass = ({
-  course_cover,
-  course_name,
-  course_describe
-}: {
-  course_name: string
-  course_cover: string | null
-  course_describe: string | null
-}) => {
-  const queryClient = useQueryClient()
-
+export const useSendPicture = () => {
   return useMutation(
-    async () => {
+    (avatar: FormData | null) => {
       return client.post({
-        url: '/course/create',
-        data: { course_cover, course_name, course_describe }
+        url: '/resources/upload-avatar',
+        data: avatar,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       })
     },
+    {
+      onSuccess: (data) => {
+        console.log("data", data);
+      },
+      onError: (e) => {
+        console.log("data", e);
+      }
+    }
+  )
+}
 
+
+// 添加课程
+export const useCreateClass = ({
+  course_name,
+  course_describe,
+  course_cover
+}: {
+  course_name: string
+  course_describe: string | null
+  course_cover: string
+}) => {
+  const queryClient = useQueryClient()
+  return useMutation(
+    () => {
+      return client.post({
+        url: '/course/create',
+        data: { course_name, course_describe, course_cover }
+      })
+    },
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['teachclass'])

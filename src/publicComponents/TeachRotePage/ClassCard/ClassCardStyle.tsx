@@ -28,6 +28,7 @@ export const CardHeadWrapper = styled.div`
   img {
     width: 100%;
     display: inline-block;
+    object-fit:cover;
     height: 100%;
     transition: transform 500ms;
     &:hover {
