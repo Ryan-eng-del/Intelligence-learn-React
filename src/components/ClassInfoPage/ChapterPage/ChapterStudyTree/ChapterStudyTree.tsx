@@ -57,7 +57,7 @@ const ChapterStudyTreeWrapper = styled.div`
     border-radius: 13px;
     text-align: center;
     color: white;
-    font-size: 14px;
+    /* font-size: 14px; */
     line-height: 36px;
     background: linear-gradient(140deg, #6cc7ff 0%, #5a33ff 100%);
 

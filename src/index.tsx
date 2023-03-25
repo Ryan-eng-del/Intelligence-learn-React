@@ -78,7 +78,7 @@ root.render(
             <Routes>
               <Route path="/" element={<App />}>
                 <Route path="" element={<Course />}></Route>
-                <Route path="course/:courseId" element={<CourseInfo />}></Route>
+                <Route path="course/:id" element={<CourseInfo />}></Route>
                 <Route path="about" element={<About />}></Route>
                 <Route path="school" element={<School />}></Route>
                 <Route path="community" element={<Community />}></Route>

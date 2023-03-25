@@ -5,7 +5,7 @@ const Skeletons = (props: {
   size: 'middle' | 'small' | 'large'
   width?: string
   height?: string
-  absolute: boolean
+  absolute?: boolean
 }) => {
   const len = props.size === 'middle' ? 1 : 2
 

@@ -14,7 +14,7 @@ export const RightLayoutRouteWrapper = styled.div`
   height: 100vh;
   /* position: relative; */
   // 加了这个，刷新的时候不会闪一下
-  transform: translateX(-60vw);
+  transform: translateX(-100vw);
 
   @keyframes slideInX {
     0% {
@@ -24,7 +24,7 @@ export const RightLayoutRouteWrapper = styled.div`
       transform: translateX(0);
     }
   }
-  animation: ease-out 0.33s slideInX forwards;
+  animation: 0.33s ease-out 0.33s slideInX forwards;
 `
 
 export const NavWrapper = styled.div`
@@ -57,6 +57,7 @@ export const HomePageWrapper = styled.div`
 `
 
 export const LeftLayoutWrapper = styled.div`
+  z-index: 100;
   padding-top: 30px;
   backdrop-filter: blur(10px);
   @keyframes slideIn {

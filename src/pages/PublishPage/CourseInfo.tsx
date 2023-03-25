@@ -1,6 +1,8 @@
 import { message } from 'antd'
 import classPicUrl from 'assets/img/class.jpg'
+import { ChapterStudyTree } from 'components/ClassInfoPage/ChapterPage/ChapterStudyTree/ChapterStudyTree'
 import { useUserInfo } from 'context/UserInfoContext'
+import { useChapterUI } from 'hook/useChapterStudy/useChapterUI'
 import { PrimaryButton } from 'publicComponents/Button'
 import { Unaccomplished } from 'publicComponents/Unaccomplished'
 import React, { useEffect, useState } from 'react'
@@ -11,11 +13,13 @@ import styled from 'styled-components'
 const CourseInfo: React.FC = () => {
   const { mutateAsync } = useGetCourseInfoById()
   const [data, setData] = useState<any>({})
-  const { courseId } = useParams()
+  const { id } = useParams()
   const { requireLogin } = useUserInfo()
   useEffect(() => {
-    mutateAsync(courseId!).then((data) => setData(data))
+    mutateAsync(id!).then((data) => setData(data))
   }, [])
+
+  const { treeData, chapterControl } = useChapterUI(false)
 
   return (
     <>
@@ -26,7 +30,6 @@ const CourseInfo: React.FC = () => {
           <span>{data?.courseDescribe}</span>
         </div>
         <Unaccomplished>无接口</Unaccomplished>
-
         <PrimaryButton
           title="立即加入"
           handleClick={() => {
@@ -36,6 +39,7 @@ const CourseInfo: React.FC = () => {
           }}
         ></PrimaryButton>
       </Flex>
+      <ChapterStudyTree treeData={treeData} chapterControl={chapterControl} />
     </>
   )
 }
