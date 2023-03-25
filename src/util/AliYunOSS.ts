@@ -24,7 +24,7 @@ class AliYunOSS {
   parallel = 5
   retryCount = 3
   retryDuration = 2
-  region = 'cn-shanghai'
+  region = 'cn-shenzhen'
   userId = '279346877251780943'
   file = null
   authProgress = 0

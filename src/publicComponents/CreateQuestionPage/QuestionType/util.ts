@@ -10,12 +10,12 @@ export const isCouldSaveQuestion = (question: IQuestionType): { message: string;
   } else if (!questionAnswerExplain.trim()) {
     message = '请设置题目解释'
     isError = true
-  } else if (questionType === '0') {
+  } else if (questionType === 0) {
     if (!rightAnswer.trim()) {
       message = '请设置正确答案'
       isError = true
     }
-  } else if (questionType === '1') {
+  } else if (questionType === 1) {
     if (rightAnswer.length === 1) {
       message = '多选题请设置多个选项'
       isError = true
