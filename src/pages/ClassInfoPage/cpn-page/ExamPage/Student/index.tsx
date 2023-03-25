@@ -34,7 +34,7 @@ export const StudentExamPage: React.FC<{
   const data = useMemo(() => (dataH && dataE ? [...dataE!, ...dataH!] : []), [dataH, dataE])
 
   const startExam = (paperId: string) => {
-    window.open(`/exam/start/${paperId}`)
+    window.open(`/exam/${paperId}`)
   }
 
   const columns: ColumnsType<TableType> = [
