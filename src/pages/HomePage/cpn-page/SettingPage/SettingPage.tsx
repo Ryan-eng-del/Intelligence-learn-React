@@ -19,10 +19,15 @@ const SettingPage: React.FC = () => {
   const navigate = useNavigate()
 
   const logout = () => {
-    navigate('/login')
+    navigate('/')
     LocalCache.deleteCache(TOKEN_NAME)
   }
-
+  const item = (Icon: any, Text: any) => (
+    <span className="tab-list">
+      <Icon />
+      {Text}
+    </span>
+  )
   return (
     <>
       <GlobalHeader
@@ -30,52 +35,34 @@ const SettingPage: React.FC = () => {
         tool={<PrimaryButton title="退出登录" handleClick={logout}></PrimaryButton>}
       ></GlobalHeader>
       <ProfileWapper>
-        <Tabs tabPosition="left" centered>
-          <TabPane
-            tab={
-              <span className="tab-list">
-                <UserOutlined />
-                基本信息
-              </span>
+        <Tabs
+          tabPosition="left"
+          centered
+          items={[
+            {
+              key: '1',
+              label: item(UserOutlined, '基本信息'),
+              children: <BasicInformation />
+            },
+
+            {
+              key: '2',
+              label: item(LockOutlined, '账号安全'),
+              children: <AccountSecurity />
+            },
+
+            {
+              key: '3',
+              label: item(MessageOutlined, '通知管理'),
+              children: <Notification />
+            },
+            {
+              key: '4',
+              label: item(BgColorsOutlined, '个性设置'),
+              children: <Personalization />
             }
-            key="1"
-          >
-            <BasicInformation></BasicInformation>
-          </TabPane>
-          <TabPane
-            tab={
-              <span className="tab-list">
-                <LockOutlined />
-                账号安全
-              </span>
-            }
-            key="2"
-          >
-            <AccountSecurity></AccountSecurity>
-          </TabPane>
-          <TabPane
-            tab={
-              <span className="tab-list">
-                <MessageOutlined />
-                通知管理
-              </span>
-            }
-            key="3"
-          >
-            <Notification></Notification>
-          </TabPane>
-          <TabPane
-            tab={
-              <span className="tab-list">
-                <BgColorsOutlined />
-                个性设置
-              </span>
-            }
-            key="4"
-          >
-            <Personalization></Personalization>
-          </TabPane>
-        </Tabs>
+          ]}
+        ></Tabs>
       </ProfileWapper>
     </>
   )

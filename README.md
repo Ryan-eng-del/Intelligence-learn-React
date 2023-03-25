@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="https://github.com/Ryan-eng-del/intelligence-learn-React" alt="logo" ><img src="	https://github.com/Ryan-eng-del/intelligence-learn-React/blob/main/public/icon-380.png?raw=true" width="150"/></a>
+  <a href="https://github.com/Ryan-eng-del/intelligence-learn-React" alt="logo" ><img src="https://github.com/Ryan-eng-del/intelligence-learn-React/blob/main/public/icon-380.png?raw=true" width="150"/></a>
   <br>
   在线智能导学平台
   <br>

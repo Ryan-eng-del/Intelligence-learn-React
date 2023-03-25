@@ -13,7 +13,7 @@ export const QuestionDoingPageWrapper = styled.div`
   border-bottom-right-radius: 12px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 `
-export const BackButton = styled.div`
+export const BackButton = styled.span`
   margin-bottom: 20px;
   display: flex;
   flex-direction: row;

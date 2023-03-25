@@ -3,6 +3,7 @@ import React, { useMemo } from 'react'
 import { Button, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
+import { EmptyPage } from 'pages/EmptyPages/EmptyPage'
 import { GlobalMessage } from 'publicComponents/GlobalMessage/index'
 import Skeletons from 'publicComponents/Skeleton/index'
 import { useNavigate } from 'react-router-dom'
@@ -90,5 +91,15 @@ export const StudentExamPage: React.FC<{
     }
   ]
 
-  return <>{isLoading ? <Skeletons size="middle" /> : <Table columns={columns} dataSource={data} />}</>
+  return (
+    <>
+      {isLoading ? (
+        <Skeletons size="middle" />
+      ) : data?.length == 0 ? (
+        <EmptyPage description="老师还没有发布过作业/考试" />
+      ) : (
+        <Table columns={columns} dataSource={data} />
+      )}
+    </>
+  )
 }

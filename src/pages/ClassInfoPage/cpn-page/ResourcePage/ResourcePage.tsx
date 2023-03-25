@@ -10,6 +10,7 @@ import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
 import Skeletons from 'publicComponents/Skeleton/index'
 import React, { useState } from 'react'
 import { useShowResourceList } from 'server/fetchCourseResource'
+import { isTeachAuth } from 'util/isAuthTeach'
 import { PreviewDrawer } from './PreviewDrawer'
 import { ResourceList } from './ResourceList'
 
@@ -55,7 +56,9 @@ const ResourcePage: React.FC = () => {
     <>
       <GlobalHeader
         title="课程资源"
-        tool={<PrimaryButton title="上传资源" handleClick={onOpenResourceDrawer}></PrimaryButton>}
+        tool={
+          isTeachAuth() ? <PrimaryButton title="上传资源" handleClick={onOpenResourceDrawer}></PrimaryButton> : <></>
+        }
       ></GlobalHeader>
       <GlobalRightLayout>
         {isLoading ? <Skeletons size="middle" /> : <ResourceList resourceItems={data!} preview={openPreview} />}
