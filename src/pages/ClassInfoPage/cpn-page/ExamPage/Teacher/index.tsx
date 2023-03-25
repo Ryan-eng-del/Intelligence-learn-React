@@ -2,11 +2,11 @@ import { AreaChartOutlined, ArrowRightOutlined, DeliveredProcedureOutlined, User
 import { Button, DatePicker, Drawer, InputNumber, Modal, Radio, Space, Table, Tree } from 'antd'
 import { message } from 'antd/es'
 import type { ColumnsType } from 'antd/es/table'
+import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading';
 import { TreeSelected } from 'components/ClassInfoPage/KnowledgePage/KnowledgeTree/cpn/TreeSelected'
 import dayjs from 'dayjs'
 import { StatisticsPanel } from 'publicComponents/ExamPage/StatisticsPanel/StatisticsPanel'
 import { ClassList } from 'publicComponents/ExamPage/types/index'
-import Skeletons from 'publicComponents/Skeleton/index'
 import React, { Key, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useGetPaperTarget, useReleaseExam, useReleaseHomework, useShowExamList } from 'server/fetchExam'
@@ -184,7 +184,7 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
   }
 
   return isLoading ? (
-    <Skeletons size="middle" />
+    <BaseLoading />
   ) : (
     <ExamListWrapper>
       <Table columns={columns} dataSource={data!} rowKey="paperId" />

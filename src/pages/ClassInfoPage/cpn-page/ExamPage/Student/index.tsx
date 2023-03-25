@@ -2,10 +2,10 @@ import React, { useMemo } from 'react'
 
 import { Button, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
+import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import dayjs from 'dayjs'
 import { EmptyPage } from 'pages/EmptyPages/EmptyPage'
 import { GlobalMessage } from 'publicComponents/GlobalMessage/index'
-import Skeletons from 'publicComponents/Skeleton/index'
 import { useNavigate } from 'react-router-dom'
 import { useHomeWorkListPublished, useShowExamListPublished } from 'server/fetchExam'
 
@@ -34,7 +34,7 @@ export const StudentExamPage: React.FC<{
   const data = useMemo(() => (dataH && dataE ? [...dataE!, ...dataH!] : []), [dataH, dataE])
 
   const startExam = (paperId: string) => {
-    window.open(`/exam/${paperId}`)
+    window.open(`/exam/start/${paperId}`)
   }
 
   const columns: ColumnsType<TableType> = [
@@ -94,7 +94,7 @@ export const StudentExamPage: React.FC<{
   return (
     <>
       {isLoading ? (
-        <Skeletons size="middle" />
+        <BaseLoading />
       ) : data?.length == 0 ? (
         <EmptyPage description="老师还没有发布过作业/考试" />
       ) : (

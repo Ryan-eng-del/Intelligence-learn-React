@@ -17,8 +17,8 @@ export const SiderWrapper = styled.div`
 export const LeftExamWrapper = styled.div`
   width: 300px;
   background-color: #e2e8f0;
-  padding: 15px;
   display: flex;
+  padding: 0 20px;
   box-sizing: border-box;
   flex-direction: column;
   align-items: center;
@@ -83,12 +83,14 @@ export const CountDownWrapper = styled.div`
   background-color: #fff;
   width: 100%;
   color: #000;
+  box-sizing: border-box;
   padding: 8px 25px;
   border-radius: 10px;
   font-size: 25px;
+  display: flex;
 
   .count-num {
-    padding-left: 10px;
+    padding-left: 15px;
   }
 `
 
@@ -102,6 +104,7 @@ export const InfoWrapper = styled.div`
   width: 100%;
   color: rgba(0, 0, 0, 0.7);
   padding: 8px 25px;
+  box-sizing: border-box;
   border-radius: 10px;
   .info-item:not(div:last-of-type) {
     margin-bottom: 13px;
@@ -130,6 +133,7 @@ export const QuestionBlock = styled.div<{ bg: boolean }>`
   height: 30px;
   border-radius: 8px;
   display: flex;
+  margin: 6px;
   justify-content: center;
   align-items: center;
   color: ${(props) => (props.bg ? '#fff' : '#0284c7')};

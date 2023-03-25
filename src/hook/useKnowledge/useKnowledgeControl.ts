@@ -11,6 +11,9 @@ import { useRenameKnowledgePoints } from './useHandleRenameKnowledge'
 export const useKnowledgeControl = () => {
   const { data, isLoading } = useShowKnowledgeTree(useParams().id!)
   const [knowledgeState, dispatch] = useReducer(chapterReducer, initialChapterState)
+
+  console.log(knowledgeState, 'state')
+
   /*添加知识点*/
   const { addKnowledgePoint, confirmAdd, curKnowledgeNode, cancelAdd, addKnowledgeChildrenPoint } =
     useAddKnowledgePoints({

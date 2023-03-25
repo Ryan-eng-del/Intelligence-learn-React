@@ -17,7 +17,9 @@ export const ContentWapper = styled.div`
 export const DashbroadWapper = styled.div`
   height: 100%;
   display: flex;
+  justify-content: center;
   flex-direction: row;
+  align-items: center;
   .processWapper {
     display: flex;
     margin: 20px;
@@ -26,7 +28,7 @@ export const DashbroadWapper = styled.div`
     justify-content: center;
     .text {
       cursor: pointer;
-      font-size: 3rem;
+      font-size: 1rem;
       line-height: 3.5rem;
       transform: translateY(25px);
       .jumpIcon {
@@ -41,15 +43,18 @@ export const DashbroadWapper = styled.div`
 export const ActionWapper = styled.div`
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  /* flex-grow: 1; */
+  margin-left: 80px;
   .action {
+    width: 300px;
+    padding: 20px;
     cursor: pointer;
     border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #555;
-    font-size: 50px;
+    font-size: 30px;
     overflow: hidden;
     height: 20%;
     margin: 2%;

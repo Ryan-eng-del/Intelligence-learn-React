@@ -90,7 +90,13 @@ export const QuestionFooter = (props: QuestionFooterProps) => {
         <QuestionTitleWrapper>{question.questionDescription}</QuestionTitleWrapper>
         <SingleChoicePreview question={question} />
       </Modal>
-      <Modal title="保存题目" open={isSaveModalOpen} onOk={handleOk} onCancel={() => setIsSaveModalOpen(false)}>
+      <Modal
+        title="保存题目"
+        open={isSaveModalOpen}
+        bodyStyle={{ height: '500px', overflow: 'auto' }}
+        onOk={handleOk}
+        onCancel={() => setIsSaveModalOpen(false)}
+      >
         <GlobalLabel>选择难易度：</GlobalLabel>
         <Select style={{ width: 120 }} onChange={handleChange} value={String(curDifficulty)}>
           {optionDifficulty.map((optionDiff, index) => {

@@ -1,3 +1,4 @@
+import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { ResourceDrawer } from 'components/ClassInfoPage/ChapterPage/ChapterStudyTree/cpn/ResourceDrawer'
 import { useClassTimeDispatch } from 'context/ChapterStudyTree/ClassTimeDispatchContext'
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
@@ -7,7 +8,6 @@ import { useKnowledgeControl } from 'hook/useKnowledge/useKnowledgeControl'
 import { PrimaryButton } from 'publicComponents/Button'
 import { GlobalHeader } from 'publicComponents/GlobalHeader'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
-import Skeletons from 'publicComponents/Skeleton/index'
 import React, { useState } from 'react'
 import { useShowResourceList } from 'server/fetchCourseResource'
 import { isTeachAuth } from 'util/isAuthTeach'
@@ -61,7 +61,7 @@ const ResourcePage: React.FC = () => {
         }
       ></GlobalHeader>
       <GlobalRightLayout>
-        {isLoading ? <Skeletons size="middle" /> : <ResourceList resourceItems={data!} preview={openPreview} />}
+        {isLoading ? <BaseLoading /> : <ResourceList resourceItems={data!} preview={openPreview} />}
       </GlobalRightLayout>
 
       <ResourceDrawer

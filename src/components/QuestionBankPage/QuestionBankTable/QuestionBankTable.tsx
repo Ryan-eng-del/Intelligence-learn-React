@@ -39,7 +39,7 @@ export const QuestionBankTable: React.FC<{
     onChange: onSelectChange
   }
   const { paperNameMap } = usePaperMap()
-
+  console.log(window.location.href, 'href')
   const handleRate = (n: number) => <Rate value={n + 1} disabled count={3} />
 
   const showDeleteConfirm = (id: string) => {
@@ -71,7 +71,9 @@ export const QuestionBankTable: React.FC<{
       render: (_: any, record: QuestionBank) => (
         <QuestionItemWrapper>
           <ShowQuestionDetails
-            onClick={isTeacher ? () => setKey(record.questionId) : () => navigate(`/promote/stu/${record.questionId}`)}
+            onClick={
+              isTeacher ? () => setKey(record.questionId) : () => window.open(`/promote/stu/${record.questionId}`)
+            }
           >
             {record.questionDescription}
           </ShowQuestionDetails>

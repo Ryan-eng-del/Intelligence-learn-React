@@ -5,16 +5,16 @@ const Skeletons = (props: {
   size: 'middle' | 'small' | 'large'
   width?: string
   height?: string
-  absolute?: boolean
+  absolute: boolean
 }) => {
   const len = props.size === 'middle' ? 1 : 2
 
   return (
     <div
       style={
-        props.absolute
-          ? { position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }
-          : { opacity: 1 }
+        // props.absolute
+        { position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }
+        // : { opacity: 1 }
       }
     >
       <SkeletonWrapper>
@@ -39,6 +39,7 @@ const Skeletons = (props: {
 }
 
 const SkeletonWrapper = styled.div`
+  width: 100%;
   position: relative;
   left: 70px;
   display: flex;

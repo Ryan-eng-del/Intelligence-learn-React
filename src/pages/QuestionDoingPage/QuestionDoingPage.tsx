@@ -24,7 +24,7 @@ const QuestionDoingPage = () => {
   const { mutateAsync, isLoading } = useSubmitQuestion()
   type T = QuestionOfPaperVO
   const [ans, setAns] = useState('')
-
+  console.log(data, 'data')
   const submit = async () => {
     const result = await mutateAsync({
       questionId: questionId!,
@@ -65,6 +65,7 @@ const QuestionDoingPage = () => {
       <Judge content={data} order={order} dispatch={dispatchQuestion} />
     )
   }
+
   const [modal, setModal] = useState<{
     answerIsRight: boolean
     nextQuestionId: string
@@ -76,13 +77,14 @@ const QuestionDoingPage = () => {
       resourceLink: string
     }
   }>()
+
   const [isModalOpen, setIsModalOpen] = useState(false)
   const handleCancel = () => setIsModalOpen(false)
   const { courseId } = useCurrentClassInfo().classInfo
   return (
     <>
       {showLoading ? (
-        <Skeletons size="middle" absolute />
+        <Skeletons size="small" absolute />
       ) : (
         <QuestionDoingPageWrapper>
           <Unaccomplished>传入dispatch函数不对，功能不可用</Unaccomplished>
@@ -129,7 +131,7 @@ const QuestionDoingPage = () => {
                 />
               </>
             ) : (
-              <Skeletons size="middle" />
+              <Skeletons size="small" absolute={true} />
             )}
             相关资源：
             {modal && (

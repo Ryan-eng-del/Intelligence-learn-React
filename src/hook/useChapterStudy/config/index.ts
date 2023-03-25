@@ -28,6 +28,7 @@ export const uploadProps = (fileList: any, setFileList: any): UploadProps => {
       newFileList.splice(index, 1)
       setFileList(newFileList)
     },
+
     beforeUpload: (file: File) => {
       if (fileList.length >= 5) {
         GlobalMessage('warning', '一个课时最大只能上传5个文件')
@@ -35,6 +36,7 @@ export const uploadProps = (fileList: any, setFileList: any): UploadProps => {
       }
 
       const type = file.name.slice(file.name.length - 3)
+
       if (!SupportType.includes(type)) {
         GlobalMessage('info', '仅支持 ppt  img  png  mp4  mp3  .md结尾的文件')
         return false

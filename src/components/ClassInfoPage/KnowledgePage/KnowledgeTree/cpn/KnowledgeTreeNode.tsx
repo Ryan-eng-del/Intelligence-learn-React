@@ -68,19 +68,15 @@ const ChapterTreeDirectoryWrapper = styled.div`
 const PointsWrapper = styled.span`
   max-width: 600px;
   overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `
 const PrePointsWrapper = styled.span`
   font-size: 13px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   margin-right: 20px;
 `
 const AfterPointsWrapper = styled.span`
   font-size: 13px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 `
 const Points = styled.span`
   background-color: rgb(231, 236, 243);

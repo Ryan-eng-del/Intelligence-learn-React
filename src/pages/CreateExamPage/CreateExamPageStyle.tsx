@@ -41,4 +41,5 @@ export const CreateExamNavWrapper = styled(CreateExamCommon)`
 `
 export const CreateExamQuestion = styled(CreateExamCommon)`
   height: 644px;
+  overflow: auto;
 `

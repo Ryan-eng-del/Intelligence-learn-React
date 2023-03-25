@@ -3,24 +3,28 @@ import styled from 'styled-components'
 export const GlobalRightLayout = styled.div`
   padding: 30px;
   overflow-y: scroll;
+  /* overflow-y: hidden; */
   flex-grow: 1;
+  height: calc(100vh - 152px);
 `
 
 export const RightLayoutRouteWrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
+  /* position: relative; */
   // 加了这个，刷新的时候不会闪一下
-  transform: translateX(-100vw);
+  transform: translateX(-60vw);
+
   @keyframes slideInX {
     0% {
-      transform: translateX(-100vw);
+      transform: translateX(-60vw);
     }
     100% {
       transform: translateX(0);
     }
   }
-  animation: 0.2s ease-out 0.3s slideInX forwards;
+  animation: ease-out 0.33s slideInX forwards;
 `
 
 export const NavWrapper = styled.div`
@@ -54,7 +58,6 @@ export const HomePageWrapper = styled.div`
 
 export const LeftLayoutWrapper = styled.div`
   padding-top: 30px;
-  z-index: 1;
   backdrop-filter: blur(10px);
   @keyframes slideIn {
     0% {
@@ -64,12 +67,14 @@ export const LeftLayoutWrapper = styled.div`
       transform: translateY(0);
     }
   }
+
   animation: 0.3s ease-in slideIn forwards;
 
   box-sizing: border-box;
   ::-webkit-scrollbar {
     width: 0;
   }
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -77,6 +82,7 @@ export const LeftLayoutWrapper = styled.div`
   overflow: scroll;
   border-right: rgb(230, 230, 230) 2px solid;
   width: 200px;
+
   .signature {
     text-align: center;
     height: 40px;

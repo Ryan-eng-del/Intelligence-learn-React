@@ -67,7 +67,7 @@ root.render(
       <ReactQueryDevtools initialIsOpen />
       <Router>
         <ContextProvider>
-          <Suspense fallback={<Skeletons size={'large'} absolute={true} />}>
+          <Suspense fallback={<Skeletons size={'small'} absolute={true} />}>
             <Suspense fallback={<Skeletons size={'small'} absolute={true} />}>
               <Routes>
                 <Route path="register" element={<RegisterPage />} />
@@ -113,10 +113,11 @@ root.render(
                     <Route path="img/:resourceId" element={<SourceImgPreview />} />
                   </Route>
                 </Route>
+
                 <Route path="exam" element={<ExamPage />}>
                   <Route path="editpaper" element={<CreateExamPage />} />
-                  <Route path=":paperId" element={<PaperDoing />} />
                 </Route>
+
                 <Route path="resource" element={<ResourcePage />} />
                 <Route path="discuss" element={<DiscussPage />} />
                 <Route path="class" element={<ClassMana />} />
@@ -129,10 +130,12 @@ root.render(
                 <Route path="edit/:questionId" element={<QuestionEditPage />} />
               </Route>
             </Routes>
+
             <Routes>
               {/* 预览试卷 */}
               <Route path="previewtestpaper/:paperid" element={<TestPaperPreview />} />
               {/* 做试卷 */}
+              <Route path="exam/:paperId" element={<PaperDoing />} />
               <Route path="homework/:paperId" element={<PaperDoing />} />
             </Routes>
           </Suspense>

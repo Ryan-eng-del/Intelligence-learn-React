@@ -28,6 +28,7 @@ export const useAddKnowledgePoints = (props: IHandleChapterControl<IKnowledgePoi
     )
     dispatch({ type: 'setFocusState', focusState: true })
   }, [data])
+
   /*添加子知识点*/
   const addKnowledgeChildrenPoint = useCallback(
     (id: string) => {
@@ -42,9 +43,12 @@ export const useAddKnowledgePoints = (props: IHandleChapterControl<IKnowledgePoi
 
   /*确认添加知识点*/
   const confirmAdd = useCallback(async () => {
+    console.log(knowledgeState, 'state')
+
     const isTrim = knowledgeState.curAddInputValue.trim() === ''
+
     if (isTrim) message.info('不能添加空字段')
-    if (!isTrim)
+    if (!isTrim) {
       try {
         dispatch({ type: 'setFocusState', focusState: false })
         const knowledgeId = await addKnowledgePoints({
@@ -73,6 +77,7 @@ export const useAddKnowledgePoints = (props: IHandleChapterControl<IKnowledgePoi
         curId.current = ''
         setCurKnowledgeNode(null)
       }
+    }
   }, [data, knowledgeState])
   /*取消添加节点*/
   const cancelAdd = () => {

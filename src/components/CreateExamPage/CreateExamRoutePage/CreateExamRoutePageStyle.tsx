@@ -5,11 +5,11 @@ export const CreateExamRoutePageWrapper = styled.div`
   animation: both;
   background-color: white;
   color: #000;
-  height: 100%;
-  margin-left: 10px;
-  padding: 25px 20px 10px 20px;
+  height: calc(100% - 20px);
+  margin-left: 15px;
+  padding: 10px 0;
   border-radius: 5px;
-  overflow: auto;
+  /* overflow: auto; */
 `
 export const ExamRouteHeader = styled.div`
   margin-bottom: 20px;

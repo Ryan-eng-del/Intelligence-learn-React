@@ -53,13 +53,13 @@ const KnowledgeGraph = () => {
           layout: 'force',
           focusNodeAdjacency: true,
           roam: true,
-          zoom: 0.6,
+          zoom: 0.7,
           draggable: true,
           force: {
-            repulsion: 1500,
+            repulsion: 2500,
             layoutAnimation: true,
-            gravity: 0.1,
-            edgeLength: 180
+            gravity: 0.3,
+            edgeLength: 200
           },
           edgeSymbol: ['none', 'arrow'],
           categories: categories,
@@ -97,6 +97,7 @@ const KnowledgeGraphWrapper = styled.div`
   right: 0;
   bottom: 0;
   z-index: 0;
+  transform: translateZ(0);
 `
 
 export default KnowledgeGraph

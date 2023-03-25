@@ -21,7 +21,7 @@ const ChapterNodeRenameStatus: React.FC<{
     true
   )
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex', alignItems: 'center' }}>
       <Input
         autoFocus
         onChange={(e) => debounceChange(e)}
@@ -34,6 +34,7 @@ const ChapterNodeRenameStatus: React.FC<{
         onClick={(e) => stopPropagation(e, confirmRename)}
         className="btn"
         icon={<CheckOutlined />}
+        style={{ margin: '0 20px' }}
       />
       <Button
         type={'primary'}

@@ -112,6 +112,9 @@ const PaperDoing: React.FC = () => {
   }
 
   type T = { examMap?: typeof Mapper; type: 'nav' | 'content' }
+
+  console.log(examData, 'data')
+
   const QuestionCpn = ({ examMap, type }: T): ReactNode => {
     return (
       <>
@@ -177,7 +180,7 @@ const PaperDoing: React.FC = () => {
       </Modal>
 
       <LayoutWrapper>
-        <LeftExamWrapper>
+        <LeftExamWrapper className="left-wrapper">
           <Typography.Title level={4} className="paperName">
             {PaperData?.paperName}
           </Typography.Title>
@@ -193,8 +196,8 @@ const PaperDoing: React.FC = () => {
             <div className="info-item">姓名：{PaperData?.studentName}</div>
             <div className="info-item">数量：{PaperData?.questionOfPaperVOS?.length}</div>
             <div className="info-item">满分：{score}</div>
-            <div className="info-item">开始时间：{startTime}</div>
-            <div className="info-item">结束时间：{endTime}</div>
+            <div className="info-item">开始：{startTime}</div>
+            <div className="info-item">结束：{endTime}</div>
           </InfoWrapper>
         </LeftExamWrapper>
         <CenterExamWrapper>{QuestionCpn({ type: 'content', examMap: Mapper })}</CenterExamWrapper>

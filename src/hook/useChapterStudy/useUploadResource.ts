@@ -56,16 +56,18 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
 
   /* 处理文件上传 */
   const handleUpload = async () => {
-    const { videoProject, otherProject } = createVideoAndOtherArr(fileList)
+    const project = createVideoAndOtherArr(fileList)
+
+    console.log(project.otherProject, project.videoProject, 'video')
 
     /* 视频文件上传 */
-    videoProject.forEach((file: File) => {
+    project.videoProject.forEach((file: File) => {
       uploader.addFile(file)
     })
     uploader.startUpload()
 
     /* 非视频文件上传 */
-    otherProject.map((file: any) => {
+    project.otherProject.map((file: any) => {
       const formData = new FormData()
       formData.append('file', file)
       setIsOtherStart(true)
@@ -75,7 +77,7 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
     })
 
     /* 并发上传 */
-    await Promise.all(otherProject)
+    await Promise.all(project.otherProject)
       .then(() => {
         setOtherProgress(100)
         setTimeout(() => setIsOtherStart(false), 500)

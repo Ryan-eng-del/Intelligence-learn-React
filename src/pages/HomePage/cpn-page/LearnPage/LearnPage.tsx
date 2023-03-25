@@ -1,11 +1,12 @@
+import { CheckCircleTwoTone } from '@ant-design/icons'
 import { Button, Input, message, Modal, Popconfirm, Row } from 'antd'
 import Slider, { SliderMarks } from 'antd/es/slider'
 import classPicUrl from 'assets/img/class.jpg'
+import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { EmptyPage } from 'pages/EmptyPages/EmptyPage'
 import { PrimaryButton } from 'publicComponents/Button'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
-import Skeletons from 'publicComponents/Skeleton/index'
 import { ClassCard } from 'publicComponents/TeachRotePage'
 import React, { useState } from 'react'
 import { useJoinInvitedCourse, useShowInvitedCourseInfo, useShowLearnClass } from 'server/fetchCourse'
@@ -126,11 +127,11 @@ const LearnPage: React.FC = () => {
                   <div className="tname">{newCourse!.courseName}</div>
                   <Popconfirm
                     placement="left"
-                    title={'请为接下来的课程学习期望做一个初步确认'}
-                    icon={<></>}
+                    title={'课程学习期望'}
+                    icon={<CheckCircleTwoTone twoToneColor="#52c41a" />}
                     description={
-                      <>
-                        <p>你认为你的学习能力如何</p>
+                      <div style={{ padding: '15px 25px 15px 15px' }}>
+                        <p>你认为你的学习能力如何 ?</p>
                         <Slider
                           onChange={(v) => setAbilityNum(v)}
                           marks={marks1}
@@ -138,7 +139,7 @@ const LearnPage: React.FC = () => {
                           step={null}
                           defaultValue={0}
                         />
-                        <p>你希望在这门课取得什么样的高度</p>
+                        <p>你希望在这门课取得什么样的高度?</p>
                         <Slider
                           onChange={(v) => setExpectNum(v)}
                           marks={marks2}
@@ -146,13 +147,13 @@ const LearnPage: React.FC = () => {
                           step={null}
                           defaultValue={0}
                         />
-                      </>
+                      </div>
                     }
                     onConfirm={() => {
                       join(newCourse!.classId)
                     }}
-                    okText="Yes"
-                    cancelText="No"
+                    okText="完成"
+                    showCancel={false}
                   >
                     <PrimaryButtonWrapper>
                       <a className="add-chapter">加入</a>
@@ -177,7 +178,7 @@ const LearnPage: React.FC = () => {
           tool={<PrimaryButton title="加入课程" handleClick={() => setModalVisible(true)}></PrimaryButton>}
         ></GlobalHeader>
         {isLoading ? (
-          <Skeletons size="middle"></Skeletons>
+          <BaseLoading />
         ) : (
           <GlobalRightLayout>
             {raw?.length == 0 ? (

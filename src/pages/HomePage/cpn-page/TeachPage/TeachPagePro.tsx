@@ -7,11 +7,11 @@ import { EmptyPage } from 'pages/EmptyPages/EmptyPage'
 import { PrimaryButton } from 'publicComponents/Button/index'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
-import Skeletons from 'publicComponents/Skeleton/index'
 import { ClassCard } from 'publicComponents/TeachRotePage'
 import React, { useReducer } from 'react'
 import { useCreateClass, useDeleteCourse, useEditCourse, useShowCreateClass } from 'server/fetchCourse'
 import { CourseList } from 'server/fetchCourse/types'
+import { BaseLoading } from '../../../../baseUI/BaseLoding/BaseLoading'
 import { initialState, TeachRoutePageReducer } from './config/reducer'
 import { beforeUpload, getBase64 } from './config/util'
 import { TeachPageWrapper, UploadImageWrapper } from './TeachPageStyle'
@@ -204,7 +204,7 @@ export const TeachPage: React.FC = () => {
           tool={<PrimaryButton title="新建课程" handleClick={showModal}></PrimaryButton>}
         ></GlobalHeader>
         {isLoading ? (
-          <Skeletons size="middle" />
+          <BaseLoading />
         ) : (
           <>
             <GlobalRightLayout className="globalLayout">

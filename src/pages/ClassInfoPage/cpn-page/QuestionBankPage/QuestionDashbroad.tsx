@@ -14,10 +14,10 @@ export const QuestionDashbroad: React.FC<{
       <div className="processWapper" onClick={move}>
         <Progress
           percent={60}
-          strokeColor={'#52c01a'}
-          success={{ percent: 2, strokeColor: 'red' }}
+          strokeColor={'#90EE90'}
+          success={{ percent: 2, strokeColor: '#FA8072' }}
           strokeWidth={20}
-          width={440}
+          width={300}
           type="circle"
           strokeLinecap="butt"
           format={(precent, successPercent) => (
