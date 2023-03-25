@@ -1,7 +1,7 @@
 import { CourseList } from 'server/fetchCourse/types'
 import type { TeachPageAction, TeachPageState } from '../type'
 const initialCourse: CourseList = {
-  coursesCover: '',
+  courseCover: '',
   courseName: '',
   courseDescribe: '',
   courseId: ''

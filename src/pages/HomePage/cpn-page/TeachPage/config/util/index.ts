@@ -16,5 +16,7 @@ export const beforeUpload = (file: RcFile) => {
   if (!isLt2M) {
     message.error('Image must smaller than 2MB!')
   }
+  console.log('file',file);
+
   return isJpgOrPng && isLt2M
 }

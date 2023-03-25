@@ -1,5 +1,5 @@
 import { UserOutlined } from '@ant-design/icons'
-import { Avatar, Input, Layout, Menu } from 'antd'
+import { Avatar, Button, Col, Input, Layout, Menu, Row } from 'antd'
 import { Content, Footer } from 'antd/es/layout/layout'
 import { useUserInfo } from 'context/UserInfoContext'
 import { Outlet, useNavigate } from 'react-router-dom'
@@ -14,20 +14,12 @@ export const Platform = () => {
       <Header>
         <Flex>
           <Title onClick={() => navigate('/')}>在线智能导学平台</Title>
-          <MenuWapper>
-            <Menu
-              style={{ minWidth: 0, flex: 'auto' }}
-              theme="dark"
-              mode="horizontal"
-              selectable={false}
-              items={[
-                { key: '', label: '课程' },
-                { key: 'school', label: '学校' },
-                { key: 'about', label: '平台优势' }
-              ]}
-              onClick={(e) => navigate(`/${e.key}`)}
-            />
-          </MenuWapper>
+          <Row justify={'space-around'} style={{ width: '350px', backgroundColor: '#001529', height: '60px', alignItems: 'center', textAlign: 'center' }}>
+            <Col className='colClass' span={6} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => navigate('/')}  >课程</Col>
+            <Col className='colClass' span={6} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => navigate('/community')}  >社区</Col>
+            <Col className='colClass' span={6} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => navigate('/school')} >学校</Col>
+            <Col className='colClass' span={6} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => navigate('/about')}>平台优势</Col>
+          </Row>
         </Flex>
         <Flex>
           <InputWapper>
@@ -60,6 +52,7 @@ export const Platform = () => {
   )
 }
 
+
 const Header = styled.div`
   position: sticky;
   top: 0;
@@ -71,9 +64,20 @@ const Header = styled.div`
   background-color: #112240;
   align-items: center;
   justify-content: space-between;
+  color:white;
+  .colClass{
+    &:hover{
+      background-color:#1890ff
+    }
+  }
+
 `
 
-const InputWapper = styled.div``
+const InputWapper = styled.div`
+  input {
+    height:31px;
+  }
+`
 const MenuWapper = styled.div`
   width: 500px;
 `

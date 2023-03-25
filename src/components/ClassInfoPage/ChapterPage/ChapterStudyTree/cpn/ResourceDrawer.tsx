@@ -39,6 +39,7 @@ export const ResourceDrawer: React.FC<{
   Uploadprops
 }) => {
   const [fileList, setFileList] = useState<any>([])
+
   return (
     <div>
       <Drawer title="添加资源并且关联知识点" open={open} mask={false} width="100vw" onClose={close} closable={true}>

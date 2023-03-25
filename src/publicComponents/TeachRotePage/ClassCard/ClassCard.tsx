@@ -49,7 +49,7 @@ export const ClassCard: React.FC<{
       </Modal> */}
       <CardWrapper>
         <CardHeadWrapper>
-          <img src={classInfo.coursesCover || classPicUrl} alt="课程图片" />
+          <img src={classInfo.courseCover || classPicUrl} alt="课程图片" />
         </CardHeadWrapper>
         <CardBodyWrapper>
           <div className="tname">{classInfo.courseName}</div>

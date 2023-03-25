@@ -18,6 +18,8 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
   const { dispatch } = props
   const courseId: string = useParams().id!
   const [fileList, setFileList] = useState<any>([]) // 在章节部分上传资源时才用到
+
+  //antd upload组件的一些api,在此分别是onremove,beforeUpload,filelist,beforeUpload是在上传前进行一些文件类型,名称,数量判断
   const Uploadprops = uploadProps(fileList, setFileList)
 
   /* 添加资源抽屉开启和关闭 */
@@ -32,6 +34,7 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
   /*添加资源API*/
   const { mutateAsync: addContentResource, isSuccess } = useAddContentResource(courseId)
   const { mutateAsync: uploadVideo } = useUploadVideo()
+
   const [isVideoStart, setIsVideoStart] = useState(false)
   const [isOtherStart, setIsOtherStart] = useState(false)
   const [otherProgress, setOtherProgress] = useState(50)
