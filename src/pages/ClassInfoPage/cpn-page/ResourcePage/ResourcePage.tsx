@@ -61,7 +61,7 @@ const ResourcePage: React.FC = () => {
         }
       ></GlobalHeader>
       <GlobalRightLayout>
-        {isLoading ? <Skeletons size="middle" /> : <ResourceList resourceItems={data!} preview={openPreview} />}
+        {isLoading ? <Skeletons size="large" /> : <ResourceList resourceItems={data!} preview={openPreview} />}
       </GlobalRightLayout>
 
       <ResourceDrawer

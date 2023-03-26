@@ -27,7 +27,7 @@ const ChapterPage: React.FC = () => {
 
       <GlobalRightLayout>
         {chapterControl.isLoading ? (
-          <Skeletons size="middle" />
+          <Skeletons size="large" />
         ) : treeData?.length == 0 ? (
           <EmptyPage
             description={isTeachAuth() ? '你还没有为课程添加学习内容，点击右上角添加' : '课程还没有学习内容'}

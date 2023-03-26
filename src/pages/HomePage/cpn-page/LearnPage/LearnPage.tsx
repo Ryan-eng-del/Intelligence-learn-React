@@ -177,7 +177,7 @@ const LearnPage: React.FC = () => {
           tool={<PrimaryButton title="加入课程" handleClick={() => setModalVisible(true)}></PrimaryButton>}
         ></GlobalHeader>
         {isLoading ? (
-          <Skeletons size="middle"></Skeletons>
+          <Skeletons size="large"></Skeletons>
         ) : (
           <GlobalRightLayout>
             {raw?.length == 0 ? (

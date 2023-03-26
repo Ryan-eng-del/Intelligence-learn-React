@@ -94,7 +94,7 @@ export const StudentExamPage: React.FC<{
   return (
     <>
       {isLoading ? (
-        <Skeletons size="middle" />
+        <Skeletons size="large" />
       ) : data?.length == 0 ? (
         <EmptyPage description="老师还没有发布过作业/考试" />
       ) : (

@@ -9,7 +9,7 @@ import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
 import Skeletons from 'publicComponents/Skeleton/index'
 import { ClassCard } from 'publicComponents/TeachRotePage'
-import React, { useReducer, useState } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import { useCreateClass, useDeleteCourse, useEditCourse, useShowCreateClass, useSendPicture } from 'server/fetchCourse'
 import { CourseList } from 'server/fetchCourse/types'
 import { baseURL } from 'server/request/config'
@@ -17,6 +17,8 @@ import { initialState, TeachRoutePageReducer } from './config/reducer'
 import { beforeUpload, getBase64 } from './config/util'
 import { TeachPageWrapper, UploadImageWrapper } from './TeachPageStyle'
 
+//这页混用了很多dispatch和setState
+//课程图片的逻辑是先将图片发送至'/resources/upload-avatar'这个接口拿到 一个链接 再用这个链接去充当创建课程的courseCover
 export const TeachPage: React.FC = () => {
   const { TextArea } = Input
   const [state, dispatch] = useReducer(TeachRoutePageReducer, initialState)
@@ -24,7 +26,9 @@ export const TeachPage: React.FC = () => {
 
   const [courseCover, setCourseCover] = useState<string>('');
   const [file, setFile] = useState<UploadFile | null>();
-  const [previewOpen, setPreviewOpen] = useState(false);
+  const [createPreviewOpen, setCreatePreviewOpen] = useState(false);
+  const [changePreviewOpen, setChangePreviewOpen] = useState(false);
+
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
 
@@ -38,7 +42,7 @@ export const TeachPage: React.FC = () => {
   const { mutateAsync: createClass } = useCreateClass({
     course_name: className,
     course_describe: courseDescribe,
-    course_cover:courseCover
+    course_cover: courseCover
   })
 
 
@@ -50,23 +54,10 @@ export const TeachPage: React.FC = () => {
 
   const handleOk = async () => {
     dispatch({ type: 'setModalVisible', payload: false })
-
     createClass()
-    // const formData = new FormData()
-    // console.log('file', file);
-
-    // formData.append('avatar', file)
-    // try {
-    //   await sendPicture(formData).then((data: string) => {
-    //     createClass(data)
-    //   })
-
-    // } catch (e) {
-    // } finally {
     dispatch({ type: 'setClassName', payload: '' })
     dispatch({ type: 'setClassTeacher', payload: '' })
     dispatch({ type: 'setImgUrl', payload: '' })
-    // }
   }
   // const handleCancel = () => dispatch({ type: 'setModalVisible', payload: false })
 
@@ -104,6 +95,9 @@ export const TeachPage: React.FC = () => {
     // 页面更新
     dispatch({ type: 'setClasList', payload: EditingCourse })
   }
+
+
+  //以下是处理课程封面图片的,基本都可以参考antd官网的upload组件
   //////////////////////////////////////////////////////////////////////////////////
 
   const getBase64 = (file: RcFile): Promise<string> =>
@@ -117,28 +111,38 @@ export const TeachPage: React.FC = () => {
 
 
   const handleCancel = () => {
-    setPreviewOpen(false);
+    setFile(null)
+    setChangePreviewOpen(false);
+    setCreatePreviewOpen(false)
   }
 
-  const handlePreview = async (file: UploadFile) => {
+  const handleCreatePreview = async (file: UploadFile) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj as RcFile);
     }
     setPreviewImage(file.url || (file.preview as string));
-    setPreviewOpen(true);
+    setCreatePreviewOpen(true);
+    setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
+  };
+
+  const handleChagePreview = async (file: UploadFile) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj as RcFile);
+    }
+    setPreviewImage(file.url || (file.preview as string));
+    setChangePreviewOpen(true);
     setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
   };
 
 
   const handleChange = (e: any) => {
-    console.log(e);
-    setFile(e.file.originFileObj);
-
-    if (e.file.status == 'done') {
-      setCourseCover(e.file.response.data)
-    }
     if (e.file.status == ' removed') {
       setFile(null)
+      return
+    }
+    if (e.file.status == 'done') {
+      setFile(e.file.originFileObj);
+      setCourseCover(e.file.response.data)
     }
   }
 
@@ -147,11 +151,13 @@ export const TeachPage: React.FC = () => {
   }
 
   const uploadButton = (
-    <div>
+    <div >
       <PlusOutlined />
       <div style={{ marginTop: 8 }}>Upload</div>
     </div>
   );
+
+
   ////////////////////////////////////////////////////////////////////////////////////
   return (
     <>
@@ -184,23 +190,20 @@ export const TeachPage: React.FC = () => {
                 dispatch({ type: 'setClassName', payload: e.target.value })
               }}
             />
-            <div className="classname-label">请上传课程图片</div>
             <UploadImageWrapper>
-              <img src={ClassDefaultPic} alt="默认课程图片" />
-
+            {file == null ? <img src={ClassDefaultPic} alt="默认课程图片" /> : null}
               <Upload
                 action={`${baseURL}/resources/upload-avatar`}
                 listType="picture-card"
-                onPreview={handlePreview}
+                onPreview={handleCreatePreview}
                 onChange={handleChange}
                 onRemove={handleRemove}
                 name='avatar'
                 method='post'
               >
-                {file != null ? null : uploadButton}
+                {file === null ? uploadButton : null}
               </Upload>
-
-              <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+              <Modal open={createPreviewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
                 <img alt="example" style={{ width: '100%' }} src={previewImage} />
               </Modal>
             </UploadImageWrapper>
@@ -245,18 +248,21 @@ export const TeachPage: React.FC = () => {
             />
             <div className="classname-label">更新课程封面</div>
             <UploadImageWrapper>
-              <img src={ClassDefaultPic} alt="默认课程图片" />
+              {file == null ? <img src={ClassDefaultPic} alt="默认课程图片" /> : null}
               <Upload
                 action={`${baseURL}/resources/upload-avatar`}
                 listType="picture-card"
-                onPreview={handlePreview}
+                onPreview={handleChagePreview}
                 onChange={handleChange}
                 onRemove={handleRemove}
                 name='avatar'
                 method='post'
               >
-                {file != null ? null : uploadButton}
+                {file == null ? uploadButton : null}
               </Upload>
+              <Modal open={changePreviewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+                <img alt="example" style={{ width: '100%' }} src={previewImage} />
+              </Modal>
             </UploadImageWrapper>
             <div className="classname-label">公开此课程</div>
             <Switch></Switch>
@@ -284,7 +290,7 @@ export const TeachPage: React.FC = () => {
           tool={<PrimaryButton title="新建课程" handleClick={showModal}></PrimaryButton>}
         ></GlobalHeader>
         {isLoading ? (
-          <Skeletons size="middle" />
+          <Skeletons size="large" />
         ) : (
           <>
             <GlobalRightLayout className="globalLayout">

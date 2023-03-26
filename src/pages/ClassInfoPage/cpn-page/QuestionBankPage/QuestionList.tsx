@@ -53,7 +53,7 @@ export const QuestionList: React.FC<{
       <QuestionBankHeader changeType={changeType} showAll={showAll} search={search}></QuestionBankHeader>
 
       {isLoading ? (
-        <Skeletons size="middle" />
+        <Skeletons size="large" />
       ) : (
         <QuestionBankTable
           // 选中展开的数据

@@ -184,7 +184,7 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
   }
 
   return isLoading ? (
-    <Skeletons size="middle" />
+    <Skeletons size="large" />
   ) : (
     <ExamListWrapper>
       <Table columns={columns} dataSource={data!} rowKey="paperId" />

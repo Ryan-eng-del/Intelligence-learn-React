@@ -111,7 +111,7 @@ export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolea
         ></GlobalHeader>
         <GlobalRightLayout>
           {isLoading ? (
-            <Skeletons size="middle" />
+            <Skeletons size="large" />
           ) : (
             <List
               size="large"
