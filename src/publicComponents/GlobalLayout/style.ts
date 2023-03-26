@@ -57,7 +57,7 @@ export const HomePageWrapper = styled.div`
 `
 
 export const LeftLayoutWrapper = styled.div`
-  z-index: 100;
+  z-index: 1;
   padding-top: 30px;
   backdrop-filter: blur(10px);
   @keyframes slideIn {
