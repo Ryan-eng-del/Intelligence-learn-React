@@ -7,6 +7,7 @@ import { TreeSelected } from 'components/ClassInfoPage/KnowledgePage/KnowledgeTr
 import dayjs from 'dayjs'
 import { StatisticsPanel } from 'publicComponents/ExamPage/StatisticsPanel/StatisticsPanel'
 import { ClassList } from 'publicComponents/ExamPage/types/index'
+import Skeletons from 'publicComponents/Skeleton';
 import React, { Key, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useGetPaperTarget, useReleaseExam, useReleaseHomework, useShowExamList } from 'server/fetchExam'
@@ -184,7 +185,7 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
   }
 
   return isLoading ? (
-    <BaseLoading />
+    <Skeletons size="large" />
   ) : (
     <ExamListWrapper>
       <Table columns={columns} dataSource={data!} rowKey="paperId" />

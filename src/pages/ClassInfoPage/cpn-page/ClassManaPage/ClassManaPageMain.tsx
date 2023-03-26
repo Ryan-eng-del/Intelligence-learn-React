@@ -4,6 +4,7 @@ import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { PrimaryButton } from 'publicComponents/Button'
 import { GlobalHeader } from 'publicComponents/GlobalHeader'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
+import Skeletons from 'publicComponents/Skeleton'
 import React, { useState } from 'react'
 import { useCreateNewClass, useDeleteClass, useReName } from 'server/fetchClass'
 import { ClassList } from 'server/fetchClass/types'
@@ -110,7 +111,7 @@ export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolea
         ></GlobalHeader>
         <GlobalRightLayout>
           {isLoading ? (
-            <BaseLoading />
+            <Skeletons size="large" />
           ) : (
             <List
               size="large"

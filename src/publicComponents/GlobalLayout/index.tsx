@@ -80,7 +80,7 @@ const GlobalLayout = (props: {
             fallback={
               <>
                 <GlobalHeader title="" transparent={true} />
-                <Skeletons size="small" absolute={true} />
+                <Skeletons size="large" />
               </>
             }
           >

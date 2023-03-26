@@ -1,5 +1,6 @@
 import { Tree } from 'antd'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
+import Skeletons from 'publicComponents/Skeleton'
 import React from 'react'
 interface LoadingWrapperProps extends Omit<React.ComponentProps<typeof Tree>, 'expandKeys'> {
   isLoading: boolean
@@ -11,7 +12,7 @@ interface LoadingWrapperProps extends Omit<React.ComponentProps<typeof Tree>, 'e
 
 export const LoadingWrapper = (props: LoadingWrapperProps) => {
   return props.isLoading ? (
-    <BaseLoading />
+    <Skeletons size="large" />
   ) : (
     <Tree expandedKeys={props.expandKeys} onExpand={props.handleExpand} onSelect={props.handleExpand}>
       {props?.treeData}
