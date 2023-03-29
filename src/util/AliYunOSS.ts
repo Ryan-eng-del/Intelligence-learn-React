@@ -1,4 +1,7 @@
-import 'lib/aliyun-upload-sdk/aliyun-upload-sdk-1.5.4.min'
+// import 'lib/aliyun-upload-sdk/aliyun-upload-sdk-1.5.4.min'
+// import 'lib/aliyun-upload-sdk/lib/aliyun-oss-sdk-6.17.1.min'
+// import 'lib/aliyun-upload-sdk/lib/es6-promise.min'
+
 import { MutableRefObject } from 'react'
 import { client } from 'server'
 import { StateSetter } from '../types'
