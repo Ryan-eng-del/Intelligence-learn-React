@@ -1,6 +1,7 @@
 import { CaretUpOutlined } from '@ant-design/icons'
 import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { QuestionBankHeader, QuestionBankTable } from 'components/QuestionBankPage'
+import Skeletons from 'publicComponents/Skeleton'
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useShowCreateQuestion } from 'server/fetchExam'
@@ -53,7 +54,7 @@ export const QuestionList: React.FC<{
       <QuestionBankHeader changeType={changeType} showAll={showAll} search={search}></QuestionBankHeader>
 
       {isLoading ? (
-        <BaseLoading />
+        <Skeletons size="large" />
       ) : (
         <QuestionBankTable
           // 选中展开的数据

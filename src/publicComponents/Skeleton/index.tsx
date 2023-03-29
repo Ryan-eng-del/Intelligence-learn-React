@@ -27,7 +27,7 @@ const Skeletons = (props: {
               paragraph={{ rows: props.size === 'middle' ? 13 : props.size === 'large' ? 15 : 5 }}
               style={{
                 width: props.size === 'small' ? '400px' : '600px',
-                marginTop: '50px',
+                marginTop: '-100px',
                 padding: '40px'
               }}
             />

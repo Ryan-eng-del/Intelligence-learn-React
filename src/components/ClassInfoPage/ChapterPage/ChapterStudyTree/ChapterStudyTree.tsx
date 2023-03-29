@@ -34,7 +34,7 @@ export const ChapterStudyTree = (props: { treeData: any; chapterControl: Record<
       />
 
       {chapterControl.isLoading ? (
-        <Skeletons size="middle" />
+        <Skeletons size="large" />
       ) : (
         <Tree
           expandedKeys={chapterControl.expandKeys}

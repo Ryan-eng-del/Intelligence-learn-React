@@ -5,6 +5,7 @@ import { EmptyPage } from 'pages/EmptyPages/EmptyPage'
 import { PrimaryButton } from 'publicComponents/Button'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
+import Skeletons from 'publicComponents/Skeleton'
 import React, { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
 import { isTeachAuth } from 'util/isAuthTeach'
@@ -27,7 +28,7 @@ const ChapterPage: React.FC = () => {
 
       <GlobalRightLayout>
         {chapterControl.isLoading ? (
-          <BaseLoading />
+          <Skeletons size="large" />
         ) : treeData?.length == 0 ? (
           <EmptyPage
             description={isTeachAuth() ? '你还没有为课程添加学习内容，点击右上角添加' : '课程还没有学习内容'}

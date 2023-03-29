@@ -8,6 +8,7 @@ import { EmptyPage } from 'pages/EmptyPages/EmptyPage'
 import { GlobalMessage } from 'publicComponents/GlobalMessage/index'
 import { useNavigate } from 'react-router-dom'
 import { useHomeWorkListPublished, useShowExamListPublished } from 'server/fetchExam'
+import Skeletons from 'publicComponents/Skeleton'
 
 enum statusType {
   'undone' = '未提交',
@@ -94,7 +95,7 @@ export const StudentExamPage: React.FC<{
   return (
     <>
       {isLoading ? (
-        <BaseLoading />
+        <Skeletons size="large" />
       ) : data?.length == 0 ? (
         <EmptyPage description="老师还没有发布过作业/考试" />
       ) : (

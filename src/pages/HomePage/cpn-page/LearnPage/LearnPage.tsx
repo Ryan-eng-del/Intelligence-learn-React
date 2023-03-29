@@ -7,6 +7,7 @@ import { EmptyPage } from 'pages/EmptyPages/EmptyPage'
 import { PrimaryButton } from 'publicComponents/Button'
 import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
+import Skeletons from 'publicComponents/Skeleton'
 import { ClassCard } from 'publicComponents/TeachRotePage'
 import React, { useState } from 'react'
 import { useJoinInvitedCourse, useShowInvitedCourseInfo, useShowLearnClass } from 'server/fetchCourse'
@@ -178,7 +179,7 @@ const LearnPage: React.FC = () => {
           tool={<PrimaryButton title="加入课程" handleClick={() => setModalVisible(true)}></PrimaryButton>}
         ></GlobalHeader>
         {isLoading ? (
-          <BaseLoading />
+          <Skeletons size="large"></Skeletons>
         ) : (
           <GlobalRightLayout>
             {raw?.length == 0 ? (

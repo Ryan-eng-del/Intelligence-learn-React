@@ -8,6 +8,7 @@ import { useKnowledgeControl } from 'hook/useKnowledge/useKnowledgeControl'
 import { PrimaryButton } from 'publicComponents/Button'
 import { GlobalHeader } from 'publicComponents/GlobalHeader'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
+import Skeletons from 'publicComponents/Skeleton'
 import React, { useState } from 'react'
 import { useShowResourceList } from 'server/fetchCourseResource'
 import { isTeachAuth } from 'util/isAuthTeach'
@@ -61,7 +62,7 @@ const ResourcePage: React.FC = () => {
         }
       ></GlobalHeader>
       <GlobalRightLayout>
-        {isLoading ? <BaseLoading /> : <ResourceList resourceItems={data!} preview={openPreview} />}
+        {isLoading ? <Skeletons size="large" /> : <ResourceList resourceItems={data!} preview={openPreview} />}
       </GlobalRightLayout>
 
       <ResourceDrawer
