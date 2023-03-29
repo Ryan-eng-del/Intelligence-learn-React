@@ -4,7 +4,7 @@ import { TreeSelected } from 'components/ClassInfoPage/KnowledgePage/KnowledgeTr
 import { PrimaryButton } from 'publicComponents/Button'
 import { GlobalLabel } from 'publicComponents/GlobalLabel/globalLabel'
 import { GlobalMessage } from 'publicComponents/GlobalMessage'
-import React, { useState } from 'react'
+import React from 'react'
 import { RelatePointsWrapper, UploadWrapper } from './ChapterTreeModal'
 
 type uploadStatus = {
@@ -27,7 +27,6 @@ export const ResourceDrawer: React.FC<{
   handleUpload: any
 }> = ({
   open,
-  close,
   videoStatus,
   otherStatus,
   checkTreeData,
@@ -38,11 +37,9 @@ export const ResourceDrawer: React.FC<{
   handleUpload,
   Uploadprops
 }) => {
-  const [fileList, setFileList] = useState<any>([])
-
   return (
     <div>
-      <Drawer title="添加资源并且关联知识点" open={open} mask={false} width="100vw" onClose={close} closable={true}>
+      <Drawer title="添加资源并且关联知识点" open={open} mask={false} width="100vw">
         <div style={{ width: '800px', margin: '0 auto' }}>
           <UploadWrapper style={{ textAlign: 'center', maxHeight: '200px' }}>
             <Upload {...Uploadprops} className={'upload'}>
@@ -56,12 +53,14 @@ export const ResourceDrawer: React.FC<{
               <span>视频 {videoStatus.text}</span>
             </div>
           )}
+
           {otherStatus.isStart && (
             <div>
               <Progress percent={otherStatus.progress} />
               {`非视频文件${otherStatus.progress === 50 ? '正在上传' : '上传完毕！'}`}
             </div>
           )}
+
           <RelatePointsWrapper>
             <GlobalLabel>关联知识点</GlobalLabel>
             <TreeSelected
@@ -71,15 +70,16 @@ export const ResourceDrawer: React.FC<{
               handleRelateCheck={handleRelateCheck}
               curCheckId={relatePoints}
             />
+
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} key={'submit'}>
               <PrimaryButton
                 title={'完成'}
                 handleClick={async () => {
-                  await handleUpload()
-                  setTimeout(() => {
-                    close()
-                  }, 1000)
-                  GlobalMessage('success', '资源上传成功！👋👋')
+                  try {
+                    await handleUpload()
+                  } catch (err) {
+                    GlobalMessage('error', '资源上传失败！👋👋')
+                  }
                 }}
               />
             </div>

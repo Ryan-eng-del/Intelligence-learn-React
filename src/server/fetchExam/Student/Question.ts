@@ -6,7 +6,7 @@ import { QuestionConstantString, QuestionOfPaperVO, QuestionType, SaveQs } from 
 export const useSaveSingleQs = () => {
   return useMutation(async ({ paperId, questionId, submitVersion, studentAnswer }: SaveQs) => {
     return client.post({
-      url: '/paper/stu/submit-exam',
+      url: '/paper/stu/save-exam',
       data: {
         paperId,
         questionId,
@@ -30,7 +30,7 @@ export const useShowQuestionForStu = (id?: string) => {
 export const useSubmitQuestion = () => {
   return useMutation((data: { questionId: string; questionType: QuestionConstantString; questionAnswer: string }) => {
     return client.post({
-      url: '/question/stu/submit',
+      url: '/paper/stu/submit-exam',
       data: data
     })
   })

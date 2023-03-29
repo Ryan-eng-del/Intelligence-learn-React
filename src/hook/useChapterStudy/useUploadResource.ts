@@ -1,5 +1,5 @@
 import { GlobalMessage } from 'publicComponents/GlobalMessage'
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { ICourseTimeReducerAction } from 'reducer/ChaperStudyTree/type/type'
 import { useAddContentResource } from 'server/fetch3rd/fetchChapter'
@@ -37,15 +37,22 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
 
   const [isVideoStart, setIsVideoStart] = useState(false)
   const [isOtherStart, setIsOtherStart] = useState(false)
+  const [isVideoFinish, setIsVideoFinish] = useState(false)
+  const [isOtherFinish, setIsOtherFinish] = useState(false)
   const [otherProgress, setOtherProgress] = useState(50)
 
+  const errUpload = () => GlobalMessage('error', '视频文件上传错误')
+
   const finishUpload = async () => {
-    setIsVideoStart(false)
     const data = await uploadVideo({ videoId: videoId.current, courseId, relatePoints })
+    setIsVideoStart(false)
+    setIsOtherFinish(true)
     dispatch({ type: 'pushId', id: data.resourceId })
   }
 
-  const errUpload = () => GlobalMessage('error', '视频文件上传错误')
+  useEffect(() => {
+    onCloseResourceDrawer()
+  }, [isVideoFinish, isOtherFinish])
 
   const uploader = new AliYunOSS(
     AliyunUpload,
@@ -61,12 +68,11 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
   const handleUpload = async () => {
     const project = createVideoAndOtherArr(fileList)
 
-    console.log(project.otherProject, project.videoProject, 'video')
-
     /* 视频文件上传 */
     project.videoProject.forEach((file: File) => {
       uploader.addFile(file)
     })
+
     uploader.startUpload()
 
     /* 非视频文件上传 */
@@ -83,6 +89,8 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
     await Promise.all(project.otherProject)
       .then(() => {
         setOtherProgress(100)
+        setIsVideoFinish(true)
+
         setTimeout(() => setIsOtherStart(false), 500)
         dispatch({
           type: 'setFileList',
@@ -107,9 +115,12 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
   }, [])
 
   const onCloseResourceDrawer = () => {
-    setOpenResourceDrawer(false)
-    dispatch({ type: 'setModalState', open: true })
-    setRelatePoints([])
+    if (isOtherFinish && isVideoFinish) {
+      GlobalMessage('success', '资源上传成功！👋👋')
+      setOpenResourceDrawer(false)
+      dispatch({ type: 'setModalState', open: true })
+      setRelatePoints([])
+    }
   }
 
   const onOpenResourceDrawer = () => {
@@ -132,6 +143,8 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
     otherProgress,
     setRelatePoints,
     Uploadprops,
+    isVideoFinish,
+    isOtherFinish,
     onOpenResourceDrawer
   }
 }

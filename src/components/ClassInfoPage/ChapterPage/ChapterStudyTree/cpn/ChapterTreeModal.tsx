@@ -32,6 +32,7 @@ export const ChapterTreeModal: React.FC<{
     onOpenResourceDrawer,
     Uploadprops
   } = useUploadResource({ dispatch })
+
   /*Upload Props*/
   const onCloseClassTimeDrawer = () => {
     dispatch({ type: 'setModalState', open: false })
