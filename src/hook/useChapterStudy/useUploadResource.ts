@@ -39,6 +39,7 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
   const [isOtherStart, setIsOtherStart] = useState(false)
   const [isVideoFinish, setIsVideoFinish] = useState(false)
   const [isOtherFinish, setIsOtherFinish] = useState(false)
+
   const [otherProgress, setOtherProgress] = useState(50)
 
   const errUpload = () => GlobalMessage('error', '视频文件上传错误')
@@ -51,7 +52,7 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
   }
 
   useEffect(() => {
-    onCloseResourceDrawer()
+    isVideoFinish && isOtherFinish && onCloseResourceDrawer()
   }, [isVideoFinish, isOtherFinish])
 
   const uploader = new AliYunOSS(
@@ -67,6 +68,14 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
   /* 处理文件上传 */
   const handleUpload = async () => {
     const project = createVideoAndOtherArr(fileList)
+
+    if (project.otherProject.length) {
+      setIsOtherFinish(true)
+    }
+
+    if (project.videoProject.length) {
+      setIsVideoFinish(true)
+    }
 
     /* 视频文件上传 */
     project.videoProject.forEach((file: File) => {

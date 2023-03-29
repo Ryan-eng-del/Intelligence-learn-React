@@ -15,7 +15,6 @@ type uploadStatus = {
 
 export const ResourceDrawer: React.FC<{
   open: boolean
-  close: () => void
   videoStatus: uploadStatus
   otherStatus: uploadStatus
   checkTreeData: any

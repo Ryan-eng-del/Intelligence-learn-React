@@ -28,7 +28,6 @@ export const ChapterTreeModal: React.FC<{
     isVideoStart,
     isOtherStart,
     otherProgress,
-    onCloseResourceDrawer,
     onOpenResourceDrawer,
     Uploadprops
   } = useUploadResource({ dispatch })
@@ -83,7 +82,6 @@ export const ChapterTreeModal: React.FC<{
 
       <ResourceDrawer
         open={openResourceDrawer} // 打开状态
-        close={onCloseResourceDrawer} //控制关闭
         videoStatus={{
           isStart: isVideoStart,
           progress: progress,
