@@ -112,7 +112,6 @@ export const TeachPage: React.FC = () => {
 
 
   const handleCancel = () => {
-    setFile(null)
     setChangePreviewOpen(false);
     setCreatePreviewOpen(false)
   }

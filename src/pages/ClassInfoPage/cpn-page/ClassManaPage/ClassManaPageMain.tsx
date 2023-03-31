@@ -16,6 +16,7 @@ export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolea
   const [vis, setVis] = useState(false)
   const [show, setShow] = useState<ClassList | null>()
   const [add, setadd] = useState(false)
+  const [addStuVis,setAddStuVis] = useState(false)
 
   const { classInfo } = useCurrentClassInfo()
   const { mutate: Rename, isLoading: renameState } = useReName(classInfo.courseId)
@@ -75,9 +76,14 @@ export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolea
             width="1000px"
             footer={
               <>
+                <Button onClick={()=>{
+                  setAddStuVis
+                }}>
+                  添加学生
+                </Button>
                 <Popconfirm
                   placement="top"
-                  title="你确定哟啊删除此班级吗？全部学生将被解散。你可以设置为结课状态保留这个班级，"
+                  title="确定删除此班级吗？全部学生将被解散。你可以设置为结课状态保留这个班级，"
                   okText="删除并解散全部学生"
                   onConfirm={() => show && removeClassFun(show.class_id)}
                   cancelText="取消"
@@ -98,7 +104,6 @@ export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolea
             }
             onCancel={() => setVis(false)}
           >
-            {/* 等到接口上了之后再打开 */}
             <div style={{ padding: 0, margin: 0, height: '600px' }}>
               <ClassManaStudentList class_id={show.class_id} />
             </div>
