@@ -25,10 +25,9 @@ export const PointRecommend: React.FC<{
         related={[]}
         callback={(e) => {
           console.log(e)
-
-          // mutateAsync(e[0]).then((data) => {
-          //   console.log(data)
-          // })
+          mutateAsync(e[0]).then((data) => {
+            console.log(data)
+          })
         }}
       />
     </Modal>

@@ -52,7 +52,7 @@ export const useRecommendQuestion = (courseId: string) => {
 /** 获取推荐题目（随机） */
 export const useRandomQuestion = (courseId: string) => {
   return useMutation(() => {
-    return client.get({
+    return client.get<QuestionOfPaperVO>({
       url: '/question/stu/recommend',
       params: {
         courseId

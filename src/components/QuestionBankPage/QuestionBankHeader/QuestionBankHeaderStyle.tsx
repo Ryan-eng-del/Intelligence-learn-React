@@ -24,8 +24,7 @@ export const QuestionBankHeaderWrapper = styled.div`
 `
 
 export const SelectiveList = styled.div`
-  margin-top: 20px;
-  margin-left: 30px;
+  margin: 20px;
   align-items: center;
   justify-content: space-between;
   display: flex;

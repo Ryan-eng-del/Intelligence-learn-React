@@ -9,7 +9,6 @@ export interface IClassInfo {
 }
 
 const IClassInit = {
-  // 对应的初始化状态（消除NUll）
   courseId: '',
   courseName: null,
   coursesCover: null,
@@ -19,24 +18,29 @@ const IClassInit = {
 interface IClassInfoContext {
   getCurCourseInfo: (params: string) => void
   classInfo: IClassInfo
+  getCourse: () => IClassInfo
 }
 
 const ClassInfo = createContext<IClassInfoContext>({
   classInfo: IClassInit,
-  getCurCourseInfo: (i) => i
+  getCurCourseInfo: (i) => i,
+  getCourse: () => IClassInit
 })
-
 
 export const ClassInfoContext = (props: any) => {
   const [classInfo, setClassInfo] = useState<IClassInfo>(IClassInit)
-  const { mutateAsync, isLoading } = useGetCourseInfoById()
+  const { mutateAsync } = useGetCourseInfoById()
+  const getCourse = () => {
+    return JSON.parse(sessionStorage.getItem('Context_CourseInfo') || '{}')
+  }
   const getCurCourseInfo = async (courseId: string) => {
     try {
       const data = await mutateAsync(courseId)
+      sessionStorage.setItem('Context_CourseInfo', JSON.stringify(data))
       setClassInfo(data)
     } catch (e) {}
   }
-  return <ClassInfo.Provider value={{ getCurCourseInfo, classInfo }}>{props.children}</ClassInfo.Provider>
+  return <ClassInfo.Provider value={{ getCurCourseInfo, classInfo, getCourse }}>{props.children}</ClassInfo.Provider>
 }
 
 export const useCurrentClassInfo = () => {

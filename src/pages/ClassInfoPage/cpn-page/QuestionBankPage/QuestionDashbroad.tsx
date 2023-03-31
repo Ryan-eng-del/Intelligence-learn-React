@@ -2,13 +2,15 @@ import { CaretDownOutlined, OrderedListOutlined, SnippetsOutlined, ZoomInOutline
 import { Progress } from 'antd'
 import { Unaccomplished } from 'publicComponents/Unaccomplished'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { ActionWapper, DashbroadWapper } from './QuestionBankPageStyle'
 
 export const QuestionDashbroad: React.FC<{
   TargetRef: React.MutableRefObject<HTMLDivElement | null>
   move: () => any
+  wrong: () => any
   selectPoint: () => any
-}> = ({ TargetRef, move, selectPoint }) => {
+}> = ({ TargetRef, move, selectPoint, wrong }) => {
   return (
     <DashbroadWapper ref={TargetRef}>
       <div className="processWapper" onClick={move}>
@@ -32,14 +34,14 @@ export const QuestionDashbroad: React.FC<{
       <ActionWapper>
         <Unaccomplished>做题功能不可用</Unaccomplished>
         <Unaccomplished>智能推荐无接口</Unaccomplished>
-        <div className="action">
+        <div className="action" onClick={wrong}>
           <SnippetsOutlined /> &nbsp; 重练错题
         </div>
         <div className="action" onClick={selectPoint}>
           <ZoomInOutlined />
           &nbsp; 智能推荐
         </div>
-        <div className="action" onClick={move}>
+        <div className="action" onClick={() => useNavigate()('/promote/stu/-1')}>
           <OrderedListOutlined />
           &nbsp; 顺序刷题
         </div>
