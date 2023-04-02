@@ -68,6 +68,7 @@ export const CreateExamRoutePage = (props: CreateExamRoutePageProps) => {
   }, [curEdit])
 
   const onChangeScore = (e: number | null) => {
+    debugger
     setCurNumber(e || 0)
     dispatchQuestionType({ type: 'editQuestion', payload: { id: curEdit.questionId, target: 'score', content: e } })
   }

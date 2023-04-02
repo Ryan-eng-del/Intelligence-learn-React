@@ -18,6 +18,7 @@ const CreateQuestionPage: React.FC = () => {
   /*添加考试题目*/
   const [curEdit, setCur] = useState<IQuestionType>()
   const idSet = useRef<Set<number>>(new Set())
+
   const [, dispatchQuestionType] = useReducer(questionTypeReducer, initialQuestionTypeState)
   const addQuestionType = (type: QuestionConstantString) => {
     const actionType = QuestionTypeAction[type] as any
