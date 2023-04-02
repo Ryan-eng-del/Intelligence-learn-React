@@ -10,7 +10,7 @@ import { useGetCaptcha, useGetEmailCode, useRegister } from '../../server/fetchL
 const RegisterPage = () => {
   /* 获取验证码API */
   const { data: captchaData, mutateAsync: getCaptchaApi } = useGetCaptcha()
-  const { mutateAsync: register, isLoading: registerLoading, isError: loginError } = useRegister()
+  const { mutateAsync: register, isLoading: registerLoading } = useRegister()
   const navigate = useNavigate()
   const { mutateAsync: getEmailCodeApi } = useGetEmailCode()
 

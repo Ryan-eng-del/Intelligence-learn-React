@@ -94,3 +94,28 @@ export const setCategories2 = (maxLevel: number) => {
   }
   return categories
 }
+
+export const findPath = (data: any, link: any) => {
+  // console.log('data', data, 'link', link);
+  return findPathInLink(data.id, link)
+  // console.log('pathArr', pathArr);
+}
+
+//递归查找学习路径
+const findPathInLink = (id: string, link: any) => {
+  const pathArr: Array<any> = []
+  link.forEach((e: any) => {
+    if (e.target == id&&e.target!=e.source) {//防止自己指向自己
+      //如果link中的target等于id ,那么再调用一次这个函数,将source当成target,再找他的source,这样就能不断找出最初的指向
+      pathArr.push({ source: `${e.source}`, target: id })
+      const arr = findPathInLink(e.source, link)
+      if (arr.length == 0) {
+        return
+      }
+      else if (arr.length >= 1) {
+        pathArr.push(...arr)
+      }
+    }
+  })
+  return pathArr;
+}

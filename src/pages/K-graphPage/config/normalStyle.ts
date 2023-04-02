@@ -77,6 +77,7 @@ CategoryMap.set(2, twoStyle)
 CategoryMap.set(3, threeStyle)
 CategoryMap.set(4, fourStyle)
 CategoryMap.set('defalut', defaultStyle)
+
 export const CategoryMap2 = new Map()
 CategoryMap2.set('未掌握', oneStyle)
 CategoryMap2.set('掌握', fourStyle)
