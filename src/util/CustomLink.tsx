@@ -24,7 +24,7 @@ export const CustomLink = ({ children, to, ...props }: LinkProps) => {
         to={to}
         {...props}
       >
-        {children}
+        <div style={{ verticalAlign: 'middle' }}>{children}</div>
       </Link>
     </div>
   )
