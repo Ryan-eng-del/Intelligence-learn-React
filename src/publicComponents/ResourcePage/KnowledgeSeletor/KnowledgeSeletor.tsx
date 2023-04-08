@@ -8,7 +8,8 @@ const { TreeNode } = TreeSelect
 export const KnowledgeSeletor: React.FC<{
   related?: string[] //初始状态
   callback?: (knowledgeList: string[]) => void // 更新回调
-}> = ({ related, callback }) => {
+  once?: boolean
+}> = ({ related, callback, once }) => {
   const { classInfo } = useCurrentClassInfo()
   const { data } = useShowKnowledgeTree(classInfo.courseId)
   const [value, setValue] = useState<string[]>(related!) //内部维护的状态
@@ -35,7 +36,7 @@ export const KnowledgeSeletor: React.FC<{
         dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
         placeholder="点击选择知识点"
         allowClear
-        multiple
+        multiple={once ? false : true}
         treeDefaultExpandAll
         onChange={onChange}
         placement={'topLeft'}

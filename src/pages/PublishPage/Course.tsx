@@ -1,7 +1,8 @@
-import { Carousel, Tag } from 'antd'
+import { Badge, Carousel } from 'antd'
 import classPicUrl from 'assets/img/class.jpg'
 import { Unaccomplished } from 'publicComponents/Unaccomplished'
 import { useNavigate } from 'react-router-dom'
+import { useRandomCourse } from 'server/fetchCourse'
 
 const contentStyle: React.CSSProperties = {
   margin: 0,
@@ -17,6 +18,8 @@ const Course = () => {
     console.log(currentSlide)
   }
   const navigate = useNavigate()
+  const { data } = useRandomCourse()
+
   return (
     <div>
       <Carousel afterChange={onChange} autoplay>
@@ -27,21 +30,23 @@ const Course = () => {
       </Carousel>
       <h1>为您推荐</h1>
       <Flex>
-        {[
-          { n: '课程名字', o: '其他描述', r: '推荐原因' },
-          { n: '离散数学', o: '跨入数学的大门', r: '热门课程' }
-        ].map((i) => (
-          <CardWrapper key={i.n} onClick={() => navigate(`/course/${i.n}`)}>
-            <CardHeadWrapper>
-              <img src={classPicUrl} alt="课程图片" />
-            </CardHeadWrapper>
-            <CardBodyWrapper>
-              <div className="tname">{i.n}</div>
-              <div style={{ display: 'flex', flexDirection: 'row', position: 'relative' }}>{i.o}</div>
-              <Tag color="red">{i.r}</Tag>
-            </CardBodyWrapper>
-          </CardWrapper>
-        ))}
+        {data &&
+          data.map((i: any) => (
+            <Badge.Ribbon key={i.courseId} text={i.school.toLocaleUpperCase()} color="green">
+              <CardWrapper onClick={() => navigate(`/course/${i.courseId}`)}>
+                <CardHeadWrapper>
+                  <img src={classPicUrl} alt="课程图片" />
+                </CardHeadWrapper>
+                <CardBodyWrapper>
+                  <div className="tname">{i.courseId}</div>
+                  <div>{i.courseSubDescribe}</div>
+                  <div style={{ display: 'flex', flexDirection: 'row', position: 'relative' }}>
+                    {i.courseStuCnt}人在学
+                  </div>
+                </CardBodyWrapper>
+              </CardWrapper>
+            </Badge.Ribbon>
+          ))}
       </Flex>
       <h1>大家都在学</h1>
       <Unaccomplished>页面无设计 | 接口</Unaccomplished>
@@ -58,7 +63,7 @@ const CardWrapper = styled.div`
   border-radius: 5px;
   color: var(--navy);
   height: 250px;
-  margin-right: 40px;
+  margin-left: 40px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   transition: transform 300ms;
   &:hover {
@@ -89,16 +94,18 @@ const CardHeadWrapper = styled.div`
   }
 `
 const CardBodyWrapper = styled.div`
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   justify-content: space-around;
-  align-items: center;
+  align-items: center; */
   padding-top: 10px;
+  padding-left: 10px;
   .ant-btn-primary {
     height: 30px;
     border-color: transparent;
   }
   .tname {
+    text-align: center;
     font-size: 18px;
     font-weight: 800;
     margin-bottom: 5px;

@@ -11,17 +11,14 @@ import {
   QuestionBankTableWrapper,
   QuestionItemWrapper,
   QuestionOperateWrapper,
-  ShowQuestionDetails,
-  TotalQuestionWrapper
+  ShowQuestionDetails
 } from './QuestionBankTableStyle'
 const { confirm } = Modal
 
 export const QuestionBankTable: React.FC<{
-  originData: QuestionBank[]
   curData: QuestionBank[]
-  isAll: boolean
   select?: (i: string) => void
-}> = ({ originData, curData, isAll, select }) => {
+}> = ({ curData, select }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([])
   const navigate = useNavigate()
   // 页面状态
@@ -39,7 +36,6 @@ export const QuestionBankTable: React.FC<{
     onChange: onSelectChange
   }
   const { paperNameMap } = usePaperMap()
-  console.log(window.location.href, 'href')
   const handleRate = (n: number) => <Rate value={n + 1} disabled count={3} />
 
   const showDeleteConfirm = (id: string) => {
@@ -105,7 +101,7 @@ export const QuestionBankTable: React.FC<{
       className: 'table-header',
       render: (_: any, record: QuestionBank) => {
         return isTeacher ? (
-          <QuestionOperateWrapper>
+          <QuestionOperateWrapper key={record.questionId}>
             {select ? (
               <Space>
                 <Button type="primary" onClick={() => select(record.questionId)}>
@@ -146,12 +142,11 @@ export const QuestionBankTable: React.FC<{
 
   return (
     <QuestionBankTableWrapper>
-      <TotalQuestionWrapper>共计{originData?.length}题</TotalQuestionWrapper>
       <Table
         style={{ fontWeight: 'bold' }}
         rowSelection={rowSelection}
         columns={mergedColumns}
-        dataSource={isAll ? originData : curData}
+        dataSource={curData}
         components={{
           body: {
             cell: ShowDetailsCell

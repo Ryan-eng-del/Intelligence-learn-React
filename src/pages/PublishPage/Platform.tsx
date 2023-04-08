@@ -1,24 +1,65 @@
 import { UserOutlined } from '@ant-design/icons'
-import { Avatar, Button, Col, Input, Layout, Menu, Row } from 'antd'
+import { Avatar, Col, Input, Layout, Row } from 'antd'
 import { Content, Footer } from 'antd/es/layout/layout'
 import { useUserInfo } from 'context/UserInfoContext'
+import { useMount } from 'hook/useMount'
 import { Outlet, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 const { Search } = Input
 
 export const Platform = () => {
-  const { userInfo } = useUserInfo()
+  const { userInfo, requireLogin } = useUserInfo()
   const navigate = useNavigate()
+  useMount(() => {
+    requireLogin()
+  })
   return (
     <Layout>
       <Header>
         <Flex>
           <Title onClick={() => navigate('/')}>在线智能导学平台</Title>
-          <Row justify={'space-around'} style={{ width: '350px', backgroundColor: '#001529', height: '60px', alignItems: 'center', textAlign: 'center' }}>
-            <Col className='colClass' span={6} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => navigate('/')}  >课程</Col>
-            <Col className='colClass' span={6} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => navigate('/community')}  >社区</Col>
-            <Col className='colClass' span={6} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => navigate('/school')} >学校</Col>
-            <Col className='colClass' span={6} style={{ lineHeight: '60px', cursor: 'pointer' }} onClick={(e) => navigate('/about')}>平台优势</Col>
+          <Row
+            justify={'space-around'}
+            style={{
+              width: '350px',
+              backgroundColor: '#001529',
+              height: '60px',
+              alignItems: 'center',
+              textAlign: 'center'
+            }}
+          >
+            <Col
+              className="colClass"
+              span={6}
+              style={{ lineHeight: '60px', cursor: 'pointer' }}
+              onClick={(e) => navigate('/')}
+            >
+              课程
+            </Col>
+            <Col
+              className="colClass"
+              span={6}
+              style={{ lineHeight: '60px', cursor: 'pointer' }}
+              onClick={(e) => navigate('/community')}
+            >
+              社区
+            </Col>
+            <Col
+              className="colClass"
+              span={6}
+              style={{ lineHeight: '60px', cursor: 'pointer' }}
+              onClick={(e) => navigate('/school')}
+            >
+              学校
+            </Col>
+            <Col
+              className="colClass"
+              span={6}
+              style={{ lineHeight: '60px', cursor: 'pointer' }}
+              onClick={(e) => navigate('/about')}
+            >
+              平台优势
+            </Col>
           </Row>
         </Flex>
         <Flex>
@@ -52,7 +93,6 @@ export const Platform = () => {
   )
 }
 
-
 const Header = styled.div`
   position: sticky;
   top: 0;
@@ -64,18 +104,17 @@ const Header = styled.div`
   background-color: #112240;
   align-items: center;
   justify-content: space-between;
-  color:white;
-  .colClass{
-    &:hover{
-      background-color:#1890ff
+  color: white;
+  .colClass {
+    &:hover {
+      background-color: #1890ff;
     }
   }
-
 `
 
 const InputWapper = styled.div`
   input {
-    height:31px;
+    height: 31px;
   }
 `
 const MenuWapper = styled.div`

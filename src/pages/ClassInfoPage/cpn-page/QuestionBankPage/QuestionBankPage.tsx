@@ -16,6 +16,7 @@ const QuestionBankPage: React.FC = () => {
   const [open, setOpen] = useState(false)
   const isTeacher = isTeachAuth()
   const navigate = useNavigate()
+  const wrongQuestion = useRef<null | HTMLElement>(null)
   const AnchorBottom = () => tableRef.current!.scrollIntoView({ behavior: 'smooth' })
   const scrollIntoView = (Ref: React.MutableRefObject<HTMLDivElement | null>) => {
     //缩放锚定
@@ -39,12 +40,15 @@ const QuestionBankPage: React.FC = () => {
       <ContentWapper>
         {!isTeacher && (
           <QuestionDashbroad
+            wrong={() => {
+              ;(wrongQuestion?.current as any).click(), scrollIntoView(tableRef)
+            }}
             TargetRef={DashbroadRef}
             move={() => scrollIntoView(tableRef)}
             selectPoint={() => setOpen(true)}
           />
         )}
-        <QuestionList TargetRef={tableRef} move={() => scrollIntoView(DashbroadRef)} />
+        <QuestionList TargetRef={tableRef} wrongRef={wrongQuestion} move={() => scrollIntoView(DashbroadRef)} />
       </ContentWapper>
       <PointRecommend open={open} close={() => setOpen(false)} />
     </>

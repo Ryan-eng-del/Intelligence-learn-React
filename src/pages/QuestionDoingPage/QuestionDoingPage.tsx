@@ -11,23 +11,28 @@ import { DispatchQs, Take as Single } from 'publicComponents/CreateQuestionPage/
 import { GlobalMessage } from 'publicComponents/GlobalMessage'
 import Skeletons from 'publicComponents/Skeleton/index'
 import { Unaccomplished } from 'publicComponents/Unaccomplished'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useShowQuestionForStu, useSubmitQuestion } from 'server/fetchExam'
+import { useRandomQuestion, useShowQuestionForStu, useSubmitQuestion } from 'server/fetchExam'
 import { QuestionOfPaperVO, QuestionType } from 'server/fetchExam/types'
 import { BackButton, QuestionDoingPageWrapper } from './QuestionDoingPageStyle'
 
 const QuestionDoingPage = () => {
   const navigate = useNavigate()
-  const { questionId } = useParams<{ questionId?: string }>()
-  const { data, isLoading: showLoading } = useShowQuestionForStu(questionId)
-  const { mutateAsync, isLoading } = useSubmitQuestion()
-  type T = QuestionOfPaperVO
+  const { questionId } = useParams()
+  const { classInfo } = useCurrentClassInfo()
+
+  const { data, isLoading: showLoading } =
+    questionId !== '-1' ? useShowQuestionForStu(questionId) : useRandomQuestion(classInfo.courseId)
+  useEffect(() => {
+    console.log(data)
+  }, [data])
+
+  const { mutateAsync } = useSubmitQuestion()
   const [ans, setAns] = useState('')
-  console.log(data, 'data')
   const submit = async () => {
     const result = await mutateAsync({
-      questionId: questionId!,
+      questionId: data!.questionId,
       questionAnswer: ans,
       questionType: data?.questionType || 0
     })
@@ -80,7 +85,7 @@ const QuestionDoingPage = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const handleCancel = () => setIsModalOpen(false)
-  const { courseId } = useCurrentClassInfo().classInfo
+  const { courseId } = useCurrentClassInfo().getCourse()
   return (
     <>
       {showLoading ? (

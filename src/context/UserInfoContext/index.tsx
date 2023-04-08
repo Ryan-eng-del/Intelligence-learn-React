@@ -18,20 +18,20 @@ export interface IUserInfo {
 interface IUserInfoContext {
   getUserInfo: any
   userInfo: IUserInfo | null
-  showUserCard: null | (() => void)
+  showUserCard: (id?: string) => void
   requireLogin: () => boolean
 }
 
 const UserInfoContext = createContext<IUserInfoContext>({
   userInfo: null,
   getUserInfo: null,
-  showUserCard: null,
+  showUserCard: (id?: string) => id,
   requireLogin: () => false
 })
 
 export const UserInfoContextProvider = (props: any) => {
   const [userInfo, setUserInfo] = useState(null)
-  const [loginModal, serLoginModal] = useState(false)
+  const [loginModal, setLoginModal] = useState(false)
   const [open, setOpen] = useState(false) // 社区模块： 全局的用户信息卡片
   const { mutateAsync } = useGetUserInfo()
   const navigate = useNavigate()
@@ -52,11 +52,13 @@ export const UserInfoContextProvider = (props: any) => {
   }
 
   const requireLogin = () => {
-    if (userInfo === null) {
-      serLoginModal(true)
-      return false
-    } else {
+    if (userInfo !== null) {
       return true
+    } else {
+      mutateAsync()
+        .then((data) => setUserInfo(data))
+        .catch(() => setLoginModal(true))
+      return false
     }
   }
 
@@ -64,7 +66,7 @@ export const UserInfoContextProvider = (props: any) => {
     <UserInfoContext.Provider value={{ getUserInfo, userInfo, showUserCard, requireLogin }}>
       {props.children}
       <UserCard open={open} close={() => setOpen(false)} showing={userInfo} />
-      <RequireLogin open={loginModal} close={() => serLoginModal(false)} />
+      <RequireLogin open={loginModal} close={() => setLoginModal(false)} />
     </UserInfoContext.Provider>
   )
 }

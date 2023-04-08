@@ -1,68 +1,56 @@
 import { CaretUpOutlined } from '@ant-design/icons'
-import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { QuestionBankHeader, QuestionBankTable } from 'components/QuestionBankPage'
+import { useCurrentClassInfo } from 'context/ClassInfoContext'
+import { useMount } from 'hook/useMount'
 import Skeletons from 'publicComponents/Skeleton'
-import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { useShowCreateQuestion } from 'server/fetchExam'
-import { QuestionBank, QuestionType } from 'server/fetchExam/types'
+import React, { useEffect, useState } from 'react'
+import { useShowCreateQuestion, useWrongQuestionList } from 'server/fetchExam'
+import { QuestionBank } from 'server/fetchExam/types'
 import { isTeachAuth } from 'util/isAuthTeach'
 import { TableWapper } from './QuestionBankPageStyle'
 
 export const QuestionList: React.FC<{
+  init?: any
   TargetRef: React.MutableRefObject<HTMLDivElement | null>
+  wrongRef: React.MutableRefObject<HTMLElement | null>
   move: () => any
-}> = ({ TargetRef, move }) => {
-  const { data, isLoading } = useShowCreateQuestion(useParams()['id']!)
-  const length = data?.length || 0
-  const originData: QuestionBank[] = []
+}> = ({ TargetRef, move, init, wrongRef }) => {
+  const { classInfo } = useCurrentClassInfo()
+  const { data, isLoading } = useShowCreateQuestion(classInfo.courseId)
   const [curData, setCurData] = useState<QuestionBank[]>([])
-  const [isAll, setIsAll] = useState(true)
   const isTeacher = isTeachAuth()
-  const changeType = (type: QuestionType) => {
-    setCurData(originData.filter((item) => item.questionType === type))
-    setIsAll(false)
-  }
+  const { data: wrongList } = useWrongQuestionList(classInfo.courseId)
 
-  // TODO:奇怪的类型映射。应该修改
-  for (let i = 0; i < length; i++) {
-    originData.push(data![i])
+  const wrong = (isWrong: boolean) => {
+    isWrong ? setCurData(wrongList!) : setCurData(data!)
   }
+  useMount(() => init?.wrong)
+  useEffect(() => {
+    data && setCurData(data)
+  }, [data])
 
-  const search = (value: string) => {
-    if (value === '') {
-      return
-    } else {
-      setCurData(originData.filter((item) => item.questionDescription.indexOf(value)))
-      setIsAll(false)
-    }
-  }
-  const showAll = () => {
-    setCurData([...originData])
-    setIsAll(true)
-  }
   return (
     <TableWapper ref={TargetRef}>
-      {!isTeacher ? (
+      {!isTeacher && (
         <div className="back" onClick={move}>
           <CaretUpOutlined />
         </div>
-      ) : (
-        <></>
       )}
-
-      <QuestionBankHeader changeType={changeType} showAll={showAll} search={search}></QuestionBankHeader>
-
+      <QuestionBankHeader
+        wrong={wrong}
+        ref={wrongRef}
+        dataLen={curData?.length}
+        clickfilter={(filter) => {
+          // TODO: 这里从错题会跳回全部题
+          data && setCurData(data.filter(filter))
+        }}
+      />
       {isLoading ? (
         <Skeletons size="large" />
       ) : (
         <QuestionBankTable
           // 选中展开的数据
           curData={curData}
-          // 全部数据
-          originData={originData}
-          // 搜索控制
-          isAll={isAll}
         ></QuestionBankTable>
       )}
     </TableWapper>

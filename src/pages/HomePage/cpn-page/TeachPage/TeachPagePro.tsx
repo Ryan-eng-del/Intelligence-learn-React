@@ -1,7 +1,6 @@
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Input, message, Modal, Popconfirm, Row, Switch, Upload } from 'antd'
-import type { UploadChangeParam } from 'antd/es/upload'
-import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
+import { PlusOutlined } from '@ant-design/icons'
+import { Button, Input, Modal, Popconfirm, Row, Switch, Upload } from 'antd'
+import type { RcFile, UploadFile } from 'antd/es/upload/interface'
 import ClassDefaultPic from 'assets/img/class.jpg'
 import { EmptyPage } from 'pages/EmptyPages/EmptyPage'
 import { PrimaryButton } from 'publicComponents/Button/index'
@@ -9,13 +8,11 @@ import { GlobalHeader } from 'publicComponents/GlobalHeader/index'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
 import Skeletons from 'publicComponents/Skeleton'
 import { ClassCard } from 'publicComponents/TeachRotePage'
-import React, { useEffect, useReducer, useState } from 'react'
-import { useCreateClass, useDeleteCourse, useEditCourse, useShowCreateClass, useSendPicture } from 'server/fetchCourse'
+import React, { useReducer, useState } from 'react'
+import { useCreateClass, useDeleteCourse, useEditCourse, useSendPicture, useShowCreateClass } from 'server/fetchCourse'
 import { CourseList } from 'server/fetchCourse/types'
 import { baseURL } from 'server/request/config'
-import { BaseLoading } from '../../../../baseUI/BaseLoding/BaseLoading'
 import { initialState, TeachRoutePageReducer } from './config/reducer'
-import { beforeUpload, getBase64 } from './config/util'
 import { TeachPageWrapper, UploadImageWrapper } from './TeachPageStyle'
 
 //这页混用了很多dispatch和setState
@@ -25,14 +22,13 @@ export const TeachPage: React.FC = () => {
   const [state, dispatch] = useReducer(TeachRoutePageReducer, initialState)
   const { uploadLoading, modalVisible, imgUrl, className, EditVisible, EditingCourse, courseDescribe } = state
 
-  const [courseCover, setCourseCover] = useState<string>('');
-  const [file, setFile] = useState<UploadFile | null>();
-  const [createPreviewOpen, setCreatePreviewOpen] = useState(false);
-  const [changePreviewOpen, setChangePreviewOpen] = useState(false);
+  const [courseCover, setCourseCover] = useState<string>('')
+  const [file, setFile] = useState<UploadFile | null>()
+  const [createPreviewOpen, setCreatePreviewOpen] = useState(false)
+  const [changePreviewOpen, setChangePreviewOpen] = useState(false)
 
-  const [previewImage, setPreviewImage] = useState('');
-  const [previewTitle, setPreviewTitle] = useState('');
-
+  const [previewImage, setPreviewImage] = useState('')
+  const [previewTitle, setPreviewTitle] = useState('')
 
   const { data, isLoading } = useShowCreateClass()
 
@@ -45,7 +41,6 @@ export const TeachPage: React.FC = () => {
     course_describe: courseDescribe,
     course_cover: courseCover
   })
-
 
   const showModal = () => {
     dispatch({ type: 'setClassName', payload: '' })
@@ -77,11 +72,11 @@ export const TeachPage: React.FC = () => {
   }
   // 确认编辑
   const confirmEdit = async () => {
-
     // const formData = new FormData()
     // formData.append('avatar', file)
 
     // await sendPicture(courseCover).then((data: string) => {
+    console.log(courseCover)
     EditCourse({
       courseId: EditingCourse.courseId,
       courseName: className,
@@ -91,49 +86,45 @@ export const TeachPage: React.FC = () => {
     // }
     // )
 
-
     dispatch({ type: 'setEditVisible', payload: false })
     // 页面更新
     dispatch({ type: 'setClasList', payload: EditingCourse })
   }
-
 
   //以下是处理课程封面图片的,基本都可以参考antd官网的upload组件
   //////////////////////////////////////////////////////////////////////////////////
 
   const getBase64 = (file: RcFile): Promise<string> =>
     new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-    });
-
-
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => resolve(reader.result as string)
+      reader.onerror = (error) => reject(error)
+    })
 
   const handleCancel = () => {
-    setChangePreviewOpen(false);
+    setFile(null)
+    setChangePreviewOpen(false)
     setCreatePreviewOpen(false)
   }
 
   const handleCreatePreview = async (file: UploadFile) => {
     if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as RcFile);
+      file.preview = await getBase64(file.originFileObj as RcFile)
     }
-    setPreviewImage(file.url || (file.preview as string));
-    setCreatePreviewOpen(true);
-    setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
-  };
+    setPreviewImage(file.url || (file.preview as string))
+    setCreatePreviewOpen(true)
+    setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1))
+  }
 
   const handleChagePreview = async (file: UploadFile) => {
     if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as RcFile);
+      file.preview = await getBase64(file.originFileObj as RcFile)
     }
-    setPreviewImage(file.url || (file.preview as string));
-    setChangePreviewOpen(true);
-    setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
-  };
-
+    setPreviewImage(file.url || (file.preview as string))
+    setChangePreviewOpen(true)
+    setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1))
+  }
 
   const handleChange = (e: any) => {
     if (e.file.status == ' removed') {
@@ -141,7 +132,7 @@ export const TeachPage: React.FC = () => {
       return
     }
     if (e.file.status == 'done') {
-      setFile(e.file.originFileObj);
+      setFile(e.file.originFileObj)
       setCourseCover(e.file.response.data)
     }
   }
@@ -151,12 +142,11 @@ export const TeachPage: React.FC = () => {
   }
 
   const uploadButton = (
-    <div >
+    <div>
       <PlusOutlined />
       <div style={{ marginTop: 8 }}>Upload</div>
     </div>
-  );
-
+  )
 
   ////////////////////////////////////////////////////////////////////////////////////
   return (
@@ -169,13 +159,11 @@ export const TeachPage: React.FC = () => {
             title="新建课程"
             open={modalVisible}
             onOk={handleOk}
-            onCancel={
-              () => {
-                setCourseCover('')
-                setFile(null)
-                dispatch({ type: 'setModalVisible', payload: false })
-              }
-            }
+            onCancel={() => {
+              setCourseCover('')
+              setFile(null)
+              dispatch({ type: 'setModalVisible', payload: false })
+            }}
             okText="确认"
             cancelText="取消"
           >
@@ -191,15 +179,15 @@ export const TeachPage: React.FC = () => {
               }}
             />
             <UploadImageWrapper>
-            {file == null ? <img src={ClassDefaultPic} alt="默认课程图片" /> : null}
+              {file == null ? <img src={ClassDefaultPic} alt="默认课程图片" /> : null}
               <Upload
                 action={`${baseURL}/resources/upload-avatar`}
                 listType="picture-card"
                 onPreview={handleCreatePreview}
                 onChange={handleChange}
                 onRemove={handleRemove}
-                name='avatar'
-                method='post'
+                name="avatar"
+                method="post"
               >
                 {file === null ? uploadButton : null}
               </Upload>
@@ -218,7 +206,6 @@ export const TeachPage: React.FC = () => {
               }}
             />
           </Modal>
-
 
           {/* /////////////////////////////////////////////////////////////////*/}
 
@@ -255,8 +242,8 @@ export const TeachPage: React.FC = () => {
                 onPreview={handleChagePreview}
                 onChange={handleChange}
                 onRemove={handleRemove}
-                name='avatar'
-                method='post'
+                name="avatar"
+                method="post"
               >
                 {file == null ? uploadButton : null}
               </Upload>

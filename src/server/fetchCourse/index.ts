@@ -1,10 +1,5 @@
-import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { RcFile } from 'antd/es/upload'
-import axios from 'axios'
-import { dataTool } from 'echarts'
-import { url } from 'inspector'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { client } from 'server'
-import { baseURL } from 'server/request/config'
 import { CourseList } from './types'
 
 // 显示课程
@@ -39,7 +34,7 @@ export const useShowInvitedCourseInfo = () => {
 export const useJoinInvitedCourse = () => {
   const queryClient = useQueryClient()
   return useMutation(
-    (props: { classId: string, ability: string, expect: string }) => {
+    (props: { classId: string; ability: string; expect: string }) => {
       return client.post<CourseList>({
         url: '/class/join',
         params: { ...props }
@@ -66,15 +61,14 @@ export const useSendPicture = () => {
     },
     {
       onSuccess: (data) => {
-        console.log("data", data);
+        console.log('data', data)
       },
       onError: (e) => {
-        console.log("data", e);
+        console.log('data', e)
       }
     }
   )
 }
-
 
 // 添加课程
 export const useCreateClass = ({
@@ -142,4 +136,17 @@ export const useEditCourse = () => {
       }
     }
   )
+}
+
+/** 随机获取课程 */
+export const useRandomCourse = () => {
+  return useQuery(['random-course'], async () => {
+    return client.get({ url: '/course/get-random' })
+  })
+}
+
+export const useRandomCourseInfo = (courseId: string) => {
+  return useQuery([`random-course-${courseId}`], async () => {
+    return client.get({ url: `/course/get-random-detail/${courseId}` })
+  })
 }
