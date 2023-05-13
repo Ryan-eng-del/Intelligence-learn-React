@@ -33,15 +33,15 @@ export const useHandleAddClassTime = (props: Omit<IHandleChapterControl<ChapterT
     const addChapterId: string = curChapterId.current
     const isTrim = noTrim(classTimeState.courseTimeName)
     if (isTrim) return
-
     const resourceIds = classTimeState.ids
+    console.log(classTimeState)
     try {
       await addContentMutate({
         chapter_id: addChapterId,
         name: classTimeState.courseTimeName,
         resource_ids: resourceIds,
-        paper_id: '',
-        paper_name: ''
+        paper_id: classTimeState.paper_id,
+        paper_name: classTimeState.paper_name
       })
     } catch (err) {
       dispatchChapter({ type: 'setError', error: err })

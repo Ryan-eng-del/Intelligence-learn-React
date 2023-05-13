@@ -16,7 +16,9 @@ const ClassTimeDispatchContext = React.createContext<IClassTimeContext>({
     courseTimeModalVisible: false,
     fileList: [],
     courseTimeName: '',
-    ids: []
+    ids: [],
+    paper_id: '',
+    paper_name: ''
   }
 })
 

@@ -115,7 +115,7 @@ root.render(
                 </Route>
 
                 <Route path="exam" element={<ExamPage />}>
-                  <Route path="editpaper/:paperId" element={<CreateExamPage />} />
+                  <Route path="editpaper" element={<CreateExamPage />} />
                 </Route>
 
                 <Route path="resource" element={<ResourcePage />} />

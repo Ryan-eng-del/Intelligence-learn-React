@@ -4,7 +4,9 @@ export const initialCourseTimeState: ICourseTimeReducerState = {
   courseTimeModalVisible: false,
   fileList: [],
   courseTimeName: '',
-  ids: []
+  ids: [],
+  paper_id: '',
+  paper_name: ''
 }
 
 export const courseTimeReducer = (state: ICourseTimeReducerState, action: ICourseTimeReducerAction) => {
@@ -20,6 +22,10 @@ export const courseTimeReducer = (state: ICourseTimeReducerState, action: ICours
       return { ...state, fileList: [], courseTimeName: '' }
     case 'pushId':
       return { ...state, ids: ids.concat(action.id) }
+    case 'pushpaperId':
+      return { ...state, paper_id: action.paper_id }
+    case 'pushpaperName':
+      return { ...state, paper_name: action.paper_name }
     case 'clearId':
       return { ...state, ids: [] }
     default:

@@ -1,4 +1,3 @@
-import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading'
 import { ResourceDrawer } from 'components/ClassInfoPage/ChapterPage/ChapterStudyTree/cpn/ResourceDrawer'
 import { useClassTimeDispatch } from 'context/ChapterStudyTree/ClassTimeDispatchContext'
 import { useCurrentClassInfo } from 'context/ClassInfoContext'
@@ -10,6 +9,7 @@ import { GlobalHeader } from 'publicComponents/GlobalHeader'
 import { GlobalRightLayout } from 'publicComponents/GlobalLayout/style'
 import Skeletons from 'publicComponents/Skeleton'
 import React, { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { useShowResourceList } from 'server/fetchCourseResource'
 import { isTeachAuth } from 'util/isAuthTeach'
 import { PreviewDrawer } from './PreviewDrawer'
@@ -34,7 +34,8 @@ const ResourcePage: React.FC = () => {
     otherProgress,
     onCloseResourceDrawer,
     onOpenResourceDrawer,
-    Uploadprops
+    Uploadprops,
+    handleUpHomework
   } = useUploadResource({ dispatch })
 
   const [open, setOpen] = useState(false)
@@ -86,6 +87,8 @@ const ResourcePage: React.FC = () => {
         // TODO: 这里应该控制上传到resource而不是classTime
         // FIXME: 更换这里的uploadprops
         Uploadprops={Uploadprops}
+        classId={useParams().id!}
+        handleUpHomework={handleUpHomework}
       />
       <PreviewDrawer open={open} close={() => setOpen(false)} showType={openType as any} url={URL} />
     </>

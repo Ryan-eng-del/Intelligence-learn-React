@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { ICourseTimeReducerAction } from 'reducer/ChaperStudyTree/type/type'
 import { useAddContentResource } from 'server/fetch3rd/fetchChapter'
+import { homeworkList } from 'server/fetch3rd/fetchChapter/types'
 import { useUploadVideo } from 'server/fetchResource'
 import AliYunOSS from 'util/AliYunOSS'
 import { createVideoAndOtherArr } from './util'
@@ -18,7 +19,6 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
   const { dispatch } = props
   const courseId: string = useParams().id!
   const [fileList, setFileList] = useState<any>([]) // 在章节部分上传资源时才用到
-
   //antd upload组件的一些api,在此分别是onremove,beforeUpload,filelist,beforeUpload是在上传前进行一些文件类型,名称,数量判断
   const Uploadprops = uploadProps(fileList, setFileList)
 
@@ -39,6 +39,7 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
   const [isOtherStart, setIsOtherStart] = useState(false)
   const [isVideoFinish, setIsVideoFinish] = useState(false)
   const [isOtherFinish, setIsOtherFinish] = useState(false)
+  const [isHomeworkFinish, setIsHomeworkFinish] = useState(false)
 
   const [otherProgress, setOtherProgress] = useState(50)
 
@@ -52,8 +53,8 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
   }
 
   useEffect(() => {
-    isVideoFinish && isOtherFinish && onCloseResourceDrawer()
-  }, [isVideoFinish, isOtherFinish])
+    isVideoFinish && isOtherFinish && isHomeworkFinish && onCloseResourceDrawer()
+  }, [isVideoFinish, isOtherFinish, isHomeworkFinish])
 
   const uploader = new AliYunOSS(
     AliyunUpload,
@@ -116,6 +117,25 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
         setFileList([])
       })
   }
+  /*处理作业上传 */
+  const handleUpHomework = (hwkList: homeworkList[]) => {
+    const now = window.performance.now()
+    const newUid = `upload-${now.toFixed(3)}-${Math.floor(Math.random() * 1000)}`
+    setFileList([
+      ...fileList,
+      {
+        uid: newUid, // 使用时间戳生成随机的uid
+        name: hwkList[0].paperName,
+        size: 0, // 可以设置为0或其他合适的默认值
+        type: 'homework',
+        paperId: hwkList[0].paperId, // 新文件信息中包含paperId属性
+        paperName: hwkList[0].paperName // 新文件信息中包含paperName属性
+      }
+    ])
+    dispatch({ type: 'pushpaperId', paper_id: hwkList[0].paperId })
+    dispatch({ type: 'pushpaperName', paper_name: hwkList[0].paperName })
+    setIsHomeworkFinish(true)
+  }
 
   /* 选择树来触发 */
   const handleRelateCheck = useCallback((checkInfo: any) => {
@@ -124,7 +144,7 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
   }, [])
 
   const onCloseResourceDrawer = () => {
-    if (isOtherFinish && isVideoFinish) {
+    if (isOtherFinish && isVideoFinish && isHomeworkFinish) {
       GlobalMessage('success', '资源上传成功！👋👋')
       setOpenResourceDrawer(false)
       dispatch({ type: 'setModalState', open: true })
@@ -154,6 +174,7 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
     Uploadprops,
     isVideoFinish,
     isOtherFinish,
-    onOpenResourceDrawer
+    onOpenResourceDrawer,
+    handleUpHomework
   }
 }
