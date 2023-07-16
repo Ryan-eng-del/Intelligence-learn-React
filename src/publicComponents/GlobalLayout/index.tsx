@@ -40,7 +40,7 @@ const GlobalLayout = (props: {
         <NavBottomWrapper>
           {protectClassInfoType(layoutData, layoutName) ? ( // User
             <>
-              <UserAvatarWrapper onClick={showUserCard!}>
+              <UserAvatarWrapper onClick={()=>showUserCard()}>
                 <Avatar src={layoutData?.headPortrait || AvatarPic} size="large" />
               </UserAvatarWrapper>
               <div className="nickname">{layoutData?.name || '正在加载中……'}</div>

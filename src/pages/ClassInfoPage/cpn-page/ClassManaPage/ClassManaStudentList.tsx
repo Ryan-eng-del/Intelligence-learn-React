@@ -68,7 +68,7 @@ export const ClassManaStudentList: React.FC<{ class_id: string }> = (props) => {
       renderItem={(item) => (
         <List.Item className="listItem" style={{ padding: '0px' }}>
           <div className="listItemDiv">
-            <div className="listItemDivHead" onClick={showUserCard!}>
+            <div className="listItemDivHead" onClick={()=>showUserCard()}>
               <Avatar size={65} src="\src\assets\img\pyy.png" style={{ marginLeft: '30px', margin: '10px' }} />
               <div>
                 <h2 style={{ marginBottom: '0px', marginTop: '20px', fontWeight: 'bold' }}>{item.name}</h2>
