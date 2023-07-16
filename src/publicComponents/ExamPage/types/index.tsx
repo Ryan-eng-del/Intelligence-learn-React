@@ -103,9 +103,9 @@ export interface PublishHomeworkType {
    */
   isMultiHalfScore?: number
   /**
-   * 试卷id
+   * 作业id
    */
-  paper_id: string
+  paperId: string
   /**
    * 重做次数
    */
@@ -117,5 +117,5 @@ export interface PublishHomeworkType {
   /**
    * 学生id集合
    */
-  student_ids: string[]
+  studentIds: string[]
 }

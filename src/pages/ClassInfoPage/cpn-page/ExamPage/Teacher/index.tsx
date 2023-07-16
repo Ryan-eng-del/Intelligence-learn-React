@@ -1,13 +1,13 @@
 import { AreaChartOutlined, ArrowRightOutlined, DeliveredProcedureOutlined, UserAddOutlined } from '@ant-design/icons'
-import { Button, DatePicker, Drawer, InputNumber, Modal, Radio, Space, Table, Tree } from 'antd'
+import { Button, DatePicker, Drawer, Modal, Radio, Space, Table, Tree } from 'antd'
 import { message } from 'antd/es'
 import type { ColumnsType } from 'antd/es/table'
-import { BaseLoading } from 'baseUI/BaseLoding/BaseLoading';
 import { TreeSelected } from 'components/ClassInfoPage/KnowledgePage/KnowledgeTree/cpn/TreeSelected'
 import dayjs from 'dayjs'
+import { PublishPanel } from 'publicComponents/ExamPage/PublishPanel/PublishPanel'
 import { StatisticsPanel } from 'publicComponents/ExamPage/StatisticsPanel/StatisticsPanel'
-import { ClassList } from 'publicComponents/ExamPage/types/index'
-import Skeletons from 'publicComponents/Skeleton';
+import { ClassList, PublishExamType, PublishHomeworkType } from 'publicComponents/ExamPage/types/index'
+import Skeletons from 'publicComponents/Skeleton/index'
 import React, { Key, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useGetPaperTarget, useReleaseExam, useReleaseHomework, useShowExamList } from 'server/fetchExam'
@@ -30,20 +30,33 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
 
   const navigate = useNavigate()
   const [statistics, setStatistics] = useState(false)
-  const initialExamPublish = {
+  const initialGeneral = {
+    paper_id: '',
+    start_time: '',
+    end_time: '',
     publishModalVisible: false,
-    paperId: '',
     stuLen: 0,
     stuListModalVisible: false,
     distributeWay: 1,
     paperName: '',
-    startTime: '',
-    endTime: '',
-    limitTime: 45
+    type: 0 // 通过type来区分发布试卷/作业的功能（0：试卷 /1：作业）
+  }
+
+  const initialExam: PublishExamType = {
+    paper_id: '',
+    student_ids: []
+  }
+  const initialHomework: PublishHomeworkType = {
+    paperId: '',
+    studentIds: []
   }
   const initialStuTreeSelect = { expandKeys: [], checkedKeys: [] }
 
-  const [examPublish, setExamPublish] = useImmer(initialExamPublish)
+  const [examPublish, setExamPublish] = useImmer(initialExam)
+
+  const [homeworkPublish, setHomeworkPublish] = useImmer(initialHomework)
+
+  const [generalPublish, setGeneralPublish] = useImmer(initialGeneral)
 
   const [stuTreeSelect, setStuTreeSelect] = useImmer<{ expandKeys: string[]; checkedKeys: string[] }>(
     initialStuTreeSelect
@@ -77,10 +90,12 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
               icon={<DeliveredProcedureOutlined />}
               onClick={() => {
                 getPublishTarget(record.paperId)
-                setExamPublish((draft) => {
-                  draft.paperId = record.paperId
+                setGeneralPublish((draft) => {
                   draft.publishModalVisible = true
                   draft.paperName = record.paperName
+                })
+                setGeneralPublish((draft) => {
+                  draft.paper_id = record.paperId
                 })
               }}
             >
@@ -102,20 +117,20 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
   }
 
   const onClose = () => {
-    setExamPublish((draft) => {
+    setGeneralPublish((draft) => {
       draft.publishModalVisible = false
     })
   }
 
   const completeChooseStu = () => {
-    setExamPublish((draft) => {
+    setGeneralPublish((draft) => {
       draft.stuListModalVisible = false
       draft.stuLen = stuTreeSelect.checkedKeys.length
     })
   }
 
   const changeDistributeWay = (e: any) => {
-    setExamPublish((draft) => {
+    setGeneralPublish((draft) => {
       draft.distributeWay = e.target.value
     })
   }
@@ -135,31 +150,57 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
       })
     }
   }
+  // 处理选择发布类型后的事件
+  const handlePublishOption = (publishOption: any) => {
+    setGeneralPublish({ ...generalPublish, type: publishOption.type })
+    if (publishOption.type == 0) {
+      setExamPublish({ ...examPublish, ...publishOption })
+      setExamPublish((draft) => {
+        // 让试卷获取paper_id
+        draft.paper_id = generalPublish.paper_id
+        draft.start_time = generalPublish.start_time
+        draft.end_time = generalPublish.end_time
+        // 让试卷获取student_ids
+        draft.student_ids = stuTreeSelect.checkedKeys
+      })
+    } else {
+      setHomeworkPublish({ ...homeworkPublish, ...publishOption })
+      setHomeworkPublish((draft) => {
+        // 让作业获取paperId
+        draft.paperId = generalPublish.paper_id
+        draft.start_time = generalPublish.start_time
+        draft.end_time = generalPublish.end_time
+        // 让作业获取studentIds
+        draft.studentIds = stuTreeSelect.checkedKeys
+      })
+    }
+  }
 
   const dateFormat = 'YYYY-MM-DD HH:mm:ss'
 
   const confirmPublish = () => {
-    const isImmediate = examPublish.distributeWay === 1
+    const isImmediate = generalPublish.distributeWay === 1
 
     const isPass = () => {
-      return stuTreeSelect.checkedKeys.length > 0 && examPublish.endTime && examPublish.limitTime && examPublish.stuLen
+      return stuTreeSelect.checkedKeys.length > 0 && generalPublish.end_time && generalPublish.stuLen
     }
-
     try {
-      if (isPass()) {
-        releaseExam({
-          paper_id: examPublish.paperId,
-          student_ids: stuTreeSelect.checkedKeys,
-          start_time: isImmediate ? dayjs(new Date()).format(dateFormat) : examPublish.startTime,
-          end_time: examPublish.endTime,
-          limit_time: examPublish.limitTime
-        })
+      if (isImmediate) {
+        setExamPublish({ ...examPublish, start_time: dayjs(new Date()).format(dateFormat) })
+        setHomeworkPublish({ ...homeworkPublish, start_time: dayjs(new Date()).format(dateFormat) })
+      }
+      if (isPass() && generalPublish.type == 0) {
+        // examPublish.start_time = isImmediate ? dayjs(new Date()).format(dateFormat) : examPublish.start_time
+        releaseExam(examPublish)
+      } else if (isPass() && generalPublish.type == 1) {
+        releaseHomework(homeworkPublish)
       } else {
         message.info('请填写完所有必填的信息！')
       }
     } catch (err) {
+      console.log(err)
     } finally {
-      setExamPublish(initialExamPublish)
+      setGeneralPublish(initialGeneral)
       setStuTreeSelect(initialStuTreeSelect)
     }
   }
@@ -180,22 +221,18 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
     })
   }
 
-  const changeExamNumber = (value: number | null) => {
-    setExamPublish((draft) => (draft.limitTime = value || Number.MAX_VALUE))
-  }
-
   return isLoading ? (
-    <Skeletons size="large" />
+    <Skeletons size="middle" />
   ) : (
     <ExamListWrapper>
       <Table columns={columns} dataSource={data!} rowKey="paperId" />
       <StatisticsPanel visible={statistics} close={() => setStatistics(false)} />
 
       <Drawer
-        title={`${examPublish.paperName}`}
+        title={`${generalPublish.paperName}`}
         placement="right"
         onClose={onClose}
-        open={examPublish.publishModalVisible}
+        open={generalPublish.publishModalVisible}
         mask={false}
         extra={
           <Button type="primary" onClick={confirmPublish}>
@@ -207,18 +244,20 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
           <Button
             icon={<UserAddOutlined />}
             onClick={() =>
-              setExamPublish((draft) => {
+              setGeneralPublish((draft) => {
                 draft.stuListModalVisible = true
               })
             }
           >
             发放对象
           </Button>
-          <span style={{ marginLeft: '12px ' }}>已经选择了 {examPublish.stuLen} 位学生</span>
+          <span style={{ marginLeft: '12px ' }}>已经选择了 {generalPublish.stuLen} 位学生</span>
         </div>
+
+        <div></div>
         <div style={{ margin: '12px 0' }}>
           <span>发放时间：</span>
-          <Radio.Group onChange={changeDistributeWay} value={examPublish.distributeWay}>
+          <Radio.Group onChange={changeDistributeWay} value={generalPublish.distributeWay}>
             <Radio value={1}>立即发放</Radio>
             <Radio value={2}>定时发放</Radio>
           </Radio.Group>
@@ -226,45 +265,39 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
           <DatePicker
             format={dateFormat}
             onChange={(_, d) => {
-              setExamPublish((draft) => {
-                draft.startTime = d
+              setGeneralPublish((draft) => {
+                draft.start_time = d
               })
             }}
             showTime
-            style={{ display: examPublish.distributeWay === 1 ? 'none' : 'block' }}
+            style={{ display: generalPublish.distributeWay === 1 ? 'none' : 'inline-block' }}
           />
         </div>
 
         <div style={{ margin: '12px 0' }}>
           <span>截至时间：</span>
           <DatePicker
+            defaultValue={
+              examPublish.end_time ? dayjs(examPublish.end_time) : dayjs('2023-01-01 00:00:00', 'YYYY-MM-DD HH:mm:ss')
+            }
             format={dateFormat}
             onChange={(_, d) => {
-              setExamPublish((draft) => {
-                draft.endTime = d
+              setGeneralPublish((draft) => {
+                draft.end_time = d
               })
             }}
             showTime
           />
         </div>
 
-        <div style={{ margin: '12px 0' }}>
-          <span>考试时间：</span>
-          <InputNumber
-            size="large"
-            min={1}
-            max={100000}
-            defaultValue={examPublish.limitTime}
-            onChange={changeExamNumber}
-          />
-          <span style={{ marginLeft: '12px' }}>分钟</span>
-        </div>
+        {/* 选择发布类型 */}
+        <PublishPanel handlePublishOption={handlePublishOption} />
       </Drawer>
 
       <Modal
-        open={examPublish.stuListModalVisible}
+        open={generalPublish.stuListModalVisible}
         onCancel={() =>
-          setExamPublish((draft) => {
+          setGeneralPublish((draft) => {
             draft.stuListModalVisible = false
           })
         }

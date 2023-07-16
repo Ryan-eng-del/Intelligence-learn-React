@@ -17,6 +17,8 @@ export type ICourseTimeReducerAction =
   | { type: 'setName'; name: string }
   | { type: 'initNameAndFileList' }
   | { type: 'pushId'; id: string }
+  | { type: 'pushpaperId'; paper_id: string }
+  | { type: 'pushpaperName'; paper_name: string }
   | { type: 'clearId' }
 
 export interface ICourseTimeReducerState {
@@ -24,6 +26,8 @@ export interface ICourseTimeReducerState {
   fileList: ICurFileObj[]
   courseTimeName: string
   ids: string[]
+  paper_id: string
+  paper_name: string
 }
 
 interface ICurFileObj {

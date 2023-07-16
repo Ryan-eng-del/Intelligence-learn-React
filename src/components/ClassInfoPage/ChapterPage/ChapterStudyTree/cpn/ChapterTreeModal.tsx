@@ -3,6 +3,7 @@ import { useClassTimeDispatch } from 'context/ChapterStudyTree/ClassTimeDispatch
 import { useUploadResource } from 'hook/useChapterStudy/useUploadResource'
 import { GlobalLabel } from 'publicComponents/GlobalLabel/globalLabel'
 import React from 'react'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { ResourceDrawer } from './ResourceDrawer'
 
@@ -29,7 +30,8 @@ export const ChapterTreeModal: React.FC<{
     isOtherStart,
     otherProgress,
     onOpenResourceDrawer,
-    Uploadprops
+    Uploadprops,
+    handleUpHomework
   } = useUploadResource({ dispatch })
 
   /*Upload Props*/
@@ -95,10 +97,12 @@ export const ChapterTreeModal: React.FC<{
         handleRelateCheck={handleRelateCheck}
         handleRelateExpand={handleRelateExpand}
         handleUpload={handleUpload}
+        handleUpHomework={handleUpHomework}
         checkTreeData={checkTreeData}
         relateKeys={relateKeys}
         relatePoints={relatePoints}
         Uploadprops={Uploadprops}
+        classId={useParams().id!}
       />
     </ChapterTreeModalWrapper>
   )
