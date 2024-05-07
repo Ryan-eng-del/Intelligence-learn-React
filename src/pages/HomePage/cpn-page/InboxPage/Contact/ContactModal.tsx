@@ -27,27 +27,27 @@ export const ContactModal: React.FC<{
   ])
   const test = document.getElementById('test')
 
-  const 模拟对面回复 = (msg?: string) => {
-    const id = crypto.randomUUID()
-    data.push({ id, isMe: false, msg: msg || '狗再叫!' })
-    setData([...data])
-    setTimeout(() => {
-      test!.scrollTo({ top: data.length * 50, behavior: 'smooth' })
-    })
-  }
+  // const 模拟对面回复 = (msg?: string) => {
+  //   const id = crypto.randomUUID()
+  //   data.push({ id, isMe: false, msg: msg || '狗再叫!' })
+  //   setData([...data])
+  //   setTimeout(() => {
+  //     test!.scrollTo({ top: data.length * 50, behavior: 'smooth' })
+  //   })
+  // }
 
-  const handleSend = () => {
-    const id = crypto.randomUUID()
-    data.push({ id, isMe: true, msg: send })
-    setTimeout(() => {
-      模拟对面回复()
-    }, 2000)
-    setSend('')
-    setData([...data])
-    setTimeout(() => {
-      test!.scrollTo({ top: data.length * 50, behavior: 'smooth' })
-    })
-  }
+  // const handleSend = () => {
+  //   const id = crypto.randomUUID()
+  //   data.push({ id, isMe: true, msg: send })
+  //   setTimeout(() => {
+  //     模拟对面回复()
+  //   }, 2000)
+  //   setSend('')
+  //   setData([...data])
+  //   setTimeout(() => {
+  //     test!.scrollTo({ top: data.length * 50, behavior: 'smooth' })
+  //   })
+  // }
 
   return (
     <Modal open={visible} footer={null} onCancel={close} title={`与 ${from} 的对话`}>
