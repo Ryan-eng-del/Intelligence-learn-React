@@ -25,11 +25,11 @@ export const addChildKnowledgeNode = (
   const recursion = (data: IKnowledgePoint[]) => {
     if (!data) return
     data.map((d) => {
-      if (d.children.length) {
+      if (d?.children?.length) {
         recursion(d.children)
       }
       if (id == d.pointId) {
-        d.children = d.children.concat(node)
+        d.children = d?.children.concat(node)
         queryClient.setQueryData(['knowledgeTree', courseId], deepCloneData)
       }
     })
@@ -42,10 +42,10 @@ export const deleteKnowledgeNode = (data: any, id: any, queryClient: any, course
   const recursion = (data: any) => {
     if (!data) return
     data.map((d: any, index: number) => {
-      if (d.children.length) {
+      if (d?.children?.length) {
         recursion(d.children)
       }
-      if (id == d.pointId) {
+      if (id == d?.pointId) {
         data.splice(index, 1)
         queryClient.setQueryData(['knowledgeTree', courseId], deepCloneData)
       }
@@ -102,7 +102,7 @@ export const relateAllPoints = (
   const recursion = (data: IKnowledgePoint[]) => {
     if (!data) return
     data.map((d: IKnowledgePoint) => {
-      if (d.children.length) {
+      if (d?.children?.length) {
         recursion(d.children)
       }
       if (id == d.pointId) {
