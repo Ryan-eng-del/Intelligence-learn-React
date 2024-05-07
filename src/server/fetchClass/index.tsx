@@ -6,7 +6,7 @@ import { ClassList,StudentList } from "./types"
 export const useToGetClassList = (courseId: string) => {
   return useQuery([`classList-${courseId}`], async () => {
     return client.get<ClassList[]>({
-      url: '/class/show',
+      url: '/course/api/class/show',
       params: { courseId }
     })
   })
@@ -16,7 +16,7 @@ export const useDeleteClass = (courseId: string) => {
   const queryClient = useQueryClient()
   return useMutation(
     (id: string) => {
-      return client.delete({ url: `/class/delete/${id}` })
+      return client.delete({ url: `/course/api/class/delete/${id}` })
     },
     {
       onSuccess: () => {
@@ -32,7 +32,7 @@ export const useCreateNewClass = (courseId: string) => {
   return useMutation(
     (className: string) => {
       return client.post({
-        url: `/class/create`,
+        url: `/course/api/class/create`,
         data: {
           course_id: courseId,
           class_name: className
@@ -53,7 +53,7 @@ export const useReName = (courseId: string) => {
   return useMutation(
     (props: { className: string; classId: string }) => {
       return client.put({
-        url: '/class/update-name',
+        url: '/course/api/class/update-name',
         data: {
           class_id: props.classId,
           class_name: props.className
@@ -73,7 +73,7 @@ export const useShowStudent = (classId: string) => {
   return useQuery([`useShowStudent-${classId}`], () => {
     return client.get<StudentList[]>(
       {
-        url: '/class/show-student',
+        url: '/course/api/class/show-student',
         params: {
           classId: classId
         }
@@ -86,7 +86,7 @@ export const useDeleteStudent = (useRefetchStudent: any) => {
   return useMutation(
     (argus: { classId: string; userId: string }) => {
       return client.delete({
-        url: '/class/remove-student',
+        url: '/course/api/class/remove-student',
         data: {
           classId: argus.classId,
           userId: argus.userId

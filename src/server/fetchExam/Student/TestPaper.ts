@@ -6,7 +6,7 @@ import { ExamListItem, StudentPaper } from '../types'
 export const useSaveExam = () => {
   return useMutation(async (paperId: string) => {
     return client.post({
-      url: '/paper/stu/submit-exam',
+      url: '/shit/api/paper/stu/submit-exam',
       data: {
         paperId
       }
@@ -18,7 +18,7 @@ export const useSaveExam = () => {
 export const useShowExamListPublished = (courseID?: string) => {
   return useQuery([`ExamListStuExam-${courseID || 'all'}`], async () => {
     return client.get<ExamListItem[]>({
-      url: `/paper/stu/exams`,
+      url: `/shit/api/paper/stu/exams`,
       params: {
         courseId: courseID
       }
@@ -30,7 +30,7 @@ export const useShowExamListPublished = (courseID?: string) => {
 export const useHomeWorkListPublished = (courseID: string) => {
   return useQuery([`ExamListStuHomework-${courseID}`], async () => {
     return client.get<any[]>({
-      url: `/paper/stu/homeworks`,
+      url: `/shit/api/paper/stu/homeworks`,
       params: {
         courseId: courseID
       }
@@ -42,7 +42,7 @@ export const useHomeWorkListPublished = (courseID: string) => {
 export const useShowQuestionForStudent = (id: string) => {
   return useQuery([`paperdoing-${id}`], async () => {
     return client.get<StudentPaper>({
-      url: `/paper/stu/paper-detail/${id}`,
+      url: `/shit/api/paper/stu/paper-detail/${id}`,
       params: {
         paperId: id
       }
@@ -54,7 +54,7 @@ export const useShowQuestionForStudent = (id: string) => {
 export const useGetStuExam = (id: string) => {
   return useQuery(['stu/exams', id], () => {
     return client.get({
-      url: '/paper/stu/exams'
+      url: '/shit/api/paper/stu/exams'
     })
   })
 }

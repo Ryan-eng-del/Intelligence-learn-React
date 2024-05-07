@@ -5,7 +5,7 @@ import { ResourceType } from './types'
 export const useShowResourceList = (courseId: string) => {
   return useQuery([`resources-${courseId}`], async () => {
     return client.get<ResourceType[]>({
-      url: '/resources/list-resources',
+      url: '/course/api/resources/list-resources',
       params: {
         courseId: courseId
       }
@@ -16,7 +16,7 @@ export const useShowResourceList = (courseId: string) => {
 export const useUploadRes = () => {
   return useMutation((res: any) => {
     return client.post<any>({
-      url: '/resources/upload-avatar',
+      url: '/course/api/resources/upload-avatar',
       data: {
         avatar: res
       }

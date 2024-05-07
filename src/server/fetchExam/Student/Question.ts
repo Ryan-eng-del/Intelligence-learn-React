@@ -6,7 +6,7 @@ import { QuestionConstantString, QuestionOfPaperVO, QuestionType, SaveQs } from 
 export const useSaveSingleQs = () => {
   return useMutation(async ({ paperId, questionId, submitVersion, studentAnswer }: SaveQs) => {
     return client.post({
-      url: '/paper/stu/submit-exam',
+      url: '/shit/api/paper/stu/save-exam',
       data: {
         paperId,
         questionId,
@@ -21,7 +21,7 @@ export const useSaveSingleQs = () => {
 export const useShowQuestionForStu = (id?: string) => {
   return useQuery([`preview-stu-${id}`], async () => {
     return client.get<QuestionOfPaperVO>({
-      url: `/question/stu/show/${id}`
+      url: `/shit/api/question/stu/show/${id}`
     })
   })
 }
@@ -30,7 +30,7 @@ export const useShowQuestionForStu = (id?: string) => {
 export const useSubmitQuestion = () => {
   return useMutation((data: { questionId: string; questionType: QuestionConstantString; questionAnswer: string }) => {
     return client.post({
-      url: '/question/stu/submit',
+      url: '/shit/api/paper/stu/submit-exam',
       data: data
     })
   })
@@ -40,7 +40,7 @@ export const useSubmitQuestion = () => {
 export const useRecommendQuestion = (courseId: string) => {
   return useMutation((pointId: string) => {
     return client.get({
-      url: '/recommend/pointRecommend',
+      url: '/shit/api/recommend/pointRecommend',
       params: {
         pointId,
         courseId
@@ -52,8 +52,8 @@ export const useRecommendQuestion = (courseId: string) => {
 /** 获取推荐题目（随机） */
 export const useRandomQuestion = (courseId: string) => {
   return useMutation(() => {
-    return client.get({
-      url: '/question/stu/recommend',
+    return client.get<QuestionOfPaperVO>({
+      url: '/shit/api/question/stu/recommend',
       params: {
         courseId
       }
@@ -65,7 +65,7 @@ export const useRandomQuestion = (courseId: string) => {
 export const useCollectQuestion = () => {
   return useMutation((questionId: string) => {
     return client.post({
-      url: '/question/stu/collect',
+      url: '/shit/api/question/stu/collect',
       params: {
         questionId
       }
@@ -77,7 +77,7 @@ export const useCollectQuestion = () => {
 export const useCollectList = (courseId?: string, questionType?: QuestionType) => {
   return useQuery([`CollectList-stu-${courseId}-${questionType}`], async () => {
     return client.get<any>({
-      url: '/question/stu/show-collect',
+      url: '/shit/api/question/stu/show-collect',
       params: {
         courseId,
         questionType: questionType?.toString()
@@ -90,7 +90,7 @@ export const useCollectList = (courseId?: string, questionType?: QuestionType) =
 export const useDelectCollectQuestion = () => {
   return useMutation((questionId: string) => {
     return client.delete({
-      url: `/question/stu/collect/${questionId}`
+      url: `/shit/api/question/stu/collect/${questionId}`
     })
   })
 }
@@ -99,7 +99,7 @@ export const useDelectCollectQuestion = () => {
 export const useWrongQuestionList = (courseId?: string, questionType?: QuestionType) => {
   return useQuery([`Wrong-stu-${courseId}-${questionType}`], async () => {
     return client.get<any>({
-      url: '/question/stu/show-wrong',
+      url: '/shit/api/question/stu/show-wrong',
       params: {
         courseId,
         questionType: questionType?.toString()
@@ -112,7 +112,7 @@ export const useWrongQuestionList = (courseId?: string, questionType?: QuestionT
 export const useDelectWrongQuestion = () => {
   return useMutation((questionId: string) => {
     return client.delete({
-      url: `/question/stu/delete-wrong/${questionId}`
+      url: `/shit/api/question/stu/delete-wrong/${questionId}`
     })
   })
 }
@@ -121,7 +121,7 @@ export const useDelectWrongQuestion = () => {
 export const useDelectAllWrongQuestion = () => {
   return useMutation((courseId: string) => {
     return client.delete({
-      url: `/question/stu/delete-all-wrong/${courseId}`
+      url: `/shit/api/question/stu/delete-all-wrong/${courseId}`
     })
   })
 }

@@ -7,7 +7,7 @@ import { QuestionBank, WholeQuestion } from '../types'
 export const useCreateQuestion = () => {
   return useMutation(async (QuestionItem: IQuestionInfo) => {
     return client.post({
-      url: 'question/teacher/create',
+      url: '/shit/api/question/teacher/create',
       data: {
         ...QuestionItem
       }
@@ -19,7 +19,7 @@ export const useCreateQuestion = () => {
 export const useShowCreateQuestion = (id: string) => {
   return useQuery([`questionbank-${id}`], async () => {
     return client.get<QuestionBank[]>({
-      url: '/question/teacher/show-all',
+      url: '/shit/api/question/teacher/show-all',
       params: {
         courseId: id
       }
@@ -31,7 +31,7 @@ export const useShowCreateQuestion = (id: string) => {
 export const useShowQuestionDetails = (id?: string) => {
   return useQuery([`previewQ-${id}`], async () => {
     return await client.get<WholeQuestion>({
-      url: `/question/teacher/show-one`,
+      url: `/shit/api/question/teacher/show-one`,
       params: {
         questionId: id
       }
@@ -47,7 +47,7 @@ export const useUpadateQuestion = () => {
     async (QuestionItem: IQuestionType) => {
       id = QuestionItem.questionId
       return client.put({
-        url: '/question/teacher/update',
+        url: '/shit/api/question/teacher/update',
         data: {
           ...QuestionItem
         }
@@ -67,7 +67,7 @@ export const useDeleteQuestion = () => {
   return useMutation(
     async (id: string) => {
       return client.delete({
-        url: '/question/teacher/delete',
+        url: '/shit/api/question/teacher/delete',
         params: { questionId: id }
       })
     },
