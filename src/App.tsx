@@ -9,7 +9,12 @@ function App() {
   const navigate = useNavigate()
   const location = useLocation()
   useMount(() => {
-    !cache.getCache(TOKEN_NAME) ? navigate('/login') : navigate(location.pathname)
+    if (location.pathname == '/') {
+      navigate(location.pathname)
+      return
+    } else {
+      !cache.getCache(TOKEN_NAME) ? navigate('/login') : navigate(location.pathname)
+    }
   })
 
   return (

@@ -1,10 +1,9 @@
 import { CodeOutlined, HomeOutlined, LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Checkbox, Form, Typography } from 'antd'
+import loginPicUrl from 'assets/img/back-authForm.png'
+import registerPicUrl from 'assets/img/back-authRegister.png'
 import classnames from 'classnames'
 import styled from 'styled-components'
-
-import loginPicUrl from 'assets/img/backhttp://10.0.11.88:9090/rec-platform/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230716174449.png-authForm.png'
-import registerPicUrl from 'assets/img/back-authRegister.png'
 import style from './index.module.css'
 
 import { FormItem } from 'publicComponents/FormItem'
@@ -58,7 +57,7 @@ const LoginLayout = (props: LoginLayoutProps) => {
       <div className={style['auth-wrapper']}>
         {isLoginPage ? (
           <section className={style['auth-left-wrapper-login']}>
-            <img src='http://10.0.11.88:9090/rec-platform/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230716174449.png' style={{ width: '100%' }} />
+            <img src={loginPicUrl} style={{ width: '100%' }} />
           </section>
         ) : (
           <section className={style['auth-left-wrapper-register']}>

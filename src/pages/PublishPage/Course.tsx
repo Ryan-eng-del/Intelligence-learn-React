@@ -1,4 +1,7 @@
 import { Badge, Carousel } from 'antd'
+import b1 from 'assets/img/b1.png'
+import b2 from 'assets/img/b2.png'
+import b3 from 'assets/img/b3.png'
 import classPicUrl from 'assets/img/class.jpg'
 import { Unaccomplished } from 'publicComponents/Unaccomplished'
 import { useNavigate } from 'react-router-dom'
@@ -22,31 +25,33 @@ const Course = () => {
 
   return (
     <div>
-      <Carousel afterChange={onChange} autoplay>
-        <img src="https://gpnu.edu.cn/images/banner20_4.jpg" style={contentStyle} />
-        <img src="https://gpnu.edu.cn/images/banner20_4.jpg" style={contentStyle} />
-        <img src="https://gpnu.edu.cn/images/banner20_4.jpg" style={contentStyle} />
-        <img src="https://gpnu.edu.cn/images/banner20_4.jpg" style={contentStyle} />
+      <Carousel afterChange={onChange} autoplay autoplaySpeed={1000}>
+        {' '}
+        <img src={b2} style={contentStyle} />
+        <img src={b1} style={contentStyle} />
+        <img src={b3} style={contentStyle} />
       </Carousel>
       <h1>为您推荐</h1>
       <Flex>
         {data &&
-          data.map((i: any) => (
-            <Badge.Ribbon key={i.courseId} text={i.school.toLocaleUpperCase()} color="green">
-              <CardWrapper onClick={() => navigate(`/course/${i.courseId}`)}>
-                <CardHeadWrapper>
-                  <img src={classPicUrl} alt="课程图片" />
-                </CardHeadWrapper>
-                <CardBodyWrapper>
-                  <div className="tname">{i.courseId}</div>
-                  <div>{i.courseSubDescribe}</div>
-                  <div style={{ display: 'flex', flexDirection: 'row', position: 'relative' }}>
-                    {i.courseStuCnt}人在学
-                  </div>
-                </CardBodyWrapper>
-              </CardWrapper>
-            </Badge.Ribbon>
-          ))}
+          data.slice(0, 4).map((i: any, index: any) => {
+            return (
+              <Badge.Ribbon key={i.courseId} text={i.school.toLocaleUpperCase()} color="green">
+                <CardWrapper onClick={() => navigate(`/course/${i.courseId}`)}>
+                  <CardHeadWrapper>
+                    <img src={classPicUrl} alt="课程图片" />
+                  </CardHeadWrapper>
+                  <CardBodyWrapper>
+                    <div className="tname">{i.courseId}</div>
+                    <div>{i.courseSubDescribe}</div>
+                    <div style={{ display: 'flex', flexDirection: 'row', position: 'relative' }}>
+                      {i.courseStuCnt}人在学
+                    </div>
+                  </CardBodyWrapper>
+                </CardWrapper>
+              </Badge.Ribbon>
+            )
+          })}
       </Flex>
       <h1>大家都在学</h1>
       <Unaccomplished>页面无设计 | 接口</Unaccomplished>
