@@ -22,14 +22,3 @@ export type ChapterResourceType = {
   resourceId: string
   resourceLink: string
 }
-
-/**章节树中课时资源的作业资源的类型 */
-export type homeworkList = {
-  isReview: boolean
-  paperId: string
-  paperName: string
-  isDone: boolean
-  hasRemakeTime: number
-  startTime: string
-  endTime: string
-}

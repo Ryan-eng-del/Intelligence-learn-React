@@ -4,7 +4,7 @@ import { client } from '../index'
 
 export const useGetResource = (resourceId: string) => {
   return useQuery<ChapterResourceType>(['resource', resourceId], async () => {
-    return client.get({ url: `/resources/get-resource/${resourceId}` })
+    return client.get({ url: `/course/api/resources/get-resource/${resourceId}` })
   })
 }
 
@@ -12,7 +12,7 @@ export const useUploadVideo = () => {
   return useMutation(
     async ({ videoId, relatePoints, courseId }: { videoId: string; courseId: string; relatePoints: string[] }) => {
       return client.post({
-        url: '/resources/upload-video',
+        url: '/course/api/resources/upload-video',
         data: {
           videoId,
           relatePoints,
@@ -26,7 +26,7 @@ export const useUploadVideo = () => {
 export const useDeleteResource = () => {
   return useMutation(async (id: string) => {
     return client.delete({
-      url: `/resources/delete/${id}`
+      url: `/course/api/resources/delete/${id}`
     })
   })
 }

@@ -10,7 +10,7 @@ export const useUploadExamPaper = (courseId: string) => {
   return useMutation(
     async ({ paperName, questionIds, questionsScore }: IUploadExamPaper) => {
       return client.post({
-        url: '/paper/teacher/create',
+        url: '/shit/api/paper/teacher/create',
         data: {
           paperName,
           courseId,
@@ -31,7 +31,7 @@ export const useUploadExamPaper = (courseId: string) => {
 export const useShowTestPaper = (paperId: string) => {
   return useQuery([`TestPaper-${paperId}`], () => {
     return client.get<TestPaper>({
-      url: `/paper/teacher/paper-preview`,
+      url: `/shit/api/paper/teacher/paper-preview`,
       params: { id: paperId }
     })
   })
@@ -41,7 +41,7 @@ export const useShowTestPaper = (paperId: string) => {
 export const useSaveTestPaper = () => {
   return useMutation(async (paper: PostTestPaper) => {
     return client.post({
-      url: '/paper/teacher/update',
+      url: '/shit/api/paper/teacher/update',
       data: paper
     })
   }, MutationMsg('试卷保存'))
@@ -51,7 +51,7 @@ export const useSaveTestPaper = () => {
 export const useDeleteTestPaper = () => {
   return useMutation(async (paperId: string) => {
     return client.delete({
-      url: '/paper/teacher/delete',
+      url: '/shit/api/paper/teacher/delete',
       data: paperId
     })
   }, MutationMsg('试卷删除'))
@@ -61,7 +61,7 @@ export const useDeleteTestPaper = () => {
 export const useShowExamList = (courseID: string) => {
   return useQuery([`ExamList-${courseID}`], async () => {
     return client.get<ExamListItem[]>({
-      url: `/paper/teacher/show-all`,
+      url: `/shit/api/paper/teacher/show-all`,
       params: {
         courseId: courseID
       }
@@ -73,7 +73,7 @@ export const useShowExamList = (courseID: string) => {
 export const useGetPaperTarget = (courseId: string) => {
   return useMutation([`paperTarget-${courseId}`], (paperId: string) => {
     return client.get<paperTarget>({
-      url: `/paper/teacher/get-target`,
+      url: `/shit/api/paper/teacher/get-target`,
       params: {
         courseId,
         paperId
@@ -86,7 +86,7 @@ export const useGetPaperTarget = (courseId: string) => {
 export const useReleaseExam = () => {
   return useMutation((data: PublishExamType) => {
     return client.post({
-      url: '/paper/teacher/release-exam',
+      url: '/shit/api/paper/teacher/release-exam',
       data
     })
   }, MutationMsg('发布试卷'))
@@ -96,7 +96,7 @@ export const useReleaseExam = () => {
 export const useReleaseHomework = () => {
   return useMutation((data: PublishHomeworkType) => {
     return client.post({
-      url: '/paper/teacher/release-homework',
+      url: '/shit/api/paper/teacher/release-homework',
       data
     })
   }, MutationMsg('发布试卷'))
@@ -106,7 +106,7 @@ export const useReleaseHomework = () => {
 export const useRevokePaper = () => {
   return useMutation((paperId: string) => {
     return client.delete({
-      url: `/paper/teacher/revoke/${paperId}`
+      url: `/shit/api/paper/teacher/revoke/${paperId}`
     })
   }, MutationMsg('已撤回'))
 }
@@ -115,7 +115,7 @@ export const useRevokePaper = () => {
 export const useAutoCreatePaper = () => {
   return useMutation((props: any) => {
     return client.post({
-      url: `/paper/teacher/auto-create`,
+      url: `/shit/api/paper/teacher/auto-create`,
       data: props
     })
   })
@@ -125,7 +125,7 @@ export const useAutoCreatePaper = () => {
 export const useAutoCreateTemplate = () => {
   return useMutation((props: any) => {
     return client.post({
-      url: `/paper/teacher/save-auto-template`,
+      url: `/shit/api/paper/teacher/save-auto-template`,
       data: props
     })
   })
@@ -135,7 +135,7 @@ export const useAutoCreateTemplate = () => {
 export const usePaperTemplate = () => {
   return useMutation((autoPaperId: string) => {
     return client.get({
-      url: `/paper/teacher/auto-template-preview`,
+      url: `/shit/api/paper/teacher/auto-template-preview`,
       params: {
         autoPaperId
       }
@@ -147,7 +147,7 @@ export const usePaperTemplate = () => {
 export const useUpdatePaperTemplate = () => {
   return useMutation((props: any) => {
     return client.put({
-      url: `/paper/teacher/update-auto-template`
+      url: `/shit/api/paper/teacher/update-auto-template`
     })
   })
 }
@@ -156,7 +156,7 @@ export const useUpdatePaperTemplate = () => {
 export const useDeletePaperTemplate = () => {
   return useMutation((autoPaperId: string) => {
     return client.delete({
-      url: `/paper/teacher/del-auto-template`,
+      url: `/shit/api/paper/teacher/del-auto-template`,
       params: {
         autoPaperId
       }
@@ -168,7 +168,7 @@ export const useDeletePaperTemplate = () => {
 export const useShowTemplate = (courseID: string) => {
   return useQuery([`Template-${courseID}`], async () => {
     return client.get({
-      url: `/paper/teacher/show-auto-template`,
+      url: `/shit/api/paper/teacher/show-auto-template`,
       params: {
         courseId: courseID
       }
@@ -180,7 +180,7 @@ export const useShowTemplate = (courseID: string) => {
 export const useCopyTemplate = () => {
   return useMutation((autoPaperId: string) => {
     return client.post({
-      url: `/paper/teacher/copy-auto-template`,
+      url: `/shit/api/paper/teacher/copy-auto-template`,
       params: {
         autoPaperId
       }
@@ -192,7 +192,7 @@ export const useCopyTemplate = () => {
 export const useExportPaper = () => {
   return useMutation((props: { paperId: string; answer: number; explain: number }) => {
     return client.get({
-      url: `/paper/teacher/export-paper`,
+      url: `/shit/api/paper/teacher/export-paper`,
       params: {
         ...props
       }
@@ -204,7 +204,7 @@ export const useExportPaper = () => {
 export const useImportPaper = () => {
   return useMutation((props: any) => {
     return client.post({
-      url: `/paper/teacher/import-paper`,
+      url: `/shit/api/paper/teacher/import-paper`,
       params: {
         ...props
       }
@@ -216,7 +216,7 @@ export const useImportPaper = () => {
 export const useExportAllPaper = () => {
   return useMutation((props: { paperId: string; answer: number; explain: number }) => {
     return client.get({
-      url: `/paper/teacher/export-all`,
+      url: `/shit/api/paper/teacher/export-all`,
       params: {
         ...props
       }
@@ -228,7 +228,7 @@ export const useExportAllPaper = () => {
 export const useExportDemo = () => {
   return useMutation((props: any) => {
     return client.get({
-      url: `/paper/teacher/export-demo`,
+      url: `/shit/api/paper/teacher/export-demo`,
       params: {
         ...props
       }
@@ -240,7 +240,7 @@ export const useExportDemo = () => {
 export const useCorrectTarget = () => {
   return useMutation((props: { paperId: string; courseId: string }) => {
     return client.get({
-      url: `/paper/teacher/correct-target`,
+      url: `/shit/api/paper/teacher/correct-target`,
       params: {
         ...props
       }
@@ -252,7 +252,7 @@ export const useCorrectTarget = () => {
 export const useShowCorrect = () => {
   return useMutation((props: { paperId: string; studentId: string }) => {
     return client.get({
-      url: `/paper/teacher/show-correct`,
+      url: `/shit/api/paper/teacher/show-correct`,
       params: {
         ...props
       }
@@ -264,7 +264,7 @@ export const useShowCorrect = () => {
 export const useCorrectPaper = () => {
   return useMutation((props: any) => {
     return client.post({
-      url: `/paper/teacher/correct-paper`,
+      url: `/shit/api/paper/teacher/correct-paper`,
       params: {
         ...props
       }
@@ -276,7 +276,7 @@ export const useCorrectPaper = () => {
 export const usePaperRedo = () => {
   return useMutation((props: { paperId: string; studentId: string }) => {
     return client.post({
-      url: `/paper/teacher/paper-redo`,
+      url: `/shit/api/paper/teacher/paper-redo`,
       params: {
         ...props
       }

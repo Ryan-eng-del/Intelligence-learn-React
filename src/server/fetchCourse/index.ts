@@ -6,7 +6,7 @@ import { CourseList } from './types'
 export const useShowCreateClass = () => {
   return useQuery(['teachclass'], async () => {
     return client.get<CourseList[]>({
-      url: '/course/show-create'
+      url: '/course/api/course/show-create'
     })
   })
 }
@@ -15,7 +15,7 @@ export const useShowCreateClass = () => {
 export const useShowLearnClass = () => {
   return useQuery(['learnclass'], async () => {
     return client.get<CourseList[]>({
-      url: '/course/show-join'
+      url: '/course/api/course/show-join'
     })
   })
 }
@@ -24,7 +24,7 @@ export const useShowLearnClass = () => {
 export const useShowInvitedCourseInfo = () => {
   return useMutation(async (class_invitation_code: string) => {
     return await client.get({
-      url: '/class/invitation-code',
+      url: '/course/api/class/invitation-code',
       params: { classInvitationCode: class_invitation_code }
     })
   })
@@ -36,7 +36,7 @@ export const useJoinInvitedCourse = () => {
   return useMutation(
     (props: { classId: string; ability: string; expect: string }) => {
       return client.post<CourseList>({
-        url: '/class/join',
+        url: '/course/api/class/join',
         params: { ...props }
       })
     },
@@ -52,7 +52,7 @@ export const useSendPicture = () => {
   return useMutation(
     (avatar: FormData | null) => {
       return client.post({
-        url: '/resources/upload-avatar',
+        url: '/course/api/resources/upload-avatar',
         data: avatar,
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -84,7 +84,7 @@ export const useCreateClass = ({
   return useMutation(
     () => {
       return client.post({
-        url: '/course/create',
+        url: '/course/api/course/create',
         data: { course_name, course_describe, course_cover }
       })
     },
@@ -99,7 +99,7 @@ export const useCreateClass = ({
 /* 获取课程 */
 export const useGetCourseInfoById = () => {
   return useMutation(async (courseId: string) => {
-    return client.get({ url: '/course/get-one', params: { courseId } })
+    return client.get({ url: `/course/api/course/get-one/${courseId}` })
   })
 }
 
@@ -109,7 +109,7 @@ export const useDeleteCourse = () => {
   return useMutation(
     (courseId: string) => {
       return client.delete({
-        url: `/course/delete/${courseId}`
+        url: `/course/api/course/delete/${courseId}`
       })
     },
     {
@@ -126,7 +126,7 @@ export const useEditCourse = () => {
   return useMutation(
     (data: CourseList) => {
       return client.put({
-        url: '/course/update',
+        url: '/course/api/course/update',
         data
       })
     },
@@ -141,12 +141,12 @@ export const useEditCourse = () => {
 /** 随机获取课程 */
 export const useRandomCourse = () => {
   return useQuery(['random-course'], async () => {
-    return client.get({ url: '/course/get-random' })
+    return client.get({ url: '/course/api/course/get-random' })
   })
 }
 
 export const useRandomCourseInfo = (courseId: string) => {
   return useQuery([`random-course-${courseId}`], async () => {
-    return client.get({ url: `/course/get-random-detail/${courseId}` })
+    return client.get({ url: `/course/api/course/get-random-detail/${courseId}` })
   })
 }
