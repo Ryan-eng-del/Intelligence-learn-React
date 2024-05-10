@@ -23,6 +23,7 @@ export type QuestionConstantString = 0 | 1 | 2 | 3 | 4
 export type TestPaper = {
   paperName: string
   paperId: string
+  paperScore?:number
   // eslint-disable-next-line no-use-before-define
   questionOfPaperVos: Array<WholeQuestion & { questionScore: number }>
 }

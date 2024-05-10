@@ -73,8 +73,10 @@ export const StudentExamPage: React.FC<{
             {isExpiration ? (
               <Button disabled>已过期</Button>
             ) : (
+              <>
               <Button
                 type="primary"
+                style={{marginRight:'5px'}}
                 onClick={() => {
                   if (record.isDone) {
                     GlobalMessage('info', '不能重新考试')
@@ -85,6 +87,8 @@ export const StudentExamPage: React.FC<{
               >
                 {record.isDone ? '已经提交' : '开始考试'}
               </Button>
+              {record.isDone ? <Button onClick={() => navigate(`/previewtestpaper/${record.paperId}?stu=1`)}>查看试卷</Button>:''}
+            </>
             )}
           </>
         )

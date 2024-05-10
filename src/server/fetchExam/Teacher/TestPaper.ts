@@ -35,6 +35,13 @@ export const useShowTestPaper = (paperId: string) => {
       params: { id: paperId }
     })
   })
+}/** 学生查看试卷 */
+export const useShowStuPaper = (paperId: string) => {
+  return useQuery([`TestPaper-${paperId}`], () => {
+    return client.get<TestPaper>({
+      url: `/shit/api/paper/stu/done/${paperId}`,
+    })
+  })
 }
 
 /** 保存这张试卷 */

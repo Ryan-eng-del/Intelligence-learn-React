@@ -13,12 +13,15 @@ import { useDeleteTestPaper, useShowTestPaper } from 'server/fetchExam'
 import { QuestionConstantString, QuestionDataWithID, QuestionType, WholeQuestion } from 'server/fetchExam/types'
 import styled from 'styled-components'
 import { ItemWrapper, TestPaperPreviewWrapper, TitleWrapper } from './TestPaperPreviewStyle'
+import {useShowStuPaper} from "../../../server/fetchExam/Teacher/TestPaper";
 
 const TestPaperPreview: React.FC = () => {
+  const params = new URLSearchParams(window.location.search);
+  const isStudent = params.get('stu')
+  const useLoadData = isStudent?useShowStuPaper:useShowTestPaper //判断是学生查看试卷还是教师查看试卷
   const { paperid } = useParams()
   const [dataList, setData] = useState<Array<WholeQuestion & { questionScore: number }>>([])
-  const { data, isLoading } = useShowTestPaper(paperid!) // 打开试卷
-  console.log(data, 'data')
+  const { data, isLoading } = useLoadData(paperid!) // 打开试卷
   useEffect(() => {
     data && setData(data.questionOfPaperVos)
   }, [data])
@@ -49,10 +52,11 @@ const TestPaperPreview: React.FC = () => {
               <Button icon={<ArrowLeftOutlined />} shape="circle" onClick={() => navigate(-1)}></Button>
               <div className="paperName"> {data?.paperName}</div>
               <Space>
-                <PrimaryButton title="编辑" handleClick={() => navigate(`/editpaper/${paperid}`)} />
-                <Button type="text" danger size="small" shape="round" onClick={() => del(paperid!)}>
-                  删除
-                </Button>
+                {isStudent? <div className="paperName">{data?.paperScore}分</div>:
+                  <><PrimaryButton title="编辑" handleClick={() => navigate(`/editpaper/${paperid}`)}/>
+                  <Button type="text" danger size="small" shape="round" onClick={() => del(paperid!)}>
+                    删除
+                  </Button></>}
               </Space>
             </div>
           )}
@@ -65,7 +69,7 @@ const TestPaperPreview: React.FC = () => {
         {/* 题目列表 */}
         {Object.keys(mapper).map((Type, index) => {
           const T = Number(Type) as QuestionConstantString
-          const filtered = dataList.filter((q) => q.questionType == T)
+          const filtered = dataList? dataList.filter((q) => q.questionType == T) :[]
           return filtered.length != 0 ? (
             <PaperBodyWrapper>
               <QuestionTypeWrapper>
