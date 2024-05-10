@@ -30,7 +30,7 @@ export const QuestionBankHeader = forwardRef((props: Props, ref) => {
   const Kinds = [
     { id: 'all', name: '所有' },
     { id: 'wrong', name: '错题', ref },
-    { id: 'collect', name: '收藏' }
+    // { id: 'collect', name: '收藏' }
   ]
   return (
     <>

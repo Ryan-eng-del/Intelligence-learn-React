@@ -16,25 +16,21 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useRandomQuestion, useShowQuestionForStu, useSubmitQuestion } from 'server/fetchExam'
 import { QuestionOfPaperVO, QuestionType } from 'server/fetchExam/types'
 import { BackButton, QuestionDoingPageWrapper } from './QuestionDoingPageStyle'
-
 const QuestionDoingPage = () => {
   const navigate = useNavigate()
   const { questionId } = useParams()
-  const { classInfo } = useCurrentClassInfo()
-
+  const { courseId } = useCurrentClassInfo().getCourse()
   const { data, isLoading: showLoading } =
-    questionId !== '-1' ? useShowQuestionForStu(questionId) : useRandomQuestion(classInfo.courseId)
-  useEffect(() => {
-    console.log(data)
-  }, [data])
+    questionId !== '-1' ? useShowQuestionForStu(questionId) : useRandomQuestion(courseId)
 
   const { mutateAsync } = useSubmitQuestion()
-  const [ans, setAns] = useState('')
+  const [ans, setAns] = useState<any>(null)
   const submit = async () => {
     const result = await mutateAsync({
       questionId: data!.questionId,
       questionAnswer: ans,
-      questionType: data?.questionType || 0
+      questionType: data?.questionType || 0,
+      courseId:courseId
     })
     setModal(result)
     setIsModalOpen(true)
@@ -42,32 +38,24 @@ const QuestionDoingPage = () => {
 
   const { paperNameMap } = usePaperMap()
   const dispatchQuestion: DispatchQs = (studentAnswer, qs) => {
-    if (qs.qsType !== QuestionType.multiple) {
       setAns(studentAnswer)
-    } else {
-      if (ans === '') {
-        setAns('###')
-      }
-      GlobalMessage('error', '多选题还没做好')
-      setAns(studentAnswer)
-    }
   }
 
   const Mapper = {
     [QuestionType.single]: <T extends QuestionOfPaperVO>(data: T, order: number) => (
-      <Single content={data} order={order} dispatch={dispatchQuestion} />
+      <Single content={data} ans={ans} order={order} dispatch={dispatchQuestion} />
     ),
     [QuestionType.multiple]: <T extends QuestionOfPaperVO>(data: T, order: number) => (
-      <MultipleChoice content={data} order={order} dispatch={dispatchQuestion} />
+      <MultipleChoice content={data} ans={ans} order={order} dispatch={dispatchQuestion} />
     ),
     [QuestionType.fillBlank]: <T extends QuestionOfPaperVO>(data: T, order: number) => (
-      <FillBlank content={data} order={order} dispatch={dispatchQuestion} />
+      <FillBlank content={data} ans={ans} order={order} dispatch={dispatchQuestion} />
     ),
     [QuestionType.shortAnswer]: <T extends QuestionOfPaperVO>(data: T, order: number) => (
-      <ShortAnswer content={data} order={order} dispatch={dispatchQuestion} />
+      <ShortAnswer content={data} ans={ans} order={order} dispatch={dispatchQuestion} />
     ),
     [QuestionType.judge]: <T extends QuestionOfPaperVO>(data: T, order: number) => (
-      <Judge content={data} order={order} dispatch={dispatchQuestion} />
+      <Judge content={data} ans={ans} order={order} dispatch={dispatchQuestion} />
     )
   }
 
@@ -85,7 +73,6 @@ const QuestionDoingPage = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const handleCancel = () => setIsModalOpen(false)
-  const { courseId } = useCurrentClassInfo().getCourse()
   return (
     <>
       {showLoading ? (

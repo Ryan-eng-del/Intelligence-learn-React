@@ -8,7 +8,8 @@ export const ChapterNode: ChapterInitNode = {
   chapterOrder: 1,
   classTimeList: [],
   childChapters: [],
-  pid: ''
+  pid: '',
+  courTimes: []
 }
 export const ClassTimeNode: ClassTimeInitNode = {
   classTimeId: Math.random() * 10000 + '',

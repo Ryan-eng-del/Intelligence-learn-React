@@ -10,6 +10,7 @@ export const Take: React.FC<{
   NoScore?: boolean
   order: number
   dispatch: DispatchQs
+  ans?:string|null
 }> = ({ content, dispatch }) => {
   const debounceDispatch = debounce(dispatch, 2000, false)
   return (

@@ -23,6 +23,7 @@ export interface ChapterInitNode {
   id: string
   name: string
   pid: string
+  classTimeList:any
 }
 
 export interface ClassTimeInitNode {

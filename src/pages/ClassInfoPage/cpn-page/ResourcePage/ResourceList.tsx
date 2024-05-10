@@ -12,6 +12,7 @@ export const ResourceList: React.FC<{
   const { mutateAsync } = useDeleteResource()
 
   const del = async (i: ResourceType) => {
+    console.log('here')
     await mutateAsync(i.resourceId)
     setData(data.filter((item) => i !== item))
   }
@@ -36,12 +37,12 @@ export const ResourceList: React.FC<{
         renderItem={(i) => (
           <List.Item>
             <ResourceListItem
+              deleteFile={() => del(i)}
               item={i}
               rename={(name) => {
                 i.resourceName = name
                 setData([...data])
               }}
-              deleteFile={() => del(i)}
               preview={() => preview(i.type, i.resourceLink)}
             />
           </List.Item>
