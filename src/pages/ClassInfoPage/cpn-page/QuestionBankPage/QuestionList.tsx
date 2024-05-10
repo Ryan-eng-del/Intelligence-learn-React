@@ -16,7 +16,7 @@ export const QuestionList: React.FC<{
   move: () => any
 }> = ({ TargetRef, move, init, wrongRef }) => {
   const { classInfo } = useCurrentClassInfo()
-  const { data, isLoading } = useShowCreateQuestion(classInfo.courseId)
+  const { data, isLoading ,refetch} = useShowCreateQuestion(classInfo.courseId)
   const [curData, setCurData] = useState<QuestionBank[]>([])
   const isTeacher = isTeachAuth()
   const { data: wrongList } = useWrongQuestionList(classInfo.courseId)
@@ -51,6 +51,7 @@ export const QuestionList: React.FC<{
         <QuestionBankTable
           // 选中展开的数据
           curData={curData}
+          refetch={refetch}
         ></QuestionBankTable>
       )}
     </TableWapper>

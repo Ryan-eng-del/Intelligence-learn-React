@@ -17,8 +17,9 @@ const { confirm } = Modal
 
 export const QuestionBankTable: React.FC<{
   curData: QuestionBank[]
-  select?: (i: string) => void
-}> = ({ curData, select }) => {
+  select?: (i: string) => void,
+  refetch?:any
+}> = ({ curData, select,refetch }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([])
   const navigate = useNavigate()
   // 页面状态
@@ -49,7 +50,7 @@ export const QuestionBankTable: React.FC<{
       width: '35vw',
       centered: true,
       onOk() {
-        mutate(id)
+        mutate(id,{onSuccess:()=>refetch()})
       }
     })
   }

@@ -26,9 +26,15 @@ const QuestionDoingPage = () => {
   const { mutateAsync } = useSubmitQuestion()
   const [ans, setAns] = useState<any>(null)
   const submit = async () => {
+    let answer =ans
+    if(data!.questionType === QuestionType.judge){
+      if(ans==='1'){
+        answer=''
+      }
+    }
     const result = await mutateAsync({
       questionId: data!.questionId,
-      questionAnswer: ans,
+      questionAnswer: answer,
       questionType: data?.questionType || 0,
       courseId:courseId
     })

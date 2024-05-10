@@ -11,19 +11,21 @@ export const Take: React.FC<{
   order: number
   dispatch: DispatchQs
   ans?:string|null
-}> = ({ content, dispatch }) => {
+}> = ({ content, dispatch,ans }) => {
   const buttonStyle = {
     width: '40px',
     height: '40px',
     borderRadius: '50%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+  }
+  const color = (i: any) =>{
+    return i == ans ? 'linear-gradient(140deg, #6cc7ff 0%, #5a33ff 100%)' : undefined
   }
   return (
     <>
       <div className="questionTitle">{str2DOM(content.questionDescription)}</div>
-
       <Radio.Group
         buttonStyle="solid"
         value={content.studentAnswer}
@@ -32,10 +34,10 @@ export const Take: React.FC<{
         }}
       >
         <Space direction="horizontal" style={{ margin: '10px', display: 'flex', flexDirection: 'column' }}>
-          <Radio.Button value={'1'} style={buttonStyle}>
+          <Radio.Button value={'1'} style={{...buttonStyle,background:color(1)}}>
             <CheckOutlined />
           </Radio.Button>
-          <Radio.Button value={'0'} style={buttonStyle}>
+          <Radio.Button value={'0'} style={{...buttonStyle,background:color(0)}}>
             <CloseOutlined />
           </Radio.Button>
         </Space>
