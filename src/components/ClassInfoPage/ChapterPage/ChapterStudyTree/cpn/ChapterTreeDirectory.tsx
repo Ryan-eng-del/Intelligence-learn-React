@@ -21,7 +21,7 @@ const ChapterTreeDirectory: React.FC<{
     <ChapterTreeDirectoryWrapper style={{ display: 'flex', position: 'relative' }}>
       <div>{nodeName}</div>
       <EditToolWrapper className={'edit-tool-wrapper'} onClick={(e) => e.stopPropagation()}>
-        <span onClick={() => handleClickAddChildChapter(nodeId)}>添加子目录</span>
+        {/* <span onClick={() => handleClickAddChildChapter(nodeId)}>添加子目录</span> */}
         <span onClick={() => handleClickAddChildCourseTime(nodeId)}>添加课时</span>
         <span onClick={() => handleDeleteTreeNode(nodeId, 'chapterNode')}>删除</span>
         <span onClick={() => handleReNameTreeNode(nodeId)}>重命名</span>

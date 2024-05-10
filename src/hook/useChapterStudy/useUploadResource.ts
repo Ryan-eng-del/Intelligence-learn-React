@@ -144,7 +144,6 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
   }, [])
 
   const onCloseResourceDrawer = () => {
-    GlobalMessage('success', '资源上传成功！👋👋')
     setOpenResourceDrawer(false)
     dispatch({ type: 'setModalState', open: true })
     setRelatePoints([])

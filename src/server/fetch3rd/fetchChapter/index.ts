@@ -1,12 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import qs from 'qs'
 import React from 'react'
 import { client } from 'server'
-import { generateExpandKeys } from '../../../helper/chapterStudyTree'
 import { ChapterTreeData } from '../../../hook/useChapterStudy/type'
 import { IChapterReducerAction } from '../../../reducer/ChaperStudyTree/type/type'
 import { AddChapterParam, EditChapterParam } from '../../../types/server/fetchChapter'
 import { AddContent, AddContentResource, EditContent } from '../../../types/server/fetchClassTime'
-import qs from 'qs'
 /*获取章节学习树信息*/
 export const useShowChapter = (courseId: string, dispatch: React.Dispatch<IChapterReducerAction>) => {
   return useQuery(
@@ -78,7 +77,7 @@ export const useEditChapter = () => {
   return useMutation(async ({ chapter_id, new_name }: EditChapterParam) => {
     return client.put({
       url: '/course/api/chapter/updateChapterName',
-      data: { chapter_id, new_name }
+      data: { id: chapter_id, name: new_name }
     })
   })
 }
@@ -94,7 +93,7 @@ export const useAddContentResource = (courseId: string) => {
         headers: {
           'Content-Type': 'multipart/form-data'
         },
-        paramsSerializer: params => {
+        paramsSerializer: (params) => {
           return qs.stringify(params, { indices: false })
         }
       })

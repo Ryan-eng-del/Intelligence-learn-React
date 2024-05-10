@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useRenameKnowledgeAPI } from 'server/fetchKnowledge'
 import { renameKnowledgePoint } from '../../helper/knowledgeTree'
@@ -10,19 +10,20 @@ export const useRenameKnowledgePoints = (props: IHandleChapterControl<IKnowledge
   const { dispatchChapter: dispatch, chapterState: knowledgeState, data } = props
   const { mutateAsync: renameKnowledgeAPI } = useRenameKnowledgeAPI()
   const queryClient = useQueryClient()
-  const curId = useRef('')
+  const [curId, setCurId] = useState('')
   const classInfo = {
     courseId: useParams().id!
   }
   const [curRenameNode, setCurRenameNode] = useState<IKnowledgePoint | null>()
   /* 重命名节点 */
   const renameKnowledgeNode = (id: string) => {
+    console.log(id, 'id')
+    setCurId(id)
     dispatch({ type: 'setFocusState', focusState: true })
     renameKnowledgePoint(data, id, setCurRenameNode, dispatch, classInfo.courseId)
   }
   /* 确认重命名 */
   const confirmRename = async (id: any) => {
-    console.log(id, 'id')
     try {
       setCurRenameNode((pre) => {
         if (pre) {
@@ -30,7 +31,7 @@ export const useRenameKnowledgePoints = (props: IHandleChapterControl<IKnowledge
         }
         return pre
       })
-      await renameKnowledgeAPI({ pointId: id, pointName: knowledgeState.curAddInputValue })
+      await renameKnowledgeAPI({ pointId: curId, pointName: knowledgeState.curAddInputValue })
     } catch (e) {
       dispatch({ type: 'setError', error: e })
       queryClient.invalidateQueries(['knowledgeTree', classInfo.courseId])

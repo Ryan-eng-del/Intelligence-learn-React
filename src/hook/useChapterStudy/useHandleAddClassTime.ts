@@ -1,5 +1,5 @@
 import { useClassTimeDispatch } from 'context/ChapterStudyTree/ClassTimeDispatchContext'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAddContent } from 'server/fetch3rd/fetchChapter'
 import { noTrim } from 'util/noTrim'
@@ -8,7 +8,7 @@ import { ChapterTreeData, ClassTimeInitNode, IHandleChapterControl } from './typ
 
 export const useHandleAddClassTime = (props: Omit<IHandleChapterControl<ChapterTreeData>, 'chapterState'>) => {
   const { data, dispatchChapter } = props
-  const curChapterId = useRef('')
+  const [curChapterId, setCID] = useState('')
   const { dispatch, classTimeState } = useClassTimeDispatch()
   const courseId = useParams().id!
 
@@ -19,18 +19,15 @@ export const useHandleAddClassTime = (props: Omit<IHandleChapterControl<ChapterT
   /*课时节点*/
   const classTimeInitNode = useMemo(() => Object.assign({}, ClassTimeNode), [data])
   /*添加课时*/
-  const handleClickAddChildCourseTime = useCallback(
-    (chapterId: any) => {
-      dispatch({ type: 'setModalState', open: true })
-      curChapterId.current = chapterId
-      setCurClassTimeNode(classTimeInitNode)
-    },
-    [classTimeInitNode]
-  )
+  const handleClickAddChildCourseTime = (chapterId: any) => {
+    dispatch({ type: 'setModalState', open: true })
+    setCID(chapterId)
+    setCurClassTimeNode(classTimeInitNode)
+  }
 
   /*确认添加课时*/
   const handleConfirmAddClassTime = useCallback(async () => {
-    const addChapterId: string = curChapterId.current
+    const addChapterId: string = curChapterId
     const isTrim = noTrim(classTimeState.courseTimeName)
     if (isTrim) return
     const resourceIds = classTimeState.ids

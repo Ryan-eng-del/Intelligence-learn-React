@@ -83,8 +83,9 @@ export const useChapterUI = (editable: boolean) => {
   const generateTreeNode = (data: any[]) => {
     if (!data) return
     const recursion = (data: ChapterNodeType[] | CourTimeType[]) => {
+      if (!data) return
       return data.map((d: any) => {
-        if (d?.childChapters?.length || d?.courTimes?.length) {
+        if (d?.childChapters?.length || d?.classTimeList?.length) {
           return (
             <TreeNode
               {...generateConfigObj(
@@ -95,17 +96,17 @@ export const useChapterUI = (editable: boolean) => {
               )}
             >
               {recursion(d.childChapters)}
-              {recursion(d.courTimes)}
+              {recursion(d.classTimeList)}
             </TreeNode>
           )
         }
 
-        if (d.resource) {
+        if (d.resourceList) {
           return d == chapterControl.curAddNode ? (
             <TreeNode
               {...generateConfigObj(
                 d.classTimeId,
-                chapterControl.focusStatus ? focusStateUI : generateTreeContentUI(d.classTimeId, d.name, d.resource)
+                chapterControl.focusStatus ? focusStateUI : generateTreeContentUI(d.classTimeId, d.name, d.resourceList)
               )}
             />
           ) : d == chapterControl.curRenameNode ? (
@@ -114,7 +115,7 @@ export const useChapterUI = (editable: boolean) => {
                 d.classTimeId,
                 chapterControl.focusStatus
                   ? renameStatusUI(d.name)
-                  : generateTreeContentUI(d.classTimeId, d.name, d.resource)
+                  : generateTreeContentUI(d.classTimeId, d.name, d.resourceList)
               )}
             />
           ) : (
@@ -131,7 +132,7 @@ export const useChapterUI = (editable: boolean) => {
                 />
               }
             >
-              {recursion(d.resource)}
+              {recursion(d.resourceList)}
             </TreeNode>
           )
         }

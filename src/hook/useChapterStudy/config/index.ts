@@ -6,14 +6,14 @@ export const ChapterNode: ChapterInitNode = {
   id: Math.random() * 10000 + '',
   name: '新建节点',
   chapterOrder: 1,
-  courTimes: [],
+  classTimeList: [],
   childChapters: [],
   pid: ''
 }
 export const ClassTimeNode: ClassTimeInitNode = {
   classTimeId: Math.random() * 10000 + '',
   name: '新建节点',
-  resource: [],
+  resourceList: [],
   paperName: '',
   paperId: '',
   chapterId: ''

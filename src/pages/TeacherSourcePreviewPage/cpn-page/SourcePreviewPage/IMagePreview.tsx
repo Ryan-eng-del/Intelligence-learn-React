@@ -1,7 +1,9 @@
 import { BaseSpin } from 'baseUI/BaseSpin/BaseSpin'
+import { useParams } from 'react-router-dom'
 import { useGetResourceById } from './util'
 
 const SourceImgPreview = () => {
+  console.log(useParams())
   const { data, isLoading } = useGetResourceById()
   return (
     <div style={{ display: 'flex', justifyContent: 'center', position: 'relative', minHeight: '380px' }}>

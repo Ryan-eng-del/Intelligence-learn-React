@@ -110,7 +110,6 @@ export const ResourceDrawer: React.FC<{
                     setTimeout(() => {
                       close()
                     }, 1000)
-                    setFlush(!flash)
                     queryClient.invalidateQueries([`resources-${courseId}`])
                     // resources-${courseId}
                     GlobalMessage('success', '资源上传成功！👋👋')

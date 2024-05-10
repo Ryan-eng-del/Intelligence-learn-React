@@ -27,7 +27,7 @@ export interface ChapterInitNode {
 
 export interface ClassTimeInitNode {
   classTimeId: string
-  resource: Resource[]
+  resourceList: Resource[]
   name: string
   paperId: string
   paperName: string

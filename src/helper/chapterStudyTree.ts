@@ -12,8 +12,8 @@ export const deleteTreeNode = (data: any[], id: string, queryClient: QueryClient
   const recursion = (data: any[]) => {
     if (!data) return
     data.forEach((d: ChildChapter, index) => {
-      if (d.childChapters.length) {
-        recursion(d.childChapters)
+      if (d?.childChapters?.length) {
+        recursion(d?.childChapters)
       }
       if (id === d.id) {
         data.splice(index, 1)
@@ -27,10 +27,10 @@ export const deleteTreeNode = (data: any[], id: string, queryClient: QueryClient
 export const deleteResource = (data: ChapterTreeData[], id: string, queryClient: QueryClient, courseId: string) => {
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: ChapterTreeData[]) => {
-    data.forEach((d) => {
+    data.forEach((d:any) => {
       if (!data) return
-      if (d.courTimes && d.courTimes.length) {
-        d.courTimes.forEach((courTime) => {
+      if (d.classTimeList && d.classTimeList.length) {
+        d.classTimeList.forEach((courTime:anhy) => {
           if (courTime.resource && courTime.resource.length) {
             courTime.resource.forEach((resource: any, i: any) => {
               if (resource.resourceId === id) {
@@ -41,8 +41,8 @@ export const deleteResource = (data: ChapterTreeData[], id: string, queryClient:
           }
         })
       }
-      if (d.childChapters.length) {
-        recursion(d.childChapters)
+      if (d?.childChapters?.length) {
+        recursion(d?.childChapters)
       }
     })
   }
@@ -53,15 +53,15 @@ export const deleteTreeContent = (data: ChapterTreeData[], id: string, queryClie
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: ChapterTreeData[]) => {
     if (!data) return
-    data.forEach((d) => {
-      d.courTimes?.forEach((da, index) => {
+    data.forEach((d:any) => {
+      d.classTimeList?.forEach((da, index) => {
         if (da.classTimeId === id) {
-          d.courTimes?.splice(index, 1)
+          d.classTimeList?.splice(index, 1)
           queryClient.setQueryData(['chapterTree', courseId], deepCloneData)
         }
       })
-      if (d.childChapters.length) {
-        recursion(d.childChapters)
+      if (d?.childChapters?.length) {
+        recursion(d?.childChapters)
       }
     })
   }
@@ -79,11 +79,11 @@ export const addChildChapterNode = (
   const recursion = (data: ChapterTreeData[]) => {
     if (!data) return
     data.forEach((d: ChapterTreeData) => {
-      if (d.childChapters.length) {
-        recursion(d.childChapters)
+      if (d?.childChapters?.length) {
+        recursion(d?.childChapters)
       }
       if (id === d.id) {
-        d.childChapters = d.childChapters.concat(node)
+        d.childChapters = d?.childChapters.concat(node)
         queryClient.setQueryData(['chapterTree', courseId], deepCloneData)
       }
     })
@@ -113,12 +113,12 @@ export const addChildContentNode = (
   const deepCloneData = cloneDeepWith(data)
   const recursion = (data: ChapterTreeData[]) => {
     if (!data) return
-    data.forEach((d: ChildChapter) => {
-      if (d.childChapters.length) {
-        recursion(d.childChapters)
+    data.forEach((d: any) => {
+      if (d?.childChapters?.length) {
+        recursion(d?.childChapters)
       }
       if (id === d.id) {
-        d.courTimes = d.courTimes.concat(node)
+        d.classTimeList = d.classTimeList.concat(node)
         queryClient.setQueryData(['chapterTree', courseId], deepCloneData)
       }
     })
@@ -136,8 +136,8 @@ export const reNameTreeNode = (
   const recursion = (data: ChapterTreeData[]) => {
     if (!data) return
     data.forEach((d: ChildChapter) => {
-      if (d.childChapters.length) {
-        recursion(d.childChapters)
+      if (d?.childChapters?.length) {
+        recursion(d?.childChapters)
       }
       if (id === d.id) {
         setCurRenameNode(d)
@@ -157,8 +157,8 @@ export const generateExpandKeys = (data: ChapterTreeData[]) => {
   const result: string[] = []
   const recursion = (data: ChapterTreeData[]) => {
     data.forEach((d: any) => {
-      if (d.childChapters.length) {
-        recursion(d.childChapters)
+      if (d?.childChapters?.length) {
+        recursion(d?.childChapters)
         result.push(d.id)
       } else {
         result.push(d.id)
@@ -214,11 +214,11 @@ export const expandOnMount = (data: ChapterTreeData[]) => {
   const result: string[] = []
   const recursion = (data: ChapterTreeData[]) => {
     data.forEach((d: any) => {
-      if (d.childChapters && d.childChapters.length) {
+      if (d?.childChapters && d?.childChapters.length) {
         recursion(d.childChapters)
       }
-      if (d.courTimes && d.courTimes.length) {
-        recursion(d.courTimes)
+      if (d.classTimeList && d.classTimeList.length) {
+        recursion(d.classTimeList)
       }
       if (d.classTimeId) {
         result.push(d.classTimeId)
