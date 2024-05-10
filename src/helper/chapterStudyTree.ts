@@ -30,7 +30,7 @@ export const deleteResource = (data: ChapterTreeData[], id: string, queryClient:
     data.forEach((d:any) => {
       if (!data) return
       if (d.classTimeList && d.classTimeList.length) {
-        d.classTimeList.forEach((courTime:anhy) => {
+        d.classTimeList.forEach((courTime:any) => {
           if (courTime.resource && courTime.resource.length) {
             courTime.resource.forEach((resource: any, i: any) => {
               if (resource.resourceId === id) {
@@ -54,7 +54,7 @@ export const deleteTreeContent = (data: ChapterTreeData[], id: string, queryClie
   const recursion = (data: ChapterTreeData[]) => {
     if (!data) return
     data.forEach((d:any) => {
-      d.classTimeList?.forEach((da, index) => {
+      d.classTimeList?.forEach((da:any, index:any) => {
         if (da.classTimeId === id) {
           d.classTimeList?.splice(index, 1)
           queryClient.setQueryData(['chapterTree', courseId], deepCloneData)

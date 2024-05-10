@@ -11,9 +11,11 @@ export const Take: React.FC<{
   content: QuestionOfPaperVO
   order: number
   dispatch: DispatchQs
-}> = ({ content, order, dispatch }) => {
-  const color = (i: any) =>
-    i.optionName == content.studentAnswer ? 'linear-gradient(140deg, #6cc7ff 0%, #5a33ff 100%)' : undefined
+  ans?:string|null//学生选的选项
+}> = ({ content, order, dispatch,ans }) => {
+  const color = (i: any) =>{
+    return i.optionName == ans ? 'linear-gradient(140deg, #6cc7ff 0%, #5a33ff 100%)' : undefined
+  }
 
   const Opt = content.questionOption.split('<>').map((i, x) => ({
     optionName: String.fromCharCode(x + 65),

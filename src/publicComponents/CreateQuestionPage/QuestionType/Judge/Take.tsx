@@ -10,6 +10,7 @@ export const Take: React.FC<{
   NoScore?: boolean
   order: number
   dispatch: DispatchQs
+  ans?:string|null
 }> = ({ content, dispatch }) => {
   const buttonStyle = {
     width: '40px',

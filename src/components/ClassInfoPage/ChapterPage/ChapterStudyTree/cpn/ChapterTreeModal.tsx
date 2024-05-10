@@ -107,8 +107,7 @@ export const ChapterTreeModal: React.FC<{
         relateKeys={relateKeys}
         relatePoints={relatePoints}
         Uploadprops={Uploadprops}
-        classId={useParams().id!}
-      />
+        classId={useParams().id!} flash={undefined} setFlush={undefined}      />
     </ChapterTreeModalWrapper>
   )
 }

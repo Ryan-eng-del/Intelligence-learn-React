@@ -28,9 +28,9 @@ export const useShowQuestionForStu = (id?: string) => {
 
 /** 学生提交题目 */
 export const useSubmitQuestion = () => {
-  return useMutation((data: { questionId: string; questionType: QuestionConstantString; questionAnswer: string }) => {
+  return useMutation((data: { questionId: string; questionType?: QuestionConstantString; questionAnswer: string;courseId:any }) => {
     return client.post({
-      url: '/shit/api/paper/stu/submit-exam',
+      url: '/shit/api/question/stu/submit',
       data: data
     })
   })

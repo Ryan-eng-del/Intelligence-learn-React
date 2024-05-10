@@ -9,7 +9,8 @@ export const Take: React.FC<{
   NoScore?: boolean
   order: number
   dispatch: DispatchQs
-}> = ({ content, order, dispatch }) => {
+  ans?:string[]|null
+}> = ({ content, order, dispatch,ans }) => {
   const color = (isAnswer: boolean) => (isAnswer ? 'linear-gradient(140deg, #6cc7ff 0%, #5a33ff 100%)' : undefined)
 
   return (

@@ -28,8 +28,9 @@ export const useChapterUI = (editable: boolean) => {
         dispatchChapter={chapterControl.dispatchChapter}
         confirmRename={chapterControl.confirmRename}
         cancelRename={chapterControl.cancelRename}
-        value={name}
-      />
+        value={name} 
+        id={undefined}      
+        />
     )
   }
   /*目录节点UI*/

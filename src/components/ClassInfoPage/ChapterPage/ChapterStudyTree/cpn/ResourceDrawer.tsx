@@ -33,6 +33,7 @@ export const ResourceDrawer: React.FC<{
   handleUpHomework: any
   classId: string
   setFlush: any
+  refetch?:any
 }> = ({
   open,
   close,
@@ -48,7 +49,8 @@ export const ResourceDrawer: React.FC<{
   Uploadprops,
   classId,
   setFlush,
-  flash
+  flash,
+  refetch
 }) => {
   const queryClient = useQueryClient()
   const courseId = useParams().id!
@@ -108,7 +110,8 @@ export const ResourceDrawer: React.FC<{
                   try {
                     await handleUpload()
                     setTimeout(() => {
-                      close()
+                      close();
+                      refetch&&refetch()
                     }, 1000)
                     queryClient.invalidateQueries([`resources-${courseId}`])
                     // resources-${courseId}

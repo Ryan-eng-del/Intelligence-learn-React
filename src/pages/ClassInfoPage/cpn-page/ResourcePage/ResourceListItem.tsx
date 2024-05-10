@@ -18,9 +18,9 @@ import { isTeachAuth } from 'util/isAuthTeach'
 export const ResourceListItem: React.FC<{
   item: ResourceType
   rename: (newName: string) => void
-  // deleteFile: () => void
+  deleteFile?: any
   preview: () => void
-}> = ({ item, rename, preview }) => {
+}> = ({ item, rename, preview,deleteFile }) => {
   const [hover, setHover] = useState(false)
   const [newName, setNewName] = useState(item.resourceName)
 
@@ -47,7 +47,7 @@ export const ResourceListItem: React.FC<{
 
   const handleDelete = () => {
     setIsModalVisible(false)
-    // deleteFile()
+    deleteFile&&deleteFile()
   }
 
   return (

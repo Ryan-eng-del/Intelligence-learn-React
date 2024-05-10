@@ -14,9 +14,11 @@ import { useShowResourceList } from 'server/fetchCourseResource'
 import { isTeachAuth } from 'util/isAuthTeach'
 import { PreviewDrawer } from './PreviewDrawer'
 import { ResourceListItem } from './ResourceListItem'
+import {ResourceType} from "../../../../server/fetchCourseResource/types";
+import {useDeleteResource} from "../../../../server/fetchResource";
 
 const ResourcePage: React.FC = () => {
-  const { data, isLoading } = useShowResourceList(useParams().id!)
+  const { data, isLoading,refetch } = useShowResourceList(useParams().id!)
   const { knowledgeControl } = useKnowledgeControl()
   const { checkTreeData } = useCheckKnowledgeTreeUI(knowledgeControl.data)
   const { dispatch } = useClassTimeDispatch()
@@ -36,6 +38,7 @@ const ResourcePage: React.FC = () => {
     Uploadprops,
     handleUpHomework
   } = useUploadResource({ dispatch })
+  const { mutateAsync } = useDeleteResource()
 
   const [open, setOpen] = useState(false)
   const [URL, setURL] = useState('')
@@ -53,7 +56,11 @@ const ResourcePage: React.FC = () => {
     setURL(url)
     setOpenType(typeMapper[type as unknown as keyof typeof typeMapper])
   }
-
+  const del = async (i: ResourceType) => {
+    console.log('here')
+    await mutateAsync(i.resourceId)
+    refetch()
+  }
   return (
     <>
       <GlobalHeader
@@ -81,6 +88,7 @@ const ResourcePage: React.FC = () => {
               renderItem={(i) => (
                 <List.Item>
                   <ResourceListItem
+                    deleteFile={() => del(i)}
                     item={i}
                     rename={(name) => {
                       i.resourceName = name
@@ -97,6 +105,7 @@ const ResourcePage: React.FC = () => {
       <ResourceDrawer
         flash={flush}
         setFlush={setFlush}
+        refetch={refetch}
         close={onCloseResourceDrawer}
         open={openResourceDrawer} // 打开状态
         videoStatus={{

@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { ICourseTimeReducerAction } from 'reducer/ChaperStudyTree/type/type'
 import { useAddContentResource } from 'server/fetch3rd/fetchChapter'
-import { homeworkList } from 'server/fetch3rd/fetchChapter/types'
 import { useUploadVideo } from 'server/fetchResource'
 import AliYunOSS from 'util/AliYunOSS'
 import { createVideoAndOtherArr } from './util'
@@ -118,7 +117,7 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
       })
   }
   /*处理作业上传 */
-  const handleUpHomework = (hwkList: homeworkList[]) => {
+  const handleUpHomework = (hwkList: any[]) => {
     const now = window.performance.now()
     const newUid = `upload-${now.toFixed(3)}-${Math.floor(Math.random() * 1000)}`
     setFileList([

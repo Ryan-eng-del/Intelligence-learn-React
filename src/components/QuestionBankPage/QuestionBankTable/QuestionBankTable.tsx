@@ -143,6 +143,7 @@ export const QuestionBankTable: React.FC<{
   return (
     <QuestionBankTableWrapper>
       <Table
+        rowKey={'questionId'}
         style={{ fontWeight: 'bold' }}
         rowSelection={rowSelection}
         columns={mergedColumns}
