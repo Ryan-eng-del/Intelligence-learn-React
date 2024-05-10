@@ -1,5 +1,5 @@
 import { List, Space } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ResourceType } from 'server/fetchCourseResource/types'
 import { useDeleteResource } from 'server/fetchResource'
 import { ResourceListItem } from './ResourceListItem'
@@ -15,6 +15,11 @@ export const ResourceList: React.FC<{
     await mutateAsync(i.resourceId)
     setData(data.filter((item) => i !== item))
   }
+
+  useEffect(() => {
+    setData(resourceItems)
+  }, [resourceItems])
+
   return (
     <>
       <List

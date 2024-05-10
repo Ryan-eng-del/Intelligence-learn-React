@@ -57,6 +57,7 @@ export const useKnowledgeUI = (editable: boolean) => {
                 title={
                   knowledgeControl.focusStatus ? (
                     <ChapterNodeRenameStatus
+                      id={d.pointId}
                       dispatchChapter={knowledgeControl.dispatch}
                       confirmRename={knowledgeControl.confirmRename}
                       cancelRename={knowledgeControl.cancelRename}

@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'production') {
   baseURL = 'http://139.9.44.14:31899'
 } else {
   // baseURL = 'http://43.139.104.227:8089'
-  // baseURL = 'http://localhost:8089'
+  // baseURL = 'http://loca lhost:8089'
 }
 
 /* BaseUrl Mock http://127.0.0.1:3000/api  端口号看自己的com */

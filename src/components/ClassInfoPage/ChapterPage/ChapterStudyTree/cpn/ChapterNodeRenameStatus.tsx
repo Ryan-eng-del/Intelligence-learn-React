@@ -11,6 +11,7 @@ const ChapterNodeRenameStatus: React.FC<{
   confirmRename: any
   cancelRename: any
   value: string
+  id:any
 }> = ({ dispatchChapter, confirmRename, cancelRename, value }) => {
   // debounce用来阻止，多次type造成setUpdaterFunction连续调用，导致组件多次渲染更新
   const debounceChange = debounce(
@@ -31,7 +32,7 @@ const ChapterNodeRenameStatus: React.FC<{
       />
       <Button
         type={'primary'}
-        onClick={(e) => stopPropagation(e, confirmRename)}
+        onClick={(e) => stopPropagation(e, (id:any) => confirmRename(id))}
         className="btn"
         icon={<CheckOutlined />}
         style={{ margin: '0 20px' }}

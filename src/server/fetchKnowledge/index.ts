@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import qs from 'qs'
 import { client } from 'server'
 import { GlobalMessage } from '../../publicComponents/GlobalMessage/index'
 import { IAddKnowledgeParam } from './types'
@@ -25,7 +26,13 @@ export const useAddKnowledgePointsAPI = () => {
 /*删除知识点*/
 export const useDeleteKnowledgeAPI = () => {
   return useMutation(async ({ pointIds }: { pointIds: string[] }) => {
-    return client.delete({ url: '/shit/api/points/delete', params: { pointIds } })
+    return client.delete({
+      url: '/shit/api/points/delete',
+      params: { pointIds },
+      paramsSerializer: (params) => {
+        return qs.stringify(params, { indices: false })
+      }
+    })
   })
 }
 /*更新知识点名称*/

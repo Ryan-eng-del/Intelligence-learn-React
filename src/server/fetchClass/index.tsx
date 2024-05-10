@@ -1,7 +1,7 @@
-import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { message } from "antd"
-import { client } from "server"
-import { ClassList,StudentList } from "./types"
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { message } from 'antd'
+import { client } from 'server'
+import { ClassList, StudentList } from './types'
 
 export const useToGetClassList = (courseId: string) => {
   return useQuery([`classList-${courseId}`], async () => {
@@ -53,10 +53,10 @@ export const useReName = (courseId: string) => {
   return useMutation(
     (props: { className: string; classId: string }) => {
       return client.put({
-        url: '/course/api/class/update-name',
+        url: '/course/api/class/update',
         data: {
-          class_id: props.classId,
-          class_name: props.className
+          classId: props.classId,
+          className: props.className
         }
       })
     },
@@ -71,14 +71,12 @@ export const useReName = (courseId: string) => {
 
 export const useShowStudent = (classId: string) => {
   return useQuery([`useShowStudent-${classId}`], () => {
-    return client.get<StudentList[]>(
-      {
-        url: '/course/api/class/show-student',
-        params: {
-          classId: classId
-        }
+    return client.get<StudentList[]>({
+      url: '/course/api/class/show-student',
+      params: {
+        classId: classId
       }
-    )
+    })
   })
 }
 

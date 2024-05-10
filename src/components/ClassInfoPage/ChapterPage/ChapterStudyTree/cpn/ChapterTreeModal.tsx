@@ -30,6 +30,7 @@ export const ChapterTreeModal: React.FC<{
     isOtherStart,
     otherProgress,
     onOpenResourceDrawer,
+    onCloseResourceDrawer,
     Uploadprops,
     handleUpHomework
   } = useUploadResource({ dispatch })
@@ -40,6 +41,9 @@ export const ChapterTreeModal: React.FC<{
     dispatch({ type: 'setFileList', fileObj: () => [] })
     dispatch({ type: 'setName', name: '' })
   }
+  console.log('进来。。。')
+
+  console.log(onCloseResourceDrawer, 'function')
 
   return (
     <ChapterTreeModalWrapper>
@@ -89,6 +93,7 @@ export const ChapterTreeModal: React.FC<{
           progress: progress,
           text: statusText
         }}
+        close={onCloseResourceDrawer} //控制关闭
         otherStatus={{
           isStart: isOtherStart,
           progress: otherProgress,

@@ -144,15 +144,14 @@ export const useUploadResource = (props: IUploadClassTimeResource) => {
   }, [])
 
   const onCloseResourceDrawer = () => {
-    if (isOtherFinish && isVideoFinish && isHomeworkFinish) {
-      GlobalMessage('success', '资源上传成功！👋👋')
-      setOpenResourceDrawer(false)
-      dispatch({ type: 'setModalState', open: true })
-      setRelatePoints([])
-    }
+    GlobalMessage('success', '资源上传成功！👋👋')
+    setOpenResourceDrawer(false)
+    dispatch({ type: 'setModalState', open: true })
+    setRelatePoints([])
   }
 
   const onOpenResourceDrawer = () => {
+    console.log('close ...')
     setOpenResourceDrawer(true)
     dispatch({ type: 'setModalState', open: false })
     setFileList([])

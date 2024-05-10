@@ -11,6 +11,7 @@ export const UserCard: React.FC<{
   close: () => void
   showing: IUserInfo | null
 }> = ({ open, close, showing }) => {
+  console.log(showing, 'showing')
   return (
     <Modal
       zIndex={200}
@@ -25,7 +26,7 @@ export const UserCard: React.FC<{
       <Wapper>
         <div className="info">
           <Avatar src={AvatarPic} size={128} shape="circle" className="ava" />
-          <p className="name">{showing?.name || 'UserName'}</p>
+          <p className="name">{showing?.name || '李四'}</p>
         </div>
         <div className="imgWapper">
           <img src={bgPicUrl} className="img"></img>

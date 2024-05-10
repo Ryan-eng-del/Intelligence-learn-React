@@ -1,6 +1,6 @@
+import { List, Space } from 'antd'
 import { ResourceDrawer } from 'components/ClassInfoPage/ChapterPage/ChapterStudyTree/cpn/ResourceDrawer'
 import { useClassTimeDispatch } from 'context/ChapterStudyTree/ClassTimeDispatchContext'
-import { useCurrentClassInfo } from 'context/ClassInfoContext'
 import { useUploadResource } from 'hook/useChapterStudy/useUploadResource'
 import { useCheckKnowledgeTreeUI } from 'hook/useKnowledge/useCheckKnowledgeTreeUI'
 import { useKnowledgeControl } from 'hook/useKnowledge/useKnowledgeControl'
@@ -13,13 +13,12 @@ import { useParams } from 'react-router-dom'
 import { useShowResourceList } from 'server/fetchCourseResource'
 import { isTeachAuth } from 'util/isAuthTeach'
 import { PreviewDrawer } from './PreviewDrawer'
-import { ResourceList } from './ResourceList'
+import { ResourceListItem } from './ResourceListItem'
 
 const ResourcePage: React.FC = () => {
-  const { data, isLoading } = useShowResourceList(useCurrentClassInfo().classInfo.courseId)
+  const { data, isLoading } = useShowResourceList(useParams().id!)
   const { knowledgeControl } = useKnowledgeControl()
   const { checkTreeData } = useCheckKnowledgeTreeUI(knowledgeControl.data)
-  // TODO
   const { dispatch } = useClassTimeDispatch()
 
   const {
@@ -40,6 +39,7 @@ const ResourcePage: React.FC = () => {
 
   const [open, setOpen] = useState(false)
   const [URL, setURL] = useState('')
+  const [flush, setFlush] = useState(true)
   const [openType, setOpenType] = useState('img')
 
   const openPreview = (type: number, url: string) => {
@@ -63,10 +63,41 @@ const ResourcePage: React.FC = () => {
         }
       ></GlobalHeader>
       <GlobalRightLayout>
-        {isLoading ? <Skeletons size="large" /> : <ResourceList resourceItems={data!} preview={openPreview} />}
+        {isLoading ? (
+          <Skeletons size="large" />
+        ) : (
+          <>
+            <List
+              size="large"
+              header={
+                <Space className="flex">
+                  <span>文件</span>
+                  <span>创建时间</span>
+                  <span> </span>
+                </Space>
+              }
+              bordered
+              dataSource={data}
+              renderItem={(i) => (
+                <List.Item>
+                  <ResourceListItem
+                    item={i}
+                    rename={(name) => {
+                      i.resourceName = name
+                    }}
+                    preview={() => openPreview(i.type, i.resourceLink)}
+                  />
+                </List.Item>
+              )}
+            />
+          </>
+        )}
       </GlobalRightLayout>
 
       <ResourceDrawer
+        flash={flush}
+        setFlush={setFlush}
+        close={onCloseResourceDrawer}
         open={openResourceDrawer} // 打开状态
         videoStatus={{
           isStart: isVideoStart,

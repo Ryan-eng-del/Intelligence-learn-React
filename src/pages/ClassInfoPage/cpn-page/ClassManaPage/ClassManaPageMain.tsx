@@ -13,10 +13,11 @@ import './ClassManaPageMainStyle.css'
 import { ClassManaStudentList } from './ClassManaStudentList'
 export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolean }> = ({ classList, isLoading }) => {
   const [input, setInput] = useState('')
+  const [edit, setEdit] = useState('')
   const [vis, setVis] = useState(false)
-  const [show, setShow] = useState<ClassList | null>()
+  const [show, setShow] = useState<any | null>()
   const [add, setadd] = useState(false)
-  const [addStuVis,setAddStuVis] = useState(false)
+  const [addStuVis, setAddStuVis] = useState(false)
 
   const { classInfo } = useCurrentClassInfo()
   const { mutate: Rename, isLoading: renameState } = useReName(classInfo.courseId)
@@ -57,17 +58,17 @@ export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolea
                 <Typography.Title
                   editable={{
                     onChange: (value) => {
-                      setInput(value)
+                      setEdit(value)
                     },
                     onEnd() {
-                      Rename({ classId: show.class_id, className: input }), setVis(false)
+                      Rename({ classId: show.classId, className: edit }), setVis(false)
                     }
                   }}
                   level={4}
                   style={{ margin: 0 }}
                 >
                   {' '}
-                  {`${show.class_name}`}{' '}
+                  {`${show.className}`}{' '}
                 </Typography.Title>
               )
             }
@@ -76,16 +77,18 @@ export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolea
             width="1000px"
             footer={
               <>
-                <Button onClick={()=>{
-                  setAddStuVis
-                }}>
+                <Button
+                  onClick={() => {
+                    setAddStuVis
+                  }}
+                >
                   添加学生
                 </Button>
                 <Popconfirm
                   placement="top"
                   title="确定删除此班级吗？全部学生将被解散。你可以设置为结课状态保留这个班级，"
                   okText="删除并解散全部学生"
-                  onConfirm={() => show && removeClassFun(show.class_id)}
+                  onConfirm={() => show && removeClassFun(show.classId)}
                   cancelText="取消"
                 >
                   <Button type="primary" danger>
@@ -95,7 +98,7 @@ export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolea
                 <Button
                   type="primary"
                   onClick={() => {
-                    share(show.class_invitation_code)
+                    share(show.classInvitationCode)
                   }}
                 >
                   复制邀请码
@@ -105,7 +108,7 @@ export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolea
             onCancel={() => setVis(false)}
           >
             <div style={{ padding: 0, margin: 0, height: '600px' }}>
-              <ClassManaStudentList class_id={show.class_id} />
+              <ClassManaStudentList class_id={show.classId} />
             </div>
           </Modal>
         )}
@@ -121,19 +124,19 @@ export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolea
             <List
               size="large"
               dataSource={classList}
-              renderItem={(item) => (
+              renderItem={(item: any) => (
                 <List.Item className="ClassListItem">
                   <div>
-                    <div style={{ fontWeight: 'bold', fontSize: 'large' }}>{item.class_name}</div>
-                    <div style={{ fontSize: 'small', fontWeight: 'bold', color: 'gray' }}>
-                      学生人数:{item.student_number}
-                    </div>
+                    <div style={{ fontWeight: 'bold', fontSize: 'large' }}>{item.className}</div>
+                    <div style={{ fontSize: 'small', fontWeight: 'bold', color: 'gray' }}>学生人数:1</div>
                   </div>
                   <div style={{ position: 'absolute', display: 'flex', flexDirection: 'row', left: '50%' }}>
                     <div
                       className="operate"
                       onClick={() => {
-                        setShow(item), setVis(true)
+                        setShow(item)
+                        setVis(true)
+                        setEdit('')
                       }}
                     >
                       管理班级
@@ -141,13 +144,13 @@ export const ClassManaMain: React.FC<{ classList: ClassList[]; isLoading: boolea
                     <div
                       className="operate"
                       onClick={() => {
-                        share(item.class_invitation_code)
+                        share(item.classInvitationCode)
                       }}
                     >
                       复制邀请码
                     </div>
                   </div>
-                  <div style={{ color: 'gray', fontWeight: 'bold' }}>邀请码:{item.class_invitation_code}</div>
+                  <div style={{ color: 'gray', fontWeight: 'bold' }}>邀请码:{item.classInvitationCode}</div>
                 </List.Item>
               )}
             />

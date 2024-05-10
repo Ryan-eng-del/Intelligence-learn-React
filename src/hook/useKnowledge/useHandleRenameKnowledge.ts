@@ -21,7 +21,8 @@ export const useRenameKnowledgePoints = (props: IHandleChapterControl<IKnowledge
     renameKnowledgePoint(data, id, setCurRenameNode, dispatch, classInfo.courseId)
   }
   /* 确认重命名 */
-  const confirmRename = async () => {
+  const confirmRename = async (id: any) => {
+    console.log(id, 'id')
     try {
       setCurRenameNode((pre) => {
         if (pre) {
@@ -29,7 +30,7 @@ export const useRenameKnowledgePoints = (props: IHandleChapterControl<IKnowledge
         }
         return pre
       })
-      await renameKnowledgeAPI({ pointId: curId.current, pointName: knowledgeState.curAddInputValue })
+      await renameKnowledgeAPI({ pointId: id, pointName: knowledgeState.curAddInputValue })
     } catch (e) {
       dispatch({ type: 'setError', error: e })
       queryClient.invalidateQueries(['knowledgeTree', classInfo.courseId])

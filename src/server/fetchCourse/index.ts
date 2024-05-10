@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import qs from 'qs'
 import { client } from 'server'
 import { CourseList } from './types'
 
@@ -25,7 +26,7 @@ export const useShowInvitedCourseInfo = () => {
   return useMutation(async (class_invitation_code: string) => {
     return await client.get({
       url: '/course/api/class/invitation-code',
-      params: { classInvitationCode: class_invitation_code }
+      params: { invitationCode: class_invitation_code }
     })
   })
 }
@@ -36,8 +37,11 @@ export const useJoinInvitedCourse = () => {
   return useMutation(
     (props: { classId: string; ability: string; expect: string }) => {
       return client.post<CourseList>({
-        url: '/course/api/class/join',
-        params: { ...props }
+        url: `/course/api/class/join/${props.classId}`,
+        params: { ...props },
+        paramsSerializer: (params) => {
+          return qs.stringify(params, { indices: false })
+        }
       })
     },
     {
