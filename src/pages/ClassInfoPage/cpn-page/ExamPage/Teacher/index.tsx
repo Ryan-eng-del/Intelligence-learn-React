@@ -160,8 +160,8 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
     setGeneralPublish({ ...generalPublish, type: publishOption.type })
     if (publishOption.type == 0) {
       setExamPublish({ ...examPublish, ...publishOption })
-      setExamPublish((draft) => {
-        // 让试卷获取paper_id
+      // 让试卷获取paper_id
+      setExamPublish((draft:any) => {
         draft.paper_id = generalPublish.paper_id
         draft.start_time = generalPublish.start_time
         draft.end_time = generalPublish.end_time
