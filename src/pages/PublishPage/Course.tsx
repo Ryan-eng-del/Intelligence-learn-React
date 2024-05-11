@@ -25,7 +25,7 @@ const Course = () => {
 
   return (
     <div>
-      <Carousel afterChange={onChange} autoplay autoplaySpeed={1000}>
+      <Carousel afterChange={onChange} autoplay autoplaySpeed={2000}>
         {' '}
         <img src={b2} style={contentStyle} />
         <img src={b1} style={contentStyle} />

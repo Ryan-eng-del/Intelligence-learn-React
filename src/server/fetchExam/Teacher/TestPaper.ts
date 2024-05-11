@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { paperTarget, PublishExamType, PublishHomeworkType } from 'publicComponents/ExamPage/types'
+import { paperTarget, PublishHomeworkType } from 'publicComponents/ExamPage/types'
 import { client } from 'server'
 import { MutationMsg } from 'util/MutationMsg'
 import { ExamListItem, IUploadExamPaper, PostTestPaper, TestPaper } from '../types'
@@ -91,7 +91,7 @@ export const useGetPaperTarget = (courseId: string) => {
 
 /** 发布试卷 */
 export const useReleaseExam = () => {
-  return useMutation((data: PublishExamType) => {
+  return useMutation((data: any) => {
     return client.post({
       url: '/shit/api/paper/teacher/release-exam',
       data

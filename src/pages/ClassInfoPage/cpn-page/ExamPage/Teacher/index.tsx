@@ -6,7 +6,7 @@ import { TreeSelected } from 'components/ClassInfoPage/KnowledgePage/KnowledgeTr
 import dayjs from 'dayjs'
 import { PublishPanel } from 'publicComponents/ExamPage/PublishPanel/PublishPanel'
 import { StatisticsPanel } from 'publicComponents/ExamPage/StatisticsPanel/StatisticsPanel'
-import { ClassList, PublishExamType, PublishHomeworkType } from 'publicComponents/ExamPage/types/index'
+import { ClassList, PublishHomeworkType } from 'publicComponents/ExamPage/types/index'
 import Skeletons from 'publicComponents/Skeleton/index'
 import React, { Key, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -42,16 +42,19 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
     type: 0 // 通过type来区分发布试卷/作业的功能（0：试卷 /1：作业）
   }
 
-  const initialExam: PublishExamType = {
+  const initialExam: any = {
     paper_id: '',
-    student_ids: []
+    student_ids: [],
+    limitTime: ''
   }
+
   const initialHomework: PublishHomeworkType = {
     paperId: '',
     studentIds: []
   }
   const initialStuTreeSelect = { expandKeys: [], checkedKeys: [] }
 
+  const [limitTime, setLt] = useImmer('')
   const [examPublish, setExamPublish] = useImmer(initialExam)
 
   const [homeworkPublish, setHomeworkPublish] = useImmer(initialHomework)
@@ -152,6 +155,8 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
   }
   // 处理选择发布类型后的事件
   const handlePublishOption = (publishOption: any) => {
+    console.log(publishOption, 'options')
+    setLt(publishOption['limitTime'])
     setGeneralPublish({ ...generalPublish, type: publishOption.type })
     if (publishOption.type == 0) {
       setExamPublish({ ...examPublish, ...publishOption })
@@ -182,6 +187,9 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
     const isImmediate = generalPublish.distributeWay === 1
 
     const isPass = () => {
+      console.log(stuTreeSelect.checkedKeys.length)
+      console.log(generalPublish.end_time)
+      console.log()
       return stuTreeSelect.checkedKeys.length > 0 && generalPublish.end_time && generalPublish.stuLen
     }
     try {
@@ -191,7 +199,15 @@ export const ExamList: React.FC<{ courseId: string }> = ({ courseId }) => {
       }
       if (isPass() && generalPublish.type == 0) {
         // examPublish.start_time = isImmediate ? dayjs(new Date()).format(dateFormat) : examPublish.start_time
-        releaseExam(examPublish)
+        releaseExam({
+          paperId: generalPublish.paper_id,
+          studentIds: examPublish.student_ids,
+          limitTime: limitTime,
+          endTime: generalPublish.end_time,
+          isAllShowPaper: 1,
+          isShowScore: 1,
+          startTime: dayjs(new Date()).subtract(1, 'day').format(dateFormat)
+        })
       } else if (isPass() && generalPublish.type == 1) {
         releaseHomework(homeworkPublish)
       } else {
