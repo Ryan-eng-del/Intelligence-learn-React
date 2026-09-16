@@ -50,15 +50,15 @@ class Request {
       this.instance
         .request<any, Data<T>>(config)
         .then((res) => {
-          if (res.code != '200') {
-            GlobalMessage('error', `${DEBUGINFO}${res.msg}`)
-            reject(res.msg)
+          if (res?.code != '200') {
+            GlobalMessage('error', `${DEBUGINFO}${res?.msg ?? '服务异常，请稍后再试'}`)
+            reject(res?.msg)
           } else {
+            resolve(res.data)
           }
-          resolve(res.data)
         })
         .catch((err) => {
-          GlobalMessage('error', '网络错误')
+          GlobalMessage('error', err?.response?.data?.msg ?? '网络错误，请检查网络或稍后再试')
           reject(err)
         })
     })

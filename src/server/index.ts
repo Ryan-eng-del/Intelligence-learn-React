@@ -19,13 +19,13 @@ export const client = new HYRequest({
       return config
     },
     requestInterceptorCatch: (err) => {
-      return err
+      return Promise.reject(err)
     },
     responseInterceptor: (res) => {
       return res.data
     },
     responseInterceptorCatch: (err) => {
-      return err
+      return Promise.reject(err)
     }
   }
 })

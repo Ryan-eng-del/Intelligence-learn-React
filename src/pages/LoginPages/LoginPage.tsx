@@ -9,10 +9,14 @@ const LoginPage = () => {
   const { data: captchaData, mutateAsync: getCaptchaApi } = useGetCaptcha()
   const { mutateAsync: login, isLoading: loginLoading } = useToken()
   const [form] = useForm()
-  const sid = useRef()
+  const sid = useRef<string>()
   const refresh = async () => {
-    const s = await getCaptchaApi()
-    sid.current = s.verifyKey
+    try {
+      const s = await getCaptchaApi()
+      sid.current = s.verifyKey
+    } catch (e) {
+      /* 错误提示已由请求层统一处理 */
+    }
   }
 
   useEffect(() => {
